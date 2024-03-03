@@ -26,10 +26,13 @@ class AppThemes {
           fontSize: 20,
         ),
         titleSmall: TextStyle(
-          color: Colors.black,
+          color: Colors.white,
           fontSize: 16,
         ),
-      ).apply(fontFamily: 'Inter', bodyColor: Colors.black, displayColor: Colors.black),
+      ).apply(
+          fontFamily: 'Inter',
+          bodyColor: Colors.black,
+          displayColor: Colors.black),
       scaffoldBackgroundColor: Colors.white,
       dialogBackgroundColor: Colors.white,
       appBarTheme: const AppBarTheme(
@@ -43,9 +46,11 @@ class AppThemes {
           ),
         ),
       ),
-      textSelectionTheme: const TextSelectionThemeData(cursorColor: primaryColor),
+      textSelectionTheme:
+          const TextSelectionThemeData(cursorColor: primaryColor),
       primaryColor: primaryColor,
-      primarySwatch: Colors.blue,
+      primaryColorLight: const Color(0xff1671BF),
+      primaryColorDark: const Color(0xff4DADFF),
       fontFamily: 'Inter',
       useMaterial3: true,
       inputDecorationTheme: InputDecorationTheme(
@@ -127,6 +132,14 @@ class AppThemes {
       bodyColor: Colors.white,
       displayColor: Colors.white,
     ),
+    bottomSheetTheme: const BottomSheetThemeData(
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(10.0),
+        ),
+      ),
+    ),
     inputDecorationTheme: InputDecorationTheme(
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
@@ -136,9 +149,17 @@ class AppThemes {
         ),
       ),
     ),
+    buttonTheme: ButtonThemeData(
+      buttonColor: Colors.white,
+      textTheme: ButtonTextTheme.primary,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5),
+      ),
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color(0xff228BE6),
+        foregroundColor: Colors.white,
         shadowColor: Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
