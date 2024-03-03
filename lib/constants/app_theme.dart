@@ -66,11 +66,6 @@ class AppThemes {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          textStyle: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-          ),
           backgroundColor: const Color(0xff228BE6),
           foregroundColor: Colors.white,
           shadowColor: Colors.transparent,
@@ -143,11 +138,6 @@ class AppThemes {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        textStyle: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-          color: Colors.white,
-        ),
         backgroundColor: const Color(0xff228BE6),
         shadowColor: Colors.transparent,
         shape: RoundedRectangleBorder(
