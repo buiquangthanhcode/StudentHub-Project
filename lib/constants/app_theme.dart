@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:studenthub/constants/colors.dart';
-
-final brightnesss = SchedulerBinding.instance.window.platformBrightness;
 
 class AppThemes {
   static final lightTheme = ThemeData(
+      colorScheme: const ColorScheme.light(),
       textTheme: const TextTheme(
         bodyLarge: TextStyle(
           color: Colors.black,
@@ -19,14 +17,26 @@ class AppThemes {
           color: Colors.black,
           fontSize: 14,
         ),
+        titleLarge: TextStyle(
+          color: Colors.black,
+          fontSize: 24,
+        ),
+        titleMedium: TextStyle(
+          color: Colors.black,
+          fontSize: 20,
+        ),
+        titleSmall: TextStyle(
+          color: Colors.black,
+          fontSize: 16,
+        ),
       ).apply(fontFamily: 'Inter', bodyColor: Colors.black, displayColor: Colors.black),
-      scaffoldBackgroundColor: Colors.black,
-      dialogBackgroundColor: Colors.black,
+      scaffoldBackgroundColor: Colors.white,
+      dialogBackgroundColor: Colors.white,
       appBarTheme: const AppBarTheme(
         scrolledUnderElevation: 0.0,
       ),
       bottomSheetTheme: const BottomSheetThemeData(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(10.0),
@@ -47,9 +57,22 @@ class AppThemes {
           ),
         ),
       ),
+      buttonTheme: ButtonThemeData(
+        buttonColor: Colors.white,
+        textTheme: ButtonTextTheme.primary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+        ),
+      ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
+          textStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
           backgroundColor: const Color(0xff228BE6),
+          foregroundColor: Colors.white,
           shadowColor: Colors.transparent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
@@ -61,7 +84,7 @@ class AppThemes {
           padding: const EdgeInsets.all(0),
           alignment: Alignment.center,
           elevation: 0,
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.white,
           side: const BorderSide(
             width: 1,
             color: Color(0xff228BE6),
@@ -81,21 +104,33 @@ class AppThemes {
     // useMaterial3: true,
     textTheme: const TextTheme(
       bodyLarge: TextStyle(
-        color: Colors.black,
+        color: Colors.white,
         fontSize: 20,
       ),
       bodyMedium: TextStyle(
-        color: Colors.black,
+        color: Colors.white,
         fontSize: 16,
       ),
       bodySmall: TextStyle(
-        color: Colors.black,
+        color: Colors.white,
         fontSize: 14,
+      ),
+      titleLarge: TextStyle(
+        color: Colors.white,
+        fontSize: 24,
+      ),
+      titleMedium: TextStyle(
+        color: Colors.white,
+        fontSize: 20,
+      ),
+      titleSmall: TextStyle(
+        color: Colors.white,
+        fontSize: 16,
       ),
     ).apply(
       fontFamily: 'Inter',
-      bodyColor: Colors.black,
-      displayColor: Colors.black,
+      bodyColor: Colors.white,
+      displayColor: Colors.white,
     ),
     inputDecorationTheme: InputDecorationTheme(
       focusedBorder: OutlineInputBorder(
@@ -108,6 +143,11 @@ class AppThemes {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
+        textStyle: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        ),
         backgroundColor: const Color(0xff228BE6),
         shadowColor: Colors.transparent,
         shape: RoundedRectangleBorder(

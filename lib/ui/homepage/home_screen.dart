@@ -13,7 +13,9 @@ class HomePageScreen extends StatelessWidget {
         children: <Widget>[
           ElevatedButton(
             onPressed: () {},
-            child: Text(hiKey.tr().toUpperCase()),
+            child: Text(
+              hiKey.tr().toUpperCase(),
+            ),
           ),
           Center(
             child: Text(
