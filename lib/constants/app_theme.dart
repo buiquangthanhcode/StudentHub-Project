@@ -3,97 +3,101 @@ import 'package:studenthub/constants/colors.dart';
 
 class AppThemes {
   static final lightTheme = ThemeData(
-      colorScheme: const ColorScheme.light(),
-      textTheme: const TextTheme(
-        bodyLarge: TextStyle(
-          color: Colors.black,
-          fontSize: 20,
-        ),
-        bodyMedium: TextStyle(
-          color: Colors.black,
-          fontSize: 16,
-        ),
-        bodySmall: TextStyle(
-          color: Colors.black,
-          fontSize: 14,
-        ),
-        titleLarge: TextStyle(
-          color: Colors.black,
-          fontSize: 24,
-        ),
-        titleMedium: TextStyle(
-          color: Colors.black,
-          fontSize: 20,
-        ),
-        titleSmall: TextStyle(
-          color: Colors.white,
-          fontSize: 16,
-        ),
-      ).apply(
-          fontFamily: 'Inter',
-          bodyColor: Colors.black,
-          displayColor: Colors.black),
-      scaffoldBackgroundColor: Colors.white,
-      dialogBackgroundColor: Colors.white,
-      appBarTheme: const AppBarTheme(
-        scrolledUnderElevation: 0.0,
+    scaffoldBackgroundColor: Colors.white,
+    colorScheme: const ColorScheme.light(),
+    primaryColor: primaryColor,
+    textTheme: const TextTheme(
+      bodyLarge: TextStyle(
+        color: Colors.black,
+        fontSize: 20,
       ),
-      bottomSheetTheme: const BottomSheetThemeData(
-        backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(10.0),
-          ),
+      bodyMedium: TextStyle(
+        color: Colors.black,
+        fontSize: 16,
+      ),
+      bodySmall: TextStyle(
+        color: Colors.black,
+        fontSize: 14,
+      ),
+      titleLarge: TextStyle(
+        color: Colors.black,
+        fontSize: 24,
+      ),
+      titleMedium: TextStyle(
+        color: Colors.black,
+        fontSize: 20,
+      ),
+      titleSmall: TextStyle(
+        color: Colors.white,
+        fontSize: 16,
+      ),
+    ).apply(fontFamily: 'Inter', bodyColor: Colors.black, displayColor: Colors.black),
+    dialogBackgroundColor: Colors.white,
+    bottomSheetTheme: const BottomSheetThemeData(
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(10.0),
         ),
       ),
-      textSelectionTheme:
-          const TextSelectionThemeData(cursorColor: primaryColor),
-      primaryColor: primaryColor,
-      primaryColorLight: const Color(0xff1671BF),
-      primaryColorDark: const Color(0xff4DADFF),
-      fontFamily: 'Inter',
-      useMaterial3: true,
-      inputDecorationTheme: InputDecorationTheme(
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(
-            color: primaryColor,
-            width: 1,
-          ),
+    ),
+    textSelectionTheme: const TextSelectionThemeData(cursorColor: primaryColor),
+    primaryColorLight: const Color(0xff1671BF),
+    primaryColorDark: const Color(0xff4DADFF),
+    fontFamily: 'Inter',
+    useMaterial3: true,
+    inputDecorationTheme: InputDecorationTheme(
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: const BorderSide(
+          color: primaryColor,
+          width: 1,
         ),
       ),
-      buttonTheme: ButtonThemeData(
-        buttonColor: Colors.white,
-        textTheme: ButtonTextTheme.primary,
+    ),
+    buttonTheme: ButtonThemeData(
+      buttonColor: Colors.white,
+      textTheme: ButtonTextTheme.primary,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5),
+      ),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: const Color(0xff228BE6),
+        foregroundColor: Colors.white,
+        shadowColor: Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),
       ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xff228BE6),
-          foregroundColor: Colors.white,
-          shadowColor: Colors.transparent,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        padding: const EdgeInsets.all(0),
+        alignment: Alignment.center,
+        elevation: 0,
+        backgroundColor: Colors.white,
+        side: const BorderSide(
+          width: 1,
+          color: Color(0xff228BE6),
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
         ),
       ),
-      outlinedButtonTheme: OutlinedButtonThemeData(
-        style: OutlinedButton.styleFrom(
-          padding: const EdgeInsets.all(0),
-          alignment: Alignment.center,
-          elevation: 0,
-          backgroundColor: Colors.white,
-          side: const BorderSide(
-            width: 1,
-            color: Color(0xff228BE6),
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
-        ),
-      ));
+    ),
+    appBarTheme: const AppBarTheme(
+      scrolledUnderElevation: 0.0,
+      backgroundColor: Color(0xff121212),
+      elevation: 0,
+      iconTheme: IconThemeData(color: Colors.white),
+      titleTextStyle: TextStyle(
+        color: Colors.white,
+        fontSize: 20,
+      ),
+    ),
+  );
 
   static final darkTheme = ThemeData(
     scaffoldBackgroundColor: const Color(0xff121212),
@@ -179,6 +183,16 @@ class AppThemes {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),
+      ),
+    ),
+    appBarTheme: const AppBarTheme(
+      scrolledUnderElevation: 0.0,
+      backgroundColor: Color(0xff121212),
+      elevation: 0,
+      iconTheme: IconThemeData(color: Colors.white),
+      titleTextStyle: TextStyle(
+        color: Colors.white,
+        fontSize: 20,
       ),
     ),
   );
