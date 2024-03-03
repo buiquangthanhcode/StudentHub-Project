@@ -18,6 +18,7 @@ final GoRouter router = GoRouter(
             return const HomePageScreen();
           },
         ),
+        // Add new more routes here
       ],
     ),
   ],

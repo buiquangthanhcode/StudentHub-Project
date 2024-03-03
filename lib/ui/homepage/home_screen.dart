@@ -8,8 +8,20 @@ class HomePageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text(hiKey.tr()),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          ElevatedButton(
+            onPressed: () {},
+            child: Text(hiKey.tr().toUpperCase()),
+          ),
+          Center(
+            child: Text(
+              hiKey.tr(),
+              style: const TextStyle(fontSize: 20),
+            ),
+          ),
+        ],
       ),
     );
   }
