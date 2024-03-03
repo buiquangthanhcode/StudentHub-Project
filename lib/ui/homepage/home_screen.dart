@@ -1,5 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:studenthub/blocs/theme_bloc/theme_bloc.dart';
+import 'package:studenthub/blocs/theme_bloc/theme_event.dart';
 import 'package:studenthub/constants/key_translator.dart';
 
 class HomePageScreen extends StatelessWidget {
@@ -12,9 +16,29 @@ class HomePageScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              context.setLocale(const Locale('en'));
+              context.read<ThemesBloc>().add(ToggleLanguageEvent(context));
+            },
             child: Text(
-              hiKey.tr().toUpperCase(),
+              englishKey.tr().toUpperCase(),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              context.setLocale(const Locale('vi'));
+              context.read<ThemesBloc>().add(ToggleLanguageEvent(context));
+            },
+            child: Text(
+              vietnamesKey.tr().toUpperCase(),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              context.read<ThemesBloc>().add(ToggleThemeEvent());
+            },
+            child: const Text(
+              "Chuyển đổi theme",
             ),
           ),
           Center(

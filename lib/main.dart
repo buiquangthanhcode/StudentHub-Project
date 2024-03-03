@@ -23,7 +23,9 @@ Future<void> main() async {
       fallbackLocale: currentLocale,
       startLocale: currentLocale,
       path: 'lib/assets/translations',
-      child: const StudentHub(),
+      child: StudentHub(
+        themeStorage: currentLanguageStorage,
+      ),
     ),
   );
 }
