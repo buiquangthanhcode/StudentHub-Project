@@ -31,7 +31,10 @@ class AppThemes {
         color: Colors.white,
         fontSize: 16,
       ),
-    ).apply(fontFamily: 'Inter', bodyColor: Colors.black, displayColor: Colors.black),
+    ).apply(
+        fontFamily: 'Inter',
+        bodyColor: Colors.black,
+        displayColor: Colors.black),
     dialogBackgroundColor: Colors.white,
     bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: Colors.white,
