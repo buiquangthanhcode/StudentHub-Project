@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:studenthub/constants/colors.dart';
 
 class AppThemes {
   static final lightTheme = ThemeData(
+    hintColor: Colors.grey,
     scaffoldBackgroundColor: Colors.white,
     colorScheme: const ColorScheme.light(),
     primaryColor: primaryColor,
+    fontFamily: 'Inter',
+    useMaterial3: true,
     textTheme: const TextTheme(
       bodyLarge: TextStyle(
         color: Colors.black,
@@ -31,7 +35,11 @@ class AppThemes {
         color: Colors.white,
         fontSize: 16,
       ),
-    ).apply(fontFamily: 'Inter', bodyColor: Colors.black, displayColor: Colors.black),
+    ).apply(
+      fontFamily: 'Inter',
+      bodyColor: Colors.black,
+      displayColor: Colors.black,
+    ),
     dialogBackgroundColor: Colors.white,
     bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: Colors.white,
@@ -41,11 +49,11 @@ class AppThemes {
         ),
       ),
     ),
-    textSelectionTheme: const TextSelectionThemeData(cursorColor: primaryColor),
+    textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: primaryColor,
+    ),
     primaryColorLight: const Color(0xff1671BF),
     primaryColorDark: const Color(0xff4DADFF),
-    fontFamily: 'Inter',
-    useMaterial3: true,
     inputDecorationTheme: InputDecorationTheme(
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
@@ -89,23 +97,24 @@ class AppThemes {
     ),
     appBarTheme: const AppBarTheme(
       scrolledUnderElevation: 0.0,
-      backgroundColor: Color(0xff121212),
-      elevation: 0,
-      iconTheme: IconThemeData(color: Colors.white),
+      backgroundColor: Colors.white,
+      elevation: 1,
+      iconTheme: IconThemeData(color: Colors.black),
       titleTextStyle: TextStyle(
-        color: Colors.white,
+        color: Colors.black,
         fontSize: 20,
       ),
     ),
   );
 
   static final darkTheme = ThemeData(
-    scaffoldBackgroundColor: const Color(0xff121212),
+    hintColor: Colors.grey,
+    scaffoldBackgroundColor: const Color(0xff5E5E5E),
     colorScheme: const ColorScheme.dark(),
     primaryColor: primaryColor,
     primarySwatch: Colors.blue,
     fontFamily: 'Inter',
-    // useMaterial3: true,
+    useMaterial3: true,
     textTheme: const TextTheme(
       bodyLarge: TextStyle(
         color: Colors.white,
@@ -136,6 +145,7 @@ class AppThemes {
       bodyColor: Colors.white,
       displayColor: Colors.white,
     ),
+    dialogBackgroundColor: Colors.white,
     bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
@@ -144,6 +154,11 @@ class AppThemes {
         ),
       ),
     ),
+    textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: primaryColor,
+    ),
+    primaryColorLight: const Color(0xff1671BF),
+    primaryColorDark: const Color(0xff4DADFF),
     inputDecorationTheme: InputDecorationTheme(
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
@@ -187,11 +202,16 @@ class AppThemes {
     ),
     appBarTheme: const AppBarTheme(
       scrolledUnderElevation: 0.0,
-      backgroundColor: Color(0xff121212),
-      elevation: 0,
+      backgroundColor: Color(0xff5E5E5E),
+      foregroundColor: Colors.white,
+      elevation: 1,
       iconTheme: IconThemeData(color: Colors.white),
+      toolbarTextStyle: TextStyle(
+        color: Colors.black,
+        fontSize: 20,
+      ),
       titleTextStyle: TextStyle(
-        color: Colors.white,
+        color: Colors.black,
         fontSize: 20,
       ),
     ),
