@@ -38,7 +38,6 @@ class _DontHaveProfileState extends State<ProfileCreation> {
 
   final _formKey = GlobalKey<FormState>();
 
-
   void checkFormField() {
     if (websiteInputController.text.isEmpty ||
         companyNameInputController.text.isEmpty ||
@@ -103,7 +102,10 @@ class _DontHaveProfileState extends State<ProfileCreation> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('How many people are in your company?'),
+                    const Text(
+                      'How many people are in your company?',
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
                     const SizedBox(
                       height: 15,
                     ),
@@ -246,7 +248,9 @@ class _DontHaveProfileState extends State<ProfileCreation> {
                       checkFormField();
                     },
                     validator: (value) {
-                      if (value == null || value.isEmpty || !Uri.parse(value).isAbsolute) {
+                      if (value == null ||
+                          value.isEmpty ||
+                          !Uri.parse(value).isAbsolute) {
                         return 'Your website address is invalid.';
                       }
                       return null;
