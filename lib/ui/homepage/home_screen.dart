@@ -38,7 +38,6 @@ class HomePageScreen extends StatelessWidget {
               ),
             ),
           ),
-          // const SizedBox(height: 48),
           const Spacer(flex: 1),
           SizedBox(
             width: 375,
