@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +22,7 @@ class HomePageScreen extends StatelessWidget {
             margin: const EdgeInsets.all(24),
             child: AppBar(
               title: Text('StudentHub',
-                  style: GoogleFonts.martelSans(
+                  style: GoogleFonts.inter(
                       fontSize: 36,
                       color: const Color(0xFF6188FF),
                       fontWeight: FontWeight.bold)),
@@ -39,7 +38,8 @@ class HomePageScreen extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 48),
+          // const SizedBox(height: 48),
+          const Spacer(flex: 1),
           SizedBox(
             width: 375,
             child: Text(
@@ -66,7 +66,7 @@ class HomePageScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          const SizedBox(height: 40),
+          const Spacer(flex: 1),
           Center(
             child: MyElevatedButton(
               height: 45,
@@ -93,7 +93,7 @@ class HomePageScreen extends StatelessWidget {
             child: MyElevatedButton(
               height: 45,
               width: 350,
-              backgroundColor: Colors.transparent,
+              backgroundColor: Colors.white,
               borderRadius: BorderRadius.circular(20),
               buttonBorder: Border.all(
                 color: const Color(0xFF6188FF),
@@ -110,7 +110,7 @@ class HomePageScreen extends StatelessWidget {
               ),
             ),
           ),
-          const Spacer(),
+          const Spacer(flex: 3),
           Container(
             margin: const EdgeInsets.all(32),
             child: SizedBox(
