@@ -1,8 +1,11 @@
 // GoRouter configuration
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studenthub/ui/company_profile_creation/dashboard.dart';
+import 'package:studenthub/ui/company_profile_creation/welcome_screen.dart';
 import 'package:studenthub/ui/homepage/home_screen.dart';
 import 'package:studenthub/ui/login/login_screen.dart';
+import 'package:studenthub/ui/company_profile_creation/profile_creation.dart';
 
 /// The route configuration.
 final GoRouter router = GoRouter(
@@ -10,7 +13,8 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return const LoginScreen();
+        // return const LoginScreen();
+        return const Dashboard();
       },
       routes: <RouteBase>[
         GoRoute(
