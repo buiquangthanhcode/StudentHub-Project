@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-
-final brightnesss = WidgetsBinding.instance.platformDispatcher.platformBrightness;
+import 'package:studenthub/constants/app_theme.dart';
 
 // Core widget builder for custom TextFormField
 class TextFieldFormCustom extends StatelessWidget {
@@ -88,22 +87,24 @@ class TextFieldFormCustom extends StatelessWidget {
             ],
           ),
           hintText: hintText ?? 'Please select a hint',
-          hintStyle: Theme.of(context).textTheme.bodyMedium,
+          hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: Theme.of(context).colorScheme.hintColor,
+              ),
           contentPadding: const EdgeInsets.all(0),
-          fillColor: Theme.of(context).hintColor,
-          filled: true,
-          isDense: true,
+          // fillColor: Theme.of(context).colorScheme.grey,
+          // filled: true,
+          // isDense: true,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(6),
             borderSide: const BorderSide(
-              width: 1,
+              width: 0,
               color: Color.fromARGB(255, 242, 242, 242),
             ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(6),
             borderSide: const BorderSide(
-              width: 1,
+              width: 0,
               color: Color.fromARGB(255, 242, 242, 242),
             ),
           ),
@@ -112,11 +113,3 @@ class TextFieldFormCustom extends StatelessWidget {
     );
   }
 }
-
-// Add by Quang Thanh to custom color using extension
-extension CustomColorSchemeX on ColorScheme {
-  Color? get smallBoxColor1 => brightness == Brightness.light ? Colors.blue : Colors.grey[400];
-}
-
-//And then access that property through Theme.of(context)... for example:
-// Theme.of(context).colorScheme.smallBoxColor1
