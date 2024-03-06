@@ -11,12 +11,28 @@ class AppThemes {
       fontFamily: 'Inter',
       useMaterial3: true,
       textTheme: const TextTheme(
-        bodyLarge: TextStyle(color: Color(0xff030303), fontSize: 20, fontWeight: FontWeight.w500),
-        bodyMedium: TextStyle(color: Color(0xff030303), fontSize: 16, fontWeight: FontWeight.w500),
-        bodySmall: TextStyle(color: Color(0xff030303), fontSize: 14, fontWeight: FontWeight.w500),
-        titleLarge: TextStyle(color: Color(0xff030303), fontSize: 24, fontWeight: FontWeight.w500),
-        titleMedium: TextStyle(color: Color(0xff030303), fontSize: 20, fontWeight: FontWeight.w500),
-        titleSmall: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
+        bodyLarge: TextStyle(
+            color: Color(0xff030303),
+            fontSize: 20,
+            fontWeight: FontWeight.w500),
+        bodyMedium: TextStyle(
+            color: Color(0xff030303),
+            fontSize: 16,
+            fontWeight: FontWeight.w500),
+        bodySmall: TextStyle(
+            color: Color(0xff030303),
+            fontSize: 14,
+            fontWeight: FontWeight.w500),
+        titleLarge: TextStyle(
+            color: Color(0xff030303),
+            fontSize: 24,
+            fontWeight: FontWeight.w500),
+        titleMedium: TextStyle(
+            color: Color(0xff030303),
+            fontSize: 20,
+            fontWeight: FontWeight.w500),
+        titleSmall: TextStyle(
+            color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
       ).apply(
         fontFamily: 'Inter',
         bodyColor: Colors.black,
@@ -106,12 +122,18 @@ class AppThemes {
       fontFamily: 'Inter',
       useMaterial3: true,
       textTheme: const TextTheme(
-        bodyLarge: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
-        bodyMedium: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
-        bodySmall: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
-        titleLarge: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w500),
-        titleMedium: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
-        titleSmall: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
+        bodyLarge: TextStyle(
+            color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
+        bodyMedium: TextStyle(
+            color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
+        bodySmall: TextStyle(
+            color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+        titleLarge: TextStyle(
+            color: Colors.white, fontSize: 24, fontWeight: FontWeight.w500),
+        titleMedium: TextStyle(
+            color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
+        titleSmall: TextStyle(
+            color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
       ).apply(
         fontFamily: 'Inter',
         bodyColor: Colors.white,
@@ -197,16 +219,24 @@ class AppThemes {
       ));
 }
 
-final brightnesss = WidgetsBinding.instance.platformDispatcher.platformBrightness;
+final brightnesss =
+    WidgetsBinding.instance.platformDispatcher.platformBrightness;
 
 // Add by Quang Thanh to custom color using extension
 extension CustomColorSchemeX on ColorScheme {
-  Color? get smallBoxColor1 => brightness == Brightness.light ? Colors.blue : Colors.grey[400];
-  Color? get smallBoxColor2 => brightness == Brightness.light ? Colors.blue : Colors.grey[400];
+  Color? get smallBoxColor1 =>
+      brightness == Brightness.light ? Colors.blue : Colors.grey[400];
+  Color? get smallBoxColor2 =>
+      brightness == Brightness.light ? Colors.blue : Colors.grey[400];
 
-  Color? get black => brightness == Brightness.light ? const Color(0xff030303) : Colors.white;
-  Color? get grey => brightness == Brightness.light ? const Color(0xff7C7C7C) : const Color(0xff7C7C7C);
-  Color? get hintColor => brightness == Brightness.light ? const Color(0xffB1B1B1) : const Color(0xff585858);
+  Color? get black =>
+      brightness == Brightness.light ? const Color(0xff030303) : Colors.white;
+  Color? get grey => brightness == Brightness.light
+      ? const Color(0xff7C7C7C)
+      : const Color(0xff7C7C7C);
+  Color? get hintColor => brightness == Brightness.light
+      ? const Color(0xffB1B1B1)
+      : const Color(0xff585858);
 }
 
 //And then access that property through Theme.of(context)... for example:
