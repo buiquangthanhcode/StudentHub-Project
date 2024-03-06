@@ -7,6 +7,9 @@ import 'package:go_router/go_router.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/strings.dart';
+import 'package:studenthub/utils/logger.dart';
+
+import '../../core/text_field_custom.dart';
 
 class SignUpStep01 extends StatefulWidget {
   const SignUpStep01({super.key});

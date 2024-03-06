@@ -97,14 +97,14 @@ class TextFieldFormCustom extends StatelessWidget {
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(6),
             borderSide: const BorderSide(
-              width: 1,
+              width: 0,
               color: Color.fromARGB(255, 242, 242, 242),
             ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(6),
             borderSide: const BorderSide(
-              width: 1,
+              width: 0,
               color: Color.fromARGB(255, 242, 242, 242),
             ),
           ),

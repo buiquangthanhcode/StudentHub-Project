@@ -61,7 +61,7 @@ class LoginScreen extends StatelessWidget {
                   color: Colors.white,
                   shape: BoxShape.circle,
                 ),
-                child: const FaIcon(
+                child: FaIcon(
                   FontAwesomeIcons.user,
                   size: 16,
                   color: primaryColor,
@@ -79,7 +79,7 @@ class LoginScreen extends StatelessWidget {
                   color: Colors.white,
                   shape: BoxShape.circle,
                 ),
-                child: const FaIcon(
+                child: FaIcon(
                   FontAwesomeIcons.lock,
                   size: 16,
                   color: primaryColor,
