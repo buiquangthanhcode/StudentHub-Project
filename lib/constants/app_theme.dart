@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:studenthub/constants/colors.dart';
 
 class AppThemes {
@@ -52,14 +51,14 @@ class AppThemes {
       ),
       primaryColorLight: const Color(0xff1671BF),
       primaryColorDark: const Color(0xff4DADFF),
-      inputDecorationTheme: InputDecorationTheme(
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(
-            color: primaryColor,
-            width: 1,
-          ),
-        ),
+      inputDecorationTheme: const InputDecorationTheme(
+        filled: true,
+        fillColor: Colors.white,
+        errorStyle: TextStyle(height: 0),
+        border: defaultInputBorder,
+        enabledBorder: defaultInputBorder,
+        focusedBorder: defaultInputBorder,
+        errorBorder: defaultInputBorder,
       ),
       buttonTheme: ButtonThemeData(
         buttonColor: Colors.white,
@@ -153,14 +152,14 @@ class AppThemes {
       ),
       primaryColorLight: const Color(0xff1671BF),
       primaryColorDark: const Color(0xff4DADFF),
-      inputDecorationTheme: InputDecorationTheme(
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(
-            color: primaryColor,
-            width: 1,
-          ),
-        ),
+      inputDecorationTheme: const InputDecorationTheme(
+        filled: true,
+        fillColor: Colors.white,
+        errorStyle: TextStyle(height: 0),
+        border: defaultInputBorder,
+        enabledBorder: defaultInputBorder,
+        focusedBorder: defaultInputBorder,
+        errorBorder: defaultInputBorder,
       ),
       buttonTheme: ButtonThemeData(
         buttonColor: Colors.white,
@@ -222,6 +221,11 @@ class AppThemes {
 final brightnesss =
     WidgetsBinding.instance.platformDispatcher.platformBrightness;
 
+const defaultInputBorder = OutlineInputBorder(
+  borderSide: BorderSide(width: 1, color: Color.fromARGB(255, 201, 201, 201)),
+  borderRadius: BorderRadius.all(Radius.circular(8)),
+);
+
 // Add by Quang Thanh to custom color using extension
 extension CustomColorSchemeX on ColorScheme {
   Color? get smallBoxColor1 =>
@@ -235,7 +239,7 @@ extension CustomColorSchemeX on ColorScheme {
       ? const Color(0xff7C7C7C)
       : const Color(0xff7C7C7C);
   Color? get hintColor => brightness == Brightness.light
-      ? const Color(0xffB1B1B1)
+      ? const Color.fromARGB(255, 200, 200, 200)
       : const Color(0xff585858);
 }
 
