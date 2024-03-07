@@ -91,20 +91,20 @@ class TextFieldFormCustom extends StatelessWidget {
                 color: Theme.of(context).colorScheme.hintColor,
               ),
           contentPadding: const EdgeInsets.all(0),
-          // fillColor: Theme.of(context).colorScheme.grey,
-          // filled: true,
-          // isDense: true,
+          fillColor: const Color.fromARGB(255, 242, 242, 242),
+          filled: true,
+          isDense: true,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(6),
             borderSide: const BorderSide(
-              width: 0,
+              width: 1,
               color: Color.fromARGB(255, 242, 242, 242),
             ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(6),
             borderSide: const BorderSide(
-              width: 0,
+              width: 1,
               color: Color.fromARGB(255, 242, 242, 242),
             ),
           ),

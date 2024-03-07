@@ -7,9 +7,6 @@ import 'package:go_router/go_router.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/strings.dart';
-import 'package:studenthub/utils/logger.dart';
-
-import '../../core/text_field_custom.dart';
 
 class SignUpStep01 extends StatefulWidget {
   const SignUpStep01({super.key});
@@ -19,23 +16,23 @@ class SignUpStep01 extends StatefulWidget {
 }
 
 class _SignUpStep01State extends State<SignUpStep01> {
+  List<Map<String, dynamic>> dataSelectedInfor = [
+    {
+      'image':
+          "https://banner2.cleanpng.com/20180510/qiw/kisspng-businessperson-management-training-5af42f503fc167.5646384015259523362612.jpg",
+      'description': "I am a company,find engineer for project",
+      'value': true,
+    },
+    {
+      'image': "https://i.pinimg.com/736x/92/73/08/927308edb73d0d73e86fef57c4a6c1ce.jpg",
+      'description': "I am a student,find engineer for project",
+      'value': false,
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final formKeyLogin = GlobalKey<FormBuilderState>();
-
-    List<Map<String, dynamic>> dataSelectedInfor = [
-      {
-        'image': "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH2mWN4-rzaVDVgE6-cml85T4yR5e5MRWqq6yWlhYy4w&s",
-        'description': "I am a company,find engineer for project",
-        'value': 0,
-      },
-      {
-        'image': "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH2mWN4-rzaVDVgE6-cml85T4yR5e5MRWqq6yWlhYy4w&s",
-        'description': "I am a student,find engineer for project",
-        'value': 0,
-      },
-    ];
 
     final maxHeight = MediaQuery.of(context).size.height;
     final maxWidth = MediaQuery.of(context).size.width;
@@ -79,9 +76,9 @@ class _SignUpStep01State extends State<SignUpStep01> {
               final item = dataSelectedInfor[index];
               return Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.smallBoxColor1,
+                  color: const Color.fromARGB(255, 242, 242, 242),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
@@ -101,8 +98,15 @@ class _SignUpStep01State extends State<SignUpStep01> {
                         Expanded(
                             child: CheckboxListTile(
                           checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                          value: true,
-                          onChanged: (value) {},
+                          value: item['value'],
+                          onChanged: (value) {
+                            setState(() {
+                              for (var element in dataSelectedInfor) {
+                                element['value'] = false;
+                              }
+                              item['value'] = value;
+                            });
+                          },
                         )),
                       ],
                     ),
@@ -128,10 +132,13 @@ class _SignUpStep01State extends State<SignUpStep01> {
                 minimumSize: Size(maxWidth, 40),
               ),
               onPressed: () {
-                context.go('/signup_02');
+                context.push('/signup_02');
               },
               child: const Text('Create account'),
             ),
+          ),
+          const SizedBox(
+            height: 10,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -142,10 +149,15 @@ class _SignUpStep01State extends State<SignUpStep01> {
                   color: Colors.grey,
                 ),
               ),
-              Text(
-                'Login',
-                style: theme.textTheme.titleSmall?.copyWith(
-                  color: Colors.grey,
+              InkWell(
+                onTap: () {
+                  context.push('/login');
+                },
+                child: Text(
+                  'Login',
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    color: Colors.blue,
+                  ),
                 ),
               ),
             ],

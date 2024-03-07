@@ -61,10 +61,10 @@ class LoginScreen extends StatelessWidget {
                   color: Colors.white,
                   shape: BoxShape.circle,
                 ),
-                child: FaIcon(
+                child: const FaIcon(
                   FontAwesomeIcons.user,
                   size: 16,
-                  color: theme.colorScheme.smallBoxColor1,
+                  color: primaryColor,
                 ),
               ),
             ),
@@ -79,10 +79,10 @@ class LoginScreen extends StatelessWidget {
                   color: Colors.white,
                   shape: BoxShape.circle,
                 ),
-                child: FaIcon(
+                child: const FaIcon(
                   FontAwesomeIcons.lock,
                   size: 16,
-                  color: theme.colorScheme.smallBoxColor1,
+                  color: primaryColor,
                 ),
               ),
             ),
@@ -96,7 +96,7 @@ class LoginScreen extends StatelessWidget {
                 // if (formKeyLogin.currentState?.saveAndValidate() ?? false) {
                 //   logger.d(formKeyLogin.currentState?.value);
                 // }
-                context.go('/homepage');
+                context.push('/welcome_screen');
               },
               child: const Text('Login'),
             ),

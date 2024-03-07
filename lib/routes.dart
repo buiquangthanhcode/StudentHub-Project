@@ -50,6 +50,24 @@ final GoRouter router = GoRouter(
             return const SwitchAccount();
           },
         ),
+        GoRoute(
+          path: 'dashboard',
+          builder: (BuildContext context, GoRouterState state) {
+            return const Dashboard();
+          },
+        ),
+        GoRoute(
+          path: 'profile_creation',
+          builder: (BuildContext context, GoRouterState state) {
+            return const ProfileCreation();
+          },
+        ),
+        GoRoute(
+          path: 'welcome_screen',
+          builder: (BuildContext context, GoRouterState state) {
+            return const WelcomeScreen();
+          },
+        ),
       ],
     ),
   ],
