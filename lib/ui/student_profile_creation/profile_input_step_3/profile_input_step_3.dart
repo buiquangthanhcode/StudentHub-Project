@@ -1,0 +1,303 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
+
+import 'package:dotted_border/dotted_border.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/ui/company_profile_creation/profile_creation/widgets/continue_button.dart';
+import 'package:studenthub/ui/student_profile_creation/profile_input_step_3/widgets/title_widget.dart';
+
+class ProfileInputStep3 extends StatefulWidget {
+  const ProfileInputStep3({Key? key}) : super(key: key);
+
+  @override
+  _ProfileInputStep3State createState() => _ProfileInputStep3State();
+}
+
+class _ProfileInputStep3State extends State<ProfileInputStep3> {
+  FilePickerResult? result;
+  // var? fileName;
+  PlatformFile? pickerfile;
+  bool isLoading = false;
+  // File? fileToDisplay;
+  List<FileModel> resume = [];
+  List<FileModel> transcript = [];
+  String excel_path = 'lib/assets/images/icons8-excel-48.png';
+  String png_path = 'lib/assets/images/icons8-png-48.png';
+  String pdf_path = 'lib/assets/images/icons8-pdf-48.png';
+
+  String getLastSubstringAfterDot(String filename) {
+    List<String> parts = filename.split('.');
+    if (parts.length > 1) {
+      return parts.last;
+    }
+    return '';
+  }
+
+  void pickFile(int type) async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+
+      result = await FilePicker.platform.pickFiles(
+          type: FileType.custom,
+          allowedExtensions: ['png', 'pdf', 'excel'],
+          allowMultiple: true);
+
+      if (result != null) {
+        // fileName = result!.files.first;
+        pickerfile = result!.files.first;
+        // fileToDisplay = File(pickerfile!.path.toString());
+        // number.toStringAsFixed(1)
+
+        for (var file in result!.files) {
+          type == 0
+              ? resume.add(
+                  FileModel(
+                    name: file.name,
+                    type: getLastSubstringAfterDot(file.name),
+                    size: (file.size / 1000000).toStringAsFixed(1),
+                  ),
+                )
+              : transcript.add(
+                  FileModel(
+                    name: file.name,
+                    type: getLastSubstringAfterDot(file.name),
+                    size: (file.size / 1000000).toStringAsFixed(1),
+                  ),
+                );
+        }
+      }
+
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    TextTheme textTheme = Theme.of(context).textTheme;
+    var screenSize = MediaQuery.of(context).size;
+    var colorTheme = Theme.of(context).colorScheme;
+
+    return Scaffold(
+      appBar: AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 6),
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () {},
+          ),
+        ),
+      ),
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(
+            20, 0, 20, screenSize.height * (Platform.isIOS ? 0.04 : 0.03)),
+        child: Column(
+          children: [
+            const TitleWidget(),
+            const Spacer(flex: 2),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  'Resume/CV (*)',
+                  style: textTheme.bodySmall,
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            InkWell(
+              onTap: () {
+                pickFile(0);
+              },
+              child: DottedBorder(
+                borderType: BorderType.RRect,
+                strokeWidth: 2,
+                dashPattern: const [8, 8],
+                radius: const Radius.circular(12),
+                padding: const EdgeInsets.all(6),
+                color: colorTheme.hintColor!,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: screenSize.height * 0.18,
+                    width: double.infinity,
+                    child: resume.isEmpty
+                        ? isLoading
+                            ? const CircularProgressIndicator(
+                                color: primaryColor,
+                                strokeAlign: 6,
+                                strokeWidth: 6,
+                              )
+                            : Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  FaIcon(
+                                    FontAwesomeIcons.cloudArrowUp,
+                                    size: screenSize.height * 0.07,
+                                    color: colorTheme.hintColor!,
+                                  ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  Text('Select File to Upload',
+                                      style: textTheme.bodyMedium),
+                                  const SizedBox(
+                                    height: 2,
+                                  ),
+                                  Text(
+                                    'Suppport: PDF, Excel, PNG',
+                                    style: textTheme.bodySmall!
+                                        .copyWith(color: colorTheme.grey),
+                                  )
+                                ],
+                              )
+                        : SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                ...resume.map((e) => Container(
+                                      margin: const EdgeInsets.only(bottom: 10),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 6),
+                                      decoration: const BoxDecoration(
+                                        color:
+                                            Color.fromARGB(255, 240, 240, 240),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(6),
+                                        ),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Image.asset(
+                                            e.type == 'png'
+                                                ? png_path
+                                                : e.type == 'pdf'
+                                                    ? pdf_path
+                                                    : excel_path,
+                                            scale: 1.6,
+                                          ),
+                                          const SizedBox(
+                                            width: 14,
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(e.name!),
+                                                const SizedBox(
+                                                  height: 6,
+                                                ),
+                                                Text('${e.size!}MB'),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ))
+                              ],
+                            ),
+                          ),
+                  ),
+                ),
+              ),
+            ),
+            const Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  'Transcript (*)',
+                  style: textTheme.bodySmall,
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            InkWell(
+              onTap: () {
+                pickFile(1);
+              },
+              child: DottedBorder(
+                borderType: BorderType.RRect,
+                strokeWidth: 2,
+                dashPattern: const [8, 8],
+                radius: const Radius.circular(12),
+                padding: const EdgeInsets.all(6),
+                color: colorTheme.hintColor!,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: screenSize.height * 0.18,
+                    width: double.infinity,
+                    child: isLoading
+                        ? const CircularProgressIndicator(
+                            color: primaryColor,
+                            strokeAlign: 6,
+                            strokeWidth: 6,
+                          )
+                        : Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              FaIcon(
+                                FontAwesomeIcons.cloudArrowUp,
+                                size: screenSize.height * 0.07,
+                                color: colorTheme.hintColor!,
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              Text('Select File to Upload',
+                                  style: textTheme.bodyMedium),
+                              const SizedBox(
+                                height: 2,
+                              ),
+                              Text(
+                                'Suppport: PDF, Excel, PNG',
+                                style: textTheme.bodySmall!
+                                    .copyWith(color: colorTheme.grey),
+                              )
+                            ],
+                          ),
+                  ),
+                ),
+              ),
+            ),
+            const Spacer(
+              flex: 2,
+            ),
+            ContinueButton(buttonActive: true, press: () {}),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class FileModel {
+  String? name;
+  String? type;
+  String? size;
+
+  FileModel({
+    this.name,
+    this.type,
+    this.size,
+  });
+}
