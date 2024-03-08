@@ -2,9 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
-import 'package:studenthub/constants/strings.dart';
 import 'package:studenthub/data/bottom_navigation.dart';
+import 'package:studenthub/widgets/emtyDataWidget.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -16,24 +17,25 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   dynamic navSelected = bottomNavs.first;
   double paddingDevice = Platform.isIOS ? 20 : 10;
+  dynamic data = [1, 2];
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
+    var colorTheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(50),
-        child: AppBar(
-          title: Row(
+      appBar: AppBar(
+        titleSpacing: 0,
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                NAME_APP,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              const Icon(
-                Icons.person,
-                color: Colors.black,
+                'Your Jobs',
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
               ),
             ],
           ),
@@ -44,34 +46,55 @@ class _DashboardState extends State<Dashboard> {
           padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Your jobs',
-                    style: TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Post a job',
-                      style: textTheme.bodyMedium!.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.w600),
+              if (data.isNotEmpty)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Post a job',
+                            style: textTheme.bodyMedium!.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
               const SizedBox(
-                height: 30,
+                height: 60,
               ),
-              const Text(
-                'Welcome, Hai!',
-                style: TextStyle(fontWeight: FontWeight.w500),
-              ),
-              const Text(
-                'You have no job!',
-                style: TextStyle(fontWeight: FontWeight.w500),
-              ),
+              if (data.isEmpty)
+                Column(
+                  children: [
+                    const EmptyDataWidget(
+                      mainTitle: 'You have no job!',
+                      subTitle: 'Do you want to create a new job?',
+                    ),
+                    const SizedBox(
+                      height: 35,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Post a job',
+                            style: textTheme.bodyMedium!.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
             ],
           ),
         ),
@@ -99,7 +122,7 @@ class _DashboardState extends State<Dashboard> {
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  width: (MediaQuery.of(context).size.width - 10) / 4,
+                  width: (MediaQuery.of(context).size.width - 10) / 5,
                   child: navSelected == bottomNavs[index]
                       ? Column(
                           mainAxisSize: MainAxisSize.min,
