@@ -17,15 +17,14 @@ class HomePageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Center(
+          child: Text('StudentHub',
+              style: GoogleFonts.inter(fontSize: 36, color: const Color(0xFF6188FF), fontWeight: FontWeight.bold)),
+        ),
+      ),
       body: Column(
         children: [
-          Container(
-            margin: const EdgeInsets.all(24),
-            child: AppBar(
-              title: Text('StudentHub',
-                  style: GoogleFonts.inter(fontSize: 36, color: const Color(0xFF6188FF), fontWeight: FontWeight.bold)),
-            ),
-          ),
           Container(
             margin: const EdgeInsets.only(top: 36),
             // decoration: const BoxDecoration(color: Colors.black),
@@ -74,7 +73,7 @@ class HomePageScreen extends StatelessWidget {
                 end: Alignment.bottomRight,
               ),
               onPressed: () {
-                context.go('/login');
+                context.push('/login');
               },
               borderRadius: BorderRadius.circular(20),
               child: Text(
@@ -99,7 +98,7 @@ class HomePageScreen extends StatelessWidget {
                 width: 2,
               ),
               onPressed: () {
-                context.go('/login');
+                context.push('/login');
               },
               child: Text(
                 'student'.toUpperCase(),
