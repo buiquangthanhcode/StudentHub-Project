@@ -18,7 +18,8 @@ class _ContinueButtonState extends State<ContinueButton> {
     TextTheme textTheme = Theme.of(context).textTheme;
 
     return Opacity(
-      opacity: widget.buttonActive ? 1 : 0.3,
+      // opacity: widget.buttonActive ? 1 : 0.3,
+      opacity: 1,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           minimumSize: const Size(double.infinity, 56),

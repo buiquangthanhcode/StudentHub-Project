@@ -19,4 +19,9 @@ const bottomNavs = [
     'regular-icon': 'lib/assets/nav_icons/regular/bell.svg',
     'title': 'Alerts',
   },
+  {
+    'solid-icon': 'lib/assets/nav_icons/solid/circle-user.svg',
+    'regular-icon': 'lib/assets/nav_icons/regular/circle-user.svg',
+    'title': 'Account',
+  },
 ];
