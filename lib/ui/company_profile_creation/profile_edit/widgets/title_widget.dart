@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class TitleWidget extends StatefulWidget {
-  const TitleWidget({Key? key}) : super(key: key);
+  const TitleWidget({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _TitleWidgetState createState() => _TitleWidgetState();
 }
 
