@@ -22,18 +22,16 @@ class StudentHub extends StatelessWidget {
       ],
       child: BlocBuilder<ThemesBloc, ThemesState>(
         builder: (context, state) {
-          logger.d(
-              "ThemeMode: ${state.themeMode}"); // Using logger to debug console :D
+          logger.d("ThemeMode: ${state.themeMode}"); // Using logger to debug console :D
           return MaterialApp.router(
             localizationsDelegates: context.localizationDelegates,
             supportedLocales: context.supportedLocales,
             locale: context.locale,
             debugShowCheckedModeBanner: false,
             title: 'Student Hub',
-            // theme: state.themeMode == ThemeMode.dark
-            //     ? AppThemes.darkTheme
-            //     : AppThemes
-            //         .lightTheme, // Using state.themeMode to change theme when event is dispatched
+            theme: state.themeMode == ThemeMode.dark
+                ? AppThemes.darkTheme
+                : AppThemes.lightTheme, // Using state.themeMode to change theme when event is dispatched
             routerConfig: router,
           );
         },

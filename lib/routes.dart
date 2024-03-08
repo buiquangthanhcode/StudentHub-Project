@@ -4,6 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:studenthub/ui/company_profile_creation/profile_edit/profile_edit.dart';
 import 'package:studenthub/ui/homepage/home_screen.dart';
 import 'package:studenthub/ui/login/login_screen.dart';
+import 'package:studenthub/ui/company_profile_creation/profile_creation.dart';
+import 'package:studenthub/ui/signup/signup_step01_screen.dart';
+import 'package:studenthub/ui/signup/signup_step02_screen.dart';
+import 'package:studenthub/ui/signup/switch_account_screen.dart';
 
 /// The route configuration.
 final GoRouter router = GoRouter(
@@ -26,6 +30,42 @@ final GoRouter router = GoRouter(
           path: 'login',
           builder: (BuildContext context, GoRouterState state) {
             return const LoginScreen();
+          },
+        ),
+        GoRoute(
+          path: 'signup_01',
+          builder: (BuildContext context, GoRouterState state) {
+            return const SignUpStep01();
+          },
+        ),
+        GoRoute(
+          path: 'signup_02',
+          builder: (BuildContext context, GoRouterState state) {
+            return const SignUpStep02();
+          },
+        ),
+        GoRoute(
+          path: 'switch_account',
+          builder: (BuildContext context, GoRouterState state) {
+            return const SwitchAccount();
+          },
+        ),
+        GoRoute(
+          path: 'dashboard',
+          builder: (BuildContext context, GoRouterState state) {
+            return const Dashboard();
+          },
+        ),
+        GoRoute(
+          path: 'profile_creation',
+          builder: (BuildContext context, GoRouterState state) {
+            return const ProfileCreation();
+          },
+        ),
+        GoRoute(
+          path: 'welcome_screen',
+          builder: (BuildContext context, GoRouterState state) {
+            return const WelcomeScreen();
           },
         ),
       ],

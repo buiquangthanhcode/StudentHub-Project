@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:studenthub/blocs/theme_bloc/theme_bloc.dart';
 import 'package:studenthub/blocs/theme_bloc/theme_event.dart';
 import 'package:studenthub/constants/key_translator.dart';
@@ -22,10 +23,7 @@ class HomePageScreen extends StatelessWidget {
             margin: const EdgeInsets.all(24),
             child: AppBar(
               title: Text('StudentHub',
-                  style: GoogleFonts.inter(
-                      fontSize: 36,
-                      color: const Color(0xFF6188FF),
-                      fontWeight: FontWeight.bold)),
+                  style: GoogleFonts.inter(fontSize: 36, color: const Color(0xFF6188FF), fontWeight: FontWeight.bold)),
             ),
           ),
           Container(
@@ -75,7 +73,9 @@ class HomePageScreen extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              onPressed: () {},
+              onPressed: () {
+                context.go('/login');
+              },
               borderRadius: BorderRadius.circular(20),
               child: Text(
                 'company'.toUpperCase(),
@@ -98,7 +98,9 @@ class HomePageScreen extends StatelessWidget {
                 color: const Color(0xFF6188FF),
                 width: 2,
               ),
-              onPressed: () {},
+              onPressed: () {
+                context.go('/login');
+              },
               child: Text(
                 'student'.toUpperCase(),
                 style: const TextStyle(
@@ -118,8 +120,7 @@ class HomePageScreen extends StatelessWidget {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text:
-                          'When proceeding to the next step, I agreed to the ',
+                      text: 'When proceeding to the next step, I agreed to the ',
                       style: GoogleFonts.inter(
                         fontSize: 14,
                         color: const Color(0xFF848484),
