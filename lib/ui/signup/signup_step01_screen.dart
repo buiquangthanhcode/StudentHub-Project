@@ -30,7 +30,6 @@ class _SignUpStep01State extends State<SignUpStep01> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final maxHeight = MediaQuery.of(context).size.height;
     final maxWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(

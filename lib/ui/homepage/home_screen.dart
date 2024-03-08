@@ -1,13 +1,5 @@
-import 'dart:ui';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:studenthub/blocs/theme_bloc/theme_bloc.dart';
-import 'package:studenthub/blocs/theme_bloc/theme_event.dart';
-import 'package:studenthub/constants/key_translator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studenthub/ui/homepage/widgets/my_elavated_button.dart';
 
