@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
 import 'package:studenthub/blocs/theme_bloc/theme_bloc.dart';
 import 'package:studenthub/blocs/theme_bloc/theme_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
@@ -17,6 +18,9 @@ class StudentHub extends StatelessWidget {
       providers: <BlocProvider<dynamic>>[
         BlocProvider<ThemesBloc>(
           create: (BuildContext context) => ThemesBloc(),
+        ),
+        BlocProvider<StudentCreateProfileBloc>(
+          create: (BuildContext context) => StudentCreateProfileBloc(),
         ),
         // Add more bloc providers
       ],

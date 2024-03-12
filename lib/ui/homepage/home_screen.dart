@@ -1,13 +1,5 @@
-import 'dart:ui';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:studenthub/blocs/theme_bloc/theme_bloc.dart';
-import 'package:studenthub/blocs/theme_bloc/theme_event.dart';
-import 'package:studenthub/constants/key_translator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studenthub/ui/homepage/widgets/my_elavated_button.dart';
 
@@ -17,15 +9,14 @@ class HomePageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Center(
+          child: Text('StudentHub',
+              style: GoogleFonts.inter(fontSize: 36, color: const Color(0xFF6188FF), fontWeight: FontWeight.bold)),
+        ),
+      ),
       body: Column(
         children: [
-          Container(
-            margin: const EdgeInsets.all(24),
-            child: AppBar(
-              title: Text('StudentHub',
-                  style: GoogleFonts.inter(fontSize: 36, color: const Color(0xFF6188FF), fontWeight: FontWeight.bold)),
-            ),
-          ),
           Container(
             margin: const EdgeInsets.only(top: 36),
             // decoration: const BoxDecoration(color: Colors.black),
@@ -74,7 +65,7 @@ class HomePageScreen extends StatelessWidget {
                 end: Alignment.bottomRight,
               ),
               onPressed: () {
-                context.go('/login');
+                context.push('/login');
               },
               borderRadius: BorderRadius.circular(20),
               child: Text(
@@ -99,7 +90,7 @@ class HomePageScreen extends StatelessWidget {
                 width: 2,
               ),
               onPressed: () {
-                context.go('/login');
+                context.push('/login');
               },
               child: Text(
                 'student'.toUpperCase(),

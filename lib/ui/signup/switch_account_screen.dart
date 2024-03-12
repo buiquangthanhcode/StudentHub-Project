@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
@@ -17,15 +18,15 @@ class SwitchAccount extends StatelessWidget {
 
     List<Map<String, dynamic>> dataSetting = [
       {
-        'icon': 'icon01',
+        'icon': 'lib/assets/svgs/circle-user.svg',
         'name': 'Profiles',
       },
       {
-        'icon': 'icon02',
+        'icon': 'lib/assets/svgs/setting.svg',
         'name': 'Setting',
       },
       {
-        'icon': 'icon03',
+        'icon': 'lib/assets/svgs/logout.svg',
         'name': 'Log out',
       },
     ];
@@ -38,7 +39,6 @@ class SwitchAccount extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50),
         child: AppBar(
-          backgroundColor: backgroundHeaderAppBar,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -51,122 +51,125 @@ class SwitchAccount extends StatelessWidget {
           ),
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Theme(
-            data: theme.copyWith(dividerColor: Colors.transparent),
-            child: ExpansionTile(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: FaIcon(
-                      FontAwesomeIcons.user,
-                      size: 20,
-                      color: theme.colorScheme.smallBoxColor1,
-                    ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Bui Quang Thanh',
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'Company',
-                        style: theme.textTheme.titleSmall?.copyWith(
-                          color: Colors.grey,
-                        ),
-                      ),
-                      Container(
-                        color: Colors.black,
-                        height: 2,
-                        width: 100,
-                      ),
-                    ],
-                  ),
-                ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Theme(
+              data: theme.copyWith(
+                dividerColor: Colors.transparent,
               ),
-              children: [
-                Row(
+              child: ExpansionTile(
+                title: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Spacer(),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: FaIcon(
-                        FontAwesomeIcons.user,
-                        size: 20,
-                        color: theme.colorScheme.smallBoxColor1,
-                      ),
-                    ),
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          'lib/assets/images/circle_avatar.png',
+                          width: 40,
+                          height: 40,
+                        )),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Bui Quang Thanh',
-                          style: theme.textTheme.titleMedium?.copyWith(
+                          style: theme.textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
-                          'Student',
-                          style: theme.textTheme.titleSmall?.copyWith(
+                          'Company',
+                          style: theme.textTheme.bodyMedium?.copyWith(
                             color: Colors.grey,
                           ),
                         ),
                       ],
                     ),
-                    const Spacer(
-                      flex: 4,
-                    ),
                   ],
                 ),
-              ],
-            ),
-          ),
-          Divider(
-            color: theme.colorScheme.smallBoxColor1,
-            thickness: 1,
-          ),
-          ListView.separated(
-            shrinkWrap: true,
-            itemBuilder: (context, intdex) {
-              return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                child: Row(
-                  children: [
-                    FaIcon(
-                      FontAwesomeIcons.arrowUp,
-                      size: 20,
-                      color: theme.colorScheme.smallBoxColor1,
-                    ),
-                    Text(
-                      dataSetting[intdex]['name'],
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Spacer(),
+                      Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset(
+                            'lib/assets/images/circle_avatar.png',
+                            width: 30,
+                            height: 30,
+                          )),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Bui Quang Thanh',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            'Student',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-              );
-            },
-            separatorBuilder: ((context, index) {
-              return const SizedBox(
-                height: 10,
-              );
-            }),
-            itemCount: dataSetting.length,
-          ),
-        ],
+                      const Spacer(
+                        flex: 4,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Divider(
+              color: theme.colorScheme.grey,
+              thickness: 1,
+            ),
+            ListView.separated(
+              shrinkWrap: true,
+              itemBuilder: (context, intdex) {
+                return Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  margin: const EdgeInsets.only(top: 5),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        dataSetting[intdex]['icon'],
+                        width: 30,
+                        height: 30,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        dataSetting[intdex]['name'],
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              separatorBuilder: ((context, index) {
+                return const SizedBox(
+                  height: 10,
+                );
+              }),
+              itemCount: dataSetting.length,
+            ),
+          ],
+        ),
       ),
     );
   }
