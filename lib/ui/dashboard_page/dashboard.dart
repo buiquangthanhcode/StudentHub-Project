@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/data/bottom_navigation.dart';
 import 'package:studenthub/widgets/emtyDataWidget.dart';
@@ -21,7 +20,6 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
-    var colorTheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       appBar: AppBar(

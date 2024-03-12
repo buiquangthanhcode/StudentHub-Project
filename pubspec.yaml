@@ -48,6 +48,8 @@ dependencies:
   flutter_form_builder: ^9.2.1
   flutter_svg: ^2.0.9
   google_fonts: ^6.2.1
+  dotted_border: ^2.1.0
+  file_picker: ^6.2.0
 
 dev_dependencies:
   flutter_test:
