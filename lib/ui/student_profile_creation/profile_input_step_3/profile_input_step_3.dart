@@ -24,12 +24,13 @@ class _ProfileInputStep3State extends State<ProfileInputStep3> {
   FilePickerResult? result;
   // var? fileName;
   PlatformFile? pickerfile;
-  bool isLoading = false;
+  bool resumeLoadingState = false;
+  bool transcriptLoadingState = false;
   // File? fileToDisplay;
   List<FileModel> resume = [];
   List<FileModel> transcript = [];
   String excel_path = 'lib/assets/images/icons8-excel-48.png';
-  String png_path = 'lib/assets/images/icons8-png-48.png';
+  String image_path = 'lib/assets/images/icons8-image-48.png';
   String pdf_path = 'lib/assets/images/icons8-pdf-48.png';
 
   String getLastSubstringAfterDot(String filename) {
@@ -43,17 +44,18 @@ class _ProfileInputStep3State extends State<ProfileInputStep3> {
   void pickFile(int type) async {
     try {
       setState(() {
-        isLoading = true;
+        type == 0 ? resumeLoadingState = true : transcriptLoadingState = true;
       });
 
       result = await FilePicker.platform.pickFiles(
           type: FileType.custom,
-          allowedExtensions: ['png', 'pdf', 'excel'],
+          allowedExtensions: ['png', 'pdf', 'xlsx', 'jpg'],
           allowMultiple: true);
 
       if (result != null) {
+        // print(result);
         // fileName = result!.files.first;
-        pickerfile = result!.files.first;
+        // pickerfile = result!.files.first;
         // fileToDisplay = File(pickerfile!.path.toString());
         // number.toStringAsFixed(1)
 
@@ -77,10 +79,10 @@ class _ProfileInputStep3State extends State<ProfileInputStep3> {
       }
 
       setState(() {
-        isLoading = false;
+        type == 0 ? resumeLoadingState = false : transcriptLoadingState = false;
       });
     } catch (e) {
-      print(e);
+      // print(e);
     }
   }
 
@@ -133,86 +135,123 @@ class _ProfileInputStep3State extends State<ProfileInputStep3> {
                 child: ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(12)),
                   child: Container(
-                    alignment: Alignment.center,
-                    height: screenSize.height * 0.18,
-                    width: double.infinity,
-                    child: resume.isEmpty
-                        ? isLoading
-                            ? const CircularProgressIndicator(
-                                color: primaryColor,
-                                strokeAlign: 6,
-                                strokeWidth: 6,
-                              )
-                            : Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  FaIcon(
-                                    FontAwesomeIcons.cloudArrowUp,
-                                    size: screenSize.height * 0.07,
-                                    color: colorTheme.hintColor!,
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text('Select File to Upload',
-                                      style: textTheme.bodyMedium),
-                                  const SizedBox(
-                                    height: 2,
-                                  ),
-                                  Text(
-                                    'Suppport: PDF, Excel, PNG',
-                                    style: textTheme.bodySmall!
-                                        .copyWith(color: colorTheme.grey),
-                                  )
-                                ],
-                              )
-                        : SingleChildScrollView(
-                            child: Column(
+                      alignment: Alignment.center,
+                      height: screenSize.height * 0.16,
+                      width: double.infinity,
+                      child: resumeLoadingState
+                          ? const CircularProgressIndicator(
+                              color: primaryColor,
+                              strokeAlign: 2,
+                              strokeWidth: 6,
+                            )
+                          : Column(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
-                                ...resume.map((e) => Container(
-                                      margin: const EdgeInsets.only(bottom: 10),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 6),
-                                      decoration: const BoxDecoration(
-                                        color:
-                                            Color.fromARGB(255, 240, 240, 240),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(6),
-                                        ),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Image.asset(
-                                            e.type == 'png'
-                                                ? png_path
-                                                : e.type == 'pdf'
-                                                    ? pdf_path
-                                                    : excel_path,
-                                            scale: 1.6,
-                                          ),
-                                          const SizedBox(
-                                            width: 14,
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(e.name!),
-                                                const SizedBox(
-                                                  height: 6,
-                                                ),
-                                                Text('${e.size!}MB'),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ))
+                                FaIcon(
+                                  FontAwesomeIcons.cloudArrowUp,
+                                  size: screenSize.height * 0.06,
+                                  color: colorTheme.hintColor!,
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                Text('Select File to Upload',
+                                    style: textTheme.bodyMedium),
+                                const SizedBox(
+                                  height: 2,
+                                ),
+                                Text(
+                                  'Select PDF, Excel or Image',
+                                  style: textTheme.bodySmall!
+                                      .copyWith(color: colorTheme.grey),
+                                )
                               ],
+                            )),
+                ),
+              ),
+            ),
+            // if (resume.isNotEmpty)
+            Container(
+              // color: Colors.yellow,
+              height: 70,
+              padding: const EdgeInsets.only(top: 10),
+              width: double.infinity,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    ...resume.map((e) => Container(
+                          width: MediaQuery.of(context).size.width * 0.6,
+                          margin: const EdgeInsets.only(right: 10),
+                          padding: const EdgeInsets.fromLTRB(15, 8, 0, 8),
+                          decoration: const BoxDecoration(
+                            color: Color(0xffF6F7F9),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(6),
                             ),
                           ),
-                  ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Image.asset(
+                                  e.type == 'png' || e.type == 'jpg'
+                                      ? image_path
+                                      : e.type == 'pdf'
+                                          ? pdf_path
+                                          : excel_path,
+                                  scale: 1.8,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      e.name!,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14),
+                                    ),
+                                    const SizedBox(
+                                      height: 4,
+                                    ),
+                                    Text(
+                                      '${e.size!}MB',
+                                      style: TextStyle(
+                                          color: colorTheme.grey,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  resume.remove(e);
+                                  setState(() {});
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 15),
+                                  child: FaIcon(
+                                    FontAwesomeIcons.xmark,
+                                    size: 18,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ))
+                  ],
                 ),
               ),
             ),
@@ -244,12 +283,12 @@ class _ProfileInputStep3State extends State<ProfileInputStep3> {
                   borderRadius: const BorderRadius.all(Radius.circular(12)),
                   child: Container(
                     alignment: Alignment.center,
-                    height: screenSize.height * 0.18,
+                    height: screenSize.height * 0.16,
                     width: double.infinity,
-                    child: isLoading
+                    child: transcriptLoadingState
                         ? const CircularProgressIndicator(
                             color: primaryColor,
-                            strokeAlign: 6,
+                            strokeAlign: 2,
                             strokeWidth: 6,
                           )
                         : Column(
@@ -257,7 +296,7 @@ class _ProfileInputStep3State extends State<ProfileInputStep3> {
                             children: [
                               FaIcon(
                                 FontAwesomeIcons.cloudArrowUp,
-                                size: screenSize.height * 0.07,
+                                size: screenSize.height * 0.06,
                                 color: colorTheme.hintColor!,
                               ),
                               const SizedBox(
@@ -269,13 +308,97 @@ class _ProfileInputStep3State extends State<ProfileInputStep3> {
                                 height: 2,
                               ),
                               Text(
-                                'Suppport: PDF, Excel, PNG',
+                                'Select PDF, Excel or Image',
                                 style: textTheme.bodySmall!
                                     .copyWith(color: colorTheme.grey),
                               )
                             ],
                           ),
                   ),
+                ),
+              ),
+            ),
+            Container(
+              // color: Colors.yellow,
+              height: 70,
+              padding: const EdgeInsets.only(top: 10),
+              width: double.infinity,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    ...transcript.map((e) => Container(
+                          width: MediaQuery.of(context).size.width * 0.7,
+                          margin: const EdgeInsets.only(right: 10),
+                          padding: const EdgeInsets.fromLTRB(15, 8, 0, 8),
+                          decoration: const BoxDecoration(
+                            color: Color(0xffF6F7F9),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(6),
+                            ),
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Image.asset(
+                                  e.type == 'png' || e.type == 'jpg'
+                                      ? image_path
+                                      : e.type == 'pdf'
+                                          ? pdf_path
+                                          : excel_path,
+                                  scale: 1.8,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      e.name!,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14),
+                                    ),
+                                    const SizedBox(
+                                      height: 4,
+                                    ),
+                                    Text(
+                                      '${e.size!}MB',
+                                      style: TextStyle(
+                                          color: colorTheme.grey,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  transcript.remove(e);
+                                  setState(() {});
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 15),
+                                  child: FaIcon(
+                                    FontAwesomeIcons.xmark,
+                                    size: 18,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ))
+                  ],
                 ),
               ),
             ),
