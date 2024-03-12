@@ -21,7 +21,8 @@ final GoRouter router = GoRouter(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
         // return const LoginScreen();
-        return const ProjectPage();
+        return const HomePageScreen();
+        // return const ProjectPage();
       },
       routes: <RouteBase>[
         GoRoute(
