@@ -6,6 +6,7 @@ import 'package:studenthub/ui/company_profile_creation/profile_creation/profile_
 import 'package:studenthub/ui/company_profile_creation/welcome_screen.dart';
 import 'package:studenthub/ui/homepage/home_screen.dart';
 import 'package:studenthub/ui/login/login_screen.dart';
+import 'package:studenthub/ui/post_a_project/dashboard/dashboard_screen.dart';
 import 'package:studenthub/ui/project_page/project_page.dart';
 import 'package:studenthub/ui/project_page/project_page_.dart';
 import 'package:studenthub/ui/signup/signup_step01_screen.dart';
@@ -21,8 +22,9 @@ final GoRouter router = GoRouter(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
         // return const LoginScreen();
-        return const HomePageScreen();
+        // return const HomePageScreen();
         // return const ProjectPage();
+        return const DashboardScreen();
       },
       routes: <RouteBase>[
         GoRoute(
