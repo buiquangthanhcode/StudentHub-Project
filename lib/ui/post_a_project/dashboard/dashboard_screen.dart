@@ -38,7 +38,12 @@ class DashboardScreen extends StatelessWidget {
                       TabBar(
                         labelColor:
                             primaryColor, // Set the color of the selected tab label
-                        labelStyle: Theme.of(context).textTheme.titleSmall, //
+                        labelStyle: Theme.of(context)
+                            .textTheme
+                            .titleSmall!
+                            .copyWith(fontWeight: FontWeight.w600), //
+                        unselectedLabelStyle:
+                            const TextStyle(fontWeight: FontWeight.w500),
                         indicator: const BoxDecoration(
                           border: Border(
                             bottom: BorderSide(
