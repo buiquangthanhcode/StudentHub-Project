@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/strings.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -9,27 +11,52 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Row(children: [
-            const Icon(Icons.event_note_rounded, size: 30),
-            const SizedBox(width: 5),
-            Text('Your projects', style: Theme.of(context).textTheme.bodyLarge),
-          ]),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 24),
-              child: ElevatedButton(
-                onPressed: () {
-                  // Perform action here
-                },
-                child: const Text('Post a job'),
-              ),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: AppBar(
+            backgroundColor: backgroundHeaderAppBar,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  NAME_APP,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const Icon(Icons.person),
+              ],
             ),
-          ],
+          ),
         ),
         body: Column(
           children: [
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(children: [
+                Flexible(
+                  flex: 2,
+                  child: Row(
+                    children: [
+                      const Icon(Icons.event_note_rounded, size: 30),
+                      const SizedBox(width: 15),
+                      Text('Your projects',
+                          style: Theme.of(context).textTheme.titleMedium),
+                    ],
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    context.push('/project_post/step_01');
+                  },
+                  child: Text('Post a job',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .copyWith(color: Colors.white, fontSize: 18)),
+                ),
+              ]),
+            ),
+            const SizedBox(height: 15),
             Expanded(
               child: DefaultTabController(
                   length: 3,
