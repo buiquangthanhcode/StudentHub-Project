@@ -18,22 +18,28 @@ class ProjectPostStep01 extends StatelessWidget {
           "Start with a strong title",
           style: Theme.of(context).textTheme.titleSmall!.copyWith(
                 fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
         ),
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: CircularPercentIndicator(
-                animation: true,
-                // animationDuration: 10000,
-                radius: 70,
-                lineWidth: 8,
-                percent: 0.25,
-                progressColor: const Color(0xff3961FB),
-                backgroundColor: const Color(0xff3961FB).withOpacity(0.2),
-                circularStrokeCap: CircularStrokeCap.round,
-                center: Text('1 of 4',
-                    style: Theme.of(context).textTheme.bodySmall)),
+              animation: true,
+              // animationDuration: 10000,
+              radius: 60,
+              lineWidth: 6,
+              percent: 0.25,
+              progressColor: const Color(0xff3961FB),
+              backgroundColor: const Color(0xff3961FB).withOpacity(0.2),
+              circularStrokeCap: CircularStrokeCap.round,
+              center: Text(
+                '1 of 4',
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      fontSize: 13,
+                    ),
+              ),
+            ),
           )
         ],
       ),
