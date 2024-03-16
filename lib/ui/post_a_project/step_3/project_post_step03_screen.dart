@@ -43,56 +43,63 @@ class ProjectPostStep03 extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
         child: Column(
           children: [
-            const Text(
-              "This helps your post stand out to the right students. It's the first thing they'll see, so make it impressive!",
-              maxLines: 3,
-            ),
-            const SizedBox(height: 24),
-            TextField(
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium, // Adjust the font size as needed
-              decoration: InputDecoration(
-                hintText: 'Write a title for your post',
-                hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: const Color.fromARGB(255, 149, 148, 148),
-                    ),
-                border: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.black,
-                    width: 4.0,
-                  ),
-                ),
-                contentPadding: const EdgeInsets.symmetric(
-                    vertical: 8,
-                    horizontal: 12 // Adjust the vertical padding as needed
-                    ),
-              ),
-              onChanged: (value) {
-                // print('Input value: $value');
-              },
-            ),
-            const SizedBox(height: 24),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Example titles',
+                  'Students are looking for',
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                 ),
                 BulletList(const [
-                  'Building responsive WordPress site with booking / payment functionality',
-                  'Facebook ad specialist need for product launch',
+                  'Clear expectation about your project or deliverables',
+                  'The skill required for your project',
+                  'Detail about your project',
                 ])
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Describe your project',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                  // textAlign: TextAlign.left,
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  cursorHeight: 20,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium, // Adjust the font size as needed
+                  maxLines: null, // Allows multiple lines
+                  minLines: 6,
+                  keyboardType: TextInputType.multiline,
+                  textInputAction: TextInputAction
+                      .newline, // Use 'newline' action for 'Done' button
+                  decoration: InputDecoration(
+                    hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: const Color.fromARGB(255, 149, 148, 148),
+                        ),
+                    border: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.black,
+                        width: 4.0,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 24),
             ElevatedButton(
               onPressed: () {
-                context.push('/project_post/step_02');
+                context.push('/project_post/step_04');
               },
               style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
