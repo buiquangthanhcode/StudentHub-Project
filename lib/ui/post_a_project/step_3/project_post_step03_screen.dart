@@ -13,10 +13,12 @@ class ProjectPostStep03 extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,
+        centerTitle: false,
+        titleSpacing: 0,
         title: Text(
           "Write project description",
-          style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                fontSize: 18,
+          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                fontSize: 22,
                 fontWeight: FontWeight.bold,
               ),
         ),
@@ -43,9 +45,16 @@ class ProjectPostStep03 extends StatelessWidget {
         ],
       ),
       body: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+        margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 4),
         child: Column(
           children: [
+            Text(
+              "Provide a detailed description for your project",
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: Colors.black.withOpacity(0.6),
+                  ),
+            ),
+            const SizedBox(height: 90),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -54,6 +63,7 @@ class ProjectPostStep03 extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
+                        color: Colors.black.withOpacity(0.6),
                       ),
                 ),
                 BulletList(const [
@@ -72,6 +82,7 @@ class ProjectPostStep03 extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
+                        color: Colors.black.withOpacity(0.6),
                       ),
                   // textAlign: TextAlign.left,
                 ),
@@ -100,7 +111,8 @@ class ProjectPostStep03 extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            // const SizedBox(height: 24),
+            const Spacer(),
             ElevatedButton(
               onPressed: () {
                 context.push('/project_post/step_04');
@@ -118,6 +130,7 @@ class ProjectPostStep03 extends StatelessWidget {
                     ),
               ),
             ),
+            const SizedBox(height: 60),
           ],
         ),
       ),

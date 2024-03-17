@@ -14,12 +14,14 @@ class ProjectPostStep01 extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,
+        centerTitle: false,
+        titleSpacing: 0,
         title: Text(
           "Start with a strong title",
-          style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium!
+              .copyWith(fontWeight: FontWeight.bold, fontSize: 22),
         ),
         actions: [
           Padding(
@@ -44,14 +46,17 @@ class ProjectPostStep01 extends StatelessWidget {
         ],
       ),
       body: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+        margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 4),
         child: Column(
           children: [
-            const Text(
+            Text(
               "This helps your post stand out to the right students. It's the first thing they'll see, so make it impressive!",
               maxLines: 3,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: Colors.black.withOpacity(0.6),
+                  ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 48),
             TextField(
               style: Theme.of(context)
                   .textTheme
@@ -83,6 +88,7 @@ class ProjectPostStep01 extends StatelessWidget {
                 Text(
                   'Example titles',
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: Colors.black.withOpacity(0.6),
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
@@ -93,7 +99,7 @@ class ProjectPostStep01 extends StatelessWidget {
                 ])
               ],
             ),
-            const SizedBox(height: 24),
+            const Spacer(),
             ElevatedButton(
               onPressed: () {
                 context.push('/project_post/step_02');
@@ -111,6 +117,7 @@ class ProjectPostStep01 extends StatelessWidget {
                     ),
               ),
             ),
+            const SizedBox(height: 60),
           ],
         ),
       ),

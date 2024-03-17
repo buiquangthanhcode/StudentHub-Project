@@ -27,10 +27,12 @@ class _ProjectPostStep02State extends State<ProjectPostStep02> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,
+        centerTitle: false,
+        titleSpacing: 0,
         title: Text(
           "Estimate your job scope",
-          style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                fontSize: 18,
+          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                fontSize: 22,
                 fontWeight: FontWeight.bold,
               ),
         ),
@@ -57,114 +59,123 @@ class _ProjectPostStep02State extends State<ProjectPostStep02> {
         ],
       ),
       body: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Consider the size of your project and timeline",
-              ),
-              const SizedBox(height: 24),
-              Text(
-                'How long will your project take?',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-              Column(
-                children: [
-                  RadioListTile(
-                    activeColor: primaryColor,
-                    visualDensity:
-                        const VisualDensity(vertical: -2.0, horizontal: -4.0),
-                    title: Text('1 to 3 months',
-                        style: Theme.of(context).textTheme.bodyMedium),
-                    value: TimeOption.option1,
-                    groupValue: _timeOption,
-                    onChanged: (value) {
-                      setState(() {
-                        _timeOption = value as TimeOption;
-                      });
-                    },
+        margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 4),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Consider the size of your project and timeline",
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: Colors.black.withOpacity(0.6),
                   ),
-                  RadioListTile(
-                    activeColor: primaryColor,
-                    visualDensity:
-                        const VisualDensity(vertical: -4.0, horizontal: -4.0),
-                    title: Text(
-                      '3 to 6 months',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    value: TimeOption.option2,
-                    groupValue: _timeOption,
-                    onChanged: (value) {
-                      setState(() {
-                        _timeOption = value as TimeOption;
-                      });
-                    },
-                  )
-                ],
-              ),
-              const SizedBox(height: 24),
-              Text(
-                'How many students do you want?',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium, // Adjust the font size as needed
-                decoration: InputDecoration(
-                  hintText: 'The number of students',
-                  hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: const Color.fromARGB(255, 149, 148, 148),
-                      ),
-                  border: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.black,
-                      width: 4.0,
-                    ),
+            ),
+            const SizedBox(height: 90),
+            Text(
+              'How long will your project take?',
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black.withOpacity(0.6),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(
-                      vertical: 8,
-                      horizontal: 12 // Adjust the vertical padding as needed
-                      ),
+            ),
+            Column(
+              children: [
+                const SizedBox(height: 12),
+                RadioListTile(
+                  activeColor: primaryColor,
+                  visualDensity:
+                      const VisualDensity(vertical: -4.0, horizontal: -4.0),
+                  title: Text(
+                    '1 to 3 months',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Colors.black.withOpacity(0.6),
+                        ),
+                  ),
+                  value: TimeOption.option1,
+                  groupValue: _timeOption,
+                  onChanged: (value) {
+                    setState(() {
+                      _timeOption = value as TimeOption;
+                    });
+                  },
                 ),
-                onChanged: (value) {
-                  // print('Input value: $value');
-                },
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: () {
-                  context.push('/project_post/step_03');
-                },
-                style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 16), // Adjust padding as needed
-                    minimumSize: const Size(
-                        double.infinity, 48) // Set minimum button size
+                RadioListTile(
+                  activeColor: primaryColor,
+                  visualDensity:
+                      const VisualDensity(vertical: -4.0, horizontal: -4.0),
+                  title: Text(
+                    '3 to 6 months',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Colors.black.withOpacity(0.6),
+                        ),
+                  ),
+                  value: TimeOption.option2,
+                  groupValue: _timeOption,
+                  onChanged: (value) {
+                    setState(() {
+                      _timeOption = value as TimeOption;
+                    });
+                  },
+                )
+              ],
+            ),
+            const SizedBox(height: 24),
+            Text(
+              'How many students do you want?',
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black.withOpacity(0.6),
+                  ),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium, // Adjust the font size as needed
+              decoration: InputDecoration(
+                hintText: 'The number of students',
+                hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: const Color.fromARGB(255, 149, 148, 148),
                     ),
-                child: Text(
-                  'Continue',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: Colors.white,
-                      ),
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.black,
+                    width: 4.0,
+                  ),
                 ),
+                contentPadding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 12 // Adjust the vertical padding as needed
+                    ),
               ),
-            ],
-          )),
-      //  ElevatedButton(
-      //     onPressed: () {
-      //       context.push('/project_post/step_03');
-      //     },
-      //     child: const Text('Continue'),
-      //   ),
+              onChanged: (value) {
+                // print('Input value: $value');
+              },
+            ),
+            // const SizedBox(height: 24),
+            const Spacer(),
+            ElevatedButton(
+              onPressed: () {
+                context.push('/project_post/step_03');
+              },
+              style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 16), // Adjust padding as needed
+                  minimumSize:
+                      const Size(double.infinity, 48) // Set minimum button size
+                  ),
+              child: Text(
+                'Continue',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Colors.white,
+                    ),
+              ),
+            ),
+            const SizedBox(height: 60),
+          ],
+        ),
+      ),
     );
   }
 }

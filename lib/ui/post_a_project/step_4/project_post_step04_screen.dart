@@ -15,10 +15,12 @@ class ProjectPostStep04 extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,
+        centerTitle: false,
+        titleSpacing: 0,
         title: Text(
           "Review your post",
-          style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                fontSize: 18,
+          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                fontSize: 22,
                 fontWeight: FontWeight.bold,
               ),
         ),
@@ -45,15 +47,17 @@ class ProjectPostStep04 extends StatelessWidget {
         ],
       ),
       body: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+        margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 4),
         child: Column(
           children: [
             Column(
               children: [
                 Text(
-                  'Facebook ad specialist need for product launch',
+                  'Face advertisement specialist need for product launch',
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
+                        color: Colors.black.withOpacity(0.8),
                       ),
                 ),
                 const SizedBox(height: 12),
@@ -69,10 +73,10 @@ class ProjectPostStep04 extends StatelessWidget {
                   children: [
                     Text(
                       'Students are looking for',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(fontWeight: FontWeight.bold),
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black.withOpacity(0.6),
+                          ),
                     ),
                     BulletList(const [
                       'Clear expectation about your project or deliverables',
@@ -90,7 +94,7 @@ class ProjectPostStep04 extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 12),
             Column(
               children: [
                 Row(
@@ -102,7 +106,12 @@ class ProjectPostStep04 extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Project scope'),
+                          Text(
+                            'Project scope',
+                            style: TextStyle(
+                              color: Colors.black.withOpacity(0.8),
+                            ),
+                          ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -115,7 +124,12 @@ class ProjectPostStep04 extends StatelessWidget {
                               ),
                               Text(
                                 '3-6 months',
-                                style: Theme.of(context).textTheme.bodySmall!,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
+                                      color: Colors.black.withOpacity(0.8),
+                                    ),
                               ),
                             ],
                           )
@@ -126,7 +140,7 @@ class ProjectPostStep04 extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Icon(Icons.people, size: 42),
                     Container(
@@ -134,7 +148,11 @@ class ProjectPostStep04 extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Student required'),
+                          Text(
+                            'Student required',
+                            style:
+                                TextStyle(color: Colors.black.withOpacity(0.8)),
+                          ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -147,7 +165,11 @@ class ProjectPostStep04 extends StatelessWidget {
                               ),
                               Text(
                                 '6 students',
-                                style: Theme.of(context).textTheme.bodySmall!,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
+                                        color: Colors.black.withOpacity(0.8)),
                               ),
                             ],
                           )
@@ -158,7 +180,8 @@ class ProjectPostStep04 extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            // const SizedBox(height: 24),
+            const Spacer(),
             ElevatedButton(
               onPressed: () {
                 context.push('/my_dashboard');
@@ -176,6 +199,7 @@ class ProjectPostStep04 extends StatelessWidget {
                     ),
               ),
             ),
+            const SizedBox(height: 60),
           ],
         ),
       ),

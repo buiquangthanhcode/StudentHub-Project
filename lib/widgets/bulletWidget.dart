@@ -9,8 +9,8 @@ class BulletList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.centerLeft,
-      // padding: const EdgeInsets.fromLTRB(16, 15, 16, 16),
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+      padding: const EdgeInsets.fromLTRB(4, 8, 0, 4),
+      // padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: strings.map((str) {
@@ -33,8 +33,8 @@ class BulletList extends StatelessWidget {
                   textAlign: TextAlign.left,
                   softWrap: true,
                   style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black.withOpacity(0.6),
+                    fontSize: 14,
+                    color: Colors.black.withOpacity(0.5),
                     height: 1.55,
                   ),
                 ),
