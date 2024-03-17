@@ -108,13 +108,13 @@ class _ProjectPostStep02State extends State<ProjectPostStep02> {
               ),
               const SizedBox(height: 24),
               Text(
-                'How many students do you want for this project?',
+                'How many students do you want?',
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 12),
               TextField(
                 style: Theme.of(context)
                     .textTheme

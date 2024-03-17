@@ -13,10 +13,13 @@ class ProjectPostStep03 extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,
-        title: Text("Write project description",
-            style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                  fontSize: 18,
-                )),
+        title: Text(
+          "Write project description",
+          style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+        ),
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -60,6 +63,7 @@ class ProjectPostStep03 extends StatelessWidget {
                 ])
               ],
             ),
+            const SizedBox(height: 8),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
