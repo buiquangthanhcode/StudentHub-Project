@@ -1,115 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
-import 'package:studenthub/ui/project_page/project_page_.dart';
 
-class ProjectSaved extends StatefulWidget {
-  const ProjectSaved({Key? key}) : super(key: key);
-
-  @override
-  _ProjectSavedState createState() => _ProjectSavedState();
-}
-
-class _ProjectSavedState extends State<ProjectSaved> {
-  final _scrollController = ScrollController();
-  bool scrollToBottom = false;
-  bool pinned = false;
-
-  @override
-  void initState() {
-    _scrollController.addListener(_scrollListener);
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   showWelcomeDialog(context);
-    // });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _scrollController.removeListener(_scrollListener);
-  }
-
-  _scrollListener() {
-    final direction = _scrollController.position.userScrollDirection;
-    if (direction == ScrollDirection.forward) {
-      if (scrollToBottom) {
-        setState(() {
-          scrollToBottom = false;
-          pinned = true;
-        });
-      }
-    } else if (direction == ScrollDirection.reverse) {
-      if (!scrollToBottom) {
-        setState(() {
-          scrollToBottom = true;
-          pinned = false;
-        });
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    TextTheme textTheme = Theme.of(context).textTheme;
-    var colorTheme = Theme.of(context).colorScheme;
-
-    return Scaffold(
-      body: CustomScrollView(
-        controller: _scrollController,
-        slivers: [
-          SliverAppBar(
-            expandedHeight: 60,
-            collapsedHeight: 60,
-            elevation: 0,
-            pinned: pinned,
-            title: Row(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back_ios),
-                  onPressed: () {},
-                ),
-                Text(
-                  'Saved Project',
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                ),
-              ],
-            ),
-          ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              childCount: 2,
-              (BuildContext context, int index) {
-                return SavedProjectItem(
-                    colorTheme: colorTheme, textTheme: textTheme);
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class SavedProjectItem extends StatelessWidget {
-  const SavedProjectItem({
+class ProjectItem extends StatelessWidget {
+  const ProjectItem({
     super.key,
-    required this.colorTheme,
-    required this.textTheme,
+required this.paddingRight, required this.icon,
   });
 
-  final ColorScheme colorTheme;
-  final TextTheme textTheme;
+  final double paddingRight;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
+        TextTheme textTheme = Theme.of(context).textTheme;
+    var colorTheme = Theme.of(context).colorScheme;
     return Container(
-      margin: const EdgeInsets.only(left: 20, right: 15),
-      padding: const EdgeInsets.fromLTRB(0, 16, 10, 16),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.fromLTRB(0, 16, paddingRight, 16),
       decoration: BoxDecoration(
           border: Border(
               bottom: BorderSide(width: 1, color: colorTheme.hintColor!))),
@@ -141,8 +50,8 @@ class SavedProjectItem extends StatelessWidget {
                   ],
                 ),
               ),
-              const FaIcon(
-                FontAwesomeIcons.solidHeart,
+              FaIcon(
+                icon,
                 color: primaryColor,
               )
             ],

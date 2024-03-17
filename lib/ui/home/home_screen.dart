@@ -4,99 +4,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/data/bottom_navigation.dart';
-import 'package:studenthub/widgets/emtyDataWidget.dart';
+import 'package:studenthub/ui/home/account/account.dart';
+import 'package:studenthub/ui/home/alerts/alerts.dart';
+import 'package:studenthub/ui/home/dashboard/dashboard.dart';
+import 'package:studenthub/ui/home/messages/messages.dart';
+import 'package:studenthub/ui/home/projects/project_screen.dart';
 
-class Dashboard extends StatefulWidget {
-  const Dashboard({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  _DashboardState createState() => _DashboardState();
+  // ignore: library_private_types_in_public_api
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class _HomeScreenState extends State<HomeScreen> {
   dynamic navSelected = bottomNavs.first;
   double paddingDevice = Platform.isIOS ? 20 : 10;
-  dynamic data = [1, 2];
+  Widget? body;
+
+  @override
+  void initState() {
+    super.initState();
+    body = const Dashboard();
+  }
+
   @override
   Widget build(BuildContext context) {
-    TextTheme textTheme = Theme.of(context).textTheme;
-
     return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 0,
-        title: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Your Jobs',
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
-          child: Column(
-            children: [
-              if (data.isNotEmpty)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'Post a job',
-                            style: textTheme.bodyMedium!.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              const SizedBox(
-                height: 60,
-              ),
-              if (data.isEmpty)
-                Column(
-                  children: [
-                    const EmptyDataWidget(
-                      mainTitle: 'You have no job!',
-                      subTitle: 'Do you want to create a new job?',
-                    ),
-                    const SizedBox(
-                      height: 35,
-                    ),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'Post a job',
-                            style: textTheme.bodyMedium!.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-            ],
-          ),
-        ),
-      ),
+      body: body,
       bottomNavigationBar: Container(
         padding: EdgeInsets.fromLTRB(5, 0, 5, paddingDevice),
         decoration: BoxDecoration(color: Colors.white, boxShadow: [
@@ -115,8 +51,29 @@ class _DashboardState extends State<Dashboard> {
               bottomNavs.length,
               (index) => InkWell(
                 onTap: () {
-                  navSelected = bottomNavs[index];
-                  setState(() {});
+                  if (navSelected != bottomNavs[index]) {
+                    navSelected = bottomNavs[index];
+                    switch (index) {
+                      case 0:
+                        body = const Dashboard();
+                        break;
+                      case 1:
+                        body = const ProjectScreen();
+                        break;
+                      case 2:
+                        body = const Messages();
+                        break;
+                      case 3:
+                        body = const Alerts();
+                        break;
+                      case 4:
+                        body = const Account();
+                        break;
+                      default:
+                        print('Bottom navigation error!');
+                    }
+                    setState(() {});
+                  }
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 10),

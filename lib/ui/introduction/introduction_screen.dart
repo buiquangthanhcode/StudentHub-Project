@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studenthub/ui/homepage/widgets/my_elavated_button.dart';
+import 'package:studenthub/ui/introduction/widgets/my_elavated_button.dart';
 
-class HomePageScreen extends StatelessWidget {
-  const HomePageScreen({super.key});
+class IntroductionScreen extends StatelessWidget {
+  const IntroductionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
