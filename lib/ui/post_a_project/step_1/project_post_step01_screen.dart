@@ -6,8 +6,8 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
 
-class ProjectPostStep01 extends StatelessWidget {
-  const ProjectPostStep01({super.key});
+class ProjectPostStep01Screen extends StatelessWidget {
+  const ProjectPostStep01Screen({super.key});
 
   @override
   Widget build(BuildContext context) {

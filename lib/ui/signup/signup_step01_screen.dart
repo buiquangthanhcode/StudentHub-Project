@@ -5,14 +5,14 @@ import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/strings.dart';
 
-class SignUpStep01 extends StatefulWidget {
-  const SignUpStep01({super.key});
+class SignUpStep01Screen extends StatefulWidget {
+  const SignUpStep01Screen({super.key});
 
   @override
-  State<SignUpStep01> createState() => _SignUpStep01State();
+  State<SignUpStep01Screen> createState() => _SignUpStep01State();
 }
 
-class _SignUpStep01State extends State<SignUpStep01> {
+class _SignUpStep01State extends State<SignUpStep01Screen> {
   List<Map<String, dynamic>> dataSelectedInfor = [
     {
       'image': "lib/assets/images/company.png",
@@ -57,7 +57,8 @@ class _SignUpStep01State extends State<SignUpStep01> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Text(
                   'Lets Register \nAccount',
                   style: theme.textTheme.titleMedium?.copyWith(
@@ -67,7 +68,8 @@ class _SignUpStep01State extends State<SignUpStep01> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Text(
                   'Hello user, you have a greatful journey !',
                   style: theme.textTheme.titleMedium?.copyWith(
@@ -81,7 +83,8 @@ class _SignUpStep01State extends State<SignUpStep01> {
                 itemBuilder: (context, index) {
                   final item = dataSelectedInfor[index];
                   return Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     margin: const EdgeInsets.only(top: 10),
                     decoration: BoxDecoration(
                       color: const Color.fromARGB(255, 242, 242, 242),
@@ -111,7 +114,8 @@ class _SignUpStep01State extends State<SignUpStep01> {
                                 child: CheckboxListTile(
                                   activeColor: primaryColor,
                                   visualDensity: VisualDensity.compact,
-                                  checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                                  checkboxShape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15)),
                                   value: item['value'],
                                   onChanged: (value) {
                                     setState(() {

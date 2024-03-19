@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,16 +10,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/ui/company_profile_creation/profile_creation/widgets/continue_button.dart';
-import 'package:studenthub/ui/student_profile_creation/profile_input_step_3/widgets/title_widget.dart';
+import 'package:studenthub/ui/student_profile_creation/student_profile_creation_step_3/widgets/title_widget.dart';
 
-class ProfileInputStep3 extends StatefulWidget {
-  const ProfileInputStep3({Key? key}) : super(key: key);
+class ProfileInputStep3Screen extends StatefulWidget {
+  const ProfileInputStep3Screen({Key? key}) : super(key: key);
 
   @override
   _ProfileInputStep3State createState() => _ProfileInputStep3State();
 }
 
-class _ProfileInputStep3State extends State<ProfileInputStep3> {
+class _ProfileInputStep3State extends State<ProfileInputStep3Screen> {
   FilePickerResult? result;
   // var? fileName;
   PlatformFile? pickerfile;

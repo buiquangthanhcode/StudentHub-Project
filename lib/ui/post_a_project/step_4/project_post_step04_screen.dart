@@ -7,8 +7,8 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
 
-class ProjectPostStep04 extends StatelessWidget {
-  const ProjectPostStep04({super.key});
+class ProjectPostStep04Screen extends StatelessWidget {
+  const ProjectPostStep04Screen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -192,7 +192,7 @@ class ProjectPostStep04 extends StatelessWidget {
             const Spacer(),
             ElevatedButton(
               onPressed: () {
-                context.push('/my_dashboard');
+                context.push('/');
               },
               style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(

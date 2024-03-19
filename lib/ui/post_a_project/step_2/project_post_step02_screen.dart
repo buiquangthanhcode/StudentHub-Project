@@ -6,14 +6,14 @@ import 'package:studenthub/constants/colors.dart';
 
 enum TimeOption { option1, option2 }
 
-class ProjectPostStep02 extends StatefulWidget {
-  const ProjectPostStep02({super.key});
+class ProjectPostStep02Screen extends StatefulWidget {
+  const ProjectPostStep02Screen({super.key});
 
   @override
-  State<ProjectPostStep02> createState() => _ProjectPostStep02State();
+  State<ProjectPostStep02Screen> createState() => _ProjectPostStep02State();
 }
 
-class _ProjectPostStep02State extends State<ProjectPostStep02> {
+class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
   late TimeOption _timeOption;
   @override
   void initState() {

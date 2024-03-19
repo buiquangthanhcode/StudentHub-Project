@@ -9,8 +9,8 @@ import 'package:studenthub/constants/strings.dart';
 
 import '../../core/text_field_custom.dart';
 
-class SwitchAccount extends StatelessWidget {
-  const SwitchAccount({super.key});
+class SwitchAccountScreen extends StatelessWidget {
+  const SwitchAccountScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +139,8 @@ class SwitchAccount extends StatelessWidget {
               shrinkWrap: true,
               itemBuilder: (context, intdex) {
                 return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   margin: const EdgeInsets.only(top: 5),
                   child: Row(
                     children: [

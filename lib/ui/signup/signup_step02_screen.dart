@@ -12,14 +12,14 @@ import 'package:studenthub/utils/logger.dart';
 
 import '../../core/text_field_custom.dart';
 
-class SignUpStep02 extends StatefulWidget {
-  const SignUpStep02({super.key});
+class SignUpStep02Screen extends StatefulWidget {
+  const SignUpStep02Screen({super.key});
 
   @override
-  State<SignUpStep02> createState() => _SignUpStep02State();
+  State<SignUpStep02Screen> createState() => _SignUpStep02State();
 }
 
-class _SignUpStep02State extends State<SignUpStep02> {
+class _SignUpStep02State extends State<SignUpStep02Screen> {
   bool isAcceptCondtion = false;
   final formKeyLogin = GlobalKey<FormBuilderState>();
   @override
@@ -59,7 +59,8 @@ class _SignUpStep02State extends State<SignUpStep02> {
               // crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Container(
-                  margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   child: Center(
                     child: Text(
                       'Sign up as Compay',
@@ -78,7 +79,8 @@ class _SignUpStep02State extends State<SignUpStep02> {
                   name: 'fullnam',
                   hintText: 'Fullname',
                   onTap: () {
-                    Scrollable.ensureVisible(formKeyLogin.currentContext!, duration: const Duration(milliseconds: 500));
+                    Scrollable.ensureVisible(formKeyLogin.currentContext!,
+                        duration: const Duration(milliseconds: 500));
                   },
                   icon: Container(
                     width: 18,
@@ -140,7 +142,8 @@ class _SignUpStep02State extends State<SignUpStep02> {
                         child: ListTileTheme(
                           horizontalTitleGap: 0.0,
                           child: CheckboxListTile(
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 25),
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 25),
                             activeColor: primaryColor,
                             title: RichText(
                                 text: TextSpan(
@@ -156,7 +159,8 @@ class _SignUpStep02State extends State<SignUpStep02> {
                               ],
                             )),
                             controlAffinity: ListTileControlAffinity.leading,
-                            checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                            checkboxShape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15)),
                             value: isAcceptCondtion,
                             onChanged: (value) {
                               setState(() {
@@ -178,7 +182,8 @@ class _SignUpStep02State extends State<SignUpStep02> {
                       minimumSize: const Size(150, 56),
                     ),
                     onPressed: () {
-                      if (formKeyLogin.currentState?.saveAndValidate() ?? false) {
+                      if (formKeyLogin.currentState?.saveAndValidate() ??
+                          false) {
                         logger.d(formKeyLogin.currentState?.value);
                       }
                     },
