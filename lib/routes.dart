@@ -28,16 +28,14 @@ final GoRouter router = GoRouter(
           path: 'project_search',
           name: 'project_search',
           pageBuilder: (context, state) {
-            return customTransitionPage(
-                state.pageKey, const ProjectSearchScreen());
+            return customTransitionPage(state.pageKey, const ProjectSearchScreen());
           },
         ),
         GoRoute(
           path: 'project_saved',
           name: 'project_saved',
           pageBuilder: (context, state) {
-            return customTransitionPage(
-                state.pageKey, const ProjectSavedScreen());
+            return customTransitionPage(state.pageKey, const ProjectSavedScreen());
           },
         ),
         GoRoute(
@@ -128,8 +126,8 @@ CustomTransitionPage customTransitionPage(LocalKey key, Widget child) {
       transitionDuration: const Duration(milliseconds: 250),
       key: key,
       child: child,
-      transitionsBuilder: (BuildContext context, Animation<double> animation,
-          Animation<double> secondaryAnimation, Widget child) {
+      transitionsBuilder:
+          (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
         return SlideTransition(
             position: Tween<Offset>(
               begin: const Offset(1, 0),

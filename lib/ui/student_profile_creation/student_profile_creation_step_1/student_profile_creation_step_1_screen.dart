@@ -1,30 +1,26 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_event.dart';
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/models/student_create_profile/education_model.dart';
 import 'package:studenthub/models/student_create_profile/language_model.dart';
 import 'package:studenthub/models/student_create_profile/skillset_model.dart';
-import 'package:studenthub/ui/student_profile_creation/widget/dropdown_button_formfield.dart';
-import 'package:studenthub/utils/logger.dart';
+import 'package:studenthub/core/dropdown_button_formfield.dart';
+import 'package:studenthub/ui/student_profile_creation/student_profile_creation_step_1/widget/edit_language.dart';
+import 'package:studenthub/widgets/dialog.dart';
 
 class StudentProfileCreationStep01Screen extends StatefulWidget {
   const StudentProfileCreationStep01Screen({super.key});
 
   @override
-  State<StudentProfileCreationStep01Screen> createState() =>
-      _StudentProfileCreationStep01State();
+  State<StudentProfileCreationStep01Screen> createState() => _StudentProfileCreationStep01State();
 }
 
-class _StudentProfileCreationStep01State
-    extends State<StudentProfileCreationStep01Screen> {
+class _StudentProfileCreationStep01State extends State<StudentProfileCreationStep01Screen> {
   static const List<String> skillSetList = <String>[
     'NodeJS',
     'C++',
@@ -68,21 +64,6 @@ class _StudentProfileCreationStep01State
     'Big Data',
     'Web Development',
   ];
-  final List<String> language = [
-    'English',
-    'French',
-    'Spanish',
-    'German',
-    'Italian',
-    'Portuguese',
-    'Dutch',
-    'Russian',
-    'Vietnamese',
-  ];
-  final List<String> levelLanguage = [
-    'Native',
-    'Bilingal',
-  ];
   String? selectedValue;
   String? selectedValueValue;
   String? selectedValueLevel;
@@ -92,8 +73,7 @@ class _StudentProfileCreationStep01State
     final theme = Theme.of(context);
 
     return Scaffold(
-        appBar:
-            AppBar(automaticallyImplyLeading: false, title: const SizedBox()),
+        appBar: AppBar(automaticallyImplyLeading: false, title: const SizedBox()),
         body: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: SingleChildScrollView(
@@ -123,7 +103,8 @@ class _StudentProfileCreationStep01State
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontSize: 15,
                     )),
-                DropDownButtonCustom(
+                DropDownFormFieldCustom(
+                    name: "techstack",
                     data: items,
                     onSaved: (value) {
                       selectedValue = value.toString();
@@ -133,8 +114,7 @@ class _StudentProfileCreationStep01State
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontSize: 15,
                     )),
-                BlocBuilder<StudentCreateProfileBloc,
-                    StudentCreateProfileState>(
+                BlocBuilder<StudentCreateProfileBloc, StudentCreateProfileState>(
                   builder: (context, state) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,13 +127,10 @@ class _StudentProfileCreationStep01State
                               direction: Axis.horizontal,
                               children: state.skillset
                                   .map((item) => Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10),
+                                        padding: const EdgeInsets.symmetric(horizontal: 20),
                                         decoration: BoxDecoration(
-                                          border:
-                                              Border.all(color: Colors.grey),
-                                          borderRadius:
-                                              BorderRadius.circular(40),
+                                          border: Border.all(color: Colors.grey),
+                                          borderRadius: BorderRadius.circular(40),
                                         ),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.min,
@@ -161,9 +138,7 @@ class _StudentProfileCreationStep01State
                                             Center(
                                               child: Text(
                                                 item.name,
-                                                style: theme
-                                                    .textTheme.bodyMedium
-                                                    ?.copyWith(
+                                                style: theme.textTheme.bodyMedium?.copyWith(
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -171,11 +146,7 @@ class _StudentProfileCreationStep01State
                                             const SizedBox(width: 10),
                                             InkWell(
                                               onTap: () {
-                                                context
-                                                    .read<
-                                                        StudentCreateProfileBloc>()
-                                                    .add(RemoveSkillSetEvent(
-                                                        item));
+                                                context.read<StudentCreateProfileBloc>().add(RemoveSkillSetEvent(item));
                                               },
                                               child: const FaIcon(
                                                 FontAwesomeIcons.xmark,
@@ -192,42 +163,73 @@ class _StudentProfileCreationStep01State
                           return const SizedBox();
                         }),
                         const SizedBox(height: 10),
-                        Autocomplete<String>(
-                          displayStringForOption: (option) {
-                            return option;
-                          },
-                          fieldViewBuilder: (context,
-                              fieldTextEditingController,
-                              focusNode,
-                              onFieldSubmitted) {
-                            textEditingController = fieldTextEditingController;
-                            return TextField(
-                              controller: fieldTextEditingController,
-                              focusNode: focusNode,
-                              decoration: const InputDecoration(
-                                hintText: 'Enter your skill',
-                                hintStyle: TextStyle(fontSize: 16),
-                                border: OutlineInputBorder(),
-                              ),
+                        LayoutBuilder(
+                          builder: (context, constraints) {
+                            return RawAutocomplete<String>(
+                              optionsViewBuilder: (context, onSelected, options) {
+                                return Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Material(
+                                    elevation: 4.0,
+                                    child: SizedBox(
+                                      height: options.length <= 2 ? 100 : 200,
+                                      width: constraints.biggest.width,
+                                      child: ListView.builder(
+                                        padding: const EdgeInsets.all(8.0),
+                                        itemCount: options.length,
+                                        itemBuilder: (BuildContext context, int index) {
+                                          final String option = options.elementAt(index);
+                                          return GestureDetector(
+                                            onTap: () {
+                                              onSelected(option);
+                                            },
+                                            child: ListTile(
+                                                title: Text(
+                                              option,
+                                              style: theme.textTheme.bodyMedium?.copyWith(
+                                                fontSize: 16,
+                                              ),
+                                            )),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                              displayStringForOption: (option) {
+                                return option;
+                              },
+                              fieldViewBuilder: (context, fieldTextEditingController, focusNode, onFieldSubmitted) {
+                                textEditingController = fieldTextEditingController;
+                                return SizedBox(
+                                  height: 56,
+                                  child: TextField(
+                                    controller: fieldTextEditingController,
+                                    focusNode: focusNode,
+                                    decoration: const InputDecoration(
+                                      hintText: 'Enter your skill',
+                                      hintStyle: TextStyle(fontSize: 16),
+                                      border: OutlineInputBorder(),
+                                    ),
+                                  ),
+                                );
+                              },
+                              optionsBuilder: (TextEditingValue skillsetTextEditController) {
+                                if (skillsetTextEditController.text == '') {
+                                  return const Iterable<String>.empty();
+                                }
+                                return skillSetList.where((String option) {
+                                  return option.toLowerCase().contains(skillsetTextEditController.text);
+                                });
+                              },
+                              onSelected: (String value) {
+                                context
+                                    .read<StudentCreateProfileBloc>()
+                                    .add(AddSkillSetEvent(SkillSet(name: value, isSelected: false)));
+                                textEditingController.text = "";
+                              },
                             );
-                          },
-                          optionsBuilder:
-                              (TextEditingValue skillsetTextEditController) {
-                            if (skillsetTextEditController.text == '') {
-                              return const Iterable<String>.empty();
-                            }
-                            return skillSetList.where((String option) {
-                              return option
-                                  .toLowerCase()
-                                  .contains(skillsetTextEditController.text);
-                            });
-                          },
-                          // when user click on the suggested
-                          onSelected: (String value) {
-                            context.read<StudentCreateProfileBloc>().add(
-                                AddSkillSetEvent(
-                                    SkillSet(name: value, isSelected: false)));
-                            textEditingController.text = "";
                           },
                         ),
                         const SizedBox(height: 10),
@@ -244,17 +246,13 @@ class _StudentProfileCreationStep01State
                                   margin: const EdgeInsets.only(right: 10),
                                   padding: const EdgeInsets.all(5),
                                   decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: theme.colorScheme.grey!),
+                                    border: Border.all(color: theme.colorScheme.grey!),
                                     borderRadius: BorderRadius.circular(50),
                                   ),
                                   child: InkWell(
                                     onTap: () {
-                                      context
-                                          .read<StudentCreateProfileBloc>()
-                                          .add(AddLanguageEvent(Language(
-                                              name: "English",
-                                              level: 'Native or Bilingal')));
+                                      context.read<StudentCreateProfileBloc>().add(
+                                          AddLanguageEvent(Language(name: "English", level: 'Native or Bilingal')));
                                     },
                                     child: FaIcon(
                                       FontAwesomeIcons.plus,
@@ -273,173 +271,35 @@ class _StudentProfileCreationStep01State
                                       shrinkWrap: true,
                                       itemBuilder: (context, index) {
                                         return Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10, vertical: 5),
+                                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                                           decoration: BoxDecoration(
-                                            color: const Color.fromARGB(
-                                                255, 242, 242, 242),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                            color: const Color.fromARGB(255, 242, 242, 242),
+                                            borderRadius: BorderRadius.circular(10),
                                             border: Border.all(
                                               color: theme.colorScheme.grey!,
                                             ),
                                           ),
                                           child: Row(
                                             children: [
-                                              Text(
-                                                  '${state.languages[index].name}: ${state.languages[index].level}'),
+                                              Text('${state.languages[index].name}: ${state.languages[index].level}'),
                                               const Spacer(),
                                               InkWell(
                                                 onTap: () {
-                                                  // context
-                                                  //     .read<StudentCreateProfileBloc>()
-                                                  //     .add(UpdateLanguageEvent(state.languages[index]));
-
-                                                  showModalBottomSheet(
-                                                      context: context,
-                                                      builder:
-                                                          (ctx) => Container(
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: theme
-                                                                      .colorScheme
-                                                                      .surface,
-                                                                  borderRadius:
-                                                                      const BorderRadius
-                                                                          .only(
-                                                                    topLeft: Radius
-                                                                        .circular(
-                                                                            20),
-                                                                    topRight: Radius
-                                                                        .circular(
-                                                                            20),
-                                                                  ),
-                                                                ),
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(
-                                                                        20),
-                                                                width: double
-                                                                    .infinity,
-                                                                child: Column(
-                                                                  children: [
-                                                                    Center(
-                                                                      child:
-                                                                          Container(
-                                                                        width:
-                                                                            80,
-                                                                        height:
-                                                                            5,
-                                                                        decoration:
-                                                                            BoxDecoration(
-                                                                          color: theme
-                                                                              .colorScheme
-                                                                              .grey,
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(50),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    Center(
-                                                                      child:
-                                                                          Text(
-                                                                        "Edit Language",
-                                                                        style: theme
-                                                                            .textTheme
-                                                                            .bodyMedium
-                                                                            ?.copyWith(
-                                                                          fontWeight:
-                                                                              FontWeight.bold,
-                                                                          fontSize:
-                                                                              20,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    DropDownButtonCustom(
-                                                                      data:
-                                                                          language,
-                                                                      onChanged:
-                                                                          (value) {},
-                                                                      onSelected:
-                                                                          (value) {},
-                                                                      onSaved:
-                                                                          (value) {
-                                                                        selectedValueValue =
-                                                                            value.toString();
-                                                                      },
-                                                                      hint:
-                                                                          "Please selecte Language",
-                                                                    ),
-                                                                    DropDownButtonCustom(
-                                                                      data:
-                                                                          levelLanguage,
-                                                                      onChanged:
-                                                                          (value) {},
-                                                                      onSelected:
-                                                                          (value) {},
-                                                                      onSaved:
-                                                                          (value) {
-                                                                        selectedValueLevel =
-                                                                            value.toString();
-                                                                      },
-                                                                      hint:
-                                                                          "Please selecte level",
-                                                                    ),
-                                                                    const SizedBox(
-                                                                        height:
-                                                                            10),
-                                                                    ElevatedButton(
-                                                                      style: ElevatedButton
-                                                                          .styleFrom(
-                                                                        elevation:
-                                                                            0,
-                                                                        minimumSize: const Size(
-                                                                            double.infinity,
-                                                                            56),
-                                                                      ),
-                                                                      onPressed:
-                                                                          () {
-                                                                        context.read<StudentCreateProfileBloc>().add(UpdateLanguageEvent(state.languages[index].copyWith(
-                                                                            name:
-                                                                                selectedValueValue!,
-                                                                            level:
-                                                                                selectedValueLevel!)));
-                                                                        Navigator.pop(
-                                                                            context);
-                                                                      },
-                                                                      child:
-                                                                          Text(
-                                                                        "Save",
-                                                                        style: theme
-                                                                            .textTheme
-                                                                            .bodyMedium!
-                                                                            .copyWith(
-                                                                          color: theme
-                                                                              .colorScheme
-                                                                              .onPrimary,
-                                                                        ),
-                                                                      ),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ));
+                                                  showModalBottomSheetCustom(context,
+                                                      widgetBuilder: LanguageEdit(item: state.languages[index]));
                                                 },
                                                 child: FaIcon(
                                                   FontAwesomeIcons.penToSquare,
                                                   size: 16,
-                                                  color:
-                                                      theme.colorScheme.grey!,
+                                                  color: theme.colorScheme.grey!,
                                                 ),
                                               ),
                                               const SizedBox(width: 10),
                                               InkWell(
                                                 onTap: () {
-                                                  context
-                                                      .read<
-                                                          StudentCreateProfileBloc>()
-                                                      .add(RemoveLanguageEvent(
-                                                          state.languages[
-                                                              index]));
+                                                  // context
+                                                  //     .read<StudentCreateProfileBloc>()
+                                                  //     .add(RemoveLanguageEvent(state.languages[index]));
                                                 },
                                                 child: const FaIcon(
                                                   FontAwesomeIcons.xmark,
@@ -477,17 +337,13 @@ class _StudentProfileCreationStep01State
                                   margin: const EdgeInsets.only(right: 10),
                                   padding: const EdgeInsets.all(5),
                                   decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: theme.colorScheme.grey!),
+                                    border: Border.all(color: theme.colorScheme.grey!),
                                     borderRadius: BorderRadius.circular(50),
                                   ),
                                   child: InkWell(
                                     onTap: () {
-                                      context
-                                          .read<StudentCreateProfileBloc>()
-                                          .add(AddEducationEvent(Education(
-                                            nameOfSchool:
-                                                "University of Science",
+                                      context.read<StudentCreateProfileBloc>().add(AddEducationEvent(Education(
+                                            nameOfSchool: "University of Science",
                                             timeStart: '2020',
                                             timeEnd: '2024',
                                           )));
@@ -509,13 +365,10 @@ class _StudentProfileCreationStep01State
                                       shrinkWrap: true,
                                       itemBuilder: (context, index) {
                                         return Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10, vertical: 5),
+                                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                                           decoration: BoxDecoration(
-                                            color: const Color.fromARGB(
-                                                255, 242, 242, 242),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                            color: const Color.fromARGB(255, 242, 242, 242),
+                                            borderRadius: BorderRadius.circular(10),
                                             border: Border.all(
                                               color: theme.colorScheme.grey!,
                                             ),
@@ -523,11 +376,9 @@ class _StudentProfileCreationStep01State
                                           child: Row(
                                             children: [
                                               Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(state.edutcations[index]
-                                                      .nameOfSchool),
+                                                  Text(state.edutcations[index].nameOfSchool),
                                                   const SizedBox(
                                                     height: 5,
                                                   ),
@@ -540,70 +391,39 @@ class _StudentProfileCreationStep01State
                                                 onTap: () {
                                                   showModalBottomSheet(
                                                       context: context,
-                                                      builder: (ctx) =>
-                                                          Container(
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: theme
-                                                                  .colorScheme
-                                                                  .surface,
-                                                              borderRadius:
-                                                                  const BorderRadius
-                                                                      .only(
-                                                                topLeft: Radius
-                                                                    .circular(
-                                                                        20),
-                                                                topRight: Radius
-                                                                    .circular(
-                                                                        20),
+                                                      builder: (ctx) => Container(
+                                                            decoration: BoxDecoration(
+                                                              color: theme.colorScheme.surface,
+                                                              borderRadius: const BorderRadius.only(
+                                                                topLeft: Radius.circular(20),
+                                                                topRight: Radius.circular(20),
                                                               ),
                                                             ),
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(20),
-                                                            width:
-                                                                double.infinity,
+                                                            padding: const EdgeInsets.all(20),
+                                                            width: double.infinity,
                                                             child: Column(
                                                               children: [
                                                                 Center(
-                                                                  child:
-                                                                      Container(
+                                                                  child: Container(
                                                                     width: 80,
                                                                     height: 5,
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      color: theme
-                                                                          .colorScheme
-                                                                          .grey,
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              50),
+                                                                    decoration: BoxDecoration(
+                                                                      color: theme.colorScheme.grey,
+                                                                      borderRadius: BorderRadius.circular(50),
                                                                     ),
                                                                   ),
                                                                 ),
-                                                                const SizedBox(
-                                                                    height: 10),
+                                                                const SizedBox(height: 10),
                                                                 ElevatedButton(
-                                                                  style: ElevatedButton
-                                                                      .styleFrom(
-                                                                    elevation:
-                                                                        0,
-                                                                    minimumSize:
-                                                                        const Size(
-                                                                            double.infinity,
-                                                                            56),
+                                                                  style: ElevatedButton.styleFrom(
+                                                                    elevation: 0,
+                                                                    minimumSize: const Size(double.infinity, 56),
                                                                   ),
-                                                                  onPressed:
-                                                                      () {},
+                                                                  onPressed: () {},
                                                                   child: Text(
                                                                     "Save",
-                                                                    style: theme
-                                                                        .textTheme
-                                                                        .bodyMedium!
-                                                                        .copyWith(
-                                                                      color: theme
-                                                                          .colorScheme
-                                                                          .onPrimary,
+                                                                    style: theme.textTheme.bodyMedium!.copyWith(
+                                                                      color: theme.colorScheme.onPrimary,
                                                                     ),
                                                                   ),
                                                                 )
@@ -614,19 +434,15 @@ class _StudentProfileCreationStep01State
                                                 child: FaIcon(
                                                   FontAwesomeIcons.penToSquare,
                                                   size: 16,
-                                                  color:
-                                                      theme.colorScheme.grey!,
+                                                  color: theme.colorScheme.grey!,
                                                 ),
                                               ),
                                               const SizedBox(width: 10),
                                               InkWell(
                                                 onTap: () {
                                                   context
-                                                      .read<
-                                                          StudentCreateProfileBloc>()
-                                                      .add(RemoveEducationEvent(
-                                                          state.edutcations[
-                                                              index]));
+                                                      .read<StudentCreateProfileBloc>()
+                                                      .add(RemoveEducationEvent(state.edutcations[index]));
                                                 },
                                                 child: const FaIcon(
                                                   FontAwesomeIcons.xmark,
