@@ -69,7 +69,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02> {
                     color: Colors.black.withOpacity(0.6),
                   ),
             ),
-            const SizedBox(height: 90),
+            const SizedBox(height: 36),
             Text(
               'How long will your project take?',
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -119,7 +119,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02> {
                 )
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 16),
             Text(
               'How many students do you want?',
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(

@@ -48,6 +48,7 @@ class ProjectPostStep01 extends StatelessWidget {
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 4),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               "This helps your post stand out to the right students. It's the first thing they'll see, so make it impressive!",

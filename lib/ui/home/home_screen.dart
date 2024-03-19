@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
-import 'package:studenthub/ui/homepage/widgets/my_elavated_button.dart';
+import 'package:studenthub/ui/home/widgets/my_elavated_button.dart';
 
 class HomePageScreen extends StatelessWidget {
   const HomePageScreen({super.key});

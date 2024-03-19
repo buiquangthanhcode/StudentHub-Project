@@ -47,6 +47,7 @@ class ProjectPostStep03 extends StatelessWidget {
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 4),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               "Provide a detailed description for your project",
@@ -54,7 +55,7 @@ class ProjectPostStep03 extends StatelessWidget {
                     color: Colors.black.withOpacity(0.6),
                   ),
             ),
-            const SizedBox(height: 90),
+            const SizedBox(height: 36),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

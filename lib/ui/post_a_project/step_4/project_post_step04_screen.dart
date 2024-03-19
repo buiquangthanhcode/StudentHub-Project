@@ -51,7 +51,15 @@ class ProjectPostStep04 extends StatelessWidget {
         child: Column(
           children: [
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  "Please review the content before posting",
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: Colors.black.withOpacity(0.6),
+                      ),
+                ),
+                const SizedBox(height: 36),
                 Text(
                   'Face advertisement specialist need for product launch',
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
