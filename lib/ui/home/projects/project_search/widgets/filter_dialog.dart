@@ -21,6 +21,8 @@ class _FilterDialogState extends State<FilterDialog> {
   ];
 
   String? radioButtonSelected;
+  final studentInputController = TextEditingController();
+  final proposalInputController = TextEditingController();
 
   @override
   void initState() {
@@ -139,19 +141,20 @@ class _FilterDialogState extends State<FilterDialog> {
                       return null;
                     },
                     cursorHeight: 18,
-                    // controller: widget.companyNameInputController,
+                    controller: studentInputController,
                     cursorColor: Colors.black,
                     style: textTheme.bodyMedium,
                     decoration: InputDecoration(
                       hintText: 'Enter your number',
                       hintStyle: textTheme.bodyMedium!.copyWith(
                           color: Theme.of(context).colorScheme.hintColor),
-                      suffixIcon: true
+                      suffixIcon: studentInputController.text.isNotEmpty
                           ? Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 InkWell(
                                   onTap: () {
+                                    studentInputController.clear();
                                     setState(() {});
                                   },
                                   child: Container(
@@ -221,19 +224,20 @@ class _FilterDialogState extends State<FilterDialog> {
                       return null;
                     },
                     cursorHeight: 18,
-                    // controller: widget.companyNameInputController,
+                    controller: proposalInputController,
                     cursorColor: Colors.black,
                     style: textTheme.bodyMedium,
                     decoration: InputDecoration(
                       hintText: 'Enter your number',
                       hintStyle: textTheme.bodyMedium!.copyWith(
                           color: Theme.of(context).colorScheme.hintColor),
-                      suffixIcon: true
+                      suffixIcon: proposalInputController.text.isNotEmpty
                           ? Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 InkWell(
                                   onTap: () {
+                                    proposalInputController.clear();
                                     setState(() {});
                                   },
                                   child: Container(

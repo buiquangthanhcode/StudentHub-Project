@@ -1,24 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
-import 'package:studenthub/constants/colors.dart';
-import 'package:studenthub/ui/project_page/filter_dialog.dart';
-import 'package:studenthub/ui/project_page/project_page_.dart';
+import 'package:studenthub/ui/home/projects/project_search/widgets/filter_dialog.dart';
+import 'package:studenthub/ui/home/projects/widgets/project_item.dart';
 
 class ProjectSearchPage extends StatefulWidget {
-  const ProjectSearchPage({Key? key}) : super(key: key);
+  const ProjectSearchPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ProjectSearchPageState createState() => _ProjectSearchPageState();
 }
 
 class _ProjectSearchPageState extends State<ProjectSearchPage> {
   final searchController = TextEditingController();
-  FocusNode _searchFocus = FocusNode();
+  final FocusNode _searchFocus = FocusNode();
 
   final _scrollController = ScrollController();
   bool scrollToBottom = false;
@@ -75,7 +73,7 @@ class _ProjectSearchPageState extends State<ProjectSearchPage> {
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
         context: context,
-        builder: (ctx) => FilterDialog());
+        builder: (ctx) => const FilterDialog());
   }
 
   @override
@@ -87,10 +85,6 @@ class _ProjectSearchPageState extends State<ProjectSearchPage> {
     // });
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () {},
-        ),
         centerTitle: false,
         title: Text(
           'Project search',
@@ -112,8 +106,7 @@ class _ProjectSearchPageState extends State<ProjectSearchPage> {
                     child: TextField(
                       focusNode: _searchFocus,
                       onChanged: (value) {
-                        if (searchController.text.isEmpty ||
-                            searchController.text.length == 1) {
+                        if (value.isEmpty || value.length == 1) {
                           setState(() {});
                         }
                       },
@@ -282,8 +275,10 @@ class _ProjectSearchPageState extends State<ProjectSearchPage> {
                 child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: 10,
-                    itemBuilder: (context, index) => ProjectItem(
-                        colorTheme: colorTheme, textTheme: textTheme)),
+                    itemBuilder: (context, index) => const ProjectItem(
+                          paddingRight: 12,
+                          icon: FontAwesomeIcons.heart,
+                        )),
               ),
           ],
         ),
