@@ -25,6 +25,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         toolbarHeight: 80,
         centerTitle: false,
@@ -83,8 +84,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                 const SizedBox(height: 12),
                 RadioListTile(
                   activeColor: primaryColor,
-                  visualDensity:
-                      const VisualDensity(vertical: -4.0, horizontal: -4.0),
+                  visualDensity: const VisualDensity(vertical: -4.0, horizontal: -4.0),
                   title: Text(
                     '1 to 3 months',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -101,8 +101,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                 ),
                 RadioListTile(
                   activeColor: primaryColor,
-                  visualDensity:
-                      const VisualDensity(vertical: -4.0, horizontal: -4.0),
+                  visualDensity: const VisualDensity(vertical: -4.0, horizontal: -4.0),
                   title: Text(
                     '3 to 6 months',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -130,9 +129,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
             ),
             const SizedBox(height: 12),
             TextField(
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium, // Adjust the font size as needed
+              style: Theme.of(context).textTheme.bodyMedium, // Adjust the font size as needed
               decoration: InputDecoration(
                 hintText: 'The number of students',
                 hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -144,10 +141,9 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                     width: 4.0,
                   ),
                 ),
-                contentPadding: const EdgeInsets.symmetric(
-                    vertical: 8,
-                    horizontal: 12 // Adjust the vertical padding as needed
-                    ),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12 // Adjust the vertical padding as needed
+                        ),
               ),
               onChanged: (value) {
                 // print('Input value: $value');
@@ -160,10 +156,8 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                 context.push('/project_post/step_03');
               },
               style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 16), // Adjust padding as needed
-                  minimumSize:
-                      const Size(double.infinity, 48) // Set minimum button size
+                  padding: const EdgeInsets.symmetric(vertical: 16), // Adjust padding as needed
+                  minimumSize: const Size(double.infinity, 48) // Set minimum button size
                   ),
               child: Text(
                 'Continue',
