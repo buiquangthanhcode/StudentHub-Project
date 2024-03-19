@@ -61,8 +61,10 @@ class DashboardScreen extends StatelessWidget {
                           .textTheme
                           .titleSmall!
                           .copyWith(fontWeight: FontWeight.w600), //
-                      unselectedLabelStyle:
-                          const TextStyle(fontWeight: FontWeight.w500),
+                      unselectedLabelStyle: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .copyWith(fontWeight: FontWeight.w600),
                       indicator: const BoxDecoration(
                         border: Border(
                           bottom: BorderSide(
@@ -71,10 +73,9 @@ class DashboardScreen extends StatelessWidget {
                           ),
                         ),
                       ),
+
                       tabs: const [
-                        Tab(
-                            text:
-                                'All projects'), // Define your tab labels here
+                        Tab(text: 'All projects'),
                         Tab(text: 'Working'),
                         Tab(text: 'Archived'),
                       ],

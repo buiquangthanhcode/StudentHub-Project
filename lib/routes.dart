@@ -41,36 +41,41 @@ final GoRouter router = GoRouter(
           },
         ),
         GoRoute(
-            path: 'project_post',
-            builder: (BuildContext context, GoRouterState state) {
-              return const SizedBox.shrink();
-            },
-            routes: <RouteBase>[
-              GoRoute(
-                path: 'step_01',
-                builder: (BuildContext context, GoRouterState state) {
-                  return const ProjectPostStep01Screen();
-                },
-              ),
-              GoRoute(
-                path: 'step_02',
-                builder: (BuildContext context, GoRouterState state) {
-                  return const ProjectPostStep02Screen();
-                },
-              ),
-              GoRoute(
-                path: 'step_03',
-                builder: (BuildContext context, GoRouterState state) {
-                  return const ProjectPostStep03Screen();
-                },
-              ),
-              GoRoute(
-                path: 'step_04',
-                builder: (BuildContext context, GoRouterState state) {
-                  return const ProjectPostStep04Screen();
-                },
-              ),
-            ]),
+          path: 'project_post',
+          builder: (BuildContext context, GoRouterState state) {
+            return const SizedBox.shrink();
+          },
+          routes: <RouteBase>[
+            GoRoute(
+              path: 'step_01',
+              pageBuilder: (BuildContext context, GoRouterState state) {
+                return customTransitionPage(
+                    state.pageKey, const ProjectPostStep01Screen());
+              },
+            ),
+            GoRoute(
+              path: 'step_02',
+              pageBuilder: (BuildContext context, GoRouterState state) {
+                return customTransitionPage(
+                    state.pageKey, const ProjectPostStep02Screen());
+              },
+            ),
+            GoRoute(
+              path: 'step_03',
+              pageBuilder: (BuildContext context, GoRouterState state) {
+                return customTransitionPage(
+                    state.pageKey, const ProjectPostStep03Screen());
+              },
+            ),
+            GoRoute(
+              path: 'step_04',
+              pageBuilder: (BuildContext context, GoRouterState state) {
+                return customTransitionPage(
+                    state.pageKey, const ProjectPostStep04Screen());
+              },
+            ),
+          ],
+        ),
       ],
     ),
     GoRoute(
