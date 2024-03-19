@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Messages extends StatefulWidget {
-  const Messages({Key? key}) : super(key: key);
+class MessagesScreen extends StatefulWidget {
+  const MessagesScreen({Key? key}) : super(key: key);
 
   @override
   _MessagesState createState() => _MessagesState();
 }
 
-class _MessagesState extends State<Messages> {
+class _MessagesState extends State<MessagesScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(

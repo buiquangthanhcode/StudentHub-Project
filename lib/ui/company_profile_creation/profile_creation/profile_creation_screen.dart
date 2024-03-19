@@ -10,14 +10,14 @@ import 'package:studenthub/ui/company_profile_creation/profile_creation/widgets/
 import 'package:studenthub/ui/company_profile_creation/profile_creation/widgets/title_widget.dart';
 import 'package:studenthub/ui/company_profile_creation/profile_creation/widgets/url_input_widget.dart';
 
-class ProfileCreation extends StatefulWidget {
-  const ProfileCreation({Key? key}) : super(key: key);
+class ProfileCreationScreen extends StatefulWidget {
+  const ProfileCreationScreen({Key? key}) : super(key: key);
 
   @override
-  State<ProfileCreation> createState() => _DontHaveProfileState();
+  State<ProfileCreationScreen> createState() => _DontHaveProfileState();
 }
 
-class _DontHaveProfileState extends State<ProfileCreation> {
+class _DontHaveProfileState extends State<ProfileCreationScreen> {
   final employeeQuantityData = [
     'It\'s just me',
     '2-9',

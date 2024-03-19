@@ -51,6 +51,7 @@ dependencies:
   dropdown_button2: ^2.3.9
   dotted_border: ^2.1.0
   file_picker: ^6.2.0
+  percent_indicator: ^3.4.0
 
 dev_dependencies:
   flutter_test:

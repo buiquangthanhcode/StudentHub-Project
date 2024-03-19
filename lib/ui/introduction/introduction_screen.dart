@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studenthub/ui/introduction/widgets/my_elavated_button.dart';
+import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/ui/home/widgets/my_elavated_button.dart';
 
 class IntroductionScreen extends StatelessWidget {
   const IntroductionScreen({super.key});
@@ -11,15 +13,16 @@ class IntroductionScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Center(
-          child: Text('StudentHub',
-              style: GoogleFonts.inter(fontSize: 36, color: const Color(0xFF6188FF), fontWeight: FontWeight.bold)),
-        ),
+            child: Text(
+          'StudentHub',
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+              color: primaryColor, fontSize: 36, fontWeight: FontWeight.bold),
+        )),
       ),
       body: Column(
         children: [
           Container(
             margin: const EdgeInsets.only(top: 36),
-            // decoration: const BoxDecoration(color: Colors.black),
             child: Transform.scale(
               scale: 1.4,
               child: Image.asset(
@@ -32,11 +35,8 @@ class IntroductionScreen extends StatelessWidget {
             width: 375,
             child: Text(
               'Build your product with high-skilled student',
-              style: GoogleFonts.inter(
-                fontSize: 16,
-                color: const Color(0xFF848484),
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: const Color(0xFF848484), fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
           ),
@@ -45,12 +45,12 @@ class IntroductionScreen extends StatelessWidget {
             width: 375,
             child: Text(
               'Find and onboard top-tier students for your projects, enabling them to gain real-world experience and skills',
-              style: GoogleFonts.inter(
-                fontSize: 14,
-                color: const Color(0xFF848484),
-                fontWeight: FontWeight.w400,
-                height: 1.3, // Adjust the line height here
-              ),
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    fontSize: 13,
+                    color: const Color(0xFF848484),
+                    fontWeight: FontWeight.w400,
+                    height: 1.3, // Adjust the line height here
+                  ),
               textAlign: TextAlign.center,
             ),
           ),
@@ -111,20 +111,17 @@ class IntroductionScreen extends StatelessWidget {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: 'When proceeding to the next step, I agreed to the ',
-                      style: GoogleFonts.inter(
-                        fontSize: 14,
-                        color: const Color(0xFF848484),
-                      ),
-                    ),
+                        text:
+                            'When proceeding to the next step, I agreed to the ',
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                              color: const Color(0xFF848484),
+                            )),
                     TextSpan(
-                      text: 'Terms of Service and Usage Policy.',
-                      style: GoogleFonts.inter(
-                        fontSize: 14,
-                        color: const Color(0xFF848484),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                        text: 'Terms of Service and Usage Policy.',
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                              color: const Color(0xFF848484),
+                              fontWeight: FontWeight.bold,
+                            )),
                   ],
                 ),
                 textAlign: TextAlign.center,

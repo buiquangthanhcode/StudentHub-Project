@@ -6,15 +6,15 @@ import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/ui/home/projects/project_search/widgets/filter_dialog.dart';
 import 'package:studenthub/ui/home/projects/widgets/project_item.dart';
 
-class ProjectSearchPage extends StatefulWidget {
-  const ProjectSearchPage({super.key});
+class ProjectSearchScreen extends StatefulWidget {
+  const ProjectSearchScreen({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _ProjectSearchPageState createState() => _ProjectSearchPageState();
+  _ProjectSearchScreenState createState() => _ProjectSearchScreenState();
 }
 
-class _ProjectSearchPageState extends State<ProjectSearchPage> {
+class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
   final searchController = TextEditingController();
   final FocusNode _searchFocus = FocusNode();
 

@@ -3,14 +3,14 @@ import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/ui/home/projects/widgets/project_item.dart';
 
-class ProjectSaved extends StatefulWidget {
-  const ProjectSaved({Key? key}) : super(key: key);
+class ProjectSavedScreen extends StatefulWidget {
+  const ProjectSavedScreen({Key? key}) : super(key: key);
 
   @override
   _ProjectSavedState createState() => _ProjectSavedState();
 }
 
-class _ProjectSavedState extends State<ProjectSaved> {
+class _ProjectSavedState extends State<ProjectSavedScreen> {
   final _scrollController = ScrollController();
   bool scrollToBottom = false;
   bool pinned = false;

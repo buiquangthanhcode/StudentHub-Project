@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/data/bottom_navigation.dart';
-import 'package:studenthub/ui/home/account/account.dart';
-import 'package:studenthub/ui/home/alerts/alerts.dart';
-import 'package:studenthub/ui/home/dashboard/dashboard.dart';
-import 'package:studenthub/ui/home/messages/messages.dart';
+import 'package:studenthub/ui/home/account/account_screen.dart';
+import 'package:studenthub/ui/home/alerts/alerts_screen.dart';
+import 'package:studenthub/ui/home/dashboard/dashboard_screen.dart';
+import 'package:studenthub/ui/home/messages/messages_screen.dart';
 import 'package:studenthub/ui/home/projects/project_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    body = const Dashboard();
+    body = const DashboardScreen();
   }
 
   @override
@@ -55,19 +55,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     navSelected = bottomNavs[index];
                     switch (index) {
                       case 0:
-                        body = const Dashboard();
+                        body = const DashboardScreen();
                         break;
                       case 1:
                         body = const ProjectScreen();
                         break;
                       case 2:
-                        body = const Messages();
+                        body = const MessagesScreen();
                         break;
                       case 3:
-                        body = const Alerts();
+                        body = const AlertsScreen();
                         break;
                       case 4:
-                        body = const Account();
+                        body = const AccountScreen();
                         break;
                       default:
                         print('Bottom navigation error!');

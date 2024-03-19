@@ -7,14 +7,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 
-class Alerts extends StatefulWidget {
-  const Alerts({Key? key}) : super(key: key);
+class AlertsScreen extends StatefulWidget {
+  const AlertsScreen({Key? key}) : super(key: key);
 
   @override
   _AlertsState createState() => _AlertsState();
 }
 
-class _AlertsState extends State<Alerts> {
+class _AlertsState extends State<AlertsScreen> {
   final _scrollController = ScrollController();
   bool scrollToBottom = false;
   bool pinned = false;
