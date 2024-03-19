@@ -44,95 +44,92 @@ class ProjectPostStep03Screen extends StatelessWidget {
           )
         ],
       ),
-      body: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 4),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Provide a detailed description for your project",
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Colors.black.withOpacity(0.6),
-                  ),
-            ),
-            const SizedBox(height: 36),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Students are looking for',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black.withOpacity(0.6),
-                      ),
-                ),
-                BulletList(const [
-                  'Clear expectation about your project or deliverables',
-                  'The skill required for your project',
-                  'Detail about your project',
-                ])
-              ],
-            ),
-            const SizedBox(height: 8),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Describe your project',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black.withOpacity(0.6),
-                      ),
-                  // textAlign: TextAlign.left,
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  cursorHeight: 20,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium, // Adjust the font size as needed
-                  maxLines: null, // Allows multiple lines
-                  minLines: 6,
-                  keyboardType: TextInputType.multiline,
-                  textInputAction: TextInputAction
-                      .newline, // Use 'newline' action for 'Done' button
-                  decoration: InputDecoration(
-                    hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: const Color.fromARGB(255, 149, 148, 148),
-                        ),
-                    border: const OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.black,
-                        width: 4.0,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            // const SizedBox(height: 24),
-            const Spacer(),
-            ElevatedButton(
-              onPressed: () {
-                context.push('/project_post/step_04');
-              },
-              style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 16), // Adjust padding as needed
-                  minimumSize:
-                      const Size(double.infinity, 48) // Set minimum button size
-                  ),
-              child: Text(
-                'Continue',
+      body: SingleChildScrollView(
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 4),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Provide a detailed description for your project",
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: Colors.white,
+                      color: Colors.black.withOpacity(0.6),
                     ),
               ),
-            ),
-            const SizedBox(height: 60),
-          ],
+              const SizedBox(height: 36),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Students are looking for',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black.withOpacity(0.6),
+                        ),
+                  ),
+                  BulletList(const [
+                    'Clear expectation about your project or deliverables',
+                    'The skill required for your project',
+                    'Detail about your project',
+                  ])
+                ],
+              ),
+              const SizedBox(height: 8),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Describe your project',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black.withOpacity(0.6),
+                        ),
+                    // textAlign: TextAlign.left,
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    cursorHeight: 20,
+                    style: Theme.of(context).textTheme.bodyMedium, // Adjust the font size as needed
+                    maxLines: null, // Allows multiple lines
+                    minLines: 6,
+                    keyboardType: TextInputType.multiline,
+                    textInputAction: TextInputAction.newline, // Use 'newline' action for 'Done' button
+                    decoration: InputDecoration(
+                      hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: const Color.fromARGB(255, 149, 148, 148),
+                          ),
+                      border: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.black,
+                          width: 4.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 48),
+              // const Spacer(),
+              ElevatedButton(
+                onPressed: () {
+                  context.push('/project_post/step_04');
+                },
+                style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16), // Adjust padding as needed
+                    minimumSize: const Size(double.infinity, 48) // Set minimum button size
+                    ),
+                child: Text(
+                  'Continue',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: Colors.white,
+                      ),
+                ),
+              ),
+              const SizedBox(height: 60),
+            ],
+          ),
         ),
       ),
     );
