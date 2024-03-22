@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Education {
   String nameOfSchool;
   final String timeStart;
@@ -33,6 +35,25 @@ class Education {
         other.timeEnd == timeEnd;
   }
 
-  @override
-  int get hashCode => nameOfSchool.hashCode ^ timeStart.hashCode ^ timeEnd.hashCode;
+  Map<String, dynamic> toMap() {
+    final result = <String, dynamic>{};
+
+    result.addAll({'nameOfSchool': nameOfSchool});
+    result.addAll({'timeStart': timeStart});
+    result.addAll({'timeEnd': timeEnd});
+
+    return result;
+  }
+
+  factory Education.fromMap(Map<String, dynamic> map) {
+    return Education(
+      nameOfSchool: map['nameOfSchool'] ?? '',
+      timeStart: map['timeStart'] ?? '',
+      timeEnd: map['timeEnd'] ?? '',
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Education.fromJson(String source) => Education.fromMap(json.decode(source));
 }

@@ -6,7 +6,7 @@ import 'package:studenthub/blocs/student_create_profile/student_create_profile_e
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
-import 'package:studenthub/ui/student_profile_creation/widget/create_project.dart';
+import 'package:studenthub/ui/student_profile_creation/widget/create_project_resume.dart';
 import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/widgets/emtyDataWidget.dart';
 
@@ -76,7 +76,7 @@ class _StudentProfileCreationStep02ScreenState extends State<StudentProfileCreat
                   const Spacer(),
                   IconButton(
                     onPressed: () {
-                      showModalBottomSheetCustom(context, widgetBuilder: const CreateProject());
+                      showModalBottomSheetCustom(context, widgetBuilder: const CreateProjectResume());
                     },
                     icon: const Icon(Icons.add),
                   )

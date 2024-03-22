@@ -94,7 +94,7 @@ class StudentCreateProfileBloc extends Bloc<StudentCreateProfileEvent, StudentCr
 
   FutureOr<void> _onAddProject(AddProjectEvent event, Emitter<StudentCreateProfileState> emit) async {
     // Clone skill set and then update state
-    final List<Project> newProject = List<Project>.from(state.projects);
+    final List<ProjectResume> newProject = List<ProjectResume>.from(state.projects);
     newProject.add(event.project);
     emit(state.update(projects: newProject));
     event.onSuccess!();
@@ -102,7 +102,7 @@ class StudentCreateProfileBloc extends Bloc<StudentCreateProfileEvent, StudentCr
 
   FutureOr<void> _onUpdateProject(UpdateProjectEvent event, Emitter<StudentCreateProfileState> emit) async {
     // Clone skill set and then update state
-    final List<Project> newProject = List<Project>.from(state.projects);
+    final List<ProjectResume> newProject = List<ProjectResume>.from(state.projects);
     newProject[newProject.indexWhere((element) => element.name == event.project.name)] = event.project;
     emit(state.update(projects: newProject));
     event.onSuccess!();
@@ -110,7 +110,7 @@ class StudentCreateProfileBloc extends Bloc<StudentCreateProfileEvent, StudentCr
 
   FutureOr<void> _onRemoveProject(RemoveProjectEvents event, Emitter<StudentCreateProfileState> emit) async {
     // Clone skill set and then update state
-    final List<Project> newProject = List<Project>.from(state.projects);
+    final List<ProjectResume> newProject = List<ProjectResume>.from(state.projects);
     newProject.remove(event.project);
     emit(state.update(projects: newProject));
     event.onSuccess!();
