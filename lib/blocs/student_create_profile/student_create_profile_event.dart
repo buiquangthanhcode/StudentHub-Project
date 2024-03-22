@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/models/student_create_profile/education_model.dart';
 import 'package:studenthub/models/student_create_profile/language_model.dart';
+import 'package:studenthub/models/student_create_profile/project_model.dart';
 import 'package:studenthub/models/student_create_profile/skillset_model.dart';
 
 @immutable
@@ -20,36 +21,63 @@ class RemoveSkillSetEvent extends StudentCreateProfileEvent {
 
 class AddLanguageEvent extends StudentCreateProfileEvent {
   final Language language;
+  final Function? onSuccess;
 
-  AddLanguageEvent(this.language);
+  AddLanguageEvent({required this.language, this.onSuccess});
 }
 
 class RemoveLanguageEvent extends StudentCreateProfileEvent {
   final Language language;
+  final Function? onSuccess;
 
-  RemoveLanguageEvent(this.language);
+  RemoveLanguageEvent({required this.language, this.onSuccess});
 }
 
 class UpdateLanguageEvent extends StudentCreateProfileEvent {
   final Language language;
+  final Function? onSuccess;
 
-  UpdateLanguageEvent(this.language);
+  UpdateLanguageEvent({required this.language, required this.onSuccess});
 }
 
 class AddEducationEvent extends StudentCreateProfileEvent {
   final Education education;
+  final Function? onSuccess;
 
-  AddEducationEvent(this.education);
+  AddEducationEvent({required this.education, required this.onSuccess});
 }
 
 class RemoveEducationEvent extends StudentCreateProfileEvent {
   final Education education;
+  final Function? onSuccess;
 
-  RemoveEducationEvent(this.education);
+  RemoveEducationEvent({required this.education, required this.onSuccess});
 }
 
 class UpdateEducationEvent extends StudentCreateProfileEvent {
   final Education education;
+  final Function? onSuccess;
 
-  UpdateEducationEvent(this.education);
+  UpdateEducationEvent({required this.education, required this.onSuccess});
+}
+
+class AddProjectEvent extends StudentCreateProfileEvent {
+  final ProjectResume project;
+  final Function? onSuccess;
+
+  AddProjectEvent({required this.project, required this.onSuccess});
+}
+
+class UpdateProjectEvent extends StudentCreateProfileEvent {
+  final ProjectResume project;
+  final Function? onSuccess;
+
+  UpdateProjectEvent({required this.project, required this.onSuccess});
+}
+
+class RemoveProjectEvents extends StudentCreateProfileEvent {
+  final ProjectResume project;
+  final Function? onSuccess;
+
+  RemoveProjectEvents({required this.project, required this.onSuccess});
 }

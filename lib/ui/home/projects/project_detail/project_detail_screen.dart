@@ -1,81 +1,77 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
 
-class ProjectPostStep04Screen extends StatelessWidget {
-  const ProjectPostStep04Screen({super.key});
+class ProjectDetailScreen extends StatefulWidget {
+  const ProjectDetailScreen({super.key, required this.id});
+
+  final String id;
+
+  @override
+  State<ProjectDetailScreen> createState() => _ProjectDetailScreenState();
+}
+
+class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
+  bool? isSaved;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isSaved = false;
+  }
 
   @override
   Widget build(BuildContext context) {
+    print(widget.id);
+    TextTheme textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        toolbarHeight: 80,
         centerTitle: false,
         titleSpacing: 0,
         title: Text(
-          "Review your post",
-          style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+          "Project detail",
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                fontWeight: FontWeight.w700,
               ),
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: CircularPercentIndicator(
-              animation: true,
-              // animationDuration: 10000,
-              radius: 60,
-              lineWidth: 6,
-              percent: 1.0,
-              progressColor: const Color(0xff3961FB),
-              backgroundColor: const Color(0xff3961FB).withOpacity(0.2),
-              circularStrokeCap: CircularStrokeCap.round,
-              center: Text(
-                '4 of 4',
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      fontSize: 13,
-                    ),
+            padding: const EdgeInsets.only(right: 20),
+            child: InkWell(
+              onTap: () {
+                isSaved = !isSaved!;
+                setState(() {});
+              },
+              child: FaIcon(
+                isSaved! ? FontAwesomeIcons.solidHeart : FontAwesomeIcons.heart,
+                color: primaryColor,
               ),
             ),
           )
         ],
       ),
       body: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 4),
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         child: Column(
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Please review the content before posting",
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: Colors.black.withOpacity(0.6),
-                      ),
+                  'Senior frontend developer (Fintech)',
+                  style: textTheme.bodyLarge!
+                      .copyWith(fontWeight: FontWeight.w600),
                 ),
-                const SizedBox(height: 36),
-                Text(
-                  'Face advertisement specialist need for product launch',
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black.withOpacity(0.8),
-                      ),
+                const SizedBox(
+                  height: 15,
                 ),
-                const SizedBox(height: 12),
                 const Divider(
                   color: Colors.grey, // Set the color of the divider
                   thickness: 2, // Set the thickness of the divider
                   height: 20, // Set the height of the divider
-                  // indent:
-                  //     10, // Set the amount of empty space before the divider
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,8 +94,6 @@ class ProjectPostStep04Screen extends StatelessWidget {
                   color: Colors.grey, // Set the color of the divider
                   thickness: 2, // Set the thickness of the divider
                   height: 20, // Set the height of the divider
-                  // indent:
-                  //     10, // Set the amount of empty space before the divider
                 ),
               ],
             ),
@@ -133,7 +127,10 @@ class ProjectPostStep04Screen extends StatelessWidget {
                               ),
                               Text(
                                 '3-6 months',
-                                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
                                       color: Colors.black.withOpacity(0.8),
                                     ),
                               ),
@@ -156,7 +153,8 @@ class ProjectPostStep04Screen extends StatelessWidget {
                         children: [
                           Text(
                             'Student required',
-                            style: TextStyle(color: Colors.black.withOpacity(0.8)),
+                            style:
+                                TextStyle(color: Colors.black.withOpacity(0.8)),
                           ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,7 +171,8 @@ class ProjectPostStep04Screen extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall!
-                                    .copyWith(color: Colors.black.withOpacity(0.8)),
+                                    .copyWith(
+                                        color: Colors.black.withOpacity(0.8)),
                               ),
                             ],
                           )
@@ -187,21 +186,17 @@ class ProjectPostStep04Screen extends StatelessWidget {
             // const SizedBox(height: 24),
             const Spacer(),
             ElevatedButton(
-              onPressed: () {
-                context.push('/');
-              },
               style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16), // Adjust padding as needed
-                  minimumSize: const Size(double.infinity, 48) // Set minimum button size
-                  ),
+                minimumSize: const Size(double.infinity, 56),
+              ),
+              onPressed: () {},
               child: Text(
-                'Post a job',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: Colors.white,
-                    ),
+                'Apply Now',
+                style: textTheme.bodyMedium!
+                    .copyWith(color: Colors.white, fontWeight: FontWeight.w600),
               ),
             ),
-            const SizedBox(height: 60),
+            const SizedBox(height: 20),
           ],
         ),
       ),

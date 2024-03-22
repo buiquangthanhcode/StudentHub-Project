@@ -1,6 +1,8 @@
+import 'dart:convert';
+
 class SkillSet {
-  String name;
-  bool isSelected;
+  String? name;
+  bool? isSelected;
   SkillSet({
     required this.name,
     required this.isSelected,
@@ -18,4 +20,24 @@ class SkillSet {
       isSelected: isSelected ?? this.isSelected,
     );
   }
+
+  Map<String, dynamic> toMap() {
+    final result = <String, dynamic>{};
+
+    result.addAll({'name': name});
+    result.addAll({'isSelected': isSelected});
+
+    return result;
+  }
+
+  factory SkillSet.fromMap(Map<String, dynamic> map) {
+    return SkillSet(
+      name: map['name'] ?? '',
+      isSelected: map['isSelected'] ?? false,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory SkillSet.fromJson(String source) => SkillSet.fromMap(json.decode(source));
 }
