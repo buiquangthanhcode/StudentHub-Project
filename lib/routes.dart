@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:studenthub/ui/company_profile_creation/profile_creation/profile_creation_screen.dart';
 import 'package:studenthub/ui/company_profile_creation/welcome_screen.dart';
 import 'package:studenthub/ui/home/home_screen.dart';
+import 'package:studenthub/ui/home/messages/chat_detail_screen/chat_detail_screen.dart';
 import 'package:studenthub/ui/login/login_screen.dart';
 import 'package:studenthub/ui/post_a_project/step_1/project_post_step01_screen.dart';
 import 'package:studenthub/ui/post_a_project/step_2/project_post_step02_screen.dart';
@@ -30,6 +31,14 @@ final GoRouter router = GoRouter(
           pageBuilder: (context, state) {
             return customTransitionPage(
                 state.pageKey, const ProjectSearchScreen());
+          },
+        ),
+                GoRoute(
+          path: 'chat_detail',
+          name: 'chat_detail',
+          pageBuilder: (context, state) {
+            return customTransitionPage(
+                state.pageKey, const ChatDetailScreen());
           },
         ),
         GoRoute(

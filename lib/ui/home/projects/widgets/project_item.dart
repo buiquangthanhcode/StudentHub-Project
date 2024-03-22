@@ -6,7 +6,7 @@ import 'package:studenthub/constants/colors.dart';
 class ProjectItem extends StatelessWidget {
   const ProjectItem({
     super.key,
-required this.paddingRight, required this.icon,
+    required this.paddingRight, required this.icon,
   });
 
   final double paddingRight;
