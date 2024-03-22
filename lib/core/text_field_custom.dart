@@ -22,6 +22,8 @@ class TextFieldFormCustom extends StatefulWidget {
     this.minLines,
     this.onEditingComplete,
     this.onFieldSubmitted,
+    this.style,
+    this.fillColor,
   });
 
   final String name;
@@ -40,6 +42,8 @@ class TextFieldFormCustom extends StatefulWidget {
   final int? minLines;
   final void Function()? onEditingComplete;
   final void Function(String?)? onFieldSubmitted;
+  final TextStyle? style;
+  final Color? fillColor;
 
   @override
   State<TextFieldFormCustom> createState() => _TextFieldFormCustomState();
@@ -95,6 +99,7 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
         expands: expands,
         onEditingComplete: widget.onEditingComplete,
         onSubmitted: widget.onFieldSubmitted,
+        style: widget.style,
         decoration: InputDecoration(
           prefixIcon: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -107,7 +112,7 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
                 color: Theme.of(context).colorScheme.hintColor,
               ),
           contentPadding: const EdgeInsets.all(0),
-          fillColor: const Color.fromARGB(255, 242, 242, 242),
+          fillColor: widget.fillColor ?? const Color.fromARGB(255, 242, 242, 242),
           filled: true,
           isDense: true,
           enabledBorder: defaultInputBorder,

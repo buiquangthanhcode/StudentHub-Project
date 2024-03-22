@@ -2,9 +2,7 @@
 import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:studenthub/constants/app_theme.dart';
@@ -13,9 +11,10 @@ import 'package:studenthub/ui/company_profile_creation/profile_creation/widgets/
 import 'package:studenthub/ui/student_profile_creation/student_profile_creation_step_3/widgets/title_widget.dart';
 
 class ProfileInputStep3Screen extends StatefulWidget {
-  const ProfileInputStep3Screen({Key? key}) : super(key: key);
+  const ProfileInputStep3Screen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ProfileInputStep3State createState() => _ProfileInputStep3State();
 }
 
@@ -46,10 +45,8 @@ class _ProfileInputStep3State extends State<ProfileInputStep3Screen> {
         type == 0 ? resumeLoadingState = true : transcriptLoadingState = true;
       });
 
-      result = await FilePicker.platform.pickFiles(
-          type: FileType.custom,
-          allowedExtensions: ['png', 'pdf', 'xlsx', 'jpg'],
-          allowMultiple: true);
+      result = await FilePicker.platform
+          .pickFiles(type: FileType.custom, allowedExtensions: ['png', 'pdf', 'xlsx', 'jpg'], allowMultiple: true);
 
       if (result != null) {
         // print(result);
@@ -97,13 +94,14 @@ class _ProfileInputStep3State extends State<ProfileInputStep3Screen> {
           padding: const EdgeInsets.only(left: 6),
           child: IconButton(
             icon: const Icon(Icons.arrow_back_ios),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.fromLTRB(
-            20, 0, 20, screenSize.height * (Platform.isIOS ? 0.04 : 0.03)),
+        padding: EdgeInsets.fromLTRB(20, 0, 20, screenSize.height * (Platform.isIOS ? 0.04 : 0.03)),
         child: Column(
           children: [
             const TitleWidget(),
@@ -154,15 +152,13 @@ class _ProfileInputStep3State extends State<ProfileInputStep3Screen> {
                                 const SizedBox(
                                   height: 15,
                                 ),
-                                Text('Select File to Upload',
-                                    style: textTheme.bodyMedium),
+                                Text('Select File to Upload', style: textTheme.bodyMedium),
                                 const SizedBox(
                                   height: 2,
                                 ),
                                 Text(
                                   'Select PDF, Excel or Image',
-                                  style: textTheme.bodySmall!
-                                      .copyWith(color: colorTheme.grey),
+                                  style: textTheme.bodySmall!.copyWith(color: colorTheme.grey),
                                 )
                               ],
                             )),
@@ -195,9 +191,7 @@ class _ProfileInputStep3State extends State<ProfileInputStep3Screen> {
                               Container(
                                 width: 40,
                                 height: 40,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10)),
+                                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
                                 child: Image.asset(
                                   e.type == 'png' || e.type == 'jpg'
                                       ? image_path
@@ -217,19 +211,15 @@ class _ProfileInputStep3State extends State<ProfileInputStep3Screen> {
                                     Text(
                                       e.name!,
                                       overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14),
+                                      style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
                                     ),
                                     const SizedBox(
                                       height: 4,
                                     ),
                                     Text(
                                       '${e.size!}MB',
-                                      style: TextStyle(
-                                          color: colorTheme.grey,
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 12),
+                                      style:
+                                          TextStyle(color: colorTheme.grey, fontWeight: FontWeight.w400, fontSize: 12),
                                     ),
                                   ],
                                 ),
@@ -301,15 +291,13 @@ class _ProfileInputStep3State extends State<ProfileInputStep3Screen> {
                               const SizedBox(
                                 height: 15,
                               ),
-                              Text('Select File to Upload',
-                                  style: textTheme.bodyMedium),
+                              Text('Select File to Upload', style: textTheme.bodyMedium),
                               const SizedBox(
                                 height: 2,
                               ),
                               Text(
                                 'Select PDF, Excel or Image',
-                                style: textTheme.bodySmall!
-                                    .copyWith(color: colorTheme.grey),
+                                style: textTheme.bodySmall!.copyWith(color: colorTheme.grey),
                               )
                             ],
                           ),
@@ -342,9 +330,7 @@ class _ProfileInputStep3State extends State<ProfileInputStep3Screen> {
                               Container(
                                 width: 40,
                                 height: 40,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10)),
+                                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
                                 child: Image.asset(
                                   e.type == 'png' || e.type == 'jpg'
                                       ? image_path
@@ -364,19 +350,15 @@ class _ProfileInputStep3State extends State<ProfileInputStep3Screen> {
                                     Text(
                                       e.name!,
                                       overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14),
+                                      style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
                                     ),
                                     const SizedBox(
                                       height: 4,
                                     ),
                                     Text(
                                       '${e.size!}MB',
-                                      style: TextStyle(
-                                          color: colorTheme.grey,
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 12),
+                                      style:
+                                          TextStyle(color: colorTheme.grey, fontWeight: FontWeight.w400, fontSize: 12),
                                     ),
                                   ],
                                 ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/ui/company_profile_creation/profile_creation/profile_creation_screen.dart';
 import 'package:studenthub/ui/company_profile_creation/welcome_screen.dart';
-import 'package:studenthub/ui/home/home_screen.dart';
+import 'package:studenthub/ui/home/dashboard/dashboard_screen.dart';
 import 'package:studenthub/ui/login/login_screen.dart';
 import 'package:studenthub/ui/post_a_project/step_1/project_post_step01_screen.dart';
 import 'package:studenthub/ui/post_a_project/step_2/project_post_step02_screen.dart';
@@ -14,6 +14,8 @@ import 'package:studenthub/ui/home/projects/project_search/project_search_screen
 import 'package:studenthub/ui/signup/signup_step01_screen.dart';
 import 'package:studenthub/ui/signup/signup_step02_screen.dart';
 import 'package:studenthub/ui/signup/switch_account_screen.dart';
+import 'package:studenthub/ui/student_profile_creation/student_profile_creation_step_1/student_profile_creation_step_1_screen.dart';
+import 'package:studenthub/ui/student_profile_creation/student_profile_creation_step_2/student_profile_creation_step_2_screen.dart';
 import 'package:studenthub/ui/student_profile_creation/student_profile_creation_step_3/profile_input_step_3_screen.dart';
 
 final GoRouter router = GoRouter(
@@ -21,7 +23,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return const HomeScreen();
+        return const DashboardScreen();
       },
       routes: [
         GoRoute(
@@ -118,6 +120,31 @@ final GoRouter router = GoRouter(
         return const WelcomeScreen();
       },
     ),
+    GoRoute(
+      path: '/welcome_screen',
+      builder: (BuildContext context, GoRouterState state) {
+        return const WelcomeScreen();
+      },
+    ),
+    GoRoute(
+        path: '/student_create_profile',
+        builder: (BuildContext context, GoRouterState state) {
+          return const StudentProfileCreationStep01Screen();
+        },
+        routes: [
+          GoRoute(
+            path: 'step_02',
+            builder: (BuildContext context, GoRouterState state) {
+              return const StudentProfileCreationStep02Screen();
+            },
+          ),
+          GoRoute(
+            path: 'step_03',
+            builder: (BuildContext context, GoRouterState state) {
+              return const ProfileInputStep3Screen();
+            },
+          ),
+        ]),
   ],
 );
 

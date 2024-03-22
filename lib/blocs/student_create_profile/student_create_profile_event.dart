@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/models/student_create_profile/education_model.dart';
 import 'package:studenthub/models/student_create_profile/language_model.dart';
+import 'package:studenthub/models/student_create_profile/project_model.dart';
 import 'package:studenthub/models/student_create_profile/skillset_model.dart';
 
 @immutable
@@ -20,14 +21,16 @@ class RemoveSkillSetEvent extends StudentCreateProfileEvent {
 
 class AddLanguageEvent extends StudentCreateProfileEvent {
   final Language language;
+  final Function? onSuccess;
 
-  AddLanguageEvent(this.language);
+  AddLanguageEvent({required this.language, this.onSuccess});
 }
 
 class RemoveLanguageEvent extends StudentCreateProfileEvent {
   final Language language;
+  final Function? onSuccess;
 
-  RemoveLanguageEvent(this.language);
+  RemoveLanguageEvent({required this.language, this.onSuccess});
 }
 
 class UpdateLanguageEvent extends StudentCreateProfileEvent {
@@ -52,4 +55,25 @@ class UpdateEducationEvent extends StudentCreateProfileEvent {
   final Education education;
 
   UpdateEducationEvent(this.education);
+}
+
+class AddProjectEvent extends StudentCreateProfileEvent {
+  final Project project;
+  final Function? onSuccess;
+
+  AddProjectEvent({required this.project, required this.onSuccess});
+}
+
+class UpdateProjectEvent extends StudentCreateProfileEvent {
+  final Project project;
+  final Function? onSuccess;
+
+  UpdateProjectEvent({required this.project, required this.onSuccess});
+}
+
+class RemoveProjectEvents extends StudentCreateProfileEvent {
+  final Project project;
+  final Function? onSuccess;
+
+  RemoveProjectEvents({required this.project, required this.onSuccess});
 }
