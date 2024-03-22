@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 class Language {
-  String name;
-  String level;
+  String? id;
+  String? name;
+  String? level;
   Language({
+    this.id,
     required this.name,
     required this.level,
   });

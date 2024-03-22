@@ -1,5 +1,6 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
@@ -68,7 +69,15 @@ class _CreateEducationWidgetState extends State<CreateEducationWidget> {
           ),
           const SizedBox(height: 10),
           const PickerYearCustom(
-            name: 'year',
+            name: 'year_start',
+            hintText: "Year Start",
+            labelText: 'Year Start',
+          ),
+          const SizedBox(height: 10),
+          const PickerYearCustom(
+            name: 'year_end',
+            hintText: "Year End",
+            labelText: 'Year End',
           ),
           const SizedBox(height: 10),
           ElevatedButton(
@@ -78,11 +87,19 @@ class _CreateEducationWidgetState extends State<CreateEducationWidget> {
             ),
             onPressed: () {
               if (formkey.currentState?.saveAndValidate() ?? false) {
-                context.read<StudentCreateProfileBloc>().add(AddEducationEvent(Education(
-                      nameOfSchool: "University of Science",
-                      timeStart: '2020',
-                      timeEnd: '2024',
-                    )));
+                context.read<StudentCreateProfileBloc>().add(
+                      AddEducationEvent(
+                        education: Education(
+                          id: Random().nextInt(1000).toString(),
+                          nameOfSchool: formkey.currentState!.fields['nameOfSchool']!.value as String,
+                          timeStart: formkey.currentState!.fields['year_start']!.value,
+                          timeEnd: formkey.currentState!.fields['year_end']!.value,
+                        ),
+                        onSuccess: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    );
               }
             },
             child: Text(

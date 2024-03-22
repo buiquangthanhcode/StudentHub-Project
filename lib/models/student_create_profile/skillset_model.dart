@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 class SkillSet {
-  String name;
-  bool isSelected;
+  String? name;
+  bool? isSelected;
   SkillSet({
     required this.name,
     required this.isSelected,

@@ -32,10 +32,12 @@ class EmptyDataWidget extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        Text(
-          mainTitle,
-          style: textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600),
-        ),
+        mainTitle != ''
+            ? Text(
+                mainTitle,
+                style: textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600),
+              )
+            : const SizedBox(),
         const SizedBox(
           height: 5,
         ),

@@ -3,19 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
-import 'package:studenthub/blocs/student_create_profile/student_create_profile_event.dart';
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
-import 'package:studenthub/models/student_create_profile/skillset_model.dart';
 import 'package:studenthub/core/dropdown_button_formfield.dart';
 import 'package:studenthub/ui/student_profile_creation/data/student_data_creation.dart';
+import 'package:studenthub/ui/student_profile_creation/widget/autocomplete_widget.dart';
 import 'package:studenthub/ui/student_profile_creation/widget/create_education.dart';
 import 'package:studenthub/ui/student_profile_creation/widget/create_language.dart';
-import 'package:studenthub/ui/student_profile_creation/widget/edit_language.dart';
-import 'package:studenthub/widgets/dialog.dart';
+import 'package:studenthub/ui/student_profile_creation/widget/education_item.dart';
+import 'package:studenthub/ui/student_profile_creation/widget/language_item.dart';
+import 'package:studenthub/ui/student_profile_creation/widget/skillset_item.dart';
+import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/emtyDataWidget.dart';
-import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class StudentProfileCreationStep01Screen extends StatefulWidget {
   const StudentProfileCreationStep01Screen({super.key});
@@ -80,6 +80,7 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
               Text("TechStack",
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontSize: 15,
+                    fontWeight: FontWeight.bold,
                   )),
               DropDownFormFieldCustom(
                   name: "techstack",
@@ -91,7 +92,11 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
               Text("Skillset",
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontSize: 15,
+                    fontWeight: FontWeight.bold,
                   )),
+              const SizedBox(
+                height: 10,
+              ),
               BlocBuilder<StudentCreateProfileBloc, StudentCreateProfileState>(
                 builder: (context, state) {
                   return Column(
@@ -104,36 +109,9 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
                             runSpacing: 6.0,
                             direction: Axis.horizontal,
                             children: state.skillset
-                                .map((item) => Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey),
-                                        borderRadius: BorderRadius.circular(40),
-                                      ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Center(
-                                            child: Text(
-                                              item.name,
-                                              style: theme.textTheme.bodyMedium?.copyWith(
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 10),
-                                          InkWell(
-                                            onTap: () {
-                                              context.read<StudentCreateProfileBloc>().add(RemoveSkillSetEvent(item));
-                                            },
-                                            child: const FaIcon(
-                                              FontAwesomeIcons.xmark,
-                                              size: 16,
-                                              color: Colors.red,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                .map((item) => SkillSetItem(
+                                      theme: theme,
+                                      item: item,
                                     ))
                                 .toList(),
                           );
@@ -141,75 +119,7 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
                         return const SizedBox();
                       }),
                       const SizedBox(height: 10),
-                      LayoutBuilder(
-                        builder: (context, constraints) {
-                          return RawAutocomplete<String>(
-                            optionsViewBuilder: (context, onSelected, options) {
-                              return Align(
-                                alignment: Alignment.topLeft,
-                                child: Material(
-                                  elevation: 4.0,
-                                  child: SizedBox(
-                                    height: options.length <= 2 ? 100 : 200,
-                                    width: constraints.biggest.width,
-                                    child: ListView.builder(
-                                      padding: const EdgeInsets.all(8.0),
-                                      itemCount: options.length,
-                                      itemBuilder: (BuildContext context, int index) {
-                                        final String option = options.elementAt(index);
-                                        return GestureDetector(
-                                          onTap: () {
-                                            onSelected(option);
-                                          },
-                                          child: ListTile(
-                                              title: Text(
-                                            option,
-                                            style: theme.textTheme.bodyMedium?.copyWith(
-                                              fontSize: 16,
-                                            ),
-                                          )),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                            displayStringForOption: (option) {
-                              return option;
-                            },
-                            fieldViewBuilder: (context, fieldTextEditingController, focusNode, onFieldSubmitted) {
-                              textEditingController = fieldTextEditingController;
-                              return SizedBox(
-                                height: 56,
-                                child: TextField(
-                                  controller: fieldTextEditingController,
-                                  focusNode: focusNode,
-                                  decoration: const InputDecoration(
-                                    hintText: 'Enter your skill',
-                                    hintStyle: TextStyle(fontSize: 16),
-                                    border: OutlineInputBorder(),
-                                  ),
-                                ),
-                              );
-                            },
-                            optionsBuilder: (TextEditingValue skillsetTextEditController) {
-                              if (skillsetTextEditController.text == '') {
-                                return const Iterable<String>.empty();
-                              }
-                              return skillSetList.where((String option) {
-                                return option.toLowerCase().contains(skillsetTextEditController.text);
-                              });
-                            },
-                            onSelected: (String value) {
-                              context
-                                  .read<StudentCreateProfileBloc>()
-                                  .add(AddSkillSetEvent(SkillSet(name: value, isSelected: false)));
-                              textEditingController.text = "";
-                            },
-                          );
-                        },
-                      ),
+                      const AutoCompleteWidget(),
                       const SizedBox(height: 10),
                       Column(
                         children: [
@@ -217,7 +127,10 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
                             children: [
                               Text(
                                 "Languages",
-                                style: theme.textTheme.bodyMedium,
+                                style: theme.textTheme.bodyMedium!.copyWith(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               const Spacer(),
                               Container(
@@ -225,7 +138,7 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
                                   border: Border.all(color: theme.colorScheme.grey!),
-                                  borderRadius: BorderRadius.circular(50),
+                                  shape: BoxShape.circle,
                                 ),
                                 child: InkWell(
                                   onTap: () {
@@ -254,58 +167,9 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
                                 return ListView.separated(
                                     shrinkWrap: true,
                                     itemBuilder: (context, index) {
-                                      return Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                        decoration: BoxDecoration(
-                                          color: const Color.fromARGB(255, 242, 242, 242),
-                                          borderRadius: BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: theme.colorScheme.grey!,
-                                          ),
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            Text('${state.languages[index].name}: ${state.languages[index].level}'),
-                                            const Spacer(),
-                                            InkWell(
-                                              onTap: () {
-                                                showModalBottomSheetCustom(context,
-                                                    widgetBuilder: LanguageEdit(item: state.languages[index]));
-                                              },
-                                              child: FaIcon(
-                                                FontAwesomeIcons.penToSquare,
-                                                size: 16,
-                                                color: theme.colorScheme.grey!,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 10),
-                                            InkWell(
-                                              onTap: () {
-                                                showDialogCustom(context,
-                                                    image: 'lib/assets/images/delete.png',
-                                                    title: 'Are you sure you want to delete this language?',
-                                                    textButtom: 'Delete',
-                                                    subtitle: 'This action cannot be undone', onSave: () {
-                                                  context.read<StudentCreateProfileBloc>().add(
-                                                        RemoveLanguageEvent(
-                                                            language: state.languages[index],
-                                                            onSuccess: () {
-                                                              SnackBarService.showSnackBar(
-                                                                  content: "Delete Sucessfully",
-                                                                  status: StatusSnackBar.success);
-                                                              Navigator.pop(context);
-                                                            }),
-                                                      );
-                                                });
-                                              },
-                                              child: const FaIcon(
-                                                FontAwesomeIcons.xmark,
-                                                size: 16,
-                                                color: Colors.red,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                      return LanguageItem(
+                                        theme: theme,
+                                        item: state.languages[index],
                                       );
                                     },
                                     separatorBuilder: (context, index) {
@@ -327,7 +191,10 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
                             children: [
                               Text(
                                 "Education",
-                                style: theme.textTheme.bodyMedium,
+                                style: theme.textTheme.bodyMedium!.copyWith(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               const Spacer(),
                               Container(
@@ -335,7 +202,7 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
                                   border: Border.all(color: theme.colorScheme.grey!),
-                                  borderRadius: BorderRadius.circular(50),
+                                  shape: BoxShape.circle,
                                 ),
                                 child: InkWell(
                                   onTap: () {
@@ -364,94 +231,9 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
                                 return ListView.separated(
                                     shrinkWrap: true,
                                     itemBuilder: (context, index) {
-                                      return Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                        decoration: BoxDecoration(
-                                          color: const Color.fromARGB(255, 242, 242, 242),
-                                          borderRadius: BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: theme.colorScheme.grey!,
-                                          ),
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(state.edutcations[index].nameOfSchool),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                Text(
-                                                    '${state.edutcations[index].timeStart} - ${state.edutcations[index].timeEnd}'),
-                                              ],
-                                            ),
-                                            const Spacer(),
-                                            InkWell(
-                                              onTap: () {
-                                                showModalBottomSheet(
-                                                    context: context,
-                                                    builder: (ctx) => Container(
-                                                          decoration: BoxDecoration(
-                                                            color: theme.colorScheme.surface,
-                                                            borderRadius: const BorderRadius.only(
-                                                              topLeft: Radius.circular(20),
-                                                              topRight: Radius.circular(20),
-                                                            ),
-                                                          ),
-                                                          padding: const EdgeInsets.all(20),
-                                                          width: double.infinity,
-                                                          child: Column(
-                                                            children: [
-                                                              Center(
-                                                                child: Container(
-                                                                  width: 80,
-                                                                  height: 5,
-                                                                  decoration: BoxDecoration(
-                                                                    color: theme.colorScheme.grey,
-                                                                    borderRadius: BorderRadius.circular(50),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              const SizedBox(height: 10),
-                                                              ElevatedButton(
-                                                                style: ElevatedButton.styleFrom(
-                                                                  elevation: 0,
-                                                                  minimumSize: const Size(double.infinity, 56),
-                                                                ),
-                                                                onPressed: () {},
-                                                                child: Text(
-                                                                  "Save",
-                                                                  style: theme.textTheme.bodyMedium!.copyWith(
-                                                                    color: theme.colorScheme.onPrimary,
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ));
-                                              },
-                                              child: FaIcon(
-                                                FontAwesomeIcons.penToSquare,
-                                                size: 16,
-                                                color: theme.colorScheme.grey!,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 10),
-                                            InkWell(
-                                              onTap: () {
-                                                context
-                                                    .read<StudentCreateProfileBloc>()
-                                                    .add(RemoveEducationEvent(state.edutcations[index]));
-                                              },
-                                              child: const FaIcon(
-                                                FontAwesomeIcons.xmark,
-                                                size: 16,
-                                                color: Colors.red,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                      return EducationItem(
+                                        theme: theme,
+                                        item: state.edutcations[index],
                                       );
                                     },
                                     separatorBuilder: (context, index) {
