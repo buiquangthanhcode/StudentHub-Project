@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:studenthub/ui/home/projects/project_saved/widgets/project_item_saved.dart';
 import 'package:studenthub/ui/home/projects/widgets/project_item.dart';
 
 class ProjectSavedScreen extends StatefulWidget {
@@ -56,6 +57,7 @@ class _ProjectSavedState extends State<ProjectSavedScreen> {
         controller: _scrollController,
         slivers: [
           SliverAppBar(
+            titleSpacing: 0,
             expandedHeight: 60,
             collapsedHeight: 60,
             elevation: 0,
@@ -72,10 +74,7 @@ class _ProjectSavedState extends State<ProjectSavedScreen> {
             delegate: SliverChildBuilderDelegate(
               childCount: 2,
               (BuildContext context, int index) {
-                return const ProjectItem(
-                  paddingRight: 0,
-                  icon: FontAwesomeIcons.solidHeart,
-                );
+                return const ProjectItemSaved();
               },
             ),
           ),

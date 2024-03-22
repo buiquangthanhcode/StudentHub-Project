@@ -4,27 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 
-class ProjectItem extends StatefulWidget {
-  const ProjectItem({
-    super.key,
-    required this.paddingRight,
-  });
-
-  final double paddingRight;
-
-  @override
-  State<ProjectItem> createState() => _ProjectItemState();
-}
-
-class _ProjectItemState extends State<ProjectItem> {
-  bool? isSaved;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    isSaved = false;
-  }
+class ProjectItemSaved extends StatelessWidget {
+  const ProjectItemSaved({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +13,17 @@ class _ProjectItemState extends State<ProjectItem> {
     var colorTheme = Theme.of(context).colorScheme;
     return GestureDetector(
       onTap: () {
-        context.pushNamed('project_detail',queryParameters: {'id':'project_id...'});
+        context.pushNamed('project_detail',
+            queryParameters: {'id': 'project_id...'});
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20),
-        padding: EdgeInsets.fromLTRB(0, 16, widget.paddingRight, 16),
+        padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
         decoration: BoxDecoration(
-            border: Border(
-                bottom: BorderSide(width: 1, color: colorTheme.hintColor!))),
+          border: Border(
+            bottom: BorderSide(width: 1, color: colorTheme.hintColor!),
+          ),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -69,17 +53,9 @@ class _ProjectItemState extends State<ProjectItem> {
                     ],
                   ),
                 ),
-                InkWell(
-                  onTap: () {
-                    isSaved = !isSaved!;
-                    setState(() {});
-                  },
-                  child: FaIcon(
-                    isSaved!
-                        ? FontAwesomeIcons.solidHeart
-                        : FontAwesomeIcons.heart,
-                    color: primaryColor,
-                  ),
+                const FaIcon(
+                  FontAwesomeIcons.solidHeart,
+                  color: primaryColor,
                 )
               ],
             ),

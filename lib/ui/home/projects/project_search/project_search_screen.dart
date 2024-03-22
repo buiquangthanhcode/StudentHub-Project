@@ -86,6 +86,7 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
+        titleSpacing: 0,
         title: Text(
           'Project search',
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -277,7 +278,6 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                     itemCount: 10,
                     itemBuilder: (context, index) => const ProjectItem(
                           paddingRight: 12,
-                          icon: FontAwesomeIcons.heart,
                         )),
               ),
           ],
