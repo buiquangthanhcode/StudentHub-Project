@@ -5,6 +5,7 @@ import 'package:studenthub/blocs/student_create_profile/student_create_profile_e
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_state.dart';
 import 'package:studenthub/models/student_create_profile/education_model.dart';
 import 'package:studenthub/models/student_create_profile/language_model.dart';
+import 'package:studenthub/models/student_create_profile/project_model.dart';
 import 'package:studenthub/models/student_create_profile/skillset_model.dart';
 
 class StudentCreateProfileBloc extends Bloc<StudentCreateProfileEvent, StudentCreateProfileState> {
@@ -15,6 +16,7 @@ class StudentCreateProfileBloc extends Bloc<StudentCreateProfileEvent, StudentCr
             isChange: false,
             languages: [],
             edutcations: [],
+            projects: [],
           ),
         ) {
     on<AddSkillSetEvent>(_onAllSkillSet);
@@ -25,6 +27,10 @@ class StudentCreateProfileBloc extends Bloc<StudentCreateProfileEvent, StudentCr
     on<AddEducationEvent>(_onAddEducation);
     on<RemoveEducationEvent>(_onRemoveEducation);
     on<UpdateEducationEvent>(_onUpdateEducation);
+
+    on<AddProjectEvent>(_onAddProject);
+    on<UpdateProjectEvent>(_onUpdateProject);
+    on<RemoveProjectEvents>(_onRemoveProject);
   }
 
   FutureOr<void> _onAllSkillSet(AddSkillSetEvent event, Emitter<StudentCreateProfileState> emit) async {
@@ -46,6 +52,7 @@ class StudentCreateProfileBloc extends Bloc<StudentCreateProfileEvent, StudentCr
     final List<Language> newLanguage = List<Language>.from(state.languages);
     newLanguage.add(event.language);
     emit(state.update(languages: newLanguage));
+    event.onSuccess!();
   }
 
   FutureOr<void> _onRemoveLanguage(RemoveLanguageEvent event, Emitter<StudentCreateProfileState> emit) async {
@@ -53,6 +60,7 @@ class StudentCreateProfileBloc extends Bloc<StudentCreateProfileEvent, StudentCr
     final List<Language> newLanguage = List<Language>.from(state.languages);
     newLanguage.remove(event.language);
     emit(state.update(languages: newLanguage));
+    event.onSuccess!();
   }
 
   FutureOr<void> _onUpdateLanguage(UpdateLanguageEvent event, Emitter<StudentCreateProfileState> emit) async {
@@ -82,5 +90,29 @@ class StudentCreateProfileBloc extends Bloc<StudentCreateProfileEvent, StudentCr
     newEducation[newEducation.indexWhere((element) => element.nameOfSchool == event.education.nameOfSchool)] =
         event.education;
     emit(state.update(edutcations: newEducation));
+  }
+
+  FutureOr<void> _onAddProject(AddProjectEvent event, Emitter<StudentCreateProfileState> emit) async {
+    // Clone skill set and then update state
+    final List<Project> newProject = List<Project>.from(state.projects);
+    newProject.add(event.project);
+    emit(state.update(projects: newProject));
+    event.onSuccess!();
+  }
+
+  FutureOr<void> _onUpdateProject(UpdateProjectEvent event, Emitter<StudentCreateProfileState> emit) async {
+    // Clone skill set and then update state
+    final List<Project> newProject = List<Project>.from(state.projects);
+    newProject[newProject.indexWhere((element) => element.name == event.project.name)] = event.project;
+    emit(state.update(projects: newProject));
+    event.onSuccess!();
+  }
+
+  FutureOr<void> _onRemoveProject(RemoveProjectEvents event, Emitter<StudentCreateProfileState> emit) async {
+    // Clone skill set and then update state
+    final List<Project> newProject = List<Project>.from(state.projects);
+    newProject.remove(event.project);
+    emit(state.update(projects: newProject));
+    event.onSuccess!();
   }
 }
