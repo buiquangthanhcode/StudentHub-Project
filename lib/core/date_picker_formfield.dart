@@ -140,21 +140,35 @@ class _DatePickerCustomState extends State<DatePickerCustom> {
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 ),
-                child: SfDateRangePicker(
-                  backgroundColor: Colors.white,
-                  onSelectionChanged: _onSelectionChanged,
-                  showActionButtons: showActionButtons,
-                  initialSelectedDate: DateTime.now(),
-                  headerStyle: headerStyle,
-                  view: view,
-                  monthViewSettings: monthViewSettings,
-                  selectionMode: selectionMode,
-                  onSubmit: (p0) {
-                    Navigator.pop(context, p0);
-                  },
-                  onCancel: () {
-                    Navigator.pop(context);
-                  },
+                child: Theme(
+                  data: ThemeData.light().copyWith(
+                    colorScheme: const ColorScheme.light(
+                      primary: primaryColor,
+                      onPrimary: Colors.white,
+                      surface: primaryColor,
+                      onSurface: Colors.black,
+                    ),
+                    dialogBackgroundColor: Colors.white,
+                  ),
+                  child: SfDateRangePicker(
+                    backgroundColor: Colors.white,
+                    onSelectionChanged: _onSelectionChanged,
+                    showActionButtons: showActionButtons,
+                    cancelText: 'CANCEL',
+                    confirmText: 'OK',
+                    initialSelectedDate: DateTime.now(),
+                    headerStyle: headerStyle,
+                    view: view,
+                    monthViewSettings: monthViewSettings,
+                    selectionMode: selectionMode,
+                    selectionColor: primaryColor,
+                    onSubmit: (p0) {
+                      Navigator.pop(context, p0);
+                    },
+                    onCancel: () {
+                      Navigator.pop(context);
+                    },
+                  ),
                 ),
               ),
             ],
