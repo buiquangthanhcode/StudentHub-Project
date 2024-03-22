@@ -3,9 +3,12 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:studenthub/constants/colors.dart';
 
 class PickerYearCustom extends StatefulWidget {
-  const PickerYearCustom({super.key, required this.name});
+  const PickerYearCustom({super.key, required this.name, this.hintText, this.labelText, this.initValue});
 
   final String name;
+  final String? hintText;
+  final String? labelText;
+  final DateTime? initValue;
 
   @override
   State<PickerYearCustom> createState() => _PickerYearCustomState();
@@ -41,7 +44,7 @@ class _PickerYearCustomState extends State<PickerYearCustom> {
                   child: YearPicker(
                     firstDate: DateTime(DateTime.now().year - 100, 1),
                     lastDate: DateTime(DateTime.now().year + 100, 1),
-                    selectedDate: selectedDate,
+                    selectedDate: widget.initValue ?? selectedDate,
                     onChanged: (DateTime dateTime) {
                       Navigator.pop(context, dateTime);
                     },
@@ -54,6 +57,14 @@ class _PickerYearCustomState extends State<PickerYearCustom> {
       },
     );
     return data;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initValue != null) {
+      texController.text = widget.initValue!.year.toString();
+    }
   }
 
   @override
@@ -76,8 +87,8 @@ class _PickerYearCustomState extends State<PickerYearCustom> {
             ),
             controller: texController,
             decoration: InputDecoration(
-              labelText: 'Year',
-              hintText: 'Year',
+              hintText: widget.hintText ?? 'Year',
+              labelText: widget.labelText ?? 'Year',
               hintStyle: TextStyle(
                 color: Colors.grey[600],
                 fontSize: 16,

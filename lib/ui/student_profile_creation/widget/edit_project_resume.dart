@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -10,17 +8,19 @@ import 'package:studenthub/core/date_picker_formfield.dart';
 import 'package:studenthub/core/text_field_custom.dart';
 import 'package:studenthub/models/student_create_profile/project_model.dart';
 import 'package:studenthub/models/student_create_profile/skillset_model.dart';
-import 'package:studenthub/utils/logger.dart';
+import 'package:studenthub/utils/helper.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class CreateProjectResume extends StatefulWidget {
-  const CreateProjectResume({super.key});
+class EditProjectResumeItem extends StatefulWidget {
+  const EditProjectResumeItem({super.key, required this.item});
+
+  final ProjectResume item;
 
   @override
-  State<CreateProjectResume> createState() => _CreateProjectResumeState();
+  State<EditProjectResumeItem> createState() => _EditProjectResumeItemState();
 }
 
-class _CreateProjectResumeState extends State<CreateProjectResume> {
+class _EditProjectResumeItemState extends State<EditProjectResumeItem> {
   final formkey = GlobalKey<FormBuilderState>();
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
           Row(
             children: [
               Text(
-                "Create Project",
+                "Edit Project",
                 style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
@@ -69,19 +69,22 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
             ),
             name: 'project_name',
             hintText: 'Project Name',
+            initialValue: widget.item.name,
           ),
           const SizedBox(height: 10),
-          const DatePickerCustom(
+          DatePickerCustom(
             name: 'start_date',
             hintText: 'Start Date',
             labelText: 'Start Date',
+            initialDate: stringToDateTime(widget.item.startDate),
             view: DateRangePickerView.month,
           ),
           const SizedBox(height: 10),
-          const DatePickerCustom(
+          DatePickerCustom(
             name: 'end_date',
             hintText: 'End Date',
             labelText: 'End Date',
+            initialDate: stringToDateTime(widget.item.endDate),
             view: DateRangePickerView.month,
           ),
           const SizedBox(height: 10),
@@ -97,6 +100,7 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
             ),
             name: 'description',
             hintText: 'Description',
+            initialValue: widget.item.description,
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -105,10 +109,9 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
             ),
             onPressed: () {
               if (formkey.currentState?.saveAndValidate() ?? false) {
-                logger.d(formkey.currentState?.value);
-                context.read<StudentCreateProfileBloc>().add(AddProjectEvent(
+                context.read<StudentCreateProfileBloc>().add(UpdateProjectEvent(
                       project: ProjectResume(
-                        id: Random().nextInt(1000).toString(),
+                        id: widget.item.id,
                         duration: 1,
                         skills: [
                           SkillSet(name: 'NodeJs', isSelected: false),

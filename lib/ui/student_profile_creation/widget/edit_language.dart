@@ -59,12 +59,14 @@ class _LanguageEditState extends State<LanguageEdit> {
             name: 'language',
             onSelected: (value) {},
             hint: "Please selecte Language",
+            initValue: widget.item.name,
           ),
           DropDownFormFieldCustom(
             name: 'level',
             data: levelLanguage,
             onSelected: (value) {},
             hint: "Please selecte level",
+            initValue: widget.item.level,
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -73,7 +75,15 @@ class _LanguageEditState extends State<LanguageEdit> {
             ),
             onPressed: () {
               if (formkey.currentState?.saveAndValidate() ?? false) {
-                BlocProvider.of<StudentCreateProfileBloc>(context).add(UpdateLanguageEvent(widget.item));
+                Language itemUpdate = Language(
+                    id: widget.item.id,
+                    name: formkey.currentState?.fields['language']?.value,
+                    level: formkey.currentState?.fields['level']?.value);
+                BlocProvider.of<StudentCreateProfileBloc>(context).add(UpdateLanguageEvent(
+                    language: itemUpdate,
+                    onSuccess: () {
+                      Navigator.pop(context);
+                    }));
               }
             },
             child: Text(

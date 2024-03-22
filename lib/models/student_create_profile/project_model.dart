@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:studenthub/models/student_create_profile/skillset_model.dart';
 
 class ProjectResume {
-  String id;
-  String name;
-  String description;
-  String startDate;
-  String endDate;
-  int duration;
-  List<SkillSet> skills;
+  String? id;
+  String? name;
+  String? description;
+  String? startDate;
+  String? endDate;
+  int? duration;
+  List<SkillSet>? skills;
   ProjectResume({
     required this.id,
     required this.name,
@@ -49,7 +49,7 @@ class ProjectResume {
     result.addAll({'startDate': startDate});
     result.addAll({'endDate': endDate});
     result.addAll({'duration': duration});
-    result.addAll({'skills': skills.map((x) => x.toMap()).toList()});
+    result.addAll({'skills': skills?.map((x) => x.toMap()).toList()});
 
     return result;
   }

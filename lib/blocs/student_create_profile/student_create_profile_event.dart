@@ -35,26 +35,30 @@ class RemoveLanguageEvent extends StudentCreateProfileEvent {
 
 class UpdateLanguageEvent extends StudentCreateProfileEvent {
   final Language language;
+  final Function? onSuccess;
 
-  UpdateLanguageEvent(this.language);
+  UpdateLanguageEvent({required this.language, required this.onSuccess});
 }
 
 class AddEducationEvent extends StudentCreateProfileEvent {
   final Education education;
+  final Function? onSuccess;
 
-  AddEducationEvent(this.education);
+  AddEducationEvent({required this.education, required this.onSuccess});
 }
 
 class RemoveEducationEvent extends StudentCreateProfileEvent {
   final Education education;
+  final Function? onSuccess;
 
-  RemoveEducationEvent(this.education);
+  RemoveEducationEvent({required this.education, required this.onSuccess});
 }
 
 class UpdateEducationEvent extends StudentCreateProfileEvent {
   final Education education;
+  final Function? onSuccess;
 
-  UpdateEducationEvent(this.education);
+  UpdateEducationEvent({required this.education, required this.onSuccess});
 }
 
 class AddProjectEvent extends StudentCreateProfileEvent {

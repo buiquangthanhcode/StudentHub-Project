@@ -23,7 +23,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardScreen();
+        return const StudentProfileCreationStep01Screen();
       },
       routes: [
         GoRoute(
@@ -49,29 +49,25 @@ final GoRouter router = GoRouter(
             GoRoute(
               path: 'step_01',
               pageBuilder: (BuildContext context, GoRouterState state) {
-                return customTransitionPage(
-                    state.pageKey, const ProjectPostStep01Screen());
+                return customTransitionPage(state.pageKey, const ProjectPostStep01Screen());
               },
             ),
             GoRoute(
               path: 'step_02',
               pageBuilder: (BuildContext context, GoRouterState state) {
-                return customTransitionPage(
-                    state.pageKey, const ProjectPostStep02Screen());
+                return customTransitionPage(state.pageKey, const ProjectPostStep02Screen());
               },
             ),
             GoRoute(
               path: 'step_03',
               pageBuilder: (BuildContext context, GoRouterState state) {
-                return customTransitionPage(
-                    state.pageKey, const ProjectPostStep03Screen());
+                return customTransitionPage(state.pageKey, const ProjectPostStep03Screen());
               },
             ),
             GoRoute(
               path: 'step_04',
               pageBuilder: (BuildContext context, GoRouterState state) {
-                return customTransitionPage(
-                    state.pageKey, const ProjectPostStep04Screen());
+                return customTransitionPage(state.pageKey, const ProjectPostStep04Screen());
               },
             ),
           ],

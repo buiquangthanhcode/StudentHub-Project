@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 class Education {
-  String nameOfSchool;
-  final String timeStart;
-  final String timeEnd;
+  String? nameOfSchool;
+  String? timeStart;
+  String? timeEnd;
+  String? id;
   Education({
+    this.id,
     required this.nameOfSchool,
     required this.timeStart,
     required this.timeEnd,

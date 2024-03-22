@@ -3,14 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class DropDownFormFieldCustom extends StatelessWidget {
-  const DropDownFormFieldCustom(
-      {super.key, required this.name, required this.data, this.onChanged, this.onSelected, this.onSaved, this.hint});
+  const DropDownFormFieldCustom({
+    super.key,
+    required this.name,
+    required this.data,
+    this.onChanged,
+    this.onSelected,
+    this.onSaved,
+    this.hint,
+    this.initValue,
+  });
   final String name;
   final List<String> data;
   final Function(String)? onChanged;
   final Function(String)? onSelected;
   final Function(String?)? onSaved;
   final String? hint;
+  final String? initValue;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +31,7 @@ class DropDownFormFieldCustom extends StatelessWidget {
         builder: (field) {
           return DropdownButtonFormField2<String>(
             isExpanded: true,
+            value: initValue,
             decoration: InputDecoration(
               // Add Horizontal padding using menuItemStyleData.padding so it matches
               // the menu padding when button's width is not specified.

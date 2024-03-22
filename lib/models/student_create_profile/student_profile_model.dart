@@ -6,17 +6,17 @@ import 'package:studenthub/models/student_create_profile/project_model.dart';
 import 'package:studenthub/models/student_create_profile/skillset_model.dart';
 
 class Student {
-  String id;
-  String userId;
-  String fullname;
-  String email;
-  String techStack;
-  List<SkillSet> skillSet;
-  List<Language> languages;
-  List<ProjectResume> projectResume;
-  List<Education> educations;
-  String createdTime;
-  String updatedTime;
+  String? id;
+  String? userId;
+  String? fullname;
+  String? email;
+  String? techStack;
+  List<SkillSet>? skillSet;
+  List<Language>? languages;
+  List<ProjectResume>? projectResume;
+  List<Education>? educations;
+  String? createdTime;
+  String? updatedTime;
   Student({
     required this.id,
     required this.userId,
@@ -67,10 +67,10 @@ class Student {
     result.addAll({'fullname': fullname});
     result.addAll({'email': email});
     result.addAll({'techStack': techStack});
-    result.addAll({'skillSet': skillSet.map((x) => x.toMap()).toList()});
-    result.addAll({'languages': languages.map((x) => x.toMap()).toList()});
-    result.addAll({'projectResume': projectResume.map((x) => x.toMap()).toList()});
-    result.addAll({'educations': educations.map((x) => x.toMap()).toList()});
+    result.addAll({'skillSet': skillSet?.map((x) => x.toMap()).toList()});
+    result.addAll({'languages': languages?.map((x) => x.toMap()).toList()});
+    result.addAll({'projectResume': projectResume?.map((x) => x.toMap()).toList()});
+    result.addAll({'educations': educations?.map((x) => x.toMap()).toList()});
     result.addAll({'createdTime': createdTime});
     result.addAll({'updatedTime': updatedTime});
 

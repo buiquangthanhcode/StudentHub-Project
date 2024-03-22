@@ -11,12 +11,14 @@ class DatePickerCustom extends StatefulWidget {
     required this.name,
     this.hintText,
     this.labelText,
+    this.initialDate,
   });
 
   final DateRangePickerView view;
   final String name;
   final String? hintText;
   final String? labelText;
+  final DateTime? initialDate;
   @override
   State<DatePickerCustom> createState() => _DatePickerCustomState();
 }
@@ -29,6 +31,14 @@ class _DatePickerCustomState extends State<DatePickerCustom> {
   String _rangeCount = '';
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.initialDate != null) {
+      texController.text = DateFormat('dd/MM/yyyy').format(widget.initialDate!).toString();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
         height: 50,
@@ -37,7 +47,7 @@ class _DatePickerCustomState extends State<DatePickerCustom> {
           builder: (field) {
             return TextFormField(
               style: TextStyle(
-                color: Colors.grey[600],
+                color: Colors.grey[400],
                 fontSize: 16,
               ),
               controller: texController,
@@ -50,12 +60,13 @@ class _DatePickerCustomState extends State<DatePickerCustom> {
                   fontSize: 16,
                 ),
                 labelStyle: TextStyle(
-                  color: Colors.grey[600],
+                  color: Colors.grey[400],
                   fontSize: 16,
                 ),
-                prefixIcon: const Icon(
-                  Icons.calendar_today,
+                prefixIcon: Icon(
+                  Icons.calendar_today_rounded,
                   size: 16,
+                  color: Colors.grey[500],
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),

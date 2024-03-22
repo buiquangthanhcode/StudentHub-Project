@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -75,6 +77,7 @@ class _CreateLanguageWidgetState extends State<CreateLanguageWidget> {
             onPressed: () {
               if (formkey.currentState?.saveAndValidate() ?? false) {
                 Language newLanguage = Language(
+                  id: Random().nextInt(1000).toString(),
                   name: formkey.currentState?.fields['language']?.value,
                   level: formkey.currentState?.fields['level']?.value,
                 );
