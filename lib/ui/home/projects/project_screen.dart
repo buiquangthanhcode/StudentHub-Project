@@ -205,7 +205,6 @@ class _ProjectScreenState extends State<ProjectScreen> {
               (BuildContext context, int index) {
                 return const ProjectItem(
                   paddingRight: 8,
-                  icon: FontAwesomeIcons.heart,
                 );
               },
             ),

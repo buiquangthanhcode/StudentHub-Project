@@ -12,14 +12,14 @@ import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/ui/company_profile_creation/profile_creation/widgets/continue_button.dart';
 import 'package:studenthub/ui/student_profile_creation/student_profile_creation_step_3/widgets/title_widget.dart';
 
-class ProfileInputStep3Screen extends StatefulWidget {
-  const ProfileInputStep3Screen({Key? key}) : super(key: key);
+class StudentProfileCreationStep3Screen extends StatefulWidget {
+  const StudentProfileCreationStep3Screen({Key? key}) : super(key: key);
 
   @override
-  _ProfileInputStep3State createState() => _ProfileInputStep3State();
+  _StudentProfileCreationStep3ScreenState createState() => _StudentProfileCreationStep3ScreenState();
 }
 
-class _ProfileInputStep3State extends State<ProfileInputStep3Screen> {
+class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreationStep3Screen> {
   FilePickerResult? result;
   // var? fileName;
   PlatformFile? pickerfile;
