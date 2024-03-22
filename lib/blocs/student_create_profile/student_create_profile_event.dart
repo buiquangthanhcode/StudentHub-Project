@@ -58,21 +58,21 @@ class UpdateEducationEvent extends StudentCreateProfileEvent {
 }
 
 class AddProjectEvent extends StudentCreateProfileEvent {
-  final Project project;
+  final ProjectResume project;
   final Function? onSuccess;
 
   AddProjectEvent({required this.project, required this.onSuccess});
 }
 
 class UpdateProjectEvent extends StudentCreateProfileEvent {
-  final Project project;
+  final ProjectResume project;
   final Function? onSuccess;
 
   UpdateProjectEvent({required this.project, required this.onSuccess});
 }
 
 class RemoveProjectEvents extends StudentCreateProfileEvent {
-  final Project project;
+  final ProjectResume project;
   final Function? onSuccess;
 
   RemoveProjectEvents({required this.project, required this.onSuccess});

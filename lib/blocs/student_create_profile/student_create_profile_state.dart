@@ -8,7 +8,7 @@ class StudentCreateProfileState extends Equatable {
   final List<SkillSet> skillset;
   final List<Language> languages;
   final List<Education> edutcations;
-  final List<Project> projects;
+  final List<ProjectResume> projects;
   final bool isChange;
 
   const StudentCreateProfileState({
@@ -27,7 +27,7 @@ class StudentCreateProfileState extends Equatable {
     bool? isChange,
     List<Language>? languages,
     List<Education>? edutcations,
-    List<Project>? projects,
+    List<ProjectResume>? projects,
   }) {
     return StudentCreateProfileState(
       skillset: skillset ?? this.skillset,

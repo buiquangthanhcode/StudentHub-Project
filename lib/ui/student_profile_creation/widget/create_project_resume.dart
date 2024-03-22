@@ -10,14 +10,14 @@ import 'package:studenthub/models/student_create_profile/project_model.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class CreateProject extends StatefulWidget {
-  const CreateProject({super.key});
+class CreateProjectResume extends StatefulWidget {
+  const CreateProjectResume({super.key});
 
   @override
-  State<CreateProject> createState() => _CreateProjectState();
+  State<CreateProjectResume> createState() => _CreateProjectResumeState();
 }
 
-class _CreateProjectState extends State<CreateProject> {
+class _CreateProjectResumeState extends State<CreateProjectResume> {
   final formkey = GlobalKey<FormBuilderState>();
   @override
   Widget build(BuildContext context) {
@@ -104,7 +104,7 @@ class _CreateProjectState extends State<CreateProject> {
               if (formkey.currentState?.saveAndValidate() ?? false) {
                 logger.d(formkey.currentState?.value);
                 context.read<StudentCreateProfileBloc>().add(AddProjectEvent(
-                      project: Project(
+                      project: ProjectResume(
                         id: '1',
                         duration: 1,
                         skills: [],
