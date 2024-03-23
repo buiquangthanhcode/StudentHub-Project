@@ -155,6 +155,7 @@ class _SignUpStep02State extends State<SignUpStep02Screen> {
                     ),
                   ],
                 ),
+                const SizedBox(height: 36),
                 Container(
                   margin: const EdgeInsets.only(bottom: 20),
                   width: double.infinity,
