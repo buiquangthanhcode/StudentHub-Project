@@ -55,12 +55,6 @@ class _LoginScreenState extends State<LoginScreen> {
               TextFieldFormCustom(
                 name: 'username',
                 hintText: 'Username',
-                validator: (p0) {
-                  if (p0 == null || p0.isEmpty) {
-                    return 'Please enter password';
-                  }
-                  return '';
-                },
                 icon: Container(
                   width: 18,
                   height: 18,
@@ -79,12 +73,9 @@ class _LoginScreenState extends State<LoginScreen> {
               TextFieldFormCustom(
                 name: 'password',
                 hintText: 'Password',
-                validator: (p0) {
-                  if (p0 == null || p0.isEmpty) {
-                    return 'Please enter password';
-                  }
-                  return '';
-                },
+                obscureText: true,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
                 icon: Container(
                   width: 18,
                   height: 18,
@@ -132,11 +123,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
                         // validate form
                         if (_formKeyLogin.currentState?.saveAndValidate() ?? false) {
-                          // Navigate to the second screen using a named route.
-                          context.push('/dashboard');
+                          context.push('/home');
                         }
-
-                        // Navigate to the second screen using a named route.
                       },
                       child: Text(
                         'Login',

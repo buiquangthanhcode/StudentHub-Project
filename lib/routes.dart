@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/ui/company_profile_creation/profile_creation/profile_creation_screen.dart';
 import 'package:studenthub/ui/company_profile_creation/welcome_screen.dart';
-import 'package:studenthub/ui/home/dashboard/dashboard_screen.dart';
+import 'package:studenthub/ui/home/account/account_screen.dart';
 import 'package:studenthub/ui/home/dashboard/project_review/project_review_detail_screen.dart';
 import 'package:studenthub/ui/home/home_screen.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/chat_detail_screen.dart';
 import 'package:studenthub/ui/home/projects/project_detail/project_detail_screen.dart';
+import 'package:studenthub/ui/home/projects/submit_proposal/submit_proposal_sceen.dart';
 import 'package:studenthub/ui/login/login_screen.dart';
 import 'package:studenthub/ui/post_a_project/step_1/project_post_step01_screen.dart';
 import 'package:studenthub/ui/post_a_project/step_2/project_post_step02_screen.dart';
@@ -17,7 +18,6 @@ import 'package:studenthub/ui/home/projects/project_saved/project_saved_screen.d
 import 'package:studenthub/ui/home/projects/project_search/project_search_screen.dart';
 import 'package:studenthub/ui/signup/signup_step01_screen.dart';
 import 'package:studenthub/ui/signup/signup_step02_screen.dart';
-import 'package:studenthub/ui/signup/switch_account_screen.dart';
 import 'package:studenthub/ui/student_profile_creation/student_profile_creation_step_3/student_profile_creation_step_3_screen.dart';
 import 'package:studenthub/ui/student_profile_creation/student_profile_creation_step_1/student_profile_creation_step_1_screen.dart';
 import 'package:studenthub/ui/student_profile_creation/student_profile_creation_step_2/student_profile_creation_step_2_screen.dart';
@@ -27,7 +27,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return const HomeScreen();
+        return const IntroductionScreen();
       },
       routes: [
         GoRoute(
@@ -52,12 +52,20 @@ final GoRouter router = GoRouter(
           },
         ),
         GoRoute(
-          path: 'project_detail',
-          name: 'project_detail',
-          pageBuilder: (context, state) {
-            return customTransitionPage(state.pageKey, ProjectDetailScreen(id: state.uri.queryParameters["id"]!));
-          },
-        ),
+            path: 'project_detail',
+            name: 'project_detail',
+            pageBuilder: (context, state) {
+              return customTransitionPage(state.pageKey, ProjectDetailScreen(id: state.uri.queryParameters["id"]!));
+            },
+            routes: [
+              GoRoute(
+                path: 'submit_proposal',
+                name: 'submit_proposal',
+                pageBuilder: (context, state) {
+                  return customTransitionPage(state.pageKey, const SubmitProposalScreen());
+                },
+              ),
+            ]),
         GoRoute(
           path: 'project_post',
           builder: (BuildContext context, GoRouterState state) {
@@ -93,6 +101,12 @@ final GoRouter router = GoRouter(
       ],
     ),
     GoRoute(
+      path: '/home',
+      builder: (BuildContext context, GoRouterState state) {
+        return const HomeScreen();
+      },
+    ),
+    GoRoute(
       path: '/introduction',
       builder: (BuildContext context, GoRouterState state) {
         return const IntroductionScreen();
@@ -117,9 +131,9 @@ final GoRouter router = GoRouter(
       },
     ),
     GoRoute(
-      path: '/switch_account',
+      path: '/account',
       builder: (BuildContext context, GoRouterState state) {
-        return const SwitchAccountScreen();
+        return const AccountScreen();
       },
     ),
     GoRoute(
