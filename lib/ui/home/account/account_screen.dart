@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -20,19 +21,19 @@ class _AccountState extends State<AccountScreen> {
 
     List<Map<String, dynamic>> dataSetting = [
       {
-        'icon': 'lib/assets/svgs/circle-user.svg',
+        'icon': FontAwesomeIcons.solidCircleUser,
         'name': 'Profiles',
-        // 'route_name': 'student_create_profile_step_01',
-        'route_name': 'company_create_profile',
+        'route_name': 'student_create_profile_step_01',
+        // 'route_name': 'company_create_profile',
         // 'route_name': 'company_edit_profile',
       },
       {
-        'icon': 'lib/assets/svgs/setting.svg',
+        'icon': FontAwesomeIcons.gears,
         'name': 'Setting',
         'route_name': 'student_create_profile_step_01',
       },
       {
-        'icon': 'lib/assets/svgs/logout.svg',
+        'icon': FontAwesomeIcons.leftLong,
         'name': 'Log out',
         'route_name': 'introduction',
       },
@@ -160,54 +161,64 @@ class _AccountState extends State<AccountScreen> {
               const SizedBox(
                 height: 20,
               ),
-              ListView.separated(
-                shrinkWrap: true,
-                itemBuilder: (context, intdex) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 10),
-                    margin: const EdgeInsets.only(top: 5),
-                    child: InkWell(
-                      onTap: () {
-                        context.pushNamed(dataSetting[intdex]['route_name']);
-                      },
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(
-                            dataSetting[intdex]['icon'],
-                            width: 30,
-                            height: 30,
-                            color: theme.colorScheme.grey?.withOpacity(0.8),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    border: Border.all(
+                        color: Color.fromARGB(255, 160, 160, 160), width: 1)),
+                child: Column(
+                  children: [
+                    ...dataSetting.map(
+                      (e) => GestureDetector(
+                        onTap: () {
+                          context.pushNamed(e['route_name']);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 22, horizontal: 5),
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
+                                      width: e == dataSetting.last ? 0 : 1,
+                                      color: const Color.fromARGB(
+                                          255, 220, 220, 220)))),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                alignment: Alignment.center,
+                                width: 28,
+                                child: FaIcon(
+                                  e['icon'] as IconData,
+                                  color: theme.colorScheme.grey,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 18,
+                              ),
+                              Text(
+                                e['name'].toString(),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: theme.colorScheme.grey,
+                                ),
+                              ),
+                              const Spacer(),
+                              if (e != dataSetting.last)
+                                FaIcon(
+                                  FontAwesomeIcons.angleRight,
+                                  size: 16,
+                                  color: theme.colorScheme.grey,
+                                )
+                            ],
                           ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            dataSetting[intdex]['name'],
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const Spacer(),
-                          Icon(
-                            FontAwesomeIcons.chevronRight,
-                            size: 16,
-                            color: theme.colorScheme.grey,
-                          ),
-                        ],
+                        ),
                       ),
                     ),
-                  );
-                },
-                separatorBuilder: ((context, index) {
-                  return const SizedBox(
-                    height: 10,
-                  );
-                }),
-                itemCount: dataSetting.length,
+                  ],
+                ),
               ),
               const Spacer(),
               Container(

@@ -23,18 +23,20 @@ class _StudentProfileCreationStep02ScreenState
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      floatingActionButton: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          elevation: 0,
-          minimumSize: const Size(35, 25),
-        ),
-        onPressed: () {
-          context.pushNamed('student_create_profile_step_03');
-        },
-        child: Text(
-          "Next",
-          style: theme.textTheme.bodyMedium!.copyWith(
-            color: theme.colorScheme.onPrimary,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size(double.infinity, 56),
+          ),
+          onPressed: () {
+            context.pushNamed('student_create_profile_step_03');
+          },
+          child: Text(
+            'Next',
+            style: theme.textTheme.bodyMedium!
+                .copyWith(color: Colors.white, fontWeight: FontWeight.w600),
           ),
         ),
       ),

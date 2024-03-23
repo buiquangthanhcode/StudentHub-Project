@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/constants/app_theme.dart';
@@ -69,7 +70,8 @@ class ProjectReviewItem extends StatelessWidget {
                 const Spacer(),
                 GestureDetector(
                   onTap: () {
-                    showModalBottomSheetCustom(context, widgetBuilder: const MoreActionWidget());
+                    showModalBottomSheetCustom(context,
+                        widgetBuilder: const MoreActionWidget());
                   },
                   child: Container(
                     padding: const EdgeInsets.all(5),
@@ -102,9 +104,26 @@ class ProjectReviewItem extends StatelessWidget {
             const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.only(left: 15),
-              child: Text(
-                ' - Clear expectionn about your project or deliverables',
-                style: theme.textTheme.bodyMedium,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(6, 9, 6, 6),
+                    child: FaIcon(
+                      FontAwesomeIcons.solidCircle,
+                      size: 6,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Expanded(
+                    child: Text(
+                      'Clear expectionn about your project or deliverables',
+                      style: theme.textTheme.bodyMedium,
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 10),
@@ -114,7 +133,8 @@ class ProjectReviewItem extends StatelessWidget {
                   .map(
                     (item) => Container(
                       width: MediaQuery.of(context).size.width / 4,
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
                       decoration: BoxDecoration(
                         color: theme.colorScheme.grey!.withOpacity(0.08),
                         borderRadius: BorderRadius.circular(15),
