@@ -70,7 +70,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         body = const AccountScreen();
                         break;
                       default:
-                        print('Bottom navigation error!');
                     }
                     setState(() {});
                   }

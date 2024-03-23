@@ -36,12 +36,11 @@ final GoRouter router = GoRouter(
             return customTransitionPage(state.pageKey, const ProjectSearchScreen());
           },
         ),
-                GoRoute(
+        GoRoute(
           path: 'chat_detail',
           name: 'chat_detail',
           pageBuilder: (context, state) {
-            return customTransitionPage(
-                state.pageKey, const ChatDetailScreen());
+            return customTransitionPage(state.pageKey, const ChatDetailScreen());
           },
         ),
         GoRoute(
