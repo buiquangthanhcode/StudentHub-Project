@@ -54,14 +54,13 @@ class _StudentProfileCreationStep02ScreenState extends State<StudentProfileCreat
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Center(
-                child: Text(
-                  'Experiences',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+              const Text(
+                'Experiences',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               const Text(
@@ -105,10 +104,12 @@ class _StudentProfileCreationStep02ScreenState extends State<StudentProfileCreat
               BlocBuilder<StudentCreateProfileBloc, StudentCreateProfileState>(
                 builder: (context, state) {
                   if (state.projects.isEmpty) {
-                    return const EmptyDataWidget(
-                      mainTitle: 'Student Create Profile',
-                      subTitle: 'No project found',
-                      widthImage: 200,
+                    return const Center(
+                      child: EmptyDataWidget(
+                        mainTitle: 'Student Create Profile',
+                        subTitle: 'No project found',
+                        widthImage: 200,
+                      ),
                     );
                   }
                   return ListView.builder(

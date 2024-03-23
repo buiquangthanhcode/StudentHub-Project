@@ -34,22 +34,14 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(50),
-        child: AppBar(
-          backgroundColor: backgroundHeaderAppBar,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                NAME_APP,
-                style: theme.textTheme.titleMedium,
-              ),
-              const Icon(Icons.person),
-            ],
-          ),
-        ),
-      ),
+      appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Container(
+            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            child: const Center(
+              child: SizedBox(),
+            ),
+          )),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
@@ -57,8 +49,7 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                margin:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Text(
                   'Lets Register \nAccount',
                   style: theme.textTheme.titleMedium?.copyWith(
@@ -68,8 +59,7 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                 ),
               ),
               Container(
-                margin:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Text(
                   'Hello user, you have a greatful journey !',
                   style: theme.textTheme.titleMedium?.copyWith(
@@ -83,8 +73,7 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                 itemBuilder: (context, index) {
                   final item = dataSelectedInfor[index];
                   return Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     margin: const EdgeInsets.only(top: 10),
                     decoration: BoxDecoration(
                       color: const Color.fromARGB(255, 242, 242, 242),
@@ -114,8 +103,7 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                                 child: CheckboxListTile(
                                   activeColor: primaryColor,
                                   visualDensity: VisualDensity.compact,
-                                  checkboxShape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15)),
+                                  checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                                   value: item['value'],
                                   onChanged: (value) {
                                     setState(() {

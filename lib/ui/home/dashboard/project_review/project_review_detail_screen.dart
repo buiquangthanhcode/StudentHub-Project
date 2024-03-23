@@ -3,7 +3,6 @@ import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/ui/home/dashboard/project_review/project_reivew_hired/project_review_hired_screen.dart';
 import 'package:studenthub/ui/home/dashboard/project_review/project_review_proposal/project_review_proposal_screen.dart';
-import 'package:studenthub/ui/home/messages/chat_detail_screen/chat_detail_screen.dart';
 import 'package:studenthub/ui/home/messages/messages_screen.dart';
 import 'package:studenthub/ui/home/projects/project_detail/project_detail_screen.dart';
 

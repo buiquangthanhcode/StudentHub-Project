@@ -3,15 +3,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
 
 final data = [
-  {"lable": "Proposals", "total": "2"},
-  {"lable": "Messages", "total": "5"},
-  {"lable": "Hired", "total": "4"},
+  {"label": "Proposals", "total": "2"},
+  {"label": "Messages", "total": "5"},
+  {"label": "Hired", "total": "4"},
 ];
 
 List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
   return [
     {
-      "lable": "View Proposal",
+      "label": "View Proposal",
       "icon": FaIcon(
         FontAwesomeIcons.eye,
         size: 18,
@@ -19,7 +19,7 @@ List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
       )
     },
     {
-      "lable": "View Message",
+      "label": "View Message",
       "icon": FaIcon(
         FontAwesomeIcons.message,
         size: 18,
@@ -27,7 +27,7 @@ List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
       )
     },
     {
-      "lable": "View Hired",
+      "label": "View Hired",
       "icon": FaIcon(
         FontAwesomeIcons.user,
         size: 18,
@@ -35,7 +35,7 @@ List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
       )
     },
     {
-      "lable": "View Job posting",
+      "label": "View Job posting",
       "icon": FaIcon(
         FontAwesomeIcons.eye,
         size: 18,
@@ -43,7 +43,7 @@ List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
       )
     },
     {
-      "lable": "Edit Posting",
+      "label": "Edit Posting",
       "icon": FaIcon(
         FontAwesomeIcons.penToSquare,
         size: 18,
@@ -51,7 +51,7 @@ List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
       )
     },
     {
-      "lable": "Remove Posting",
+      "label": "Remove Posting",
       "icon": FaIcon(
         FontAwesomeIcons.trashCan,
         size: 18,

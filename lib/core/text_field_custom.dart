@@ -24,6 +24,11 @@ class TextFieldFormCustom extends StatefulWidget {
     this.onFieldSubmitted,
     this.style,
     this.fillColor,
+    this.autocorrect,
+    this.enableSuggestions,
+    this.obscureText,
+    this.keyboardType,
+    this.autofocus,
   });
 
   final String name;
@@ -44,20 +49,17 @@ class TextFieldFormCustom extends StatefulWidget {
   final void Function(String?)? onFieldSubmitted;
   final TextStyle? style;
   final Color? fillColor;
+  final bool? obscureText;
+  final bool? enableSuggestions;
+  final bool? autocorrect;
+  final TextInputType? keyboardType;
+  final bool? autofocus;
 
   @override
   State<TextFieldFormCustom> createState() => _TextFieldFormCustomState();
 }
 
 class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
-  final bool obscureText = false;
-
-  final bool autocorrect = true;
-
-  final bool autofocus = false;
-
-  final TextInputType keyboardType = TextInputType.text;
-
   final bool readOnly = false;
 
   final bool enabled = true;
@@ -65,8 +67,6 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
   final bool autovalidate = false;
 
   final bool showCursor = true;
-
-  final bool enableSuggestions = true;
 
   final bool maxLengthEnforced = false;
 
@@ -78,14 +78,13 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
       child: FormBuilderTextField(
         name: widget.name,
-        onChanged: widget.onChange,
         onTap: widget.onTap,
         onSaved: widget.onSaved,
         validator: widget.validator,
-        maxLines: widget.maxLines,
-        obscureText: obscureText,
-        autocorrect: autocorrect,
-        autofocus: autofocus,
+        maxLines: widget.maxLines ?? 1,
+        obscureText: widget.obscureText ?? false,
+        autocorrect: widget.autocorrect ?? true,
+        autofocus: widget.autofocus ?? false,
         initialValue: widget.initialValue,
         focusNode: widget.focusNode,
         keyboardType: widget.textInputType ?? TextInputType.text,
@@ -93,13 +92,17 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
         readOnly: readOnly,
         enabled: enabled,
         showCursor: showCursor,
-        enableSuggestions: enableSuggestions,
+        enableSuggestions: widget.enableSuggestions ?? true,
         maxLength: widget.maxLength,
         minLines: widget.minLines,
         expands: expands,
         onEditingComplete: widget.onEditingComplete,
         onSubmitted: widget.onFieldSubmitted,
-        style: widget.style,
+        style: widget.style ??
+            TextStyle(
+              color: Colors.grey[600],
+              fontSize: 16,
+            ),
         decoration: InputDecoration(
           prefixIcon: Column(
             mainAxisAlignment: MainAxisAlignment.center,
