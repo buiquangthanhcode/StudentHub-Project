@@ -31,7 +31,7 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
             dataHeader[index]['icon'],
             const SizedBox(width: 10),
             Text(
-              dataHeader[index]['lable'],
+              dataHeader[index]['label'],
               style: theme.textTheme.bodyMedium,
             ),
           ],

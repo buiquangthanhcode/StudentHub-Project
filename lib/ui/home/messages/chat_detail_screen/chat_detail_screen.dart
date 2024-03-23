@@ -1,10 +1,14 @@
 // ignore_for_file: unnecessary_null_comparison
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/core/show_modal_bottomSheet.dart';
+import 'package:studenthub/ui/home/messages/widgets/get_more_action_widget.dart';
+import 'package:studenthub/utils/logger.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   const ChatDetailScreen({Key? key}) : super(key: key);
@@ -163,7 +167,26 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 Padding(
                   padding: const EdgeInsets.only(right: 20),
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      showModalBottomSheetCustom(context, widgetBuilder: MoreActionChatDetail(
+                        callBack: (value) {
+                          setState(() {
+                            messagesData.add({
+                              'isMe': true,
+                              'isSchedule': true,
+                              'start_date': value['start_date'],
+                              'end_date': value['end_date'],
+                              'time_start': value['time_start'],
+                              'time_end': value['time_end'],
+                              'title': value['title'],
+                              'duration': "60 minute",
+                              'time': '12:59',
+                              'content': value['title'],
+                            });
+                          });
+                        },
+                      ));
+                    },
                     child: Container(
                       height: 39,
                       width: 39,
@@ -191,54 +214,132 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 54),
               child: ListView.builder(
                 shrinkWrap: true,
-                reverse: true, // *
                 itemCount: messagesData.length,
                 itemBuilder: (context, index) => messagesData[index]['isMe'] as bool
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            constraints: BoxConstraints(maxWidth: screenSize.width * 0.7),
-                            margin: EdgeInsets.only(
-                                bottom: index + 1 < messagesData.length
-                                    ? (messagesData[index + 1]['isMe'] as bool)
-                                        ? 3
-                                        : 15
-                                    : 10),
-                            padding: const EdgeInsets.fromLTRB(14, 10, 8, 4),
-                            decoration: BoxDecoration(
-                              color: primaryColor,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 6),
-                                  child: Text(
-                                    messagesData[index]['content'] as String,
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
+                    ? Builder(builder: (context) {
+                        if (messagesData[index]['isSchedule'] == null) {
+                          messagesData[index]['isSchedule'] = false;
+                        }
+                        if (messagesData[index]['isSchedule'] as bool == false) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                constraints: BoxConstraints(maxWidth: screenSize.width * 0.7),
+                                margin: EdgeInsets.only(
+                                    bottom: index + 1 < messagesData.length
+                                        ? (messagesData[index + 1]['isMe'] as bool)
+                                            ? 3
+                                            : 15
+                                        : 10),
+                                padding: const EdgeInsets.fromLTRB(14, 10, 8, 4),
+                                decoration: BoxDecoration(
+                                  color: primaryColor,
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    Text(
-                                      messagesData[index]['time'] as String,
-                                      style: const TextStyle(
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w400,
-                                          color: Color.fromARGB(255, 230, 230, 230)),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 6),
+                                      child: Text(
+                                        messagesData[index]['content'] as String,
+                                        style: const TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          messagesData[index]['time'] as String,
+                                          style: const TextStyle(
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.w400,
+                                              color: Color.fromARGB(255, 230, 230, 230)),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
+                              ),
+                            ],
+                          );
+                        } else {
+                          return Container(
+                            margin: const EdgeInsets.only(top: 10, left: 20),
+                            padding: const EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 245, 245, 245),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(messagesData[index]['title'] as String),
+                                    const Spacer(),
+                                    Text(messagesData[index]['duration'] as String),
+                                  ],
+                                ),
+                                Text(
+                                    "Start Time: ${messagesData[index]['start_date'] as String} ${messagesData[index]['time_start'] as String}"),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                    "End Time: ${messagesData[index]['end_date'] as String} ${messagesData[index]['time_end'] as String}"),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    const Spacer(),
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          elevation: 0,
+                                          minimumSize: const Size(double.infinity, 45),
+                                        ),
+                                        onPressed: () {
+                                          logger.d("Join");
+                                        },
+                                        child: const Text(
+                                          "Join",
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.all(5),
+                                      decoration: const BoxDecoration(
+                                        color: Color.fromARGB(255, 245, 245, 245),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      margin: const EdgeInsets.only(right: 10, left: 10),
+                                      child: InkWell(
+                                        onTap: () {
+                                          showModalBottomSheetCustom(context,
+                                              widgetBuilder: const MoreActionChatDetail(
+                                                isEdit: true,
+                                              ));
+                                        },
+                                        child: const FaIcon(
+                                          FontAwesomeIcons.ellipsis,
+                                          size: 16,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
                               ],
                             ),
-                          ),
-                        ],
-                      )
+                          );
+                        }
+                      })
                     : Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,

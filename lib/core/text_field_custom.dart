@@ -28,6 +28,7 @@ class TextFieldFormCustom extends StatefulWidget {
     this.enableSuggestions,
     this.obscureText,
     this.keyboardType,
+    this.autofocus,
   });
 
   final String name;
@@ -52,13 +53,13 @@ class TextFieldFormCustom extends StatefulWidget {
   final bool? enableSuggestions;
   final bool? autocorrect;
   final TextInputType? keyboardType;
+  final bool? autofocus;
 
   @override
   State<TextFieldFormCustom> createState() => _TextFieldFormCustomState();
 }
 
 class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
-  final bool autofocus = false;
   final bool readOnly = false;
 
   final bool enabled = true;
@@ -83,7 +84,7 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
         maxLines: widget.maxLines ?? 1,
         obscureText: widget.obscureText ?? false,
         autocorrect: widget.autocorrect ?? true,
-        autofocus: autofocus,
+        autofocus: widget.autofocus ?? false,
         initialValue: widget.initialValue,
         focusNode: widget.focusNode,
         keyboardType: widget.textInputType ?? TextInputType.text,
@@ -114,7 +115,8 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
                 color: Theme.of(context).colorScheme.hintColor,
               ),
           contentPadding: const EdgeInsets.all(0),
-          fillColor: widget.fillColor ?? const Color.fromARGB(255, 242, 242, 242),
+          fillColor:
+              widget.fillColor ?? const Color.fromARGB(255, 242, 242, 242),
           filled: true,
           isDense: true,
           enabledBorder: defaultInputBorder,

@@ -53,6 +53,7 @@ dependencies:
   file_picker: ^6.2.0
   percent_indicator: ^3.4.0
   syncfusion_flutter_datepicker: ^25.1.35
+  time_pickerr: ^1.0.6
 
 dev_dependencies:
   flutter_test:
