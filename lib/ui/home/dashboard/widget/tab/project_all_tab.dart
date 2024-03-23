@@ -143,11 +143,11 @@ class ProjectReviewItem extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            item['total']!,
+                            item['total'] ?? '',
                             style: theme.textTheme.bodyMedium,
                           ),
                           Text(
-                            item['lable']!,
+                            item['label'] ?? '',
                             style: theme.textTheme.bodyMedium,
                           ),
                         ],

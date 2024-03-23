@@ -104,7 +104,7 @@ class _ProjectArchiedTabState extends State<ProjectArchivedTab> {
                                 style: theme.textTheme.bodyMedium,
                               ),
                               Text(
-                                item['lable']!,
+                                item['label']!,
                                 style: theme.textTheme.bodyMedium,
                               ),
                             ],

@@ -34,3 +34,10 @@ int calculateMonthDifference(DateTime start, DateTime end) {
 
   return monthsApart;
 }
+
+String formatTimeFromDateTime(DateTime dateTime) {
+  DateFormat timeFormat = DateFormat.Hm();
+  String formattedTime = timeFormat.format(dateTime);
+
+  return formattedTime;
+}
