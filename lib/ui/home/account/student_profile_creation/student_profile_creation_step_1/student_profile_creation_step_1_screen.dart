@@ -7,23 +7,25 @@ import 'package:studenthub/blocs/student_create_profile/student_create_profile_s
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/core/dropdown_button_formfield.dart';
-import 'package:studenthub/ui/student_profile_creation/data/student_data_creation.dart';
-import 'package:studenthub/ui/student_profile_creation/widget/autocomplete_widget.dart';
-import 'package:studenthub/ui/student_profile_creation/widget/create_education.dart';
-import 'package:studenthub/ui/student_profile_creation/widget/create_language.dart';
-import 'package:studenthub/ui/student_profile_creation/widget/education_item.dart';
-import 'package:studenthub/ui/student_profile_creation/widget/language_item.dart';
-import 'package:studenthub/ui/student_profile_creation/widget/skillset_item.dart';
+import 'package:studenthub/ui/home/account/student_profile_creation/data/student_data_creation.dart';
+import 'package:studenthub/ui/home/account/student_profile_creation/widget/autocomplete_widget.dart';
+import 'package:studenthub/ui/home/account/student_profile_creation/widget/create_education.dart';
+import 'package:studenthub/ui/home/account/student_profile_creation/widget/create_language.dart';
+import 'package:studenthub/ui/home/account/student_profile_creation/widget/education_item.dart';
+import 'package:studenthub/ui/home/account/student_profile_creation/widget/language_item.dart';
+import 'package:studenthub/ui/home/account/student_profile_creation/widget/skillset_item.dart';
 import 'package:studenthub/widgets/emtyDataWidget.dart';
 
 class StudentProfileCreationStep01Screen extends StatefulWidget {
   const StudentProfileCreationStep01Screen({super.key});
 
   @override
-  State<StudentProfileCreationStep01Screen> createState() => _StudentProfileCreationStep01State();
+  State<StudentProfileCreationStep01Screen> createState() =>
+      _StudentProfileCreationStep01State();
 }
 
-class _StudentProfileCreationStep01State extends State<StudentProfileCreationStep01Screen> {
+class _StudentProfileCreationStep01State
+    extends State<StudentProfileCreationStep01Screen> {
   String? selectedValue;
   late TextEditingController textEditingController;
   @override
@@ -38,7 +40,7 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
           minimumSize: const Size(35, 25),
         ),
         onPressed: () {
-          context.push('/student_create_profile/step_02');
+          context.pushNamed('student_create_profile_step_02');
         },
         child: Text(
           "Next",
@@ -48,12 +50,14 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
         ),
       ),
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            context.pop();
-          },
+        centerTitle: false,
+        titleSpacing: 0,
+        title: Text(
+          "Welcome to StudentHub",
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -62,15 +66,6 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
-                child: Text(
-                  "Welcome to StudentHub",
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
               const SizedBox(height: 10),
               Center(
                 child: Text(
@@ -141,12 +136,15 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
                                 margin: const EdgeInsets.only(right: 10),
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: theme.colorScheme.grey!),
+                                  border: Border.all(
+                                      color: theme.colorScheme.grey!),
                                   shape: BoxShape.circle,
                                 ),
                                 child: InkWell(
                                   onTap: () {
-                                    showModalBottomSheetCustom(context, widgetBuilder: const CreateLanguageWidget());
+                                    showModalBottomSheetCustom(context,
+                                        widgetBuilder:
+                                            const CreateLanguageWidget());
                                   },
                                   child: FaIcon(
                                     FontAwesomeIcons.plus,
@@ -205,12 +203,15 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
                                 margin: const EdgeInsets.only(right: 10),
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: theme.colorScheme.grey!),
+                                  border: Border.all(
+                                      color: theme.colorScheme.grey!),
                                   shape: BoxShape.circle,
                                 ),
                                 child: InkWell(
                                   onTap: () {
-                                    showModalBottomSheetCustom(context, widgetBuilder: const CreateEducationWidget());
+                                    showModalBottomSheetCustom(context,
+                                        widgetBuilder:
+                                            const CreateEducationWidget());
                                   },
                                   child: FaIcon(
                                     FontAwesomeIcons.plus,

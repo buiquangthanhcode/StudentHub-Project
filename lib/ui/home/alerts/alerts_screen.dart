@@ -161,6 +161,7 @@ class _AlertsState extends State<AlertsScreen> {
         controller: _scrollController,
         slivers: [
           SliverAppBar(
+            automaticallyImplyLeading: false,
             expandedHeight: 60,
             collapsedHeight: 60,
             elevation: 0,

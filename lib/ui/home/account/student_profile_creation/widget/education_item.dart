@@ -2,23 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
-import 'package:studenthub/blocs/student_create_profile/student_create_profile_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
-import 'package:studenthub/models/student_create_profile/language_model.dart';
-import 'package:studenthub/ui/student_profile_creation/widget/edit_language.dart';
-import 'package:studenthub/widgets/dialog.dart';
-import 'package:studenthub/widgets/snack_bar_config.dart';
+import 'package:studenthub/models/student_create_profile/education_model.dart';
+import 'package:studenthub/ui/home/account/student_profile_creation/widget/edit_education.dart';
 
-class LanguageItem extends StatelessWidget {
-  const LanguageItem({
+import '../../../../../blocs/student_create_profile/student_create_profile_event.dart';
+
+class EducationItem extends StatelessWidget {
+  const EducationItem({
     super.key,
     required this.theme,
     required this.item,
   });
 
   final ThemeData theme;
-  final Language item;
+  final Education item;
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +32,26 @@ class LanguageItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Text('${item.name}: ${item.level}'),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(item.nameOfSchool ?? ''),
+              const SizedBox(
+                height: 5,
+              ),
+              Text(
+                '${item.timeStart} - ${item.timeEnd}',
+                style: theme.textTheme.bodyMedium!.copyWith(
+                  color: theme.colorScheme.grey,
+                  fontSize: 15,
+                ),
+              ),
+            ],
+          ),
           const Spacer(),
           InkWell(
             onTap: () {
-              showModalBottomSheetCustom(context, widgetBuilder: LanguageEdit(item: item));
+              showModalBottomSheetCustom(context, widgetBuilder: EducationEdit(item: item));
             },
             child: FaIcon(
               FontAwesomeIcons.penToSquare,
@@ -48,20 +62,9 @@ class LanguageItem extends StatelessWidget {
           const SizedBox(width: 10),
           InkWell(
             onTap: () {
-              showDialogCustom(context,
-                  image: 'lib/assets/images/delete.png',
-                  title: 'Are you sure you want to delete this language?',
-                  textButtom: 'Delete',
-                  subtitle: 'This action cannot be undone', onSave: () {
-                context.read<StudentCreateProfileBloc>().add(
-                      RemoveLanguageEvent(
-                          language: item,
-                          onSuccess: () {
-                            SnackBarService.showSnackBar(content: "Delete Sucessfully", status: StatusSnackBar.success);
-                            Navigator.pop(context);
-                          }),
-                    );
-              });
+              context.read<StudentCreateProfileBloc>().add(
+                    RemoveEducationEvent(education: item, onSuccess: () {}),
+                  );
             },
             child: const FaIcon(
               FontAwesomeIcons.xmark,

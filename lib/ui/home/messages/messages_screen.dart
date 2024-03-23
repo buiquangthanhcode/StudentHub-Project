@@ -51,6 +51,7 @@ class _MessagesState extends State<MessagesScreen> {
       appBar: widget.isHiddenAppbar ?? false
           ? null
           : AppBar(
+              automaticallyImplyLeading: false,
               centerTitle: false,
               title: Text(
                 'Messages',
@@ -82,7 +83,8 @@ class _MessagesState extends State<MessagesScreen> {
                       style: textTheme.bodyMedium,
                       decoration: InputDecoration(
                         hintText: 'Search for messages...',
-                        hintStyle: textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.hintColor),
+                        hintStyle: textTheme.bodyMedium!.copyWith(
+                            color: Theme.of(context).colorScheme.hintColor),
                         prefixIcon: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -107,7 +109,8 @@ class _MessagesState extends State<MessagesScreen> {
                                       alignment: Alignment.center,
                                       decoration: const BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: Color.fromARGB(255, 191, 191, 191),
+                                        color:
+                                            Color.fromARGB(255, 191, 191, 191),
                                       ),
                                       child: const FaIcon(
                                         FontAwesomeIcons.xmark,
@@ -119,8 +122,10 @@ class _MessagesState extends State<MessagesScreen> {
                                 ],
                               )
                             : Container(width: 1),
-                        suffixIconConstraints: const BoxConstraints(minWidth: 50),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                        suffixIconConstraints:
+                            const BoxConstraints(minWidth: 50),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 12),
                         isDense: true,
                         filled: true,
                         fillColor: const Color.fromARGB(255, 245, 245, 245),

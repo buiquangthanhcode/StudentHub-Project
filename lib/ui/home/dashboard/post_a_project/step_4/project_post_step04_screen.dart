@@ -133,7 +133,10 @@ class ProjectPostStep04Screen extends StatelessWidget {
                               ),
                               Text(
                                 '3-6 months',
-                                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
                                       color: Colors.black.withOpacity(0.8),
                                     ),
                               ),
@@ -156,7 +159,8 @@ class ProjectPostStep04Screen extends StatelessWidget {
                         children: [
                           Text(
                             'Student required',
-                            style: TextStyle(color: Colors.black.withOpacity(0.8)),
+                            style:
+                                TextStyle(color: Colors.black.withOpacity(0.8)),
                           ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,7 +177,8 @@ class ProjectPostStep04Screen extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall!
-                                    .copyWith(color: Colors.black.withOpacity(0.8)),
+                                    .copyWith(
+                                        color: Colors.black.withOpacity(0.8)),
                               ),
                             ],
                           )
@@ -188,11 +193,14 @@ class ProjectPostStep04Screen extends StatelessWidget {
             const Spacer(),
             ElevatedButton(
               onPressed: () {
-                context.push('/');
+                // context.push('/');
+                context.pushNamed('home');
               },
               style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16), // Adjust padding as needed
-                  minimumSize: const Size(double.infinity, 48) // Set minimum button size
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 16), // Adjust padding as needed
+                  minimumSize:
+                      const Size(double.infinity, 48) // Set minimum button size
                   ),
               child: Text(
                 'Post a job',

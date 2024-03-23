@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:studenthub/ui/company_profile_creation/profile_edit/widgets/save_button.dart';
-import 'package:studenthub/ui/company_profile_creation/profile_edit/widgets/describe_input_widget.dart';
-import 'package:studenthub/ui/company_profile_creation/profile_edit/widgets/employee_quantity_selection_widget.dart';
-import 'package:studenthub/ui/company_profile_creation/profile_edit/widgets/name_input_widget.dart';
-import 'package:studenthub/ui/company_profile_creation/profile_edit/widgets/title_widget.dart';
-import 'package:studenthub/ui/company_profile_creation/profile_edit/widgets/url_input_widget.dart';
+import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit/widgets/save_button.dart';
+import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit/widgets/describe_input_widget.dart';
+import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit/widgets/employee_quantity_selection_widget.dart';
+import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit/widgets/name_input_widget.dart';
+import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit/widgets/title_widget.dart';
+import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit/widgets/url_input_widget.dart';
 
-class ProfileEdit extends StatefulWidget {
-  const ProfileEdit({Key? key}) : super(key: key);
+class CompanyProfileEditScreen extends StatefulWidget {
+  const CompanyProfileEditScreen({Key? key}) : super(key: key);
 
   @override
-  _ProfileEditState createState() => _ProfileEditState();
+  _PCompanyProfileEditScreenState createState() =>
+      _PCompanyProfileEditScreenState();
 }
 
-class _ProfileEditState extends State<ProfileEdit> {
+class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
   final employeeQuantityData = [
     'It\'s just me',
     '2-9',
@@ -59,19 +60,12 @@ class _ProfileEditState extends State<ProfileEdit> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50),
         child: AppBar(
-          // title: Text(
-          //   'Profile',
-          //   style: TextStyle(fontWeight: FontWeight.w500),
-          // ),
-          // centerTitle: false,
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 6),
-            child: IconButton(
-              icon: const Icon(Icons.arrow_back_ios),
-              onPressed: () {},
+            // title: Text(
+            //   'Profile',
+            //   style: TextStyle(fontWeight: FontWeight.w500),
+            // ),
+            // centerTitle: false,
             ),
-          ),
-        ),
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -103,12 +97,13 @@ class _ProfileEditState extends State<ProfileEdit> {
                 SaveButton(
                     buttonActive: buttonActive,
                     press: () {
-                      if (_formKey.currentState!.validate()) {
-                        print(radioButtonSelected);
-                        print(companyNameInputController.text);
-                        print(websiteInputController.text);
-                        print(descriptionInputController.text);
-                      }
+                      Navigator.pop(context);
+                      // if (_formKey.currentState!.validate()) {
+                      //   print(radioButtonSelected);
+                      //   print(companyNameInputController.text);
+                      //   print(websiteInputController.text);
+                      //   print(descriptionInputController.text);
+                      // }
                     })
               ],
             ),
