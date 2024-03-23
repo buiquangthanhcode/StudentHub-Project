@@ -114,7 +114,8 @@ class ProjectPostStep03Screen extends StatelessWidget {
               // const Spacer(),
               ElevatedButton(
                 onPressed: () {
-                  context.push('/project_post/step_04');
+                  // context.push('/project_post/step_04');
+                  context.push('/home/project_post/step_04');
                 },
                 style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16), // Adjust padding as needed

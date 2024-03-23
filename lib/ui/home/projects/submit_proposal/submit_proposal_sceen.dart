@@ -57,7 +57,7 @@ class _SubmitProposalState extends State<SubmitProposalScreen> {
                         ),
                         onPressed: () {},
                         child: Text(
-                          'Cancle',
+                          'Cancel',
                           style: theme.textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
                         ),
                       ),

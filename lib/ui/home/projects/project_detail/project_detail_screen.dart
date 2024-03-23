@@ -49,7 +49,9 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                       setState(() {});
                     },
                     child: FaIcon(
-                      isSaved! ? FontAwesomeIcons.solidHeart : FontAwesomeIcons.heart,
+                      isSaved!
+                          ? FontAwesomeIcons.solidHeart
+                          : FontAwesomeIcons.heart,
                       color: primaryColor,
                     ),
                   ),
@@ -65,7 +67,8 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
               children: [
                 Text(
                   'Senior frontend developer (Fintech)',
-                  style: textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600),
+                  style: textTheme.bodyLarge!
+                      .copyWith(fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(
                   height: 15,
@@ -129,7 +132,10 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                               ),
                               Text(
                                 '3-6 months',
-                                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
                                       color: Colors.black.withOpacity(0.8),
                                     ),
                               ),
@@ -152,7 +158,8 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                         children: [
                           Text(
                             'Student required',
-                            style: TextStyle(color: Colors.black.withOpacity(0.8)),
+                            style:
+                                TextStyle(color: Colors.black.withOpacity(0.8)),
                           ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,7 +176,8 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall!
-                                    .copyWith(color: Colors.black.withOpacity(0.8)),
+                                    .copyWith(
+                                        color: Colors.black.withOpacity(0.8)),
                               ),
                             ],
                           )
@@ -182,38 +190,18 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
             ),
             // const SizedBox(height: 24),
             const Spacer(),
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 56),
-                    ),
-                    onPressed: () {},
-                    child: Text(
-                      'Saved',
-                      style: textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 56),
-                    ),
-                    onPressed: () {
-                      context.push('/project_detail/submit_proposal');
-                    },
-                    child: Text(
-                      'Apply Now',
-                      style: textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ),
-              ],
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(double.infinity, 56),
+              ),
+              onPressed: () {
+                context.push('/home/project_detail/submit_proposal');
+              },
+              child: Text(
+                'Apply Now',
+                style: textTheme.bodyMedium!
+                    .copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+              ),
             ),
             const SizedBox(height: 20),
           ],

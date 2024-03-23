@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
-import 'package:studenthub/ui/student_profile_creation/student_profile_creation_step_1/student_profile_creation_step_1_screen.dart';
+import 'package:studenthub/ui/home/account/student_profile_creation/student_profile_creation_step_1/student_profile_creation_step_1_screen.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -21,17 +22,19 @@ class _AccountState extends State<AccountScreen> {
       {
         'icon': 'lib/assets/svgs/circle-user.svg',
         'name': 'Profiles',
-        'link': StudentProfileCreationStep01Screen(),
+        // 'route_name': 'student_create_profile_step_01',
+        'route_name': 'company_create_profile',
+        // 'route_name': 'company_edit_profile',
       },
       {
         'icon': 'lib/assets/svgs/setting.svg',
         'name': 'Setting',
-        'link': AccountScreen(),
+        'route_name': 'student_create_profile_step_01',
       },
       {
         'icon': 'lib/assets/svgs/logout.svg',
         'name': 'Log out',
-        'link': AccountScreen(),
+        'route_name': 'introduction',
       },
     ];
 
@@ -51,7 +54,10 @@ class _AccountState extends State<AccountScreen> {
                     children: [
                       Text(
                         'Account',
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w700),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge!
+                            .copyWith(fontWeight: FontWeight.w700),
                       ),
                     ],
                   ),
@@ -161,16 +167,12 @@ class _AccountState extends State<AccountScreen> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
                     margin: const EdgeInsets.only(top: 5),
                     child: InkWell(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => dataSetting[intdex]['link'],
-                          ),
-                        );
+                        context.pushNamed(dataSetting[intdex]['route_name']);
                       },
                       child: Row(
                         children: [
@@ -209,7 +211,8 @@ class _AccountState extends State<AccountScreen> {
               ),
               const Spacer(),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                 decoration: BoxDecoration(
                   color: primaryColor,
                   borderRadius: BorderRadius.circular(10),

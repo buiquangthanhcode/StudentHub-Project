@@ -11,7 +11,9 @@ import 'package:studenthub/ui/home/messages/messages_screen.dart';
 import 'package:studenthub/ui/home/projects/project_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, required this.welcome});
+
+  final String welcome;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -26,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    body = const DashboardScreen();
+    body = DashboardScreen(welcome: widget.welcome);
   }
 
   @override
@@ -55,7 +57,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     navSelected = bottomNavs[index];
                     switch (index) {
                       case 0:
-                        body = const DashboardScreen();
+                        body = const DashboardScreen(
+                          welcome: 'false',
+                        );
                         break;
                       case 1:
                         body = const ProjectScreen();
@@ -83,7 +87,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             SvgPicture.asset(
                               bottomNavs[index]['solid-icon'] as String,
-                              colorFilter: const ColorFilter.mode(primaryColor, BlendMode.srcIn),
+                              colorFilter: const ColorFilter.mode(
+                                  primaryColor, BlendMode.srcIn),
                               height: 24,
                             ),
                             const SizedBox(
@@ -104,7 +109,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             SvgPicture.asset(
                               bottomNavs[index]['regular-icon'] as String,
-                              colorFilter: const ColorFilter.mode(Color(0xffA0A0A0), BlendMode.srcIn),
+                              colorFilter: const ColorFilter.mode(
+                                  Color(0xffA0A0A0), BlendMode.srcIn),
                               height: 23,
                             ),
                             const SizedBox(

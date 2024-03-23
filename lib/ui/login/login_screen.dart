@@ -122,13 +122,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       onPressed: () {
                         // validate form
-                        if (_formKeyLogin.currentState?.saveAndValidate() ?? false) {
-                          context.push('/home');
+                        if (_formKeyLogin.currentState?.saveAndValidate() ??
+                            false) {
+                          context.pushReplacementNamed('home',
+                              queryParameters: {'welcome': 'true'});
                         }
                       },
                       child: Text(
                         'Login',
-                        style: theme.textTheme.bodyMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                            color: Colors.white, fontWeight: FontWeight.w600),
                       ),
                     ),
                   ),

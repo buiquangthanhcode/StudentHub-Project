@@ -3,21 +3,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:studenthub/ui/company_profile_creation/profile_creation/widgets/continue_button.dart';
-import 'package:studenthub/ui/company_profile_creation/profile_creation/widgets/describe_input_widget.dart';
-import 'package:studenthub/ui/company_profile_creation/profile_creation/widgets/employee_quantity_selection_widget.dart';
-import 'package:studenthub/ui/company_profile_creation/profile_creation/widgets/name_input_widget.dart';
-import 'package:studenthub/ui/company_profile_creation/profile_creation/widgets/title_widget.dart';
-import 'package:studenthub/ui/company_profile_creation/profile_creation/widgets/url_input_widget.dart';
+import 'package:go_router/go_router.dart';
+import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/widgets/continue_button.dart';
+import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/widgets/describe_input_widget.dart';
+import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/widgets/employee_quantity_selection_widget.dart';
+import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/widgets/name_input_widget.dart';
+import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/widgets/title_widget.dart';
+import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/widgets/url_input_widget.dart';
 
-class ProfileCreationScreen extends StatefulWidget {
-  const ProfileCreationScreen({Key? key}) : super(key: key);
+class CompanyProfileCreationScreen extends StatefulWidget {
+  const CompanyProfileCreationScreen({Key? key}) : super(key: key);
 
   @override
-  State<ProfileCreationScreen> createState() => _DontHaveProfileState();
+  State<CompanyProfileCreationScreen> createState() =>
+      _CompanyProfileCreationScreenState();
 }
 
-class _DontHaveProfileState extends State<ProfileCreationScreen> {
+class _CompanyProfileCreationScreenState
+    extends State<CompanyProfileCreationScreen> {
   final employeeQuantityData = [
     'It\'s just me',
     '2-9',
@@ -63,19 +66,12 @@ class _DontHaveProfileState extends State<ProfileCreationScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50),
         child: AppBar(
-          // title: Text(
-          //   'Profile',
-          //   style: TextStyle(fontWeight: FontWeight.w500),
-          // ),
-          // centerTitle: false,
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 6),
-            child: IconButton(
-              icon: const Icon(Icons.arrow_back_ios),
-              onPressed: () {},
+            // title: Text(
+            //   'Profile',
+            //   style: TextStyle(fontWeight: FontWeight.w500),
+            // ),
+            // centerTitle: false,
             ),
-          ),
-        ),
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -105,14 +101,16 @@ class _DontHaveProfileState extends State<ProfileCreationScreen> {
                 ),
                 const SizedBox(height: 50),
                 ContinueButton(
-                    buttonActive: buttonActive,
+                    buttonActive: true,
                     press: () {
-                      if (_formKey.currentState!.validate()) {
-                        print(radioButtonSelected);
-                        print(companyNameInputController.text);
-                        print(websiteInputController.text);
-                        print(descriptionInputController.text);
-                      }
+                      Navigator.pop(context);
+                      // context.pushNamed('welcome_screen');
+                      // if (_formKey.currentState!.validate()) {
+                      //   print(radioButtonSelected);
+                      //   print(companyNameInputController.text);
+                      //   print(websiteInputController.text);
+                      //   print(descriptionInputController.text);
+                      // }
                     })
               ],
             ),
