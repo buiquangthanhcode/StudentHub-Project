@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/constants/colors.dart';
-import 'package:studenthub/constants/strings.dart';
+import 'package:studenthub/ui/home/dashboard/widget/tab/project_all_tab.dart';
+import 'package:studenthub/ui/home/dashboard/widget/tab/project_archived_tab.dart';
+import 'package:studenthub/ui/home/dashboard/widget/tab/project_working_tab.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -28,10 +28,7 @@ class DashboardScreen extends StatelessWidget {
                     // const SizedBox(width: 15),
                     Text(
                       'Your projects',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(fontWeight: FontWeight.w700),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w700),
                     ),
                   ],
                 ),
@@ -55,16 +52,10 @@ class DashboardScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     TabBar(
-                      labelColor:
-                          primaryColor, // Set the color of the selected tab label
-                      labelStyle: Theme.of(context)
-                          .textTheme
-                          .titleSmall!
-                          .copyWith(fontWeight: FontWeight.w600), //
-                      unselectedLabelStyle: Theme.of(context)
-                          .textTheme
-                          .titleSmall!
-                          .copyWith(fontWeight: FontWeight.w600),
+                      labelColor: primaryColor, // Set the color of the selected tab label
+                      labelStyle: Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w600), //
+                      unselectedLabelStyle:
+                          Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w600),
                       indicator: const BoxDecoration(
                         border: Border(
                           bottom: BorderSide(
@@ -83,12 +74,9 @@ class DashboardScreen extends StatelessWidget {
                     const Expanded(
                       child: TabBarView(
                         children: [
-                          Center(
-                              child: Text('Welcome, Khoa!\nYou have no jobs')),
-                          Center(
-                              child: Text('Welcome, Khoa!\nYou have no jobs')),
-                          Center(
-                              child: Text('Welcome, Khoa!\nYou have no jobs')),
+                          ProjectAllTab(),
+                          ProjectWorkingTab(),
+                          ProjectArchivedTab(),
                         ],
                       ),
                     ),
