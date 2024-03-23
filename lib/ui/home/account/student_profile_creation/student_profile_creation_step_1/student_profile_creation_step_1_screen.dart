@@ -34,18 +34,20 @@ class _StudentProfileCreationStep01State
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      floatingActionButton: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          elevation: 0,
-          minimumSize: const Size(35, 25),
-        ),
-        onPressed: () {
-          context.pushNamed('student_create_profile_step_02');
-        },
-        child: Text(
-          "Next",
-          style: theme.textTheme.bodyMedium!.copyWith(
-            color: theme.colorScheme.onPrimary,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size(double.infinity, 56),
+          ),
+          onPressed: () {
+            context.pushNamed('student_create_profile_step_02');
+          },
+          child: Text(
+            'Next',
+            style: theme.textTheme.bodyMedium!
+                .copyWith(color: Colors.white, fontWeight: FontWeight.w600),
           ),
         ),
       ),
