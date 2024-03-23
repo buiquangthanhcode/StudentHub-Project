@@ -5,7 +5,11 @@ import 'package:studenthub/widgets/dialog.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class ProposalItem extends StatefulWidget {
-  const ProposalItem({super.key, required this.theme, required this.item, this.activeSentButton});
+  const ProposalItem(
+      {super.key,
+      required this.theme,
+      required this.item,
+      this.activeSentButton});
 
   final ThemeData theme;
   final dynamic item;
@@ -49,7 +53,8 @@ class _ProposalItemState extends State<ProposalItem> {
                   width: 36,
                   height: 36,
                   child: CircleAvatar(
-                    backgroundImage: AssetImage('lib/assets/images/circle_avatar.png'),
+                    backgroundImage:
+                        AssetImage('lib/assets/images/circle_avatar.png'),
                   ),
                 ),
               ),
@@ -106,7 +111,7 @@ class _ProposalItemState extends State<ProposalItem> {
                     minimumSize: const Size(double.infinity, 35),
                   ),
                   onPressed: () {
-                    context.push('/chat_detail');
+                    context.push('/home/chat_detail');
                   },
                   child: Text(
                     "Message",
@@ -132,9 +137,12 @@ class _ProposalItemState extends State<ProposalItem> {
                           showDialogCustom(context,
                               title: 'Hide Offer',
                               textButtom: 'Hired',
-                              subtitle: 'Do you readllly want to hide this offer for student to do this project?',
+                              subtitle:
+                                  'Do you readllly want to hide this offer for student to do this project?',
                               onSave: () {
-                            SnackBarService.showSnackBar(content: "Hired Sucessfully", status: StatusSnackBar.success);
+                            SnackBarService.showSnackBar(
+                                content: "Hired Sucessfully",
+                                status: StatusSnackBar.success);
                             context.pop();
                             setState(() {
                               isPressHiredButton = true;

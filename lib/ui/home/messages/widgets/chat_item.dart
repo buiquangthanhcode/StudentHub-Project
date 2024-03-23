@@ -17,12 +17,14 @@ class ChatItem extends StatelessWidget {
     var colorTheme = Theme.of(context).colorScheme;
     return InkWell(
       onTap: () {
-        context.goNamed('chat_detail');
+        context.pushNamed('chat_detail');
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 25),
         padding: const EdgeInsets.symmetric(vertical: 12),
-        decoration: BoxDecoration(border: Border(top: BorderSide(width: 1, color: colorTheme.hintColor!))),
+        decoration: BoxDecoration(
+            border: Border(
+                top: BorderSide(width: 1, color: colorTheme.hintColor!))),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -30,7 +32,8 @@ class ChatItem extends StatelessWidget {
               width: 46,
               height: 46,
               child: CircleAvatar(
-                backgroundImage: AssetImage('lib/assets/images/circle_avatar.png'),
+                backgroundImage:
+                    AssetImage('lib/assets/images/circle_avatar.png'),
               ),
             ),
             const SizedBox(
@@ -56,8 +59,10 @@ class ChatItem extends StatelessWidget {
                       Expanded(
                         child: Text(
                           item['createdtime'] ?? '',
-                          style: textTheme.bodySmall!
-                              .copyWith(fontWeight: FontWeight.w500, color: colorTheme.grey, fontSize: 13),
+                          style: textTheme.bodySmall!.copyWith(
+                              fontWeight: FontWeight.w500,
+                              color: colorTheme.grey,
+                              fontSize: 13),
                         ),
                       ),
                     ],
@@ -74,7 +79,8 @@ class ChatItem extends StatelessWidget {
                     child: Text(
                       item['message'] ?? '',
                       overflow: TextOverflow.ellipsis,
-                      style: textTheme.bodyMedium!.copyWith(color: colorTheme.hintColor, fontSize: 15),
+                      style: textTheme.bodyMedium!
+                          .copyWith(color: colorTheme.hintColor, fontSize: 15),
                     ),
                   ),
                 ],

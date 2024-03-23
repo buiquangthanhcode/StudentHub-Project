@@ -5,18 +5,20 @@ import 'package:studenthub/blocs/student_create_profile/student_create_profile_b
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
-import 'package:studenthub/ui/student_profile_creation/widget/create_project_resume.dart';
-import 'package:studenthub/ui/student_profile_creation/widget/project_resume_item.dart';
+import 'package:studenthub/ui/home/account/student_profile_creation/widget/create_project_resume.dart';
+import 'package:studenthub/ui/home/account/student_profile_creation/widget/project_resume_item.dart';
 import 'package:studenthub/widgets/emtyDataWidget.dart';
 
 class StudentProfileCreationStep02Screen extends StatefulWidget {
   const StudentProfileCreationStep02Screen({super.key});
 
   @override
-  State<StudentProfileCreationStep02Screen> createState() => _StudentProfileCreationStep02ScreenState();
+  State<StudentProfileCreationStep02Screen> createState() =>
+      _StudentProfileCreationStep02ScreenState();
 }
 
-class _StudentProfileCreationStep02ScreenState extends State<StudentProfileCreationStep02Screen> {
+class _StudentProfileCreationStep02ScreenState
+    extends State<StudentProfileCreationStep02Screen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -27,7 +29,7 @@ class _StudentProfileCreationStep02ScreenState extends State<StudentProfileCreat
           minimumSize: const Size(35, 25),
         ),
         onPressed: () {
-          context.push('/student_create_profile/step_03');
+          context.pushNamed('student_create_profile_step_03');
         },
         child: Text(
           "Next",
@@ -37,15 +39,15 @@ class _StudentProfileCreationStep02ScreenState extends State<StudentProfileCreat
         ),
       ),
       appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 6),
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+        title: const Text(
+          'Experiences',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
           ),
         ),
+        titleSpacing: 0,
+        centerTitle: false,
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -56,12 +58,8 @@ class _StudentProfileCreationStep02ScreenState extends State<StudentProfileCreat
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Experiences',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+              const SizedBox(
+                height: 10,
               ),
               const Text(
                 'Tell us about your self and you will be on your way connect with real-worl project',
@@ -87,7 +85,8 @@ class _StudentProfileCreationStep02ScreenState extends State<StudentProfileCreat
                     ),
                     child: InkWell(
                       onTap: () {
-                        showModalBottomSheetCustom(context, widgetBuilder: const CreateProjectResume());
+                        showModalBottomSheetCustom(context,
+                            widgetBuilder: const CreateProjectResume());
                       },
                       child: const Icon(
                         Icons.add,

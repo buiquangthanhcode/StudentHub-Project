@@ -41,7 +41,8 @@ class _SignUpStep02State extends State<SignUpStep02Screen> {
               // crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Container(
-                  margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   child: Center(
                     child: Text(
                       'Sign up as Compay',
@@ -60,7 +61,8 @@ class _SignUpStep02State extends State<SignUpStep02Screen> {
                   name: 'fullnam',
                   hintText: 'Fullname',
                   onTap: () {
-                    Scrollable.ensureVisible(formKeyLogin.currentContext!, duration: const Duration(milliseconds: 500));
+                    Scrollable.ensureVisible(formKeyLogin.currentContext!,
+                        duration: const Duration(milliseconds: 500));
                   },
                   icon: Container(
                     width: 18,
@@ -122,7 +124,8 @@ class _SignUpStep02State extends State<SignUpStep02Screen> {
                         child: ListTileTheme(
                           horizontalTitleGap: 0.0,
                           child: CheckboxListTile(
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 25),
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 25),
                             activeColor: primaryColor,
                             title: RichText(
                                 text: TextSpan(
@@ -138,7 +141,8 @@ class _SignUpStep02State extends State<SignUpStep02Screen> {
                               ],
                             )),
                             controlAffinity: ListTileControlAffinity.leading,
-                            checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                            checkboxShape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15)),
                             value: isAcceptCondtion,
                             onChanged: (value) {
                               setState(() {
@@ -160,8 +164,10 @@ class _SignUpStep02State extends State<SignUpStep02Screen> {
                       minimumSize: const Size(150, 56),
                     ),
                     onPressed: () {
-                      if (formKeyLogin.currentState?.saveAndValidate() ?? false) {
-                        context.go('/home');
+                      if (formKeyLogin.currentState?.saveAndValidate() ??
+                          false) {
+                        context.pushNamed('home',
+                            queryParameters: {'welcome': 'true'});
                       }
                     },
                     child: Text(

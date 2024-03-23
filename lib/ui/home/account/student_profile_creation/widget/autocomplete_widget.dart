@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_event.dart';
 import 'package:studenthub/models/student_create_profile/skillset_model.dart';
-import 'package:studenthub/ui/student_profile_creation/data/student_data_creation.dart';
+import 'package:studenthub/ui/home/account/student_profile_creation/data/student_data_creation.dart';
 
 class AutoCompleteWidget extends StatefulWidget {
   const AutoCompleteWidget({super.key});

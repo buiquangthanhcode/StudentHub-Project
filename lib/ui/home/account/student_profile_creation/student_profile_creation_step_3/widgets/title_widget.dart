@@ -17,12 +17,9 @@ class _TitleWidgetState extends State<TitleWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'CV & Transcript',
-          style: textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w600),
-        ),
+        
         const SizedBox(
-          height: 8,
+          height: 10,
         ),
         Text(
           'Tell us about your company and you will be on your way to connect with the real-world project',

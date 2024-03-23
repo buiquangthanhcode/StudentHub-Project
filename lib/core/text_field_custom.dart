@@ -115,7 +115,8 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
                 color: Theme.of(context).colorScheme.hintColor,
               ),
           contentPadding: const EdgeInsets.all(0),
-          fillColor: widget.fillColor ?? const Color.fromARGB(255, 242, 242, 242),
+          fillColor:
+              widget.fillColor ?? const Color.fromARGB(255, 242, 242, 242),
           filled: true,
           isDense: true,
           enabledBorder: defaultInputBorder,

@@ -28,22 +28,26 @@ class _SubmitProposalState extends State<SubmitProposalScreen> {
                 Center(
                   child: Text(
                     'Submit Proposal Screen',
-                    style: theme.textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w600),
+                    style: theme.textTheme.bodyMedium!
+                        .copyWith(fontWeight: FontWeight.w600),
                   ),
                 ),
                 const SizedBox(height: 10),
                 Text(
                   'Cover letter',
-                  style: theme.textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w600),
+                  style: theme.textTheme.bodyMedium!
+                      .copyWith(fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 10),
                 Text(
                   'Desribe why do you fit to the project',
-                  style: theme.textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w400),
+                  style: theme.textTheme.bodyMedium!
+                      .copyWith(fontWeight: FontWeight.w400),
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
-                  minLines: 6, // any number you need (It works as the rows for the textarea)
+                  minLines:
+                      6, // any number you need (It works as the rows for the textarea)
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
                 ),
@@ -57,8 +61,9 @@ class _SubmitProposalState extends State<SubmitProposalScreen> {
                         ),
                         onPressed: () {},
                         child: Text(
-                          'Cancle',
-                          style: theme.textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                          'Cancel',
+                          style: theme.textTheme.bodyMedium!.copyWith(
+                              color: Colors.white, fontWeight: FontWeight.w600),
                         ),
                       ),
                     ),
@@ -73,7 +78,8 @@ class _SubmitProposalState extends State<SubmitProposalScreen> {
                         onPressed: () {},
                         child: Text(
                           'Submit Proposal',
-                          style: theme.textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                          style: theme.textTheme.bodyMedium!.copyWith(
+                              color: Colors.white, fontWeight: FontWeight.w600),
                         ),
                       ),
                     ),

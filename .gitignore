@@ -56,3 +56,4 @@ app.*.map.json
 
 .idea
 .vscode
+pubspec.lock
