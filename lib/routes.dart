@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:studenthub/ui/company_profile_creation/profile_creation/profile_creation_screen.dart';
 import 'package:studenthub/ui/company_profile_creation/welcome_screen.dart';
 import 'package:studenthub/ui/home/dashboard/dashboard_screen.dart';
+import 'package:studenthub/ui/home/dashboard/project_review/project_review_detail_screen.dart';
 import 'package:studenthub/ui/home/home_screen.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/chat_detail_screen.dart';
 import 'package:studenthub/ui/home/projects/project_detail/project_detail_screen.dart';
@@ -158,6 +159,12 @@ final GoRouter router = GoRouter(
             },
           ),
         ]),
+    GoRoute(
+        path: '/company_review',
+        builder: (BuildContext context, GoRouterState state) {
+          return const ProjectReviewDetailScreen();
+        },
+        routes: []),
   ],
 );
 

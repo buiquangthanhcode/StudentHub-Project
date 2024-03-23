@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/ui/home/messages/data/get_chat_data.dart';
 import 'package:studenthub/ui/home/messages/widgets/chat_item.dart';
 import 'package:studenthub/ui/home/projects/widgets/project_item.dart';
 
 class MessagesScreen extends StatefulWidget {
-  const MessagesScreen({Key? key}) : super(key: key);
+  const MessagesScreen({Key? key, this.isHiddenAppbar}) : super(key: key);
 
+  final bool? isHiddenAppbar;
   @override
   _MessagesState createState() => _MessagesState();
 }
@@ -39,21 +41,24 @@ class _MessagesState extends State<MessagesScreen> {
     setState(() {});
   }
 
+  final data = getChatList();
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     var colorTheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        title: Text(
-          'Messages',
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                fontWeight: FontWeight.w700,
+      appBar: widget.isHiddenAppbar ?? false
+          ? null
+          : AppBar(
+              centerTitle: false,
+              title: Text(
+                'Messages',
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
               ),
-        ),
-      ),
+            ),
       body: Padding(
         padding: const EdgeInsets.only(top: 10),
         child: Column(
@@ -77,8 +82,7 @@ class _MessagesState extends State<MessagesScreen> {
                       style: textTheme.bodyMedium,
                       decoration: InputDecoration(
                         hintText: 'Search for messages...',
-                        hintStyle: textTheme.bodyMedium!.copyWith(
-                            color: Theme.of(context).colorScheme.hintColor),
+                        hintStyle: textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.hintColor),
                         prefixIcon: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -103,8 +107,7 @@ class _MessagesState extends State<MessagesScreen> {
                                       alignment: Alignment.center,
                                       decoration: const BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color:
-                                            Color.fromARGB(255, 191, 191, 191),
+                                        color: Color.fromARGB(255, 191, 191, 191),
                                       ),
                                       child: const FaIcon(
                                         FontAwesomeIcons.xmark,
@@ -116,10 +119,8 @@ class _MessagesState extends State<MessagesScreen> {
                                 ],
                               )
                             : Container(width: 1),
-                        suffixIconConstraints:
-                            const BoxConstraints(minWidth: 50),
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 12),
+                        suffixIconConstraints: const BoxConstraints(minWidth: 50),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
                         isDense: true,
                         filled: true,
                         fillColor: const Color.fromARGB(255, 245, 245, 245),
@@ -161,8 +162,10 @@ class _MessagesState extends State<MessagesScreen> {
             Expanded(
               child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: 10,
-                  itemBuilder: (context, index) => const ChatItem()),
+                  itemCount: data.length,
+                  itemBuilder: (context, index) => ChatItem(
+                        item: data[index],
+                      )),
             ),
           ],
         ),

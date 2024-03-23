@@ -4,9 +4,10 @@ import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
 
 class ProjectDetailScreen extends StatefulWidget {
-  const ProjectDetailScreen({super.key, required this.id});
+  const ProjectDetailScreen({super.key, required this.id, this.isHiddenAppbar});
 
   final String id;
+  final bool? isHiddenAppbar;
 
   @override
   State<ProjectDetailScreen> createState() => _ProjectDetailScreenState();
@@ -17,42 +18,42 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     isSaved = false;
   }
 
   @override
   Widget build(BuildContext context) {
-    print(widget.id);
     TextTheme textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        titleSpacing: 0,
-        title: Text(
-          "Project detail",
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                fontWeight: FontWeight.w700,
+      appBar: widget.isHiddenAppbar ?? false
+          ? null
+          : AppBar(
+              centerTitle: false,
+              titleSpacing: 0,
+              title: Text(
+                "Project detail",
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
               ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: InkWell(
-              onTap: () {
-                isSaved = !isSaved!;
-                setState(() {});
-              },
-              child: FaIcon(
-                isSaved! ? FontAwesomeIcons.solidHeart : FontAwesomeIcons.heart,
-                color: primaryColor,
-              ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: InkWell(
+                    onTap: () {
+                      isSaved = !isSaved!;
+                      setState(() {});
+                    },
+                    child: FaIcon(
+                      isSaved! ? FontAwesomeIcons.solidHeart : FontAwesomeIcons.heart,
+                      color: primaryColor,
+                    ),
+                  ),
+                )
+              ],
             ),
-          )
-        ],
-      ),
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         child: Column(
@@ -62,8 +63,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
               children: [
                 Text(
                   'Senior frontend developer (Fintech)',
-                  style: textTheme.bodyLarge!
-                      .copyWith(fontWeight: FontWeight.w600),
+                  style: textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(
                   height: 15,
@@ -127,10 +127,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                               ),
                               Text(
                                 '3-6 months',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
+                                style: Theme.of(context).textTheme.bodySmall!.copyWith(
                                       color: Colors.black.withOpacity(0.8),
                                     ),
                               ),
@@ -153,8 +150,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                         children: [
                           Text(
                             'Student required',
-                            style:
-                                TextStyle(color: Colors.black.withOpacity(0.8)),
+                            style: TextStyle(color: Colors.black.withOpacity(0.8)),
                           ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,8 +167,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall!
-                                    .copyWith(
-                                        color: Colors.black.withOpacity(0.8)),
+                                    .copyWith(color: Colors.black.withOpacity(0.8)),
                               ),
                             ],
                           )
@@ -192,8 +187,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
               onPressed: () {},
               child: Text(
                 'Apply Now',
-                style: textTheme.bodyMedium!
-                    .copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                style: textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
               ),
             ),
             const SizedBox(height: 20),

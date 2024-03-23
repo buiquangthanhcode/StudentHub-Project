@@ -34,8 +34,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     {
       'isMe': false,
       'time': '12:59',
-      'content':
-          'Yes, I was working on it last night and everything was fine, but this morning.',
+      'content': 'Yes, I was working on it last night and everything was fine, but this morning.',
     },
     {
       'isMe': true,
@@ -55,8 +54,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     {
       'isMe': false,
       'time': '12:59',
-      'content':
-          'Yes, I was working on it last night and everything was fine, but this morning.',
+      'content': 'Yes, I was working on it last night and everything was fine, but this morning.',
     },
     {
       'isMe': false,
@@ -72,8 +70,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     {
       'isMe': false,
       'time': '12:59',
-      'content':
-          'Yes, I was working on it last night and everything was fine, but this morning.',
+      'content': 'Yes, I was working on it last night and everything was fine, but this morning.',
     },
     {
       'isMe': true,
@@ -94,8 +91,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     {
       'isMe': false,
       'time': '12:59',
-      'content':
-          'Yes, I was working on it last night and everything was fine, but this morning.',
+      'content': 'Yes, I was working on it last night and everything was fine, but this morning.',
     },
     {
       'isMe': true,
@@ -150,17 +146,15 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     width: 36,
                     height: 36,
                     child: CircleAvatar(
-                      backgroundImage:
-                          AssetImage('lib/assets/images/circle_avatar.png'),
+                      backgroundImage: AssetImage('lib/assets/images/circle_avatar.png'),
                     ),
                   ),
                   const SizedBox(
                     width: 10,
                   ),
                   Text(
-                    'Luis Pham',
-                    style: textTheme.bodyLarge!
-                        .copyWith(fontWeight: FontWeight.w600),
+                    'Dinh Nguyen Duy Khang',
+                    style: textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
@@ -199,15 +193,13 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 shrinkWrap: true,
                 reverse: true, // *
                 itemCount: messagesData.length,
-                itemBuilder: (context, index) => messagesData[index]['isMe']
-                        as bool
+                itemBuilder: (context, index) => messagesData[index]['isMe'] as bool
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Container(
-                            constraints: BoxConstraints(
-                                maxWidth: screenSize.width * 0.7),
+                            constraints: BoxConstraints(maxWidth: screenSize.width * 0.7),
                             margin: EdgeInsets.only(
                                 bottom: index + 1 < messagesData.length
                                     ? (messagesData[index + 1]['isMe'] as bool)
@@ -238,8 +230,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                       style: const TextStyle(
                                           fontSize: 11,
                                           fontWeight: FontWeight.w400,
-                                          color: Color.fromARGB(
-                                              255, 230, 230, 230)),
+                                          color: Color.fromARGB(255, 230, 230, 230)),
                                     ),
                                   ],
                                 ),
@@ -262,16 +253,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                     width: 28,
                                     height: 28,
                                     child: CircleAvatar(
-                                      backgroundImage: AssetImage(
-                                          'lib/assets/images/circle_avatar.png'),
+                                      backgroundImage: AssetImage('lib/assets/images/circle_avatar.png'),
                                     ),
                                   ),
                           const SizedBox(
                             width: 10,
                           ),
                           Container(
-                            constraints: BoxConstraints(
-                                maxWidth: screenSize.width * 0.65),
+                            constraints: BoxConstraints(maxWidth: screenSize.width * 0.65),
                             margin: EdgeInsets.only(
                                 bottom: index + 1 < messagesData.length
                                     ? !(messagesData[index + 1]['isMe'] as bool)
@@ -302,8 +291,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                       style: const TextStyle(
                                           fontSize: 11,
                                           fontWeight: FontWeight.w400,
-                                          color:
-                                              Color.fromARGB(255, 80, 80, 80)),
+                                          color: Color.fromARGB(255, 80, 80, 80)),
                                     ),
                                   ],
                                 ),
@@ -347,10 +335,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         style: textTheme.bodyMedium,
                         decoration: InputDecoration(
                           hintText: 'Your messages...',
-                          hintStyle: textTheme.bodyMedium!.copyWith(
-                              color: Theme.of(context).colorScheme.hintColor),
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 8),
+                          hintStyle: textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.hintColor),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                           isDense: true,
                           filled: true,
                           fillColor: const Color.fromARGB(255, 245, 245, 245),
