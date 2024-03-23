@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
 
@@ -180,15 +182,38 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
             ),
             // const SizedBox(height: 24),
             const Spacer(),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 56),
-              ),
-              onPressed: () {},
-              child: Text(
-                'Apply Now',
-                style: textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
-              ),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(double.infinity, 56),
+                    ),
+                    onPressed: () {},
+                    child: Text(
+                      'Saved',
+                      style: textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(double.infinity, 56),
+                    ),
+                    onPressed: () {
+                      context.push('/project_detail/submit_proposal');
+                    },
+                    child: Text(
+                      'Apply Now',
+                      style: textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 20),
           ],

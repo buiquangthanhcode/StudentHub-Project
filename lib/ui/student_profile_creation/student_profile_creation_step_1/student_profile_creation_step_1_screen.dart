@@ -49,7 +49,12 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
       ),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const SizedBox(),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            context.pop();
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: Container(
