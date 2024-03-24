@@ -45,7 +45,7 @@ class _SignUpStep02State extends State<SignUpStep02Screen> {
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   child: Center(
                     child: Text(
-                      'Sign up as Compay',
+                      'Sign up as Company',
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -58,7 +58,7 @@ class _SignUpStep02State extends State<SignUpStep02Screen> {
                   height: 300,
                 ),
                 TextFieldFormCustom(
-                  name: 'fullnam',
+                  name: 'fullname',
                   hintText: 'Fullname',
                   onTap: () {
                     Scrollable.ensureVisible(formKeyLogin.currentContext!,
