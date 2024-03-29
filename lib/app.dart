@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
 import 'package:studenthub/blocs/theme_bloc/theme_bloc.dart';
 import 'package:studenthub/blocs/theme_bloc/theme_state.dart';
@@ -23,6 +25,7 @@ class StudentHub extends StatelessWidget {
   }
 
   static NavigatorState get navigatorState => navigatorKey.currentState!;
+  static final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +33,9 @@ class StudentHub extends StatelessWidget {
       providers: <BlocProvider<dynamic>>[
         BlocProvider<ThemesBloc>(
           create: (BuildContext context) => ThemesBloc(),
+        ),
+        BlocProvider<AuthBloc>(
+          create: (BuildContext context) => AuthBloc(),
         ),
         BlocProvider<StudentCreateProfileBloc>(
           create: (BuildContext context) => StudentCreateProfileBloc(),
@@ -41,7 +47,8 @@ class StudentHub extends StatelessWidget {
           return MaterialApp.router(
             localizationsDelegates: context.localizationDelegates,
             supportedLocales: context.supportedLocales,
-            scaffoldMessengerKey: SnackBarService.scaffoldKey,
+            builder: EasyLoading.init(),
+            scaffoldMessengerKey: scaffoldKey,
             locale: context.locale,
             debugShowCheckedModeBanner: false,
             title: 'Student Hub',

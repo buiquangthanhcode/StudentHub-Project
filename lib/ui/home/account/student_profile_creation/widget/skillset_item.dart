@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_event.dart';
-import 'package:studenthub/models/student_create_profile/skillset_model.dart';
+import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
 
 class SkillSetItem extends StatelessWidget {
   const SkillSetItem({

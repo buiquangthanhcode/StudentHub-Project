@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_event.dart';
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_state.dart';
-import 'package:studenthub/models/student_create_profile/education_model.dart';
-import 'package:studenthub/models/student_create_profile/language_model.dart';
-import 'package:studenthub/models/student_create_profile/project_model.dart';
-import 'package:studenthub/models/student_create_profile/skillset_model.dart';
+import 'package:studenthub/models/student/student_create_profile/education_model.dart';
+import 'package:studenthub/models/student/student_create_profile/language_model.dart';
+import 'package:studenthub/models/student/student_create_profile/project_model.dart';
+import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
 import 'package:studenthub/utils/logger.dart';
 
 class StudentCreateProfileBloc extends Bloc<StudentCreateProfileEvent, StudentCreateProfileState> {

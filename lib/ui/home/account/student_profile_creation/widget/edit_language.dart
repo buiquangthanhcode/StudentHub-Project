@@ -5,7 +5,7 @@ import 'package:studenthub/blocs/student_create_profile/student_create_profile_b
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/core/dropdown_button_formfield.dart';
-import 'package:studenthub/models/student_create_profile/language_model.dart';
+import 'package:studenthub/models/student/student_create_profile/language_model.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/data/student_data_creation.dart';
 
 class LanguageEdit extends StatefulWidget {

@@ -1,9 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/data/dto/authen/request_login.dart';
+import 'package:studenthub/utils/logger.dart';
 import '../../core/text_field_custom.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -122,16 +127,23 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       onPressed: () {
                         // validate form
-                        if (_formKeyLogin.currentState?.saveAndValidate() ??
-                            false) {
-                          context.pushReplacementNamed('home',
-                              queryParameters: {'welcome': 'true'});
+                        if (_formKeyLogin.currentState?.saveAndValidate() ?? false) {
+                          logger.d(_formKeyLogin.currentState!.value);
+                          context.read<AuthBloc>().add(
+                                LoginEvent(
+                                    requestLogin: RequestLogin(
+                                      email: _formKeyLogin.currentState!.fields['username']!.value.toString(),
+                                      password: _formKeyLogin.currentState!.fields['password']!.value.toString(),
+                                    ),
+                                    onSuscess: () {
+                                      context.pushReplacementNamed('home', queryParameters: {'welcome': 'true'});
+                                    }),
+                              );
                         }
                       },
                       child: Text(
                         'Login',
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                            color: Colors.white, fontWeight: FontWeight.w600),
+                        style: theme.textTheme.bodyMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
                       ),
                     ),
                   ),

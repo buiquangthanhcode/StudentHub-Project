@@ -6,8 +6,8 @@ import 'package:studenthub/blocs/student_create_profile/student_create_profile_e
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/core/date_picker_formfield.dart';
 import 'package:studenthub/core/text_field_custom.dart';
-import 'package:studenthub/models/student_create_profile/project_model.dart';
-import 'package:studenthub/models/student_create_profile/skillset_model.dart';
+import 'package:studenthub/models/student/student_create_profile/project_model.dart';
+import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
 import 'package:studenthub/utils/helper.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
