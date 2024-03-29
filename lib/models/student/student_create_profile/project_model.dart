@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:studenthub/models/student_create_profile/skillset_model.dart';
+import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
 
 class ProjectResume {
   String? id;

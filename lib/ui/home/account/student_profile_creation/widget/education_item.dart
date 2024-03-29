@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
-import 'package:studenthub/models/student_create_profile/education_model.dart';
+import 'package:studenthub/models/student/student_create_profile/education_model.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/edit_education.dart';
 
 import '../../../../../blocs/student_create_profile/student_create_profile_event.dart';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:studenthub/app.dart';
 import 'package:studenthub/constants/colors.dart';
 
 enum StatusSnackBar {
@@ -11,9 +12,8 @@ enum StatusSnackBar {
 }
 
 class SnackBarService {
-  static final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
   static void showSnackBar({required String content, StatusSnackBar status = StatusSnackBar.none}) {
-    scaffoldKey.currentState?.showSnackBar(
+    StudentHub.scaffoldKey.currentState?.showSnackBar(
       SnackBar(
         duration: const Duration(milliseconds: 1000),
         content: Row(

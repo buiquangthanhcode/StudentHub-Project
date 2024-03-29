@@ -6,7 +6,7 @@ import 'package:studenthub/blocs/student_create_profile/student_create_profile_e
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
-import 'package:studenthub/models/student_create_profile/project_model.dart';
+import 'package:studenthub/models/student/student_create_profile/project_model.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/edit_project_resume.dart';
 import 'package:studenthub/utils/helper.dart';
 

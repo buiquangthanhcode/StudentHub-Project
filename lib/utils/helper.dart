@@ -41,3 +41,13 @@ String formatTimeFromDateTime(DateTime dateTime) {
 
   return formattedTime;
 }
+
+String handleFormatMessage(dynamic message) {
+  if (message is String) {
+    return message;
+  } else if (message is List) {
+    return message.join('\n');
+  } else {
+    return 'Invalid message type';
+  }
+}

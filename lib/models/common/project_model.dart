@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 
 import 'package:studenthub/models/common/project_scope.dart';
 import 'package:studenthub/models/common/proposal_model.dart';
-import 'package:studenthub/models/student_create_profile/skillset_model.dart';
+import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
 
 class Project {
   String? id;

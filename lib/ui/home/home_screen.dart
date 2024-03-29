@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:studenthub/constants/bottom_navigation.dart';
 import 'package:studenthub/constants/colors.dart';
-import 'package:studenthub/data/bottom_navigation.dart';
 import 'package:studenthub/ui/home/account/account_screen.dart';
 import 'package:studenthub/ui/home/alerts/alerts_screen.dart';
 import 'package:studenthub/ui/home/dashboard/dashboard_screen.dart';
@@ -87,8 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             SvgPicture.asset(
                               bottomNavs[index]['solid-icon'] as String,
-                              colorFilter: const ColorFilter.mode(
-                                  primaryColor, BlendMode.srcIn),
+                              colorFilter: const ColorFilter.mode(primaryColor, BlendMode.srcIn),
                               height: 24,
                             ),
                             const SizedBox(
@@ -109,8 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             SvgPicture.asset(
                               bottomNavs[index]['regular-icon'] as String,
-                              colorFilter: const ColorFilter.mode(
-                                  Color(0xffA0A0A0), BlendMode.srcIn),
+                              colorFilter: const ColorFilter.mode(Color(0xffA0A0A0), BlendMode.srcIn),
                               height: 23,
                             ),
                             const SizedBox(

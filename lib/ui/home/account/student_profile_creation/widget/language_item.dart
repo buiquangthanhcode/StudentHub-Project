@@ -5,7 +5,7 @@ import 'package:studenthub/blocs/student_create_profile/student_create_profile_b
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
-import 'package:studenthub/models/student_create_profile/language_model.dart';
+import 'package:studenthub/models/student/student_create_profile/language_model.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/edit_language.dart';
 import 'package:studenthub/widgets/dialog.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';

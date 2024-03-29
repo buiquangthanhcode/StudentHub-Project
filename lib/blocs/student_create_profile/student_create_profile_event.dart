@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:studenthub/models/student_create_profile/education_model.dart';
-import 'package:studenthub/models/student_create_profile/language_model.dart';
-import 'package:studenthub/models/student_create_profile/project_model.dart';
-import 'package:studenthub/models/student_create_profile/skillset_model.dart';
+import 'package:studenthub/models/student/student_create_profile/education_model.dart';
+import 'package:studenthub/models/student/student_create_profile/language_model.dart';
+import 'package:studenthub/models/student/student_create_profile/project_model.dart';
+import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
 
 @immutable
 abstract class StudentCreateProfileEvent {}
