@@ -26,6 +26,8 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
     },
   ];
 
+  bool choice = true; // true for company, false1 for student
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -35,13 +37,14 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Container(
-            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-            child: const Center(
-              child: SizedBox(),
-            ),
-          )),
+        automaticallyImplyLeading: false,
+        // title: Container(
+        //   margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        //   child: const Center(
+        //     child: SizedBox(),
+        //   ),
+        // ),
+      ),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
@@ -122,6 +125,7 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                                       element['value'] = false;
                                     }
                                     item['value'] = value;
+                                    choice = !choice;
                                   });
                                 },
                               ),
@@ -155,7 +159,9 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                   minimumSize: Size(maxWidth, 56),
                 ),
                 onPressed: () {
-                  context.push('/signup_02');
+                  choice
+                      ? context.push('/signup_02_for_company')
+                      : context.push('/signup_02_for_student');
                 },
                 child: Text(
                   'Create account',

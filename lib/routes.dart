@@ -19,11 +19,12 @@ import 'package:studenthub/ui/introduction/introduction_screen.dart';
 import 'package:studenthub/ui/home/projects/project_saved/project_saved_screen.dart';
 import 'package:studenthub/ui/home/projects/project_search/project_search_screen.dart';
 import 'package:studenthub/ui/signup/signup_step01_screen.dart';
-import 'package:studenthub/ui/signup/signup_step02_screen.dart';
+import 'package:studenthub/ui/signup/signup_step02_screen_for_company.dart';
 
 import 'package:studenthub/ui/home/account/student_profile_creation/student_profile_creation_step_3/student_profile_creation_step_3_screen.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/student_profile_creation_step_1/student_profile_creation_step_1_screen.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/student_profile_creation_step_2/student_profile_creation_step_2_screen.dart';
+import 'package:studenthub/ui/signup/signup_step02_screen_for_student.dart';
 
 final GoRouter router = GoRouter(
   routes: <RouteBase>[
@@ -192,9 +193,17 @@ final GoRouter router = GoRouter(
       },
     ),
     GoRoute(
-      path: '/signup_02',
+      path: '/signup_02_for_company',
       pageBuilder: (context, state) {
-        return customTransitionPage(state.pageKey, const SignUpStep02Screen());
+        return customTransitionPage(
+            state.pageKey, const SignUpStep02ScreenForCompany());
+      },
+    ),
+    GoRoute(
+      path: '/signup_02_for_student',
+      pageBuilder: (context, state) {
+        return customTransitionPage(
+            state.pageKey, const SignUpStep02ScreenForStudent());
       },
     ),
     GoRoute(

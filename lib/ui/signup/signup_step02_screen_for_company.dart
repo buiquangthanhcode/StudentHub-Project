@@ -12,14 +12,14 @@ import 'package:studenthub/utils/logger.dart';
 
 import '../../core/text_field_custom.dart';
 
-class SignUpStep02Screen extends StatefulWidget {
-  const SignUpStep02Screen({super.key});
+class SignUpStep02ScreenForCompany extends StatefulWidget {
+  const SignUpStep02ScreenForCompany({super.key});
 
   @override
-  State<SignUpStep02Screen> createState() => _SignUpStep02State();
+  State<SignUpStep02ScreenForCompany> createState() => _SignUpStep02State();
 }
 
-class _SignUpStep02State extends State<SignUpStep02Screen> {
+class _SignUpStep02State extends State<SignUpStep02ScreenForCompany> {
   bool isAcceptCondtion = false;
   final formKeyLogin = GlobalKey<FormBuilderState>();
   @override
@@ -38,26 +38,37 @@ class _SignUpStep02State extends State<SignUpStep02Screen> {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: SingleChildScrollView(
             child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.stretch,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Container(
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  child: Center(
-                    child: Text(
-                      'Sign up as Company',
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Text.rich(
+                    TextSpan(
+                      text: 'Sign up as\n',
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
+                        fontSize: 45,
                       ),
+                      children: const [
+                        TextSpan(
+                          text: 'Company',
+                          style: TextStyle(
+                            color:
+                                primaryColor, // Replace with your desired color
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
                 Image.asset(
                   'lib/assets/images/company.png',
                   fit: BoxFit.cover,
-                  height: 300,
+                  height: 230,
                 ),
+                const SizedBox(height: 48),
                 TextFieldFormCustom(
+                  fillColor: Colors.white,
                   name: 'fullname',
                   hintText: 'Fullname',
                   onTap: () {
@@ -80,8 +91,9 @@ class _SignUpStep02State extends State<SignUpStep02Screen> {
                   ),
                 ),
                 TextFieldFormCustom(
+                  fillColor: Colors.white,
                   name: 'address',
-                  hintText: 'Work email address',
+                  hintText: 'Email address',
                   icon: Container(
                     width: 18,
                     height: 18,
@@ -91,14 +103,17 @@ class _SignUpStep02State extends State<SignUpStep02Screen> {
                       shape: BoxShape.circle,
                     ),
                     child: FaIcon(
-                      FontAwesomeIcons.lock,
+                      FontAwesomeIcons.envelope,
                       size: 16,
                       color: theme.colorScheme.grey,
                     ),
                   ),
                 ),
                 TextFieldFormCustom(
-                  name: 'passwork',
+                  isPasswordText: true,
+                  obscureText: true,
+                  fillColor: Colors.white,
+                  name: 'password',
                   hintText: 'Password (8 or more characters)',
                   icon: Container(
                     width: 18,
@@ -155,7 +170,7 @@ class _SignUpStep02State extends State<SignUpStep02Screen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 36),
+                const SizedBox(height: 12),
                 Container(
                   margin: const EdgeInsets.only(bottom: 20),
                   width: double.infinity,
@@ -179,6 +194,29 @@ class _SignUpStep02State extends State<SignUpStep02Screen> {
                       ),
                     ),
                   ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Looking for project? ',
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        color: Colors.black54,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        context.push('/signup_02_for_student');
+                      },
+                      child: Text(
+                        'Apply as student',
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: primaryColor,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
