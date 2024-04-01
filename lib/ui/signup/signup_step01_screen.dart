@@ -16,12 +16,12 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
   List<Map<String, dynamic>> dataSelectedInfor = [
     {
       'image': "lib/assets/images/company.png",
-      'description': "I am a company,find engineer for project",
+      'description': "I am a company, find engineer for project",
       'value': true,
     },
     {
       'image': "lib/assets/images/student.png",
-      'description': "I am a student,find project for learning",
+      'description': "I am a student, find project for learning",
       'value': false,
     },
   ];
@@ -49,18 +49,28 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
           children: <Widget>[
             Container(
               margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              child: Text(
-                'Lets Register \nAccount',
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
+              child: Text.rich(
+                TextSpan(
+                  text: 'Let\'s register  \n',
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 45,
+                  ),
+                  children: const [
+                    TextSpan(
+                      text: 'Account',
+                      style: TextStyle(
+                        color: primaryColor, // Replace with your desired color
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
             Container(
               margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               child: Text(
-                'Hello user, you have a greatful journey !',
+                'Create your own account to process next step',
                 style: theme.textTheme.titleMedium?.copyWith(
                   fontSize: 16,
                 ),
@@ -76,7 +86,7 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   margin: const EdgeInsets.only(top: 10),
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 242, 242, 242),
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       color: theme.colorScheme.grey!,
@@ -120,7 +130,7 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                         ],
                       ),
                       const SizedBox(
-                        height: 5,
+                        height: 12,
                       ),
                       Text(item['description'],
                           style: theme.textTheme.bodyMedium?.copyWith(
@@ -132,11 +142,11 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
               },
               separatorBuilder: (context, index) {
                 return const SizedBox(
-                  height: 2,
+                  height: 24,
                 );
               },
             ),
-            const Spacer(),
+            // const Spacer(),
             Container(
               margin: const EdgeInsets.only(top: 20),
               child: ElevatedButton(
@@ -163,9 +173,9 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  ' Already have an account? ',
+                  'Already have an account? ',
                   style: theme.textTheme.titleSmall?.copyWith(
-                    color: Colors.grey,
+                    color: Colors.black54,
                   ),
                 ),
                 InkWell(
@@ -176,6 +186,7 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                     'Login',
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w600,
+                      color: primaryColor,
                     ),
                   ),
                 ),

@@ -219,7 +219,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     icon: Icon(
                       FontAwesomeIcons.facebook,
                       size: 45,
-                      color: Colors.blue.shade600,
+                      color: Colors.blue.shade800,
                     ),
                   ),
                   const SizedBox(width: 20),
@@ -241,7 +241,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: RichText(
                   text: TextSpan(
                     text: 'Already have an account? ',
-                    style: theme.textTheme.titleSmall?.copyWith(),
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      color: Colors.black54,
+                    ),
                     children: <TextSpan>[
                       TextSpan(
                         text: 'Sign Up',
