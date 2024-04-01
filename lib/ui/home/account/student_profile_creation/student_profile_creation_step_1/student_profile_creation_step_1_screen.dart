@@ -14,6 +14,7 @@ import 'package:studenthub/ui/home/account/student_profile_creation/widget/creat
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/education_item.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/language_item.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/skillset_item.dart';
+import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/emtyDataWidget.dart';
 
 class StudentProfileCreationStep01Screen extends StatefulWidget {
@@ -100,6 +101,8 @@ class _StudentProfileCreationStep01State
               ),
               BlocBuilder<StudentCreateProfileBloc, StudentCreateProfileState>(
                 builder: (context, state) {
+                  logger.d("Rebuild");
+
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

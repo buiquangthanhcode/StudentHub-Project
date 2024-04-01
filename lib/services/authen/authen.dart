@@ -25,6 +25,7 @@ class AuthService {
         '${baseURL}api/auth/sign-in',
         data: requestLogin.toJson(),
       );
+
       return ResponseAPI(
         statusCode: res.statusCode,
         data: DataResponse.fromJson(json.encode(res.data)),

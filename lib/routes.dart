@@ -31,7 +31,8 @@ final GoRouter router = GoRouter(
       path: '/',
       name: 'introduction',
       builder: (BuildContext context, GoRouterState state) {
-        return const IntroductionScreen();
+        // return const StudentProfileCreationStep01Screen();
+        return const LoginScreen();
       },
     ),
     GoRoute(
