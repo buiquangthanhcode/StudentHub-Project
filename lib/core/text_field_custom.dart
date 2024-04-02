@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
 
 // Core widget builder for custom TextFormField
 class TextFieldFormCustom extends StatefulWidget {
-  const TextFieldFormCustom({
+  TextFieldFormCustom({
     super.key,
     required this.name,
     this.hintText,
@@ -26,9 +27,10 @@ class TextFieldFormCustom extends StatefulWidget {
     this.fillColor,
     this.autocorrect,
     this.enableSuggestions,
-    this.obscureText,
     this.keyboardType,
     this.autofocus,
+    this.obscureText,
+    this.isPasswordText = false,
   });
 
   final String name;
@@ -49,11 +51,12 @@ class TextFieldFormCustom extends StatefulWidget {
   final void Function(String?)? onFieldSubmitted;
   final TextStyle? style;
   final Color? fillColor;
-  final bool? obscureText;
   final bool? enableSuggestions;
   final bool? autocorrect;
   final TextInputType? keyboardType;
   final bool? autofocus;
+  bool? obscureText; // add new
+  final bool? isPasswordText;
 
   @override
   State<TextFieldFormCustom> createState() => _TextFieldFormCustomState();
@@ -71,6 +74,8 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
   final bool maxLengthEnforced = false;
 
   final bool expands = false;
+
+  bool isHiddenPassword = false;
 
   @override
   Widget build(BuildContext context) {
@@ -110,6 +115,27 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
               widget.icon ?? const SizedBox(),
             ],
           ),
+          suffixIcon: widget.isPasswordText ?? false
+              ? IconButton(
+                  onPressed: () {
+                    setState(() {
+                      isHiddenPassword = !isHiddenPassword;
+                      widget.obscureText = !widget.obscureText!;
+                    });
+                  },
+                  // icon: Icon(
+                  //   isHiddenPassword
+                  //       ? Icons.visibility
+                  //       : Icons.visibility_off_rounded,
+                  // ),
+                  icon: FaIcon(
+                    isHiddenPassword
+                        ? FontAwesomeIcons.eye
+                        : FontAwesomeIcons.eyeSlash,
+                    color: Theme.of(context).colorScheme.grey,
+                  ),
+                )
+              : null,
           hintText: widget.hintText ?? 'Please select a hint',
           hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: Theme.of(context).colorScheme.hintColor,
