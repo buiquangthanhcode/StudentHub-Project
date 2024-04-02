@@ -10,7 +10,8 @@ class ProjectReviewDetailScreen extends StatefulWidget {
   const ProjectReviewDetailScreen({super.key});
 
   @override
-  State<ProjectReviewDetailScreen> createState() => _ProjectReviewDetailScreenState();
+  State<ProjectReviewDetailScreen> createState() =>
+      _ProjectReviewDetailScreenState();
 }
 
 class _ProjectReviewDetailScreenState extends State<ProjectReviewDetailScreen> {
@@ -19,15 +20,37 @@ class _ProjectReviewDetailScreenState extends State<ProjectReviewDetailScreen> {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Project Review Detail'),
+        title: Text(
+          'Project Review Detail',
+          style: theme.textTheme.headlineSmall!.copyWith(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Senior fontend Developer (FinTech)',
-                style: theme.textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w600)),
+            // Text('Senior frontend Developer (FinTech)',
+            //     style: theme.textTheme.bodyMedium!
+            //         .copyWith(fontWeight: FontWeight.w600)),
+            Row(children: [
+              Text(
+                'Senior Frontend Developer',
+                style: theme.textTheme.bodyMedium,
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              Text(
+                '(${'FinTech'})',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: primaryColor,
+                ),
+              ),
+            ]),
             const SizedBox(height: 10),
             Expanded(
               child: DefaultTabController(
@@ -37,17 +60,25 @@ class _ProjectReviewDetailScreenState extends State<ProjectReviewDetailScreen> {
                       Container(
                         decoration: BoxDecoration(
                           // all borrder
-                          border: Border.all(color: theme.colorScheme.grey!.withOpacity(0.2), width: 1),
+                          border: Border.all(
+                              color: theme.colorScheme.grey!.withOpacity(0.2),
+                              width: 1),
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: TabBar(
                           padding: EdgeInsets.zero,
                           indicatorPadding: EdgeInsets.zero,
                           labelPadding: EdgeInsets.zero,
-                          labelColor: primaryColor, // Set the color of the selected tab label
-                          labelStyle: Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w600), //
-                          unselectedLabelStyle:
-                              Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w600),
+                          labelColor:
+                              primaryColor, // Set the color of the selected tab label
+                          labelStyle: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(fontWeight: FontWeight.w600), //
+                          unselectedLabelStyle: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(fontWeight: FontWeight.w600),
                           indicator: const BoxDecoration(
                             border: Border(
                               bottom: BorderSide(

@@ -181,31 +181,38 @@ final GoRouter router = GoRouter(
     //   },
     // ),
     GoRoute(
-      path: '/login',
-      pageBuilder: (context, state) {
-        return customTransitionPage(state.pageKey, const LoginScreen());
-      },
-    ),
-    GoRoute(
-      path: '/signup_01',
-      pageBuilder: (context, state) {
-        return customTransitionPage(state.pageKey, const SignUpStep01Screen());
-      },
-    ),
-    GoRoute(
-      path: '/signup_02_for_company',
-      pageBuilder: (context, state) {
-        return customTransitionPage(
-            state.pageKey, const SignUpStep02ScreenForCompany());
-      },
-    ),
-    GoRoute(
-      path: '/signup_02_for_student',
-      pageBuilder: (context, state) {
-        return customTransitionPage(
-            state.pageKey, const SignUpStep02ScreenForStudent());
-      },
-    ),
+        path: '/login',
+        pageBuilder: (context, state) {
+          return customTransitionPage(state.pageKey, const LoginScreen());
+        },
+        routes: [
+          GoRoute(
+              path: 'signup_01',
+              name: 'signup_01',
+              pageBuilder: (context, state) {
+                return customTransitionPage(
+                    state.pageKey, const SignUpStep01Screen());
+              },
+              routes: [
+                GoRoute(
+                  path: 'signup_02_for_company',
+                  name: 'signup_02_for_company',
+                  pageBuilder: (context, state) {
+                    return customTransitionPage(
+                        state.pageKey, const SignUpStep02ScreenForCompany());
+                  },
+                ),
+                GoRoute(
+                  path: 'signup_02_for_student',
+                  name: 'signup_02_for_student',
+                  pageBuilder: (context, state) {
+                    return customTransitionPage(
+                        state.pageKey, const SignUpStep02ScreenForStudent());
+                  },
+                ),
+              ]),
+        ]),
+
     GoRoute(
       path: '/account',
       builder: (BuildContext context, GoRouterState state) {

@@ -37,14 +37,14 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        // title: Container(
-        //   margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        //   child: const Center(
-        //     child: SizedBox(),
-        //   ),
-        // ),
-      ),
+          // automaticallyImplyLeading: false,
+          // title: Container(
+          //   margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          //   child: const Center(
+          //     child: SizedBox(),
+          //   ),
+          // ),
+          ),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
@@ -160,8 +160,8 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                 ),
                 onPressed: () {
                   choice
-                      ? context.push('/signup_02_for_company')
-                      : context.push('/signup_02_for_student');
+                      ? context.pushNamed('signup_02_for_company')
+                      : context.pushNamed('signup_02_for_student');
                 },
                 child: Text(
                   'Create account',

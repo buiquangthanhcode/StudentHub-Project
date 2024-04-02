@@ -30,8 +30,8 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForCompany> {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-      ),
+          // automaticallyImplyLeading: false,
+          ),
       body: FormBuilder(
         key: formKeyLogin,
         child: Container(
@@ -206,7 +206,7 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForCompany> {
                     ),
                     InkWell(
                       onTap: () {
-                        context.push('/signup_02_for_student');
+                        context.pushNamed('signup_02_for_student');
                       },
                       child: Text(
                         'Apply as student',

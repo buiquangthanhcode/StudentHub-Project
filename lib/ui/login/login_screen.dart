@@ -251,7 +251,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontWeight: FontWeight.bold, color: primaryColor),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            context.push('/signup_01');
+                            context.pushNamed('signup_01');
                           },
                       ),
                     ],
