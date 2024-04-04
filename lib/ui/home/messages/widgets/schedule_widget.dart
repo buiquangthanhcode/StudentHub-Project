@@ -40,6 +40,7 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
           ),
           const SizedBox(height: 10),
           TextFieldFormCustom(
+            fillColor: Colors.white,
             autofocus: true,
             icon: FaIcon(
               FontAwesomeIcons.tag,
@@ -118,8 +119,9 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                     Navigator.pop(context);
                   },
                   child: Text(
-                    'Cancle',
-                    style: theme.textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                    'Cancel',
+                    style: theme.textTheme.bodyMedium!.copyWith(
+                        color: Colors.white, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
@@ -140,12 +142,14 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                   },
                   child: Text(
                     'Send Invite',
-                    style: theme.textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                    style: theme.textTheme.bodyMedium!.copyWith(
+                        color: Colors.white, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
             ],
           ),
+          const SizedBox(height: 20),
         ],
       ),
     );

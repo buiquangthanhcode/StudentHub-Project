@@ -64,28 +64,34 @@ List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
 List<Map<String, dynamic>> getProposal() {
   return [
     {
-      "avatar": "https://cdn5.vectorstock.com/i/1000x1000/38/44/student-graduate-avatar-icon-vector-11983844.jpg",
+      "avatar":
+          "https://cdn5.vectorstock.com/i/1000x1000/38/44/student-graduate-avatar-icon-vector-11983844.jpg",
       "fullname": "Bui Quang Thanh",
       "year": "4th year student",
-      "major": "FullStack Engineering",
+      "major": "Fullstack Engineering",
       "rating": "Excellent",
-      "description": "I have gone through your project and it seen like a great project. I will commit for four project"
+      "description":
+          "I have gone through your project and it seen like a great project. I will commit for four project"
     },
     {
-      "avatar": "https://cdn5.vectorstock.com/i/1000x1000/38/44/student-graduate-avatar-icon-vector-11983844.jpg",
+      "avatar":
+          "https://cdn5.vectorstock.com/i/1000x1000/38/44/student-graduate-avatar-icon-vector-11983844.jpg",
       "fullname": "Dinh Nguyen Duy Khang",
       "year": "4th year student",
       "major": "Mobile Engineering",
-      "rating": "Excellent",
-      "description": "I have gone through your project and it seen like a great project. I will commit for four project"
+      "rating": "Very Good",
+      "description":
+          "I have gone through your project and it seen like a great project. I will commit for four project"
     },
     {
-      "avatar": "https://cdn5.vectorstock.com/i/1000x1000/38/44/student-graduate-avatar-icon-vector-11983844.jpg",
+      "avatar":
+          "https://cdn5.vectorstock.com/i/1000x1000/38/44/student-graduate-avatar-icon-vector-11983844.jpg",
       "fullname": "Nguyen Thoai Dang Khoa",
       "year": "4th year student",
       "major": "Blockchain Engineering",
-      "rating": "Excellent",
-      "description": "I have gone through your project and it seen like a great project. I will commit for four project"
+      "rating": "Good",
+      "description":
+          "I have gone through your project and it seen like a great project. I will commit for four project"
     },
   ];
 }
