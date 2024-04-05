@@ -11,4 +11,8 @@ class LoginEvent extends AuthenEvent {
   LoginEvent({required this.requestLogin, required this.onSuscess});
 }
 
-//
+class GetInformationEvent extends AuthenEvent {
+  final Function? onSuscess;
+
+  GetInformationEvent({required this.onSuscess});
+}

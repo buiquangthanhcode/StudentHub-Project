@@ -61,10 +61,7 @@ class AppInterceptors extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     final token = await _tokenService.getAccessToken();
     if (token != null) {
-      options.headers['Bearer'] = token;
-
-      options.headers['Customer-Id'] = 3;
-      options.headers['Product-Scope'] = 3;
+      options.headers['Authorization'] = "Bearer $token";
     }
     return handler.next(options);
   }
@@ -74,7 +71,6 @@ class AppInterceptors extends Interceptor {
     logger.e(
         'ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.path} \n => BODY: ${err.requestOptions.data}');
     // Check if the error is a 401 Unauthorized
-
     // Continue with error handling
     return handler.next(err);
   }

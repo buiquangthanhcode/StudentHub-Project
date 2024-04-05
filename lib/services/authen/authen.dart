@@ -19,8 +19,8 @@ class AuthService {
   }
 
   Future<ResponseAPI> login(RequestLogin requestLogin) async {
-    var dio = Dio();
     try {
+      var dio = Dio();
       final res = await dio.post(
         '${baseURL}api/auth/sign-in',
         data: requestLogin.toJson(),

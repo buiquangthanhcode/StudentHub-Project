@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-const _defaultConnectTimeout = Duration.millisecondsPerHour;
-const _defaultReceiveTimeout = Duration.millisecondsPerHour;
+const _defaultConnectTimeout = 10000;
+const _defaultReceiveTimeout = 10000;
 
 class DioClient {
   final String baseUrl;
@@ -45,7 +45,7 @@ class DioClient {
     }
   }
 
-  Future<dynamic> get(
+  Future<Response> get(
     String uri, {
     Map<String, dynamic>? queryParameters,
     Options? options,
@@ -60,7 +60,7 @@ class DioClient {
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
       );
-      return response.data;
+      return response;
     } on SocketException catch (e) {
       throw SocketException(e.toString());
     } on FormatException catch (_) {
@@ -82,9 +82,10 @@ class DioClient {
     try {
       // Add by Quang Thanh to check issues connect close
       options = Options(
-        receiveTimeout: const Duration(milliseconds: 60000),
+        receiveTimeout: const Duration(milliseconds: 6000),
         receiveDataWhenStatusError: true,
         persistentConnection: false,
+        method: 'post',
         followRedirects: false,
         validateStatus: (status) {
           return status! < 500;
@@ -107,7 +108,7 @@ class DioClient {
     }
   }
 
-  FutureOr<dynamic> patch(
+  FutureOr<Response> patch(
     String uri, {
     data,
     Map<String, dynamic>? queryParameters,
@@ -126,7 +127,7 @@ class DioClient {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      return response.data;
+      return response;
     } on FormatException catch (_) {
       throw const FormatException('Unable to process the data');
     } catch (e) {
@@ -134,7 +135,7 @@ class DioClient {
     }
   }
 
-  FutureOr<dynamic> put(
+  FutureOr<Response> put(
     String uri, {
     data,
     Map<String, dynamic>? queryParameters,
@@ -153,7 +154,7 @@ class DioClient {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      return response.data;
+      return response;
     } on FormatException catch (_) {
       throw const FormatException('Unable to process the data');
     } catch (e) {
@@ -161,7 +162,7 @@ class DioClient {
     }
   }
 
-  FutureOr<dynamic> delete(
+  FutureOr<Response> delete(
     String uri, {
     data,
     Map<String, dynamic>? queryParameters,
@@ -176,7 +177,7 @@ class DioClient {
         options: options,
         cancelToken: cancelToken,
       );
-      return response.data;
+      return response;
     } on FormatException catch (_) {
       throw const FormatException('Unable to process the data');
     } catch (e) {

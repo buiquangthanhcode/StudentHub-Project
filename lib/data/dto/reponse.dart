@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 
 import 'package:studenthub/models/company/company_model.dart';
 import 'package:studenthub/models/student/student_model.dart';
-import 'package:studenthub/utils/logger.dart';
 
 class ResponseAPI {
   DataResponse? data;
