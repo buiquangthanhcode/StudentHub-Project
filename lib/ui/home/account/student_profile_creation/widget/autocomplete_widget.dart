@@ -3,10 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_event.dart';
 import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
-import 'package:studenthub/ui/home/account/student_profile_creation/data/student_data_creation.dart';
 
 class AutoCompleteWidget extends StatefulWidget {
-  const AutoCompleteWidget({super.key});
+  const AutoCompleteWidget({super.key, required this.data});
+
+  final List<String> data;
 
   @override
   State<AutoCompleteWidget> createState() => _AutoCompleteWidgetState();
@@ -74,12 +75,12 @@ class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
             if (skillsetTextEditController.text == '') {
               return const Iterable<String>.empty();
             }
-            return skillSetList.where((String option) {
+            return widget.data.where((String option) {
               return option.toLowerCase().contains(skillsetTextEditController.text);
             });
           },
           onSelected: (String value) {
-            context.read<StudentCreateProfileBloc>().add(AddSkillSetEvent(SkillSet(name: value, isSelected: false)));
+            context.read<StudentCreateProfileBloc>().add(AddSkillSetEvent(SkillSet(name: value, isSelected: true)));
             textEditingController.text = "";
           },
         );

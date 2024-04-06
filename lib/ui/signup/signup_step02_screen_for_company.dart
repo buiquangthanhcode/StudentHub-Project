@@ -1,19 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
-import 'package:studenthub/constants/strings.dart';
+import 'package:studenthub/data/dto/authen/request_register_account.dart';
 import 'package:studenthub/utils/logger.dart';
+import 'package:studenthub/widgets/snack_bar_config.dart';
 
 import '../../core/text_field_custom.dart';
 
 class SignUpStep02ScreenForCompany extends StatefulWidget {
-  const SignUpStep02ScreenForCompany({super.key});
+  const SignUpStep02ScreenForCompany({super.key, this.role});
+
+  final String? role;
 
   @override
   State<SignUpStep02ScreenForCompany> createState() => _SignUpStep02State();
@@ -22,11 +25,32 @@ class SignUpStep02ScreenForCompany extends StatefulWidget {
 class _SignUpStep02State extends State<SignUpStep02ScreenForCompany> {
   bool isAcceptCondtion = false;
   final formKeyLogin = GlobalKey<FormBuilderState>();
+
+  void handleSubmit() {
+    if (!isAcceptCondtion) {
+      SnackBarService.showSnackBar(content: 'Please accept the terms of service', status: StatusSnackBar.info);
+      return;
+    }
+
+    if ((formKeyLogin.currentState?.saveAndValidate() ?? false) && isAcceptCondtion) {
+      final requestRegisterAccount = RequestRegisterAccount(
+        email: formKeyLogin.currentState?.fields['email']?.value.toString() ?? '',
+        password: formKeyLogin.currentState?.fields['password']?.value.toString() ?? '',
+        fullname: formKeyLogin.currentState?.fields['fullname']?.value.toString() ?? '',
+        role: widget.role ?? "0",
+      );
+      context.read<AuthBloc>().add(RegisterAccount(
+          requestRegister: requestRegisterAccount,
+          onSuscess: () {
+            context.pushNamed('home', queryParameters: {'welcome': 'true'});
+          }));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
-    double height = MediaQuery.of(context).size.height;
+    logger.d(widget.role);
 
     return Scaffold(
       appBar: AppBar(
@@ -53,8 +77,7 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForCompany> {
                         TextSpan(
                           text: 'Company',
                           style: TextStyle(
-                            color:
-                                primaryColor, // Replace with your desired color
+                            color: primaryColor, // Replace with your desired color
                           ),
                         ),
                       ],
@@ -72,8 +95,7 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForCompany> {
                   name: 'fullname',
                   hintText: 'Fullname',
                   onTap: () {
-                    Scrollable.ensureVisible(formKeyLogin.currentContext!,
-                        duration: const Duration(milliseconds: 500));
+                    Scrollable.ensureVisible(formKeyLogin.currentContext!, duration: const Duration(milliseconds: 500));
                   },
                   icon: Container(
                     width: 18,
@@ -92,7 +114,7 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForCompany> {
                 ),
                 TextFieldFormCustom(
                   fillColor: Colors.white,
-                  name: 'address',
+                  name: 'email',
                   hintText: 'Email address',
                   icon: Container(
                     width: 18,
@@ -139,8 +161,7 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForCompany> {
                         child: ListTileTheme(
                           horizontalTitleGap: 0.0,
                           child: CheckboxListTile(
-                            contentPadding:
-                                const EdgeInsets.symmetric(horizontal: 25),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 25),
                             activeColor: primaryColor,
                             title: RichText(
                                 text: TextSpan(
@@ -156,8 +177,7 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForCompany> {
                               ],
                             )),
                             controlAffinity: ListTileControlAffinity.leading,
-                            checkboxShape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15)),
+                            checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                             value: isAcceptCondtion,
                             onChanged: (value) {
                               setState(() {
@@ -179,13 +199,7 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForCompany> {
                       elevation: 5,
                       minimumSize: const Size(150, 56),
                     ),
-                    onPressed: () {
-                      if (formKeyLogin.currentState?.saveAndValidate() ??
-                          false) {
-                        context.pushNamed('home',
-                            queryParameters: {'welcome': 'true'});
-                      }
-                    },
+                    onPressed: handleSubmit,
                     child: Text(
                       'Create my account',
                       style: theme.textTheme.bodyMedium?.copyWith(

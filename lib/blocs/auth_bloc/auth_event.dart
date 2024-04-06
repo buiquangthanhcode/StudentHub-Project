@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/data/dto/authen/request_login.dart';
+import 'package:studenthub/data/dto/authen/request_register_account.dart';
 
 @immutable
 abstract class AuthenEvent {}
@@ -11,4 +12,23 @@ class LoginEvent extends AuthenEvent {
   LoginEvent({required this.requestLogin, required this.onSuscess});
 }
 
-//
+class GetInformationEvent extends AuthenEvent {
+  final Function? onSuscess;
+  final String accessToken;
+
+  GetInformationEvent({required this.onSuscess, required this.accessToken});
+}
+
+class RegisterAccount extends AuthenEvent {
+  final RequestRegisterAccount requestRegister;
+  final Function? onSuscess;
+
+  RegisterAccount({required this.requestRegister, required this.onSuscess});
+}
+
+class LogoutEvent extends AuthenEvent {
+  final String token;
+  final Function? onSuscess;
+
+  LogoutEvent({required this.token, required this.onSuscess});
+}

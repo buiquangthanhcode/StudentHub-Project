@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
+import 'package:studenthub/blocs/student_create_profile/student_create_profile_event.dart';
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
@@ -14,21 +15,26 @@ import 'package:studenthub/ui/home/account/student_profile_creation/widget/creat
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/education_item.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/language_item.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/skillset_item.dart';
-import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/emtyDataWidget.dart';
 
 class StudentProfileCreationStep01Screen extends StatefulWidget {
   const StudentProfileCreationStep01Screen({super.key});
 
   @override
-  State<StudentProfileCreationStep01Screen> createState() =>
-      _StudentProfileCreationStep01State();
+  State<StudentProfileCreationStep01Screen> createState() => _StudentProfileCreationStep01State();
 }
 
-class _StudentProfileCreationStep01State
-    extends State<StudentProfileCreationStep01Screen> {
+class _StudentProfileCreationStep01State extends State<StudentProfileCreationStep01Screen> {
   String? selectedValue;
   late TextEditingController textEditingController;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<StudentCreateProfileBloc>().add(GetAllTeckStackEvent(onSuccess: () {}));
+    context.read<StudentCreateProfileBloc>().add(GetAllSkillSetEvent(onSuccess: () {}));
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -47,8 +53,7 @@ class _StudentProfileCreationStep01State
           },
           child: Text(
             'Next',
-            style: theme.textTheme.bodyMedium!
-                .copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+            style: theme.textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
           ),
         ),
       ),
@@ -66,44 +71,42 @@ class _StudentProfileCreationStep01State
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 10),
-              Center(
-                child: Text(
-                  "Tell us about your self and you will be on your way connect with real-world project",
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontSize: 15,
+          child: BlocBuilder<StudentCreateProfileBloc, StudentCreateProfileState>(
+            builder: (context, state) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 10),
+                  Center(
+                    child: Text(
+                      "Tell us about your self and you will be on your way connect with real-world project",
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontSize: 15,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Text("TechStack",
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  )),
-              DropDownFormFieldCustom(
-                  name: "techstack",
-                  data: items,
-                  onSaved: (value) {
-                    selectedValue = value.toString();
-                  },
-                  hint: "Please selecte TechStack"),
-              Text("Skillset",
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  )),
-              const SizedBox(
-                height: 10,
-              ),
-              BlocBuilder<StudentCreateProfileBloc, StudentCreateProfileState>(
-                builder: (context, state) {
-                  logger.d("Rebuild");
-
-                  return Column(
+                  const SizedBox(height: 10),
+                  Text("TechStack",
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      )),
+                  DropDownFormFieldCustom(
+                      name: "techstack",
+                      data: state.teckstacks.map((e) => e.name ?? '').toList(),
+                      onSaved: (value) {
+                        selectedValue = value.toString();
+                      },
+                      hint: "Please selecte TechStack"),
+                  Text("Skillset",
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      )),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Builder(builder: (context) {
@@ -117,13 +120,16 @@ class _StudentProfileCreationStep01State
                                       theme: theme,
                                       item: item,
                                     ))
+                                .where((element) => element.item.isSelected == true)
                                 .toList(),
                           );
                         }
                         return const SizedBox();
                       }),
                       const SizedBox(height: 10),
-                      const AutoCompleteWidget(),
+                      AutoCompleteWidget(
+                        data: state.skillset.map((e) => e.name ?? '').toList(),
+                      ),
                       const SizedBox(height: 10),
                       Column(
                         children: [
@@ -141,15 +147,12 @@ class _StudentProfileCreationStep01State
                                 margin: const EdgeInsets.only(right: 10),
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: theme.colorScheme.grey!),
+                                  border: Border.all(color: theme.colorScheme.grey!),
                                   shape: BoxShape.circle,
                                 ),
                                 child: InkWell(
                                   onTap: () {
-                                    showModalBottomSheetCustom(context,
-                                        widgetBuilder:
-                                            const CreateLanguageWidget());
+                                    showModalBottomSheetCustom(context, widgetBuilder: const CreateLanguageWidget());
                                   },
                                   child: FaIcon(
                                     FontAwesomeIcons.plus,
@@ -208,15 +211,12 @@ class _StudentProfileCreationStep01State
                                 margin: const EdgeInsets.only(right: 10),
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: theme.colorScheme.grey!),
+                                  border: Border.all(color: theme.colorScheme.grey!),
                                   shape: BoxShape.circle,
                                 ),
                                 child: InkWell(
                                   onTap: () {
-                                    showModalBottomSheetCustom(context,
-                                        widgetBuilder:
-                                            const CreateEducationWidget());
+                                    showModalBottomSheetCustom(context, widgetBuilder: const CreateEducationWidget());
                                   },
                                   child: FaIcon(
                                     FontAwesomeIcons.plus,
@@ -259,13 +259,13 @@ class _StudentProfileCreationStep01State
                         ],
                       )
                     ],
-                  );
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              )
-            ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  )
+                ],
+              );
+            },
           ),
         ),
       ),
