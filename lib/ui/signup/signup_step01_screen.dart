@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/strings.dart';
+import 'package:studenthub/utils/logger.dart';
 
 class SignUpStep01Screen extends StatefulWidget {
   const SignUpStep01Screen({super.key});
@@ -26,7 +27,7 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
     },
   ];
 
-  bool choice = true; // true for company, false1 for student
+  bool isCompany = true; // true for company, false1 for student
 
   @override
   Widget build(BuildContext context) {
@@ -36,15 +37,7 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-          // automaticallyImplyLeading: false,
-          // title: Container(
-          //   margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          //   child: const Center(
-          //     child: SizedBox(),
-          //   ),
-          // ),
-          ),
+      appBar: AppBar(),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
@@ -85,8 +78,7 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
               itemBuilder: (context, index) {
                 final item = dataSelectedInfor[index];
                 return Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   margin: const EdgeInsets.only(top: 10),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -116,17 +108,17 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                               child: CheckboxListTile(
                                 activeColor: primaryColor,
                                 visualDensity: VisualDensity.compact,
-                                checkboxShape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15)),
+                                checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                                 value: item['value'],
                                 onChanged: (value) {
-                                  setState(() {
-                                    for (var element in dataSelectedInfor) {
-                                      element['value'] = false;
+                                  for (int i = 0; i < dataSelectedInfor.length; i++) {
+                                    if (i != index) {
+                                      dataSelectedInfor[i]['value'] = false;
                                     }
-                                    item['value'] = value;
-                                    choice = !choice;
-                                  });
+                                  }
+                                  item['value'] = true;
+                                  isCompany = !isCompany;
+                                  setState(() {});
                                 },
                               ),
                             ),
@@ -159,9 +151,10 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                   minimumSize: Size(maxWidth, 56),
                 ),
                 onPressed: () {
-                  choice
-                      ? context.pushNamed('signup_02_for_company')
-                      : context.pushNamed('signup_02_for_student');
+                  logger.d(isCompany);
+                  isCompany
+                      ? context.pushNamed('signup_02_for_company', queryParameters: {'role': isCompany ? '1' : '0'})
+                      : context.pushNamed('signup_02_for_student', queryParameters: {'role': isCompany ? '1' : '0'});
                 },
                 child: Text(
                   'Create account',
