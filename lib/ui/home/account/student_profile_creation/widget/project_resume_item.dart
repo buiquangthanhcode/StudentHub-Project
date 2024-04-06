@@ -57,7 +57,8 @@ class ProjectResumeItem extends StatelessWidget {
                   color: theme.colorScheme.grey!,
                 ),
                 onTap: () {
-                  showModalBottomSheetCustom(context, widgetBuilder: EditProjectResumeItem(item: item));
+                  showModalBottomSheetCustom(context,
+                      widgetBuilder: EditProjectResumeItem(item: item));
                 },
               ),
               const SizedBox(width: 10),
@@ -111,7 +112,8 @@ class ProjectResumeItem extends StatelessWidget {
                           ),
                           Builder(builder: (context) {
                             int duration = calculateMonthDifference(
-                                stringToDateTime(item.startDate), stringToDateTime(item.endDate));
+                                stringToDateTime(item.startDate),
+                                stringToDateTime(item.endDate));
                             return duration != 0
                                 ? Text(
                                     ', $duration  months',
@@ -139,7 +141,8 @@ class ProjectResumeItem extends StatelessWidget {
                         children: item.skills!
                             .map((item) => Container(
                                   margin: const EdgeInsets.only(left: 20),
-                                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
                                   decoration: BoxDecoration(
                                     border: Border.all(color: Colors.grey),
                                     borderRadius: BorderRadius.circular(40),
@@ -150,7 +153,8 @@ class ProjectResumeItem extends StatelessWidget {
                                       Center(
                                         child: Text(
                                           item.name ?? '',
-                                          style: theme.textTheme.bodyMedium?.copyWith(),
+                                          style: theme.textTheme.bodyMedium
+                                              ?.copyWith(),
                                         ),
                                       ),
                                     ],

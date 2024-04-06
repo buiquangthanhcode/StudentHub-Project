@@ -24,7 +24,7 @@ class DatePickerCustom extends StatefulWidget {
 }
 
 class _DatePickerCustomState extends State<DatePickerCustom> {
-  final texController = TextEditingController();
+  final textController = TextEditingController();
   String _selectedDate = '';
   String _dateCount = '';
   String _range = '';
@@ -34,7 +34,8 @@ class _DatePickerCustomState extends State<DatePickerCustom> {
   void initState() {
     super.initState();
     if (widget.initialDate != null) {
-      texController.text = DateFormat('dd/MM/yyyy').format(widget.initialDate!).toString();
+      textController.text =
+          DateFormat('dd/MM/yyyy').format(widget.initialDate!).toString();
     }
   }
 
@@ -50,11 +51,16 @@ class _DatePickerCustomState extends State<DatePickerCustom> {
                 color: Colors.grey[400],
                 fontSize: 16,
               ),
-              controller: texController,
+              controller: textController,
               scrollPadding: const EdgeInsets.all(0),
               decoration: InputDecoration(
                 labelText: widget.labelText ?? 'Date of Birth',
                 hintText: widget.hintText ?? 'Date of Birth',
+                contentPadding: EdgeInsets.symmetric(
+                  vertical: 0,
+                  horizontal: 10,
+                ),
+                isDense: true,
                 hintStyle: TextStyle(
                   color: Colors.grey[400],
                   fontSize: 16,
@@ -76,14 +82,16 @@ class _DatePickerCustomState extends State<DatePickerCustom> {
               onSaved: (newValue) {
                 field.didChange(newValue);
                 field.save();
-                texController.text = newValue!;
+                textController.text = newValue!;
               },
               onTap: () async {
-                DateTime? data = await showDatePickerCustom(context, view: widget.view);
+                DateTime? data =
+                    await showDatePickerCustom(context, view: widget.view);
                 if (data != null) {
                   field.didChange(data);
                   field.save();
-                  texController.text = DateFormat('dd/MM/yyyy').format(data).toString();
+                  textController.text =
+                      DateFormat('dd/MM/yyyy').format(data).toString();
                 }
               },
             );
@@ -112,9 +120,11 @@ class _DatePickerCustomState extends State<DatePickerCustom> {
     DateTime? initialDate,
     DateTime? firstDate,
     DateTime? lastDate,
-    DateRangePickerSelectionMode selectionMode = DateRangePickerSelectionMode.single,
+    DateRangePickerSelectionMode selectionMode =
+        DateRangePickerSelectionMode.single,
     DateRangePickerView view = DateRangePickerView.month,
-    DateRangePickerMonthViewSettings monthViewSettings = const DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
+    DateRangePickerMonthViewSettings monthViewSettings =
+        const DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
     bool showActionButtons = true,
     DateRangePickerHeaderStyle headerStyle = const DateRangePickerHeaderStyle(
         backgroundColor: primaryColor,

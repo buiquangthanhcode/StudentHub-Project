@@ -42,7 +42,8 @@ class _CreateLanguageWidgetState extends State<CreateLanguageWidget> {
               const Spacer(),
               Container(
                 decoration: BoxDecoration(
-                    color: theme.colorScheme.grey!.withOpacity(0.4), borderRadius: BorderRadius.circular(50)),
+                    color: theme.colorScheme.grey!.withOpacity(0.4),
+                    borderRadius: BorderRadius.circular(50)),
                 padding: const EdgeInsets.all(3),
                 child: InkWell(
                   onTap: () {
@@ -61,14 +62,15 @@ class _CreateLanguageWidgetState extends State<CreateLanguageWidget> {
             data: language,
             name: 'language',
             onSelected: (value) {},
-            hint: "Please selecte language",
+            hint: "Please select language",
           ),
           DropDownFormFieldCustom(
             name: 'level',
             data: levelLanguage,
             onSelected: (value) {},
-            hint: "Please selecte level",
+            hint: "Please select level",
           ),
+          const SizedBox(height: 24),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               elevation: 0,
@@ -84,7 +86,9 @@ class _CreateLanguageWidgetState extends State<CreateLanguageWidget> {
                 context.read<StudentCreateProfileBloc>().add(AddLanguageEvent(
                     language: newLanguage,
                     onSuccess: () {
-                      SnackBarService.showSnackBar(content: "Add Sucessfully", status: StatusSnackBar.success);
+                      SnackBarService.showSnackBar(
+                          content: "Add Sucessfully",
+                          status: StatusSnackBar.success);
                       Navigator.pop(context);
                     }));
               }
@@ -95,7 +99,8 @@ class _CreateLanguageWidgetState extends State<CreateLanguageWidget> {
                 color: theme.colorScheme.onPrimary,
               ),
             ),
-          )
+          ),
+          const SizedBox(height: 16),
         ],
       ),
     );
