@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
-import 'package:studenthub/blocs/student_create_profile/student_create_profile_event.dart';
+import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
+import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/core/text_field_custom.dart';
 import 'package:studenthub/core/year_picker_formfield.dart';
@@ -95,7 +95,7 @@ class _EditEducationState extends State<EducationEdit> {
             ),
             onPressed: () {
               if (formkey.currentState?.saveAndValidate() ?? false) {
-                context.read<StudentCreateProfileBloc>().add(
+                context.read<StudentBloc>().add(
                       UpdateEducationEvent(
                         education: Education(
                           id: widget.item.id,

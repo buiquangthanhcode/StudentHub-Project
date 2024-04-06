@@ -6,7 +6,7 @@ import 'package:studenthub/models/student/student_create_profile/skillset_model.
 import 'package:studenthub/models/student/student_create_profile/tech_stack.dart';
 import 'package:studenthub/models/student/student_model.dart';
 
-class StudentCreateProfileState extends Equatable {
+class StudentState extends Equatable {
   final List<SkillSet> skillset;
   final List<Language> languages;
   final List<Education> edutcations;
@@ -14,7 +14,7 @@ class StudentCreateProfileState extends Equatable {
   final bool isChange;
   final List<TechStack> teckstacks;
 
-  const StudentCreateProfileState({
+  const StudentState({
     required this.skillset,
     required this.isChange,
     required this.languages,
@@ -27,7 +27,7 @@ class StudentCreateProfileState extends Equatable {
   List<Object?> get props =>
       [skillset, isChange, languages, edutcations, projects, teckstacks];
 
-  StudentCreateProfileState update({
+  StudentState update({
     List<SkillSet>? skillset,
     bool? isChange,
     List<Language>? languages,
@@ -35,7 +35,7 @@ class StudentCreateProfileState extends Equatable {
     List<ProjectResume>? projects,
     List<TechStack>? teckstacks,
   }) {
-    return StudentCreateProfileState(
+    return StudentState(
       skillset: skillset ?? this.skillset,
       isChange: isChange ?? this.isChange,
       languages: languages ?? this.languages,

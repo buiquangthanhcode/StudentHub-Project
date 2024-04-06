@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
-import 'package:studenthub/blocs/student_create_profile/student_create_profile_state.dart';
+import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
+import 'package:studenthub/blocs/student_bloc/student_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/create_project_resume.dart';
@@ -13,12 +13,10 @@ class StudentProfileCreationStep02Screen extends StatefulWidget {
   const StudentProfileCreationStep02Screen({super.key});
 
   @override
-  State<StudentProfileCreationStep02Screen> createState() =>
-      _StudentProfileCreationStep02ScreenState();
+  State<StudentProfileCreationStep02Screen> createState() => _StudentProfileCreationStep02ScreenState();
 }
 
-class _StudentProfileCreationStep02ScreenState
-    extends State<StudentProfileCreationStep02Screen> {
+class _StudentProfileCreationStep02ScreenState extends State<StudentProfileCreationStep02Screen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -81,8 +79,7 @@ class _StudentProfileCreationStep02ScreenState
                     ),
                     child: InkWell(
                       onTap: () {
-                        showModalBottomSheetCustom(context,
-                            widgetBuilder: const CreateProjectResume());
+                        showModalBottomSheetCustom(context, widgetBuilder: const CreateProjectResume());
                       },
                       child: const Icon(
                         Icons.add,
@@ -96,7 +93,7 @@ class _StudentProfileCreationStep02ScreenState
               const SizedBox(
                 height: 10,
               ),
-              BlocBuilder<StudentCreateProfileBloc, StudentCreateProfileState>(
+              BlocBuilder<StudentBloc, StudentState>(
                 builder: (context, state) {
                   if (state.projects.isEmpty) {
                     return const Center(
