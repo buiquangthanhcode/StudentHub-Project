@@ -17,6 +17,24 @@ class GetAllSkillSetEvent extends StudentEvent {
   GetAllSkillSetEvent({this.onSuccess});
 }
 
+class GetAllLanguageEvent extends StudentEvent {
+  final Function? onSuccess;
+  final String id;
+  GetAllLanguageEvent({this.onSuccess, required this.id});
+}
+
+class GetAllEducationEvent extends StudentEvent {
+  final Function? onSuccess;
+  final String id;
+  GetAllEducationEvent({this.onSuccess, required this.id});
+}
+
+class GetAllExperienceEvent extends StudentEvent {
+  final Function? onSuccess;
+  final String id;
+  GetAllExperienceEvent({this.onSuccess, required this.id});
+}
+
 class AddSkillSetEvent extends StudentEvent {
   final SkillSet skill;
 
@@ -44,10 +62,10 @@ class RemoveLanguageEvent extends StudentEvent {
 }
 
 class UpdateLanguageEvent extends StudentEvent {
-  final Language language;
+  final List<Language> languages;
   final Function? onSuccess;
 
-  UpdateLanguageEvent({required this.language, required this.onSuccess});
+  UpdateLanguageEvent({required this.languages, required this.onSuccess});
 }
 
 class AddEducationEvent extends StudentEvent {

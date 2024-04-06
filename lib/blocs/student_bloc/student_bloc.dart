@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/blocs/student_bloc/student_state.dart';
+import 'package:studenthub/data/dto/student/request_update_language.dart';
 import 'package:studenthub/models/student/student_create_profile/education_model.dart';
 import 'package:studenthub/models/student/student_create_profile/language_model.dart';
 import 'package:studenthub/models/student/student_create_profile/project_model.dart';
@@ -86,12 +88,23 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
   }
 
   FutureOr<void> _onUpdateLanguage(UpdateLanguageEvent event, Emitter<StudentState> emit) async {
-    // Clone skill set and then update state
-    final List<Language> newLanguage = List<Language>.from(state.languages);
-    logger.d(event.language);
-    newLanguage[newLanguage.indexWhere((element) => element.id == event.language.id)] = event.language;
-    emit(state.update(languages: newLanguage));
-    event.onSuccess!();
+    try {
+      EasyLoading.show(status: 'loading');
+      RequestUpdateLanguage requestUpdateLanguage = RequestUpdateLanguage(
+        userid: '1',
+        languages: event.languages,
+      );
+      final response = await studentService.updateLanguage(requestUpdateLanguage);
+      if (response.statusCode! <= 200) {
+        // emit(state.update(languages: event.languages));
+        event.onSuccess!();
+        EasyLoading.dismiss();
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+
+      logger.e(e);
+    }
   }
 
   FutureOr<void> _onAddEducation(AddEducationEvent event, Emitter<StudentState> emit) async {

@@ -21,8 +21,7 @@ class _AccountState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final UserModel userModel =
-        BlocProvider.of<AuthBloc>(context).state.userModel;
+    final UserModel userModel = BlocProvider.of<AuthBloc>(context).state.userModel;
 
     List<Map<String, dynamic>> dataSetting = [
       {
@@ -61,10 +60,7 @@ class _AccountState extends State<AccountScreen> {
                     children: [
                       Text(
                         'Account',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(fontWeight: FontWeight.w700),
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w700),
                       ),
                     ],
                   ),
@@ -171,8 +167,7 @@ class _AccountState extends State<AccountScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    border: Border.all(
-                        color: Color.fromARGB(255, 160, 160, 160), width: 1)),
+                    border: Border.all(color: Color.fromARGB(255, 160, 160, 160), width: 1)),
                 child: Column(
                   children: [
                     ...dataSetting.map(
@@ -181,14 +176,12 @@ class _AccountState extends State<AccountScreen> {
                           context.pushNamed(e['route_name']);
                         },
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 22, horizontal: 5),
+                          padding: const EdgeInsets.symmetric(vertical: 22, horizontal: 5),
                           decoration: BoxDecoration(
                               border: Border(
                                   bottom: BorderSide(
                                       width: e == dataSetting.last ? 0 : 1,
-                                      color: const Color.fromARGB(
-                                          255, 220, 220, 220)))),
+                                      color: const Color.fromARGB(255, 220, 220, 220)))),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -228,8 +221,7 @@ class _AccountState extends State<AccountScreen> {
               ),
               const Spacer(),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                 decoration: BoxDecoration(
                   color: primaryColor,
                   borderRadius: BorderRadius.circular(10),

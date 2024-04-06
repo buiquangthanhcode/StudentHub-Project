@@ -59,7 +59,7 @@ class _LanguageEditState extends State<LanguageEdit> {
             name: 'language',
             onSelected: (value) {},
             hint: "Please selecte Language",
-            initValue: widget.item.name,
+            initValue: widget.item.languageName,
           ),
           DropDownFormFieldCustom(
             name: 'level',
@@ -77,10 +77,10 @@ class _LanguageEditState extends State<LanguageEdit> {
               if (formkey.currentState?.saveAndValidate() ?? false) {
                 Language itemUpdate = Language(
                     id: widget.item.id,
-                    name: formkey.currentState?.fields['language']?.value,
+                    languageName: formkey.currentState?.fields['language']?.value,
                     level: formkey.currentState?.fields['level']?.value);
                 BlocProvider.of<StudentBloc>(context).add(UpdateLanguageEvent(
-                    language: itemUpdate,
+                    languages: [],
                     onSuccess: () {
                       Navigator.pop(context);
                     }));

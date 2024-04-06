@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:studenthub/data/dto/reponse.dart';
+import 'package:studenthub/data/dto/student/request_update_language.dart';
 import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
 import 'package:studenthub/models/student/student_create_profile/tech_stack.dart';
 import 'package:studenthub/services/api_interceptor.dart';
@@ -56,6 +57,33 @@ class StudentService {
         "DioException :${e.response}",
       );
       throw ResponseAPI<List<SkillSet>>(
+        statusCode: e.response?.statusCode,
+        data: [],
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
+
+  Future<ResponseAPI> updateLanguage(RequestUpdateLanguage requestUpdateLanguage) async {
+    try {
+      final res = await dioClient.put(
+        '$baseURL/api/language/updateByStudentId/${requestUpdateLanguage.userid}',
+        data: requestUpdateLanguage.toJson(),
+      );
+
+      logger.d(res);
+
+      return ResponseAPI(
+        statusCode: res.statusCode,
+        data: [],
+      );
+    } on DioException catch (e) {
+      logger.e(
+        "DioException :${e.response}",
+      );
+      throw ResponseAPI(
         statusCode: e.response?.statusCode,
         data: [],
       );
