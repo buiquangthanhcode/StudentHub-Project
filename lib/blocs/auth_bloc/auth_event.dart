@@ -7,28 +7,28 @@ abstract class AuthenEvent {}
 
 class LoginEvent extends AuthenEvent {
   final RequestLogin requestLogin;
-  final Function? onSuscess;
+  final Function? onSuccess;
 
-  LoginEvent({required this.requestLogin, required this.onSuscess});
+  LoginEvent({required this.requestLogin, required this.onSuccess});
 }
 
 class GetInformationEvent extends AuthenEvent {
-  final Function? onSuscess;
+  final Function? onSuccess;
   final String accessToken;
 
-  GetInformationEvent({required this.onSuscess, required this.accessToken});
+  GetInformationEvent({required this.onSuccess, required this.accessToken});
 }
 
 class RegisterAccount extends AuthenEvent {
   final RequestRegisterAccount requestRegister;
-  final Function? onSuscess;
+  final Function? onSuccess;
 
-  RegisterAccount({required this.requestRegister, required this.onSuscess});
+  RegisterAccount({required this.requestRegister, required this.onSuccess});
 }
 
 class LogoutEvent extends AuthenEvent {
   final String token;
-  final Function? onSuscess;
+  final Function? onSuccess;
 
-  LogoutEvent({required this.token, required this.onSuscess});
+  LogoutEvent({required this.token, required this.onSuccess});
 }
