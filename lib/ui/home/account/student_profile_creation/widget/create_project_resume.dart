@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
-import 'package:studenthub/blocs/student_create_profile/student_create_profile_event.dart';
+import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
+import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/core/date_picker_formfield.dart';
 import 'package:studenthub/core/text_field_custom.dart';
@@ -42,8 +42,7 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
               const Spacer(),
               Container(
                 decoration: BoxDecoration(
-                    color: theme.colorScheme.grey!.withOpacity(0.4),
-                    borderRadius: BorderRadius.circular(50)),
+                    color: theme.colorScheme.grey!.withOpacity(0.4), borderRadius: BorderRadius.circular(50)),
                 padding: const EdgeInsets.all(3),
                 child: InkWell(
                   onTap: () {
@@ -107,21 +106,18 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
             ),
             onPressed: () {
               if (formkey.currentState?.saveAndValidate() ?? false) {
-                context.read<StudentCreateProfileBloc>().add(AddProjectEvent(
+                logger.d(formkey.currentState?.value);
+                context.read<StudentBloc>().add(AddProjectEvent(
                       project: ProjectResume(
                         id: Random().nextInt(1000).toString(),
                         duration: 1,
                         skills: [
                           SkillSet(name: 'NodeJs', isSelected: false),
                         ],
-                        name:
-                            formkey.currentState?.fields['project_name']?.value,
-                        startDate:
-                            formkey.currentState?.fields['start_date']?.value,
-                        endDate:
-                            formkey.currentState?.fields['end_date']?.value,
-                        description:
-                            formkey.currentState?.fields['description']?.value,
+                        name: formkey.currentState?.fields['project_name']?.value,
+                        startDate: formkey.currentState?.fields['start_date']?.value,
+                        endDate: formkey.currentState?.fields['end_date']?.value,
+                        description: formkey.currentState?.fields['description']?.value,
                       ),
                       onSuccess: () {
                         Navigator.pop(context);

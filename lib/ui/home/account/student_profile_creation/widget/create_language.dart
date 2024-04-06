@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
-import 'package:studenthub/blocs/student_create_profile/student_create_profile_event.dart';
+import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
+import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/core/dropdown_button_formfield.dart';
 import 'package:studenthub/models/student/student_create_profile/language_model.dart';
@@ -83,7 +83,7 @@ class _CreateLanguageWidgetState extends State<CreateLanguageWidget> {
                   name: formkey.currentState?.fields['language']?.value,
                   level: formkey.currentState?.fields['level']?.value,
                 );
-                context.read<StudentCreateProfileBloc>().add(AddLanguageEvent(
+                context.read<StudentBloc>().add(AddLanguageEvent(
                     language: newLanguage,
                     onSuccess: () {
                       SnackBarService.showSnackBar(

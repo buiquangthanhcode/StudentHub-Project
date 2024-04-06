@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
-import 'package:studenthub/blocs/student_create_profile/student_create_profile_event.dart';
+import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
+import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
 
 class SkillSetItem extends StatelessWidget {
@@ -38,9 +38,7 @@ class SkillSetItem extends StatelessWidget {
           const SizedBox(width: 10),
           InkWell(
             onTap: () {
-              context
-                  .read<StudentCreateProfileBloc>()
-                  .add(RemoveSkillSetEvent(item));
+              context.read<StudentBloc>().add(RemoveSkillSetEvent(item));
             },
             child: const FaIcon(
               FontAwesomeIcons.xmark,

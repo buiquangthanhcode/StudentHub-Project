@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
-import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
+import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/theme_bloc/theme_bloc.dart';
 import 'package:studenthub/blocs/theme_bloc/theme_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/routes.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
-GlobalKey<NavigatorState> navigatorKeys =
-    GlobalKey<NavigatorState>(); //  Add by Quang Thanh
+GlobalKey<NavigatorState> navigatorKeys = GlobalKey<NavigatorState>(); //  Add by Quang Thanh
 
 class StudentHub extends StatelessWidget {
   const StudentHub({super.key, this.themeStorage});
@@ -38,8 +37,8 @@ class StudentHub extends StatelessWidget {
         BlocProvider<AuthBloc>(
           create: (BuildContext context) => AuthBloc(),
         ),
-        BlocProvider<StudentCreateProfileBloc>(
-          create: (BuildContext context) => StudentCreateProfileBloc(),
+        BlocProvider<StudentBloc>(
+          create: (BuildContext context) => StudentBloc(),
         ),
         // Add more bloc providers
       ],
@@ -56,8 +55,7 @@ class StudentHub extends StatelessWidget {
             title: 'Student Hub',
             theme: state.themeMode == ThemeMode.dark
                 ? AppThemes.darkTheme
-                : AppThemes
-                    .lightTheme, // Using state.themeMode to change theme when event is dispatched
+                : AppThemes.lightTheme, // Using state.themeMode to change theme when event is dispatched
             routerConfig: router,
           );
         },
