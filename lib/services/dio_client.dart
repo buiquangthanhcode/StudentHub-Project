@@ -8,25 +8,22 @@ const _defaultConnectTimeout = 10000;
 const _defaultReceiveTimeout = 10000;
 
 class DioClient {
-  final String baseUrl;
-
   late Dio _dio;
 
   final List<Interceptor> interceptors;
   // Global options
 
   DioClient(
-    this.baseUrl,
     Dio dio, {
     required this.interceptors,
   }) {
     _dio = dio;
     _dio
-      ..options.baseUrl = baseUrl
       ..options.connectTimeout = const Duration(milliseconds: _defaultConnectTimeout)
       ..options.receiveTimeout = const Duration(milliseconds: _defaultReceiveTimeout)
       ..httpClientAdapter
-      ..options.headers = {'Content-Type': 'application/json; charset=UTF-8'};
+      ..options.headers = {'Content-Type': 'application/json'}
+      ..options.headers = {'accept': '*/*'};
 
     if (interceptors.isNotEmpty) {
       _dio.interceptors.addAll(interceptors);
@@ -45,16 +42,28 @@ class DioClient {
     }
   }
 
-  Future<Response> get(
+  FutureOr<Response> get(
     String uri, {
+    data,
     Map<String, dynamic>? queryParameters,
     Options? options,
     CancelToken? cancelToken,
     ProgressCallback? onReceiveProgress,
   }) async {
     try {
+      options = Options(
+        receiveTimeout: const Duration(milliseconds: 6000),
+        receiveDataWhenStatusError: true,
+        persistentConnection: false,
+        method: 'get',
+        followRedirects: false,
+        validateStatus: (status) {
+          return status! < 500;
+        },
+      );
       var response = await _dio.get(
         uri,
+        data: data,
         queryParameters: queryParameters,
         options: options,
         cancelToken: cancelToken,
@@ -80,7 +89,6 @@ class DioClient {
     ProgressCallback? onReceiveProgress,
   }) async {
     try {
-      // Add by Quang Thanh to check issues connect close
       options = Options(
         receiveTimeout: const Duration(milliseconds: 6000),
         receiveDataWhenStatusError: true,
@@ -184,4 +192,22 @@ class DioClient {
       rethrow;
     }
   }
+}
+
+String handleDioError(DioExceptionType error) {
+  String message = '';
+  if (error == DioExceptionType.connectionTimeout) {
+    message = 'Connection timeout occurred';
+  } else if (error == DioExceptionType.receiveTimeout) {
+    message = 'Receive timeout occurred';
+  } else if (error == DioExceptionType.sendTimeout) {
+    message = 'Send timeout occurred';
+  } else if (error == DioExceptionType.cancel) {
+    message = 'Request to server was cancelled';
+  } else if (error == DioExceptionType.badResponse) {
+    message = 'Bad response from server';
+  } else {
+    message = 'Unexpected error occurred';
+  }
+  return message;
 }

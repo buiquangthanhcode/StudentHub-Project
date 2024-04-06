@@ -1,83 +1,36 @@
+// ignore_for_file: prefer_null_aware_operators, prefer_if_null_operators
+
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
 import 'package:studenthub/models/company/company_model.dart';
+import 'package:studenthub/models/student/student_create_profile/tech_stack.dart';
 import 'package:studenthub/models/student/student_model.dart';
 
-class ResponseAPI {
-  DataResponse? data;
+// Generic Dart
+class ResponseAPI<T> {
+  T? data;
   int? statusCode;
   ResponseAPI({
     this.data,
     this.statusCode,
   });
-
-  ResponseAPI copyWith({
-    DataResponse? data,
-    int? statusCode,
-  }) {
-    return ResponseAPI(
-      data: data ?? this.data,
-      statusCode: statusCode ?? this.statusCode,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    final result = <String, dynamic>{};
-
-    if (data != null) {
-      result.addAll({'data': data!.toMap()});
-    }
-    if (statusCode != null) {
-      result.addAll({'statusCode': statusCode});
-    }
-
-    return result;
-  }
-
-  factory ResponseAPI.fromMap(Map<String, dynamic> map) {
-    return ResponseAPI(
-      data: map['data'] != null ? DataResponse.fromMap(map['data']) : null,
-      statusCode: map['statusCode'],
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory ResponseAPI.fromJson(String source) =>
-      ResponseAPI.fromMap(json.decode(source));
-
-  @override
-  String toString() => 'ResponseAPI(data: $data, statusCode: $statusCode)';
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is ResponseAPI &&
-        other.data == data &&
-        other.statusCode == statusCode;
-  }
-
-  @override
-  int get hashCode => data.hashCode ^ statusCode.hashCode;
 }
 
 class DataResponse {
   String? success;
   String? requestId;
-  dynamic
-      errorDetails; // Because API return errorDetails return String or Array
+  dynamic errorDetails; // Because API return errorDetails return String or Array
   String? stack;
-  Result? result;
-  // add more attribute here when
+  ResultMap? resultMap;
+
   DataResponse({
     this.success,
     this.requestId,
     this.errorDetails,
     this.stack,
-    this.result,
+    this.resultMap,
   });
 
   DataResponse copyWith({
@@ -85,14 +38,14 @@ class DataResponse {
     String? requestId,
     dynamic errorDetails,
     String? stack,
-    Result? result,
+    ResultMap? resultMap,
   }) {
     return DataResponse(
       success: success ?? this.success,
       requestId: requestId ?? this.requestId,
       errorDetails: errorDetails ?? this.errorDetails,
       stack: stack ?? this.stack,
-      result: result ?? this.result,
+      resultMap: resultMap ?? this.resultMap,
     );
   }
 
@@ -111,8 +64,8 @@ class DataResponse {
     if (stack != null) {
       resultData.addAll({'stack': stack});
     }
-    if (result != null) {
-      resultData.addAll({'result': result});
+    if (resultMap != null) {
+      resultData.addAll({'resultMap': resultMap});
     }
 
     return resultData;
@@ -124,7 +77,8 @@ class DataResponse {
       requestId: map['requestId'],
       errorDetails: map['errorDetails'],
       stack: map['stack'],
-      result: map['result'] != null ? Result.fromMap(map['result']) : null,
+      resultMap: map['result'] != null ? ResultMap.fromMap(map['result']) : null, //[Core] Do not edit here
+      // Add more when custom
     );
   }
 
@@ -136,31 +90,81 @@ class DataResponse {
 
   @override
   String toString() {
-    return 'DataResponse( errorDetails: $errorDetails, success: $success, requestId: $requestId, stack: $stack, result: $result,)';
+    return 'DataResponse( errorDetails: $errorDetails, success: $success, requestId: $requestId, stack: $stack, resultMap: $resultMap,)';
   }
 }
 
-class Result {
+class ResultList {
+  List<TechStack>? teckStacks;
+  ResultList({
+    this.teckStacks,
+  });
+
+  ResultList copyWith({
+    List<TechStack>? teckStacks,
+  }) {
+    return ResultList(
+      teckStacks: teckStacks ?? this.teckStacks,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    final result = <String, dynamic>{};
+
+    if (teckStacks != null) {
+      result.addAll({'teckStacks': teckStacks!.map((x) => x.toMap()).toList()});
+    }
+
+    return result;
+  }
+
+  factory ResultList.fromMap(Map<String, dynamic> map) {
+    return ResultList(
+      teckStacks: map['result'] != null ? List<TechStack>.from(map['result']?.map((x) => TechStack.fromMap(x))) : null,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory ResultList.fromJson(String source) => ResultList.fromMap(json.decode(source));
+
+  @override
+  String toString() => 'ResultList(teckStacks: $teckStacks)';
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is ResultList && listEquals(other.teckStacks, teckStacks);
+  }
+
+  @override
+  int get hashCode => teckStacks.hashCode;
+}
+
+class ResultMap {
   int? id;
   List<String>? roles;
   Student? student;
   Company? company;
   String? token;
-  Result({this.id, this.roles, this.student, this.company, this.token});
 
-  Result copyWith({
+  ResultMap({this.id, this.roles, this.student, this.company, this.token});
+
+  ResultMap copyWith({
     int? id,
     List<String>? roles,
     Student? student,
     Company? company,
     String? token,
   }) {
-    return Result(
-        id: id ?? this.id,
-        roles: roles ?? this.roles,
-        student: student ?? this.student,
-        company: company ?? this.company,
-        token: token ?? this.token);
+    return ResultMap(
+      id: id ?? this.id,
+      roles: roles ?? this.roles,
+      student: student ?? this.student,
+      company: company ?? this.company,
+      token: token ?? this.token,
+    );
   }
 
   Map<String, dynamic> toMap() {
@@ -185,31 +189,30 @@ class Result {
     return result;
   }
 
-  factory Result.fromMap(Map<String, dynamic> map) {
-    return Result(
-        id: map['id'] != null ? map['id'].toInt() : null,
-        roles: map['roles'] != null ? List<String>.from(map['roles']) : null,
-        student:
-            map['student'] != null ? Student.fromMap(map['student']) : null,
-        company:
-            map['company'] != null ? Company.fromMap(map['company']) : null,
-        token: map['token'] != null ? map['token'] : null);
+  factory ResultMap.fromMap(Map<String, dynamic> map) {
+    return ResultMap(
+      id: map['id'] != null ? map['id'].toInt() : null,
+      roles: map['roles'] != null ? List<String>.from(map['roles']) : null,
+      student: map['student'] != null ? Student.fromMap(map['student']) : null,
+      company: map['company'] != null ? Company.fromMap(map['company']) : null,
+      token: map['token'] != null ? map['token'] : null,
+    );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Result.fromJson(String source) => Result.fromMap(json.decode(source));
+  factory ResultMap.fromJson(String source) => ResultMap.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'Result(id: $id, roles: $roles, student: $student, company: $company)';
+    return 'ResultMap(id: $id, roles: $roles, student: $student, company: $company)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is Result &&
+    return other is ResultMap &&
         other.id == id &&
         listEquals(other.roles, roles) &&
         other.student == student &&

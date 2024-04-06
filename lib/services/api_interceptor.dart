@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:studenthub/app.dart';
-import 'package:studenthub/services/token_services.dart';
+import 'package:studenthub/services/local_services.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
@@ -17,7 +17,7 @@ class AppInterceptors extends Interceptor {
       receiveTimeout: const Duration(milliseconds: 30000), // 30 seconds
       connectTimeout: const Duration(milliseconds: 30000),
       sendTimeout: const Duration(milliseconds: 30000),
-      contentType: Headers.formUrlEncodedContentType,
+      contentType: 'application/json',
     ),
   );
 
@@ -41,21 +41,9 @@ class AppInterceptors extends Interceptor {
     // Overriding [keyBuilder] is strongly recommended.
     allowPostMethod: false,
   );
-  final TokenService _tokenService = TokenService();
+  final LocalStorageService _tokenService = LocalStorageService();
 
   AppInterceptors(this.dio);
-
-  // Add by Quang Thanh to attemp request when error
-  // Future<Response<dynamic>> _retry(RequestOptions requestOptions) async {
-  //   final options = Options(
-  //     method: requestOptions.method,
-  //     headers: requestOptions.headers,
-  //   );
-  //   return dio.request<dynamic>(requestOptions.path,
-  //       data: requestOptions.data,
-  //       queryParameters: requestOptions.queryParameters,
-  //       options: options);
-  // }
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
@@ -76,20 +64,20 @@ class AppInterceptors extends Interceptor {
   }
 
   @override
-  void onResponse(
+  Future<void> onResponse(
     Response response,
     ResponseInterceptorHandler handler,
-  ) {
-    final context = StudentHub.navigatorKey.currentContext!;
+  ) async {
+    // final context = StudentHub.navigatorKey.currentContext ??;
 
-    if (response.statusCode == 401) {
-      _tokenService.clearToken();
-      SnackBarService.showSnackBar(
-          content: 'Your session has expired, please login again!', status: StatusSnackBar.info);
-      Future.delayed(const Duration(milliseconds: 1000), () {
-        Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
-      });
-    }
+    // if (response.statusCode == 401) {
+    //   await _tokenService.clearToken();
+    //   SnackBarService.showSnackBar(
+    //       content: 'Your session has expired, please login again!', status: StatusSnackBar.info);
+    //   Future.delayed(const Duration(milliseconds: 1000), () {
+    //     Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
+    //   });
+    // }
 
     return handler.next(response);
   }

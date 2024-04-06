@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class CurrentUserModel {
+class UserModel {
   String? id;
   String? name;
   String? email;
@@ -9,7 +9,7 @@ class CurrentUserModel {
   String? token;
   // Add more here according template
 
-  CurrentUserModel({
+  UserModel({
     this.id,
     this.name,
     this.email,
@@ -18,7 +18,7 @@ class CurrentUserModel {
     this.token,
   });
 
-  CurrentUserModel copyWith({
+  UserModel copyWith({
     String? id,
     String? name,
     String? email,
@@ -26,7 +26,7 @@ class CurrentUserModel {
     String? role,
     String? token,
   }) {
-    return CurrentUserModel(
+    return UserModel(
       id: id ?? this.id,
       name: name ?? this.name,
       email: email ?? this.email,
@@ -61,8 +61,8 @@ class CurrentUserModel {
     return result;
   }
 
-  factory CurrentUserModel.fromMap(Map<String, dynamic> map) {
-    return CurrentUserModel(
+  factory UserModel.fromMap(Map<String, dynamic> map) {
+    return UserModel(
       id: map['id'],
       name: map['name'],
       email: map['email'],
@@ -74,18 +74,18 @@ class CurrentUserModel {
 
   String toJson() => json.encode(toMap());
 
-  factory CurrentUserModel.fromJson(String source) => CurrentUserModel.fromMap(json.decode(source));
+  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'CurrentUserModel(id: $id, name: $name, email: $email, photoUrl: $photoUrl, role: $role, token: $token)';
+    return 'UserModel(id: $id, name: $name, email: $email, photoUrl: $photoUrl, role: $role, token: $token)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is CurrentUserModel &&
+    return other is UserModel &&
         other.id == id &&
         other.name == name &&
         other.email == email &&
