@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
 import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
 import 'package:studenthub/blocs/theme_bloc/theme_bloc.dart';
 import 'package:studenthub/blocs/theme_bloc/theme_state.dart';
@@ -37,6 +38,9 @@ class StudentHub extends StatelessWidget {
         ),
         BlocProvider<AuthBloc>(
           create: (BuildContext context) => AuthBloc(),
+        ),
+        BlocProvider<CompanyBloc>(
+          create: (BuildContext context) => CompanyBloc(),
         ),
         BlocProvider<StudentCreateProfileBloc>(
           create: (BuildContext context) => StudentCreateProfileBloc(),

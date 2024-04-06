@@ -21,7 +21,8 @@ class ResponseAPI<T> {
 class DataResponse {
   String? success;
   String? requestId;
-  dynamic errorDetails; // Because API return errorDetails return String or Array
+  dynamic
+      errorDetails; // Because API return errorDetails return String or Array
   String? stack;
   ResultMap? resultMap;
 
@@ -77,7 +78,9 @@ class DataResponse {
       requestId: map['requestId'],
       errorDetails: map['errorDetails'],
       stack: map['stack'],
-      resultMap: map['result'] != null ? ResultMap.fromMap(map['result']) : null, //[Core] Do not edit here
+      resultMap: map['result'] != null
+          ? ResultMap.fromMap(map['result'])
+          : null, //[Core] Do not edit here
       // Add more when custom
     );
   }
@@ -120,13 +123,17 @@ class ResultList {
 
   factory ResultList.fromMap(Map<String, dynamic> map) {
     return ResultList(
-      teckStacks: map['result'] != null ? List<TechStack>.from(map['result']?.map((x) => TechStack.fromMap(x))) : null,
+      teckStacks: map['result'] != null
+          ? List<TechStack>.from(
+              map['result']?.map((x) => TechStack.fromMap(x)))
+          : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory ResultList.fromJson(String source) => ResultList.fromMap(json.decode(source));
+  factory ResultList.fromJson(String source) =>
+      ResultList.fromMap(json.decode(source));
 
   @override
   String toString() => 'ResultList(teckStacks: $teckStacks)';
@@ -144,7 +151,7 @@ class ResultList {
 
 class ResultMap {
   int? id;
-  List<String>? roles;
+  List<int>? roles;
   Student? student;
   Company? company;
   String? token;
@@ -153,7 +160,7 @@ class ResultMap {
 
   ResultMap copyWith({
     int? id,
-    List<String>? roles,
+    List<int>? roles,
     Student? student,
     Company? company,
     String? token,
@@ -192,7 +199,7 @@ class ResultMap {
   factory ResultMap.fromMap(Map<String, dynamic> map) {
     return ResultMap(
       id: map['id'] != null ? map['id'].toInt() : null,
-      roles: map['roles'] != null ? List<String>.from(map['roles']) : null,
+      roles: map['roles'] != null ? List<int>.from(map['roles']) : null,
       student: map['student'] != null ? Student.fromMap(map['student']) : null,
       company: map['company'] != null ? Company.fromMap(map['company']) : null,
       token: map['token'] != null ? map['token'] : null,
@@ -201,7 +208,8 @@ class ResultMap {
 
   String toJson() => json.encode(toMap());
 
-  factory ResultMap.fromJson(String source) => ResultMap.fromMap(json.decode(source));
+  factory ResultMap.fromJson(String source) =>
+      ResultMap.fromMap(json.decode(source));
 
   @override
   String toString() {

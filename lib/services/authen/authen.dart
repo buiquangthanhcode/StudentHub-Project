@@ -52,7 +52,8 @@ class AuthService {
     }
   }
 
-  Future<ResponseAPI> register(RequestRegisterAccount requestRegisterAccount) async {
+  Future<ResponseAPI> register(
+      RequestRegisterAccount requestRegisterAccount) async {
     try {
       var dio = Dio(
         BaseOptions(
@@ -86,14 +87,14 @@ class AuthService {
     }
   }
 
-  Future<ResponseAPI> fetchInformation(String token) async {
+  Future<ResponseAPI<DataResponse>> fetchInformation(String token) async {
     try {
       final res = await dioClient.get(
         '$baseURL/api/auth/me',
       );
 
       logger.d(res);
-      return ResponseAPI(
+      return ResponseAPI<DataResponse>(
         statusCode: res.statusCode,
         data: DataResponse.fromJson(json.encode(res.data)),
       );
@@ -101,7 +102,7 @@ class AuthService {
       logger.e(
         "DioException :${e.response}",
       );
-      throw ResponseAPI(
+      throw ResponseAPI<DataResponse>(
         statusCode: e.response?.statusCode,
         data: DataResponse.fromJson(e.response.toString()),
       );

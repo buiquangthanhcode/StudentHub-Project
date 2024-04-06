@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/models/common/user_model.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/student_profile_creation_step_1/student_profile_creation_step_1_screen.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -18,14 +21,17 @@ class _AccountState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final UserModel userModel =
+        BlocProvider.of<AuthBloc>(context).state.userModel;
 
     List<Map<String, dynamic>> dataSetting = [
       {
         'icon': FontAwesomeIcons.solidCircleUser,
         'name': 'Profiles',
         // 'route_name': 'student_create_profile_step_01',
-        'route_name': 'company_create_profile',
-        // 'route_name': 'company_edit_profile',
+        'route_name': (userModel.company == null && userModel.student == null)
+            ? 'company_create_profile'
+            : 'company_edit_profile',
       },
       {
         'icon': FontAwesomeIcons.gears,

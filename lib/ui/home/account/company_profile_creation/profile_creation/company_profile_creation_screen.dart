@@ -1,15 +1,17 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
+import 'package:studenthub/blocs/company_bloc/company_event.dart';
+import 'package:studenthub/models/company/company_model.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/widgets/continue_button.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/widgets/describe_input_widget.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/widgets/employee_quantity_selection_widget.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/widgets/name_input_widget.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/widgets/title_widget.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/widgets/url_input_widget.dart';
+import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class CompanyProfileCreationScreen extends StatefulWidget {
   const CompanyProfileCreationScreen({Key? key}) : super(key: key);
@@ -30,6 +32,7 @@ class _CompanyProfileCreationScreenState
   ];
 
   String? radioButtonSelected;
+  var employeeQuantity = 0;
   final websiteInputController = TextEditingController();
   final companyNameInputController = TextEditingController();
   final descriptionInputController = TextEditingController();
@@ -84,7 +87,11 @@ class _CompanyProfileCreationScreenState
                 const SizedBox(height: 10),
                 TitleWidget(),
                 const SizedBox(height: 60),
-                EmployeeQuantitySelectionWidget(),
+                EmployeeQuantitySelectionWidget(
+                  chooseEmployeesQuantity: (value) {
+                    employeeQuantity = value;
+                  },
+                ),
                 SizedBox(height: 30),
                 NameInputWidget(
                     companyNameInputController: companyNameInputController,
@@ -103,14 +110,29 @@ class _CompanyProfileCreationScreenState
                 ContinueButton(
                     buttonActive: true,
                     press: () {
-                      Navigator.pop(context);
+                      // Navigator.pop(context);
                       // context.pushNamed('welcome_screen');
-                      // if (_formKey.currentState!.validate()) {
-                      //   print(radioButtonSelected);
-                      //   print(companyNameInputController.text);
-                      //   print(websiteInputController.text);
-                      //   print(descriptionInputController.text);
-                      // }
+                      if (_formKey.currentState!.validate()) {
+                        context.read<CompanyBloc>().add(
+                              AddAllDataEvent(
+                                  data: Company(
+                                    size: 50,
+                                    companyName:
+                                        companyNameInputController.text,
+                                    website: websiteInputController.text,
+                                    description:
+                                        descriptionInputController.text,
+                                  ),
+                                  onSuccess: () {
+                                    SnackBarService.showSnackBar(
+                                        content: 'Successfully!',
+                                        status: StatusSnackBar.success);
+                                    Future.delayed(Duration(seconds: 2), () {
+                                      Navigator.pop(context);
+                                    });
+                                  }),
+                            );
+                      }
                     })
               ],
             ),
