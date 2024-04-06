@@ -165,8 +165,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     const Expanded(
                       child: TabBarView(
                         children: [
-                          // ProjectAllTab(),
-                          ProjectAllTabStudent(),
+                          ProjectAllTab(),
+                          // ProjectAllTabStudent(),
                           ProjectWorkingTab(),
                           ProjectArchivedTab(),
                         ],
