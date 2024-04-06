@@ -10,10 +10,10 @@ class ProjectArchivedTab extends StatefulWidget {
   const ProjectArchivedTab({super.key});
 
   @override
-  State<ProjectArchivedTab> createState() => _ProjectArchiedTabState();
+  State<ProjectArchivedTab> createState() => _ProjectArchivedTabState();
 }
 
-class _ProjectArchiedTabState extends State<ProjectArchivedTab> {
+class _ProjectArchivedTabState extends State<ProjectArchivedTab> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -31,7 +31,7 @@ class _ProjectArchiedTabState extends State<ProjectArchivedTab> {
                 Row(
                   children: [
                     Text(
-                      'Senior Fontend Developer',
+                      'Senior Frontend Developer',
                       style: theme.textTheme.bodyMedium,
                     ),
                     const SizedBox(
@@ -46,7 +46,8 @@ class _ProjectArchiedTabState extends State<ProjectArchivedTab> {
                     const Spacer(),
                     GestureDetector(
                       onTap: () {
-                        showModalBottomSheetCustom(context, widgetBuilder: const MoreActionWidget());
+                        showModalBottomSheetCustom(context,
+                            widgetBuilder: const MoreActionWidget());
                       },
                       child: Container(
                         padding: const EdgeInsets.all(5),
@@ -65,7 +66,7 @@ class _ProjectArchiedTabState extends State<ProjectArchivedTab> {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'Created 3 ago',
+                  'Created 3 days ago',
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.grey,
                     fontSize: 14,
@@ -74,24 +75,45 @@ class _ProjectArchiedTabState extends State<ProjectArchivedTab> {
                 const SizedBox(height: 10),
                 Text(
                   'Student are looking for',
-                  style: theme.textTheme.bodyMedium,
+                  style: theme.textTheme.bodyMedium!
+                      .copyWith(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.only(left: 15),
-                  child: Text(
-                    ' - Clear expectionn about your project or deliverables',
-                    style: theme.textTheme.bodyMedium,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(6, 9, 6, 6),
+                        child: FaIcon(
+                          FontAwesomeIcons.solidCircle,
+                          size: 6,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Expanded(
+                        child: Text(
+                          'Clear expectation about your project or deliverables',
+                          style: theme.textTheme.bodyMedium!.copyWith(
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: data
                       .map(
                         (item) => Container(
                           width: MediaQuery.of(context).size.width / 4,
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 10),
                           decoration: BoxDecoration(
                             color: theme.colorScheme.grey!.withOpacity(0.08),
                             borderRadius: BorderRadius.circular(15),
@@ -100,19 +122,21 @@ class _ProjectArchiedTabState extends State<ProjectArchivedTab> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                item['total']!,
-                                style: theme.textTheme.bodyMedium,
+                                item['total'] ?? '',
+                                style: theme.textTheme.bodyMedium!
+                                    .copyWith(color: Colors.black87),
                               ),
                               Text(
-                                item['label']!,
-                                style: theme.textTheme.bodyMedium,
+                                item['label'] ?? '',
+                                style: theme.textTheme.bodyMedium!
+                                    .copyWith(color: primaryColor),
                               ),
                             ],
                           ),
                         ),
                       )
                       .toList(),
-                )
+                ),
               ],
             ),
           );

@@ -44,7 +44,8 @@ class _EditEducationState extends State<EducationEdit> {
               const Spacer(),
               Container(
                 decoration: BoxDecoration(
-                    color: theme.colorScheme.grey!.withOpacity(0.4), borderRadius: BorderRadius.circular(50)),
+                    color: theme.colorScheme.grey!.withOpacity(0.4),
+                    borderRadius: BorderRadius.circular(50)),
                 padding: const EdgeInsets.all(3),
                 child: InkWell(
                   onTap: () {
@@ -98,9 +99,12 @@ class _EditEducationState extends State<EducationEdit> {
                       UpdateEducationEvent(
                         education: Education(
                           id: widget.item.id,
-                          nameOfSchool: formkey.currentState!.fields['nameOfSchool']!.value as String,
-                          timeStart: formkey.currentState!.fields['year_start']!.value,
-                          timeEnd: formkey.currentState!.fields['year_end']!.value,
+                          nameOfSchool: formkey.currentState!
+                              .fields['nameOfSchool']!.value as String,
+                          timeStart:
+                              formkey.currentState!.fields['year_start']!.value,
+                          timeEnd:
+                              formkey.currentState!.fields['year_end']!.value,
                         ),
                         onSuccess: () {
                           Navigator.pop(context);

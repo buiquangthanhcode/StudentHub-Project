@@ -42,7 +42,8 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
               const Spacer(),
               Container(
                 decoration: BoxDecoration(
-                    color: theme.colorScheme.grey!.withOpacity(0.4), borderRadius: BorderRadius.circular(50)),
+                    color: theme.colorScheme.grey!.withOpacity(0.4),
+                    borderRadius: BorderRadius.circular(50)),
                 padding: const EdgeInsets.all(3),
                 child: InkWell(
                   onTap: () {
@@ -56,7 +57,7 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           TextFieldFormCustom(
             fillColor: Colors.white,
             style: TextStyle(
@@ -77,7 +78,7 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
             labelText: 'Start Date',
             view: DateRangePickerView.month,
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 18),
           const DatePickerCustom(
             name: 'end_date',
             hintText: 'End Date',
@@ -98,6 +99,7 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
             name: 'description',
             hintText: 'Description',
           ),
+          const SizedBox(height: 24),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               elevation: 0,
@@ -105,7 +107,6 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
             ),
             onPressed: () {
               if (formkey.currentState?.saveAndValidate() ?? false) {
-                logger.d(formkey.currentState?.value);
                 context.read<StudentCreateProfileBloc>().add(AddProjectEvent(
                       project: ProjectResume(
                         id: Random().nextInt(1000).toString(),
@@ -113,10 +114,14 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
                         skills: [
                           SkillSet(name: 'NodeJs', isSelected: false),
                         ],
-                        name: formkey.currentState?.fields['project_name']?.value,
-                        startDate: formkey.currentState?.fields['start_date']?.value,
-                        endDate: formkey.currentState?.fields['end_date']?.value,
-                        description: formkey.currentState?.fields['description']?.value,
+                        name:
+                            formkey.currentState?.fields['project_name']?.value,
+                        startDate:
+                            formkey.currentState?.fields['start_date']?.value,
+                        endDate:
+                            formkey.currentState?.fields['end_date']?.value,
+                        description:
+                            formkey.currentState?.fields['description']?.value,
                       ),
                       onSuccess: () {
                         Navigator.pop(context);
@@ -130,7 +135,8 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
                 color: theme.colorScheme.onPrimary,
               ),
             ),
-          )
+          ),
+          const SizedBox(height: 16),
         ],
       ),
     );

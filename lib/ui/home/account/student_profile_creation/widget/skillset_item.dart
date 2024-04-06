@@ -18,7 +18,8 @@ class SkillSetItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(40),
@@ -37,7 +38,9 @@ class SkillSetItem extends StatelessWidget {
           const SizedBox(width: 10),
           InkWell(
             onTap: () {
-              context.read<StudentCreateProfileBloc>().add(RemoveSkillSetEvent(item));
+              context
+                  .read<StudentCreateProfileBloc>()
+                  .add(RemoveSkillSetEvent(item));
             },
             child: const FaIcon(
               FontAwesomeIcons.xmark,
