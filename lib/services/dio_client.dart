@@ -4,29 +4,26 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-const _defaultConnectTimeout = Duration.millisecondsPerHour;
-const _defaultReceiveTimeout = Duration.millisecondsPerHour;
+const _defaultConnectTimeout = 10000;
+const _defaultReceiveTimeout = 10000;
 
 class DioClient {
-  final String baseUrl;
-
   late Dio _dio;
 
   final List<Interceptor> interceptors;
   // Global options
 
   DioClient(
-    this.baseUrl,
     Dio dio, {
     required this.interceptors,
   }) {
     _dio = dio;
     _dio
-      ..options.baseUrl = baseUrl
       ..options.connectTimeout = const Duration(milliseconds: _defaultConnectTimeout)
       ..options.receiveTimeout = const Duration(milliseconds: _defaultReceiveTimeout)
       ..httpClientAdapter
-      ..options.headers = {'Content-Type': 'application/json; charset=UTF-8'};
+      ..options.headers = {'Content-Type': 'application/json'}
+      ..options.headers = {'accept': '*/*'};
 
     if (interceptors.isNotEmpty) {
       _dio.interceptors.addAll(interceptors);
@@ -45,22 +42,34 @@ class DioClient {
     }
   }
 
-  Future<dynamic> get(
+  FutureOr<Response> get(
     String uri, {
+    data,
     Map<String, dynamic>? queryParameters,
     Options? options,
     CancelToken? cancelToken,
     ProgressCallback? onReceiveProgress,
   }) async {
     try {
+      options = Options(
+        receiveTimeout: const Duration(milliseconds: 6000),
+        receiveDataWhenStatusError: true,
+        persistentConnection: false,
+        method: 'get',
+        followRedirects: false,
+        validateStatus: (status) {
+          return status! < 500;
+        },
+      );
       var response = await _dio.get(
         uri,
+        data: data,
         queryParameters: queryParameters,
         options: options,
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
       );
-      return response.data;
+      return response;
     } on SocketException catch (e) {
       throw SocketException(e.toString());
     } on FormatException catch (_) {
@@ -80,11 +89,11 @@ class DioClient {
     ProgressCallback? onReceiveProgress,
   }) async {
     try {
-      // Add by Quang Thanh to check issues connect close
       options = Options(
-        receiveTimeout: const Duration(milliseconds: 60000),
+        receiveTimeout: const Duration(milliseconds: 6000),
         receiveDataWhenStatusError: true,
         persistentConnection: false,
+        method: 'post',
         followRedirects: false,
         validateStatus: (status) {
           return status! < 500;
@@ -107,7 +116,7 @@ class DioClient {
     }
   }
 
-  FutureOr<dynamic> patch(
+  FutureOr<Response> patch(
     String uri, {
     data,
     Map<String, dynamic>? queryParameters,
@@ -126,7 +135,7 @@ class DioClient {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      return response.data;
+      return response;
     } on FormatException catch (_) {
       throw const FormatException('Unable to process the data');
     } catch (e) {
@@ -134,7 +143,7 @@ class DioClient {
     }
   }
 
-  FutureOr<dynamic> put(
+  FutureOr<Response> put(
     String uri, {
     data,
     Map<String, dynamic>? queryParameters,
@@ -153,7 +162,7 @@ class DioClient {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      return response.data;
+      return response;
     } on FormatException catch (_) {
       throw const FormatException('Unable to process the data');
     } catch (e) {
@@ -161,7 +170,7 @@ class DioClient {
     }
   }
 
-  FutureOr<dynamic> delete(
+  FutureOr<Response> delete(
     String uri, {
     data,
     Map<String, dynamic>? queryParameters,
@@ -176,11 +185,29 @@ class DioClient {
         options: options,
         cancelToken: cancelToken,
       );
-      return response.data;
+      return response;
     } on FormatException catch (_) {
       throw const FormatException('Unable to process the data');
     } catch (e) {
       rethrow;
     }
   }
+}
+
+String handleDioError(DioExceptionType error) {
+  String message = '';
+  if (error == DioExceptionType.connectionTimeout) {
+    message = 'Connection timeout occurred';
+  } else if (error == DioExceptionType.receiveTimeout) {
+    message = 'Receive timeout occurred';
+  } else if (error == DioExceptionType.sendTimeout) {
+    message = 'Send timeout occurred';
+  } else if (error == DioExceptionType.cancel) {
+    message = 'Request to server was cancelled';
+  } else if (error == DioExceptionType.badResponse) {
+    message = 'Bad response from server';
+  } else {
+    message = 'Unexpected error occurred';
+  }
+  return message;
 }

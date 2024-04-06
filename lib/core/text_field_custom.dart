@@ -5,7 +5,7 @@ import 'package:studenthub/constants/app_theme.dart';
 
 // Core widget builder for custom TextFormField
 class TextFieldFormCustom extends StatefulWidget {
-  TextFieldFormCustom({
+  const TextFieldFormCustom({
     super.key,
     required this.name,
     this.hintText,
@@ -30,7 +30,7 @@ class TextFieldFormCustom extends StatefulWidget {
     this.keyboardType,
     this.autofocus,
     this.obscureText,
-    this.isPasswordText = false,
+    this.isPasswordText,
   });
 
   final String name;
@@ -55,7 +55,7 @@ class TextFieldFormCustom extends StatefulWidget {
   final bool? autocorrect;
   final TextInputType? keyboardType;
   final bool? autofocus;
-  bool? obscureText; // add new
+  final bool? obscureText; // add new
   final bool? isPasswordText;
 
   @override
@@ -77,6 +77,14 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
 
   bool isHiddenPassword = false;
 
+  late bool obscureText;
+
+  @override
+  void initState() {
+    obscureText = widget.obscureText ?? false;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -87,10 +95,10 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
         onSaved: widget.onSaved,
         validator: widget.validator,
         maxLines: widget.maxLines ?? 1,
-        obscureText: widget.obscureText ?? false,
+        obscureText: obscureText,
         autocorrect: widget.autocorrect ?? true,
         autofocus: widget.autofocus ?? false,
-        initialValue: widget.initialValue,
+        initialValue: widget.initialValue ?? '',
         focusNode: widget.focusNode,
         keyboardType: widget.textInputType ?? TextInputType.text,
         textInputAction: widget.textInputAction,
@@ -120,7 +128,7 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
                   onPressed: () {
                     setState(() {
                       isHiddenPassword = !isHiddenPassword;
-                      widget.obscureText = !widget.obscureText!;
+                      obscureText = !obscureText;
                     });
                   },
                   // icon: Icon(
@@ -129,9 +137,7 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
                   //       : Icons.visibility_off_rounded,
                   // ),
                   icon: FaIcon(
-                    isHiddenPassword
-                        ? FontAwesomeIcons.eye
-                        : FontAwesomeIcons.eyeSlash,
+                    isHiddenPassword ? FontAwesomeIcons.eye : FontAwesomeIcons.eyeSlash,
                     color: Theme.of(context).colorScheme.grey,
                   ),
                 )
@@ -141,8 +147,7 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
                 color: Theme.of(context).colorScheme.hintColor,
               ),
           contentPadding: const EdgeInsets.all(0),
-          fillColor:
-              widget.fillColor ?? const Color.fromARGB(255, 242, 242, 242),
+          fillColor: widget.fillColor ?? const Color.fromARGB(255, 242, 242, 242),
           filled: true,
           isDense: true,
           enabledBorder: defaultInputBorder,
