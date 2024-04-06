@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/data/dto/reponse.dart';
+import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/models/company/company_model.dart';
 import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
 import 'package:studenthub/models/student/student_create_profile/tech_stack.dart';
@@ -103,4 +104,32 @@ class CompanyService {
       rethrow;
     }
   }
+  
+  Future<ResponseAPI<Project>> postNewProject(Project newProject) async {
+    try {
+      final res = await dioClient.post(
+        '$baseURL/api/project',
+        data: newProject.toJson(),
+      );
+      logger.d(res.data);
+      logger.i('successfully!');
+      return ResponseAPI<Project>(
+        statusCode: res.statusCode,
+        data: Project.fromMap(res.data['result']),
+      );
+    } on DioException catch (e) {
+      logger.e(
+        "DioException :${e.response}",
+      );
+      throw ResponseAPI<Project>(
+        statusCode: e.response?.statusCode,
+        data: Project(),
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
+
+
 }

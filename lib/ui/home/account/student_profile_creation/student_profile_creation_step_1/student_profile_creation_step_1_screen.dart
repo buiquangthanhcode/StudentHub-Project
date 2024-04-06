@@ -22,10 +22,12 @@ class StudentProfileCreationStep01Screen extends StatefulWidget {
   const StudentProfileCreationStep01Screen({super.key});
 
   @override
-  State<StudentProfileCreationStep01Screen> createState() => _StudentProfileCreationStep01State();
+  State<StudentProfileCreationStep01Screen> createState() =>
+      _StudentProfileCreationStep01State();
 }
 
-class _StudentProfileCreationStep01State extends State<StudentProfileCreationStep01Screen> {
+class _StudentProfileCreationStep01State
+    extends State<StudentProfileCreationStep01Screen> {
   String? selectedValue;
   late TextEditingController textEditingController;
   late UserModel user;
@@ -123,7 +125,8 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
                                       theme: theme,
                                       item: item,
                                     ))
-                                .where((element) => element.item.isSelected == true)
+                                .where((element) =>
+                                    element.item.isSelected == true)
                                 .toList(),
                           );
                         }
@@ -150,12 +153,15 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
                                 margin: const EdgeInsets.only(right: 10),
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: theme.colorScheme.grey!),
+                                  border: Border.all(
+                                      color: theme.colorScheme.grey!),
                                   shape: BoxShape.circle,
                                 ),
                                 child: InkWell(
                                   onTap: () {
-                                    showModalBottomSheetCustom(context, widgetBuilder: const CreateLanguageWidget());
+                                    showModalBottomSheetCustom(context,
+                                        widgetBuilder:
+                                            const CreateLanguageWidget());
                                   },
                                   child: FaIcon(
                                     FontAwesomeIcons.plus,
@@ -214,12 +220,15 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
                                 margin: const EdgeInsets.only(right: 10),
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: theme.colorScheme.grey!),
+                                  border: Border.all(
+                                      color: theme.colorScheme.grey!),
                                   shape: BoxShape.circle,
                                 ),
                                 child: InkWell(
                                   onTap: () {
-                                    showModalBottomSheetCustom(context, widgetBuilder: const CreateEducationWidget());
+                                    showModalBottomSheetCustom(context,
+                                        widgetBuilder:
+                                            const CreateEducationWidget());
                                   },
                                   child: FaIcon(
                                     FontAwesomeIcons.plus,

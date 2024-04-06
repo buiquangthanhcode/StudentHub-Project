@@ -3,5 +3,5 @@ class ProjectScope {
   String? projectId;
   String? estimatedStartDate;
   String? estimatedEndDate;
-  int? numberOfStudent;
+  int? numberOfStudents;
 }
