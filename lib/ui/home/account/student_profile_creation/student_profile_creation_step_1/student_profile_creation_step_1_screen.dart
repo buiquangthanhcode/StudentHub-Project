@@ -55,11 +55,13 @@ class _StudentProfileCreationStep01State
       appBar: AppBar(
         centerTitle: false,
         titleSpacing: 0,
-        title: Text(
-          "Welcome to StudentHub",
-          style: theme.textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
+        title: Center(
+          child: Text(
+            "Welcome to StudentHub",
+            style: theme.textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+            ),
           ),
         ),
       ),
@@ -90,15 +92,13 @@ class _StudentProfileCreationStep01State
                   onSaved: (value) {
                     selectedValue = value.toString();
                   },
-                  hint: "Please selecte TechStack"),
+                  hint: "Please select TechStack"),
+              const SizedBox(height: 10),
               Text("Skillset",
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                   )),
-              const SizedBox(
-                height: 10,
-              ),
               BlocBuilder<StudentCreateProfileBloc, StudentCreateProfileState>(
                 builder: (context, state) {
                   logger.d("Rebuild");
@@ -124,7 +124,7 @@ class _StudentProfileCreationStep01State
                       }),
                       const SizedBox(height: 10),
                       const AutoCompleteWidget(),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 20),
                       Column(
                         children: [
                           Row(

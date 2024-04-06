@@ -31,7 +31,7 @@ class _CreateEducationWidgetState extends State<CreateEducationWidget> {
           Row(
             children: [
               Text(
-                "Create Language",
+                "Create Education",
                 style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
@@ -40,7 +40,8 @@ class _CreateEducationWidgetState extends State<CreateEducationWidget> {
               const Spacer(),
               Container(
                 decoration: BoxDecoration(
-                    color: theme.colorScheme.grey!.withOpacity(0.4), borderRadius: BorderRadius.circular(50)),
+                    color: theme.colorScheme.grey!.withOpacity(0.4),
+                    borderRadius: BorderRadius.circular(50)),
                 padding: const EdgeInsets.all(3),
                 child: InkWell(
                   onTap: () {
@@ -54,7 +55,7 @@ class _CreateEducationWidgetState extends State<CreateEducationWidget> {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 18),
           TextFieldFormCustom(
             icon: const Icon(
               Icons.school,
@@ -73,13 +74,13 @@ class _CreateEducationWidgetState extends State<CreateEducationWidget> {
             hintText: "Year Start",
             labelText: 'Year Start',
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 18),
           const PickerYearCustom(
             name: 'year_end',
             hintText: "Year End",
             labelText: 'Year End',
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 24),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               elevation: 0,
@@ -91,9 +92,12 @@ class _CreateEducationWidgetState extends State<CreateEducationWidget> {
                       AddEducationEvent(
                         education: Education(
                           id: Random().nextInt(1000).toString(),
-                          nameOfSchool: formkey.currentState!.fields['nameOfSchool']!.value as String,
-                          timeStart: formkey.currentState!.fields['year_start']!.value,
-                          timeEnd: formkey.currentState!.fields['year_end']!.value,
+                          nameOfSchool: formkey.currentState!
+                              .fields['nameOfSchool']!.value as String,
+                          timeStart:
+                              formkey.currentState!.fields['year_start']!.value,
+                          timeEnd:
+                              formkey.currentState!.fields['year_end']!.value,
                         ),
                         onSuccess: () {
                           Navigator.pop(context);
@@ -108,7 +112,8 @@ class _CreateEducationWidgetState extends State<CreateEducationWidget> {
                 color: theme.colorScheme.onPrimary,
               ),
             ),
-          )
+          ),
+          const SizedBox(height: 16),
         ],
       ),
     );

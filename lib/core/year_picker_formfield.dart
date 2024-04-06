@@ -3,7 +3,12 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:studenthub/constants/colors.dart';
 
 class PickerYearCustom extends StatefulWidget {
-  const PickerYearCustom({super.key, required this.name, this.hintText, this.labelText, this.initValue});
+  const PickerYearCustom(
+      {super.key,
+      required this.name,
+      this.hintText,
+      this.labelText,
+      this.initValue});
 
   final String name;
   final String? hintText;
@@ -70,6 +75,7 @@ class _PickerYearCustomState extends State<PickerYearCustom> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 48,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         border: Border.all(
@@ -80,45 +86,52 @@ class _PickerYearCustomState extends State<PickerYearCustom> {
       child: FormBuilderField(
         name: widget.name,
         builder: (field) {
-          return TextFormField(
-            style: TextStyle(
-              color: Colors.grey[600],
-              fontSize: 16,
-            ),
-            controller: texController,
-            decoration: InputDecoration(
-              hintText: widget.hintText ?? 'Year',
-              labelText: widget.labelText ?? 'Year',
-              hintStyle: TextStyle(
+          return Container(
+            alignment: Alignment.center,
+            child: TextFormField(
+              style: TextStyle(
                 color: Colors.grey[600],
                 fontSize: 16,
               ),
-              labelStyle: TextStyle(
-                color: Colors.grey[600],
-                fontSize: 16,
+              controller: texController,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(
+                  vertical: 0,
+                  horizontal: 10,
+                ),
+                hintText: widget.hintText ?? 'Year',
+                labelText: widget.labelText ?? 'Year',
+                hintStyle: TextStyle(
+                  color: Colors.grey[600],
+                  fontSize: 16,
+                ),
+                labelStyle: TextStyle(
+                  color: Colors.grey[600],
+                  fontSize: 16,
+                ),
+                prefixIcon: const Icon(
+                  Icons.calendar_today,
+                  size: 16,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
               ),
-              prefixIcon: const Icon(
-                Icons.calendar_today,
-                size: 16,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-            ),
-            readOnly: true,
-            onSaved: (newValue) {
-              field.didChange(newValue);
-              field.save();
-              texController.text = newValue!;
-            },
-            onTap: () async {
-              DateTime? data = await showYearPicker(context);
-              if (data != null) {
-                field.didChange(data);
+              readOnly: true,
+              onSaved: (newValue) {
+                field.didChange(newValue);
                 field.save();
-                texController.text = data.year.toString();
-              }
-            },
+                texController.text = newValue!;
+              },
+              onTap: () async {
+                DateTime? data = await showYearPicker(context);
+                if (data != null) {
+                  field.didChange(data);
+                  field.save();
+                  texController.text = data.year.toString();
+                }
+              },
+            ),
           );
         },
       ),

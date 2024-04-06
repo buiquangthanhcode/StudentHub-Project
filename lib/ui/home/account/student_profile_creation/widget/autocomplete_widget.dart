@@ -55,16 +55,20 @@ class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
           displayStringForOption: (option) {
             return option;
           },
-          fieldViewBuilder: (context, fieldTextEditingController, focusNode, onFieldSubmitted) {
+          fieldViewBuilder: (context, fieldTextEditingController, focusNode,
+              onFieldSubmitted) {
             textEditingController = fieldTextEditingController;
             return SizedBox(
-              height: 56,
               child: TextField(
                 controller: fieldTextEditingController,
                 focusNode: focusNode,
                 decoration: const InputDecoration(
+                  // contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                  contentPadding: EdgeInsets.all(14),
                   hintText: 'Enter your skill',
-                  hintStyle: TextStyle(fontSize: 16),
+                  hintStyle: TextStyle(
+                    fontSize: 14,
+                  ),
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -75,11 +79,14 @@ class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
               return const Iterable<String>.empty();
             }
             return skillSetList.where((String option) {
-              return option.toLowerCase().contains(skillsetTextEditController.text);
+              return option
+                  .toLowerCase()
+                  .contains(skillsetTextEditController.text);
             });
           },
           onSelected: (String value) {
-            context.read<StudentCreateProfileBloc>().add(AddSkillSetEvent(SkillSet(name: value, isSelected: false)));
+            context.read<StudentCreateProfileBloc>().add(
+                AddSkillSetEvent(SkillSet(name: value, isSelected: false)));
             textEditingController.text = "";
           },
         );
