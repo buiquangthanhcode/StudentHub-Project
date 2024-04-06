@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
-import 'package:studenthub/blocs/student_create_profile/student_create_profile_event.dart';
+import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
+import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/core/dropdown_button_formfield.dart';
 import 'package:studenthub/models/student/student_create_profile/language_model.dart';
@@ -79,7 +79,7 @@ class _LanguageEditState extends State<LanguageEdit> {
                     id: widget.item.id,
                     name: formkey.currentState?.fields['language']?.value,
                     level: formkey.currentState?.fields['level']?.value);
-                BlocProvider.of<StudentCreateProfileBloc>(context).add(UpdateLanguageEvent(
+                BlocProvider.of<StudentBloc>(context).add(UpdateLanguageEvent(
                     language: itemUpdate,
                     onSuccess: () {
                       Navigator.pop(context);

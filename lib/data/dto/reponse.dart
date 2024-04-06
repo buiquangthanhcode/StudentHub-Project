@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: prefer_null_aware_operators, prefer_if_null_operators
 
 import 'dart:convert';
@@ -16,6 +17,9 @@ class ResponseAPI<T> {
     this.data,
     this.statusCode,
   });
+
+  @override
+  String toString() => 'ResponseAPI(data: $data, statusCode: $statusCode)';
 }
 
 class DataResponse {
@@ -93,7 +97,7 @@ class DataResponse {
 
   @override
   String toString() {
-    return 'DataResponse( errorDetails: $errorDetails, success: $success, requestId: $requestId, stack: $stack, resultMap: $resultMap,)';
+    return 'DataResponse(error: $errorDetails, requestId: $requestId, stack: $stack, resultMap: $resultMap)';
   }
 }
 

@@ -5,87 +5,87 @@ import 'package:studenthub/models/student/student_create_profile/project_model.d
 import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
 
 @immutable
-abstract class StudentCreateProfileEvent {}
+abstract class StudentEvent {}
 
-class GetAllTeckStackEvent extends StudentCreateProfileEvent {
+class GetAllTeckStackEvent extends StudentEvent {
   final Function? onSuccess;
   GetAllTeckStackEvent({this.onSuccess});
 }
 
-class GetAllSkillSetEvent extends StudentCreateProfileEvent {
+class GetAllSkillSetEvent extends StudentEvent {
   final Function? onSuccess;
   GetAllSkillSetEvent({this.onSuccess});
 }
 
-class AddSkillSetEvent extends StudentCreateProfileEvent {
+class AddSkillSetEvent extends StudentEvent {
   final SkillSet skill;
 
   AddSkillSetEvent(this.skill);
 }
 
-class RemoveSkillSetEvent extends StudentCreateProfileEvent {
+class RemoveSkillSetEvent extends StudentEvent {
   final SkillSet skill;
 
   RemoveSkillSetEvent(this.skill);
 }
 
-class AddLanguageEvent extends StudentCreateProfileEvent {
+class AddLanguageEvent extends StudentEvent {
   final Language language;
   final Function? onSuccess;
 
   AddLanguageEvent({required this.language, this.onSuccess});
 }
 
-class RemoveLanguageEvent extends StudentCreateProfileEvent {
+class RemoveLanguageEvent extends StudentEvent {
   final Language language;
   final Function? onSuccess;
 
   RemoveLanguageEvent({required this.language, this.onSuccess});
 }
 
-class UpdateLanguageEvent extends StudentCreateProfileEvent {
+class UpdateLanguageEvent extends StudentEvent {
   final Language language;
   final Function? onSuccess;
 
   UpdateLanguageEvent({required this.language, required this.onSuccess});
 }
 
-class AddEducationEvent extends StudentCreateProfileEvent {
+class AddEducationEvent extends StudentEvent {
   final Education education;
   final Function? onSuccess;
 
   AddEducationEvent({required this.education, required this.onSuccess});
 }
 
-class RemoveEducationEvent extends StudentCreateProfileEvent {
+class RemoveEducationEvent extends StudentEvent {
   final Education education;
   final Function? onSuccess;
 
   RemoveEducationEvent({required this.education, required this.onSuccess});
 }
 
-class UpdateEducationEvent extends StudentCreateProfileEvent {
+class UpdateEducationEvent extends StudentEvent {
   final Education education;
   final Function? onSuccess;
 
   UpdateEducationEvent({required this.education, required this.onSuccess});
 }
 
-class AddProjectEvent extends StudentCreateProfileEvent {
+class AddProjectEvent extends StudentEvent {
   final ProjectResume project;
   final Function? onSuccess;
 
   AddProjectEvent({required this.project, required this.onSuccess});
 }
 
-class UpdateProjectEvent extends StudentCreateProfileEvent {
+class UpdateProjectEvent extends StudentEvent {
   final ProjectResume project;
   final Function? onSuccess;
 
   UpdateProjectEvent({required this.project, required this.onSuccess});
 }
 
-class RemoveProjectEvents extends StudentCreateProfileEvent {
+class RemoveProjectEvents extends StudentEvent {
   final ProjectResume project;
   final Function? onSuccess;
 

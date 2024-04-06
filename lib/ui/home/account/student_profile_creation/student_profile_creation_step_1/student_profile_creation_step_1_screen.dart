@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
-import 'package:studenthub/blocs/student_create_profile/student_create_profile_event.dart';
-import 'package:studenthub/blocs/student_create_profile/student_create_profile_state.dart';
+import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
+import 'package:studenthub/blocs/student_bloc/student_event.dart';
+import 'package:studenthub/blocs/student_bloc/student_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/core/dropdown_button_formfield.dart';
-import 'package:studenthub/ui/home/account/student_profile_creation/data/student_data_creation.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/autocomplete_widget.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/create_education.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/create_language.dart';
@@ -21,24 +20,18 @@ class StudentProfileCreationStep01Screen extends StatefulWidget {
   const StudentProfileCreationStep01Screen({super.key});
 
   @override
-  State<StudentProfileCreationStep01Screen> createState() =>
-      _StudentProfileCreationStep01State();
+  State<StudentProfileCreationStep01Screen> createState() => _StudentProfileCreationStep01State();
 }
 
-class _StudentProfileCreationStep01State
-    extends State<StudentProfileCreationStep01Screen> {
+class _StudentProfileCreationStep01State extends State<StudentProfileCreationStep01Screen> {
   String? selectedValue;
   late TextEditingController textEditingController;
 
   @override
   void initState() {
     super.initState();
-    context
-        .read<StudentCreateProfileBloc>()
-        .add(GetAllTeckStackEvent(onSuccess: () {}));
-    context
-        .read<StudentCreateProfileBloc>()
-        .add(GetAllSkillSetEvent(onSuccess: () {}));
+    context.read<StudentBloc>().add(GetAllTeckStackEvent(onSuccess: () {}));
+    context.read<StudentBloc>().add(GetAllSkillSetEvent(onSuccess: () {}));
   }
 
   @override
@@ -75,8 +68,7 @@ class _StudentProfileCreationStep01State
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child:
-              BlocBuilder<StudentCreateProfileBloc, StudentCreateProfileState>(
+          child: BlocBuilder<StudentBloc, StudentState>(
             builder: (context, state) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,8 +117,7 @@ class _StudentProfileCreationStep01State
                                       theme: theme,
                                       item: item,
                                     ))
-                                .where((element) =>
-                                    element.item.isSelected == true)
+                                .where((element) => element.item.isSelected == true)
                                 .toList(),
                           );
                         }
@@ -153,15 +144,12 @@ class _StudentProfileCreationStep01State
                                 margin: const EdgeInsets.only(right: 10),
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: theme.colorScheme.grey!),
+                                  border: Border.all(color: theme.colorScheme.grey!),
                                   shape: BoxShape.circle,
                                 ),
                                 child: InkWell(
                                   onTap: () {
-                                    showModalBottomSheetCustom(context,
-                                        widgetBuilder:
-                                            const CreateLanguageWidget());
+                                    showModalBottomSheetCustom(context, widgetBuilder: const CreateLanguageWidget());
                                   },
                                   child: FaIcon(
                                     FontAwesomeIcons.plus,
@@ -220,15 +208,12 @@ class _StudentProfileCreationStep01State
                                 margin: const EdgeInsets.only(right: 10),
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: theme.colorScheme.grey!),
+                                  border: Border.all(color: theme.colorScheme.grey!),
                                   shape: BoxShape.circle,
                                 ),
                                 child: InkWell(
                                   onTap: () {
-                                    showModalBottomSheetCustom(context,
-                                        widgetBuilder:
-                                            const CreateEducationWidget());
+                                    showModalBottomSheetCustom(context, widgetBuilder: const CreateEducationWidget());
                                   },
                                   child: FaIcon(
                                     FontAwesomeIcons.plus,

@@ -83,7 +83,7 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
         "DioException:${e.response}",
       );
     } catch (e) {
-      logger.e("Unexpect error-> $e");
+      logger.e("Unexpected error-> $e");
       SnackBarService.showSnackBar(
           content: handleFormatMessage(e.toString()),
           status: StatusSnackBar.error);
@@ -108,10 +108,6 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
             status: StatusSnackBar.error);
       }
       EasyLoading.dismiss();
-    } on DioException catch (e) {
-      logger.e(
-        "DioException:${e.response}",
-      );
     } catch (e) {
       logger.e("Unexpect error-> $e");
       SnackBarService.showSnackBar(
