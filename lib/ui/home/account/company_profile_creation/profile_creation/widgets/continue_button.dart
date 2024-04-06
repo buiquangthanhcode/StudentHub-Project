@@ -26,7 +26,7 @@ class _ContinueButtonState extends State<ContinueButton> {
         ),
         onPressed: widget.buttonActive ? widget.press : () {},
         child: Text(
-          'Continue',
+          'Save',
           style: textTheme.bodyMedium!
               .copyWith(color: Colors.white, fontWeight: FontWeight.w600),
         ),

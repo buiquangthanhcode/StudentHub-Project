@@ -107,7 +107,6 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
             ),
             onPressed: () {
               if (formkey.currentState?.saveAndValidate() ?? false) {
-                logger.d(formkey.currentState?.value);
                 context.read<StudentCreateProfileBloc>().add(AddProjectEvent(
                       project: ProjectResume(
                         id: Random().nextInt(1000).toString(),

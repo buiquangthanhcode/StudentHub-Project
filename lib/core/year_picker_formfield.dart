@@ -99,6 +99,7 @@ class _PickerYearCustomState extends State<PickerYearCustom> {
                   vertical: 0,
                   horizontal: 10,
                 ),
+                isDense: true,
                 hintText: widget.hintText ?? 'Year',
                 labelText: widget.labelText ?? 'Year',
                 hintStyle: TextStyle(

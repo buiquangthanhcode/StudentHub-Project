@@ -12,7 +12,8 @@ enum StatusSnackBar {
 }
 
 class SnackBarService {
-  static void showSnackBar({required String content, StatusSnackBar status = StatusSnackBar.none}) {
+  static void showSnackBar(
+      {required String content, StatusSnackBar status = StatusSnackBar.none}) {
     StudentHub.scaffoldKey.currentState?.showSnackBar(
       SnackBar(
         duration: const Duration(milliseconds: 1000),
@@ -33,8 +34,7 @@ class SnackBarService {
         ),
         backgroundColor: getColorSnackBar(status),
         behavior: SnackBarBehavior.floating,
-        margin: const EdgeInsets.only(bottom: 55, left: 20, right: 20),
-        elevation: 100,
+        margin: const EdgeInsets.only(bottom: 35, left: 20, right: 20),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),

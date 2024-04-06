@@ -58,19 +58,24 @@ class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
           fieldViewBuilder: (context, fieldTextEditingController, focusNode,
               onFieldSubmitted) {
             textEditingController = fieldTextEditingController;
-            return SizedBox(
-              child: TextField(
-                controller: fieldTextEditingController,
-                focusNode: focusNode,
-                decoration: const InputDecoration(
-                  // contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                  contentPadding: EdgeInsets.all(14),
-                  hintText: 'Enter your skill',
-                  hintStyle: TextStyle(
-                    fontSize: 14,
-                  ),
-                  border: OutlineInputBorder(),
+            return TextFormField(
+              controller: fieldTextEditingController,
+              focusNode: focusNode,
+              style: TextStyle(
+                color: Colors.grey[400],
+                fontSize: 16,
+              ),
+              scrollPadding: const EdgeInsets.all(0),
+              decoration: const InputDecoration(
+                // contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                isDense: true,
+                hintText: 'Enter your skill',
+                hintStyle: TextStyle(
+                  fontSize: 14,
                 ),
+                border: OutlineInputBorder(),
               ),
             );
           },
