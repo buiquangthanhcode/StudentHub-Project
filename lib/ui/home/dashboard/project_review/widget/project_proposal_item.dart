@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/widgets/dialog.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
@@ -83,12 +84,18 @@ class _ProposalItemState extends State<ProposalItem> {
             children: [
               Text(
                 widget.item['major'],
-                style: widget.theme.textTheme.bodyMedium,
+                style: widget.theme.textTheme.bodyMedium!.copyWith(
+                  color: primaryColor,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const Spacer(),
               Text(
                 widget.item['rating'],
-                style: widget.theme.textTheme.bodyMedium,
+                style: widget.theme.textTheme.bodyMedium!.copyWith(
+                  color: Color.fromARGB(255, 231, 144, 5),
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ],
           ),
@@ -138,10 +145,10 @@ class _ProposalItemState extends State<ProposalItem> {
                               title: 'Hide Offer',
                               textButtom: 'Hired',
                               subtitle:
-                                  'Do you readllly want to hide this offer for student to do this project?',
+                                  'Do you really want to hide this offer for student to do this project?',
                               onSave: () {
                             SnackBarService.showSnackBar(
-                                content: "Hired Sucessfully",
+                                content: "Hired Successfully",
                                 status: StatusSnackBar.success);
                             context.pop();
                             setState(() {

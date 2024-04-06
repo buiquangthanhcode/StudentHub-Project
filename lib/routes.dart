@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/company_profile_creation_screen.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit/company_profile_edit_screen.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/welcome_screen.dart';
@@ -20,7 +19,6 @@ import 'package:studenthub/ui/home/projects/project_saved/project_saved_screen.d
 import 'package:studenthub/ui/home/projects/project_search/project_search_screen.dart';
 import 'package:studenthub/ui/signup/signup_step01_screen.dart';
 import 'package:studenthub/ui/signup/signup_step02_screen_for_company.dart';
-
 import 'package:studenthub/ui/home/account/student_profile_creation/student_profile_creation_step_3/student_profile_creation_step_3_screen.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/student_profile_creation_step_1/student_profile_creation_step_1_screen.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/student_profile_creation_step_2/student_profile_creation_step_2_screen.dart';

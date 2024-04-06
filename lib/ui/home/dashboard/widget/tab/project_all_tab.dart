@@ -18,18 +18,19 @@ class ProjectAllTab extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(top: 20),
       child: Center(
-          child: ListView.separated(
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return ProjectReviewItem(theme: theme);
-        },
-        separatorBuilder: (context, index) {
-          return const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            child: Divider(),
-          );
-        },
-      )),
+        child: ListView.separated(
+          itemCount: 10,
+          itemBuilder: (context, index) {
+            return ProjectReviewItem(theme: theme);
+          },
+          separatorBuilder: (context, index) {
+            return const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              child: Divider(),
+            );
+          },
+        ),
+      ),
     );
   }
 }
@@ -47,34 +48,55 @@ class ProjectAllTabStudent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Active Proposal (0)',
-            style: theme.textTheme.bodyMedium,
+            'Active Proposal (5)',
+            style: theme.textTheme.bodyMedium!.copyWith(
+              color: Colors.green.shade600,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          Expanded(
+            child: Center(
+              child: ListView.separated(
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  return ProjectReviewItem(theme: theme);
+                },
+                separatorBuilder: (context, index) {
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    child: Divider(),
+                  );
+                },
+              ),
+            ),
           ),
           const SizedBox(
             height: 10,
           ),
           Text(
             'Submitted proposal (10)',
-            style: theme.textTheme.bodyMedium,
+            style: theme.textTheme.bodyMedium!.copyWith(
+              color: Colors.red,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           const SizedBox(
             height: 10,
           ),
           Expanded(
-            child: ListView.separated(
-              shrinkWrap: true,
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return ProjectProposalStudent(theme: theme);
-              },
-              separatorBuilder: (context, index) {
-                return const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  child: Divider(
-                    color: Colors.grey,
-                  ),
-                );
-              },
+            child: Center(
+              child: ListView.separated(
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return ProjectReviewItem(theme: theme);
+                },
+                separatorBuilder: (context, index) {
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    child: Divider(),
+                  );
+                },
+              ),
             ),
           ),
         ],

@@ -46,6 +46,7 @@ class StudentHub extends StatelessWidget {
       child: BlocBuilder<ThemesBloc, ThemesState>(
         builder: (context, state) {
           return MaterialApp.router(
+            color: Colors.white,
             localizationsDelegates: context.localizationDelegates,
             supportedLocales: context.supportedLocales,
             builder: EasyLoading.init(),
