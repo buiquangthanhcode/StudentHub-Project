@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: prefer_null_aware_operators, prefer_if_null_operators
 
 import 'dart:convert';
@@ -16,12 +17,16 @@ class ResponseAPI<T> {
     this.data,
     this.statusCode,
   });
+
+  @override
+  String toString() => 'ResponseAPI(data: $data, statusCode: $statusCode)';
 }
 
 class DataResponse {
   String? success;
   String? requestId;
-  dynamic errorDetails; // Because API return errorDetails return String or Array
+  dynamic
+      errorDetails; // Because API return errorDetails return String or Array
   String? stack;
   ResultMap? resultMap;
 
@@ -77,7 +82,9 @@ class DataResponse {
       requestId: map['requestId'],
       errorDetails: map['errorDetails'],
       stack: map['stack'],
-      resultMap: map['result'] != null ? ResultMap.fromMap(map['result']) : null, //[Core] Do not edit here
+      resultMap: map['result'] != null
+          ? ResultMap.fromMap(map['result'])
+          : null, //[Core] Do not edit here
       // Add more when custom
     );
   }
@@ -90,7 +97,7 @@ class DataResponse {
 
   @override
   String toString() {
-    return 'DataResponse( errorDetails: $errorDetails, success: $success, requestId: $requestId, stack: $stack, resultMap: $resultMap,)';
+    return 'DataResponse(error: $errorDetails, requestId: $requestId, stack: $stack, resultMap: $resultMap)';
   }
 }
 
@@ -120,13 +127,17 @@ class ResultList {
 
   factory ResultList.fromMap(Map<String, dynamic> map) {
     return ResultList(
-      teckStacks: map['result'] != null ? List<TechStack>.from(map['result']?.map((x) => TechStack.fromMap(x))) : null,
+      teckStacks: map['result'] != null
+          ? List<TechStack>.from(
+              map['result']?.map((x) => TechStack.fromMap(x)))
+          : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory ResultList.fromJson(String source) => ResultList.fromMap(json.decode(source));
+  factory ResultList.fromJson(String source) =>
+      ResultList.fromMap(json.decode(source));
 
   @override
   String toString() => 'ResultList(teckStacks: $teckStacks)';
@@ -201,7 +212,8 @@ class ResultMap {
 
   String toJson() => json.encode(toMap());
 
-  factory ResultMap.fromJson(String source) => ResultMap.fromMap(json.decode(source));
+  factory ResultMap.fromJson(String source) =>
+      ResultMap.fromMap(json.decode(source));
 
   @override
   String toString() {

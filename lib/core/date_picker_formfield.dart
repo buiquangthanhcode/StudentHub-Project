@@ -56,7 +56,7 @@ class _DatePickerCustomState extends State<DatePickerCustom> {
               decoration: InputDecoration(
                 labelText: widget.labelText ?? 'Date of Birth',
                 hintText: widget.hintText ?? 'Date of Birth',
-                contentPadding: EdgeInsets.symmetric(
+                contentPadding: const EdgeInsets.symmetric(
                   vertical: 0,
                   horizontal: 10,
                 ),

@@ -52,7 +52,8 @@ class AuthService {
     }
   }
 
-  Future<ResponseAPI> register(RequestRegisterAccount requestRegisterAccount) async {
+  Future<ResponseAPI> register(
+      RequestRegisterAccount requestRegisterAccount) async {
     try {
       var dio = Dio(
         BaseOptions(
@@ -68,20 +69,20 @@ class AuthService {
         data: requestRegisterAccount.toJson(),
       );
 
-      return ResponseAPI(
+      return ResponseAPI<DataResponse>(
         statusCode: res.statusCode,
         data: DataResponse.fromJson(json.encode(res.data)),
       );
     } on DioException catch (e) {
       logger.e(
-        "DioException :${e.type}",
+        "DioException 123 :${e.response!.data}",
       );
-      throw ResponseAPI(
+      throw ResponseAPI<DataResponse>(
         statusCode: e.response?.statusCode,
-        data: DataResponse.fromJson(e.response.toString()),
+        data: DataResponse.fromJson(json.encode(e.response!.data)),
       );
     } catch (e) {
-      logger.e("Unexpected Error: $e");
+      logger.e("Unexpected Error 456: $e");
       rethrow;
     }
   }
@@ -93,7 +94,7 @@ class AuthService {
       );
 
       logger.d(res);
-      return ResponseAPI(
+      return ResponseAPI<DataResponse>(
         statusCode: res.statusCode,
         data: DataResponse.fromJson(json.encode(res.data)),
       );
@@ -101,7 +102,7 @@ class AuthService {
       logger.e(
         "DioException :${e.response}",
       );
-      throw ResponseAPI(
+      throw ResponseAPI<DataResponse>(
         statusCode: e.response?.statusCode,
         data: DataResponse.fromJson(e.response.toString()),
       );
