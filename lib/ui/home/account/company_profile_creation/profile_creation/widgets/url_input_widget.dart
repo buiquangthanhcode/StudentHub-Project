@@ -42,8 +42,9 @@ class _UrlInputWidgetState extends State<UrlInputWidget> {
           },
           validator: (value) {
             if (value == null ||
-                value.isEmpty ||
-                !Uri.parse(value).isAbsolute) {
+                value.isEmpty 
+                // || !Uri.parse(value).isAbsolute
+                ) {
               return 'Your website address is invalid.';
             }
             return null;

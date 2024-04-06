@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,7 +33,8 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
           await _authenService.fetchInformation(event.accessToken);
 
       if (result.statusCode! < 300) {
-        // emit(AuthenState(userModel: UserModel.fromJson(result.data!.result!.toJson())));
+        emit(AuthenState(
+            userModel: UserModel.fromMap(result.data.resultMap.toMap())));
         event.onSuscess!(); // Call onSuccessCallBack
       } else {
         SnackBarService.showSnackBar(
@@ -107,10 +109,9 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
       }
       EasyLoading.dismiss();
     } catch (e) {
-      ResponseAPI i = e as ResponseAPI;
-      logger.e("Unexpected error -> ${i.data!.errorDetails}");
+      logger.e("Unexpect error-> $e");
       SnackBarService.showSnackBar(
-          content: handleFormatMessage(i.data!.errorDetails),
+          content: handleFormatMessage(e.toString()),
           status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();

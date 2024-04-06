@@ -155,7 +155,7 @@ class ResultList {
 
 class ResultMap {
   int? id;
-  List<String>? roles;
+  List<int>? roles;
   Student? student;
   Company? company;
   String? token;
@@ -164,7 +164,7 @@ class ResultMap {
 
   ResultMap copyWith({
     int? id,
-    List<String>? roles,
+    List<int>? roles,
     Student? student,
     Company? company,
     String? token,
@@ -203,7 +203,7 @@ class ResultMap {
   factory ResultMap.fromMap(Map<String, dynamic> map) {
     return ResultMap(
       id: map['id'] != null ? map['id'].toInt() : null,
-      roles: map['roles'] != null ? List<String>.from(map['roles']) : null,
+      roles: map['roles'] != null ? List<int>.from(map['roles']) : null,
       student: map['student'] != null ? Student.fromMap(map['student']) : null,
       company: map['company'] != null ? Company.fromMap(map['company']) : null,
       token: map['token'] != null ? map['token'] : null,

@@ -87,7 +87,7 @@ class AuthService {
     }
   }
 
-  Future<ResponseAPI> fetchInformation(String token) async {
+  Future<ResponseAPI<DataResponse>> fetchInformation(String token) async {
     try {
       final res = await dioClient.get(
         '$baseURL/api/auth/me',
