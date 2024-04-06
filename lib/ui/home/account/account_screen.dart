@@ -23,8 +23,8 @@ class _AccountState extends State<AccountScreen> {
       {
         'icon': FontAwesomeIcons.solidCircleUser,
         'name': 'Profiles',
-        'route_name': 'student_create_profile_step_01',
-        // 'route_name': 'company_create_profile',
+        // 'route_name': 'student_create_profile_step_01',
+        'route_name': 'company_create_profile',
         // 'route_name': 'company_edit_profile',
       },
       {

@@ -4,6 +4,7 @@ import 'package:studenthub/models/student/student_create_profile/language_model.
 import 'package:studenthub/models/student/student_create_profile/project_model.dart';
 import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
 import 'package:studenthub/models/student/student_create_profile/tech_stack.dart';
+import 'package:studenthub/models/student/student_model.dart';
 
 class StudentCreateProfileState extends Equatable {
   final List<SkillSet> skillset;
@@ -23,7 +24,8 @@ class StudentCreateProfileState extends Equatable {
   });
 
   @override
-  List<Object?> get props => [skillset, isChange, languages, edutcations, projects, teckstacks];
+  List<Object?> get props =>
+      [skillset, isChange, languages, edutcations, projects, teckstacks];
 
   StudentCreateProfileState update({
     List<SkillSet>? skillset,
