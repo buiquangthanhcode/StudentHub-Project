@@ -46,7 +46,8 @@ class ResponseAPI {
 
   String toJson() => json.encode(toMap());
 
-  factory ResponseAPI.fromJson(String source) => ResponseAPI.fromMap(json.decode(source));
+  factory ResponseAPI.fromJson(String source) =>
+      ResponseAPI.fromMap(json.decode(source));
 
   @override
   String toString() => 'ResponseAPI(data: $data, statusCode: $statusCode)';
@@ -55,7 +56,9 @@ class ResponseAPI {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is ResponseAPI && other.data == data && other.statusCode == statusCode;
+    return other is ResponseAPI &&
+        other.data == data &&
+        other.statusCode == statusCode;
   }
 
   @override
@@ -65,7 +68,8 @@ class ResponseAPI {
 class DataResponse {
   String? success;
   String? requestId;
-  dynamic errorDetails; // Because API return errorDetails return String or Array
+  dynamic
+      errorDetails; // Because API return errorDetails return String or Array
   String? stack;
   Result? result;
   // add more attribute here when
@@ -186,8 +190,10 @@ class Result {
     return Result(
         id: map['id'] != null ? map['id'].toInt() : null,
         roles: map['roles'] != null ? List<String>.from(map['roles']) : null,
-        student: map['student'] != null ? Student.fromMap(map['student']) : null,
-        company: map['company'] != null ? Company.fromMap(map['company']) : null,
+        student:
+            map['student'] != null ? Student.fromMap(map['student']) : null,
+        company:
+            map['company'] != null ? Company.fromMap(map['company']) : null,
         token: map['token'] != null ? map['token'] : null);
   }
 

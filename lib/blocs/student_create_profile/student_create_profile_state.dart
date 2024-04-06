@@ -20,7 +20,8 @@ class StudentCreateProfileState extends Equatable {
   });
 
   @override
-  List<Object?> get props => [skillset, isChange, languages, edutcations, projects];
+  List<Object?> get props =>
+      [skillset, isChange, languages, edutcations, projects];
 
   StudentCreateProfileState update({
     List<SkillSet>? skillset,
