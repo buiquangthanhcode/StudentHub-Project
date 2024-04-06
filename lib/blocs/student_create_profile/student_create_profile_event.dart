@@ -7,6 +7,16 @@ import 'package:studenthub/models/student/student_create_profile/skillset_model.
 @immutable
 abstract class StudentCreateProfileEvent {}
 
+class GetAllTeckStackEvent extends StudentCreateProfileEvent {
+  final Function? onSuccess;
+  GetAllTeckStackEvent({this.onSuccess});
+}
+
+class GetAllSkillSetEvent extends StudentCreateProfileEvent {
+  final Function? onSuccess;
+  GetAllSkillSetEvent({this.onSuccess});
+}
+
 class AddSkillSetEvent extends StudentCreateProfileEvent {
   final SkillSet skill;
 
