@@ -40,7 +40,7 @@ class AuthService {
       );
     } on DioException catch (e) {
       logger.e(
-        "DioException :${e.type}",
+        "DioException :${e.response}",
       );
       throw ResponseAPI(
         statusCode: e.response?.statusCode,

@@ -18,8 +18,7 @@ class CompanyProfileEditScreen extends StatefulWidget {
   const CompanyProfileEditScreen({Key? key}) : super(key: key);
 
   @override
-  _PCompanyProfileEditScreenState createState() =>
-      _PCompanyProfileEditScreenState();
+  _PCompanyProfileEditScreenState createState() => _PCompanyProfileEditScreenState();
 }
 
 class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
@@ -102,9 +101,7 @@ class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
                   value: radioButtonSelected!,
                 ),
                 const SizedBox(height: 30),
-                NameInputWidget(
-                    companyNameInputController: companyNameInputController,
-                    checkFormField: checkFormField),
+                NameInputWidget(companyNameInputController: companyNameInputController, checkFormField: checkFormField),
                 const SizedBox(height: 30),
                 UrlInputWidget(
                   websiteInputController: websiteInputController,
@@ -128,23 +125,15 @@ class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
                               UpdateAllDataEvent(
                                   data: Company(
                                     size: radioButtonSelected,
-                                    companyName:
-                                        companyNameInputController.text,
+                                    companyName: companyNameInputController.text,
                                     website: websiteInputController.text,
-                                    description:
-                                        descriptionInputController.text,
+                                    description: descriptionInputController.text,
                                   ),
-                                  id: BlocProvider.of<AuthBloc>(context)
-                                      .state
-                                      .userModel
-                                      .company!
-                                      .id!,
+                                  id: BlocProvider.of<AuthBloc>(context).state.userModel.company!.id!,
                                   onSuccess: () {
                                     SnackBarService.showSnackBar(
-                                        content: 'Successfully!',
-                                        status: StatusSnackBar.success);
-                                    Future.delayed(const Duration(seconds: 2),
-                                        () {
+                                        content: 'Successfully!', status: StatusSnackBar.success);
+                                    Future.delayed(const Duration(seconds: 2), () {
                                       Navigator.pop(context);
                                     });
                                   }),

@@ -10,7 +10,6 @@ import 'package:studenthub/blocs/theme_bloc/theme_bloc.dart';
 import 'package:studenthub/blocs/theme_bloc/theme_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/routes.dart';
-import 'package:studenthub/widgets/snack_bar_config.dart';
 
 GlobalKey<NavigatorState> navigatorKeys = GlobalKey<NavigatorState>(); //  Add by Quang Thanh
 
@@ -42,7 +41,7 @@ class StudentHub extends StatelessWidget {
         BlocProvider<StudentBloc>(
           create: (BuildContext context) => StudentBloc(),
         ),
-                BlocProvider<CompanyBloc>(
+        BlocProvider<CompanyBloc>(
           create: (BuildContext context) => CompanyBloc(),
         ),
         // Add more bloc providers

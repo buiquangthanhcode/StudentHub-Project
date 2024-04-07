@@ -33,7 +33,7 @@ class LanguageItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Text('${item.name}: ${item.level}'),
+          Text('${item.languageName}: ${item.level}'),
           const Spacer(),
           InkWell(
             onTap: () {

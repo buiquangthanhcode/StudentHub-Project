@@ -2,31 +2,31 @@ import 'dart:convert';
 
 class Language {
   String? id;
-  String? name;
+  String? languageName;
   String? level;
   Language({
     this.id,
-    required this.name,
+    required this.languageName,
     required this.level,
   });
 
   Language copyWith({
-    String? name,
+    String? languageName,
     String? level,
   }) {
     return Language(
-      name: name ?? this.name,
+      languageName: languageName ?? this.languageName,
       level: level ?? this.level,
     );
   }
 
   @override
-  String toString() => 'Language(name: $name, level: $level)';
+  String toString() => 'Language(languageName: $languageName, level: $level)';
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
 
-    result.addAll({'name': name});
+    result.addAll({'languageName': languageName});
     result.addAll({'level': level});
 
     return result;
@@ -34,7 +34,7 @@ class Language {
 
   factory Language.fromMap(Map<String, dynamic> map) {
     return Language(
-      name: map['name'] ?? '',
+      languageName: map['languageName'] ?? '',
       level: map['level'] ?? '',
     );
   }
