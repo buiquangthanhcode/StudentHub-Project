@@ -3,12 +3,16 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/core/text_field_custom.dart';
 import 'package:studenthub/core/year_picker_formfield.dart';
 import 'package:studenthub/models/student/student_create_profile/education_model.dart';
+import 'package:studenthub/utils/helper.dart';
+import 'package:studenthub/utils/logger.dart';
+import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class CreateEducationWidget extends StatefulWidget {
   const CreateEducationWidget({super.key});
@@ -40,8 +44,7 @@ class _CreateEducationWidgetState extends State<CreateEducationWidget> {
               const Spacer(),
               Container(
                 decoration: BoxDecoration(
-                    color: theme.colorScheme.grey!.withOpacity(0.4),
-                    borderRadius: BorderRadius.circular(50)),
+                    color: theme.colorScheme.grey!.withOpacity(0.4), borderRadius: BorderRadius.circular(50)),
                 padding: const EdgeInsets.all(3),
                 child: InkWell(
                   onTap: () {
@@ -88,22 +91,31 @@ class _CreateEducationWidgetState extends State<CreateEducationWidget> {
             ),
             onPressed: () {
               if (formkey.currentState?.saveAndValidate() ?? false) {
-                context.read<StudentBloc>().add(
-                      AddEducationEvent(
-                        education: Education(
-                          id: Random().nextInt(1000).toString(),
-                          nameOfSchool: formkey.currentState!
-                              .fields['nameOfSchool']!.value as String,
-                          timeStart:
-                              formkey.currentState!.fields['year_start']!.value,
-                          timeEnd:
-                              formkey.currentState!.fields['year_end']!.value,
-                        ),
-                        onSuccess: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    );
+                logger.d(formkey.currentState!.value);
+                if (int.parse(formkey.currentState!.fields['year_start']!.value) >
+                    int.parse(formkey.currentState!.fields['year_end']!.value)) {
+                  SnackBarService.showSnackBar(
+                      content: "Year start must be less than year end", status: StatusSnackBar.info);
+                } else {
+                  logger.d(formkey.currentState!.value);
+                  // int userId = BlocProvider.of<AuthBloc>(context).state.userModel.student?.id ?? -1;
+                  // List<Education> educations =
+                  //     List<Education>.from(BlocProvider.of<StudentBloc>(context).state.edutcations);
+                  // context.read<StudentBloc>().add(
+                  //       UpdateEducationEvent(
+                  //         userId: userId,
+                  //         educations: educations
+                  //           ..add(Education(
+                  //             schoolName: formkey.currentState!.fields['nameOfSchool']!.value as String,
+                  //             startYear: formkey.currentState!.fields['year_start']!.value,
+                  //             endYear: formkey.currentState!.fields['year_end']!.value,
+                  //           )),
+                  //         onSuccess: () {
+                  //           Navigator.pop(context);
+                  //         },
+                  //       ),
+                  //     );
+                }
               }
             },
             child: Text(

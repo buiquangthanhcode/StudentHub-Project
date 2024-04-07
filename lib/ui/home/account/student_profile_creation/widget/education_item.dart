@@ -35,12 +35,12 @@ class EducationItem extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(item.nameOfSchool ?? ''),
+              Text(item.schoolName ?? ''),
               const SizedBox(
                 height: 5,
               ),
               Text(
-                '${item.timeStart} - ${item.timeEnd}',
+                '${item.startYear} - ${item.endYear}',
                 style: theme.textTheme.bodyMedium!.copyWith(
                   color: theme.colorScheme.grey,
                   fontSize: 15,

@@ -44,7 +44,7 @@ class UserModel {
       photoUrl: photoUrl ?? this.photoUrl,
       roles: roles ?? this.roles,
       token: token ?? this.token,
-      // company: company ?? this.company,
+      company: company ?? this.company,
       student: student ?? this.student,
     );
   }
@@ -68,23 +68,16 @@ class UserModel {
       name: map['name'] != null ? map['name'] as String : null,
       email: map['email'] != null ? map['email'] as String : null,
       photoUrl: map['photoUrl'] != null ? map['photoUrl'] as String : null,
-      roles: map['roles'] != null
-          ? List<int>.from((map['roles'] as List<int>))
-          : null,
+      roles: map['roles'] != null ? List<int>.from((map['roles'] as List<int>)) : null,
       token: map['token'] != null ? map['token'] as String : null,
-      company: map['company'] != null
-          ? Company.fromMap(map['company'] as Map<String, dynamic>)
-          : null,
-      student: map['student'] != null
-          ? Student.fromMap(map['student'] as Map<String, dynamic>)
-          : null,
+      company: map['company'] != null ? Company.fromMap(map['company'] as Map<String, dynamic>) : null,
+      student: map['student'] != null ? Student.fromMap(map['student'] as Map<String, dynamic>) : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory UserModel.fromJson(String source) =>
-      UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
