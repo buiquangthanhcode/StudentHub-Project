@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
-import 'package:studenthub/blocs/company_bloc/company_create_profile_event.dart';
+// import 'package:studenthub/blocs/company_bloc/company_create_profile_event.dart';
 import 'package:studenthub/blocs/company_bloc/company_event.dart';
 import 'package:studenthub/models/company/company_model.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit/widgets/save_button.dart';

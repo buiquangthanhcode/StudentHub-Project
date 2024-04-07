@@ -116,7 +116,7 @@ class _CompanyProfileCreationScreenState
                         context.read<CompanyBloc>().add(
                               AddAllDataEvent(
                                   data: Company(
-                                    size: 50,
+                                    size: employeeQuantity,
                                     companyName:
                                         companyNameInputController.text,
                                     website: websiteInputController.text,

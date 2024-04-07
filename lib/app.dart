@@ -3,12 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
-<<<<<<< HEAD
 import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
-import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
-=======
+// import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
->>>>>>> Phasing-02
 import 'package:studenthub/blocs/theme_bloc/theme_bloc.dart';
 import 'package:studenthub/blocs/theme_bloc/theme_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
