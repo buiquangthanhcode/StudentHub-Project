@@ -1,8 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
@@ -77,16 +76,21 @@ class _CreateLanguageWidgetState extends State<CreateLanguageWidget> {
             ),
             onPressed: () {
               if (formkey.currentState?.saveAndValidate() ?? false) {
-                final languages = Language(
+                int userId = BlocProvider.of<AuthBloc>(context).state.userModel.student?.id ?? -1;
+                List<Language> languages = List<Language>.from(BlocProvider.of<StudentBloc>(context).state.languages);
+
+                final language = Language(
                   languageName: formkey.currentState?.fields['language']?.value,
                   level: formkey.currentState?.fields['level']?.value,
                 );
 
                 context.read<StudentBloc>().add(UpdateLanguageEvent(
-                    languages: [languages],
+                    languages: languages..add(language),
+                    userId: userId,
                     onSuccess: () {
                       SnackBarService.showSnackBar(content: "Create Sucessfully", status: StatusSnackBar.success);
                       Navigator.pop(context);
+                      context.read<StudentBloc>().add(GetAllLanguageEvent(onSuccess: () {}, userId: userId));
                     }));
               }
             },

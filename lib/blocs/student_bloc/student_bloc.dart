@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/blocs/student_bloc/student_state.dart';
+import 'package:studenthub/data/dto/student/request_update_education.dart';
 import 'package:studenthub/data/dto/student/request_update_language.dart';
 import 'package:studenthub/models/student/student_create_profile/education_model.dart';
 import 'package:studenthub/models/student/student_create_profile/language_model.dart';
@@ -29,6 +30,8 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     on<GetAllTeckStackEvent>(_onGetAllTeckStack);
     on<RemoveSkillSetEvent>(_onRemoveSkillSet);
     on<AddLanguageEvent>(_onAddLanguage);
+    on<GetAllLanguageEvent>(_onGetAllLanguage);
+    on<GetAllEducationEvent>(_onGetAllEducation);
     on<RemoveLanguageEvent>(_onRemoveLanguage);
     on<UpdateLanguageEvent>(_onUpdateLanguage);
     on<AddEducationEvent>(_onAddEducation);
@@ -49,11 +52,48 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     }
   }
 
+  FutureOr<void> _onGetAllLanguage(GetAllLanguageEvent event, Emitter<StudentState> emit) async {
+    try {
+      EasyLoading.show(status: 'loading');
+      final response = await studentService.getAllLanguage(event.userId);
+      if (response.statusCode! <= 200) {
+        emit(state.update(languages: response.data ?? []));
+        event.onSuccess!();
+        EasyLoading.dismiss();
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      logger.e(e);
+    }
+  }
+
   FutureOr<void> _onGetAllSkillSet(GetAllSkillSetEvent event, Emitter<StudentState> emit) async {
-    final response = await studentService.getAllSkillSet();
-    if (response.statusCode! <= 200) {
-      emit(state.update(skillset: response.data ?? []));
-      event.onSuccess!();
+    try {
+      EasyLoading.show(status: 'loading');
+      final response = await studentService.getAllSkillSet();
+      if (response.statusCode! <= 200) {
+        emit(state.update(skillset: response.data ?? []));
+        event.onSuccess!();
+        EasyLoading.dismiss();
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      logger.e(e);
+    }
+  }
+
+  FutureOr<void> _onGetAllEducation(GetAllEducationEvent event, Emitter<StudentState> emit) async {
+    try {
+      EasyLoading.show(status: 'loading');
+      final response = await studentService.getAllEducation(event.id);
+      if (response.statusCode! <= 200) {
+        emit(state.update(edutcations: response.data ?? []));
+        event.onSuccess!();
+        EasyLoading.dismiss();
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      logger.e(e);
     }
   }
 
@@ -91,7 +131,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     try {
       EasyLoading.show(status: 'loading');
       RequestUpdateLanguage requestUpdateLanguage = RequestUpdateLanguage(
-        userid: '1',
+        userid: event.userId,
         languages: event.languages,
       );
       final response = await studentService.updateLanguage(requestUpdateLanguage);
@@ -124,11 +164,21 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
   }
 
   FutureOr<void> _onUpdateEducation(UpdateEducationEvent event, Emitter<StudentState> emit) async {
-    // Clone skill set and then update state
-    final List<Education> newEducation = List<Education>.from(state.edutcations);
-    newEducation[newEducation.indexWhere((element) => element.id == event.education.id)] = event.education;
-    emit(state.update(edutcations: newEducation));
-    event.onSuccess!();
+    try {
+      EasyLoading.show(status: 'loading');
+      RequestUpdateEducation requestUpdateEducation = RequestUpdateEducation(
+        userid: event.userId,
+        educations: event.educations,
+      );
+      final response = await studentService.updateEducation(requestUpdateEducation);
+      if (response.statusCode! <= 200) {
+        emit(state.update(edutcations: event.educations));
+        event.onSuccess!();
+        EasyLoading.dismiss();
+      }
+    } catch (e) {
+      logger.e(e);
+    }
   }
 
   FutureOr<void> _onAddProject(AddProjectEvent event, Emitter<StudentState> emit) async {

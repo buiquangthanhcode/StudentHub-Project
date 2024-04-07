@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:studenthub/models/student/student_create_profile/language_model.dart';
 
 class RequestUpdateLanguage {
-  String userid;
+  int userid;
   List<Language> languages;
   RequestUpdateLanguage({
     required this.userid,
@@ -13,7 +13,7 @@ class RequestUpdateLanguage {
   });
 
   RequestUpdateLanguage copyWith({
-    String? userid,
+    int? userid,
     List<Language>? languages,
   }) {
     return RequestUpdateLanguage(

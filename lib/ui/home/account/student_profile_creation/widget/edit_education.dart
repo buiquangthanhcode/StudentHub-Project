@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
@@ -44,8 +45,7 @@ class _EditEducationState extends State<EducationEdit> {
               const Spacer(),
               Container(
                 decoration: BoxDecoration(
-                    color: theme.colorScheme.grey!.withOpacity(0.4),
-                    borderRadius: BorderRadius.circular(50)),
+                    color: theme.colorScheme.grey!.withOpacity(0.4), borderRadius: BorderRadius.circular(50)),
                 padding: const EdgeInsets.all(3),
                 child: InkWell(
                   onTap: () {
@@ -66,7 +66,7 @@ class _EditEducationState extends State<EducationEdit> {
             ),
             name: 'nameOfSchool',
             hintText: 'Name of School',
-            initialValue: widget.item.nameOfSchool,
+            initialValue: widget.item.schoolName,
             fillColor: Colors.white,
             style: TextStyle(
               color: Colors.grey[600],
@@ -77,7 +77,7 @@ class _EditEducationState extends State<EducationEdit> {
           PickerYearCustom(
             name: 'year_start',
             hintText: "Year Start",
-            initValue: parseYearToDateTime(widget.item.timeStart ?? ''),
+            initValue: parseYearToDateTime(widget.item.startYear ?? ''),
             labelText: 'Year Start',
           ),
           const SizedBox(height: 10),
@@ -85,7 +85,7 @@ class _EditEducationState extends State<EducationEdit> {
             name: 'year_end',
             hintText: "Year End",
             labelText: 'Year End',
-            initValue: parseYearToDateTime(widget.item.timeEnd ?? ''),
+            initValue: parseYearToDateTime(widget.item.endYear ?? ''),
           ),
           const SizedBox(height: 10),
           ElevatedButton(
@@ -95,17 +95,18 @@ class _EditEducationState extends State<EducationEdit> {
             ),
             onPressed: () {
               if (formkey.currentState?.saveAndValidate() ?? false) {
+                int userId = BlocProvider.of<AuthBloc>(context).state.userModel.student?.id ?? -1;
+                List<Education> educations =
+                    List<Education>.from(BlocProvider.of<StudentBloc>(context).state.edutcations);
                 context.read<StudentBloc>().add(
                       UpdateEducationEvent(
-                        education: Education(
-                          id: widget.item.id,
-                          nameOfSchool: formkey.currentState!
-                              .fields['nameOfSchool']!.value as String,
-                          timeStart:
-                              formkey.currentState!.fields['year_start']!.value,
-                          timeEnd:
-                              formkey.currentState!.fields['year_end']!.value,
-                        ),
+                        userId: userId,
+                        educations: educations
+                          ..add(Education(
+                            schoolName: formkey.currentState!.fields['nameOfSchool']!.value as String,
+                            startYear: formkey.currentState!.fields['year_start']!.value,
+                            endYear: formkey.currentState!.fields['year_end']!.value,
+                          )),
                         onSuccess: () {
                           Navigator.pop(context);
                         },

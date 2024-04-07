@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
@@ -75,11 +76,13 @@ class _LanguageEditState extends State<LanguageEdit> {
             ),
             onPressed: () {
               if (formkey.currentState?.saveAndValidate() ?? false) {
+                int userId = BlocProvider.of<AuthBloc>(context).state.userModel.student?.id ?? 0;
                 Language itemUpdate = Language(
                     id: widget.item.id,
                     languageName: formkey.currentState?.fields['language']?.value,
                     level: formkey.currentState?.fields['level']?.value);
                 BlocProvider.of<StudentBloc>(context).add(UpdateLanguageEvent(
+                    userId: userId,
                     languages: [],
                     onSuccess: () {
                       Navigator.pop(context);

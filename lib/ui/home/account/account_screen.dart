@@ -27,10 +27,12 @@ class _AccountState extends State<AccountScreen> {
       {
         'icon': FontAwesomeIcons.solidCircleUser,
         'name': 'Profiles',
-        // 'route_name': 'student_create_profile_step_01',
         'route_name': (userModel.company == null && userModel.student == null)
-            ? 'company_create_profile'
-            : 'company_edit_profile',
+            ? 'student_create_profile_step_01'
+            : 'student_create_profile_step_01',
+        // 'route_name': (userModel.company == null && userModel.student == null)
+        //     ? 'company_create_profile'
+        //     : 'company_edit_profile',
       },
       {
         'icon': FontAwesomeIcons.gears,
