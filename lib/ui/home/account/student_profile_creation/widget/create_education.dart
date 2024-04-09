@@ -26,107 +26,86 @@ class _CreateEducationWidgetState extends State<CreateEducationWidget> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final formkey = GlobalKey<FormBuilderState>();
-    return FormBuilder(
-      key: formkey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
+    return SingleChildScrollView(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        color: Colors.white,
+        child: FormBuilder(
+          key: formkey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Create Education",
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
+              TextFieldFormCustom(
+                autofocus: true,
+                icon: const Icon(
+                  Icons.school,
+                ),
+                name: 'nameOfSchool',
+                hintText: 'Name of School',
+                fillColor: Colors.white,
+                style: TextStyle(
+                  color: Colors.grey[600],
+                  fontSize: 16,
                 ),
               ),
-              const Spacer(),
-              Container(
-                decoration: BoxDecoration(
-                    color: theme.colorScheme.grey!.withOpacity(0.4), borderRadius: BorderRadius.circular(50)),
-                padding: const EdgeInsets.all(3),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Icon(
-                    Icons.close,
-                    color: theme.colorScheme.grey,
+              const SizedBox(height: 10),
+              const PickerYearCustom(
+                name: 'year_start',
+                hintText: "Year Start",
+                labelText: 'Year Start',
+              ),
+              const SizedBox(height: 18),
+              const PickerYearCustom(
+                name: 'year_end',
+                hintText: "Year End",
+                labelText: 'Year End',
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  minimumSize: const Size(double.infinity, 56),
+                ),
+                onPressed: () {
+                  if (formkey.currentState?.saveAndValidate() ?? false) {
+                    logger.d(formkey.currentState!.value);
+                    if (int.parse(formkey.currentState!.fields['year_start']!.value) >
+                        int.parse(formkey.currentState!.fields['year_end']!.value)) {
+                      SnackBarService.showSnackBar(
+                          content: "Year start must be less than year end", status: StatusSnackBar.info);
+                    } else {
+                      logger.d(formkey.currentState!.value);
+                      int userId = BlocProvider.of<AuthBloc>(context).state.userModel.student?.id ?? -1;
+                      List<Education> educations =
+                          List<Education>.from(BlocProvider.of<StudentBloc>(context).state.edutcations);
+                      context.read<StudentBloc>().add(
+                            UpdateEducationEvent(
+                              userId: userId,
+                              educations: educations
+                                ..add(Education(
+                                  schoolName: formkey.currentState!.fields['nameOfSchool']!.value as String,
+                                  startYear: int.parse(formkey.currentState!.fields['year_start']!.value),
+                                  endYear: int.parse(formkey.currentState!.fields['year_end']!.value),
+                                )),
+                              onSuccess: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          );
+                    }
+                  }
+                },
+                child: Text(
+                  "Save",
+                  style: theme.textTheme.bodyMedium!.copyWith(
+                    color: theme.colorScheme.onPrimary,
                   ),
                 ),
               ),
+              const SizedBox(height: 16),
             ],
           ),
-          const SizedBox(height: 18),
-          TextFieldFormCustom(
-            icon: const Icon(
-              Icons.school,
-            ),
-            name: 'nameOfSchool',
-            hintText: 'Name of School',
-            fillColor: Colors.white,
-            style: TextStyle(
-              color: Colors.grey[600],
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(height: 10),
-          const PickerYearCustom(
-            name: 'year_start',
-            hintText: "Year Start",
-            labelText: 'Year Start',
-          ),
-          const SizedBox(height: 18),
-          const PickerYearCustom(
-            name: 'year_end',
-            hintText: "Year End",
-            labelText: 'Year End',
-          ),
-          const SizedBox(height: 24),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              elevation: 0,
-              minimumSize: const Size(double.infinity, 56),
-            ),
-            onPressed: () {
-              if (formkey.currentState?.saveAndValidate() ?? false) {
-                logger.d(formkey.currentState!.value);
-                if (int.parse(formkey.currentState!.fields['year_start']!.value) >
-                    int.parse(formkey.currentState!.fields['year_end']!.value)) {
-                  SnackBarService.showSnackBar(
-                      content: "Year start must be less than year end", status: StatusSnackBar.info);
-                } else {
-                  logger.d(formkey.currentState!.value);
-                  // int userId = BlocProvider.of<AuthBloc>(context).state.userModel.student?.id ?? -1;
-                  // List<Education> educations =
-                  //     List<Education>.from(BlocProvider.of<StudentBloc>(context).state.edutcations);
-                  // context.read<StudentBloc>().add(
-                  //       UpdateEducationEvent(
-                  //         userId: userId,
-                  //         educations: educations
-                  //           ..add(Education(
-                  //             schoolName: formkey.currentState!.fields['nameOfSchool']!.value as String,
-                  //             startYear: formkey.currentState!.fields['year_start']!.value,
-                  //             endYear: formkey.currentState!.fields['year_end']!.value,
-                  //           )),
-                  //         onSuccess: () {
-                  //           Navigator.pop(context);
-                  //         },
-                  //       ),
-                  //     );
-                }
-              }
-            },
-            child: Text(
-              "Save",
-              style: theme.textTheme.bodyMedium!.copyWith(
-                color: theme.colorScheme.onPrimary,
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
-        ],
+        ),
       ),
     );
   }

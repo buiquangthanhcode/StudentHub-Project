@@ -77,7 +77,7 @@ class _EditEducationState extends State<EducationEdit> {
           PickerYearCustom(
             name: 'year_start',
             hintText: "Year Start",
-            initValue: parseYearToDateTime(widget.item.startYear ?? ''),
+            initValue: parseYearToDateTime(widget.item.startYear.toString()),
             labelText: 'Year Start',
           ),
           const SizedBox(height: 10),
@@ -85,7 +85,7 @@ class _EditEducationState extends State<EducationEdit> {
             name: 'year_end',
             hintText: "Year End",
             labelText: 'Year End',
-            initValue: parseYearToDateTime(widget.item.endYear ?? ''),
+            initValue: parseYearToDateTime(widget.item.endYear.toString()),
           ),
           const SizedBox(height: 10),
           ElevatedButton(

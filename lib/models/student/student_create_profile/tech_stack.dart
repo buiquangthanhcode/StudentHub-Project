@@ -85,7 +85,7 @@ class TechStack {
 
   @override
   String toString() {
-    return 'TechStack(description: $description, imageUrl: $imageUrl, id: $id, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, name: $name)';
+    return name ?? '';
   }
 
   @override

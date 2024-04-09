@@ -9,25 +9,26 @@ import 'package:studenthub/blocs/student_bloc/student_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/core/dropdown_button_formfield.dart';
+import 'package:studenthub/data/dto/student/request_update_profile_student.dart';
 import 'package:studenthub/models/common/user_model.dart';
+import 'package:studenthub/models/student/student_create_profile/tech_stack.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/autocomplete_widget.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/create_education.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/create_language.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/education_item.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/language_item.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/skillset_item.dart';
+import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/emtyDataWidget.dart';
 
 class StudentProfileCreationStep01Screen extends StatefulWidget {
   const StudentProfileCreationStep01Screen({super.key});
 
   @override
-  State<StudentProfileCreationStep01Screen> createState() =>
-      _StudentProfileCreationStep01State();
+  State<StudentProfileCreationStep01Screen> createState() => _StudentProfileCreationStep01State();
 }
 
-class _StudentProfileCreationStep01State
-    extends State<StudentProfileCreationStep01Screen> {
+class _StudentProfileCreationStep01State extends State<StudentProfileCreationStep01Screen> {
   String? selectedValue;
   late TextEditingController textEditingController;
   late UserModel user;
@@ -40,6 +41,30 @@ class _StudentProfileCreationStep01State
     context.read<StudentBloc>().add(GetAllSkillSetEvent(onSuccess: () {}));
     context.read<StudentBloc>().add(GetAllLanguageEvent(onSuccess: () {}, userId: user.student?.id ?? -1));
     context.read<StudentBloc>().add(GetAllEducationEvent(onSuccess: () {}, id: user.student?.id ?? -1));
+  }
+
+  void _handleChangeTechStack(value) {
+    if (user.student == null) {
+      RequestUpdateProfileStudent profileStudent =
+          RequestUpdateProfileStudent(techStackId: value?.id ?? -1, skillSets: [], userId: -1);
+      context.read<StudentBloc>().add(PostProfileStudent(profileStudent: profileStudent, onSuccess: () {}));
+    } else {
+      RequestUpdateProfileStudent profileStudent =
+          RequestUpdateProfileStudent(techStackId: value?.id ?? -1, skillSets: [], userId: user.student?.id ?? -1);
+      context.read<StudentBloc>().add(UpdateProfileStudent(profileStudent: profileStudent, onSuccess: () {}));
+    }
+  }
+
+  void _handleChangeSkillSet(value) {
+    if (user.student == null) {
+      RequestUpdateProfileStudent profileStudent =
+          RequestUpdateProfileStudent(techStackId: value?.id ?? -1, skillSets: [], userId: -1);
+      context.read<StudentBloc>().add(PostProfileStudent(profileStudent: profileStudent, onSuccess: () {}));
+    } else {
+      RequestUpdateProfileStudent profileStudent =
+          RequestUpdateProfileStudent(techStackId: value?.id ?? -1, skillSets: [], userId: user.student?.id ?? -1);
+      context.read<StudentBloc>().add(UpdateProfileStudent(profileStudent: profileStudent, onSuccess: () {}));
+    }
   }
 
   @override
@@ -96,13 +121,16 @@ class _StudentProfileCreationStep01State
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
                       )),
-                  DropDownFormFieldCustom(
-                      name: "techstack",
-                      data: state.teckstacks.map((e) => e.name ?? '').toList(),
-                      onSaved: (value) {
-                        selectedValue = value.toString();
-                      },
-                      hint: "Please selecte TechStack"),
+                  DropDownFormFieldCustom<TechStack>(
+                    name: "techstack",
+                    data: state.teckstacks,
+                    onChanged: _handleChangeTechStack,
+                    onSaved: (value) {
+                      selectedValue = value.toString();
+                      logger.d(value?.id);
+                    },
+                    hint: "Please selecte TechStack",
+                  ),
                   Text("Skillset",
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontSize: 15,
@@ -125,8 +153,7 @@ class _StudentProfileCreationStep01State
                                       theme: theme,
                                       item: item,
                                     ))
-                                .where((element) =>
-                                    element.item.isSelected == true)
+                                .where((element) => element.item.isSelected == true)
                                 .toList(),
                           );
                         }
@@ -153,15 +180,12 @@ class _StudentProfileCreationStep01State
                                 margin: const EdgeInsets.only(right: 10),
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: theme.colorScheme.grey!),
+                                  border: Border.all(color: theme.colorScheme.grey!),
                                   shape: BoxShape.circle,
                                 ),
                                 child: InkWell(
                                   onTap: () {
-                                    showModalBottomSheetCustom(context,
-                                        widgetBuilder:
-                                            const CreateLanguageWidget());
+                                    showModalBottomSheetCustom(context, widgetBuilder: const CreateLanguageWidget());
                                   },
                                   child: FaIcon(
                                     FontAwesomeIcons.plus,
@@ -220,15 +244,42 @@ class _StudentProfileCreationStep01State
                                 margin: const EdgeInsets.only(right: 10),
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: theme.colorScheme.grey!),
+                                  border: Border.all(color: theme.colorScheme.grey!),
                                   shape: BoxShape.circle,
                                 ),
                                 child: InkWell(
                                   onTap: () {
-                                    showModalBottomSheetCustom(context,
-                                        widgetBuilder:
-                                            const CreateEducationWidget());
+                                    showModalBottomSheetCustom(
+                                      context,
+                                      widgetBuilder: const CreateEducationWidget(),
+                                      headerBuilder: Row(
+                                        children: [
+                                          Text(
+                                            "Create Education",
+                                            style: theme.textTheme.bodyMedium?.copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                                color: theme.colorScheme.grey!.withOpacity(0.4),
+                                                borderRadius: BorderRadius.circular(50)),
+                                            padding: const EdgeInsets.all(3),
+                                            child: InkWell(
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Icon(
+                                                Icons.close,
+                                                color: theme.colorScheme.grey,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
                                   },
                                   child: FaIcon(
                                     FontAwesomeIcons.plus,

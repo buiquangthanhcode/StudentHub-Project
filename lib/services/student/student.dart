@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:studenthub/data/dto/reponse.dart';
 import 'package:studenthub/data/dto/student/request_update_education.dart';
 import 'package:studenthub/data/dto/student/request_update_language.dart';
+import 'package:studenthub/data/dto/student/request_update_profile_student.dart';
 import 'package:studenthub/models/student/student_create_profile/education_model.dart';
 import 'package:studenthub/models/student/student_create_profile/language_model.dart';
 import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
@@ -36,6 +37,60 @@ class StudentService {
         "DioException :${e.response}",
       );
       throw ResponseAPI<List<TechStack>>(
+        statusCode: e.response?.statusCode,
+        data: [],
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
+
+  Future<ResponseAPI> postProfileStudent(RequestUpdateProfileStudent profile) async {
+    try {
+      final res = await dioClient.post(
+        '$baseURL/api/profile/student',
+        data: profile.toJson(),
+      );
+
+      logger.d(res);
+
+      return ResponseAPI(
+        statusCode: res.statusCode,
+        data: [],
+      );
+    } on DioException catch (e) {
+      logger.e(
+        "DioException :${e.response}",
+      );
+      throw ResponseAPI(
+        statusCode: e.response?.statusCode,
+        data: [],
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
+
+  Future<ResponseAPI> updateProfileStudent(RequestUpdateProfileStudent profile) async {
+    try {
+      final res = await dioClient.put(
+        '$baseURL/api/profile/student/${profile.userId}',
+        data: profile.toJson(),
+      );
+
+      logger.d(res);
+
+      return ResponseAPI(
+        statusCode: res.statusCode,
+        data: [],
+      );
+    } on DioException catch (e) {
+      logger.e(
+        "DioException :${e.response}",
+      );
+      throw ResponseAPI(
         statusCode: e.response?.statusCode,
         data: [],
       );

@@ -40,6 +40,8 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     on<AddProjectEvent>(_onAddProject);
     on<UpdateProjectEvent>(_onUpdateProject);
     on<RemoveProjectEvents>(_onRemoveProject);
+    on<PostProfileStudent>(_onPostProfileStudent);
+    on<UpdateProfileStudent>(_onUpdateProfileStudent);
   }
 
   StudentService studentService = StudentService();
@@ -49,6 +51,38 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     if (response.statusCode! <= 200) {
       emit(state.update(teckstacks: response.data ?? []));
       event.onSuccess!();
+    }
+  }
+
+  FutureOr<void> _onPostProfileStudent(PostProfileStudent event, Emitter<StudentState> emit) async {
+    try {
+      EasyLoading.show(status: 'loading');
+      final response = await studentService.postProfileStudent(event.profileStudent);
+      if (response.statusCode! <= 200) {
+        event.onSuccess!();
+        EasyLoading.dismiss();
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      logger.e(e);
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
+
+  FutureOr<void> _onUpdateProfileStudent(UpdateProfileStudent event, Emitter<StudentState> emit) async {
+    try {
+      EasyLoading.show(status: 'loading');
+      final response = await studentService.updateProfileStudent(event.profileStudent);
+      if (response.statusCode! <= 200) {
+        event.onSuccess!();
+        EasyLoading.dismiss();
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      logger.e(e);
+    } finally {
+      EasyLoading.dismiss();
     }
   }
 
@@ -165,7 +199,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
 
   FutureOr<void> _onUpdateEducation(UpdateEducationEvent event, Emitter<StudentState> emit) async {
     try {
-      EasyLoading.show(status: 'loading');
+      EasyLoading.show(status: 'Loading');
       RequestUpdateEducation requestUpdateEducation = RequestUpdateEducation(
         userid: event.userId,
         educations: event.educations,
@@ -177,6 +211,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
         EasyLoading.dismiss();
       }
     } catch (e) {
+      EasyLoading.dismiss();
       logger.e(e);
     }
   }
