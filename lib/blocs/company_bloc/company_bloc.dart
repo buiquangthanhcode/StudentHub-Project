@@ -60,6 +60,8 @@ class CompanyBloc extends Bloc<CompanyEvent, CompanyState> {
           await _companyService.updateInformation(event.data, event.id);
 
       if (result.statusCode! < 300) {
+        emit(CompanyState(
+            company: Company.fromMap(result.data.resultMap.toMap())));
         event.onSuccess!();
       } else {
         SnackBarService.showSnackBar(
