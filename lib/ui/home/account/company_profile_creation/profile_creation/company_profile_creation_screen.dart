@@ -2,8 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
 import 'package:studenthub/blocs/company_bloc/company_event.dart';
+import 'package:studenthub/models/common/user_model.dart';
 import 'package:studenthub/models/company/company_model.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/widgets/continue_button.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/widgets/describe_input_widget.dart';
@@ -65,80 +69,88 @@ class _CompanyProfileCreationScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(50),
-        child: AppBar(
-            // title: Text(
-            //   'Profile',
-            //   style: TextStyle(fontWeight: FontWeight.w500),
-            // ),
-            // centerTitle: false,
-            ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 10),
-                TitleWidget(),
-                const SizedBox(height: 60),
-                EmployeeQuantitySelectionWidget(
-                  chooseEmployeesQuantity: (value) {
-                    employeeQuantity = value;
-                  },
+    return BlocBuilder<AuthBloc, AuthenState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(50),
+            child: AppBar(
+                // title: Text(
+                //   'Profile',
+                //   style: TextStyle(fontWeight: FontWeight.w500),
+                // ),
+                // centerTitle: false,
                 ),
-                SizedBox(height: 30),
-                NameInputWidget(
-                    companyNameInputController: companyNameInputController,
-                    checkFormField: checkFormField),
-                const SizedBox(height: 30),
-                UrlInputWidget(
-                  websiteInputController: websiteInputController,
-                  checkFormField: checkFormField,
+          ),
+          body: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 10),
+                    TitleWidget(),
+                    const SizedBox(height: 60),
+                    EmployeeQuantitySelectionWidget(
+                      chooseEmployeesQuantity: (value) {
+                        employeeQuantity = value;
+                      },
+                    ),
+                    SizedBox(height: 30),
+                    NameInputWidget(
+                        companyNameInputController: companyNameInputController,
+                        checkFormField: checkFormField),
+                    const SizedBox(height: 30),
+                    UrlInputWidget(
+                      websiteInputController: websiteInputController,
+                      checkFormField: checkFormField,
+                    ),
+                    const SizedBox(height: 30),
+                    DescribeInputWidget(
+                      descriptionInputController: descriptionInputController,
+                      checkFormField: checkFormField,
+                    ),
+                    const SizedBox(height: 50),
+                    ContinueButton(
+                        buttonActive: true,
+                        press: () {
+                          if (_formKey.currentState!.validate()) {
+                            context.read<CompanyBloc>().add(
+                                  AddAllDataEvent(
+                                      data: Company(
+                                        size: employeeQuantity,
+                                        companyName:
+                                            companyNameInputController.text,
+                                        website: websiteInputController.text,
+                                        description:
+                                            descriptionInputController.text,
+                                      ),
+                                      onSuccess: (Company company) {
+                                        context.read<AuthBloc>().add(
+                                            UpdateInformationEvent(
+                                                userModel: state.userModel
+                                                    .copyWith(
+                                                        company: company)));
+                                        SnackBarService.showSnackBar(
+                                            content: 'Successfully!',
+                                            status: StatusSnackBar.success);
+                                        Future.delayed(Duration(seconds: 1),
+                                            () {
+                                          Navigator.pop(context);
+                                        });
+                                      }),
+                                );
+                          }
+                        })
+                  ],
                 ),
-                const SizedBox(height: 30),
-                DescribeInputWidget(
-                  descriptionInputController: descriptionInputController,
-                  checkFormField: checkFormField,
-                ),
-                const SizedBox(height: 50),
-                ContinueButton(
-                    buttonActive: true,
-                    press: () {
-                      // Navigator.pop(context);
-                      // context.pushNamed('welcome_screen');
-                      if (_formKey.currentState!.validate()) {
-                        context.read<CompanyBloc>().add(
-                              AddAllDataEvent(
-                                  data: Company(
-                                    size: employeeQuantity,
-                                    companyName:
-                                        companyNameInputController.text,
-                                    website: websiteInputController.text,
-                                    description:
-                                        descriptionInputController.text,
-                                  ),
-                                  onSuccess: () {
-                                    SnackBarService.showSnackBar(
-                                        content: 'Successfully!',
-                                        status: StatusSnackBar.success);
-                                    Future.delayed(Duration(seconds: 2), () {
-                                      Navigator.pop(context);
-                                    });
-                                  }),
-                            );
-                      }
-                    })
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

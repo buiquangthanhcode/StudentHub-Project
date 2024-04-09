@@ -17,16 +17,21 @@ class GetAllDataEvent extends CompanyEvent {
 
 class AddAllDataEvent extends CompanyEvent {
   final Company data;
-  final Function? onSuccess;
+  final Function(Company company)? onSuccess;
   AddAllDataEvent({required this.data, required this.onSuccess});
 }
 
 class UpdateAllDataEvent extends CompanyEvent {
   final Company data;
   final int id;
-  final Function? onSuccess;
+  final Function(Company company)? onSuccess;
   UpdateAllDataEvent(
       {required this.id, required this.data, required this.onSuccess});
+}
+
+class UpdateNewCompanyProfileEvent extends CompanyEvent {
+  final Company newCompany;
+  UpdateNewCompanyProfileEvent(this.newCompany);
 }
 
 class SetEmployeeQuantityEvent extends CompanyEvent {

@@ -30,10 +30,8 @@ class CompanyBloc extends Bloc<CompanyEvent, CompanyState> {
       AddAllDataEvent event, Emitter<CompanyState> emit) async {
     try {
       ResponseAPI result = await _companyService.addInformation(event.data);
-
       if (result.statusCode! < 300) {
-        // emit(AuthenState(userModel: UserModel.fromJson(result.data!.result!.toJson())));
-        event.onSuccess!();
+        event.onSuccess!(result.data);
       } else {
         SnackBarService.showSnackBar(
             content: handleFormatMessage(result.data!.errorDetails),
@@ -60,9 +58,7 @@ class CompanyBloc extends Bloc<CompanyEvent, CompanyState> {
           await _companyService.updateInformation(event.data, event.id);
 
       if (result.statusCode! < 300) {
-        emit(CompanyState(
-            company: Company.fromMap(result.data.resultMap.toMap())));
-        event.onSuccess!();
+        event.onSuccess!(result.data);
       } else {
         SnackBarService.showSnackBar(
             content: handleFormatMessage(result.data!.errorDetails),
@@ -109,4 +105,5 @@ class CompanyBloc extends Bloc<CompanyEvent, CompanyState> {
       EasyLoading.dismiss();
     }
   }
+
 }

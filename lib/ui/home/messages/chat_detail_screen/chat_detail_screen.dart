@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_null_comparison
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -111,6 +112,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
   final messageController = TextEditingController();
   final FocusNode _messageFocus = FocusNode();
+  final scrollController = ScrollController();
 
   @override
   void initState() {
@@ -119,6 +121,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     //   showWelcomeDialog(context);
     // });
     super.initState();
+  }
+
+  void _scrollDown() {
+    scrollController.animateTo(
+      scrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 100),
+      curve: Curves.fastOutSlowIn,
+    );
   }
 
   @override
@@ -131,6 +141,13 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
   void _onFocusChange() {
     setState(() {});
+  }
+
+  String getCurrentTime() {
+    DateTime now = DateTime.now(); // Lấy thời gian hiện tại
+    String formattedTime =
+        DateFormat('HH:mm').format(now); // Định dạng thời gian thành giờ:phút
+    return formattedTime;
   }
 
   @override
@@ -179,7 +196,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           widgetBuilder: MoreActionChatDetail(
                         callBack: (value) {
                           setState(() {
-                            messagesData.add({
+                            messagesData.insert(0, {
                               'isMe': true,
                               'isSchedule': true,
                               'start_date': value['start_date'],
@@ -219,10 +236,12 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               FocusScope.of(context).requestFocus(FocusNode());
             },
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 54),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 72),
               child: ListView.builder(
+                controller: scrollController,
                 shrinkWrap: true,
                 itemCount: messagesData.length,
+                reverse: true,
                 itemBuilder: (context, index) => messagesData[index]['isMe']
                         as bool
                     ? Builder(builder: (context) {
@@ -239,7 +258,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                 constraints: BoxConstraints(
                                     maxWidth: screenSize.width * 0.7),
                                 margin: EdgeInsets.only(
-                                    bottom: index + 1 < messagesData.length
+                                    top: index + 1 < messagesData.length
                                         ? (messagesData[index + 1]['isMe']
                                                 as bool)
                                             ? 3
@@ -388,7 +407,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                             constraints: BoxConstraints(
                                 maxWidth: screenSize.width * 0.65),
                             margin: EdgeInsets.only(
-                                bottom: index + 1 < messagesData.length
+                                top: index + 1 < messagesData.length
                                     ? !(messagesData[index + 1]['isMe'] as bool)
                                         ? 3
                                         : 15
@@ -453,6 +472,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                             setState(() {});
                           }
                         },
+                        controller: messageController,
                         keyboardType: TextInputType.multiline,
                         maxLines: 3,
                         minLines: 1,
@@ -509,7 +529,21 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           shape: const CircleBorder(),
                           padding: const EdgeInsets.fromLTRB(8, 8, 10, 10),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          messagesData.insert(
+                            0,
+                            {
+                              'isMe': true,
+                              'time': getCurrentTime,
+                              'content': messageController.text,
+                            },
+                          );
+                          messageController.clear();
+                          // _scrollDown();
+                          // scrollController.jumpTo(
+                          //     scrollController.position.maxScrollExtent);
+                          setState(() {});
+                        },
                         child: const FaIcon(
                           FontAwesomeIcons.solidPaperPlane,
                           size: 20,

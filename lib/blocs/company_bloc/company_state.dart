@@ -12,4 +12,12 @@ class CompanyState extends Equatable {
 
   @override
   List<Object?> get props => [company];
+
+  CompanyState updateNewCompanyProfle({
+    Company? company,
+  }) {
+    return CompanyState(
+      company: company ?? this.company,
+    );
+  }
 }
