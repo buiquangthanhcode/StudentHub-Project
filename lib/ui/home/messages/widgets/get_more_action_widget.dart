@@ -27,7 +27,7 @@ class MoreActionChatDetail extends StatelessWidget {
     return ListView.separated(
       separatorBuilder: (context, index) {
         return Container(
-          margin: const EdgeInsets.symmetric(vertical: 10),
+          margin: const EdgeInsets.only(top: 6),
           height: 1,
           color: theme.colorScheme.grey!.withOpacity(0.1),
         );

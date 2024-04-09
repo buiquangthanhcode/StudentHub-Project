@@ -41,9 +41,7 @@ class _UrlInputWidgetState extends State<UrlInputWidget> {
             widget.checkFormField();
           },
           validator: (value) {
-            if (value == null ||
-                value.isEmpty ||
-                !Uri.parse(value).isAbsolute) {
+            if (value == null || value.isEmpty) {
               return 'Your website address is invalid.';
             }
             return null;

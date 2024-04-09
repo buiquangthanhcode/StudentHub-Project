@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/blocs/student_bloc/student_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/core/dropdown_button_formfield.dart';
+import 'package:studenthub/models/common/user_model.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/autocomplete_widget.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/create_education.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/create_language.dart';
@@ -28,12 +30,16 @@ class _StudentProfileCreationStep01State
     extends State<StudentProfileCreationStep01Screen> {
   String? selectedValue;
   late TextEditingController textEditingController;
+  late UserModel user;
 
   @override
   void initState() {
     super.initState();
+    user = BlocProvider.of<AuthBloc>(context).state.userModel;
     context.read<StudentBloc>().add(GetAllTeckStackEvent(onSuccess: () {}));
     context.read<StudentBloc>().add(GetAllSkillSetEvent(onSuccess: () {}));
+    context.read<StudentBloc>().add(GetAllLanguageEvent(onSuccess: () {}, userId: user.student?.id ?? -1));
+    context.read<StudentBloc>().add(GetAllEducationEvent(onSuccess: () {}, id: user.student?.id ?? -1));
   }
 
   @override

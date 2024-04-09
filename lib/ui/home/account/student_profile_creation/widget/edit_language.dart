@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
@@ -59,7 +60,7 @@ class _LanguageEditState extends State<LanguageEdit> {
             name: 'language',
             onSelected: (value) {},
             hint: "Please selecte Language",
-            initValue: widget.item.name,
+            initValue: widget.item.languageName,
           ),
           DropDownFormFieldCustom(
             name: 'level',
@@ -75,12 +76,14 @@ class _LanguageEditState extends State<LanguageEdit> {
             ),
             onPressed: () {
               if (formkey.currentState?.saveAndValidate() ?? false) {
+                int userId = BlocProvider.of<AuthBloc>(context).state.userModel.student?.id ?? 0;
                 Language itemUpdate = Language(
                     id: widget.item.id,
-                    name: formkey.currentState?.fields['language']?.value,
+                    languageName: formkey.currentState?.fields['language']?.value,
                     level: formkey.currentState?.fields['level']?.value);
                 BlocProvider.of<StudentBloc>(context).add(UpdateLanguageEvent(
-                    language: itemUpdate,
+                    userId: userId,
+                    languages: [],
                     onSuccess: () {
                       Navigator.pop(context);
                     }));

@@ -9,5 +9,13 @@ class AuthenState extends Equatable {
   final UserModel userModel;
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [userModel];
+
+  AuthenState update({
+    UserModel? userModel,
+  }) {
+    return AuthenState(
+      userModel: userModel ?? this.userModel,
+    );
+  }
 }

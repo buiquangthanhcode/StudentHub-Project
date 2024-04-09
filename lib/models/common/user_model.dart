@@ -1,101 +1,112 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
+import 'package:studenthub/models/company/company_model.dart';
+import 'package:studenthub/models/student/student_model.dart';
+
 class UserModel {
-  String? id;
-  String? name;
+  int? id;
+  String? fullname;
   String? email;
   String? photoUrl;
-  String? role;
+  List<int>? roles;
   String? token;
-  // Add more here according template
+  Company? company;
+  Student? student;
 
   UserModel({
     this.id,
-    this.name,
+    this.fullname,
     this.email,
     this.photoUrl,
-    this.role,
+    this.roles,
     this.token,
+    this.company,
+    this.student,
   });
 
   UserModel copyWith({
-    String? id,
-    String? name,
+    int? id,
+    String? fullname,
     String? email,
     String? photoUrl,
-    String? role,
+    List<int>? roles,
     String? token,
+    Company? company,
+    Student? student,
   }) {
     return UserModel(
       id: id ?? this.id,
-      name: name ?? this.name,
+      fullname: fullname ?? this.fullname,
       email: email ?? this.email,
       photoUrl: photoUrl ?? this.photoUrl,
-      role: role ?? this.role,
+      roles: roles ?? this.roles,
       token: token ?? this.token,
+      company: company ?? this.company,
+      student: student ?? this.student,
     );
   }
 
   Map<String, dynamic> toMap() {
-    final result = <String, dynamic>{};
-
-    if (id != null) {
-      result.addAll({'id': id});
-    }
-    if (name != null) {
-      result.addAll({'name': name});
-    }
-    if (email != null) {
-      result.addAll({'email': email});
-    }
-    if (photoUrl != null) {
-      result.addAll({'photoUrl': photoUrl});
-    }
-    if (role != null) {
-      result.addAll({'role': role});
-    }
-    if (token != null) {
-      result.addAll({'token': token});
-    }
-
-    return result;
+    return <String, dynamic>{
+      'id': id,
+      'fullname': fullname,
+      'email': email,
+      'photoUrl': photoUrl,
+      'roles': roles,
+      'token': token,
+      'company': company?.toMap(),
+      'student': student?.toMap(),
+    };
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      id: map['id'],
-      name: map['name'],
-      email: map['email'],
-      photoUrl: map['photoUrl'],
-      role: map['role'],
-      token: map['token'],
+      id: map['id'] != null ? map['id'] as int : null,
+      fullname: map['fullname'] != null ? map['fullname'] as String : null,
+      email: map['email'] != null ? map['email'] as String : null,
+      photoUrl: map['photoUrl'] != null ? map['photoUrl'] as String : null,
+      roles: map['roles'] != null ? List<int>.from((map['roles'] as List<int>)) : null,
+      token: map['token'] != null ? map['token'] as String : null,
+      company: map['company'] != null ? Company.fromMap(map['company'] as Map<String, dynamic>) : null,
+      student: map['student'] != null ? Student.fromMap(map['student'] as Map<String, dynamic>) : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source));
+  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'UserModel(id: $id, name: $name, email: $email, photoUrl: $photoUrl, role: $role, token: $token)';
+    return 'UserModel(id: $id, fullname: $fullname, email: $email, photoUrl: $photoUrl, roles: $roles, token: $token, student: $student)';
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(covariant UserModel other) {
     if (identical(this, other)) return true;
 
-    return other is UserModel &&
-        other.id == id &&
-        other.name == name &&
+    return other.id == id &&
+        other.fullname == fullname &&
         other.email == email &&
         other.photoUrl == photoUrl &&
-        other.role == role &&
-        other.token == token;
+        listEquals(other.roles, roles) &&
+        other.token == token &&
+        other.company == company &&
+        other.student == student;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^ name.hashCode ^ email.hashCode ^ photoUrl.hashCode ^ role.hashCode ^ token.hashCode;
+    return id.hashCode ^
+        fullname.hashCode ^
+        email.hashCode ^
+        photoUrl.hashCode ^
+        roles.hashCode ^
+        token.hashCode ^
+        company.hashCode ^
+        student.hashCode;
   }
 }

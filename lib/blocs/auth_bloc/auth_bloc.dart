@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -21,6 +20,7 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
     on<LoginEvent>(_onLogin);
     on<RegisterAccount>(_onRegisterAccount);
     on<GetInformationEvent>(_onFetchInformation);
+    on<UpdateInformationEvent>(_onUpdateInformation);
   }
 
   final AuthService _authenService = AuthService();
@@ -32,7 +32,10 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
           await _authenService.fetchInformation(event.accessToken);
 
       if (result.statusCode! < 300) {
-        // emit(AuthenState(userModel: UserModel.fromJson(result.data!.result!.toJson())));
+        logger.i(UserModel.fromMap(result.data.resultMap.toMap()));
+        emit(AuthenState(
+            userModel: UserModel.fromMap(result.data.resultMap.toMap())));
+
         event.onSuccess!(); // Call onSuccessCallBack
       } else {
         SnackBarService.showSnackBar(
@@ -50,6 +53,16 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
           status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();
+    }
+  }
+
+  FutureOr<void> _onUpdateInformation(
+      UpdateInformationEvent event, Emitter<AuthenState> emit) async {
+    try {
+      logger.d('data update: ${event.userModel.company}');
+      emit(AuthenState(userModel: event.userModel));
+    } catch (e) {
+      logger.e(e);
     }
   }
 
@@ -107,10 +120,9 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
       }
       EasyLoading.dismiss();
     } catch (e) {
-      ResponseAPI i = e as ResponseAPI;
-      logger.e("Unexpected error -> ${i.data!.errorDetails}");
+      logger.e("Unexpect error-> $e");
       SnackBarService.showSnackBar(
-          content: handleFormatMessage(i.data!.errorDetails),
+          content: handleFormatMessage(e.toString()),
           status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();

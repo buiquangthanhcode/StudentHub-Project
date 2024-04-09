@@ -71,8 +71,8 @@ class _LoginScreenState extends State<LoginScreen> {
               TextFieldFormCustom(
                 fillColor: Colors.white,
                 name: 'username',
-                hintText: 'Email',
-                initialValue: "buiquangthanh1709@gmail.com",
+                hintText: 'Username',
+                initialValue: "khangkn2211+1@gmail.com",
                 icon: Container(
                   width: 18,
                   height: 18,
@@ -159,23 +159,21 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (_formKeyLogin.currentState?.saveAndValidate() ??
                         false) {
                       logger.d(_formKeyLogin.currentState!.value);
-                      context.pushNamed('home',
-                          queryParameters: {'welcome': 'true'});
-                      // context.read<AuthBloc>().add(
-                      //       LoginEvent(
-                      //           requestLogin: RequestLogin(
-                      //             email: _formKeyLogin
-                      //                 .currentState!.fields['username']!.value
-                      //                 .toString(),
-                      //             password: _formKeyLogin
-                      //                 .currentState!.fields['password']!.value
-                      //                 .toString(),
-                      //           ),
-                      //           onSuccess: () {
-                      //             context.pushNamed('home',
-                      //                 queryParameters: {'welcome': 'true'});
-                      //           }),
-                      //     );
+                      context.read<AuthBloc>().add(
+                            LoginEvent(
+                                requestLogin: RequestLogin(
+                                  email: _formKeyLogin
+                                      .currentState!.fields['username']!.value
+                                      .toString(),
+                                  password: _formKeyLogin
+                                      .currentState!.fields['password']!.value
+                                      .toString(),
+                                ),
+                                onSuccess: () {
+                                  context.pushNamed('home',
+                                      queryParameters: {'welcome': 'true'});
+                                }),
+                          );
                     }
                   },
                   child: Text(

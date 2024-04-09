@@ -40,7 +40,7 @@ class AuthService {
       );
     } on DioException catch (e) {
       logger.e(
-        "DioException :${e.type}",
+        "DioException :${e.response}",
       );
       throw ResponseAPI(
         statusCode: e.response?.statusCode,
@@ -87,7 +87,7 @@ class AuthService {
     }
   }
 
-  Future<ResponseAPI> fetchInformation(String token) async {
+  Future<ResponseAPI<DataResponse>> fetchInformation(String token) async {
     try {
       final res = await dioClient.get(
         '$baseURL/api/auth/me',

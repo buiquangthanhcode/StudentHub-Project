@@ -1,8 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
@@ -42,8 +41,7 @@ class _CreateLanguageWidgetState extends State<CreateLanguageWidget> {
               const Spacer(),
               Container(
                 decoration: BoxDecoration(
-                    color: theme.colorScheme.grey!.withOpacity(0.4),
-                    borderRadius: BorderRadius.circular(50)),
+                    color: theme.colorScheme.grey!.withOpacity(0.4), borderRadius: BorderRadius.circular(50)),
                 padding: const EdgeInsets.all(3),
                 child: InkWell(
                   onTap: () {
@@ -78,18 +76,21 @@ class _CreateLanguageWidgetState extends State<CreateLanguageWidget> {
             ),
             onPressed: () {
               if (formkey.currentState?.saveAndValidate() ?? false) {
-                Language newLanguage = Language(
-                  id: Random().nextInt(1000).toString(),
-                  name: formkey.currentState?.fields['language']?.value,
+                int userId = BlocProvider.of<AuthBloc>(context).state.userModel.student?.id ?? -1;
+                List<Language> languages = List<Language>.from(BlocProvider.of<StudentBloc>(context).state.languages);
+
+                final language = Language(
+                  languageName: formkey.currentState?.fields['language']?.value,
                   level: formkey.currentState?.fields['level']?.value,
                 );
-                context.read<StudentBloc>().add(AddLanguageEvent(
-                    language: newLanguage,
+
+                context.read<StudentBloc>().add(UpdateLanguageEvent(
+                    languages: languages..add(language),
+                    userId: userId,
                     onSuccess: () {
-                      SnackBarService.showSnackBar(
-                          content: "Add Sucessfully",
-                          status: StatusSnackBar.success);
+                      SnackBarService.showSnackBar(content: "Create Sucessfully", status: StatusSnackBar.success);
                       Navigator.pop(context);
+                      context.read<StudentBloc>().add(GetAllLanguageEvent(onSuccess: () {}, userId: userId));
                     }));
               }
             },
