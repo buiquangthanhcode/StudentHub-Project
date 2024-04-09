@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/data/dto/authen/request_login.dart';
 import 'package:studenthub/data/dto/authen/request_register_account.dart';
+import 'package:studenthub/models/common/user_model.dart';
 
 @immutable
 abstract class AuthenEvent {}
@@ -31,4 +32,10 @@ class LogoutEvent extends AuthenEvent {
   final Function? onSuscess;
 
   LogoutEvent({required this.token, required this.onSuscess});
+}
+
+class UpdateInformationEvent extends AuthenEvent {
+  final UserModel userModel;
+
+  UpdateInformationEvent({required this.userModel});
 }

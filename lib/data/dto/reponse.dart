@@ -159,8 +159,15 @@ class ResultMap {
   Student? student;
   Company? company;
   String? token;
+  String? fullname;
 
-  ResultMap({this.id, this.roles, this.student, this.company, this.token});
+  ResultMap(
+      {this.id,
+      this.roles,
+      this.fullname,
+      this.student,
+      this.company,
+      this.token});
 
   ResultMap copyWith({
     int? id,
@@ -168,6 +175,7 @@ class ResultMap {
     Student? student,
     Company? company,
     String? token,
+    String? fullname,
   }) {
     return ResultMap(
       id: id ?? this.id,
@@ -175,6 +183,7 @@ class ResultMap {
       student: student ?? this.student,
       company: company ?? this.company,
       token: token ?? this.token,
+      fullname: fullname ?? this.fullname,
     );
   }
 
@@ -196,6 +205,9 @@ class ResultMap {
     if (token != null) {
       result.addAll({'token': token});
     }
+    if (fullname != null) {
+      result.addAll({'fullname': fullname});
+    }
 
     return result;
   }
@@ -207,6 +219,7 @@ class ResultMap {
       student: map['student'] != null ? Student.fromMap(map['student']) : null,
       company: map['company'] != null ? Company.fromMap(map['company']) : null,
       token: map['token'] != null ? map['token'] : null,
+      fullname: map['fullname'] != null ? map['fullname'] : null,
     );
   }
 
@@ -217,7 +230,7 @@ class ResultMap {
 
   @override
   String toString() {
-    return 'ResultMap(id: $id, roles: $roles, student: $student, company: $company)';
+    return 'ResultMap(id: $id, fullname: $fullname, roles: $roles, student: $student, company: $company)';
   }
 
   @override
