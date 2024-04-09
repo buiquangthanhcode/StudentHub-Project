@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
+// import 'package:studenthub/blocs/company_bloc/company_create_profile_event.dart';
 import 'package:studenthub/blocs/company_bloc/company_event.dart';
+import 'package:studenthub/models/common/user_model.dart';
 import 'package:studenthub/models/company/company_model.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit/widgets/save_button.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit/widgets/describe_input_widget.dart';
@@ -17,7 +21,8 @@ class CompanyProfileEditScreen extends StatefulWidget {
   const CompanyProfileEditScreen({Key? key}) : super(key: key);
 
   @override
-  _PCompanyProfileEditScreenState createState() => _PCompanyProfileEditScreenState();
+  _PCompanyProfileEditScreenState createState() =>
+      _PCompanyProfileEditScreenState();
 }
 
 class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
@@ -77,73 +82,87 @@ class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(50),
-        child: AppBar(),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 10),
-                const TitleWidget(),
-                const SizedBox(height: 70),
-                EmployeeQuantitySelectionWidget(
-                  chooseEmployeeQuantity: (value) {
-                    radioButtonSelected = value;
-                  },
-                  value: radioButtonSelected!,
+    return BlocBuilder<AuthBloc, AuthenState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(50),
+            child: AppBar(),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 10),
+                    const TitleWidget(),
+                    const SizedBox(height: 70),
+                    EmployeeQuantitySelectionWidget(
+                      chooseEmployeeQuantity: (value) {
+                        radioButtonSelected = value;
+                      },
+                      value: radioButtonSelected!,
+                    ),
+                    const SizedBox(height: 30),
+                    NameInputWidget(
+                        companyNameInputController: companyNameInputController,
+                        checkFormField: checkFormField),
+                    const SizedBox(height: 30),
+                    UrlInputWidget(
+                      websiteInputController: websiteInputController,
+                      checkFormField: checkFormField,
+                    ),
+                    const SizedBox(height: 30),
+                    DescribeInputWidget(
+                      descriptionInputController: descriptionInputController,
+                      checkFormField: checkFormField,
+                    ),
+                    const SizedBox(height: 50),
+                    SaveButton(
+                        buttonActive: buttonActive,
+                        press: () {
+                          if (_formKey.currentState!.validate()) {
+                            int id = BlocProvider.of<AuthBloc>(context)
+                                .state
+                                .userModel
+                                .company!
+                                .id!;
+                            context.read<CompanyBloc>().add(
+                                  UpdateAllDataEvent(
+                                      data: Company(
+                                        size: radioButtonSelected,
+                                        companyName:
+                                            companyNameInputController.text,
+                                        website: websiteInputController.text,
+                                        description:
+                                            descriptionInputController.text,
+                                      ),
+                                      id: id,
+                                      onSuccess: (Company company) {
+                                        context.read<AuthBloc>().add(
+                                            UpdateInformationEvent(
+                                                userModel: state.userModel.copyWith(company: company)));
+                                        SnackBarService.showSnackBar(
+                                            content: 'Successfully!',
+                                            status: StatusSnackBar.success);
+                                        Future.delayed(
+                                            const Duration(seconds: 1), () {
+                                          Navigator.pop(context);
+                                        });
+                                      }),
+                                );
+                          }
+                        })
+                  ],
                 ),
-                const SizedBox(height: 30),
-                NameInputWidget(companyNameInputController: companyNameInputController, checkFormField: checkFormField),
-                const SizedBox(height: 30),
-                UrlInputWidget(
-                  websiteInputController: websiteInputController,
-                  checkFormField: checkFormField,
-                ),
-                const SizedBox(height: 30),
-                DescribeInputWidget(
-                  descriptionInputController: descriptionInputController,
-                  checkFormField: checkFormField,
-                ),
-                const SizedBox(height: 50),
-                SaveButton(
-                    buttonActive: buttonActive,
-                    press: () {
-                      print(radioButtonSelected);
-                      print(companyNameInputController.text);
-                      print(websiteInputController.text);
-                      print(descriptionInputController.text);
-                      if (_formKey.currentState!.validate()) {
-                        context.read<CompanyBloc>().add(
-                              UpdateAllDataEvent(
-                                  data: Company(
-                                    size: radioButtonSelected,
-                                    companyName: companyNameInputController.text,
-                                    website: websiteInputController.text,
-                                    description: descriptionInputController.text,
-                                  ),
-                                  id: BlocProvider.of<AuthBloc>(context).state.userModel.company!.id!,
-                                  onSuccess: () {
-                                    SnackBarService.showSnackBar(
-                                        content: 'Successfully!', status: StatusSnackBar.success);
-                                    Future.delayed(const Duration(seconds: 2), () {
-                                      Navigator.pop(context);
-                                    });
-                                  }),
-                            );
-                      }
-                    })
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

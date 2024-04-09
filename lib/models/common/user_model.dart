@@ -8,7 +8,7 @@ import 'package:studenthub/models/student/student_model.dart';
 
 class UserModel {
   int? id;
-  String? name;
+  String? fullname;
   String? email;
   String? photoUrl;
   List<int>? roles;
@@ -18,7 +18,7 @@ class UserModel {
 
   UserModel({
     this.id,
-    this.name,
+    this.fullname,
     this.email,
     this.photoUrl,
     this.roles,
@@ -29,7 +29,7 @@ class UserModel {
 
   UserModel copyWith({
     int? id,
-    String? name,
+    String? fullname,
     String? email,
     String? photoUrl,
     List<int>? roles,
@@ -39,7 +39,7 @@ class UserModel {
   }) {
     return UserModel(
       id: id ?? this.id,
-      name: name ?? this.name,
+      fullname: fullname ?? this.fullname,
       email: email ?? this.email,
       photoUrl: photoUrl ?? this.photoUrl,
       roles: roles ?? this.roles,
@@ -52,7 +52,7 @@ class UserModel {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'name': name,
+      'fullname': fullname,
       'email': email,
       'photoUrl': photoUrl,
       'roles': roles,
@@ -65,7 +65,7 @@ class UserModel {
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       id: map['id'] != null ? map['id'] as int : null,
-      name: map['name'] != null ? map['name'] as String : null,
+      fullname: map['fullname'] != null ? map['fullname'] as String : null,
       email: map['email'] != null ? map['email'] as String : null,
       photoUrl: map['photoUrl'] != null ? map['photoUrl'] as String : null,
       roles: map['roles'] != null ? List<int>.from((map['roles'] as List<int>)) : null,
@@ -81,7 +81,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(id: $id, name: $name, email: $email, photoUrl: $photoUrl, roles: $roles, token: $token, student: $student)';
+    return 'UserModel(id: $id, fullname: $fullname, email: $email, photoUrl: $photoUrl, roles: $roles, token: $token, student: $student)';
   }
 
   @override
@@ -89,7 +89,7 @@ class UserModel {
     if (identical(this, other)) return true;
 
     return other.id == id &&
-        other.name == name &&
+        other.fullname == fullname &&
         other.email == email &&
         other.photoUrl == photoUrl &&
         listEquals(other.roles, roles) &&
@@ -101,7 +101,7 @@ class UserModel {
   @override
   int get hashCode {
     return id.hashCode ^
-        name.hashCode ^
+        fullname.hashCode ^
         email.hashCode ^
         photoUrl.hashCode ^
         roles.hashCode ^
