@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/models/company/company_model.dart';
+import 'package:studenthub/models/common/project_model.dart';
 
 @immutable
 abstract class CompanyEvent {}
@@ -72,4 +73,20 @@ class SetDescriptionEvent extends CompanyEvent {
 class RemoveDescriptionEvent extends CompanyEvent {
   final Function? onSuccess;
   RemoveDescriptionEvent({this.onSuccess});
+}
+
+class GetProjectEvent extends CompanyEvent {
+  final Project newProject;
+  GetProjectEvent(this.newProject);
+}
+
+class UpdateNewProjectEvent extends CompanyEvent {
+  final Project newProject;
+  UpdateNewProjectEvent(this.newProject);
+}
+
+class PostNewProjectEvent extends CompanyEvent {
+  final Project newProject;
+  final Function? onSuccess;
+  PostNewProjectEvent({required this.newProject, this.onSuccess});
 }

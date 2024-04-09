@@ -11,7 +11,8 @@ import 'package:studenthub/blocs/theme_bloc/theme_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/routes.dart';
 
-GlobalKey<NavigatorState> navigatorKeys = GlobalKey<NavigatorState>(); //  Add by Quang Thanh
+GlobalKey<NavigatorState> navigatorKeys =
+    GlobalKey<NavigatorState>(); //  Add by Quang Thanh
 
 class StudentHub extends StatelessWidget {
   const StudentHub({super.key, this.themeStorage});
@@ -59,7 +60,8 @@ class StudentHub extends StatelessWidget {
             title: 'Student Hub',
             theme: state.themeMode == ThemeMode.dark
                 ? AppThemes.darkTheme
-                : AppThemes.lightTheme, // Using state.themeMode to change theme when event is dispatched
+                : AppThemes
+                    .lightTheme, // Using state.themeMode to change theme when event is dispatched
             routerConfig: router,
           );
         },

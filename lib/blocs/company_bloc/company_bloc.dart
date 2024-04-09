@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -8,6 +7,7 @@ import 'package:studenthub/blocs/company_bloc/company_state.dart';
 import 'package:studenthub/data/dto/reponse.dart';
 import 'package:studenthub/models/company/company_model.dart';
 import 'package:studenthub/services/company/company.dart';
+import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
@@ -17,11 +17,14 @@ class CompanyBloc extends Bloc<CompanyEvent, CompanyState> {
       : super(
           CompanyState(
             company: Company(),
+            project: Project(),
           ),
         ) {
     on<AddAllDataEvent>(_onAddAllData);
     on<UpdateAllDataEvent>(_onUpdateAllData);
     on<GetAllDataEvent>(_onGetAllData);
+    on<UpdateNewProjectEvent>(_onUpdateNewProject);
+    on<PostNewProjectEvent>(_onPostNewProject);
   }
 
   final CompanyService _companyService = CompanyService();
@@ -106,4 +109,25 @@ class CompanyBloc extends Bloc<CompanyEvent, CompanyState> {
     }
   }
 
+  FutureOr<void> _onUpdateNewProject(
+      UpdateNewProjectEvent event, Emitter<CompanyState> emit) async {
+    try {
+      emit(state.update(project: event.newProject));
+    } catch (e) {
+      logger.e(e);
+    }
+  }
+
+  FutureOr<void> _onPostNewProject(
+      PostNewProjectEvent event, Emitter<CompanyState> emit) async {
+    try {
+      final response = await _companyService.postNewProject(event.newProject);
+      if (response.statusCode! <= 201) {
+        emit(state.update(project: response.data!));
+        event.onSuccess!();
+      }
+    } catch (e) {
+      logger.e(e);
+    }
+  }
 }

@@ -36,7 +36,7 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
         emit(AuthenState(
             userModel: UserModel.fromMap(result.data.resultMap.toMap())));
 
-        event.onSuscess!(); // Call onSuccessCallBack
+        event.onSuccess!(); // Call onSuccessCallBack
       } else {
         SnackBarService.showSnackBar(
             content: handleFormatMessage(result.data!.errorDetails),
@@ -80,9 +80,9 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
           // for get token and call API me to get more information
           add(GetInformationEvent(
               accessToken: result.data?.resultMap?.token ?? '',
-              onSuscess: () {}));
+              onSuccess: () {}));
         });
-        event.onSuscess!();
+        event.onSuccess!();
       } else {
         SnackBarService.showSnackBar(
             content: handleFormatMessage(result.data!.errorDetails),
@@ -112,7 +112,7 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
       );
       logger.i(result);
       if (result.statusCode! < 300) {
-        event.onSuscess!(); // Call onSuccessCallBack
+        event.onSuccess!(); // Call onSuccessCallBack
       } else {
         SnackBarService.showSnackBar(
             content: handleFormatMessage(result.data!.errorDetails),
