@@ -1,8 +1,6 @@
 # StudentHub Project Demo
-- [Phasing 1]: (https://www.youtube.com/watch?v=QLOXWnngvMs)
-
-
-
+- [Phasing 1 Demo](https://www.youtube.com/watch?v=QLOXWnngvMs)
+  
 # StudentHub Project
 The aim of StudentHub is to create a comprehensive app that facilitates connections between students seeking real-world projects and companies in search of talent to develop their MVP.
 The features include:
