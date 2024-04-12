@@ -11,14 +11,16 @@ final data = [
 List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
   return [
     {
+      "key": "view_proposal",
       "label": "View Proposal",
       "icon": FaIcon(
         FontAwesomeIcons.eye,
         size: 18,
         color: theme.colorScheme.grey!,
-      )
+      ),
     },
     {
+      "key": "view_message",
       "label": "View Message",
       "icon": FaIcon(
         FontAwesomeIcons.message,
@@ -27,6 +29,7 @@ List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
       )
     },
     {
+      "key": "view_hired",
       "label": "View Hired",
       "icon": FaIcon(
         FontAwesomeIcons.user,
@@ -35,6 +38,7 @@ List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
       )
     },
     {
+      "key": "view_job_posting",
       "label": "View Job posting",
       "icon": FaIcon(
         FontAwesomeIcons.eye,
@@ -43,6 +47,7 @@ List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
       )
     },
     {
+      "key": "edit_posting",
       "label": "Edit Posting",
       "icon": FaIcon(
         FontAwesomeIcons.penToSquare,
@@ -51,6 +56,7 @@ List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
       )
     },
     {
+      "key": "remove_posting",
       "label": "Remove Posting",
       "icon": FaIcon(
         FontAwesomeIcons.trashCan,

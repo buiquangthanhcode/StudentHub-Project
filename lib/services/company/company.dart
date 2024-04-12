@@ -156,7 +156,7 @@ class CompanyService {
     }
   }
 
-  Future<ResponseAPI<List<Project>>> getAllProjects(String companyId) async {
+  Future<ResponseAPI<List<Project>>> getAllProjects(int companyId) async {
     try {
       final res = await dioClient.get(
         '$baseURL/api/project/company/${companyId.toString()}',
@@ -174,6 +174,28 @@ class CompanyService {
       throw ResponseAPI<List<Project>>(
         statusCode: e.response?.statusCode,
         data: [],
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
+
+  Future<ResponseAPI> deleteProject(int projectId) async {
+    try {
+      final res = await dioClient.delete(
+        '$baseURL/api/project/$projectId',
+      );
+
+      return ResponseAPI(
+        statusCode: res.statusCode,
+      );
+    } on DioException catch (e) {
+      logger.e(
+        "DioException :${e.response}",
+      );
+      throw ResponseAPI(
+        statusCode: e.response?.statusCode,
       );
     } catch (e) {
       logger.e("Unexpected Error: $e");

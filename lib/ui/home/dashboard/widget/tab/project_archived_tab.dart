@@ -47,7 +47,9 @@ class _ProjectArchivedTabState extends State<ProjectArchivedTab> {
                     GestureDetector(
                       onTap: () {
                         showModalBottomSheetCustom(context,
-                            widgetBuilder: const MoreActionWidget());
+                            widgetBuilder: const MoreActionWidget(
+                              projectId: 0,
+                            ));
                       },
                       child: Container(
                         padding: const EdgeInsets.all(5),

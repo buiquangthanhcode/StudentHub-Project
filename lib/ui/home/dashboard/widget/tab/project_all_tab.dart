@@ -35,7 +35,7 @@ class _ProjectAllTabState extends State<ProjectAllTab> {
     logger.e(id);
     context.read<ProjectBloc>().add(
           GetAllProjectsEvent(
-            companyId: id.toString(),
+            companyId: id!,
           ),
         );
   }
@@ -181,7 +181,9 @@ class ProjectReviewItem extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     showModalBottomSheetCustom(context,
-                        widgetBuilder: const MoreActionWidget());
+                        widgetBuilder: MoreActionWidget(
+                          projectId: item.id!,
+                        ));
                   },
                   child: Container(
                     padding: const EdgeInsets.all(5),
@@ -322,7 +324,9 @@ class ProjectProposalStudent extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     showModalBottomSheetCustom(context,
-                        widgetBuilder: const MoreActionWidget());
+                        widgetBuilder: const MoreActionWidget(
+                          projectId: 0,
+                        ));
                   },
                   child: Container(
                     padding: const EdgeInsets.all(5),
