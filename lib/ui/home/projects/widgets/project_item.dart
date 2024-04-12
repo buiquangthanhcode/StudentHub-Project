@@ -1,15 +1,18 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/models/common/project_model.dart';
 
 class ProjectItem extends StatefulWidget {
   const ProjectItem({
     super.key,
+    required this.project,
     required this.paddingRight,
   });
-
+  final Project project;
   final double paddingRight;
 
   @override
@@ -26,13 +29,21 @@ class _ProjectItemState extends State<ProjectItem> {
     isSaved = false;
   }
 
+  int differentDay(String dateString) {
+    DateFormat format = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    DateTime ngayHienTai = DateTime.now();
+    DateTime ngayDuocCungCap = format.parse(dateString);
+    return ngayHienTai.difference(ngayDuocCungCap).inDays;
+  }
+
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     var colorTheme = Theme.of(context).colorScheme;
     return GestureDetector(
       onTap: () {
-        context.pushNamed('project_detail',queryParameters: {'id':'project_id...'});
+        context.pushNamed('project_detail',
+            queryParameters: {'id': widget.project.id.toString()});
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -51,17 +62,18 @@ class _ProjectItemState extends State<ProjectItem> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Created 3 days ago',
+                        'Created ${differentDay(widget.project.createdAt!)} days ago',
                         style: textTheme.bodySmall!
                             .copyWith(color: colorTheme.grey),
                       ),
                       Text(
-                        'Senior frontend developer (Fintech)',
+                        widget.project.title ??
+                            'Senior frontend developer (Fintech)',
                         style:
                             textTheme.bodySmall!.copyWith(color: primaryColor),
                       ),
                       Text(
-                        'Time: 1-3 months, 6 students needed',
+                        'Time: 1-3 months, ${widget.project.numberOfStudents ?? '0'} students needed',
                         style: textTheme.bodySmall!.copyWith(
                           color: colorTheme.grey,
                         ),
