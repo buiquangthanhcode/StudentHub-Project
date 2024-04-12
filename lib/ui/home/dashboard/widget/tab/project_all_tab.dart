@@ -17,6 +17,7 @@ import 'package:studenthub/ui/home/dashboard/data/data_count.dart';
 import 'package:studenthub/ui/home/dashboard/widget/more_action_widget.dart';
 import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/utils/logger.dart';
+import 'package:studenthub/widgets/emtyDataWidget.dart';
 
 class ProjectAllTab extends StatefulWidget {
   const ProjectAllTab({super.key});
@@ -44,6 +45,18 @@ class _ProjectAllTabState extends State<ProjectAllTab> {
     final theme = Theme.of(context);
     return BlocBuilder<ProjectBloc, ProjectState>(
       builder: (context, state) {
+        if (state.projects.isEmpty) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              EmptyDataWidget(
+                mainTitle: '',
+                subTitle: 'No project working yet.',
+                widthImage: MediaQuery.of(context).size.width * 0.5,
+              ),
+            ],
+          );
+        }
         return Container(
           margin: const EdgeInsets.only(top: 20),
           child: Center(
