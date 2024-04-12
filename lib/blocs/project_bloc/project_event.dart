@@ -6,7 +6,7 @@ import 'package:studenthub/models/common/project_model.dart';
 abstract class ProjectEvent {}
 
 class GetAllProjectsEvent extends ProjectEvent {
-  final String companyId;
+  final int companyId;
   GetAllProjectsEvent({required this.companyId});
 }
 
@@ -24,4 +24,12 @@ class PostNewProjectEvent extends ProjectEvent {
   final Project newProject;
   final Function? onSuccess;
   PostNewProjectEvent({required this.newProject, this.onSuccess});
+}
+
+class DeleteProjectEvent extends ProjectEvent {
+  final int companyId;
+  final int projectId;
+  final Function? onSuccess;
+  DeleteProjectEvent(
+      {required this.companyId, required this.projectId, this.onSuccess});
 }
