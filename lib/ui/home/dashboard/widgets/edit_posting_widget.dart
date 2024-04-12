@@ -5,12 +5,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/core/text_field_custom.dart';
+import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/utils/logger.dart';
 
 enum TimeOption { option1, option2 }
 
 class EditPosting extends StatefulWidget {
-  const EditPosting({Key? key}) : super(key: key);
+  final Project project;
+  const EditPosting({Key? key, required this.project}) : super(key: key);
 
   @override
   _EditPostingState createState() => _EditPostingState();
@@ -58,7 +60,7 @@ class _EditPostingState extends State<EditPosting> {
               fillColor: Colors.white,
               name: 'title',
               hintText: 'Please enter title',
-              // initialValue: "nguyenthoaidangkhoa@gmail.com",
+              initialValue: widget.project.title,
               icon: Container(
                 width: 18,
                 height: 18,
@@ -135,6 +137,7 @@ class _EditPostingState extends State<EditPosting> {
             ),
             TextFieldFormCustom(
               fillColor: Colors.white,
+              initialValue: widget.project.numberOfStudents.toString(),
               name: 'number_of_students',
               hintText: 'Please enter number of students',
               icon: Container(
@@ -161,7 +164,8 @@ class _EditPostingState extends State<EditPosting> {
                 color: Colors.black.withOpacity(0.6),
               ),
             ),
-            const TextFieldFormCustom(
+            TextFieldFormCustom(
+              initialValue: widget.project.description.toString(),
               maxLines: 8,
               fillColor: Colors.white,
               name: 'number_of_students',

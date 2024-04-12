@@ -3,17 +3,19 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
+import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/ui/home/dashboard/data/data_count.dart';
-import 'package:studenthub/ui/home/dashboard/widget/more_action_widget.dart';
+import 'package:studenthub/ui/home/dashboard/widgets/more_action_widget.dart';
 
-class ProjectArchivedTab extends StatefulWidget {
-  const ProjectArchivedTab({super.key});
+class ProjectArchivedTabForCompany extends StatefulWidget {
+  const ProjectArchivedTabForCompany({super.key});
 
   @override
-  State<ProjectArchivedTab> createState() => _ProjectArchivedTabState();
+  State<ProjectArchivedTabForCompany> createState() =>
+      _ProjectArchivedTabState();
 }
 
-class _ProjectArchivedTabState extends State<ProjectArchivedTab> {
+class _ProjectArchivedTabState extends State<ProjectArchivedTabForCompany> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -47,8 +49,9 @@ class _ProjectArchivedTabState extends State<ProjectArchivedTab> {
                     GestureDetector(
                       onTap: () {
                         showModalBottomSheetCustom(context,
-                            widgetBuilder: const MoreActionWidget(
-                              projectId: 0,
+                            widgetBuilder: MoreActionWidget(
+                              project: Project(),
+                              // projectId: 0,
                             ));
                       },
                       child: Container(

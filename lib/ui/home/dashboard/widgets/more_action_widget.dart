@@ -6,13 +6,16 @@ import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/ui/home/dashboard/data/data_count.dart';
-import 'package:studenthub/ui/home/dashboard/widget/edit_posting_widget.dart';
+import 'package:studenthub/ui/home/dashboard/widgets/edit_posting_widget.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class MoreActionWidget extends StatefulWidget {
-  final int projectId;
-  const MoreActionWidget({super.key, required this.projectId});
+  // final int projectId;
+  final Project project;
+  // const MoreActionWidget({super.key, required this.projectId});
+  const MoreActionWidget({super.key, required this.project});
 
   @override
   State<MoreActionWidget> createState() => _MoreActionWidgetState();
@@ -57,7 +60,7 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
                     isScrollControlled: true,
                     context: context,
                     builder: (BuildContext context) {
-                      return const EditPosting();
+                      return EditPosting(project: widget.project);
                     },
                   );
                   break;
@@ -70,7 +73,7 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
                   context.read<ProjectBloc>().add(
                         DeleteProjectEvent(
                             companyId: companyId!,
-                            projectId: widget.projectId,
+                            projectId: widget.project.id!,
                             onSuccess: () {
                               SnackBarService.showSnackBar(
                                   status: StatusSnackBar.success,
