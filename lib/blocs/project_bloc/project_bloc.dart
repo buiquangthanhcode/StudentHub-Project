@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -19,15 +20,29 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
   ProjectBloc()
       : super(
           ProjectState(
-            project: Project(),
+            projects: [],
+            projectCreation: Project(),
           ),
         ) {
+    on<GetAllProjectsEvent>(_onGetAllProjects);
     on<UpdateNewProjectEvent>(_onUpdateNewProject);
     on<PostNewProjectEvent>(_onPostNewProject);
   }
 
   final CompanyService _companyService = CompanyService();
   final StudentService _studentService = StudentService();
+
+  Future<void> _onGetAllProjects(
+      GetAllProjectsEvent event, Emitter<ProjectState> emit) async {
+    try {
+      final response = await _companyService.getAllProjects(event.companyId);
+      if (response.statusCode! <= 201) {
+        emit(state.update(projects: response.data));
+      }
+    } catch (e) {
+      logger.e(e);
+    }
+  }
 
   FutureOr<void> _onUpdateNewProject(
       UpdateNewProjectEvent event, Emitter<ProjectState> emit) async {

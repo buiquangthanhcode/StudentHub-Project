@@ -167,7 +167,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                 ElevatedButton(
                   onPressed: () {
                     final currentProject = Project(
-                      title: state.project.title,
+                      title: state.projectCreation.title,
                       projectScopeFlag:
                           _timeOption == TimeOption.option1 ? 0 : 1,
                       numberOfStudents: int.parse(_textEditingController.text),

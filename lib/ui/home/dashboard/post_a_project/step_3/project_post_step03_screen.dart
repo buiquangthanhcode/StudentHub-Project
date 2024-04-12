@@ -139,7 +139,7 @@ class _ProjectPostStep03ScreenState extends State<ProjectPostStep03Screen> {
                     onPressed: () {
                       // context.push('/project_post/step_04');
                       final currentProject = {
-                        ...state.project.toMap(),
+                        ...state.projectCreation.toMap(),
                         'description': _textEditingController.text
                       };
                       Project newProject = Project.fromMap(currentProject);

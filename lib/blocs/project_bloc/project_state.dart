@@ -5,20 +5,24 @@ import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/models/company/company_model.dart';
 
 class ProjectState extends Equatable {
-  final Project project;
+  final List<Project> projects;
+  final Project projectCreation;
 
   ProjectState({
-    required this.project,
+    required this.projects,
+    required this.projectCreation,
   });
 
   @override
-  List<Object?> get props => [project];
+  List<Object?> get props => [projects, projectCreation];
 
   ProjectState update({
+    List<Project>? projects,
     Project? project,
   }) {
     return ProjectState(
-      project: project ?? this.project,
+      projects: projects ?? this.projects,
+      projectCreation: project ?? this.projectCreation,
     );
   }
 }

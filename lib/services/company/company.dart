@@ -155,4 +155,29 @@ class CompanyService {
       rethrow;
     }
   }
+
+  Future<ResponseAPI<List<Project>>> getAllProjects(String companyId) async {
+    try {
+      final res = await dioClient.get(
+        '$baseURL/api/project/company/${companyId.toString()}',
+      );
+
+      return ResponseAPI<List<Project>>(
+        statusCode: res.statusCode,
+        data:
+            res.data['result'].map<Project>((x) => Project.fromMap(x)).toList(),
+      );
+    } on DioException catch (e) {
+      logger.e(
+        "DioException :${e.response}",
+      );
+      throw ResponseAPI<List<Project>>(
+        statusCode: e.response?.statusCode,
+        data: [],
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
 }

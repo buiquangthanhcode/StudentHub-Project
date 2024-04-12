@@ -87,7 +87,7 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                     //       ),
                     // ),
                     Text(
-                      state.project.title ?? 'None title',
+                      state.projectCreation.title ?? 'None title',
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -119,8 +119,8 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                         //   'Detail about your project',
                         // ]),
                         BulletList([
-                          if (state.project.description != null)
-                            state.project.description!
+                          if (state.projectCreation.description != null)
+                            state.projectCreation.description!
                           else
                             'None description'
                         ]),
@@ -164,7 +164,7 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                                     ),
                                   ),
                                   Text(
-                                    state.project.projectScopeFlag == 0
+                                    state.projectCreation.projectScopeFlag == 0
                                         ? '1-3 months'
                                         : '3-6 months',
                                     style: Theme.of(context)
@@ -207,7 +207,8 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                                     ),
                                   ),
                                   Text(
-                                    state.project.numberOfStudents.toString(),
+                                    state.projectCreation.numberOfStudents
+                                        .toString(),
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall!
@@ -231,7 +232,7 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                     // context.push('/');
                     context.read<ProjectBloc>().add(PostNewProjectEvent(
                         newProject: Project.fromMap({
-                          ...state.project.toMap(),
+                          ...state.projectCreation.toMap(),
                           "companyId": "39",
                           "typeFlag": 0
                         }),

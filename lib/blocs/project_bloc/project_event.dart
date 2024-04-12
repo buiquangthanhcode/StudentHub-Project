@@ -5,6 +5,11 @@ import 'package:studenthub/models/common/project_model.dart';
 @immutable
 abstract class ProjectEvent {}
 
+class GetAllProjectsEvent extends ProjectEvent {
+  final String companyId;
+  GetAllProjectsEvent({required this.companyId});
+}
+
 class GetProjectEvent extends ProjectEvent {
   final Project newProject;
   GetProjectEvent(this.newProject);

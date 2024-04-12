@@ -72,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 fillColor: Colors.white,
                 name: 'username',
                 hintText: 'Username',
-                initialValue: "khangkn2211+1@gmail.com",
+                initialValue: "nguyenthoaidangkhoa@gmail.com",
                 icon: Container(
                   width: 18,
                   height: 18,
@@ -94,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 fillColor: Colors.white,
                 name: 'password',
                 hintText: 'Password',
-                initialValue: 'Buiquangthanh@1709',
+                initialValue: '@Khoa123',
                 obscureText: true,
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
