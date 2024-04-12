@@ -1,14 +1,13 @@
 import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
-import 'package:studenthub/blocs/company_bloc/company_event.dart';
-import 'package:studenthub/blocs/company_bloc/company_state.dart';
+import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
+import 'package:studenthub/blocs/project_bloc/project_event.dart';
+import 'package:studenthub/blocs/project_bloc/project_state.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
 
@@ -25,7 +24,7 @@ class _ProjectPostStep01ScreenState extends State<ProjectPostStep01Screen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CompanyBloc, CompanyState>(
+    return BlocBuilder<ProjectBloc, ProjectState>(
       builder: (context, state) {
         return Scaffold(
           resizeToAvoidBottomInset: false,
@@ -126,7 +125,7 @@ class _ProjectPostStep01ScreenState extends State<ProjectPostStep01Screen> {
                       title: _textEditingController.text,
                     );
                     context
-                        .read<CompanyBloc>()
+                        .read<ProjectBloc>()
                         .add(UpdateNewProjectEvent(currentProject));
                     context.push('/home/project_post/step_02');
                   },

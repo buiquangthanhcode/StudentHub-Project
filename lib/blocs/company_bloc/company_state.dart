@@ -6,22 +6,30 @@ import 'package:studenthub/models/company/company_model.dart';
 
 class CompanyState extends Equatable {
   final Company company;
-  final Project project;
+  // final Project project;
 
   CompanyState({
     required this.company,
-    required this.project,
+    // required this.project,
   });
 
   @override
-  List<Object?> get props => [company, project];
+  // List<Object?> get props => [company, project];
+  List<Object?> get props => [company];
+
+  // CompanyState updateNewCompanyProfle({
+  //   Company? company,
+  //   Project? project,
+  // }) {
+  //   return CompanyState(
+  //       company: company ?? this.company, project: project ?? this.project);
+  // }
 
   CompanyState updateNewCompanyProfle({
     Company? company,
     Project? project,
   }) {
-    return CompanyState(
-        company: company ?? this.company, project: project ?? this.project);
+    return CompanyState(company: company ?? this.company);
   }
 
   CompanyState update({
@@ -30,7 +38,6 @@ class CompanyState extends Equatable {
   }) {
     return CompanyState(
       company: company ?? this.company,
-      project: project ?? this.project,
     );
   }
 }

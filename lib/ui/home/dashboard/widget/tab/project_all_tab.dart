@@ -1,36 +1,48 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
+import 'package:studenthub/blocs/project_bloc/project_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/ui/home/dashboard/data/data_count.dart';
 import 'package:studenthub/ui/home/dashboard/widget/more_action_widget.dart';
 
-class ProjectAllTab extends StatelessWidget {
+class ProjectAllTab extends StatefulWidget {
   const ProjectAllTab({super.key});
 
   @override
+  State<ProjectAllTab> createState() => _ProjectAllTabState();
+}
+
+class _ProjectAllTabState extends State<ProjectAllTab> {
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Container(
-      margin: const EdgeInsets.only(top: 20),
-      child: Center(
-        child: ListView.separated(
-          itemCount: 10,
-          itemBuilder: (context, index) {
-            return ProjectReviewItem(theme: theme);
-          },
-          separatorBuilder: (context, index) {
-            return const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              child: Divider(),
-            );
-          },
-        ),
-      ),
+    return BlocBuilder<ProjectBloc, ProjectState>(
+      builder: (context, state) {
+        return Container(
+          margin: const EdgeInsets.only(top: 20),
+          child: Center(
+            child: ListView.separated(
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return ProjectReviewItem(theme: theme);
+              },
+              separatorBuilder: (context, index) {
+                return const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  child: Divider(),
+                );
+              },
+            ),
+          ),
+        );
+      },
     );
   }
 }

@@ -75,18 +75,18 @@ class RemoveDescriptionEvent extends CompanyEvent {
   RemoveDescriptionEvent({this.onSuccess});
 }
 
-class GetProjectEvent extends CompanyEvent {
-  final Project newProject;
-  GetProjectEvent(this.newProject);
-}
+// class GetProjectEvent extends CompanyEvent {
+//   final Project newProject;
+//   GetProjectEvent(this.newProject);
+// }
 
-class UpdateNewProjectEvent extends CompanyEvent {
-  final Project newProject;
-  UpdateNewProjectEvent(this.newProject);
-}
+// class UpdateNewProjectEvent extends CompanyEvent {
+//   final Project newProject;
+//   UpdateNewProjectEvent(this.newProject);
+// }
 
-class PostNewProjectEvent extends CompanyEvent {
-  final Project newProject;
-  final Function? onSuccess;
-  PostNewProjectEvent({required this.newProject, this.onSuccess});
-}
+// class PostNewProjectEvent extends CompanyEvent {
+//   final Project newProject;
+//   final Function? onSuccess;
+//   PostNewProjectEvent({required this.newProject, this.onSuccess});
+// }

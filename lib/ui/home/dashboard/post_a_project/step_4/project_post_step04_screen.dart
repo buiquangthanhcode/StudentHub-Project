@@ -8,6 +8,9 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
 import 'package:studenthub/blocs/company_bloc/company_event.dart';
 import 'package:studenthub/blocs/company_bloc/company_state.dart';
+import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
+import 'package:studenthub/blocs/project_bloc/project_event.dart';
+import 'package:studenthub/blocs/project_bloc/project_state.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
@@ -24,7 +27,7 @@ class ProjectPostStep04Screen extends StatefulWidget {
 class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CompanyBloc, CompanyState>(
+    return BlocBuilder<ProjectBloc, ProjectState>(
       builder: (context, state) {
         return Scaffold(
           resizeToAvoidBottomInset: false,
@@ -226,19 +229,16 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                 ElevatedButton(
                   onPressed: () {
                     // context.push('/');
-                    context.read<CompanyBloc>().add(PostNewProjectEvent(
+                    context.read<ProjectBloc>().add(PostNewProjectEvent(
                         newProject: Project.fromMap({
                           ...state.project.toMap(),
-                          "companyId": "123",
+                          "companyId": "39",
                           "typeFlag": 0
                         }),
                         onSuccess: () {
                           SnackBarService.showSnackBar(
                               content: 'Successfully!',
                               status: StatusSnackBar.success);
-                          Future.delayed(Duration(seconds: 2), () {
-                            Navigator.pop(context);
-                          });
                           context.pushNamed('home');
                         }));
                   },
