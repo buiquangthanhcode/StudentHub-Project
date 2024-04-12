@@ -16,9 +16,11 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
       : super(
           AllProjectState(
             projectList: const [],
+            projectDetail: Project(),
           ),
         ) {
     on<GetAllDataEvent>(_onGetAllData);
+    on<GetProjectDetail>(_onGetProjectDetail);
   }
 
   final AllProjectsService _allProjectsService = AllProjectsService();
@@ -32,7 +34,35 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
       logger.d(result.data);
 
       if (result.statusCode! < 300) {
-        emit(AllProjectState(projectList: result.data));
+        emit(AllProjectState(
+            projectList: result.data, projectDetail: Project()));
+      } else {
+        SnackBarService.showSnackBar(
+            content: handleFormatMessage(result.data!.errorDetails),
+            status: StatusSnackBar.error);
+      }
+    } on DioException catch (e) {
+      logger.e(
+        "DioException:${e.response}",
+      );
+    } catch (e) {
+      logger.e("Unexpect error-> $e");
+      SnackBarService.showSnackBar(
+          content: handleFormatMessage(e.toString()),
+          status: StatusSnackBar.error);
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
+
+  FutureOr<void> _onGetProjectDetail(
+      GetProjectDetail event, Emitter<AllProjectState> emit) async {
+    try {
+      EasyLoading.show(status: 'Loading...');
+      ResponseAPI result = await _allProjectsService.getProjectDetail(event.id);
+
+      if (result.statusCode! < 300) {
+        emit(state.update(projectDetail: result.data));
       } else {
         SnackBarService.showSnackBar(
             content: handleFormatMessage(result.data!.errorDetails),

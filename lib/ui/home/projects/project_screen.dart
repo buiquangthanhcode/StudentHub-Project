@@ -18,33 +18,6 @@ class ProjectScreen extends StatefulWidget {
   _ProjectScreenState createState() => _ProjectScreenState();
 }
 
-// BlocBuilder<AllProjectBloc, AllProjectState>(
-//   builder: (context, state) {
-//     if (state.projectList.isEmpty) {
-//       return Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: [
-//           EmptyDataWidget(
-//             mainTitle: '',
-//             subTitle: 'No project working yet.',
-//             widthImage: MediaQuery.of(context).size.width * 0.5,
-//           ),
-//         ],
-//       );
-//     }
-//     return SliverList(
-//       delegate: SliverChildBuilderDelegate(
-//         childCount: state.projectList.length,
-//         (BuildContext context, int index) {
-//           return const ProjectItem(
-//             paddingRight: 8,
-//           );
-//         },
-//       ),
-//     );
-//   },
-// ),
-
 class _ProjectScreenState extends State<ProjectScreen> {
   final searchController = TextEditingController();
   final FocusNode _searchFocus = FocusNode();

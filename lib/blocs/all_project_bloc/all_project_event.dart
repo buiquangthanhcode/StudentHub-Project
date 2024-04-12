@@ -8,3 +8,8 @@ abstract class AllProjectEvent {}
 class GetAllDataEvent extends AllProjectEvent {
   GetAllDataEvent();
 }
+
+class GetProjectDetail extends AllProjectEvent {
+  final String id;
+  GetProjectDetail({required this.id});
+}

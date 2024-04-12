@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studenthub/blocs/all_project_bloc/all_project_bloc.dart';
+import 'package:studenthub/blocs/all_project_bloc/all_project_event.dart';
+import 'package:studenthub/blocs/all_project_bloc/all_project_state.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
 
@@ -22,191 +26,202 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
   void initState() {
     super.initState();
     isSaved = false;
+
+    context.read<AllProjectBloc>().add(
+          GetProjectDetail(id: widget.id),
+        );
   }
 
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
 
-    return Scaffold(
-      appBar: widget.isHiddenAppbar ?? false
-          ? null
-          : AppBar(
-              centerTitle: false,
-              titleSpacing: 0,
-              title: Text(
-                "Project detail",
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
-              ),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: InkWell(
-                    onTap: () {
-                      isSaved = !isSaved!;
-                      setState(() {});
-                    },
-                    child: FaIcon(
-                      isSaved!
-                          ? FontAwesomeIcons.solidHeart
-                          : FontAwesomeIcons.heart,
-                      color: primaryColor,
-                    ),
+    return BlocBuilder<AllProjectBloc, AllProjectState>(
+      builder: (BuildContext context, AllProjectState state) {
+        return Scaffold(
+          appBar: widget.isHiddenAppbar ?? false
+              ? null
+              : AppBar(
+                  centerTitle: false,
+                  titleSpacing: 0,
+                  title: Text(
+                    "Project detail",
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
                   ),
-                )
-              ],
-            ),
-      body: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-        child: Column(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+                  actions: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: InkWell(
+                        onTap: () {
+                          isSaved = !isSaved!;
+                          setState(() {});
+                        },
+                        child: FaIcon(
+                          isSaved!
+                              ? FontAwesomeIcons.solidHeart
+                              : FontAwesomeIcons.heart,
+                          color: primaryColor,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+          body: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            child: Column(
               children: [
-                Text(
-                  'Senior frontend developer (Fintech)',
-                  style: textTheme.bodyLarge!
-                      .copyWith(fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                const Divider(
-                  color: Colors.grey, // Set the color of the divider
-                  thickness: 2, // Set the thickness of the divider
-                  height: 20, // Set the height of the divider
-                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Students are looking for',
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black.withOpacity(0.6),
-                          ),
+                      state.projectDetail.title ??
+                          'Senior frontend developer (Fintech)',
+                      style: textTheme.bodyLarge!
+                          .copyWith(fontWeight: FontWeight.w600),
                     ),
-                    BulletList(const [
-                      'Clear expectation about your project or deliverables',
-                      'The skill required for your project',
-                      'Detail about your project',
-                    ]),
-                  ],
-                ),
-                const Divider(
-                  color: Colors.grey, // Set the color of the divider
-                  thickness: 2, // Set the thickness of the divider
-                  height: 20, // Set the height of the divider
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Icon(Icons.access_alarm, size: 42),
-                    Container(
-                      margin: const EdgeInsets.only(left: 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Project scope',
-                            style: TextStyle(
-                              color: Colors.black.withOpacity(0.8),
-                            ),
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.all(8),
-                                child: FaIcon(
-                                  FontAwesomeIcons.solidCircle,
-                                  size: 6,
-                                ),
-                              ),
-                              Text(
-                                '3-6 months',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
-                                      color: Colors.black.withOpacity(0.8),
-                                    ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    )
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    const Divider(
+                      color: Colors.grey, // Set the color of the divider
+                      thickness: 2, // Set the thickness of the divider
+                      height: 20, // Set the height of the divider
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Students are looking for',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black.withOpacity(0.6),
+                                  ),
+                        ),
+                        BulletList(const [
+                          'Clear expectation about your project or deliverables',
+                          'The skill required for your project',
+                          'Detail about your project',
+                        ]),
+                      ],
+                    ),
+                    const Divider(
+                      color: Colors.grey, // Set the color of the divider
+                      thickness: 2, // Set the thickness of the divider
+                      height: 20, // Set the height of the divider
+                    ),
                   ],
                 ),
                 const SizedBox(height: 12),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                Column(
                   children: [
-                    const Icon(Icons.people, size: 42),
-                    Container(
-                      margin: const EdgeInsets.only(left: 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Student required',
-                            style:
-                                TextStyle(color: Colors.black.withOpacity(0.8)),
-                          ),
-                          Row(
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Icon(Icons.access_alarm, size: 42),
+                        Container(
+                          margin: const EdgeInsets.only(left: 16),
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Padding(
-                                padding: EdgeInsets.all(8),
-                                child: FaIcon(
-                                  FontAwesomeIcons.solidCircle,
-                                  size: 6,
+                              Text(
+                                'Project scope',
+                                style: TextStyle(
+                                  color: Colors.black.withOpacity(0.8),
                                 ),
                               ),
-                              Text(
-                                '6 students',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
-                                        color: Colors.black.withOpacity(0.8)),
-                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.all(8),
+                                    child: FaIcon(
+                                      FontAwesomeIcons.solidCircle,
+                                      size: 6,
+                                    ),
+                                  ),
+                                  Text(
+                                    '3-6 months',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: Colors.black.withOpacity(0.8),
+                                        ),
+                                  ),
+                                ],
+                              )
                             ],
-                          )
-                        ],
-                      ),
-                    )
+                          ),
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.people, size: 42),
+                        Container(
+                          margin: const EdgeInsets.only(left: 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Student required',
+                                style: TextStyle(
+                                    color: Colors.black.withOpacity(0.8)),
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.all(8),
+                                    child: FaIcon(
+                                      FontAwesomeIcons.solidCircle,
+                                      size: 6,
+                                    ),
+                                  ),
+                                  Text(
+                                    '${state.projectDetail.numberOfStudents ?? '0'} students',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                            color:
+                                                Colors.black.withOpacity(0.8)),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ],
                 ),
+                // const SizedBox(height: 24),
+                const Spacer(),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 56),
+                  ),
+                  onPressed: () {
+                    context.push('/home/project_detail/submit_proposal');
+                  },
+                  child: Text(
+                    'Apply Now',
+                    style: textTheme.bodyMedium!.copyWith(
+                        color: Colors.white, fontWeight: FontWeight.w600),
+                  ),
+                ),
+                const SizedBox(height: 20),
               ],
             ),
-            // const SizedBox(height: 24),
-            const Spacer(),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 56),
-              ),
-              onPressed: () {
-                context.push('/home/project_detail/submit_proposal');
-              },
-              child: Text(
-                'Apply Now',
-                style: textTheme.bodyMedium!
-                    .copyWith(color: Colors.white, fontWeight: FontWeight.w600),
-              ),
-            ),
-            const SizedBox(height: 20),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

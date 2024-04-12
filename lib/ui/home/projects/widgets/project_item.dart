@@ -43,7 +43,7 @@ class _ProjectItemState extends State<ProjectItem> {
     return GestureDetector(
       onTap: () {
         context.pushNamed('project_detail',
-            queryParameters: {'id': 'project_id...'});
+            queryParameters: {'id': widget.project.id.toString()});
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -67,7 +67,8 @@ class _ProjectItemState extends State<ProjectItem> {
                             .copyWith(color: colorTheme.grey),
                       ),
                       Text(
-                        widget.project.title ?? 'Senior frontend developer (Fintech)',
+                        widget.project.title ??
+                            'Senior frontend developer (Fintech)',
                         style:
                             textTheme.bodySmall!.copyWith(color: primaryColor),
                       ),
