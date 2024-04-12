@@ -169,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       .currentState!.fields['password']!.value
                                       .toString(),
                                 ),
-                                onSuscess: () {
+                                onSuccess: () {
                                   context.pushNamed('home',
                                       queryParameters: {'welcome': 'true'});
                                 }),
