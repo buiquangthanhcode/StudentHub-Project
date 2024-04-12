@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
+import 'package:studenthub/blocs/project_bloc/project_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/core/text_field_custom.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/utils/logger.dart';
+import 'package:studenthub/widgets/snack_bar_config.dart';
 
 enum TimeOption { option1, option2, option3, option4 }
 
@@ -251,6 +256,46 @@ class _EditPostingState extends State<EditPosting> {
                             false) {
                           logger.d(_formKeyEdit.currentState!.value);
                         }
+
+                        int? companyId = BlocProvider.of<AuthBloc>(context)
+                            .state
+                            .userModel
+                            .company!
+                            .id;
+                        context.read<ProjectBloc>().add(
+                              EditProjectEvent(
+                                  companyId: companyId!,
+                                  updatedProject: Project.fromMap(
+                                    {
+                                      'id': widget.project.id,
+                                      'projectScopeFlag': _timeOption ==
+                                              TimeOption.option1
+                                          ? 0
+                                          : _timeOption == TimeOption.option2
+                                              ? 1
+                                              : _timeOption ==
+                                                      TimeOption.option3
+                                                  ? 2
+                                                  : 3,
+                                      'title': _formKeyEdit
+                                          .currentState!.value['title'],
+                                      'description': _formKeyEdit
+                                          .currentState!.value['description'],
+                                      'numberOfStudents': int.parse(_formKeyEdit
+                                          .currentState!
+                                          .value['number_of_students']),
+                                      'typeFlag': widget.project.typeFlag,
+                                    },
+                                  ),
+                                  onSuccess: () {
+                                    SnackBarService.showSnackBar(
+                                        status: StatusSnackBar.success,
+                                        content:
+                                            "Project was updated successfully!");
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                  }),
+                            );
                       },
                       child: Text(
                         'Edit',
