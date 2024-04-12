@@ -8,7 +8,7 @@ import 'package:studenthub/core/text_field_custom.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/utils/logger.dart';
 
-enum TimeOption { option1, option2 }
+enum TimeOption { option1, option2, option3, option4 }
 
 class EditPosting extends StatefulWidget {
   final Project project;
@@ -25,7 +25,13 @@ class _EditPostingState extends State<EditPosting> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _timeOption = TimeOption.option1;
+    _timeOption = widget.project.projectScopeFlag == 0
+        ? TimeOption.option1
+        : widget.project.projectScopeFlag == 1
+            ? TimeOption.option2
+            : widget.project.projectScopeFlag == 2
+                ? TimeOption.option3
+                : TimeOption.option4;
   }
 
   @override
@@ -33,7 +39,7 @@ class _EditPostingState extends State<EditPosting> {
     final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-      height: MediaQuery.of(context).size.height * 0.8,
+      height: MediaQuery.of(context).size.height * 0.9,
       width: double.infinity,
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -93,7 +99,7 @@ class _EditPostingState extends State<EditPosting> {
                   visualDensity:
                       const VisualDensity(vertical: -4.0, horizontal: -4.0),
                   title: Text(
-                    '1 to 3 months',
+                    'Less than 1 month',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: Colors.black.withOpacity(0.6),
                         ),
@@ -111,7 +117,7 @@ class _EditPostingState extends State<EditPosting> {
                   visualDensity:
                       const VisualDensity(vertical: -4.0, horizontal: -4.0),
                   title: Text(
-                    '3 to 6 months',
+                    '1 to 3 months',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: Colors.black.withOpacity(0.6),
                         ),
@@ -123,7 +129,43 @@ class _EditPostingState extends State<EditPosting> {
                       _timeOption = value as TimeOption;
                     });
                   },
-                )
+                ),
+                RadioListTile(
+                  activeColor: primaryColor,
+                  visualDensity:
+                      const VisualDensity(vertical: -4.0, horizontal: -4.0),
+                  title: Text(
+                    '3 to 6 months',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Colors.black.withOpacity(0.6),
+                        ),
+                  ),
+                  value: TimeOption.option3,
+                  groupValue: _timeOption,
+                  onChanged: (value) {
+                    setState(() {
+                      _timeOption = value as TimeOption;
+                    });
+                  },
+                ),
+                RadioListTile(
+                  activeColor: primaryColor,
+                  visualDensity:
+                      const VisualDensity(vertical: -4.0, horizontal: -4.0),
+                  title: Text(
+                    'More than 6 months',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Colors.black.withOpacity(0.6),
+                        ),
+                  ),
+                  value: TimeOption.option4,
+                  groupValue: _timeOption,
+                  onChanged: (value) {
+                    setState(() {
+                      _timeOption = value as TimeOption;
+                    });
+                  },
+                ),
               ],
             ),
             const SizedBox(height: 20),
@@ -168,7 +210,7 @@ class _EditPostingState extends State<EditPosting> {
               initialValue: widget.project.description.toString(),
               maxLines: 8,
               fillColor: Colors.white,
-              name: 'number_of_students',
+              name: 'description',
               hintText: 'Please enter description',
             ),
             const SizedBox(height: 20),
