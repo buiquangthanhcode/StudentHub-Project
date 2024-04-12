@@ -52,8 +52,7 @@ class AuthService {
     }
   }
 
-  Future<ResponseAPI> register(
-      RequestRegisterAccount requestRegisterAccount) async {
+  Future<ResponseAPI> register(RequestRegisterAccount requestRegisterAccount) async {
     try {
       var dio = Dio(
         BaseOptions(
@@ -93,7 +92,6 @@ class AuthService {
         '$baseURL/api/auth/me',
       );
 
-      logger.d(res);
       return ResponseAPI<DataResponse>(
         statusCode: res.statusCode,
         data: DataResponse.fromJson(json.encode(res.data)),

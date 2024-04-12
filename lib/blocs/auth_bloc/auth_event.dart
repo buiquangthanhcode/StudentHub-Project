@@ -9,15 +9,17 @@ abstract class AuthenEvent {}
 class LoginEvent extends AuthenEvent {
   final RequestLogin requestLogin;
   final Function? onSuccess;
+  final BuildContext? currentContext;
 
-  LoginEvent({required this.requestLogin, required this.onSuccess});
+  LoginEvent({required this.requestLogin, required this.onSuccess, this.currentContext});
 }
 
 class GetInformationEvent extends AuthenEvent {
   final Function? onSuccess;
   final String accessToken;
+  final BuildContext? currentContext;
 
-  GetInformationEvent({required this.onSuccess, required this.accessToken});
+  GetInformationEvent({required this.onSuccess, required this.accessToken, this.currentContext});
 }
 
 class RegisterAccount extends AuthenEvent {

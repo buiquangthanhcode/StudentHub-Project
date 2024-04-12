@@ -53,14 +53,17 @@ class LanguageItem extends StatelessWidget {
                   title: 'Are you sure you want to delete this language?',
                   textButtom: 'Delete',
                   subtitle: 'This action cannot be undone', onSave: () {
-                context.read<StudentBloc>().add(
-                      RemoveLanguageEvent(
-                          language: item,
-                          onSuccess: () {
-                            SnackBarService.showSnackBar(content: "Delete Sucessfully", status: StatusSnackBar.success);
-                            Navigator.pop(context);
-                          }),
-                    );
+                int userId = BlocProvider.of<StudentBloc>(context).state.student.id ?? -1;
+                List<Language> languages =
+                    List<Language>.from(BlocProvider.of<StudentBloc>(context).state.student.languages ?? []);
+                context.read<StudentBloc>().add(UpdateLanguageEvent(
+                    languages: languages..remove(item),
+                    userId: userId,
+                    onSuccess: () {
+                      SnackBarService.showSnackBar(content: "Delete Sucessfully", status: StatusSnackBar.success);
+                      Navigator.pop(context);
+                      // context.read<StudentBloc>().add(GetAllLanguageEvent(onSuccess: () {}, userId: userId));
+                    }));
               });
             },
             child: const FaIcon(

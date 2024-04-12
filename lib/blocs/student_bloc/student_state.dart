@@ -1,45 +1,45 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
-import 'package:studenthub/models/student/student_create_profile/education_model.dart';
-import 'package:studenthub/models/student/student_create_profile/language_model.dart';
-import 'package:studenthub/models/student/student_create_profile/project_model.dart';
-import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
-import 'package:studenthub/models/student/student_create_profile/tech_stack.dart';
+
+import 'package:studenthub/models/student/student_model.dart';
 
 class StudentState extends Equatable {
-  final List<SkillSet> skillset;
-  final List<Language> languages;
-  final List<Education> edutcations;
-  final List<ProjectResume> projects;
+  final Student student;
   final bool isChange;
-  final List<TechStack> teckstacks;
 
-  const StudentState({
-    required this.skillset,
-    required this.isChange,
-    required this.languages,
-    required this.edutcations,
-    required this.projects,
-    required this.teckstacks,
-  });
+  const StudentState({required this.student, required this.isChange});
 
   @override
-  List<Object?> get props => [skillset, isChange, languages, edutcations, projects, teckstacks];
+  List<Object> get props => [student, isChange];
 
   StudentState update({
-    List<SkillSet>? skillset,
+    Student? student,
     bool? isChange,
-    List<Language>? languages,
-    List<Education>? edutcations,
-    List<ProjectResume>? projects,
-    List<TechStack>? teckstacks,
   }) {
     return StudentState(
-      skillset: skillset ?? this.skillset,
+      student: student ?? this.student,
       isChange: isChange ?? this.isChange,
-      languages: languages ?? this.languages,
-      edutcations: edutcations ?? this.edutcations,
-      projects: projects ?? this.projects,
-      teckstacks: teckstacks ?? this.teckstacks,
     );
   }
+
+  Map<String, dynamic> toMap() {
+    final result = <String, dynamic>{};
+
+    result.addAll({'student': student.toMap()});
+    result.addAll({'isChange': isChange});
+
+    return result;
+  }
+
+  factory StudentState.fromMap(Map<String, dynamic> map) {
+    return StudentState(
+      student: Student.fromMap(map['student']),
+      isChange: map['isChange'] ?? false,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory StudentState.fromJson(String source) => StudentState.fromMap(json.decode(source));
 }

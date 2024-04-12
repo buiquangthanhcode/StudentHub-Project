@@ -68,16 +68,14 @@ class _CreateEducationWidgetState extends State<CreateEducationWidget> {
                 ),
                 onPressed: () {
                   if (formkey.currentState?.saveAndValidate() ?? false) {
-                    logger.d(formkey.currentState!.value);
                     if (int.parse(formkey.currentState!.fields['year_start']!.value) >
                         int.parse(formkey.currentState!.fields['year_end']!.value)) {
                       SnackBarService.showSnackBar(
                           content: "Year start must be less than year end", status: StatusSnackBar.info);
                     } else {
-                      logger.d(formkey.currentState!.value);
                       int userId = BlocProvider.of<AuthBloc>(context).state.userModel.student?.id ?? -1;
-                      List<Education> educations =
-                          List<Education>.from(BlocProvider.of<StudentBloc>(context).state.edutcations);
+                      List<Education> educations = List<Education>.from(
+                          BlocProvider.of<StudentBloc>(context).state.student.educations as Iterable);
                       context.read<StudentBloc>().add(
                             UpdateEducationEvent(
                               userId: userId,

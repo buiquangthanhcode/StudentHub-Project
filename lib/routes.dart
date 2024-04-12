@@ -4,6 +4,7 @@ import 'package:studenthub/ui/home/account/company_profile_creation/profile_crea
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit/company_profile_edit_screen.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/welcome_screen.dart';
 import 'package:studenthub/ui/home/account/account_screen.dart';
+import 'package:studenthub/ui/home/account/setting_detail/setting_detail_scren.dart';
 import 'package:studenthub/ui/home/dashboard/project_review/project_review_detail_screen.dart';
 import 'package:studenthub/ui/home/home_screen.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/chat_detail_screen.dart';
@@ -154,6 +155,13 @@ final GoRouter router = GoRouter(
             return customTransitionPage(state.pageKey, const CompanyProfileEditScreen());
           },
         ),
+        GoRoute(
+          path: 'setting_detail',
+          name: 'setting_detail',
+          pageBuilder: (context, state) {
+            return customTransitionPage(state.pageKey, const SettingDetailScreen());
+          },
+        )
       ],
     ),
     // GoRoute(
