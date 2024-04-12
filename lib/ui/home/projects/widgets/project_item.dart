@@ -43,7 +43,7 @@ class _ProjectItemState extends State<ProjectItem> {
     return GestureDetector(
       onTap: () {
         context.pushNamed('project_detail',
-            queryParameters: {'id': widget.project.id.toString()});
+            queryParameters: {'id': widget.project.projectId.toString()});
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20),

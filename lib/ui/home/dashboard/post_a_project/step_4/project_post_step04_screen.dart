@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
 import 'package:studenthub/blocs/company_bloc/company_event.dart';
 import 'package:studenthub/blocs/company_bloc/company_state.dart';
@@ -229,11 +230,15 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                 const Spacer(),
                 ElevatedButton(
                   onPressed: () {
-                    // context.push('/');
+                    int companyId = BlocProvider.of<AuthBloc>(context)
+                        .state
+                        .userModel
+                        .company!
+                        .id!;
                     context.read<ProjectBloc>().add(PostNewProjectEvent(
                         newProject: Project.fromMap({
                           ...state.projectCreation.toMap(),
-                          "companyId": "39",
+                          "companyId": companyId.toString(),
                           "typeFlag": 0
                         }),
                         onSuccess: () {

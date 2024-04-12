@@ -33,3 +33,11 @@ class DeleteProjectEvent extends ProjectEvent {
   DeleteProjectEvent(
       {required this.companyId, required this.projectId, this.onSuccess});
 }
+
+class EditProjectEvent extends ProjectEvent {
+  final int companyId;
+  final Project updatedProject;
+  final Function? onSuccess;
+  EditProjectEvent(
+      {required this.companyId, required this.updatedProject, this.onSuccess});
+}

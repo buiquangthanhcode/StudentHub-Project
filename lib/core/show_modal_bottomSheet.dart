@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/utils/logger.dart';
 
-Future<void> showModalBottomSheetCustom(BuildContext context, {Widget? widgetBuilder, Widget? headerBuilder}) async {
+Future<void> showModalBottomSheetCustom(BuildContext context,
+    {Widget? widgetBuilder, Widget? headerBuilder}) async {
   showModalBottomSheet(
       isScrollControlled: true,
       isDismissible: true,
@@ -29,7 +30,8 @@ class DraggleBottomSheetCustom extends StatefulWidget {
   final Widget? headerBuilder;
 
   @override
-  State<DraggleBottomSheetCustom> createState() => _DraggleBottomSheetCustomState();
+  State<DraggleBottomSheetCustom> createState() =>
+      _DraggleBottomSheetCustomState();
 }
 
 class _DraggleBottomSheetCustomState extends State<DraggleBottomSheetCustom> {
@@ -79,7 +81,10 @@ class _DraggleBottomSheetCustomState extends State<DraggleBottomSheetCustom> {
                               width: 80,
                               height: 5,
                               decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.grey!.withOpacity(0.6),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .grey!
+                                    .withOpacity(0.6),
                                 borderRadius: BorderRadius.circular(50),
                               ),
                             ),
@@ -91,7 +96,8 @@ class _DraggleBottomSheetCustomState extends State<DraggleBottomSheetCustom> {
                     onVerticalDragUpdate: (DragUpdateDetails details) {
                       if (details.primaryDelta != null) {
                         setState(() {
-                          _sheetPosition -= details.primaryDelta! / _dragSensitivity;
+                          _sheetPosition -=
+                              details.primaryDelta! / _dragSensitivity;
                           if (_sheetPosition < 0.2) {
                             _sheetPosition = 0.2;
                           } else if (_sheetPosition > 1) {

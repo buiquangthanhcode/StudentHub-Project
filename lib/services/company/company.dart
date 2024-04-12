@@ -202,4 +202,27 @@ class CompanyService {
       rethrow;
     }
   }
+
+  Future<ResponseAPI> editProject(Project project) async {
+    try {
+      final res = await dioClient.patch(
+        '$baseURL/api/project/${project.id}',
+        data: project.toJson(),
+      );
+
+      return ResponseAPI(
+        statusCode: res.statusCode,
+      );
+    } on DioException catch (e) {
+      logger.e(
+        "DioException :${e.response}",
+      );
+      throw ResponseAPI(
+        statusCode: e.response?.statusCode,
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
 }

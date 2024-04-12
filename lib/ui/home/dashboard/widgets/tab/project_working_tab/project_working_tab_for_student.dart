@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/widgets/emtyDataWidget.dart';
 
-class ProjectWorkingTab extends StatelessWidget {
-  const ProjectWorkingTab({super.key});
+class ProjectWorkingTabForStudent extends StatelessWidget {
+  const ProjectWorkingTabForStudent({super.key});
 
   @override
   Widget build(BuildContext context) {

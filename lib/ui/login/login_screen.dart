@@ -72,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 fillColor: Colors.white,
                 name: 'username',
                 hintText: 'Username',
-                initialValue: "buiquangthanh1709@gmail.com",
+                initialValue: "nguyenthoaidangkhoa@gmail.com",
                 icon: Container(
                   width: 18,
                   height: 18,
@@ -94,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 fillColor: Colors.white,
                 name: 'password',
                 hintText: 'Password',
-                initialValue: 'Buiquangthanh@1709',
+                initialValue: '@Khoa123',
                 obscureText: true,
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
@@ -114,7 +114,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(top: 10), // Replace 10 with your desired margin value
+                margin: const EdgeInsets.only(
+                    top: 10), // Replace 10 with your desired margin value
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Text(
@@ -126,25 +127,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              // const Spacer(
-              //   flex: 10,
-              // ),
-              // RichText(
-              //   text: TextSpan(
-              //     text: 'Create new account? ',
-              //     style: theme.textTheme.titleSmall?.copyWith(),
-              //     children: <TextSpan>[
-              //       TextSpan(
-              //         text: 'Sign Up',
-              //         style: const TextStyle(fontWeight: FontWeight.bold),
-              //         recognizer: TapGestureRecognizer()
-              //           ..onTap = () {
-              //             context.push('/signup_01');
-              //           },
-              //       ),
-              //     ],
-              //   ),
-              // ),
               Container(
                 margin: const EdgeInsets.only(top: 40),
                 width: MediaQuery.of(context).size.width,
@@ -155,15 +137,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   onPressed: () {
                     // validate form
-                    if (_formKeyLogin.currentState?.saveAndValidate() ?? false) {
+                    if (_formKeyLogin.currentState?.saveAndValidate() ??
+                        false) {
                       context.read<AuthBloc>().add(
                             LoginEvent(
                               requestLogin: RequestLogin(
-                                email: _formKeyLogin.currentState!.fields['username']!.value.toString(),
-                                password: _formKeyLogin.currentState!.fields['password']!.value.toString(),
+                                email: _formKeyLogin
+                                    .currentState!.fields['username']!.value
+                                    .toString(),
+                                password: _formKeyLogin
+                                    .currentState!.fields['password']!.value
+                                    .toString(),
                               ),
                               onSuccess: () {
-                                context.pushNamed('home', queryParameters: {'welcome': 'true'});
+                                context.pushNamed('home',
+                                    queryParameters: {'welcome': 'true'});
                               },
                               currentContext: context,
                             ),
@@ -172,7 +160,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   child: Text(
                     'Login',
-                    style: theme.textTheme.bodyMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                        color: Colors.white, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
@@ -186,8 +175,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text("OR",
-                        style: theme.textTheme.bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.w600, fontSize: 14, color: theme.colorScheme.grey))),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                            color: theme.colorScheme.grey))),
                 Expanded(
                   child: Divider(
                     color: theme.colorScheme.grey, // Set the color to grey
@@ -240,7 +231,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: <TextSpan>[
                       TextSpan(
                         text: 'Sign Up',
-                        style: const TextStyle(fontWeight: FontWeight.bold, color: primaryColor),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, color: primaryColor),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             context.pushNamed('signup_01');

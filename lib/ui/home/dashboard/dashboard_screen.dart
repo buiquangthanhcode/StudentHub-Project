@@ -3,9 +3,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
-import 'package:studenthub/ui/home/dashboard/widget/tab/project_all_tab.dart';
-import 'package:studenthub/ui/home/dashboard/widget/tab/project_archived_tab.dart';
-import 'package:studenthub/ui/home/dashboard/widget/tab/project_working_tab.dart';
+import 'package:studenthub/ui/home/dashboard/widgets/tab/project_all_tab/project_all_tab_for_company.dart';
+import 'package:studenthub/ui/home/dashboard/widgets/tab/project_all_tab/project_all_tab_for_student.dart';
+import 'package:studenthub/ui/home/dashboard/widgets/tab/project_archived_tab/project_archived_tab_for_company.dart';
+import 'package:studenthub/ui/home/dashboard/widgets/tab/project_archived_tab/project_archived_tab_for_student.dart';
+import 'package:studenthub/ui/home/dashboard/widgets/tab/project_working_tab/project_working_tab_for_company.dart';
+import 'package:studenthub/ui/home/dashboard/widgets/tab/project_working_tab/project_working_tab_for_student.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key, required this.welcome});
@@ -165,10 +168,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     const Expanded(
                       child: TabBarView(
                         children: [
-                          ProjectAllTab(),
-                          // ProjectAllTabStudent(),
-                          ProjectWorkingTab(),
-                          ProjectArchivedTab(),
+                          ProjectAllTabForCompany(),
+                          ProjectWorkingTabForCompany(),
+                          ProjectArchivedTabForCompany(),
+                          // ProjectAllTabForStudent(),
+                          // ProjectWorkingTabForStudent(),
+                          // ProjectArchivedTabForStudent(),
                         ],
                       ),
                     ),

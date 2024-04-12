@@ -20,6 +20,7 @@ class Project {
   int? countProposals;
   int? countMessages;
   int? countHired;
+  int? projectId;
   Project({
     this.id,
     this.companyId,
@@ -35,6 +36,7 @@ class Project {
     this.countProposals,
     this.countMessages,
     this.countHired,
+    this.projectId,
   });
 
   Project copyWith({
@@ -52,6 +54,7 @@ class Project {
     int? countProposals,
     int? countMessages,
     int? countHired,
+    int? projectId,
   }) {
     return Project(
       id: id ?? this.id,
@@ -68,6 +71,7 @@ class Project {
       countProposals: countProposals ?? this.countProposals,
       countMessages: countMessages ?? this.countMessages,
       countHired: countHired ?? this.countHired,
+      projectId: projectId ?? this.projectId,
     );
   }
 
@@ -144,6 +148,7 @@ class Project {
       countMessages:
           map['countMessages'] != null ? map['countMessages'] as int : null,
       countHired: map['countHired'] != null ? map['countHired'] as int : null,
+      projectId: map['projectId'] != null ? map['projectId'] as int : null,
     );
   }
 

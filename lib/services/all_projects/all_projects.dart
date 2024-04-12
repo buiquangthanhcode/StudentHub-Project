@@ -49,7 +49,7 @@ class AllProjectsService {
 
       return ResponseAPI<Project>(
         statusCode: res.statusCode,
-        data: Project.fromMap(res.data['result']['project']),
+        data: Project.fromMap(res.data['result']),
       );
     } on DioException catch (e) {
       logger.e(
