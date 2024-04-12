@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:studenthub/blocs/all_project_bloc/all_project_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
@@ -48,6 +49,9 @@ class StudentHub extends StatelessWidget {
         ),
         BlocProvider<ProjectBloc>(
           create: (BuildContext context) => ProjectBloc(),
+        ),
+        BlocProvider<AllProjectBloc>(
+          create: (BuildContext context) => AllProjectBloc(),
         ),
         // Add more bloc providers
       ],
