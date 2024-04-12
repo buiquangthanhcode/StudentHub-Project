@@ -41,3 +41,11 @@ class EditProjectEvent extends ProjectEvent {
   EditProjectEvent(
       {required this.companyId, required this.updatedProject, this.onSuccess});
 }
+
+class CloseProjectEvent extends ProjectEvent {
+  final int companyId;
+  final Project updatedProject;
+  final Function? onSuccess;
+  CloseProjectEvent(
+      {required this.companyId, required this.updatedProject, this.onSuccess});
+}

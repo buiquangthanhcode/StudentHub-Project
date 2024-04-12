@@ -28,7 +28,7 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
     final dataHeader = getMoreActionHeader(theme);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: ListView.separated(
         separatorBuilder: (context, index) {
           return Container(
@@ -45,11 +45,11 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
               onTap: () {
                 final key = dataHeader[index]['key'];
                 switch (key) {
-                  case "view_proposal":
-                    log("View Proposal");
+                  case "view_proposals":
+                    log("View Proposals");
                     break;
-                  case "view_message":
-                    log("View Message");
+                  case "view_messages":
+                    log("View Messages");
                     break;
                   case "view_hired":
                     log("View Hired");
@@ -57,6 +57,7 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
                   case "view_job_posting":
                     log("View Job Posting");
                     break;
+
                   case "edit_posting":
                     showModalBottomSheet(
                       isScrollControlled: true,
@@ -84,6 +85,40 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
                                 Navigator.pop(context);
                               }),
                         );
+                    break;
+                  case "close_posting":
+                    log("Close Posting");
+                    int? companyId = BlocProvider.of<AuthBloc>(context)
+                        .state
+                        .userModel
+                        .company!
+                        .id;
+                    context.read<ProjectBloc>().add(
+                          CloseProjectEvent(
+                              companyId: companyId!,
+                              updatedProject: Project.fromMap(
+                                {
+                                  'id': widget.project.id,
+                                  'projectScopeFlag':
+                                      widget.project.projectScopeFlag,
+                                  'title': widget.project.title,
+                                  'description': widget.project.description,
+                                  'numberOfStudents':
+                                      widget.project.numberOfStudents,
+                                  'typeFlag': 1,
+                                },
+                              ),
+                              onSuccess: () {
+                                SnackBarService.showSnackBar(
+                                    status: StatusSnackBar.success,
+                                    content:
+                                        "Project was updated successfully!");
+                                Navigator.pop(context);
+                              }),
+                        );
+                    break;
+                  case "start_working":
+                    log("Start Working");
                     break;
                 }
               },
