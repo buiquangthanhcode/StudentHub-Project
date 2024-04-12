@@ -51,3 +51,9 @@ String handleFormatMessage(dynamic message) {
     return 'Invalid message type';
   }
 }
+
+String formatIsoDateString(String isoDateString) {
+  DateTime dateTime = DateTime.parse(isoDateString);
+  DateFormat formatter = DateFormat('dd-MM-yyyy');
+  return formatter.format(dateTime);
+}

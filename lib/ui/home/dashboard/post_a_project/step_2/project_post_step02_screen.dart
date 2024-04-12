@@ -1,13 +1,12 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
-import 'package:studenthub/blocs/company_bloc/company_event.dart';
-import 'package:studenthub/blocs/company_bloc/company_state.dart';
+import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
+import 'package:studenthub/blocs/project_bloc/project_event.dart';
+import 'package:studenthub/blocs/project_bloc/project_state.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/models/common/project_model.dart';
 
@@ -32,7 +31,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CompanyBloc, CompanyState>(
+    return BlocBuilder<ProjectBloc, ProjectState>(
       builder: (context, state) {
         return Scaffold(
           resizeToAvoidBottomInset: false,
@@ -168,13 +167,13 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                 ElevatedButton(
                   onPressed: () {
                     final currentProject = Project(
-                      title: state.project.title,
+                      title: state.projectCreation.title,
                       projectScopeFlag:
                           _timeOption == TimeOption.option1 ? 0 : 1,
                       numberOfStudents: int.parse(_textEditingController.text),
                     );
                     context
-                        .read<CompanyBloc>()
+                        .read<ProjectBloc>()
                         .add(UpdateNewProjectEvent(currentProject));
                     context.push('/home/project_post/step_03');
                   },

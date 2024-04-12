@@ -8,6 +8,9 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
 import 'package:studenthub/blocs/company_bloc/company_event.dart';
 import 'package:studenthub/blocs/company_bloc/company_state.dart';
+import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
+import 'package:studenthub/blocs/project_bloc/project_event.dart';
+import 'package:studenthub/blocs/project_bloc/project_state.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
@@ -24,7 +27,7 @@ class ProjectPostStep04Screen extends StatefulWidget {
 class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CompanyBloc, CompanyState>(
+    return BlocBuilder<ProjectBloc, ProjectState>(
       builder: (context, state) {
         return Scaffold(
           resizeToAvoidBottomInset: false,
@@ -84,7 +87,7 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                     //       ),
                     // ),
                     Text(
-                      state.project.title ?? 'None title',
+                      state.projectCreation.title ?? 'None title',
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -116,8 +119,8 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                         //   'Detail about your project',
                         // ]),
                         BulletList([
-                          if (state.project.description != null)
-                            state.project.description!
+                          if (state.projectCreation.description != null)
+                            state.projectCreation.description!
                           else
                             'None description'
                         ]),
@@ -161,7 +164,7 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                                     ),
                                   ),
                                   Text(
-                                    state.project.projectScopeFlag == 0
+                                    state.projectCreation.projectScopeFlag == 0
                                         ? '1-3 months'
                                         : '3-6 months',
                                     style: Theme.of(context)
@@ -204,7 +207,8 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                                     ),
                                   ),
                                   Text(
-                                    state.project.numberOfStudents.toString(),
+                                    state.projectCreation.numberOfStudents
+                                        .toString(),
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall!
@@ -226,19 +230,16 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                 ElevatedButton(
                   onPressed: () {
                     // context.push('/');
-                    context.read<CompanyBloc>().add(PostNewProjectEvent(
+                    context.read<ProjectBloc>().add(PostNewProjectEvent(
                         newProject: Project.fromMap({
-                          ...state.project.toMap(),
-                          "companyId": "123",
+                          ...state.projectCreation.toMap(),
+                          "companyId": "39",
                           "typeFlag": 0
                         }),
                         onSuccess: () {
                           SnackBarService.showSnackBar(
                               content: 'Successfully!',
                               status: StatusSnackBar.success);
-                          Future.delayed(Duration(seconds: 2), () {
-                            Navigator.pop(context);
-                          });
                           context.pushNamed('home');
                         }));
                   },

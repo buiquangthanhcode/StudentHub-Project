@@ -80,9 +80,10 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
           // for get token and call API me to get more information
           add(GetInformationEvent(
               accessToken: result.data?.resultMap?.token ?? '',
-              onSuccess: () {}));
+              onSuccess: () {
+                event.onSuccess!();
+              }));
         });
-        event.onSuccess!();
       } else {
         SnackBarService.showSnackBar(
             content: handleFormatMessage(result.data!.errorDetails),

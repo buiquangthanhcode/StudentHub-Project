@@ -1,36 +1,81 @@
+import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
+import 'package:studenthub/blocs/project_bloc/project_event.dart';
+import 'package:studenthub/blocs/project_bloc/project_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
+import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/ui/home/dashboard/data/data_count.dart';
 import 'package:studenthub/ui/home/dashboard/widget/more_action_widget.dart';
+import 'package:studenthub/utils/helper.dart';
+import 'package:studenthub/utils/logger.dart';
+import 'package:studenthub/widgets/emtyDataWidget.dart';
 
-class ProjectAllTab extends StatelessWidget {
+class ProjectAllTab extends StatefulWidget {
   const ProjectAllTab({super.key});
+
+  @override
+  State<ProjectAllTab> createState() => _ProjectAllTabState();
+}
+
+class _ProjectAllTabState extends State<ProjectAllTab> {
+  List<Project> projects = [];
+  @override
+  void initState() {
+    super.initState();
+    int? id = BlocProvider.of<AuthBloc>(context).state.userModel.company!.id;
+    logger.e(id);
+    context.read<ProjectBloc>().add(
+          GetAllProjectsEvent(
+            companyId: id.toString(),
+          ),
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Container(
-      margin: const EdgeInsets.only(top: 20),
-      child: Center(
-        child: ListView.separated(
-          itemCount: 10,
-          itemBuilder: (context, index) {
-            return ProjectReviewItem(theme: theme);
-          },
-          separatorBuilder: (context, index) {
-            return const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              child: Divider(),
-            );
-          },
-        ),
-      ),
+    return BlocBuilder<ProjectBloc, ProjectState>(
+      builder: (context, state) {
+        if (state.projects.isEmpty) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              EmptyDataWidget(
+                mainTitle: '',
+                subTitle: 'No project working yet.',
+                widthImage: MediaQuery.of(context).size.width * 0.5,
+              ),
+            ],
+          );
+        }
+        return Container(
+          margin: const EdgeInsets.only(top: 20),
+          child: Center(
+            child: ListView.separated(
+              itemCount: state.projects.length,
+              itemBuilder: (context, index) {
+                return ProjectReviewItem(
+                    theme: theme, item: state.projects[index]);
+              },
+              separatorBuilder: (context, index) {
+                return const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  child: Divider(),
+                );
+              },
+            ),
+          ),
+        );
+      },
     );
   }
 }
@@ -59,7 +104,7 @@ class ProjectAllTabStudent extends StatelessWidget {
               child: ListView.separated(
                 itemCount: 5,
                 itemBuilder: (context, index) {
-                  return ProjectReviewItem(theme: theme);
+                  return ProjectReviewItem(theme: theme, item: Project());
                 },
                 separatorBuilder: (context, index) {
                   return const Padding(
@@ -88,7 +133,7 @@ class ProjectAllTabStudent extends StatelessWidget {
               child: ListView.separated(
                 itemCount: 10,
                 itemBuilder: (context, index) {
-                  return ProjectReviewItem(theme: theme);
+                  return ProjectReviewItem(theme: theme, item: Project());
                 },
                 separatorBuilder: (context, index) {
                   return const Padding(
@@ -109,9 +154,11 @@ class ProjectReviewItem extends StatelessWidget {
   const ProjectReviewItem({
     super.key,
     required this.theme,
+    required this.item,
   });
 
   final ThemeData theme;
+  final Project item;
 
   @override
   Widget build(BuildContext context) {
@@ -127,17 +174,8 @@ class ProjectReviewItem extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  'Senior Frontend Developer',
+                  item.title ?? '',
                   style: theme.textTheme.bodyMedium,
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  '(${'FinTech'})',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: primaryColor,
-                  ),
                 ),
                 const Spacer(),
                 GestureDetector(
@@ -162,7 +200,7 @@ class ProjectReviewItem extends StatelessWidget {
             ),
             const SizedBox(height: 2),
             Text(
-              'Created 3 days ago',
+              "Updated at ${formatIsoDateString(item.updatedAt ?? '')}",
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.grey,
                 fontSize: 14,
@@ -170,7 +208,7 @@ class ProjectReviewItem extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              'Student are looking for',
+              'Students are looking for',
               style: theme.textTheme.bodyMedium!
                   .copyWith(fontWeight: FontWeight.bold),
             ),
@@ -192,7 +230,7 @@ class ProjectReviewItem extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      'Clear expectation about your project or deliverables',
+                      item.description ?? '',
                       style: theme.textTheme.bodyMedium!.copyWith(
                         fontSize: 14,
                       ),
@@ -202,37 +240,44 @@ class ProjectReviewItem extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: data
-                  .map(
-                    (item) => Container(
-                      width: MediaQuery.of(context).size.width / 4,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.grey!.withOpacity(0.08),
-                        borderRadius: BorderRadius.circular(15),
+            Builder(builder: (context) {
+              final data = [
+                {"label": "Proposals", "total": item.countProposals.toString()},
+                {"label": "Messages", "total": item.countMessages.toString()},
+                {"label": "Hired", "total": item.countHired.toString()},
+              ];
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: data
+                    .map(
+                      (item) => Container(
+                        width: MediaQuery.of(context).size.width / 4,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.grey!.withOpacity(0.08),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item['total'].toString(),
+                              style: theme.textTheme.bodyMedium!
+                                  .copyWith(color: Colors.black87),
+                            ),
+                            Text(
+                              item['label'].toString(),
+                              style: theme.textTheme.bodyMedium!
+                                  .copyWith(color: primaryColor),
+                            ),
+                          ],
+                        ),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item['total'] ?? '',
-                            style: theme.textTheme.bodyMedium!
-                                .copyWith(color: Colors.black87),
-                          ),
-                          Text(
-                            item['label'] ?? '',
-                            style: theme.textTheme.bodyMedium!
-                                .copyWith(color: primaryColor),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                  .toList(),
-            )
+                    )
+                    .toList(),
+              );
+            })
           ],
         ),
       ),

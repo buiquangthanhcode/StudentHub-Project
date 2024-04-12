@@ -1,14 +1,12 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
-import 'package:studenthub/blocs/company_bloc/company_event.dart';
-import 'package:studenthub/blocs/company_bloc/company_state.dart';
-import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
+import 'package:studenthub/blocs/project_bloc/project_event.dart';
+import 'package:studenthub/blocs/project_bloc/project_state.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
 
@@ -25,7 +23,7 @@ class _ProjectPostStep03ScreenState extends State<ProjectPostStep03Screen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CompanyBloc, CompanyState>(
+    return BlocBuilder<ProjectBloc, ProjectState>(
       builder: (context, state) {
         log("state in step 3: ${state}");
         return Scaffold(
@@ -141,12 +139,12 @@ class _ProjectPostStep03ScreenState extends State<ProjectPostStep03Screen> {
                     onPressed: () {
                       // context.push('/project_post/step_04');
                       final currentProject = {
-                        ...state.project.toMap(),
+                        ...state.projectCreation.toMap(),
                         'description': _textEditingController.text
                       };
                       Project newProject = Project.fromMap(currentProject);
                       context
-                          .read<CompanyBloc>()
+                          .read<ProjectBloc>()
                           .add(UpdateNewProjectEvent(newProject));
                       context.push('/home/project_post/step_04');
                     },

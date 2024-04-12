@@ -17,14 +17,14 @@ class CompanyBloc extends Bloc<CompanyEvent, CompanyState> {
       : super(
           CompanyState(
             company: Company(),
-            project: Project(),
+            // project: Project(),
           ),
         ) {
     on<AddAllDataEvent>(_onAddAllData);
     on<UpdateAllDataEvent>(_onUpdateAllData);
     on<GetAllDataEvent>(_onGetAllData);
-    on<UpdateNewProjectEvent>(_onUpdateNewProject);
-    on<PostNewProjectEvent>(_onPostNewProject);
+    // on<UpdateNewProjectEvent>(_onUpdateNewProject);
+    // on<PostNewProjectEvent>(_onPostNewProject);
   }
 
   final CompanyService _companyService = CompanyService();
@@ -109,25 +109,25 @@ class CompanyBloc extends Bloc<CompanyEvent, CompanyState> {
     }
   }
 
-  FutureOr<void> _onUpdateNewProject(
-      UpdateNewProjectEvent event, Emitter<CompanyState> emit) async {
-    try {
-      emit(state.update(project: event.newProject));
-    } catch (e) {
-      logger.e(e);
-    }
-  }
+//   FutureOr<void> _onUpdateNewProject(
+//       UpdateNewProjectEvent event, Emitter<CompanyState> emit) async {
+//     try {
+//       emit(state.update(project: event.newProject));
+//     } catch (e) {
+//       logger.e(e);
+//     }
+//   }
 
-  FutureOr<void> _onPostNewProject(
-      PostNewProjectEvent event, Emitter<CompanyState> emit) async {
-    try {
-      final response = await _companyService.postNewProject(event.newProject);
-      if (response.statusCode! <= 201) {
-        emit(state.update(project: response.data!));
-        event.onSuccess!();
-      }
-    } catch (e) {
-      logger.e(e);
-    }
-  }
+//   FutureOr<void> _onPostNewProject(
+//       PostNewProjectEvent event, Emitter<CompanyState> emit) async {
+//     try {
+//       final response = await _companyService.postNewProject(event.newProject);
+//       if (response.statusCode! <= 201) {
+//         emit(state.update(project: response.data!));
+//         event.onSuccess!();
+//       }
+//     } catch (e) {
+//       logger.e(e);
+//     }
+//   }
 }
