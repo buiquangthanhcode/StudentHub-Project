@@ -37,7 +37,6 @@ class MoreActionChatDetail extends StatelessWidget {
       itemBuilder: ((context, index) {
         return InkWell(
           onTap: () {
-            logger.d(data[index]['key']);
             if (data[index]['key'] == 'schedule') {
               Navigator.pop(context);
               showModalBottomSheetCustom(context, widgetBuilder: ScheduleWidget(

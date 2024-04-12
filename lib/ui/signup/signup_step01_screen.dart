@@ -151,7 +151,6 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                   minimumSize: Size(maxWidth, 56),
                 ),
                 onPressed: () {
-                  logger.d(isCompany);
                   isCompany
                       ? context.pushNamed('signup_02_for_company', queryParameters: {'role': isCompany ? '1' : '0'})
                       : context.pushNamed('signup_02_for_student', queryParameters: {'role': isCompany ? '1' : '0'});

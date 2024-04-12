@@ -62,8 +62,21 @@ class EducationItem extends StatelessWidget {
           const SizedBox(width: 10),
           InkWell(
             onTap: () {
+              int userId = BlocProvider.of<StudentBloc>(context).state.student.id ?? 0;
+              List<Education> currentEducation = BlocProvider.of<StudentBloc>(context).state.student.educations ?? [];
+
+              for (var element in currentEducation) {
+                if (element.id == item.id) {
+                  currentEducation.remove(element);
+                  break;
+                }
+              }
               context.read<StudentBloc>().add(
-                    RemoveEducationEvent(education: item, onSuccess: () {}),
+                    UpdateEducationEvent(
+                      userId: userId,
+                      educations: currentEducation,
+                      onSuccess: () {},
+                    ),
                   );
             },
             child: const FaIcon(

@@ -25,7 +25,7 @@ class RequestUpdateEducation {
     final result = <String, dynamic>{};
 
     result.addAll({'userid': userid});
-    result.addAll({'educations': educations.map((x) => x.toMap()).toList()});
+    result.addAll({'education': educations.map((x) => x.toMap()).toList()});
 
     return result;
   }
@@ -33,7 +33,7 @@ class RequestUpdateEducation {
   factory RequestUpdateEducation.fromMap(Map<String, dynamic> map) {
     return RequestUpdateEducation(
       userid: map['userid'] ?? '',
-      educations: List<Education>.from(map['educations']?.map((x) => Education.fromMap(x))),
+      educations: List<Education>.from(map['education']?.map((x) => Education.fromMap(x))),
     );
   }
 
