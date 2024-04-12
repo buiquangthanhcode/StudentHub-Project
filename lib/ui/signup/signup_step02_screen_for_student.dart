@@ -31,23 +31,15 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
 
   void handleSubmit() {
     if (!isAcceptCondtion) {
-      SnackBarService.showSnackBar(
-          content: 'Please accept the terms of service',
-          status: StatusSnackBar.info);
+      SnackBarService.showSnackBar(content: 'Please accept the terms of service', status: StatusSnackBar.info);
       return;
     }
 
-    if ((formKeyLogin.currentState?.saveAndValidate() ?? false) &&
-        isAcceptCondtion) {
+    if ((formKeyLogin.currentState?.saveAndValidate() ?? false) && isAcceptCondtion) {
       final requestRegisterAccount = RequestRegisterAccount(
-        email:
-            formKeyLogin.currentState?.fields['email']?.value.toString() ?? '',
-        password:
-            formKeyLogin.currentState?.fields['password']?.value.toString() ??
-                '',
-        fullname:
-            formKeyLogin.currentState?.fields['fullname']?.value.toString() ??
-                '',
+        email: formKeyLogin.currentState?.fields['email']?.value.toString() ?? '',
+        password: formKeyLogin.currentState?.fields['password']?.value.toString() ?? '',
+        fullname: formKeyLogin.currentState?.fields['fullname']?.value.toString() ?? '',
         role: widget.role ?? "0",
       );
       context.read<AuthBloc>().add(RegisterAccount(
@@ -61,7 +53,6 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    logger.d(widget.role);
 
     return Scaffold(
       appBar: AppBar(
@@ -88,8 +79,7 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
                         TextSpan(
                           text: 'Student',
                           style: TextStyle(
-                            color:
-                                primaryColor, // Replace with your desired color
+                            color: primaryColor, // Replace with your desired color
                           ),
                         ),
                       ],
@@ -107,8 +97,7 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
                   name: 'fullname',
                   hintText: 'Fullname',
                   onTap: () {
-                    Scrollable.ensureVisible(formKeyLogin.currentContext!,
-                        duration: const Duration(milliseconds: 500));
+                    Scrollable.ensureVisible(formKeyLogin.currentContext!, duration: const Duration(milliseconds: 500));
                   },
                   icon: Container(
                     width: 18,
@@ -174,8 +163,7 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
                         child: ListTileTheme(
                           horizontalTitleGap: 0.0,
                           child: CheckboxListTile(
-                            contentPadding:
-                                const EdgeInsets.symmetric(horizontal: 25),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 25),
                             activeColor: primaryColor,
                             title: RichText(
                                 text: TextSpan(
@@ -191,8 +179,7 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
                               ],
                             )),
                             controlAffinity: ListTileControlAffinity.leading,
-                            checkboxShape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15)),
+                            checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                             value: isAcceptCondtion,
                             onChanged: (value) {
                               setState(() {

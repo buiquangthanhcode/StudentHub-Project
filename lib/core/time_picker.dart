@@ -29,8 +29,7 @@ class _DatePickerCustomState extends State<TimePickerCustom> {
   void initState() {
     super.initState();
     if (widget.initialDate != null) {
-      texController.text =
-          DateFormat('dd/MM/yyyy').format(widget.initialDate!).toString();
+      texController.text = DateFormat('dd/MM/yyyy').format(widget.initialDate!).toString();
     }
   }
 
@@ -124,7 +123,6 @@ class _DatePickerCustomState extends State<TimePickerCustom> {
                         ),
                         negativeButtonText: "Cancel",
                         onPositivePressed: (context, time) {
-                          logger.d(time);
                           Navigator.pop(context, time);
                         },
                         onNegativePressed: (context) {

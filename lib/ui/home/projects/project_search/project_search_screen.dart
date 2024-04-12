@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/ui/home/projects/project_search/widgets/filter_dialog.dart';
 import 'package:studenthub/ui/home/projects/widgets/project_item.dart';
 
@@ -276,7 +277,8 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                 child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: 10,
-                    itemBuilder: (context, index) => const ProjectItem(
+                    itemBuilder: (context, index) => ProjectItem(
+                          project: Project(),
                           paddingRight: 12,
                         )),
               ),

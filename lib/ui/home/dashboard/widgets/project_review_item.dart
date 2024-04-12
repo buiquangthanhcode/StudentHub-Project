@@ -39,6 +39,28 @@ class ProjectReviewItem extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     showModalBottomSheetCustom(context,
+                        headerBuilder: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  color:
+                                      theme.colorScheme.grey!.withOpacity(0.4),
+                                  borderRadius: BorderRadius.circular(50)),
+                              padding: const EdgeInsets.all(3),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(
+                                  Icons.close,
+                                  size: 20,
+                                  color: theme.colorScheme.grey,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                         widgetBuilder: MoreActionWidget(
                           project: item,
                           // projectId: item.id!,

@@ -5,9 +5,14 @@ import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
 
 class AutoCompleteWidget extends StatefulWidget {
-  const AutoCompleteWidget({super.key, required this.data});
+  const AutoCompleteWidget({
+    super.key,
+    required this.data,
+    this.onSelected,
+  });
 
   final List<String> data;
+  final Function(String value)? onSelected;
 
   @override
   State<AutoCompleteWidget> createState() => _AutoCompleteWidgetState();
@@ -15,6 +20,7 @@ class AutoCompleteWidget extends StatefulWidget {
 
 class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
   late TextEditingController textEditingController;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -87,8 +93,10 @@ class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
             });
           },
           onSelected: (String value) {
-            context.read<StudentBloc>().add(AddSkillSetEvent(SkillSet(name: value, isSelected: true)));
             textEditingController.text = "";
+            if (widget.onSelected != null) {
+              widget.onSelected!(value);
+            }
           },
         );
       },

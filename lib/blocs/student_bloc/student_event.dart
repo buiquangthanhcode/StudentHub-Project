@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:studenthub/data/dto/student/request_change_password.dart';
+import 'package:studenthub/data/dto/student/request_post_experience.dart';
+import 'package:studenthub/data/dto/student/request_update_profile_student.dart';
 import 'package:studenthub/models/student/student_create_profile/education_model.dart';
 import 'package:studenthub/models/student/student_create_profile/language_model.dart';
 import 'package:studenthub/models/student/student_create_profile/project_model.dart';
 import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
+import 'package:studenthub/models/student/student_model.dart';
 
 @immutable
 abstract class StudentEvent {}
@@ -21,12 +25,6 @@ class GetAllEducationEvent extends StudentEvent {
   final Function? onSuccess;
   final int id;
   GetAllEducationEvent({this.onSuccess, required this.id});
-}
-
-class GetAllExperienceEvent extends StudentEvent {
-  final Function? onSuccess;
-  final int id;
-  GetAllExperienceEvent({this.onSuccess, required this.id});
 }
 
 class AddSkillSetEvent extends StudentEvent {
@@ -92,11 +90,25 @@ class UpdateEducationEvent extends StudentEvent {
   UpdateEducationEvent({required this.educations, required this.onSuccess, required this.userId});
 }
 
+class PostProfileStudent extends StudentEvent {
+  final RequestUpdateProfileStudent profileStudent;
+  final Function(Student student)? onSuccess;
+
+  PostProfileStudent({required this.profileStudent, required this.onSuccess});
+}
+
+class UpdateProfileStudent extends StudentEvent {
+  final RequestUpdateProfileStudent profileStudent;
+  final Function(Student student)? onSuccess;
+
+  UpdateProfileStudent({required this.profileStudent, required this.onSuccess});
+}
+
 class AddProjectEvent extends StudentEvent {
-  final ProjectResume project;
+  final RequestPostExperience experience;
   final Function? onSuccess;
 
-  AddProjectEvent({required this.project, required this.onSuccess});
+  AddProjectEvent({required this.experience, required this.onSuccess});
 }
 
 class UpdateProjectEvent extends StudentEvent {
@@ -111,4 +123,45 @@ class RemoveProjectEvents extends StudentEvent {
   final Function? onSuccess;
 
   RemoveProjectEvents({required this.project, required this.onSuccess});
+}
+
+class UpdateUIEvent extends StudentEvent {
+  UpdateUIEvent();
+}
+
+class GetAllExperience extends StudentEvent {
+  final int userId;
+  final Function? onSuccess;
+
+  GetAllExperience({required this.userId, this.onSuccess});
+}
+
+class UploadResumeEvent extends StudentEvent {
+  final String path;
+  final int userId;
+  final String name;
+  final Function? onSuccess;
+
+  UploadResumeEvent({required this.path, required this.userId, this.onSuccess, required this.name});
+}
+
+class GetResumeEvent extends StudentEvent {
+  final String studentId;
+  final Function()? onSuccess;
+
+  GetResumeEvent({required this.studentId, this.onSuccess});
+}
+
+class UpdateStudentEvent extends StudentEvent {
+  final Student student;
+  final bool isChange;
+
+  UpdateStudentEvent({required this.student, required this.isChange});
+}
+
+class ChangePassWordEvent extends StudentEvent {
+  final RequestChangePassWord requestChangePassWordRequest;
+  final Function? onSuccess;
+
+  ChangePassWordEvent({required this.requestChangePassWordRequest, required this.onSuccess});
 }

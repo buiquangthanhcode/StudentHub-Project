@@ -139,23 +139,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     // validate form
                     if (_formKeyLogin.currentState?.saveAndValidate() ??
                         false) {
-                      logger.d(_formKeyLogin.currentState!.value);
-                      // context.pushNamed('home',
-                      //     queryParameters: {'welcome': 'true'});
                       context.read<AuthBloc>().add(
                             LoginEvent(
-                                requestLogin: RequestLogin(
-                                  email: _formKeyLogin
-                                      .currentState!.fields['username']!.value
-                                      .toString(),
-                                  password: _formKeyLogin
-                                      .currentState!.fields['password']!.value
-                                      .toString(),
-                                ),
-                                onSuccess: () {
-                                  context.pushNamed('home',
-                                      queryParameters: {'welcome': 'true'});
-                                }),
+                              requestLogin: RequestLogin(
+                                email: _formKeyLogin
+                                    .currentState!.fields['username']!.value
+                                    .toString(),
+                                password: _formKeyLogin
+                                    .currentState!.fields['password']!.value
+                                    .toString(),
+                              ),
+                              onSuccess: () {
+                                context.pushNamed('home',
+                                    queryParameters: {'welcome': 'true'});
+                              },
+                              currentContext: context,
+                            ),
                           );
                     }
                   },

@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studenthub/blocs/all_project_bloc/all_project_bloc.dart';
+import 'package:studenthub/blocs/all_project_bloc/all_project_event.dart';
+import 'package:studenthub/blocs/all_project_bloc/all_project_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/ui/home/projects/widgets/project_item.dart';
+import 'package:studenthub/utils/logger.dart';
+import 'package:studenthub/widgets/emtyDataWidget.dart';
 
 class ProjectScreen extends StatefulWidget {
   const ProjectScreen({super.key});
@@ -27,6 +33,10 @@ class _ProjectScreenState extends State<ProjectScreen> {
     _scrollController.addListener(_scrollListener);
 
     super.initState();
+
+    context.read<AllProjectBloc>().add(
+          GetAllDataEvent(),
+        );
   }
 
   @override
@@ -66,88 +76,93 @@ class _ProjectScreenState extends State<ProjectScreen> {
     // TextTheme textTheme = Theme.of(context).textTheme;
     var colorTheme = Theme.of(context).colorScheme;
 
-    return Scaffold(
-      body: CustomScrollView(
-        controller: _scrollController,
-        slivers: [
-          SliverAppBar(
-            automaticallyImplyLeading: false,
-            expandedHeight: 60,
-            collapsedHeight: 60,
-            elevation: 0,
-            pinned: pinned || _searchFocus.hasFocus,
-            title: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Projects',
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          fontWeight: FontWeight.w700,
-                        ),
-                  ),
-                  Row(
+    return BlocBuilder<AllProjectBloc, AllProjectState>(
+      builder: (BuildContext context, AllProjectState state) {
+        return Scaffold(
+          body: CustomScrollView(
+            controller: _scrollController,
+            slivers: [
+              SliverAppBar(
+                automaticallyImplyLeading: false,
+                expandedHeight: 60,
+                collapsedHeight: 60,
+                elevation: 0,
+                pinned: pinned || _searchFocus.hasFocus,
+                title: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      InkWell(
-                        onTap: () {
-                          context.pushNamed('project_search');
-                        },
-                        child: Container(
-                          height: 39,
-                          width: 39,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: const Color.fromARGB(255, 245, 245, 245),
-                          ),
-                          alignment: Alignment.center,
-                          child: FaIcon(
-                            FontAwesomeIcons.magnifyingGlass,
-                            color: colorTheme.black,
-                            size: 21,
-                          ),
-                        ),
+                      Text(
+                        'Projects',
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
                       ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          context.pushNamed('project_saved');
-                        },
-                        child: Container(
-                          height: 39,
-                          width: 39,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: const Color.fromARGB(255, 245, 245, 245),
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              context.pushNamed('project_search');
+                            },
+                            child: Container(
+                              height: 39,
+                              width: 39,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: const Color.fromARGB(255, 245, 245, 245),
+                              ),
+                              alignment: Alignment.center,
+                              child: FaIcon(
+                                FontAwesomeIcons.magnifyingGlass,
+                                color: colorTheme.black,
+                                size: 21,
+                              ),
+                            ),
                           ),
-                          alignment: Alignment.center,
-                          child: FaIcon(
-                            FontAwesomeIcons.solidHeart,
-                            color: colorTheme.black,
-                            size: 21,
+                          const SizedBox(
+                            width: 8,
                           ),
-                        ),
+                          InkWell(
+                            onTap: () {
+                              context.pushNamed('project_saved');
+                            },
+                            child: Container(
+                              height: 39,
+                              width: 39,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: const Color.fromARGB(255, 245, 245, 245),
+                              ),
+                              alignment: Alignment.center,
+                              child: FaIcon(
+                                FontAwesomeIcons.solidHeart,
+                                color: colorTheme.black,
+                                size: 21,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
-            ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  childCount: state.projectList.length,
+                  (BuildContext context, int index) {
+                    return ProjectItem(
+                      project: state.projectList[index],
+                      paddingRight: 8,
+                    );
+                  },
+                ),
+              )
+            ],
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              childCount: 10,
-              (BuildContext context, int index) {
-                return const ProjectItem(
-                  paddingRight: 8,
-                );
-              },
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

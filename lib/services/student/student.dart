@@ -1,12 +1,20 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:studenthub/data/dto/reponse.dart';
+import 'package:studenthub/data/dto/student/request_change_password.dart';
+import 'package:studenthub/data/dto/student/request_post_experience.dart';
+import 'package:studenthub/data/dto/student/request_post_resume.dart';
 import 'package:studenthub/data/dto/student/request_update_education.dart';
 import 'package:studenthub/data/dto/student/request_update_language.dart';
+import 'package:studenthub/data/dto/student/request_update_profile_student.dart';
+import 'package:studenthub/models/common/user_model.dart';
 import 'package:studenthub/models/student/student_create_profile/education_model.dart';
 import 'package:studenthub/models/student/student_create_profile/language_model.dart';
+import 'package:studenthub/models/student/student_create_profile/project_model.dart';
 import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
 import 'package:studenthub/models/student/student_create_profile/tech_stack.dart';
+import 'package:studenthub/models/student/student_model.dart';
 import 'package:studenthub/services/api_interceptor.dart';
 import 'package:studenthub/services/dio_client.dart';
 import 'package:studenthub/services/endpoint.dart';
@@ -45,6 +53,56 @@ class StudentService {
     }
   }
 
+  Future<ResponseAPI> postProfileStudent(RequestUpdateProfileStudent profile) async {
+    try {
+      final res = await dioClient.post(
+        '$baseURL/api/profile/student',
+        data: profile.toJson(),
+      );
+
+      return ResponseAPI(
+        statusCode: res.statusCode,
+        data: [],
+      );
+    } on DioException catch (e) {
+      logger.e(
+        "DioException :${e.response}",
+      );
+      throw ResponseAPI(
+        statusCode: e.response?.statusCode,
+        data: [],
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
+
+  Future<ResponseAPI<Student>> updateProfileStudent(RequestUpdateProfileStudent profile) async {
+    try {
+      final res = await dioClient.put(
+        '$baseURL/api/profile/student/${profile.userId}',
+        data: profile.toJson(),
+      );
+
+      return ResponseAPI<Student>(
+        statusCode: res.statusCode,
+        data: Student.fromMap(res.data['result']),
+      );
+    } on DioException catch (e) {
+      logger.e(
+        "DioException :${e.response}",
+      );
+      throw ResponseAPI<Student>(
+        statusCode: e.response?.statusCode,
+        data: Student.fromMap(e.response?.data['result']),
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
+
   Future<ResponseAPI<List<SkillSet>>> getAllSkillSet() async {
     try {
       final res = await dioClient.get(
@@ -75,8 +133,6 @@ class StudentService {
         '$baseURL/api/language/updateByStudentId/${requestUpdateLanguage.userid}',
         data: requestUpdateLanguage.toJson(),
       );
-
-      logger.d(res);
 
       return ResponseAPI(
         statusCode: res.statusCode,
@@ -149,8 +205,6 @@ class StudentService {
         data: requestUpdateEducation.toJson(),
       );
 
-      logger.d(res);
-
       return ResponseAPI(
         statusCode: res.statusCode,
         data: [],
@@ -162,6 +216,99 @@ class StudentService {
       throw ResponseAPI(
         statusCode: e.response?.statusCode,
         data: [],
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
+
+  Future<ResponseAPI<List<ProjectResume>>> updateExperience(RequestPostExperience requestPostExperience) async {
+    try {
+      final res = await dioClient.put(
+        '$baseURL/api/experience/updateByStudentId/${requestPostExperience.userId}',
+        data: requestPostExperience.toJson(),
+      );
+
+      return ResponseAPI<List<ProjectResume>>(
+        statusCode: res.statusCode,
+        data: List<ProjectResume>.from(res.data['result'].map((x) => ProjectResume.fromMap((x))).toList()),
+      );
+    } on DioException catch (e) {
+      logger.e(
+        "DioException :${e.response}",
+      );
+      throw ResponseAPI<List<ProjectResume>>(
+        statusCode: e.response?.statusCode,
+        data: [],
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
+
+  Future<ResponseAPI<List<ProjectResume>>> getAllExperience(String userId) async {
+    try {
+      final res = await dioClient.get(
+        '$baseURL/api/experience/getByStudentId/$userId',
+      );
+
+      return ResponseAPI<List<ProjectResume>>(
+        statusCode: res.statusCode,
+        data: List<ProjectResume>.from(res.data['result'].map((x) => ProjectResume.fromMap((x))).toList()),
+      );
+    } on DioException catch (e) {
+      logger.e(
+        "DioException :${e.response}",
+      );
+      throw ResponseAPI<List<ProjectResume>>(
+        statusCode: e.response?.statusCode,
+        data: [],
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
+
+  Future<ResponseAPI> uploadResume(RequestPostResume request) async {
+    try {
+      final res = await dioClient.put('$baseURL/api/profile/student/${request.studentId}/resume',
+          data: FormData.fromMap(request.toMap()));
+
+      logger.d(res);
+      return ResponseAPI(
+        statusCode: res.statusCode,
+        data: [],
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
+
+  Future<ResponseAPI<String>> getResume(String studentId) async {
+    try {
+      final res = await dioClient.get('$baseURL/api/profile/student/$studentId/resume');
+
+      return ResponseAPI<String>(
+        statusCode: res.statusCode,
+        data: res.data['result'],
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
+
+  Future<ResponseAPI<String>> changePassWord(RequestChangePassWord request) async {
+    try {
+      final res = await dioClient.put('$baseURL/api/user/changePassword', data: request.toJson());
+      logger.d(res);
+      return ResponseAPI<String>(
+        statusCode: res.statusCode,
+        data: res.data['result'],
       );
     } catch (e) {
       logger.e("Unexpected Error: $e");

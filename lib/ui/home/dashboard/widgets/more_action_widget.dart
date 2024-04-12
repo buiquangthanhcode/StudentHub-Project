@@ -27,76 +27,80 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
     final theme = Theme.of(context);
     final dataHeader = getMoreActionHeader(theme);
 
-    return ListView.separated(
-      separatorBuilder: (context, index) {
-        return Container(
-          margin: const EdgeInsets.symmetric(vertical: 10),
-          height: 1,
-          color: theme.colorScheme.grey!.withOpacity(0.1),
-        );
-      },
-      shrinkWrap: true,
-      itemCount: dataHeader.length,
-      itemBuilder: ((context, index) {
-        return Material(
-          child: InkWell(
-            onTap: () {
-              final key = dataHeader[index]['key'];
-              switch (key) {
-                case "view_proposal":
-                  log("View Proposal");
-                  break;
-                case "view_message":
-                  log("View Message");
-                  break;
-                case "view_hired":
-                  log("View Hired");
-                  break;
-                case "view_job_posting":
-                  log("View Job Posting");
-                  break;
-                case "edit_posting":
-                  showModalBottomSheet(
-                    isScrollControlled: true,
-                    context: context,
-                    builder: (BuildContext context) {
-                      return EditPosting(project: widget.project);
-                    },
-                  );
-                  break;
-                case "remove_posting":
-                  int? companyId = BlocProvider.of<AuthBloc>(context)
-                      .state
-                      .userModel
-                      .company!
-                      .id;
-                  context.read<ProjectBloc>().add(
-                        DeleteProjectEvent(
-                            companyId: companyId!,
-                            projectId: widget.project.id!,
-                            onSuccess: () {
-                              SnackBarService.showSnackBar(
-                                  status: StatusSnackBar.success,
-                                  content: "Project was deleted successfully!");
-                              Navigator.pop(context);
-                            }),
-                      );
-                  break;
-              }
-            },
-            child: Row(
-              children: [
-                dataHeader[index]['icon'],
-                const SizedBox(width: 10),
-                Text(
-                  dataHeader[index]['label'],
-                  style: theme.textTheme.bodyMedium,
-                ),
-              ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      child: ListView.separated(
+        separatorBuilder: (context, index) {
+          return Container(
+            margin: const EdgeInsets.symmetric(vertical: 15),
+            height: 1,
+            color: theme.colorScheme.grey!.withOpacity(0.1),
+          );
+        },
+        shrinkWrap: true,
+        itemCount: dataHeader.length,
+        itemBuilder: ((context, index) {
+          return Material(
+            child: InkWell(
+              onTap: () {
+                final key = dataHeader[index]['key'];
+                switch (key) {
+                  case "view_proposal":
+                    log("View Proposal");
+                    break;
+                  case "view_message":
+                    log("View Message");
+                    break;
+                  case "view_hired":
+                    log("View Hired");
+                    break;
+                  case "view_job_posting":
+                    log("View Job Posting");
+                    break;
+                  case "edit_posting":
+                    showModalBottomSheet(
+                      isScrollControlled: true,
+                      context: context,
+                      builder: (BuildContext context) {
+                        return EditPosting(project: widget.project);
+                      },
+                    );
+                    break;
+                  case "remove_posting":
+                    int? companyId = BlocProvider.of<AuthBloc>(context)
+                        .state
+                        .userModel
+                        .company!
+                        .id;
+                    context.read<ProjectBloc>().add(
+                          DeleteProjectEvent(
+                              companyId: companyId!,
+                              projectId: widget.project.id!,
+                              onSuccess: () {
+                                SnackBarService.showSnackBar(
+                                    status: StatusSnackBar.success,
+                                    content:
+                                        "Project was deleted successfully!");
+                                Navigator.pop(context);
+                              }),
+                        );
+                    break;
+                }
+              },
+              child: Row(
+                children: [
+                  dataHeader[index]['icon'],
+                  const SizedBox(width: 10),
+                  Text(
+                    dataHeader[index]['label'],
+                    style: theme.textTheme.bodyMedium,
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 }

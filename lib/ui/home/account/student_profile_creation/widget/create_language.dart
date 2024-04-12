@@ -24,85 +24,89 @@ class _CreateLanguageWidgetState extends State<CreateLanguageWidget> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final formkey = GlobalKey<FormBuilderState>();
-    return FormBuilder(
-      key: formkey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text(
-                "Create Language",
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-              ),
-              const Spacer(),
-              Container(
-                decoration: BoxDecoration(
-                    color: theme.colorScheme.grey!.withOpacity(0.4), borderRadius: BorderRadius.circular(50)),
-                padding: const EdgeInsets.all(3),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Icon(
-                    Icons.close,
-                    color: theme.colorScheme.grey,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: FormBuilder(
+        key: formkey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text(
+                  "Create Language",
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
                   ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          DropDownFormFieldCustom(
-            data: language,
-            name: 'language',
-            onSelected: (value) {},
-            hint: "Please select language",
-          ),
-          DropDownFormFieldCustom(
-            name: 'level',
-            data: levelLanguage,
-            onSelected: (value) {},
-            hint: "Please select level",
-          ),
-          const SizedBox(height: 24),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              elevation: 0,
-              minimumSize: const Size(double.infinity, 56),
-            ),
-            onPressed: () {
-              if (formkey.currentState?.saveAndValidate() ?? false) {
-                int userId = BlocProvider.of<AuthBloc>(context).state.userModel.student?.id ?? -1;
-                List<Language> languages = List<Language>.from(BlocProvider.of<StudentBloc>(context).state.languages);
-
-                final language = Language(
-                  languageName: formkey.currentState?.fields['language']?.value,
-                  level: formkey.currentState?.fields['level']?.value,
-                );
-
-                context.read<StudentBloc>().add(UpdateLanguageEvent(
-                    languages: languages..add(language),
-                    userId: userId,
-                    onSuccess: () {
-                      SnackBarService.showSnackBar(content: "Create Sucessfully", status: StatusSnackBar.success);
+                const Spacer(),
+                Container(
+                  decoration: BoxDecoration(
+                      color: theme.colorScheme.grey!.withOpacity(0.4), borderRadius: BorderRadius.circular(50)),
+                  padding: const EdgeInsets.all(3),
+                  child: InkWell(
+                    onTap: () {
                       Navigator.pop(context);
-                      context.read<StudentBloc>().add(GetAllLanguageEvent(onSuccess: () {}, userId: userId));
-                    }));
-              }
-            },
-            child: Text(
-              "Save",
-              style: theme.textTheme.bodyMedium!.copyWith(
-                color: theme.colorScheme.onPrimary,
+                    },
+                    child: Icon(
+                      Icons.close,
+                      color: theme.colorScheme.grey,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            DropDownFormFieldCustom(
+              data: language,
+              name: 'language',
+              onSelected: (value) {},
+              hint: "Please select language",
+            ),
+            DropDownFormFieldCustom(
+              name: 'level',
+              data: levelLanguage,
+              onSelected: (value) {},
+              hint: "Please select level",
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                minimumSize: const Size(double.infinity, 56),
+              ),
+              onPressed: () {
+                if (formkey.currentState?.saveAndValidate() ?? false) {
+                  int userId = BlocProvider.of<AuthBloc>(context).state.userModel.student?.id ?? -1;
+                  List<Language> languages =
+                      List<Language>.from(BlocProvider.of<StudentBloc>(context).state.student.languages as Iterable);
+
+                  final language = Language(
+                    languageName: formkey.currentState?.fields['language']?.value,
+                    level: formkey.currentState?.fields['level']?.value,
+                  );
+
+                  context.read<StudentBloc>().add(UpdateLanguageEvent(
+                      languages: languages..add(language),
+                      userId: userId,
+                      onSuccess: () {
+                        SnackBarService.showSnackBar(content: "Create Sucessfully", status: StatusSnackBar.success);
+                        Navigator.pop(context);
+                        context.read<StudentBloc>().add(GetAllLanguageEvent(onSuccess: () {}, userId: userId));
+                      }));
+                }
+              },
+              child: Text(
+                "Save",
+                style: theme.textTheme.bodyMedium!.copyWith(
+                  color: theme.colorScheme.onPrimary,
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 16),
-        ],
+            const SizedBox(height: 16),
+          ],
+        ),
       ),
     );
   }
