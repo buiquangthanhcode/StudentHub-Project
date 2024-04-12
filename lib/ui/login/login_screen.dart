@@ -127,25 +127,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              // const Spacer(
-              //   flex: 10,
-              // ),
-              // RichText(
-              //   text: TextSpan(
-              //     text: 'Create new account? ',
-              //     style: theme.textTheme.titleSmall?.copyWith(),
-              //     children: <TextSpan>[
-              //       TextSpan(
-              //         text: 'Sign Up',
-              //         style: const TextStyle(fontWeight: FontWeight.bold),
-              //         recognizer: TapGestureRecognizer()
-              //           ..onTap = () {
-              //             context.push('/signup_01');
-              //           },
-              //       ),
-              //     ],
-              //   ),
-              // ),
               Container(
                 margin: const EdgeInsets.only(top: 40),
                 width: MediaQuery.of(context).size.width,
@@ -159,6 +140,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (_formKeyLogin.currentState?.saveAndValidate() ??
                         false) {
                       logger.d(_formKeyLogin.currentState!.value);
+                      // context.pushNamed('home',
+                      //     queryParameters: {'welcome': 'true'});
                       context.read<AuthBloc>().add(
                             LoginEvent(
                                 requestLogin: RequestLogin(

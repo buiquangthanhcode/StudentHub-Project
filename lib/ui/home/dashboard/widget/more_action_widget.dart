@@ -7,6 +7,7 @@ import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/ui/home/dashboard/data/data_count.dart';
+import 'package:studenthub/ui/home/dashboard/widget/edit_posting_widget.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class MoreActionWidget extends StatefulWidget {
@@ -52,7 +53,13 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
                   log("View Job Posting");
                   break;
                 case "edit_posting":
-                  log("Edit Posting");
+                  showModalBottomSheet(
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const EditPosting();
+                    },
+                  );
                   break;
                 case "remove_posting":
                   int? companyId = BlocProvider.of<AuthBloc>(context)
