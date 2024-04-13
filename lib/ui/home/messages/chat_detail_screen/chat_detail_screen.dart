@@ -40,7 +40,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     {
       'isMe': false,
       'time': '12:59',
-      'content': 'Yes, I was working on it last night and everything was fine, but this morning.',
+      'content':
+          'Yes, I was working on it last night and everything was fine, but this morning.',
     },
     {
       'isMe': true,
@@ -60,7 +61,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     {
       'isMe': false,
       'time': '12:59',
-      'content': 'Yes, I was working on it last night and everything was fine, but this morning.',
+      'content':
+          'Yes, I was working on it last night and everything was fine, but this morning.',
     },
     {
       'isMe': false,
@@ -76,7 +78,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     {
       'isMe': false,
       'time': '12:59',
-      'content': 'Yes, I was working on it last night and everything was fine, but this morning.',
+      'content':
+          'Yes, I was working on it last night and everything was fine, but this morning.',
     },
     {
       'isMe': true,
@@ -97,7 +100,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     {
       'isMe': false,
       'time': '12:59',
-      'content': 'Yes, I was working on it last night and everything was fine, but this morning.',
+      'content':
+          'Yes, I was working on it last night and everything was fine, but this morning.',
     },
     {
       'isMe': true,
@@ -141,7 +145,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
   String getCurrentTime() {
     DateTime now = DateTime.now(); // Lấy thời gian hiện tại
-    String formattedTime = DateFormat('HH:mm').format(now); // Định dạng thời gian thành giờ:phút
+    String formattedTime =
+        DateFormat('HH:mm').format(now); // Định dạng thời gian thành giờ:phút
     return formattedTime;
   }
 
@@ -167,7 +172,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     width: 36,
                     height: 36,
                     child: CircleAvatar(
-                      backgroundImage: AssetImage('lib/assets/images/circle_avatar.png'),
+                      backgroundImage:
+                          AssetImage('lib/assets/images/circle_avatar.png'),
                     ),
                   ),
                   const SizedBox(
@@ -175,7 +181,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   ),
                   Text(
                     'Dinh Nguyen Duy Khang',
-                    style: textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600),
+                    style: textTheme.bodyLarge!
+                        .copyWith(fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
@@ -185,7 +192,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   padding: const EdgeInsets.only(right: 20),
                   child: InkWell(
                     onTap: () {
-                      showModalBottomSheetCustom(context, widgetBuilder: MoreActionChatDetail(
+                      showModalBottomSheetCustom(context,
+                          widgetBuilder: MoreActionChatDetail(
                         callBack: (value) {
                           setState(() {
                             messagesData.insert(0, {
@@ -196,7 +204,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               'time_start': value['time_start'],
                               'time_end': value['time_end'],
                               'title': value['title'],
-                              'duration': "60 minute",
+                              'duration': "60 minutes",
                               'time': '12:59',
                               'content': value['title'],
                             });
@@ -234,25 +242,30 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 shrinkWrap: true,
                 itemCount: messagesData.length,
                 reverse: true,
-                itemBuilder: (context, index) => messagesData[index]['isMe'] as bool
+                itemBuilder: (context, index) => messagesData[index]['isMe']
+                        as bool
                     ? Builder(builder: (context) {
                         if (messagesData[index]['isSchedule'] == null) {
                           messagesData[index]['isSchedule'] = false;
                         }
-                        if (messagesData[index]['isSchedule'] as bool == false) {
+                        if (messagesData[index]['isSchedule'] as bool ==
+                            false) {
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Container(
-                                constraints: BoxConstraints(maxWidth: screenSize.width * 0.7),
+                                constraints: BoxConstraints(
+                                    maxWidth: screenSize.width * 0.7),
                                 margin: EdgeInsets.only(
                                     top: index + 1 < messagesData.length
-                                        ? (messagesData[index + 1]['isMe'] as bool)
+                                        ? (messagesData[index + 1]['isMe']
+                                                as bool)
                                             ? 3
                                             : 15
                                         : 10),
-                                padding: const EdgeInsets.fromLTRB(14, 10, 8, 4),
+                                padding:
+                                    const EdgeInsets.fromLTRB(14, 10, 8, 4),
                                 decoration: BoxDecoration(
                                   color: primaryColor,
                                   borderRadius: BorderRadius.circular(10),
@@ -263,8 +276,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                     Padding(
                                       padding: const EdgeInsets.only(right: 6),
                                       child: Text(
-                                        messagesData[index]['content'] as String,
-                                        style: const TextStyle(color: Colors.white),
+                                        messagesData[index]['content']
+                                            as String,
+                                        style: const TextStyle(
+                                            color: Colors.white),
                                       ),
                                     ),
                                     Row(
@@ -276,7 +291,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                           style: const TextStyle(
                                               fontSize: 11,
                                               fontWeight: FontWeight.w400,
-                                              color: Color.fromARGB(255, 230, 230, 230)),
+                                              color: Color.fromARGB(
+                                                  255, 230, 230, 230)),
                                         ),
                                       ],
                                     ),
@@ -298,50 +314,73 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               children: [
                                 Row(
                                   children: [
-                                    Text(messagesData[index]['title'] as String),
+                                    Text(
+                                        messagesData[index]['title'] as String),
                                     const Spacer(),
-                                    Text(messagesData[index]['duration'] as String),
+                                    Text(messagesData[index]['duration']
+                                        as String),
                                   ],
                                 ),
+                                const SizedBox(height: 24),
                                 Text(
-                                    "Start Time: ${messagesData[index]['start_date'] as String} ${messagesData[index]['time_start'] as String}"),
+                                  "Start Time: ${messagesData[index]['start_date'] as String} ${messagesData[index]['time_start'] as String}",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                ),
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
-                                    "End Time: ${messagesData[index]['end_date'] as String} ${messagesData[index]['time_end'] as String}"),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "End Time: ",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                    ),
+                                    const SizedBox(width: 9),
+                                    Text(
+                                      "${messagesData[index]['end_date'] as String} ${messagesData[index]['time_end'] as String}",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                    ),
+                                  ],
+                                ),
                                 const SizedBox(
-                                  height: 10,
+                                  height: 24,
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     const Spacer(),
-                                    Expanded(
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          elevation: 0,
-                                          minimumSize: const Size(double.infinity, 45),
-                                        ),
-                                        onPressed: () {
-                                          JitsiMeetService.instance.join();
-                                        },
-                                        child: const Text(
-                                          "Join",
-                                        ),
-                                      ),
-                                    ),
                                     Container(
                                       padding: const EdgeInsets.all(5),
                                       decoration: const BoxDecoration(
-                                        color: Color.fromARGB(255, 245, 245, 245),
+                                        color:
+                                            Color.fromARGB(255, 245, 245, 245),
                                         shape: BoxShape.circle,
                                       ),
-                                      margin: const EdgeInsets.only(right: 10, left: 10),
+                                      margin: const EdgeInsets.only(
+                                          right: 10, left: 10),
                                       child: InkWell(
                                         onTap: () {
                                           showModalBottomSheetCustom(context,
-                                              widgetBuilder: const MoreActionChatDetail(
+                                              widgetBuilder:
+                                                  const MoreActionChatDetail(
                                                 isEdit: true,
                                               ));
                                         },
@@ -349,6 +388,21 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                           FontAwesomeIcons.ellipsis,
                                           size: 16,
                                           color: Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          elevation: 0,
+                                          minimumSize:
+                                              const Size(double.infinity, 45),
+                                        ),
+                                        onPressed: () {
+                                          JitsiMeetService.instance.join();
+                                        },
+                                        child: const Text(
+                                          "Join",
                                         ),
                                       ),
                                     ),
@@ -373,14 +427,16 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                     width: 28,
                                     height: 28,
                                     child: CircleAvatar(
-                                      backgroundImage: AssetImage('lib/assets/images/circle_avatar.png'),
+                                      backgroundImage: AssetImage(
+                                          'lib/assets/images/circle_avatar.png'),
                                     ),
                                   ),
                           const SizedBox(
                             width: 10,
                           ),
                           Container(
-                            constraints: BoxConstraints(maxWidth: screenSize.width * 0.65),
+                            constraints: BoxConstraints(
+                                maxWidth: screenSize.width * 0.65),
                             margin: EdgeInsets.only(
                                 top: index + 1 < messagesData.length
                                     ? !(messagesData[index + 1]['isMe'] as bool)
@@ -411,7 +467,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                       style: const TextStyle(
                                           fontSize: 11,
                                           fontWeight: FontWeight.w400,
-                                          color: Color.fromARGB(255, 80, 80, 80)),
+                                          color:
+                                              Color.fromARGB(255, 80, 80, 80)),
                                     ),
                                   ],
                                 ),
@@ -456,8 +513,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         style: textTheme.bodyMedium,
                         decoration: InputDecoration(
                           hintText: 'Your messages...',
-                          hintStyle: textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.hintColor),
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          hintStyle: textTheme.bodyMedium!.copyWith(
+                              color: Theme.of(context).colorScheme.hintColor),
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 8),
                           isDense: true,
                           filled: true,
                           fillColor: const Color.fromARGB(255, 245, 245, 245),
