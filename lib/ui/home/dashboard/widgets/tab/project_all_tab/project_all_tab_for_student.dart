@@ -93,8 +93,7 @@ class ProjectAllTabForStudent extends StatelessWidget {
 class ProjectProposalStudent extends StatefulWidget {
   final ThemeData theme;
   final Project item;
-  const ProjectProposalStudent(
-      {super.key, required this.theme, required this.item});
+  const ProjectProposalStudent({super.key, required this.theme, required this.item});
 
   @override
   State<ProjectProposalStudent> createState() => _ProjectProposalStudentState();

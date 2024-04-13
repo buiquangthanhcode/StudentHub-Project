@@ -165,3 +165,7 @@ class ChangePassWordEvent extends StudentEvent {
 
   ChangePassWordEvent({required this.requestChangePassWordRequest, required this.onSuccess});
 }
+
+class ResetBlocEvent extends StudentEvent {
+  ResetBlocEvent();
+}

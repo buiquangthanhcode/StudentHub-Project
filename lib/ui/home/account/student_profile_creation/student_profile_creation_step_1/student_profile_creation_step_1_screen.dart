@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
 import 'package:studenthub/blocs/global_bloc/global_bloc.dart';
 import 'package:studenthub/blocs/global_bloc/global_event.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
@@ -56,6 +57,9 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
 
     context.read<StudentBloc>().add(GetAllLanguageEvent(onSuccess: () {}, userId: user.student?.id ?? -1));
     context.read<StudentBloc>().add(GetAllEducationEvent(onSuccess: () {}, id: user.student?.id ?? -1));
+    context
+        .read<AuthBloc>()
+        .add(GetInformationEvent(onSuccess: () {}, accessToken: user.token ?? '', currentContext: context));
   }
 
   void _handleChangeTechStack(value) {
@@ -95,15 +99,18 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndDocked,
-      floatingActionButton: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          minimumSize: const Size(56, 56),
-          shape: const CircleBorder(),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 50.0),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size(56, 56),
+            shape: const CircleBorder(),
+          ),
+          onPressed: () {
+            context.pushNamed('student_create_profile_step_02');
+          },
+          child: const Icon(Icons.arrow_forward),
         ),
-        onPressed: () {
-          context.pushNamed('student_create_profile_step_02');
-        },
-        child: const Icon(Icons.arrow_forward),
       ),
       appBar: AppBar(
         centerTitle: false,
@@ -116,239 +123,241 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: BlocBuilder<StudentBloc, StudentState>(
-            builder: (context, state) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 10),
-                  Center(
-                    child: Text(
-                      "Tell us about your self and you will be on your way connect with real-world project",
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontSize: 15,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: BlocBuilder<StudentBloc, StudentState>(
+              builder: (context, state) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 10),
+                    Center(
+                      child: Text(
+                        "Tell us about your self and you will be on your way connect with real-world project",
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontSize: 15,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text("TechStack",
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      )),
-                  DropDownFormFieldCustom<TechStack>(
-                    name: "techstack",
-                    data: dataSourceTechStack,
-                    onChanged: _handleChangeTechStack,
-                    initValue: state.student.techStack,
-                    onSaved: (value) {
-                      selectedValue = value.toString();
-                    },
-                    hint: "Please selecte TechStack",
-                  ),
-                  Text("Skillset",
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      )),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Builder(builder: (context) {
-                        if (state.student.skillSets?.isNotEmpty ?? false) {
-                          return Wrap(
-                            spacing: 6.0,
-                            runSpacing: 6.0,
-                            direction: Axis.horizontal,
-                            children: state.student.skillSets!
-                                .map((item) => SkillSetItem(
-                                      theme: theme,
-                                      item: item,
-                                    ))
-                                .toList(),
-                          );
-                        }
-                        return const SizedBox();
-                      }),
-                      const SizedBox(height: 10),
-                      AutoCompleteWidget(
-                        data: dataSourceSkillSets.map((e) => e.name ?? '').toList(),
-                        onSelected: (value) {
-                          _handleSelectedSkillSet(value);
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                "Languages",
-                                style: theme.textTheme.bodyMedium!.copyWith(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const Spacer(),
-                              Container(
-                                margin: const EdgeInsets.only(right: 10),
-                                padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: theme.colorScheme.grey!),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: InkWell(
-                                  onTap: () {
-                                    showModalBottomSheetCustom(context, widgetBuilder: const CreateLanguageWidget());
-                                  },
-                                  child: FaIcon(
-                                    FontAwesomeIcons.plus,
-                                    size: 14,
-                                    color: theme.colorScheme.grey,
+                    const SizedBox(height: 10),
+                    Text("TechStack",
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    DropDownFormFieldCustom<TechStack>(
+                      name: "techstack",
+                      data: dataSourceTechStack,
+                      onChanged: _handleChangeTechStack,
+                      initValue: state.student.techStack,
+                      onSaved: (value) {
+                        selectedValue = value.toString();
+                      },
+                      hint: "Please selecte TechStack",
+                    ),
+                    Text("Skillset",
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Builder(builder: (context) {
+                          if (state.student.skillSets?.isNotEmpty ?? false) {
+                            return Wrap(
+                              spacing: 6.0,
+                              runSpacing: 6.0,
+                              direction: Axis.horizontal,
+                              children: state.student.skillSets!
+                                  .map((item) => SkillSetItem(
+                                        theme: theme,
+                                        item: item,
+                                      ))
+                                  .toList(),
+                            );
+                          }
+                          return const SizedBox();
+                        }),
+                        const SizedBox(height: 10),
+                        AutoCompleteWidget(
+                          data: dataSourceSkillSets.map((e) => e.name ?? '').toList(),
+                          onSelected: (value) {
+                            _handleSelectedSkillSet(value);
+                          },
+                        ),
+                        const SizedBox(height: 10),
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "Languages",
+                                  style: theme.textTheme.bodyMedium!.copyWith(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Builder(
-                            builder: (context) {
-                              if (state.student.languages?.isEmpty ?? true) {
-                                return const EmptyDataWidget(
-                                  mainTitle: '',
-                                  subTitle: 'No data',
-                                  widthImage: 150,
-                                );
-                              }
-                              if (state.student.languages!.isNotEmpty) {
-                                return ListView.separated(
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, index) {
-                                      return LanguageItem(
-                                        theme: theme,
-                                        item: state.student.languages![index],
-                                      );
+                                const Spacer(),
+                                Container(
+                                  margin: const EdgeInsets.only(right: 10),
+                                  padding: const EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: theme.colorScheme.grey!),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: InkWell(
+                                    onTap: () {
+                                      showModalBottomSheetCustom(context, widgetBuilder: const CreateLanguageWidget());
                                     },
-                                    separatorBuilder: (context, index) {
-                                      return const SizedBox(
-                                        height: 10,
-                                      );
-                                    },
-                                    itemCount: state.student.languages!.length);
-                              }
-                              return const SizedBox();
-                            },
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                "Education",
-                                style: theme.textTheme.bodyMedium!.copyWith(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
+                                    child: FaIcon(
+                                      FontAwesomeIcons.plus,
+                                      size: 14,
+                                      color: theme.colorScheme.grey,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              const Spacer(),
-                              Container(
-                                margin: const EdgeInsets.only(right: 10),
-                                padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: theme.colorScheme.grey!),
-                                  shape: BoxShape.circle,
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            Builder(
+                              builder: (context) {
+                                if (state.student.languages?.isEmpty ?? true) {
+                                  return const EmptyDataWidget(
+                                    mainTitle: '',
+                                    subTitle: 'No data',
+                                    widthImage: 150,
+                                  );
+                                }
+                                if (state.student.languages!.isNotEmpty) {
+                                  return ListView.separated(
+                                      shrinkWrap: true,
+                                      itemBuilder: (context, index) {
+                                        return LanguageItem(
+                                          theme: theme,
+                                          item: state.student.languages![index],
+                                        );
+                                      },
+                                      separatorBuilder: (context, index) {
+                                        return const SizedBox(
+                                          height: 10,
+                                        );
+                                      },
+                                      itemCount: state.student.languages!.length);
+                                }
+                                return const SizedBox();
+                              },
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "Education",
+                                  style: theme.textTheme.bodyMedium!.copyWith(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                                child: InkWell(
-                                  onTap: () {
-                                    showModalBottomSheetCustom(
-                                      context,
-                                      widgetBuilder: const CreateEducationWidget(),
-                                      headerBuilder: Row(
-                                        children: [
-                                          Text(
-                                            "Create Education",
-                                            style: theme.textTheme.bodyMedium?.copyWith(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                          const Spacer(),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                                color: theme.colorScheme.grey!.withOpacity(0.4),
-                                                borderRadius: BorderRadius.circular(50)),
-                                            padding: const EdgeInsets.all(3),
-                                            child: InkWell(
-                                              onTap: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Icon(
-                                                Icons.close,
-                                                color: theme.colorScheme.grey,
+                                const Spacer(),
+                                Container(
+                                  margin: const EdgeInsets.only(right: 10),
+                                  padding: const EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: theme.colorScheme.grey!),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: InkWell(
+                                    onTap: () {
+                                      showModalBottomSheetCustom(
+                                        context,
+                                        widgetBuilder: const CreateEducationWidget(),
+                                        headerBuilder: Row(
+                                          children: [
+                                            Text(
+                                              "Create Education",
+                                              style: theme.textTheme.bodyMedium?.copyWith(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20,
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                  child: FaIcon(
-                                    FontAwesomeIcons.plus,
-                                    size: 14,
-                                    color: theme.colorScheme.grey,
+                                            const Spacer(),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  color: theme.colorScheme.grey!.withOpacity(0.4),
+                                                  borderRadius: BorderRadius.circular(50)),
+                                              padding: const EdgeInsets.all(3),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Icon(
+                                                  Icons.close,
+                                                  color: theme.colorScheme.grey,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    child: FaIcon(
+                                      FontAwesomeIcons.plus,
+                                      size: 14,
+                                      color: theme.colorScheme.grey,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Builder(
-                            builder: (context) {
-                              if (state.student.educations?.isEmpty ?? true) {
-                                return const EmptyDataWidget(
-                                  mainTitle: '',
-                                  subTitle: 'No data',
-                                  widthImage: 150,
-                                );
-                              }
-                              if (state.student.educations?.isNotEmpty ?? false) {
-                                return ListView.separated(
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, index) {
-                                      return EducationItem(
-                                        theme: theme,
-                                        item: state.student.educations![index],
-                                      );
-                                    },
-                                    separatorBuilder: (context, index) {
-                                      return const SizedBox(
-                                        height: 10,
-                                      );
-                                    },
-                                    itemCount: state.student.educations!.length);
-                              }
-                              return const SizedBox();
-                            },
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  )
-                ],
-              );
-            },
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            Builder(
+                              builder: (context) {
+                                if (state.student.educations?.isEmpty ?? true) {
+                                  return const EmptyDataWidget(
+                                    mainTitle: '',
+                                    subTitle: 'No data',
+                                    widthImage: 150,
+                                  );
+                                }
+                                if (state.student.educations?.isNotEmpty ?? false) {
+                                  return ListView.separated(
+                                      shrinkWrap: true,
+                                      itemBuilder: (context, index) {
+                                        return EducationItem(
+                                          theme: theme,
+                                          item: state.student.educations![index],
+                                        );
+                                      },
+                                      separatorBuilder: (context, index) {
+                                        return const SizedBox(
+                                          height: 10,
+                                        );
+                                      },
+                                      itemCount: state.student.educations!.length);
+                                }
+                                return const SizedBox();
+                              },
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    )
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),

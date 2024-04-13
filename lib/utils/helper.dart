@@ -55,9 +55,14 @@ String handleFormatMessage(dynamic message) {
 }
 
 String formatIsoDateString(String isoDateString) {
-  DateTime dateTime = DateTime.parse(isoDateString);
-  DateFormat formatter = DateFormat('dd-MM-yyyy');
-  return formatter.format(dateTime);
+  try {
+    DateTime dateTime = DateTime.parse(isoDateString);
+    DateFormat formatter = DateFormat('dd-MM-yyyy');
+    return formatter.format(dateTime);
+  } catch (e) {
+    DateFormat formatter = DateFormat('dd-MM-yyyy');
+    return formatter.format(DateTime.parse('1970-01-01'));
+  }
 }
 
 SkillSet getSkillSetByName(String value, List<SkillSet> data) {

@@ -44,6 +44,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     on<GetResumeEvent>(_onGetResume);
     on<UpdateStudentEvent>(_onUpdateStudent);
     on<ChangePassWordEvent>(_onChangePassWord);
+    on<ResetBlocEvent>(_onResetBloc);
   }
 
   StudentService studentService = StudentService();
@@ -303,8 +304,9 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       EasyLoading.show(status: 'loading');
       final response = await studentService.getResume(event.studentId);
       if (response.statusCode! <= 200) {
-        logger.d(response.data);
         emit(state.update(student: state.student.copyWith(resume: response.data)));
+        logger.d(state.student.resume);
+
         if (event.onSuccess != null) {
           event.onSuccess!();
         }
@@ -332,5 +334,9 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       EasyLoading.dismiss();
       logger.e(e);
     }
+  }
+
+  FutureOr<void> _onResetBloc(ResetBlocEvent event, Emitter<StudentState> emit) async {
+    emit(state.update(student: Student()));
   }
 }

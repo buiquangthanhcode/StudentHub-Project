@@ -16,6 +16,7 @@ import 'package:studenthub/models/student/student_model.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/widgets/continue_button.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/student_profile_creation_step_3/widgets/title_widget.dart';
 import 'package:studenthub/utils/logger.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class StudentProfileCreationStep3Screen extends StatefulWidget {
   const StudentProfileCreationStep3Screen({super.key});
@@ -38,6 +39,7 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
   String image_path = 'lib/assets/images/icons8-image-48.png';
   String pdf_path = 'lib/assets/images/icons8-pdf-48.png';
   late Student student;
+  final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
 
   String getLastSubstringAfterDot(String filename) {
     List<String> parts = filename.split('.');
@@ -94,6 +96,13 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
     super.initState();
     student = BlocProvider.of<StudentBloc>(context).state.student;
     context.read<StudentBloc>().add(GetResumeEvent(studentId: student.id.toString()));
+
+    if (student.resume != null) {
+      String fileName = student.resume!.split('/').last.split('?').first; // Lấy tên file
+      String fileType = fileName.split('.').last;
+      double fileSize = 0.1;
+      resume.add(FileModel(name: fileName, type: fileType, size: fileSize.toString()));
+    }
   }
 
   @override
@@ -115,14 +124,6 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
         padding: EdgeInsets.fromLTRB(20, 0, 20, screenSize.height * (Platform.isIOS ? 0.04 : 0.03)),
         child: BlocBuilder<StudentBloc, StudentState>(
           builder: (context, state) {
-            if (state.student.resume != null) {
-              String fileName = state.student.resume!.split('/').last.split('?').first; // Lấy tên file
-              String fileType = fileName.split('.').last;
-              double fileSize = 0.1;
-
-              resume.add(FileModel(name: fileName, type: fileType, size: fileSize.toString()));
-            }
-
             return Column(
               children: [
                 const TitleWidget(),
@@ -196,70 +197,75 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: [
-                        ...resume.map((e) => Container(
-                              width: MediaQuery.of(context).size.width * 0.6,
-                              margin: const EdgeInsets.only(right: 10),
-                              padding: const EdgeInsets.fromLTRB(15, 8, 0, 8),
-                              decoration: const BoxDecoration(
-                                color: Color(0xffF6F7F9),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(6),
+                        ...resume.map((e) => GestureDetector(
+                              onTap: () {
+                                _pdfViewerKey.currentState?.openBookmarkView();
+                              },
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.6,
+                                margin: const EdgeInsets.only(right: 10),
+                                padding: const EdgeInsets.fromLTRB(15, 8, 0, 8),
+                                decoration: const BoxDecoration(
+                                  color: Color(0xffF6F7F9),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(6),
+                                  ),
                                 ),
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: 40,
-                                    height: 40,
-                                    decoration:
-                                        BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
-                                    child: Image.asset(
-                                      e.type == 'png' || e.type == 'jpg'
-                                          ? image_path
-                                          : e.type == 'pdf'
-                                              ? pdf_path
-                                              : excel_path,
-                                      scale: 1.8,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          e.name!,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
-                                        ),
-                                        const SizedBox(
-                                          height: 4,
-                                        ),
-                                        Text(
-                                          '${e.size!}MB',
-                                          style: TextStyle(
-                                              color: colorTheme.grey, fontWeight: FontWeight.w400, fontSize: 12),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      resume.remove(e);
-                                      setState(() {});
-                                    },
-                                    child: const Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 15),
-                                      child: FaIcon(
-                                        FontAwesomeIcons.xmark,
-                                        size: 18,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: 40,
+                                      height: 40,
+                                      decoration:
+                                          BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                                      child: Image.asset(
+                                        e.type == 'png' || e.type == 'jpg'
+                                            ? image_path
+                                            : e.type == 'pdf'
+                                                ? pdf_path
+                                                : excel_path,
+                                        scale: 1.8,
                                       ),
                                     ),
-                                  )
-                                ],
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            e.name!,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+                                          ),
+                                          const SizedBox(
+                                            height: 4,
+                                          ),
+                                          Text(
+                                            '${e.size!}MB',
+                                            style: TextStyle(
+                                                color: colorTheme.grey, fontWeight: FontWeight.w400, fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        resume.remove(e);
+                                        setState(() {});
+                                      },
+                                      child: const Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 15),
+                                        child: FaIcon(
+                                          FontAwesomeIcons.xmark,
+                                          size: 18,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ))
                       ],
@@ -267,6 +273,15 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                   ),
                 ),
                 const Spacer(),
+                SizedBox(
+                  child: SfPdfViewer.network(
+                    "https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf",
+                    key: _pdfViewerKey,
+                    onDocumentLoadFailed: (details) {
+                      logger.e(details);
+                    },
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/constants/colors.dart';
 
 Future<void> showDialogCustom(BuildContext context,
-    {String? image, String? title, String? subtitle, Function? onSave, String? textButtom}) async {
+    {String? image, String? title, String? subtitle, Function? onSave, String? textButtom, double? sizeImage}) async {
   TextTheme textTheme = Theme.of(context).textTheme;
   var colorTheme = Theme.of(context).colorScheme;
   showDialog(
@@ -27,6 +28,8 @@ Future<void> showDialogCustom(BuildContext context,
                       Image.asset(
                         image ?? 'lib/assets/images/welcome_image_dialog.png',
                         fit: BoxFit.cover,
+                        width: sizeImage,
+                        height: sizeImage,
                       ),
                       const SizedBox(
                         height: 10,
@@ -50,6 +53,7 @@ Future<void> showDialogCustom(BuildContext context,
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(double.infinity, 56),
+                          backgroundColor: primaryColor,
                         ),
                         onPressed: () {
                           onSave!();

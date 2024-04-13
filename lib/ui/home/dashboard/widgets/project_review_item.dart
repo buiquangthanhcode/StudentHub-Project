@@ -32,7 +32,7 @@ class ProjectReviewItem extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  item.title ?? '',
+                  item.title ?? 'Title',
                   style: theme.textTheme.bodyMedium,
                 ),
                 const Spacer(),
@@ -44,8 +44,7 @@ class ProjectReviewItem extends StatelessWidget {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                  color:
-                                      theme.colorScheme.grey!.withOpacity(0.4),
+                                  color: theme.colorScheme.grey!.withOpacity(0.4),
                                   borderRadius: BorderRadius.circular(50)),
                               padding: const EdgeInsets.all(3),
                               child: InkWell(
@@ -92,8 +91,7 @@ class ProjectReviewItem extends StatelessWidget {
             const SizedBox(height: 10),
             Text(
               'Students are looking for',
-              style: theme.textTheme.bodyMedium!
-                  .copyWith(fontWeight: FontWeight.bold),
+              style: theme.textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             Padding(
@@ -113,7 +111,7 @@ class ProjectReviewItem extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      item.description ?? '',
+                      item.description ?? 'Description',
                       style: theme.textTheme.bodyMedium!.copyWith(
                         fontSize: 14,
                       ),
@@ -125,9 +123,9 @@ class ProjectReviewItem extends StatelessWidget {
             const SizedBox(height: 24),
             Builder(builder: (context) {
               final data = [
-                {"label": "Proposals", "total": item.countProposals.toString()},
-                {"label": "Messages", "total": item.countMessages.toString()},
-                {"label": "Hired", "total": item.countHired.toString()},
+                {"label": "Proposals", "total": item.countProposals ?? 0},
+                {"label": "Messages", "total": item.countMessages ?? 0},
+                {"label": "Hired", "total": item.countHired ?? 0},
               ];
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -135,8 +133,7 @@ class ProjectReviewItem extends StatelessWidget {
                     .map(
                       (item) => Container(
                         width: MediaQuery.of(context).size.width / 4,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                         decoration: BoxDecoration(
                           color: theme.colorScheme.grey!.withOpacity(0.08),
                           borderRadius: BorderRadius.circular(15),
@@ -146,13 +143,11 @@ class ProjectReviewItem extends StatelessWidget {
                           children: [
                             Text(
                               item['total'].toString(),
-                              style: theme.textTheme.bodyMedium!
-                                  .copyWith(color: Colors.black87),
+                              style: theme.textTheme.bodyMedium!.copyWith(color: Colors.black87),
                             ),
                             Text(
                               item['label'].toString(),
-                              style: theme.textTheme.bodyMedium!
-                                  .copyWith(color: primaryColor),
+                              style: theme.textTheme.bodyMedium!.copyWith(color: primaryColor),
                             ),
                           ],
                         ),
