@@ -7,7 +7,8 @@ abstract class ProjectEvent {}
 
 class GetAllProjectsEvent extends ProjectEvent {
   final int companyId;
-  GetAllProjectsEvent({required this.companyId});
+  final Function? onSuccess;
+  GetAllProjectsEvent({required this.companyId, this.onSuccess});
 }
 
 class GetWorkingProjectsEvent extends ProjectEvent {

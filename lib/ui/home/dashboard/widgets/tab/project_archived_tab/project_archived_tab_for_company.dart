@@ -43,6 +43,7 @@ class _ProjectAllTabState extends State<ProjectArchivedTabForCompany> {
     final theme = Theme.of(context);
     return BlocBuilder<ProjectBloc, ProjectState>(
       builder: (context, state) {
+        logger.d("REbuild");
         if (state.archivedProjects.isEmpty) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,

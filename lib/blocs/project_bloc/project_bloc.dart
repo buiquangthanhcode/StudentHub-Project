@@ -45,7 +45,10 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
     try {
       final response = await _companyService.getAllProjects(event.companyId);
       if (response.statusCode! <= 201) {
-        emit(state.update(allProjects: response.data!.toList()));
+        emit(state.update(
+            allProjects: List<Project>.from(response.data!.toList())));
+        add(GetWorkingProjectsEvent());
+        add(GetArchivedProjectsEvent());
       }
     } catch (e) {
       logger.e(e);
@@ -55,7 +58,6 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
   void _onGetWorkingProjects(
       GetWorkingProjectsEvent event, Emitter<ProjectState> emit) async {
     try {
-      // Add your code here
       final workingProjects =
           state.allProjects.where((element) => element.typeFlag == 0).toList();
       emit(state.update(workingProjects: workingProjects));
@@ -67,7 +69,6 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
   void _onGetArchivedProjects(
       GetArchivedProjectsEvent event, Emitter<ProjectState> emit) async {
     try {
-      // Add your code here
       final archivedProjects =
           state.allProjects.where((element) => element.typeFlag == 1).toList();
       emit(state.update(archivedProjects: archivedProjects));
@@ -127,12 +128,16 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
   FutureOr<void> _onCloseProject(
       CloseProjectEvent event, Emitter<ProjectState> emit) async {
     try {
+      EasyLoading.show(status: 'loading');
+
       final response = await _companyService.closeProject(event.updatedProject);
       if (response.statusCode! <= 201) {
         add(GetAllProjectsEvent(companyId: event.companyId));
         event.onSuccess!();
       }
+      EasyLoading.dismiss();
     } catch (e) {
+      EasyLoading.dismiss();
       logger.e(e);
     }
   }
@@ -140,12 +145,15 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
   FutureOr<void> _onStartWorkingProject(
       StartWorkingProjectEvent event, Emitter<ProjectState> emit) async {
     try {
+      EasyLoading.show(status: 'loading');
+
       final response =
           await _companyService.startWorkingProject(event.updatedProject);
       if (response.statusCode! <= 201) {
         add(GetAllProjectsEvent(companyId: event.companyId));
         event.onSuccess!();
       }
+      EasyLoading.dismiss();
     } catch (e) {
       logger.e(e);
     }

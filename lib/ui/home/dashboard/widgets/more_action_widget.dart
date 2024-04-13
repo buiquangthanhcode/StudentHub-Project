@@ -1,6 +1,8 @@
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
@@ -114,6 +116,9 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
                                     content:
                                         "Project was updated successfully!");
                                 Navigator.pop(context);
+                                context
+                                    .read<ProjectBloc>()
+                                    .add(GetArchivedProjectsEvent());
                               }),
                         );
                     break;
@@ -152,7 +157,12 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
               },
               child: Row(
                 children: [
-                  dataHeader[index]['icon'],
+                  Container(
+                    padding: EdgeInsets.zero,
+                    width: 20,
+                    height: 20,
+                    child: dataHeader[index]['icon'] as Widget,
+                  ),
                   const SizedBox(width: 10),
                   Text(
                     dataHeader[index]['label'],

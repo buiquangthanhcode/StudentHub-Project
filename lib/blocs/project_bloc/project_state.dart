@@ -18,8 +18,12 @@ class ProjectState extends Equatable {
   });
 
   @override
-  List<Object?> get props =>
-      [allProjects, workingProjects, archivedProjects, projectCreation];
+  List<Object?> get props => [
+        allProjects,
+        workingProjects,
+        archivedProjects,
+        projectCreation,
+      ];
 
   ProjectState update({
     List<Project>? allProjects,
