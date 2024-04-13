@@ -21,6 +21,8 @@ class Project {
   int? countMessages;
   int? countHired;
   int? projectId;
+  bool? isFavorite;
+
   Project({
     this.id,
     this.companyId,
@@ -37,6 +39,7 @@ class Project {
     this.countMessages,
     this.countHired,
     this.projectId,
+    this.isFavorite,
   });
 
   Project copyWith({
@@ -55,6 +58,7 @@ class Project {
     int? countMessages,
     int? countHired,
     int? projectId,
+    bool? isFavorite,
   }) {
     return Project(
       id: id ?? this.id,
@@ -72,6 +76,7 @@ class Project {
       countMessages: countMessages ?? this.countMessages,
       countHired: countHired ?? this.countHired,
       projectId: projectId ?? this.projectId,
+      isFavorite: isFavorite ?? this.isFavorite,
     );
   }
 
@@ -119,6 +124,9 @@ class Project {
     if (countHired != null) {
       data['countHired'] = countHired;
     }
+    if (isFavorite != null) {
+      data['isFavorite'] = isFavorite;
+    }
 
     return data;
   }
@@ -149,6 +157,7 @@ class Project {
           map['countMessages'] != null ? map['countMessages'] as int : null,
       countHired: map['countHired'] != null ? map['countHired'] as int : null,
       projectId: map['projectId'] != null ? map['projectId'] as int : null,
+      isFavorite: map['isFavorite'] != null ? map['isFavorite'] as bool : null,
     );
   }
 
@@ -159,7 +168,7 @@ class Project {
 
   @override
   String toString() {
-    return 'Project(id: $id, companyId: $companyId, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, projectScopeFlag: $projectScopeFlag, title: $title, description: $description, numberOfStudents: $numberOfStudents, typeFlag: $typeFlag, proposal: $proposal, countProposals: $countProposals, countMessages: $countMessages, countHired: $countHired)';
+    return 'Project(id: $id, companyId: $companyId, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, projectScopeFlag: $projectScopeFlag, title: $title, description: $description, numberOfStudents: $numberOfStudents, typeFlag: $typeFlag, proposal: $proposal, countProposals: $countProposals, countMessages: $countMessages, countHired: $countHired, isFavorite: $isFavorite)';
   }
 
   @override
@@ -179,7 +188,8 @@ class Project {
         listEquals(other.proposal, proposal) &&
         other.countProposals == countProposals &&
         other.countMessages == countMessages &&
-        other.countHired == countHired;
+        other.countHired == countHired &&
+        other.isFavorite == isFavorite;
   }
 
   @override
@@ -197,6 +207,7 @@ class Project {
         proposal.hashCode ^
         countProposals.hashCode ^
         countMessages.hashCode ^
-        countHired.hashCode;
+        countHired.hashCode ^
+        isFavorite.hashCode;
   }
 }

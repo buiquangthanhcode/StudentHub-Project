@@ -39,7 +39,11 @@ class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
     // TODO: implement initState
     super.initState();
     company = BlocProvider.of<AuthBloc>(context).state.userModel.company!;
-    radioButtonSelected = company!.size!;
+    radioButtonSelected = company!.size! > 4
+        ? 4
+        : company!.size! < 0
+            ? 0
+            : company!.size!;
     websiteInputController.text = company!.website!;
     companyNameInputController.text = company!.companyName!;
     descriptionInputController.text = company!.description!;
@@ -144,7 +148,9 @@ class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
                                       onSuccess: (Company company) {
                                         context.read<AuthBloc>().add(
                                             UpdateInformationEvent(
-                                                userModel: state.userModel.copyWith(company: company)));
+                                                userModel: state.userModel
+                                                    .copyWith(
+                                                        company: company)));
                                         SnackBarService.showSnackBar(
                                             content: 'Successfully!',
                                             status: StatusSnackBar.success);

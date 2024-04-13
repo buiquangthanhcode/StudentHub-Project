@@ -246,28 +246,28 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                       const SizedBox(
                         height: 5,
                       ),
-                      Expanded(
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: 16,
-                          itemBuilder: (context, index) => const Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 10),
-                            child: Row(
-                              children: [
-                                FaIcon(
-                                  FontAwesomeIcons.clock,
-                                  size: 21,
-                                ),
-                                SizedBox(
-                                  width: 14,
-                                ),
-                                Text('ReactJs')
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Expanded(
+                      //   child: ListView.builder(
+                      //     shrinkWrap: true,
+                      //     itemCount: 16,
+                      //     itemBuilder: (context, index) => const Padding(
+                      //       padding: EdgeInsets.symmetric(
+                      //           horizontal: 15, vertical: 10),
+                      //       child: Row(
+                      //         children: [
+                      //           FaIcon(
+                      //             FontAwesomeIcons.clock,
+                      //             size: 21,
+                      //           ),
+                      //           SizedBox(
+                      //             width: 14,
+                      //           ),
+                      //           Text('ReactJs')
+                      //         ],
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),

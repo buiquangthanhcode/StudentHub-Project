@@ -17,10 +17,15 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
           AllProjectState(
             projectList: const [],
             projectDetail: Project(),
+            projectFavorite: const [],
           ),
         ) {
     on<GetAllDataEvent>(_onGetAllData);
     on<GetProjectDetail>(_onGetProjectDetail);
+    on<GetFavoriteProject>(_onGetAllFavoriteProject);
+    on<AddFavoriteProject>(_onAddFavoriteProject);
+    on<RemoveFavoriteProject>(_onRemoveFavoriteProject);
+    on<RemoveFavoriteProjectList>(_onRemoveFavoriteProjectList);
   }
 
   final AllProjectsService _allProjectsService = AllProjectsService();
@@ -29,13 +34,13 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
       GetAllDataEvent event, Emitter<AllProjectState> emit) async {
     try {
       EasyLoading.show(status: 'Loading...');
-      ResponseAPI result = await _allProjectsService.getAllProjects();
+      ResponseAPI result =
+          await _allProjectsService.getAllProjects(null, null, null, null);
 
-      logger.d(result.data);
+      // logger.d(result.data);
 
       if (result.statusCode! < 300) {
-        emit(AllProjectState(
-            projectList: result.data, projectDetail: Project()));
+        emit(state.update(projectList: result.data));
       } else {
         SnackBarService.showSnackBar(
             content: handleFormatMessage(result.data!.errorDetails),
@@ -80,5 +85,98 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
     } finally {
       EasyLoading.dismiss();
     }
+  }
+
+  FutureOr<void> _onGetAllFavoriteProject(
+      GetFavoriteProject event, Emitter<AllProjectState> emit) async {
+    try {
+      EasyLoading.show(status: 'Loading...');
+      ResponseAPI result =
+          await _allProjectsService.getAllFavoriteProject(event.studentId);
+
+      logger.d('all favorite');
+      logger.d(result.data);
+
+      if (result.statusCode! < 300) {
+        emit(state.update(projectFavorite: result.data));
+      } else {
+        SnackBarService.showSnackBar(
+            content: handleFormatMessage(result.data!.errorDetails),
+            status: StatusSnackBar.error);
+      }
+    } on DioException catch (e) {
+      logger.e(
+        "DioException:${e.response}",
+      );
+    } catch (e) {
+      logger.e("Unexpect error-> $e");
+      SnackBarService.showSnackBar(
+          content: handleFormatMessage(e.toString()),
+          status: StatusSnackBar.error);
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
+
+  FutureOr<void> _onAddFavoriteProject(
+      AddFavoriteProject event, Emitter<AllProjectState> emit) async {
+    try {
+      ResponseAPI result = await _allProjectsService.addFavoriteProject(
+          event.studentId, event.projectId);
+
+      if (result.statusCode! < 300) {
+        // emit(state.update(projectFavorite: result.data));
+      } else {
+        SnackBarService.showSnackBar(
+            content: handleFormatMessage(result.data!.errorDetails),
+            status: StatusSnackBar.error);
+      }
+    } on DioException catch (e) {
+      logger.e(
+        "DioException:${e.response}",
+      );
+    } catch (e) {
+      logger.e("Unexpect error-> $e");
+      SnackBarService.showSnackBar(
+          content: handleFormatMessage(e.toString()),
+          status: StatusSnackBar.error);
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
+
+  FutureOr<void> _onRemoveFavoriteProject(
+      RemoveFavoriteProject event, Emitter<AllProjectState> emit) async {
+    try {
+      ResponseAPI result = await _allProjectsService.removeFavoriteProject(
+          event.studentId, event.projectId);
+
+      if (result.statusCode! < 300) {
+        // emit(state.update(projectFavorite: result.data));
+      } else {
+        SnackBarService.showSnackBar(
+            content: handleFormatMessage(result.data!.errorDetails),
+            status: StatusSnackBar.error);
+      }
+    } on DioException catch (e) {
+      logger.e(
+        "DioException:${e.response}",
+      );
+    } catch (e) {
+      logger.e("Unexpect error-> $e");
+      SnackBarService.showSnackBar(
+          content: handleFormatMessage(e.toString()),
+          status: StatusSnackBar.error);
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
+
+  void _onRemoveFavoriteProjectList(
+      RemoveFavoriteProjectList event, Emitter<AllProjectState> emit) async {
+    final data = List<Project>.from(state.projectFavorite);
+    data.remove(event.project);
+    logger.d('PROJECT LIST ${state.projectFavorite}');
+    emit(state.update(projectFavorite: List<Project>.from(data)));
   }
 }
