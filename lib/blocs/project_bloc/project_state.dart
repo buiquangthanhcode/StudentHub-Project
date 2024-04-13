@@ -5,24 +5,38 @@ import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/models/company/company_model.dart';
 
 class ProjectState extends Equatable {
-  final List<Project> projects;
+  final List<Project> allProjects;
+  final List<Project> workingProjects;
+  final List<Project> archivedProjects;
   final Project projectCreation;
 
   ProjectState({
-    required this.projects,
+    required this.allProjects,
+    required this.workingProjects,
+    required this.archivedProjects,
     required this.projectCreation,
   });
 
   @override
-  List<Object?> get props => [projects, projectCreation];
+  List<Object?> get props => [
+        allProjects,
+        workingProjects,
+        archivedProjects,
+        projectCreation,
+      ];
 
   ProjectState update({
-    List<Project>? projects,
-    Project? project,
+    List<Project>? allProjects,
+    List<Project>? workingProjects,
+    List<Project>? archivedProjects,
+    Project? projectCreation,
+    Project? projectSelection,
   }) {
     return ProjectState(
-      projects: projects ?? this.projects,
-      projectCreation: project ?? this.projectCreation,
+      allProjects: allProjects ?? this.allProjects,
+      workingProjects: workingProjects ?? this.workingProjects,
+      archivedProjects: archivedProjects ?? this.allProjects,
+      projectCreation: projectCreation ?? this.projectCreation,
     );
   }
 }

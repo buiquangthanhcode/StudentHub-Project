@@ -35,7 +35,7 @@ class DraggleBottomSheetCustom extends StatefulWidget {
 }
 
 class _DraggleBottomSheetCustomState extends State<DraggleBottomSheetCustom> {
-  double _sheetPosition = 0.55;
+  double _sheetPosition = 0.65;
   final double _dragSensitivity = 600;
 
   @override

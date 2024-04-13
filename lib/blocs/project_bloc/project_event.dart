@@ -7,7 +7,16 @@ abstract class ProjectEvent {}
 
 class GetAllProjectsEvent extends ProjectEvent {
   final int companyId;
-  GetAllProjectsEvent({required this.companyId});
+  final Function? onSuccess;
+  GetAllProjectsEvent({required this.companyId, this.onSuccess});
+}
+
+class GetWorkingProjectsEvent extends ProjectEvent {
+  GetWorkingProjectsEvent();
+}
+
+class GetArchivedProjectsEvent extends ProjectEvent {
+  GetArchivedProjectsEvent();
 }
 
 class GetProjectEvent extends ProjectEvent {
@@ -39,5 +48,21 @@ class EditProjectEvent extends ProjectEvent {
   final Project updatedProject;
   final Function? onSuccess;
   EditProjectEvent(
+      {required this.companyId, required this.updatedProject, this.onSuccess});
+}
+
+class CloseProjectEvent extends ProjectEvent {
+  final int companyId;
+  final Project updatedProject;
+  final Function? onSuccess;
+  CloseProjectEvent(
+      {required this.companyId, required this.updatedProject, this.onSuccess});
+}
+
+class StartWorkingProjectEvent extends ProjectEvent {
+  final int companyId;
+  final Project updatedProject;
+  final Function? onSuccess;
+  StartWorkingProjectEvent(
       {required this.companyId, required this.updatedProject, this.onSuccess});
 }
