@@ -6,7 +6,9 @@ import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 
 class FilterDialog extends StatefulWidget {
-  const FilterDialog({Key? key}) : super(key: key);
+  const FilterDialog({Key? key, required this.applyFilter}) : super(key: key);
+
+  final void Function(Map<String, dynamic> data) applyFilter;
 
   @override
   _FilterDialogState createState() => _FilterDialogState();
@@ -20,7 +22,7 @@ class _FilterDialogState extends State<FilterDialog> {
     'more than 6 months',
   ];
 
-  String? radioButtonSelected;
+  int? radioButtonSelected;
   final studentInputController = TextEditingController();
   final proposalInputController = TextEditingController();
 
@@ -28,7 +30,7 @@ class _FilterDialogState extends State<FilterDialog> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    radioButtonSelected = projectLength[0];
+    radioButtonSelected = 0;
   }
 
   @override
@@ -87,7 +89,7 @@ class _FilterDialogState extends State<FilterDialog> {
                         (e) => GestureDetector(
                           onTap: () {
                             setState(() {
-                              radioButtonSelected = e;
+                              radioButtonSelected = projectLength.indexOf(e);
                             });
                           },
                           child: Container(
@@ -95,12 +97,14 @@ class _FilterDialogState extends State<FilterDialog> {
                                 vertical: 8, horizontal: 15),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(50),
-                              color: radioButtonSelected == e
+                              color: radioButtonSelected ==
+                                      projectLength.indexOf(e)
                                   ? primaryColor
                                   : const Color.fromARGB(255, 235, 235, 235),
                             ),
                             child: Text(e,
-                                style: radioButtonSelected == e
+                                style: radioButtonSelected ==
+                                        projectLength.indexOf(e)
                                     ? textTheme.bodyMedium!
                                         .copyWith(color: Colors.white)
                                     : textTheme.bodyMedium!),
@@ -304,7 +308,14 @@ class _FilterDialogState extends State<FilterDialog> {
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(double.infinity, 42),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        widget.applyFilter({
+                          'projectScopeFlag': radioButtonSelected,
+                          'numberOfStudents': studentInputController.text,
+                          'proposalsLessThan': proposalInputController.text,
+                        });
+                        Navigator.pop(context);
+                      },
                       child: Text(
                         'Apply',
                         style: textTheme.bodyMedium!.copyWith(

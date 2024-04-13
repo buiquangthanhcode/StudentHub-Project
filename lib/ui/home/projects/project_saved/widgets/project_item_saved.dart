@@ -42,8 +42,13 @@ class _ProjectItemSavedState extends State<ProjectItemSaved> {
     var colorTheme = Theme.of(context).colorScheme;
     return GestureDetector(
       onTap: () {
-        context.pushNamed('project_detail',
-            queryParameters: {'id': widget.project.id.toString()});
+        context.pushNamed(
+          'project_detail',
+          queryParameters: {
+            'id': widget.project.id.toString(),
+            'isFavorite': 'true',
+          },
+        );
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20),

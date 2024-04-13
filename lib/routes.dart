@@ -68,7 +68,7 @@ final GoRouter router = GoRouter(
             path: 'project_detail',
             name: 'project_detail',
             pageBuilder: (context, state) {
-              return customTransitionPage(state.pageKey, ProjectDetailScreen(id: state.uri.queryParameters["id"]!));
+              return customTransitionPage(state.pageKey, ProjectDetailScreen(id: state.uri.queryParameters["id"]!,isFavorite: state.uri.queryParameters["isFavorite"]!,));
             },
             routes: [
               GoRoute(
