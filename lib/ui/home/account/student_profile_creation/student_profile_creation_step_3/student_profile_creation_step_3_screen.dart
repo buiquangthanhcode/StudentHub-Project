@@ -273,16 +273,16 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                   ),
                 ),
                 const Spacer(),
-                SizedBox(
-                  height: 200,
-                  child: SfPdfViewer.network(
-                    state.student.resume ?? '',
-                    key: _pdfViewerKey,
-                    onDocumentLoadFailed: (details) {
-                      logger.e(details);
-                    },
-                  ),
-                ),
+                // SizedBox(
+                //   height: 200,
+                //   child: SfPdfViewer.network(
+                //     state.student.resume ?? '',
+                //     key: _pdfViewerKey,
+                //     onDocumentLoadFailed: (details) {
+                //       logger.e(details);
+                //     },
+                //   ),
+                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
