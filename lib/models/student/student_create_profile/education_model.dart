@@ -7,8 +7,8 @@ class Education {
   String? deletedAt;
   int? studentId;
   String? schoolName;
-  String? startYear;
-  String? endYear;
+  int? startYear;
+  int? endYear;
   Education({
     this.id,
     this.createdAt,
@@ -27,8 +27,8 @@ class Education {
     String? deletedAt,
     int? studentId,
     String? schoolName,
-    String? startYear,
-    String? endYear,
+    int? startYear,
+    int? endYear,
   }) {
     return Education(
       id: id ?? this.id,
@@ -81,8 +81,8 @@ class Education {
       deletedAt: map['deletedAt'],
       studentId: map['studentId']?.toInt(),
       schoolName: map['schoolName'],
-      startYear: map['startYear'],
-      endYear: map['endYear'],
+      startYear: map['startYear']?.toInt(),
+      endYear: map['endYear']?.toInt(),
     );
   }
 

@@ -2,6 +2,7 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -344,7 +345,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                         ),
                                         onPressed: () {
                                           JitsiMeetService.instance.join();
-                                          logger.d("Join");
                                         },
                                         child: const Text(
                                           "Join",

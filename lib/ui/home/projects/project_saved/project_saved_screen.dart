@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/blocs/all_project_bloc/all_project_bloc.dart';
 import 'package:studenthub/blocs/all_project_bloc/all_project_event.dart';
 import 'package:studenthub/blocs/all_project_bloc/all_project_state.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/ui/home/projects/project_saved/widgets/project_item_saved.dart';
-import 'package:studenthub/ui/home/projects/widgets/project_item.dart';
 
 class ProjectSavedScreen extends StatefulWidget {
   const ProjectSavedScreen({Key? key}) : super(key: key);
@@ -25,6 +23,7 @@ class _ProjectSavedState extends State<ProjectSavedScreen> {
   void initState() {
     _scrollController.addListener(_scrollListener);
     super.initState();
+
     context.read<AllProjectBloc>().add(
           GetFavoriteProject(
               studentId: context
@@ -86,9 +85,11 @@ class _ProjectSavedState extends State<ProjectSavedScreen> {
               ),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
-                  childCount: 2,
+                  childCount: state.projectFavorite.length,
                   (BuildContext context, int index) {
-                    return const ProjectItemSaved();
+                    return ProjectItemSaved(
+                      project: state.projectFavorite[index],
+                    );
                   },
                 ),
               ),

@@ -3,43 +3,88 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/global_bloc/global_bloc.dart';
+import 'package:studenthub/blocs/global_bloc/global_event.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/blocs/student_bloc/student_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/core/dropdown_button_formfield.dart';
+import 'package:studenthub/data/dto/student/request_update_profile_student.dart';
 import 'package:studenthub/models/common/user_model.dart';
+import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
+import 'package:studenthub/models/student/student_create_profile/tech_stack.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/autocomplete_widget.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/create_education.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/create_language.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/education_item.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/language_item.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/skillset_item.dart';
+import 'package:studenthub/utils/helper.dart';
+import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/emtyDataWidget.dart';
 
 class StudentProfileCreationStep01Screen extends StatefulWidget {
   const StudentProfileCreationStep01Screen({super.key});
 
   @override
-  State<StudentProfileCreationStep01Screen> createState() =>
-      _StudentProfileCreationStep01State();
+  State<StudentProfileCreationStep01Screen> createState() => _StudentProfileCreationStep01State();
 }
 
-class _StudentProfileCreationStep01State
-    extends State<StudentProfileCreationStep01Screen> {
+class _StudentProfileCreationStep01State extends State<StudentProfileCreationStep01Screen> {
   String? selectedValue;
   late TextEditingController textEditingController;
   late UserModel user;
+  List<SkillSet> dataSourceSkillSets = [];
+  List<TechStack> dataSourceTechStack = [];
 
   @override
   void initState() {
     super.initState();
     user = BlocProvider.of<AuthBloc>(context).state.userModel;
-    context.read<StudentBloc>().add(GetAllTeckStackEvent(onSuccess: () {}));
-    context.read<StudentBloc>().add(GetAllSkillSetEvent(onSuccess: () {}));
+    context.read<GlobalBloc>().add(GetAllTeckStackEventMetadata(onSuccess: (value) {
+      setState(() {
+        dataSourceTechStack = value;
+      });
+    }));
+    context.read<GlobalBloc>().add(GetAllSkillSetEventMetadata(onSuccess: (value) {
+      setState(() {
+        dataSourceSkillSets = value;
+      });
+    }));
+
     context.read<StudentBloc>().add(GetAllLanguageEvent(onSuccess: () {}, userId: user.student?.id ?? -1));
     context.read<StudentBloc>().add(GetAllEducationEvent(onSuccess: () {}, id: user.student?.id ?? -1));
+  }
+
+  void _handleChangeTechStack(value) {
+    final currentUser = BlocProvider.of<AuthBloc>(context).state.userModel;
+    if (currentUser.student == null) {
+      RequestUpdateProfileStudent profileStudent = RequestUpdateProfileStudent(techStackId: value?.id ?? -1);
+      context.read<StudentBloc>().add(PostProfileStudent(profileStudent: profileStudent, onSuccess: (userModel) {}));
+    } else {
+      RequestUpdateProfileStudent profileStudent =
+          RequestUpdateProfileStudent(techStackId: value?.id ?? -1, userId: currentUser.student?.id ?? -1);
+      context.read<StudentBloc>().add(UpdateProfileStudent(profileStudent: profileStudent, onSuccess: (userModel) {}));
+    }
+  }
+
+  void _handleSelectedSkillSet(value) {
+    List<SkillSet> data = List<SkillSet>.from(context.read<StudentBloc>().state.student.skillSets ?? []);
+    data.add(getSkillSetByName(value, dataSourceSkillSets));
+
+    if (user.student == null) {
+      RequestUpdateProfileStudent profileStudent =
+          RequestUpdateProfileStudent(skillSets: data.map((e) => e.id.toString()).toList(), userId: -1);
+      context.read<StudentBloc>().add(PostProfileStudent(profileStudent: profileStudent, onSuccess: (userModel) {}));
+    } else {
+      RequestUpdateProfileStudent profileStudent = RequestUpdateProfileStudent(
+          skillSets: data.map((e) => e.id.toString()).toList(), userId: user.student?.id ?? -1);
+      context.read<StudentBloc>().add(
+            UpdateProfileStudent(profileStudent: profileStudent, onSuccess: (userModel) {}),
+          );
+    }
   }
 
   @override
@@ -63,13 +108,11 @@ class _StudentProfileCreationStep01State
       appBar: AppBar(
         centerTitle: false,
         titleSpacing: 0,
-        title: Center(
-          child: Text(
-            "Welcome to StudentHub",
-            style: theme.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              fontSize: 24,
-            ),
+        title: Text(
+          user.student == null ? "Welcome to StudentHub" : "Edit Profile",
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
           ),
         ),
       ),
@@ -96,13 +139,16 @@ class _StudentProfileCreationStep01State
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
                       )),
-                  DropDownFormFieldCustom(
-                      name: "techstack",
-                      data: state.teckstacks.map((e) => e.name ?? '').toList(),
-                      onSaved: (value) {
-                        selectedValue = value.toString();
-                      },
-                      hint: "Please selecte TechStack"),
+                  DropDownFormFieldCustom<TechStack>(
+                    name: "techstack",
+                    data: dataSourceTechStack,
+                    onChanged: _handleChangeTechStack,
+                    initValue: state.student.techStack,
+                    onSaved: (value) {
+                      selectedValue = value.toString();
+                    },
+                    hint: "Please selecte TechStack",
+                  ),
                   Text("Skillset",
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontSize: 15,
@@ -115,18 +161,16 @@ class _StudentProfileCreationStep01State
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Builder(builder: (context) {
-                        if (state.skillset.isNotEmpty) {
+                        if (state.student.skillSets?.isNotEmpty ?? false) {
                           return Wrap(
                             spacing: 6.0,
                             runSpacing: 6.0,
                             direction: Axis.horizontal,
-                            children: state.skillset
+                            children: state.student.skillSets!
                                 .map((item) => SkillSetItem(
                                       theme: theme,
                                       item: item,
                                     ))
-                                .where((element) =>
-                                    element.item.isSelected == true)
                                 .toList(),
                           );
                         }
@@ -134,7 +178,10 @@ class _StudentProfileCreationStep01State
                       }),
                       const SizedBox(height: 10),
                       AutoCompleteWidget(
-                        data: state.skillset.map((e) => e.name ?? '').toList(),
+                        data: dataSourceSkillSets.map((e) => e.name ?? '').toList(),
+                        onSelected: (value) {
+                          _handleSelectedSkillSet(value);
+                        },
                       ),
                       const SizedBox(height: 10),
                       Column(
@@ -153,15 +200,12 @@ class _StudentProfileCreationStep01State
                                 margin: const EdgeInsets.only(right: 10),
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: theme.colorScheme.grey!),
+                                  border: Border.all(color: theme.colorScheme.grey!),
                                   shape: BoxShape.circle,
                                 ),
                                 child: InkWell(
                                   onTap: () {
-                                    showModalBottomSheetCustom(context,
-                                        widgetBuilder:
-                                            const CreateLanguageWidget());
+                                    showModalBottomSheetCustom(context, widgetBuilder: const CreateLanguageWidget());
                                   },
                                   child: FaIcon(
                                     FontAwesomeIcons.plus,
@@ -175,20 +219,20 @@ class _StudentProfileCreationStep01State
                           const SizedBox(height: 10),
                           Builder(
                             builder: (context) {
-                              if (state.languages.isEmpty) {
+                              if (state.student.languages?.isEmpty ?? true) {
                                 return const EmptyDataWidget(
                                   mainTitle: '',
                                   subTitle: 'No data',
                                   widthImage: 150,
                                 );
                               }
-                              if (state.languages.isNotEmpty) {
+                              if (state.student.languages!.isNotEmpty) {
                                 return ListView.separated(
                                     shrinkWrap: true,
                                     itemBuilder: (context, index) {
                                       return LanguageItem(
                                         theme: theme,
-                                        item: state.languages[index],
+                                        item: state.student.languages![index],
                                       );
                                     },
                                     separatorBuilder: (context, index) {
@@ -196,7 +240,7 @@ class _StudentProfileCreationStep01State
                                         height: 10,
                                       );
                                     },
-                                    itemCount: state.languages.length);
+                                    itemCount: state.student.languages!.length);
                               }
                               return const SizedBox();
                             },
@@ -220,15 +264,42 @@ class _StudentProfileCreationStep01State
                                 margin: const EdgeInsets.only(right: 10),
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: theme.colorScheme.grey!),
+                                  border: Border.all(color: theme.colorScheme.grey!),
                                   shape: BoxShape.circle,
                                 ),
                                 child: InkWell(
                                   onTap: () {
-                                    showModalBottomSheetCustom(context,
-                                        widgetBuilder:
-                                            const CreateEducationWidget());
+                                    showModalBottomSheetCustom(
+                                      context,
+                                      widgetBuilder: const CreateEducationWidget(),
+                                      headerBuilder: Row(
+                                        children: [
+                                          Text(
+                                            "Create Education",
+                                            style: theme.textTheme.bodyMedium?.copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                                color: theme.colorScheme.grey!.withOpacity(0.4),
+                                                borderRadius: BorderRadius.circular(50)),
+                                            padding: const EdgeInsets.all(3),
+                                            child: InkWell(
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Icon(
+                                                Icons.close,
+                                                color: theme.colorScheme.grey,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
                                   },
                                   child: FaIcon(
                                     FontAwesomeIcons.plus,
@@ -242,20 +313,20 @@ class _StudentProfileCreationStep01State
                           const SizedBox(height: 10),
                           Builder(
                             builder: (context) {
-                              if (state.edutcations.isEmpty) {
+                              if (state.student.educations?.isEmpty ?? true) {
                                 return const EmptyDataWidget(
                                   mainTitle: '',
                                   subTitle: 'No data',
                                   widthImage: 150,
                                 );
                               }
-                              if (state.edutcations.isNotEmpty) {
+                              if (state.student.educations?.isNotEmpty ?? false) {
                                 return ListView.separated(
                                     shrinkWrap: true,
                                     itemBuilder: (context, index) {
                                       return EducationItem(
                                         theme: theme,
-                                        item: state.edutcations[index],
+                                        item: state.student.educations![index],
                                       );
                                     },
                                     separatorBuilder: (context, index) {
@@ -263,7 +334,7 @@ class _StudentProfileCreationStep01State
                                         height: 10,
                                       );
                                     },
-                                    itemCount: state.edutcations.length);
+                                    itemCount: state.student.educations!.length);
                               }
                               return const SizedBox();
                             },

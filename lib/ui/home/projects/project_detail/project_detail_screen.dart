@@ -32,6 +32,13 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
         );
   }
 
+  Map<int, String> time = {
+    0: 'Less than 1 month',
+    1: '1 - 3 months',
+    2: '3 - 6 months',
+    3: 'More than 6 months'
+  };
+
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
@@ -100,10 +107,11 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                                     color: Colors.black.withOpacity(0.6),
                                   ),
                         ),
-                        BulletList(const [
-                          'Clear expectation about your project or deliverables',
-                          'The skill required for your project',
-                          'Detail about your project',
+                        BulletList([
+                          state.projectDetail.description ??
+                              'Clear expectation about your project or deliverables',
+                          // 'The skill required for your project',
+                          // 'Detail about your project',
                         ]),
                       ],
                     ),
@@ -143,7 +151,8 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                                     ),
                                   ),
                                   Text(
-                                    '3-6 months',
+                                    time[state.projectDetail.countProposals] ??
+                                      '3-6 months',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall!

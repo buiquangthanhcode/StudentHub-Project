@@ -6,6 +6,7 @@ import 'package:studenthub/blocs/all_project_bloc/all_project_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
+import 'package:studenthub/blocs/global_bloc/global_bloc.dart';
 // import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/theme_bloc/theme_bloc.dart';
@@ -13,8 +14,7 @@ import 'package:studenthub/blocs/theme_bloc/theme_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/routes.dart';
 
-GlobalKey<NavigatorState> navigatorKeys =
-    GlobalKey<NavigatorState>(); //  Add by Quang Thanh
+GlobalKey<NavigatorState> navigatorKeys = GlobalKey<NavigatorState>(); //  Add by Quang Thanh
 
 class StudentHub extends StatelessWidget {
   const StudentHub({super.key, this.themeStorage});
@@ -53,6 +53,9 @@ class StudentHub extends StatelessWidget {
         BlocProvider<AllProjectBloc>(
           create: (BuildContext context) => AllProjectBloc(),
         ),
+        BlocProvider<GlobalBloc>(
+          create: (BuildContext context) => GlobalBloc(),
+        ),
         // Add more bloc providers
       ],
       child: BlocBuilder<ThemesBloc, ThemesState>(
@@ -68,8 +71,7 @@ class StudentHub extends StatelessWidget {
             title: 'Student Hub',
             theme: state.themeMode == ThemeMode.dark
                 ? AppThemes.darkTheme
-                : AppThemes
-                    .lightTheme, // Using state.themeMode to change theme when event is dispatched
+                : AppThemes.lightTheme, // Using state.themeMode to change theme when event is dispatched
             routerConfig: router,
           );
         },

@@ -8,7 +8,7 @@ void configEasyLoading() {
     ..displayDuration = const Duration(milliseconds: 2000)
     ..loadingStyle = EasyLoadingStyle.custom
     ..maskType = EasyLoadingMaskType.custom
-    ..indicatorSize = 65.0
+    ..indicatorSize = 45.0
     ..radius = 15.0
     ..backgroundColor = primaryColor.withOpacity(0.9)
     ..indicatorColor = Colors.transparent
@@ -16,6 +16,6 @@ void configEasyLoading() {
     ..animationDuration = const Duration(microseconds: 2000)
     ..maskColor = primaryColor.withOpacity(0.0)
     ..userInteractions = true
-    ..indicatorWidget = Lottie.asset('lib/assets/json/loading.json', height: 65)
+    ..indicatorWidget = Lottie.asset('lib/assets/json/loading.json', height: 45)
     ..boxShadow = [];
 }

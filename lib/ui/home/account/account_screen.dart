@@ -9,9 +9,10 @@ import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 
 class AccountScreen extends StatefulWidget {
-  const AccountScreen({Key? key}) : super(key: key);
+  const AccountScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AccountState createState() => _AccountState();
 }
 
@@ -26,7 +27,7 @@ class _AccountState extends State<AccountScreen> {
           {
             'icon': FontAwesomeIcons.solidCircleUser,
             'name': 'Profiles',
-            'route_name': state.userModel.roles![0] == 1
+            'route_name': state.userModel.roles?[0] == 1
                 ? state.userModel.company == null
                     ? 'company_create_profile'
                     : 'company_edit_profile'
@@ -37,7 +38,7 @@ class _AccountState extends State<AccountScreen> {
           {
             'icon': FontAwesomeIcons.gears,
             'name': 'Setting',
-            'route_name': 'student_create_profile_step_01',
+            'route_name': 'setting_detail',
           },
           {
             'icon': FontAwesomeIcons.leftLong,
@@ -61,10 +62,7 @@ class _AccountState extends State<AccountScreen> {
                         children: [
                           Text(
                             'Account',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .copyWith(fontWeight: FontWeight.w700),
+                            style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w700),
                           ),
                         ],
                       ),
@@ -106,15 +104,13 @@ class _AccountState extends State<AccountScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                state.userModel.fullname!,
+                                state.userModel.fullname ?? '',
                                 style: theme.textTheme.bodyMedium?.copyWith(
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               Text(
-                                state.userModel.roles![0] == 1
-                                    ? 'Company'
-                                    : 'Student',
+                                state.userModel.roles?[0] == 1 ? 'Company' : 'Student',
                                 style: theme.textTheme.bodyMedium?.copyWith(
                                   color: Colors.grey,
                                 ),
@@ -172,11 +168,8 @@ class _AccountState extends State<AccountScreen> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
-                        border: Border.all(
-                            color: Color.fromARGB(255, 160, 160, 160),
-                            width: 1)),
+                        borderRadius: const BorderRadius.all(Radius.circular(10)),
+                        border: Border.all(color: Color.fromARGB(255, 160, 160, 160), width: 1)),
                     child: Column(
                       children: [
                         ...dataSetting.map(
@@ -185,14 +178,12 @@ class _AccountState extends State<AccountScreen> {
                               context.pushNamed(e['route_name']);
                             },
                             child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 22, horizontal: 5),
+                              padding: const EdgeInsets.symmetric(vertical: 22, horizontal: 5),
                               decoration: BoxDecoration(
                                   border: Border(
                                       bottom: BorderSide(
                                           width: e == dataSetting.last ? 0 : 1,
-                                          color: const Color.fromARGB(
-                                              255, 220, 220, 220)))),
+                                          color: const Color.fromARGB(255, 220, 220, 220)))),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
@@ -232,8 +223,7 @@ class _AccountState extends State<AccountScreen> {
                   ),
                   const Spacer(),
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 15),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                     decoration: BoxDecoration(
                       color: primaryColor,
                       borderRadius: BorderRadius.circular(10),

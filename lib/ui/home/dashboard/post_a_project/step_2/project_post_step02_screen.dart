@@ -10,7 +10,7 @@ import 'package:studenthub/blocs/project_bloc/project_state.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/models/common/project_model.dart';
 
-enum TimeOption { option1, option2 }
+enum TimeOption { option1, option2, option3, option4 }
 
 class ProjectPostStep02Screen extends StatefulWidget {
   const ProjectPostStep02Screen({super.key});
@@ -96,7 +96,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                       visualDensity:
                           const VisualDensity(vertical: -4.0, horizontal: -4.0),
                       title: Text(
-                        '1 to 3 months',
+                        'Less than 1 month',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: Colors.black.withOpacity(0.6),
                             ),
@@ -114,12 +114,48 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                       visualDensity:
                           const VisualDensity(vertical: -4.0, horizontal: -4.0),
                       title: Text(
-                        '3 to 6 months',
+                        '1 to 3 months',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: Colors.black.withOpacity(0.6),
                             ),
                       ),
                       value: TimeOption.option2,
+                      groupValue: _timeOption,
+                      onChanged: (value) {
+                        setState(() {
+                          _timeOption = value as TimeOption;
+                        });
+                      },
+                    ),
+                    RadioListTile(
+                      activeColor: primaryColor,
+                      visualDensity:
+                          const VisualDensity(vertical: -4.0, horizontal: -4.0),
+                      title: Text(
+                        '3 to 6 months',
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              color: Colors.black.withOpacity(0.6),
+                            ),
+                      ),
+                      value: TimeOption.option3,
+                      groupValue: _timeOption,
+                      onChanged: (value) {
+                        setState(() {
+                          _timeOption = value as TimeOption;
+                        });
+                      },
+                    ),
+                    RadioListTile(
+                      activeColor: primaryColor,
+                      visualDensity:
+                          const VisualDensity(vertical: -4.0, horizontal: -4.0),
+                      title: Text(
+                        'More than 6 months',
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              color: Colors.black.withOpacity(0.6),
+                            ),
+                      ),
+                      value: TimeOption.option4,
                       groupValue: _timeOption,
                       onChanged: (value) {
                         setState(() {
@@ -166,10 +202,27 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                 const Spacer(),
                 ElevatedButton(
                   onPressed: () {
+                    // final _projectScopeFlag = null;
+                    // if (_timeOption == TimeOption.option1) {
+                    //   _projectScopeFlag = 0;
+                    // } else if (_timeOption == TimeOption.option2) {
+                    //   _timeOption = TimeOption.option2;
+                    // } else if (_timeOption == TimeOption.option3) {
+                    //   _timeOption = TimeOption.option3;
+                    // } else {
+                    //   _timeOption = TimeOption.option4;
+                    // }
+
+                    log("time option: ${_timeOption}");
                     final currentProject = Project(
                       title: state.projectCreation.title,
-                      projectScopeFlag:
-                          _timeOption == TimeOption.option1 ? 0 : 1,
+                      projectScopeFlag: _timeOption == TimeOption.option1
+                          ? 0
+                          : _timeOption == TimeOption.option2
+                              ? 1
+                              : _timeOption == TimeOption.option3
+                                  ? 2
+                                  : 3,
                       numberOfStudents: int.parse(_textEditingController.text),
                     );
                     context
