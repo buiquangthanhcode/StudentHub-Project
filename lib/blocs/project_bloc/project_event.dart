@@ -10,6 +10,14 @@ class GetAllProjectsEvent extends ProjectEvent {
   GetAllProjectsEvent({required this.companyId});
 }
 
+class GetWorkingProjectsEvent extends ProjectEvent {
+  GetWorkingProjectsEvent();
+}
+
+class GetArchivedProjectsEvent extends ProjectEvent {
+  GetArchivedProjectsEvent();
+}
+
 class GetProjectEvent extends ProjectEvent {
   final Project newProject;
   GetProjectEvent(this.newProject);

@@ -30,6 +30,8 @@ class ProjectAllTabForCompany extends StatefulWidget {
 
 class _ProjectAllTabState extends State<ProjectAllTabForCompany> {
   List<Project> projects = [];
+  final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
@@ -47,7 +49,7 @@ class _ProjectAllTabState extends State<ProjectAllTabForCompany> {
     final theme = Theme.of(context);
     return BlocBuilder<ProjectBloc, ProjectState>(
       builder: (context, state) {
-        if (state.projects.isEmpty) {
+        if (state.allProjects.isEmpty) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -63,10 +65,11 @@ class _ProjectAllTabState extends State<ProjectAllTabForCompany> {
           margin: const EdgeInsets.only(top: 20),
           child: Center(
             child: ListView.separated(
-              itemCount: state.projects.length,
+              // reverse: true,
+              itemCount: state.allProjects.length,
               itemBuilder: (context, index) {
                 return ProjectReviewItem(
-                    theme: theme, item: state.projects[index]);
+                    theme: theme, item: state.allProjects[index]);
               },
               separatorBuilder: (context, index) {
                 return const Padding(

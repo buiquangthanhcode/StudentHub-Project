@@ -20,11 +20,15 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
   ProjectBloc()
       : super(
           ProjectState(
-            projects: [],
+            allProjects: [],
+            workingProjects: [],
+            archivedProjects: [],
             projectCreation: Project(),
           ),
         ) {
     on<GetAllProjectsEvent>(_onGetAllProjects);
+    on<GetWorkingProjectsEvent>(_onGetWorkingProjects);
+    // on<GetArchivedProjectsEvent>(_onGetArchivedProjects);
     on<UpdateNewProjectEvent>(_onUpdateNewProject);
     on<PostNewProjectEvent>(_onPostNewProject);
     on<DeleteProjectEvent>(_onDeleteProject);
@@ -40,8 +44,21 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
     try {
       final response = await _companyService.getAllProjects(event.companyId);
       if (response.statusCode! <= 201) {
-        emit(state.update(projects: response.data));
+        emit(state.update(allProjects: response.data));
       }
+    } catch (e) {
+      logger.e(e);
+    }
+  }
+
+  void _onGetWorkingProjects(
+      GetWorkingProjectsEvent event, Emitter<ProjectState> emit) async {
+    try {
+      // Add your code here
+      final workingProjects =
+          state.allProjects.where((element) => element.typeFlag == 0).toList();
+      log("working_projects: ${workingProjects}");
+      emit(state.update(workingProjects: workingProjects));
     } catch (e) {
       logger.e(e);
     }
@@ -50,7 +67,7 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
   FutureOr<void> _onUpdateNewProject(
       UpdateNewProjectEvent event, Emitter<ProjectState> emit) async {
     try {
-      emit(state.update(project: event.newProject));
+      emit(state.update(projectCreation: event.newProject));
     } catch (e) {
       logger.e(e);
     }
@@ -61,7 +78,7 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
     try {
       final response = await _companyService.postNewProject(event.newProject);
       if (response.statusCode! <= 201) {
-        emit(state.update(project: response.data!));
+        // Do khi push lại vào trang home từ trang post project sẽ gọi event GetAllProjectsEvent để rerender
         event.onSuccess!();
       }
     } catch (e) {
