@@ -162,17 +162,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 Tab(text: 'Archived'),
                               ],
                             ),
-                            const Expanded(
-                              child: TabBarView(
-                                children: [
-                                  // ProjectAllTabForCompany(),
-                                  // ProjectWorkingTabForCompany(),
-                                  // ProjectArchivedTabForCompany(),
-                                  ProjectAllTabForStudent(),
-                                  ProjectWorkingTabForStudent(),
-                                  ProjectArchivedTabForStudent(),
-                                ],
-                              ),
+                            Expanded(
+                              child: Builder(builder: (context) {
+                                if (state.currentRole == UserRole.company) {
+                                  return const TabBarView(
+                                    children: [
+                                      ProjectAllTabForCompany(),
+                                      ProjectWorkingTabForCompany(),
+                                      ProjectArchivedTabForCompany(),
+                                    ],
+                                  );
+                                } else if (state.currentRole == UserRole.student) {
+                                  return const TabBarView(
+                                    children: [
+                                      ProjectAllTabForStudent(),
+                                      ProjectWorkingTabForStudent(),
+                                      ProjectArchivedTabForStudent(),
+                                    ],
+                                  );
+                                }
+                                return const SizedBox();
+                              }),
                             ),
                           ],
                         )),

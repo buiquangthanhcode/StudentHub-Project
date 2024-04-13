@@ -274,8 +274,9 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                 ),
                 const Spacer(),
                 SizedBox(
+                  height: 200,
                   child: SfPdfViewer.network(
-                    "https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf",
+                    state.student.resume ?? '',
                     key: _pdfViewerKey,
                     onDocumentLoadFailed: (details) {
                       logger.e(details);

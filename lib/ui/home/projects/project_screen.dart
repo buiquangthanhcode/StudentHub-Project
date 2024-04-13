@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/blocs/all_project_bloc/all_project_bloc.dart';
 import 'package:studenthub/blocs/all_project_bloc/all_project_event.dart';
 import 'package:studenthub/blocs/all_project_bloc/all_project_state.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/ui/home/projects/widgets/project_item.dart';
 import 'package:studenthub/utils/logger.dart';
@@ -75,6 +78,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
   Widget build(BuildContext context) {
     // TextTheme textTheme = Theme.of(context).textTheme;
     var colorTheme = Theme.of(context).colorScheme;
+    AuthenState authSate = context.read<AuthBloc>().state;
 
     return BlocBuilder<AllProjectBloc, AllProjectState>(
       builder: (BuildContext context, AllProjectState state) {
@@ -123,22 +127,25 @@ class _ProjectScreenState extends State<ProjectScreen> {
                           const SizedBox(
                             width: 8,
                           ),
-                          InkWell(
-                            onTap: () {
-                              context.pushNamed('project_saved');
-                            },
-                            child: Container(
-                              height: 39,
-                              width: 39,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: const Color.fromARGB(255, 245, 245, 245),
-                              ),
-                              alignment: Alignment.center,
-                              child: FaIcon(
-                                FontAwesomeIcons.solidHeart,
-                                color: colorTheme.black,
-                                size: 21,
+                          Visibility(
+                            visible: authSate.currentRole == UserRole.student,
+                            child: InkWell(
+                              onTap: () {
+                                context.pushNamed('project_saved');
+                              },
+                              child: Container(
+                                height: 39,
+                                width: 39,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  color: const Color.fromARGB(255, 245, 245, 245),
+                                ),
+                                alignment: Alignment.center,
+                                child: FaIcon(
+                                  FontAwesomeIcons.solidHeart,
+                                  color: colorTheme.black,
+                                  size: 21,
+                                ),
                               ),
                             ),
                           ),

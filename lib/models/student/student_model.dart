@@ -8,6 +8,54 @@ import 'package:studenthub/models/student/student_create_profile/project_model.d
 import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
 import 'package:studenthub/models/student/student_create_profile/tech_stack.dart';
 
+class User {
+  String? fullname;
+  User({
+    this.fullname,
+  });
+
+  User copyWith({
+    String? fullname,
+  }) {
+    return User(
+      fullname: fullname ?? this.fullname,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    final result = <String, dynamic>{};
+
+    if (fullname != null) {
+      result.addAll({'fullname': fullname});
+    }
+
+    return result;
+  }
+
+  factory User.fromMap(Map<String, dynamic> map) {
+    return User(
+      fullname: map['fullname'],
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory User.fromJson(String source) => User.fromMap(json.decode(source));
+
+  @override
+  String toString() => 'User(fullname: $fullname)';
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is User && other.fullname == fullname;
+  }
+
+  @override
+  int get hashCode => fullname.hashCode;
+}
+
 class Student {
   int? id;
   int? userId;
@@ -23,7 +71,7 @@ class Student {
   String? deletedAt;
   TechStack? techStack;
   String? resume;
-
+  User? user;
   Student({
     this.id,
     this.userId,
@@ -39,6 +87,7 @@ class Student {
     this.deletedAt,
     this.techStack,
     this.resume,
+    this.user,
   });
 
   Student copyWith({
@@ -56,6 +105,7 @@ class Student {
     String? deletedAt,
     TechStack? techStack,
     String? resume,
+    User? user,
   }) {
     return Student(
       id: id ?? this.id,
@@ -72,6 +122,7 @@ class Student {
       deletedAt: deletedAt ?? this.deletedAt,
       techStack: techStack ?? this.techStack,
       resume: resume ?? this.resume,
+      user: user ?? this.user,
     );
   }
 
@@ -94,16 +145,16 @@ class Student {
       result.addAll({'techStackId': techStackId});
     }
     if (skillSets != null) {
-      result.addAll({'skillSets': skillSets!.map((x) => x.toMap()).toList()});
+      result.addAll({'skillSets': skillSets!.map((x) => x?.toMap()).toList()});
     }
     if (languages != null) {
-      result.addAll({'languages': languages!.map((x) => x.toMap()).toList()});
+      result.addAll({'languages': languages!.map((x) => x?.toMap()).toList()});
     }
     if (experiences != null) {
-      result.addAll({'experiences': experiences!.map((x) => x.toMap()).toList()});
+      result.addAll({'experiences': experiences!.map((x) => x?.toMap()).toList()});
     }
     if (educations != null) {
-      result.addAll({'educations': educations!.map((x) => x.toMap()).toList()});
+      result.addAll({'educations': educations!.map((x) => x?.toMap()).toList()});
     }
     if (createdAt != null) {
       result.addAll({'createdAt': createdAt});
@@ -119,6 +170,9 @@ class Student {
     }
     if (resume != null) {
       result.addAll({'resume': resume});
+    }
+    if (user != null) {
+      result.addAll({'user': user!.toMap()});
     }
 
     return result;
@@ -145,12 +199,18 @@ class Student {
       deletedAt: map['deletedAt'],
       techStack: map['techStack'] != null ? TechStack.fromMap(map['techStack']) : null,
       resume: map['resume'],
+      user: map['user'] != null ? User.fromMap(map['user']) : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
   factory Student.fromJson(String source) => Student.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'Student(id: $id, userId: $userId, fullname: $fullname, email: $email, techStackId: $techStackId, skillSets: $skillSets, languages: $languages, experiences: $experiences, educations: $educations, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, techStack: $techStack, resume: $resume, user: $user)';
+  }
 
   @override
   bool operator ==(Object other) {
@@ -169,8 +229,9 @@ class Student {
         other.createdAt == createdAt &&
         other.updatedAt == updatedAt &&
         other.deletedAt == deletedAt &&
+        other.techStack == techStack &&
         other.resume == resume &&
-        other.techStack == techStack;
+        other.user == user;
   }
 
   @override
@@ -188,11 +249,7 @@ class Student {
         updatedAt.hashCode ^
         deletedAt.hashCode ^
         techStack.hashCode ^
-        resume.hashCode;
-  }
-
-  @override
-  String toString() {
-    return 'Student(id: $id, userId: $userId, fullname: $fullname, email: $email, techStackId: $techStackId, skillSets: $skillSets, languages: $languages, experiences: $experiences, educations: $educations, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, techStack: $techStack, resume: $resume)';
+        resume.hashCode ^
+        user.hashCode;
   }
 }

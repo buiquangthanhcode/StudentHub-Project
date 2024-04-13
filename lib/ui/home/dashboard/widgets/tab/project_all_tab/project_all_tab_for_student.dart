@@ -9,83 +9,100 @@ import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_event.dart';
 import 'package:studenthub/blocs/project_bloc/project_state.dart';
+import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
+import 'package:studenthub/blocs/student_bloc/student_event.dart';
+import 'package:studenthub/blocs/student_bloc/student_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/models/common/project_model.dart';
-import 'package:studenthub/ui/home/dashboard/data/data_count.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/more_action_widget.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/project_review_item.dart';
-import 'package:studenthub/utils/helper.dart';
-import 'package:studenthub/utils/logger.dart';
-import 'package:studenthub/widgets/emtyDataWidget.dart';
 
-class ProjectAllTabForStudent extends StatelessWidget {
+class ProjectAllTabForStudent extends StatefulWidget {
   const ProjectAllTabForStudent({super.key});
+
+  @override
+  State<ProjectAllTabForStudent> createState() => _ProjectAllTabForStudentState();
+}
+
+class _ProjectAllTabForStudentState extends State<ProjectAllTabForStudent> {
+  @override
+  void initState() {
+    super.initState();
+    int userId = BlocProvider.of<StudentBloc>(context).state.student.id ?? -1;
+    context.read<StudentBloc>().add(
+          GetAllProjectProposal(userId: userId ?? 0, onSuccess: () {}),
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Container(
-      margin: const EdgeInsets.only(top: 20),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Active Proposal (5)',
-            style: theme.textTheme.bodyMedium!.copyWith(
-              color: Colors.green.shade600,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          Expanded(
-            child: Center(
-              child: ListView.separated(
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return ProjectReviewItem(theme: theme, item: Project());
-                },
-                separatorBuilder: (context, index) {
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    child: Divider(),
-                  );
-                },
+    return BlocBuilder<StudentBloc, StudentState>(
+      builder: (context, state) {
+        return Container(
+          margin: const EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Active Proposal (5)',
+                style: theme.textTheme.bodyMedium!.copyWith(
+                  color: Colors.green.shade600,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Text(
-            'Submitted proposal (10)',
-            style: theme.textTheme.bodyMedium!.copyWith(
-              color: Colors.red,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Expanded(
-            child: Center(
-              child: ListView.separated(
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return ProjectReviewItem(theme: theme, item: Project());
-                },
-                separatorBuilder: (context, index) {
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    child: Divider(),
-                  );
-                },
+              Expanded(
+                child: Center(
+                  child: ListView.separated(
+                    itemCount: 5,
+                    itemBuilder: (context, index) {
+                      return ProjectReviewItem(theme: theme, item: Project());
+                    },
+                    separatorBuilder: (context, index) {
+                      return const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        child: Divider(),
+                      );
+                    },
+                  ),
+                ),
               ),
-            ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Submitted proposal (${state.projectProposals.length})',
+                style: theme.textTheme.bodyMedium!.copyWith(
+                  color: Colors.red,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: Center(
+                  child: ListView.separated(
+                    itemCount: state.projectProposals.length,
+                    itemBuilder: (context, index) {
+                      return ProjectReviewItem(theme: theme, projectProposal: state.projectProposals[index]);
+                    },
+                    separatorBuilder: (context, index) {
+                      return const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        child: Divider(),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
