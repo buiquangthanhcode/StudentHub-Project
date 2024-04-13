@@ -20,15 +20,21 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
   ProjectBloc()
       : super(
           ProjectState(
-            projects: [],
+            allProjects: [],
+            workingProjects: [],
+            archivedProjects: [],
             projectCreation: Project(),
           ),
         ) {
     on<GetAllProjectsEvent>(_onGetAllProjects);
+    on<GetWorkingProjectsEvent>(_onGetWorkingProjects);
+    on<GetArchivedProjectsEvent>(_onGetArchivedProjects);
     on<UpdateNewProjectEvent>(_onUpdateNewProject);
     on<PostNewProjectEvent>(_onPostNewProject);
     on<DeleteProjectEvent>(_onDeleteProject);
     on<EditProjectEvent>(_onEditProject);
+    on<CloseProjectEvent>(_onCloseProject);
+    on<StartWorkingProjectEvent>(_onStartWorkingProject);
   }
 
   final CompanyService _companyService = CompanyService();
@@ -39,8 +45,33 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
     try {
       final response = await _companyService.getAllProjects(event.companyId);
       if (response.statusCode! <= 201) {
-        emit(state.update(projects: response.data));
+        emit(state.update(
+            allProjects: List<Project>.from(response.data!.toList())));
+        add(GetWorkingProjectsEvent());
+        add(GetArchivedProjectsEvent());
       }
+    } catch (e) {
+      logger.e(e);
+    }
+  }
+
+  void _onGetWorkingProjects(
+      GetWorkingProjectsEvent event, Emitter<ProjectState> emit) async {
+    try {
+      final workingProjects =
+          state.allProjects.where((element) => element.typeFlag == 0).toList();
+      emit(state.update(workingProjects: workingProjects));
+    } catch (e) {
+      logger.e(e);
+    }
+  }
+
+  void _onGetArchivedProjects(
+      GetArchivedProjectsEvent event, Emitter<ProjectState> emit) async {
+    try {
+      final archivedProjects =
+          state.allProjects.where((element) => element.typeFlag == 1).toList();
+      emit(state.update(archivedProjects: archivedProjects));
     } catch (e) {
       logger.e(e);
     }
@@ -49,7 +80,7 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
   FutureOr<void> _onUpdateNewProject(
       UpdateNewProjectEvent event, Emitter<ProjectState> emit) async {
     try {
-      emit(state.update(project: event.newProject));
+      emit(state.update(projectCreation: event.newProject));
     } catch (e) {
       logger.e(e);
     }
@@ -60,7 +91,7 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
     try {
       final response = await _companyService.postNewProject(event.newProject);
       if (response.statusCode! <= 201) {
-        emit(state.update(project: response.data!));
+        // Do khi push lại vào trang home từ trang post project sẽ gọi event GetAllProjectsEvent để rerender
         event.onSuccess!();
       }
     } catch (e) {
@@ -89,6 +120,40 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
         add(GetAllProjectsEvent(companyId: event.companyId));
         event.onSuccess!();
       }
+    } catch (e) {
+      logger.e(e);
+    }
+  }
+
+  FutureOr<void> _onCloseProject(
+      CloseProjectEvent event, Emitter<ProjectState> emit) async {
+    try {
+      EasyLoading.show(status: 'loading');
+
+      final response = await _companyService.closeProject(event.updatedProject);
+      if (response.statusCode! <= 201) {
+        add(GetAllProjectsEvent(companyId: event.companyId));
+        event.onSuccess!();
+      }
+      EasyLoading.dismiss();
+    } catch (e) {
+      EasyLoading.dismiss();
+      logger.e(e);
+    }
+  }
+
+  FutureOr<void> _onStartWorkingProject(
+      StartWorkingProjectEvent event, Emitter<ProjectState> emit) async {
+    try {
+      EasyLoading.show(status: 'loading');
+
+      final response =
+          await _companyService.startWorkingProject(event.updatedProject);
+      if (response.statusCode! <= 201) {
+        add(GetAllProjectsEvent(companyId: event.companyId));
+        event.onSuccess!();
+      }
+      EasyLoading.dismiss();
     } catch (e) {
       logger.e(e);
     }
