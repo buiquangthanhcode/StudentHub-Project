@@ -103,6 +103,7 @@ class _ProjectReviewDetailScreenState extends State<ProjectReviewDetailScreen> {
                             ProjectDetailScreen(
                               id: '1',
                               isHiddenAppbar: true,
+                              isFavorite: "false",
                             ),
                             MessagesScreen(
                               isHiddenAppbar: true,

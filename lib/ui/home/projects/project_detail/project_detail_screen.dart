@@ -6,13 +6,20 @@ import 'package:go_router/go_router.dart';
 import 'package:studenthub/blocs/all_project_bloc/all_project_bloc.dart';
 import 'package:studenthub/blocs/all_project_bloc/all_project_event.dart';
 import 'package:studenthub/blocs/all_project_bloc/all_project_state.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
 
 class ProjectDetailScreen extends StatefulWidget {
-  const ProjectDetailScreen({super.key, required this.id, this.isHiddenAppbar});
+  const ProjectDetailScreen(
+      {super.key,
+      required this.id,
+      required this.isFavorite,
+      this.isHiddenAppbar});
 
   final String id;
+  final String isFavorite;
   final bool? isHiddenAppbar;
 
   @override
@@ -25,7 +32,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
   @override
   void initState() {
     super.initState();
-    isSaved = false;
+    isSaved = widget.isFavorite == 'true';
 
     context.read<AllProjectBloc>().add(
           GetProjectDetail(id: widget.id),
@@ -63,7 +70,35 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                       child: InkWell(
                         onTap: () {
                           isSaved = !isSaved!;
-                          setState(() {});
+                          setState(() {
+                            isSaved!
+                                ? context.read<AllProjectBloc>().add(
+                                      AddFavoriteProject(
+                                        studentId: context
+                                            .read<AuthBloc>()
+                                            .state
+                                            .userModel
+                                            .student!
+                                            .id
+                                            .toString(),
+                                        projectId:
+                                            widget.id,
+                                      ),
+                                    )
+                                : context.read<AllProjectBloc>().add(
+                                      RemoveFavoriteProject(
+                                        studentId: context
+                                            .read<AuthBloc>()
+                                            .state
+                                            .userModel
+                                            .student!
+                                            .id
+                                            .toString(),
+                                        projectId:
+                                            widget.id,
+                                      ),
+                                    );
+                          });
                         },
                         child: FaIcon(
                           isSaved!
@@ -152,7 +187,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                                   ),
                                   Text(
                                     time[state.projectDetail.countProposals] ??
-                                      '3-6 months',
+                                        '3-6 months',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall!

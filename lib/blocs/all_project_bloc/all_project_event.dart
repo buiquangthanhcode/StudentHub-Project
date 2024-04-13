@@ -8,6 +8,14 @@ class GetAllDataEvent extends AllProjectEvent {
   GetAllDataEvent();
 }
 
+class GetSearchFilterDataEvent extends AllProjectEvent {
+  final String? title;
+  final int? projectScopeFlag;
+  final int? numberOfStudents;
+  final int? proposalsLessThan;
+  GetSearchFilterDataEvent(this.title, this.projectScopeFlag, this.numberOfStudents, this.proposalsLessThan);
+}
+
 class GetProjectDetail extends AllProjectEvent {
   final String id;
   GetProjectDetail({required this.id});

@@ -18,31 +18,11 @@ class AllProjectsService {
   }
 
   Future<ResponseAPI<List<Project>>> getAllProjects(
-    String? title,
-    int? projectScopeFlag,
-    int? numberOfStudents,
-    int? proposalsLessThan,
   ) async {
     try {
-      Map<String, dynamic> query = {};
-
-      if (title != null) {
-        query.addAll({'title': title});
-      }
-      if (projectScopeFlag != null) {
-        query.addAll({"projectScopeFlag": projectScopeFlag});
-      }
-      if (numberOfStudents != null) {
-        query.addAll({"numberOfStudents": numberOfStudents});
-      }
-      if (proposalsLessThan != null) {
-        query.addAll({"proposalsLessThan": proposalsLessThan});
-      }
-
-      logger.d(query);
 
       final res =
-          await dioClient.get('$baseURL/api/project', queryParameters: query);
+          await dioClient.get('$baseURL/api/project');
 
       return ResponseAPI<List<Project>>(
         statusCode: res.statusCode,
@@ -157,6 +137,52 @@ class AllProjectsService {
       return ResponseAPI<dynamic>(
         statusCode: res.statusCode,
         data: res,
+      );
+    } on DioException catch (e) {
+      logger.e(
+        "DioException :${e.response}",
+      );
+      throw ResponseAPI<List<Project>>(
+        statusCode: e.response?.statusCode,
+        data: [],
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
+
+    Future<ResponseAPI<List<Project>>> getSearchFilterData(
+    String? title,
+    int? projectScopeFlag,
+    int? numberOfStudents,
+    int? proposalsLessThan,
+  ) async {
+    try {
+      Map<String, dynamic> query = {};
+
+      if (title != null) {
+        query.addAll({'title': title});
+      }
+      if (projectScopeFlag != null) {
+        query.addAll({"projectScopeFlag": projectScopeFlag});
+      }
+      if (numberOfStudents != null) {
+        query.addAll({"numberOfStudents": numberOfStudents});
+      }
+      if (proposalsLessThan != null) {
+        query.addAll({"proposalsLessThan": proposalsLessThan});
+      }
+
+      logger.d(query);
+
+      final res =
+          await dioClient.get('$baseURL/api/project', queryParameters: query);
+
+      return ResponseAPI<List<Project>>(
+        statusCode: res.statusCode,
+        data:
+            res.data['result'].map<Project>((x) => Project.fromMap(x)).toList(),
       );
     } on DioException catch (e) {
       logger.e(

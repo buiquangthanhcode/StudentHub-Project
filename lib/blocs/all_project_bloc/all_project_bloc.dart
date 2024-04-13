@@ -15,10 +15,12 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
   AllProjectBloc()
       : super(
           AllProjectState(
-            projectList: const [],
-            projectDetail: Project(),
-            projectFavorite: const [],
-          ),
+              projectList: const [],
+              projectDetail: Project(),
+              projectFavorite: const [],
+              projectSearchSuggestions: Set(),
+              projectSearchList: const [],
+              ),
         ) {
     on<GetAllDataEvent>(_onGetAllData);
     on<GetProjectDetail>(_onGetProjectDetail);
@@ -26,6 +28,7 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
     on<AddFavoriteProject>(_onAddFavoriteProject);
     on<RemoveFavoriteProject>(_onRemoveFavoriteProject);
     on<RemoveFavoriteProjectList>(_onRemoveFavoriteProjectList);
+    on<GetSearchFilterDataEvent>(_onGetSearchFilterData);
   }
 
   final AllProjectsService _allProjectsService = AllProjectsService();
@@ -35,12 +38,17 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
     try {
       EasyLoading.show(status: 'Loading...');
       ResponseAPI result =
-          await _allProjectsService.getAllProjects(null, null, null, null);
+          await _allProjectsService.getAllProjects();
 
-      // logger.d(result.data);
+      Set<String> projectSearchSuggestions = {};
+      for (Project p in result.data) {
+        projectSearchSuggestions.add(p.title.toString());
+      }
 
       if (result.statusCode! < 300) {
-        emit(state.update(projectList: result.data));
+        emit(state.update(
+            projectList: result.data,
+            projectSearchSuggestions: projectSearchSuggestions));
       } else {
         SnackBarService.showSnackBar(
             content: handleFormatMessage(result.data!.errorDetails),
@@ -178,5 +186,38 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
     data.remove(event.project);
     logger.d('PROJECT LIST ${state.projectFavorite}');
     emit(state.update(projectFavorite: List<Project>.from(data)));
+  }
+
+  FutureOr<void> _onGetSearchFilterData(
+      GetSearchFilterDataEvent event, Emitter<AllProjectState> emit) async {
+    try {
+      EasyLoading.show(status: 'Loading...');
+      ResponseAPI result = await _allProjectsService.getSearchFilterData(
+          event.title,
+          event.projectScopeFlag,
+          event.numberOfStudents,
+          event.proposalsLessThan);
+
+      if (result.statusCode! < 300) {
+        emit(state.update(
+          projectSearchList: result.data,
+        ));
+      } else {
+        SnackBarService.showSnackBar(
+            content: handleFormatMessage(result.data!.errorDetails),
+            status: StatusSnackBar.error);
+      }
+    } on DioException catch (e) {
+      logger.e(
+        "DioException:${e.response}",
+      );
+    } catch (e) {
+      logger.e("Unexpect error-> $e");
+      SnackBarService.showSnackBar(
+          content: handleFormatMessage(e.toString()),
+          status: StatusSnackBar.error);
+    } finally {
+      EasyLoading.dismiss();
+    }
   }
 }
