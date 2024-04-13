@@ -111,34 +111,18 @@ class _ProposalItemState extends State<ProposalItem> {
           ),
           Row(
             children: [
-              Expanded(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    minimumSize: const Size(double.infinity, 35),
-                  ),
-                  onPressed: () {
-                    context.push('/home/chat_detail');
-                  },
-                  child: Text(
-                    "Message",
-                    style: widget.theme.textTheme.bodyMedium!.copyWith(
-                      color: widget.theme.colorScheme.onPrimary,
-                    ),
-                  ),
-                ),
-              ),
-              widget.activeSentButton ?? true
-                  ? const SizedBox(
-                      width: 10,
-                    )
-                  : const SizedBox(),
               widget.activeSentButton ?? true
                   ? Expanded(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
                           elevation: 0,
                           minimumSize: const Size(double.infinity, 35),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            side: const BorderSide(
+                                color: primaryColor, width: 2.0),
+                          ),
                         ),
                         onPressed: () {
                           showDialogCustom(context,
@@ -157,14 +141,36 @@ class _ProposalItemState extends State<ProposalItem> {
                           });
                         },
                         child: Text(
-                          isPressHiredButton ? 'Sent offer' : "Hired",
+                          isPressHiredButton ? 'Send offer' : "Hired",
                           style: widget.theme.textTheme.bodyMedium!.copyWith(
-                            color: widget.theme.colorScheme.onPrimary,
+                            color: primaryColor,
                           ),
                         ),
                       ),
                     )
                   : const SizedBox(),
+              widget.activeSentButton ?? true
+                  ? const SizedBox(
+                      width: 10,
+                    )
+                  : const SizedBox(),
+              Expanded(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    minimumSize: const Size(double.infinity, 35),
+                  ),
+                  onPressed: () {
+                    context.push('/home/chat_detail');
+                  },
+                  child: Text(
+                    "Message",
+                    style: widget.theme.textTheme.bodyMedium!.copyWith(
+                      color: widget.theme.colorScheme.onPrimary,
+                    ),
+                  ),
+                ),
+              ),
             ],
           )
         ],

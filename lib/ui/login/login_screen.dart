@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,6 +11,7 @@ import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/data/dto/authen/request_login.dart';
 import 'package:studenthub/utils/logger.dart';
+import 'package:studenthub/widgets/customCheckboxWidget.dart';
 import '../../core/text_field_custom.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -118,13 +120,34 @@ class _LoginScreenState extends State<LoginScreen> {
                     top: 10), // Replace 10 with your desired margin value
                 child: Align(
                   alignment: Alignment.centerRight,
-                  child: Text(
-                    'Forgot password?',
-                    style: theme.textTheme.bodySmall!.copyWith(
-                      color: primaryColor,
-                      fontWeight: FontWeight.w600,
+                  child: Row(children: [
+                    Row(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          child: const CustomCheckBox(),
+                        ),
+                        // Container(margin: EdgeInsets.only(left: 10), child: const GradientCheckBox(),),),
+                        const SizedBox(
+                            width: 10), // Replace 10 with your desired width
+                        Text(
+                          'Remember me',
+                          style: theme.textTheme.bodySmall!.copyWith(
+                            color: primaryColor,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
+                    const Spacer(),
+                    Text(
+                      'Forgot Password?',
+                      style: theme.textTheme.bodySmall!.copyWith(
+                        color: primaryColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ]),
                 ),
               ),
               Container(
