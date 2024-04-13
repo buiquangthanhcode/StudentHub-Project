@@ -1,158 +1,79 @@
+import 'dart:developer';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
+import 'package:studenthub/blocs/project_bloc/project_event.dart';
+import 'package:studenthub/blocs/project_bloc/project_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/ui/home/dashboard/data/data_count.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/more_action_widget.dart';
+import 'package:studenthub/ui/home/dashboard/widgets/project_review_item.dart';
+import 'package:studenthub/ui/home/dashboard/widgets/tab/project_all_tab/project_all_tab_for_student.dart';
+import 'package:studenthub/utils/helper.dart';
+import 'package:studenthub/utils/logger.dart';
+import 'package:studenthub/widgets/emtyDataWidget.dart';
 
 class ProjectArchivedTabForCompany extends StatefulWidget {
   const ProjectArchivedTabForCompany({super.key});
 
   @override
-  State<ProjectArchivedTabForCompany> createState() =>
-      _ProjectArchivedTabState();
+  State<ProjectArchivedTabForCompany> createState() => _ProjectAllTabState();
 }
 
-class _ProjectArchivedTabState extends State<ProjectArchivedTabForCompany> {
+class _ProjectAllTabState extends State<ProjectArchivedTabForCompany> {
+  List<Project> projects = [];
+  @override
+  void initState() {
+    super.initState();
+    context.read<ProjectBloc>().add(
+          GetArchivedProjectsEvent(),
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Container(
-      margin: const EdgeInsets.only(top: 20),
-      child: Center(
-          child: ListView.separated(
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      'Senior Frontend Developer',
-                      style: theme.textTheme.bodyMedium,
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      '(${'FinTech'})',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: primaryColor,
-                      ),
-                    ),
-                    const Spacer(),
-                    GestureDetector(
-                      onTap: () {
-                        showModalBottomSheetCustom(context,
-                            widgetBuilder: MoreActionWidget(
-                              project: Project(),
-                              // projectId: 0,
-                            ));
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.grey!.withOpacity(0.08),
-                          shape: BoxShape.circle,
-                        ),
-                        child: FaIcon(
-                          FontAwesomeIcons.ellipsis,
-                          size: 18,
-                          color: theme.colorScheme.grey!,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  'Created 3 days ago',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.grey,
-                    fontSize: 14,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  'Student are looking for',
-                  style: theme.textTheme.bodyMedium!
-                      .copyWith(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(6, 9, 6, 6),
-                        child: FaIcon(
-                          FontAwesomeIcons.solidCircle,
-                          size: 6,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Expanded(
-                        child: Text(
-                          'Clear expectation about your project or deliverables',
-                          style: theme.textTheme.bodyMedium!.copyWith(
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: data
-                      .map(
-                        (item) => Container(
-                          width: MediaQuery.of(context).size.width / 4,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 10),
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.grey!.withOpacity(0.08),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                item['total'] ?? '',
-                                style: theme.textTheme.bodyMedium!
-                                    .copyWith(color: Colors.black87),
-                              ),
-                              Text(
-                                item['label'] ?? '',
-                                style: theme.textTheme.bodyMedium!
-                                    .copyWith(color: primaryColor),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                      .toList(),
-                ),
-              ],
+    return BlocBuilder<ProjectBloc, ProjectState>(
+      builder: (context, state) {
+        if (state.archivedProjects.isEmpty) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              EmptyDataWidget(
+                mainTitle: '',
+                subTitle: 'No project working yet.',
+                widthImage: MediaQuery.of(context).size.width * 0.5,
+              ),
+            ],
+          );
+        }
+        return Container(
+          margin: const EdgeInsets.only(top: 20),
+          child: Center(
+            child: ListView.separated(
+              itemCount: state.archivedProjects.length,
+              itemBuilder: (context, index) {
+                return ProjectReviewItem(
+                    theme: theme, item: state.archivedProjects[index]);
+              },
+              separatorBuilder: (context, index) {
+                return const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  child: Divider(),
+                );
+              },
             ),
-          );
-        },
-        separatorBuilder: (context, index) {
-          return const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            child: Divider(),
-          );
-        },
-      )),
+          ),
+        );
+      },
     );
   }
 }

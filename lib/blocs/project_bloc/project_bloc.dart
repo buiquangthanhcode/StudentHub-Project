@@ -28,7 +28,7 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
         ) {
     on<GetAllProjectsEvent>(_onGetAllProjects);
     on<GetWorkingProjectsEvent>(_onGetWorkingProjects);
-    // on<GetArchivedProjectsEvent>(_onGetArchivedProjects);
+    on<GetArchivedProjectsEvent>(_onGetArchivedProjects);
     on<UpdateNewProjectEvent>(_onUpdateNewProject);
     on<PostNewProjectEvent>(_onPostNewProject);
     on<DeleteProjectEvent>(_onDeleteProject);
@@ -44,7 +44,7 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
     try {
       final response = await _companyService.getAllProjects(event.companyId);
       if (response.statusCode! <= 201) {
-        emit(state.update(allProjects: response.data));
+        emit(state.update(allProjects: response.data!.toList()));
       }
     } catch (e) {
       logger.e(e);
@@ -57,8 +57,19 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
       // Add your code here
       final workingProjects =
           state.allProjects.where((element) => element.typeFlag == 0).toList();
-      log("working_projects: ${workingProjects}");
       emit(state.update(workingProjects: workingProjects));
+    } catch (e) {
+      logger.e(e);
+    }
+  }
+
+  void _onGetArchivedProjects(
+      GetArchivedProjectsEvent event, Emitter<ProjectState> emit) async {
+    try {
+      // Add your code here
+      final archivedProjects =
+          state.allProjects.where((element) => element.typeFlag == 1).toList();
+      emit(state.update(archivedProjects: archivedProjects));
     } catch (e) {
       logger.e(e);
     }

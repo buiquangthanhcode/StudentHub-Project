@@ -62,7 +62,7 @@ class _ProjectAllTabState extends State<ProjectWorkingTabForStudent> {
               itemCount: state.workingProjects.length,
               itemBuilder: (context, index) {
                 return ProjectReviewItem(
-                    theme: theme, item: state.allProjects[index]);
+                    theme: theme, item: state.workingProjects[index]);
               },
               separatorBuilder: (context, index) {
                 return const Padding(

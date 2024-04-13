@@ -30,7 +30,6 @@ class ProjectAllTabForCompany extends StatefulWidget {
 
 class _ProjectAllTabState extends State<ProjectAllTabForCompany> {
   List<Project> projects = [];
-  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -65,7 +64,6 @@ class _ProjectAllTabState extends State<ProjectAllTabForCompany> {
           margin: const EdgeInsets.only(top: 20),
           child: Center(
             child: ListView.separated(
-              // reverse: true,
               itemCount: state.allProjects.length,
               itemBuilder: (context, index) {
                 return ProjectReviewItem(
