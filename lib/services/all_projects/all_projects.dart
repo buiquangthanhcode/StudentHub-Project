@@ -64,4 +64,30 @@ class AllProjectsService {
       rethrow;
     }
   }
+
+  Future<ResponseAPI<Project>> getAllFavoriteProject(String studentId) async {
+    try {
+      final res = await dioClient.get(
+        '$baseURL/api/favoriteProject/$studentId',
+      );
+
+      logger.d(res);
+
+      return ResponseAPI<Project>(
+        statusCode: res.statusCode,
+        data: Project.fromMap(res.data['result']['project']),
+      );
+    } on DioException catch (e) {
+      logger.e(
+        "DioException :${e.response}",
+      );
+      throw ResponseAPI<List<Project>>(
+        statusCode: e.response?.statusCode,
+        data: [],
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
 }

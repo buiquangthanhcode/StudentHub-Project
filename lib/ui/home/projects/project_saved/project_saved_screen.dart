@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:studenthub/blocs/all_project_bloc/all_project_bloc.dart';
+import 'package:studenthub/blocs/all_project_bloc/all_project_event.dart';
+import 'package:studenthub/blocs/all_project_bloc/all_project_state.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/ui/home/projects/project_saved/widgets/project_item_saved.dart';
 import 'package:studenthub/ui/home/projects/widgets/project_item.dart';
 
@@ -19,10 +24,17 @@ class _ProjectSavedState extends State<ProjectSavedScreen> {
   @override
   void initState() {
     _scrollController.addListener(_scrollListener);
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   showWelcomeDialog(context);
-    // });
     super.initState();
+    context.read<AllProjectBloc>().add(
+          GetFavoriteProject(
+              studentId: context
+                  .read<AuthBloc>()
+                  .state
+                  .userModel
+                  .student!
+                  .id
+                  .toString()),
+        );
   }
 
   @override
@@ -52,34 +64,38 @@ class _ProjectSavedState extends State<ProjectSavedScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        controller: _scrollController,
-        slivers: [
-          SliverAppBar(
-            titleSpacing: 0,
-            expandedHeight: 60,
-            collapsedHeight: 60,
-            elevation: 0,
-            pinned: pinned,
-            centerTitle: false,
-            title: Text(
-              'Saved Project',
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-            ),
+    return BlocBuilder<AllProjectBloc, AllProjectState>(
+      builder: (context, state) {
+        return Scaffold(
+          body: CustomScrollView(
+            controller: _scrollController,
+            slivers: [
+              SliverAppBar(
+                titleSpacing: 0,
+                expandedHeight: 60,
+                collapsedHeight: 60,
+                elevation: 0,
+                pinned: pinned,
+                centerTitle: false,
+                title: Text(
+                  'Saved Project',
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  childCount: 2,
+                  (BuildContext context, int index) {
+                    return const ProjectItemSaved();
+                  },
+                ),
+              ),
+            ],
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              childCount: 2,
-              (BuildContext context, int index) {
-                return const ProjectItemSaved();
-              },
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

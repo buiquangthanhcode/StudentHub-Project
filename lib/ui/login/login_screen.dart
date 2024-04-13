@@ -72,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 fillColor: Colors.white,
                 name: 'username',
                 hintText: 'Username',
-                initialValue: "khangkn2211@gmail.com",
+                initialValue: "buiquangthanh1709@gmail.com",
                 icon: Container(
                   width: 18,
                   height: 18,

@@ -81,4 +81,34 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
       EasyLoading.dismiss();
     }
   }
+
+    FutureOr<void> _onGetAllFavoriteProject(
+      GetFavoriteProject event, Emitter<AllProjectState> emit) async {
+    try {
+      EasyLoading.show(status: 'Loading...');
+      ResponseAPI result = await _allProjectsService.getAllFavoriteProject(event.studentId);
+
+      // logger.d(result.data);
+
+      if (result.statusCode! < 300) {
+        emit(AllProjectState(
+            projectList: result.data, projectDetail: Project()));
+      } else {
+        SnackBarService.showSnackBar(
+            content: handleFormatMessage(result.data!.errorDetails),
+            status: StatusSnackBar.error);
+      }
+    } on DioException catch (e) {
+      logger.e(
+        "DioException:${e.response}",
+      );
+    } catch (e) {
+      logger.e("Unexpect error-> $e");
+      SnackBarService.showSnackBar(
+          content: handleFormatMessage(e.toString()),
+          status: StatusSnackBar.error);
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
 }
