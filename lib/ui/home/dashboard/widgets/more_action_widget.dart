@@ -119,6 +119,34 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
                     break;
                   case "start_working":
                     log("Start Working");
+                    int? companyId = BlocProvider.of<AuthBloc>(context)
+                        .state
+                        .userModel
+                        .company!
+                        .id;
+                    context.read<ProjectBloc>().add(
+                          StartWorkingProjectEvent(
+                              companyId: companyId!,
+                              updatedProject: Project.fromMap(
+                                {
+                                  'id': widget.project.id,
+                                  'projectScopeFlag':
+                                      widget.project.projectScopeFlag,
+                                  'title': widget.project.title,
+                                  'description': widget.project.description,
+                                  'numberOfStudents':
+                                      widget.project.numberOfStudents,
+                                  'typeFlag': 0,
+                                },
+                              ),
+                              onSuccess: () {
+                                SnackBarService.showSnackBar(
+                                    status: StatusSnackBar.success,
+                                    content:
+                                        "Project was updated successfully!");
+                                Navigator.pop(context);
+                              }),
+                        );
                     break;
                 }
               },

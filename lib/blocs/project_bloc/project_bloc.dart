@@ -34,6 +34,7 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
     on<DeleteProjectEvent>(_onDeleteProject);
     on<EditProjectEvent>(_onEditProject);
     on<CloseProjectEvent>(_onCloseProject);
+    on<StartWorkingProjectEvent>(_onStartWorkingProject);
   }
 
   final CompanyService _companyService = CompanyService();
@@ -127,6 +128,20 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
       CloseProjectEvent event, Emitter<ProjectState> emit) async {
     try {
       final response = await _companyService.closeProject(event.updatedProject);
+      if (response.statusCode! <= 201) {
+        add(GetAllProjectsEvent(companyId: event.companyId));
+        event.onSuccess!();
+      }
+    } catch (e) {
+      logger.e(e);
+    }
+  }
+
+  FutureOr<void> _onStartWorkingProject(
+      StartWorkingProjectEvent event, Emitter<ProjectState> emit) async {
+    try {
+      final response =
+          await _companyService.startWorkingProject(event.updatedProject);
       if (response.statusCode! <= 201) {
         add(GetAllProjectsEvent(companyId: event.companyId));
         event.onSuccess!();

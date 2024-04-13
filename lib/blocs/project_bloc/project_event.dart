@@ -57,3 +57,11 @@ class CloseProjectEvent extends ProjectEvent {
   CloseProjectEvent(
       {required this.companyId, required this.updatedProject, this.onSuccess});
 }
+
+class StartWorkingProjectEvent extends ProjectEvent {
+  final int companyId;
+  final Project updatedProject;
+  final Function? onSuccess;
+  StartWorkingProjectEvent(
+      {required this.companyId, required this.updatedProject, this.onSuccess});
+}
