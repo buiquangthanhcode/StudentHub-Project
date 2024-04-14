@@ -21,8 +21,7 @@ class CompanyProfileEditScreen extends StatefulWidget {
   const CompanyProfileEditScreen({Key? key}) : super(key: key);
 
   @override
-  _PCompanyProfileEditScreenState createState() =>
-      _PCompanyProfileEditScreenState();
+  _PCompanyProfileEditScreenState createState() => _PCompanyProfileEditScreenState();
 }
 
 class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
@@ -36,7 +35,6 @@ class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     company = BlocProvider.of<AuthBloc>(context).state.userModel.company!;
     radioButtonSelected = company!.size! > 4
@@ -112,8 +110,7 @@ class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
                     ),
                     const SizedBox(height: 30),
                     NameInputWidget(
-                        companyNameInputController: companyNameInputController,
-                        checkFormField: checkFormField),
+                        companyNameInputController: companyNameInputController, checkFormField: checkFormField),
                     const SizedBox(height: 30),
                     UrlInputWidget(
                       websiteInputController: websiteInputController,
@@ -129,33 +126,22 @@ class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
                         buttonActive: buttonActive,
                         press: () {
                           if (_formKey.currentState!.validate()) {
-                            int id = BlocProvider.of<AuthBloc>(context)
-                                .state
-                                .userModel
-                                .company!
-                                .id!;
+                            int id = BlocProvider.of<AuthBloc>(context).state.userModel.company!.id!;
                             context.read<CompanyBloc>().add(
                                   UpdateAllDataEvent(
                                       data: Company(
                                         size: radioButtonSelected,
-                                        companyName:
-                                            companyNameInputController.text,
+                                        companyName: companyNameInputController.text,
                                         website: websiteInputController.text,
-                                        description:
-                                            descriptionInputController.text,
+                                        description: descriptionInputController.text,
                                       ),
                                       id: id,
                                       onSuccess: (Company company) {
-                                        context.read<AuthBloc>().add(
-                                            UpdateInformationEvent(
-                                                userModel: state.userModel
-                                                    .copyWith(
-                                                        company: company)));
+                                        context.read<AuthBloc>().add(UpdateInformationEvent(
+                                            userModel: state.userModel.copyWith(company: company)));
                                         SnackBarService.showSnackBar(
-                                            content: 'Successfully!',
-                                            status: StatusSnackBar.success);
-                                        Future.delayed(
-                                            const Duration(seconds: 1), () {
+                                            content: 'Successfully!', status: StatusSnackBar.success);
+                                        Future.delayed(const Duration(seconds: 1), () {
                                           Navigator.pop(context);
                                         });
                                       }),

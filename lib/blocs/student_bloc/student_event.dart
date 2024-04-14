@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/data/dto/student/request_change_password.dart';
 import 'package:studenthub/data/dto/student/request_post_experience.dart';
+import 'package:studenthub/data/dto/student/request_post_proposal.dart';
 import 'package:studenthub/data/dto/student/request_update_profile_student.dart';
 import 'package:studenthub/models/student/student_create_profile/education_model.dart';
 import 'package:studenthub/models/student/student_create_profile/language_model.dart';
@@ -164,4 +165,46 @@ class ChangePassWordEvent extends StudentEvent {
   final Function? onSuccess;
 
   ChangePassWordEvent({required this.requestChangePassWordRequest, required this.onSuccess});
+}
+
+class ResetBlocEvent extends StudentEvent {
+  ResetBlocEvent();
+}
+
+class SubmitProposal extends StudentEvent {
+  final RequestProposal requestProposal;
+  final Function? onSuccess;
+
+  SubmitProposal({required this.requestProposal, required this.onSuccess});
+}
+
+class GetProposal extends StudentEvent {
+  final int userId;
+  final Function? onSuccess;
+
+  GetProposal({required this.userId, required this.onSuccess});
+}
+
+class GetAllProjectProposal extends StudentEvent {
+  final int userId;
+  final String? statusFlag;
+  final Function? onSuccess;
+
+  GetAllProjectProposal({required this.userId, required this.onSuccess, this.statusFlag});
+}
+
+class SubmitTranScript extends StudentEvent {
+  final String path;
+  final int userId;
+  final String name;
+  final Function? onSuccess;
+
+  SubmitTranScript({required this.path, required this.userId, required this.name, required this.onSuccess});
+}
+
+class GetTranScription extends StudentEvent {
+  final String studentId;
+  final Function()? onSuccess;
+
+  GetTranScription({required this.studentId, this.onSuccess});
 }

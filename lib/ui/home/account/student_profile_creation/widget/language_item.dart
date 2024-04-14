@@ -23,9 +23,8 @@ class LanguageItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 242, 242, 242),
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
           color: theme.colorScheme.grey!.withOpacity(0.2),
@@ -33,7 +32,12 @@ class LanguageItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Text('${item.languageName}: ${item.level}'),
+          const FaIcon(
+            FontAwesomeIcons.language,
+            size: 14,
+          ),
+          const SizedBox(width: 10),
+          Text('${item.languageName} - ${item.level}'),
           const Spacer(),
           InkWell(
             onTap: () {
@@ -66,10 +70,17 @@ class LanguageItem extends StatelessWidget {
                     }));
               });
             },
-            child: const FaIcon(
-              FontAwesomeIcons.xmark,
-              size: 16,
-              color: Colors.red,
+            child: Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.grey!.withOpacity(0.08),
+                shape: BoxShape.circle,
+              ),
+              child: const FaIcon(
+                FontAwesomeIcons.xmark,
+                size: 16,
+                color: Colors.red,
+              ),
             ),
           ),
         ],

@@ -31,15 +31,18 @@ class _StudentProfileCreationStep02ScreenState extends State<StudentProfileCreat
     final theme = Theme.of(context);
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndDocked,
-      floatingActionButton: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          minimumSize: const Size(56, 56),
-          shape: const CircleBorder(),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 50.0),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size(56, 56),
+            shape: const CircleBorder(),
+          ),
+          onPressed: () {
+            context.pushNamed('student_create_profile_step_03');
+          },
+          child: const Icon(Icons.arrow_forward),
         ),
-        onPressed: () {
-          context.pushNamed('student_create_profile_step_03');
-        },
-        child: const Icon(Icons.arrow_forward),
       ),
       appBar: AppBar(
         title: const Text(

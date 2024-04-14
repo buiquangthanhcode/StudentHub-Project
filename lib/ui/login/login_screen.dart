@@ -74,6 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 fillColor: Colors.white,
                 name: 'username',
                 hintText: 'Username',
+                // initialValue: "nguyenthoaidangkhoa@gmail.com",
                 initialValue: "buiquangthanh1709@gmail.com",
                 icon: Container(
                   width: 18,
@@ -96,6 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 fillColor: Colors.white,
                 name: 'password',
                 hintText: 'Password',
+                // initialValue: '@Khoa123',
                 initialValue: 'Buiquangthanh@1709',
                 obscureText: true,
                 maxLines: null,
@@ -116,8 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(
-                    top: 10), // Replace 10 with your desired margin value
+                margin: const EdgeInsets.only(top: 10), // Replace 10 with your desired margin value
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Row(children: [
@@ -128,8 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: const CustomCheckBox(),
                         ),
                         // Container(margin: EdgeInsets.only(left: 10), child: const GradientCheckBox(),),),
-                        const SizedBox(
-                            width: 10), // Replace 10 with your desired width
+                        const SizedBox(width: 10), // Replace 10 with your desired width
                         Text(
                           'Remember me',
                           style: theme.textTheme.bodySmall!.copyWith(
@@ -160,21 +160,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   onPressed: () {
                     // validate form
-                    if (_formKeyLogin.currentState?.saveAndValidate() ??
-                        false) {
+                    if (_formKeyLogin.currentState?.saveAndValidate() ?? false) {
                       context.read<AuthBloc>().add(
                             LoginEvent(
                               requestLogin: RequestLogin(
-                                email: _formKeyLogin
-                                    .currentState!.fields['username']!.value
-                                    .toString(),
-                                password: _formKeyLogin
-                                    .currentState!.fields['password']!.value
-                                    .toString(),
+                                email: _formKeyLogin.currentState!.fields['username']!.value.toString(),
+                                password: _formKeyLogin.currentState!.fields['password']!.value.toString(),
                               ),
                               onSuccess: () {
-                                context.pushNamed('home',
-                                    queryParameters: {'welcome': 'true'});
+                                context.pushNamed('home', queryParameters: {'welcome': 'true'});
                               },
                               currentContext: context,
                             ),
@@ -183,8 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   child: Text(
                     'Login',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                        color: Colors.white, fontWeight: FontWeight.w600),
+                    style: theme.textTheme.bodyMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
@@ -198,10 +191,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text("OR",
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                            color: theme.colorScheme.grey))),
+                        style: theme.textTheme.bodyMedium
+                            ?.copyWith(fontWeight: FontWeight.w600, fontSize: 14, color: theme.colorScheme.grey))),
                 Expanded(
                   child: Divider(
                     color: theme.colorScheme.grey, // Set the color to grey
@@ -254,8 +245,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: <TextSpan>[
                       TextSpan(
                         text: 'Sign Up',
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, color: primaryColor),
+                        style: const TextStyle(fontWeight: FontWeight.bold, color: primaryColor),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             context.pushNamed('signup_01');

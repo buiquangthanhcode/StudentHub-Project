@@ -11,6 +11,8 @@ import 'package:studenthub/data/dto/student/request_post_experience.dart';
 import 'package:studenthub/models/student/student_create_profile/project_model.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/edit_project_resume.dart';
 import 'package:studenthub/utils/helper.dart';
+import 'package:studenthub/widgets/dialog.dart';
+import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class ProjectResumeItem extends StatelessWidget {
   const ProjectResumeItem({super.key, required this.item});
@@ -67,30 +69,50 @@ class ProjectResumeItem extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               GestureDetector(
-                child: const FaIcon(
-                  FontAwesomeIcons.xmark,
-                  size: 18,
-                  color: Colors.red,
+                child: Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.grey!.withOpacity(0.08),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const FaIcon(
+                    FontAwesomeIcons.xmark,
+                    size: 18,
+                    color: Colors.red,
+                  ),
                 ),
                 onTap: () {
-                  final student = context.read<StudentBloc>().state.student;
+                  showDialogCustom(
+                    context,
+                    image: 'lib/assets/images/delete.png',
+                    title: 'Are you sure you want to delete this experience?',
+                    textButtom: 'Delete',
+                    subtitle: 'This action cannot be undone',
+                    onSave: () {
+                      final student = context.read<StudentBloc>().state.student;
 
-                  final currentExperience = student.experiences;
-                  for (var element in currentExperience!) {
-                    if (element.id == item.id) {
-                      currentExperience.remove(element);
-                      break;
-                    }
-                  }
+                      final currentExperience = student.experiences;
+                      for (var element in currentExperience!) {
+                        if (element.id == item.id) {
+                          currentExperience.remove(element);
+                          break;
+                        }
+                      }
 
-                  RequestPostExperience requestPostExperience = RequestPostExperience(
-                    experience: currentExperience,
-                    userId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
+                      RequestPostExperience requestPostExperience = RequestPostExperience(
+                        experience: currentExperience,
+                        userId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
+                      );
+                      context.read<StudentBloc>().add(AddProjectEvent(
+                            experience: requestPostExperience,
+                            onSuccess: () {
+                              SnackBarService.showSnackBar(
+                                  content: "Delete Sucessfully", status: StatusSnackBar.success);
+                              Navigator.pop(context);
+                            },
+                          ));
+                    },
                   );
-                  context.read<StudentBloc>().add(AddProjectEvent(
-                        experience: requestPostExperience,
-                        onSuccess: () {},
-                      ));
                 },
               ),
               const SizedBox(width: 10),
@@ -153,12 +175,12 @@ class ProjectResumeItem extends StatelessWidget {
                   Builder(builder: (context) {
                     if (item.skillSets?.isNotEmpty ?? false) {
                       return Wrap(
-                        spacing: 6.0,
+                        spacing: 2.0,
                         runSpacing: 6.0,
                         direction: Axis.horizontal,
                         children: item.skillSets!
                             .map((item) => Container(
-                                  margin: const EdgeInsets.only(left: 20),
+                                  margin: const EdgeInsets.only(left: 10),
                                   padding: const EdgeInsets.symmetric(horizontal: 20),
                                   decoration: BoxDecoration(
                                     border: Border.all(color: Colors.grey),

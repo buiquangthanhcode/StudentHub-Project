@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,16 +8,12 @@ import 'package:studenthub/blocs/all_project_bloc/all_project_bloc.dart';
 import 'package:studenthub/blocs/all_project_bloc/all_project_event.dart';
 import 'package:studenthub/blocs/all_project_bloc/all_project_state.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/constants/colors.dart';
-import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
 
 class ProjectDetailScreen extends StatefulWidget {
-  const ProjectDetailScreen(
-      {super.key,
-      required this.id,
-      required this.isFavorite,
-      this.isHiddenAppbar});
+  const ProjectDetailScreen({super.key, required this.id, required this.isFavorite, this.isHiddenAppbar});
 
   final String id;
   final String isFavorite;
@@ -39,16 +36,12 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
         );
   }
 
-  Map<int, String> time = {
-    0: 'Less than 1 month',
-    1: '1 - 3 months',
-    2: '3 - 6 months',
-    3: 'More than 6 months'
-  };
+  Map<int, String> time = {0: 'Less than 1 month', 1: '1 - 3 months', 2: '3 - 6 months', 3: 'More than 6 months'};
 
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
+    AuthenState authSate = context.read<AuthBloc>().state;
 
     return BlocBuilder<AllProjectBloc, AllProjectState>(
       builder: (BuildContext context, AllProjectState state) {
@@ -66,48 +59,42 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                   ),
                   actions: [
                     Padding(
-                      padding: const EdgeInsets.only(right: 20),
-                      child: InkWell(
-                        onTap: () {
-                          isSaved = !isSaved!;
-                          setState(() {
-                            isSaved!
-                                ? context.read<AllProjectBloc>().add(
-                                      AddFavoriteProject(
-                                        studentId: context
-                                            .read<AuthBloc>()
-                                            .state
-                                            .userModel
-                                            .student!
-                                            .id
-                                            .toString(),
-                                        projectId:
-                                            widget.id,
-                                      ),
-                                    )
-                                : context.read<AllProjectBloc>().add(
-                                      RemoveFavoriteProject(
-                                        studentId: context
-                                            .read<AuthBloc>()
-                                            .state
-                                            .userModel
-                                            .student!
-                                            .id
-                                            .toString(),
-                                        projectId:
-                                            widget.id,
-                                      ),
-                                    );
-                          });
-                        },
-                        child: FaIcon(
-                          isSaved!
-                              ? FontAwesomeIcons.solidHeart
-                              : FontAwesomeIcons.heart,
-                          color: primaryColor,
-                        ),
-                      ),
-                    )
+                        padding: const EdgeInsets.only(right: 20),
+                        child: InkWell(
+                          onTap: () {
+                            isSaved = !isSaved!;
+                            setState(() {
+                              isSaved!
+                                  ? context.read<AllProjectBloc>().add(
+                                        AddFavoriteProject(
+                                          studentId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
+                                          projectId: widget.id,
+                                        ),
+                                      )
+                                  : context.read<AllProjectBloc>().add(
+                                        RemoveFavoriteProject(
+                                          studentId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
+                                          projectId: widget.id,
+                                        ),
+                                      );
+                            });
+                          },
+                          child: Visibility(
+                            visible: authSate.currentRole == UserRole.student,
+                            child: Padding(
+                                padding: const EdgeInsets.only(right: 20),
+                                child: InkWell(
+                                  onTap: () {
+                                    isSaved = !isSaved!;
+                                    setState(() {});
+                                  },
+                                  child: FaIcon(
+                                    isSaved! ? FontAwesomeIcons.solidHeart : FontAwesomeIcons.heart,
+                                    color: primaryColor,
+                                  ),
+                                )),
+                          ),
+                        ))
                   ],
                 ),
           body: Container(
@@ -118,10 +105,8 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      state.projectDetail.title ??
-                          'Senior frontend developer (Fintech)',
-                      style: textTheme.bodyLarge!
-                          .copyWith(fontWeight: FontWeight.w600),
+                      state.projectDetail.title ?? 'Senior frontend developer (Fintech)',
+                      style: textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(
                       height: 15,
@@ -136,15 +121,13 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                       children: [
                         Text(
                           'Students are looking for',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black.withOpacity(0.6),
-                                  ),
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black.withOpacity(0.6),
+                              ),
                         ),
                         BulletList([
-                          state.projectDetail.description ??
-                              'Clear expectation about your project or deliverables',
+                          state.projectDetail.description ?? 'Clear expectation about your project or deliverables',
                           // 'The skill required for your project',
                           // 'Detail about your project',
                         ]),
@@ -186,12 +169,8 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                                     ),
                                   ),
                                   Text(
-                                    time[state.projectDetail.countProposals] ??
-                                        '3-6 months',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall!
-                                        .copyWith(
+                                    time[state.projectDetail.countProposals] ?? '3-6 months',
+                                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
                                           color: Colors.black.withOpacity(0.8),
                                         ),
                                   ),
@@ -214,8 +193,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                             children: [
                               Text(
                                 'Student required',
-                                style: TextStyle(
-                                    color: Colors.black.withOpacity(0.8)),
+                                style: TextStyle(color: Colors.black.withOpacity(0.8)),
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -232,9 +210,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall!
-                                        .copyWith(
-                                            color:
-                                                Colors.black.withOpacity(0.8)),
+                                        .copyWith(color: Colors.black.withOpacity(0.8)),
                                   ),
                                 ],
                               )
@@ -247,19 +223,20 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                 ),
                 // const SizedBox(height: 24),
                 const Spacer(),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(double.infinity, 56),
-                  ),
-                  onPressed: () {
-                    context.push('/home/project_detail/submit_proposal');
-                  },
-                  child: Text(
-                    'Apply Now',
-                    style: textTheme.bodyMedium!.copyWith(
-                        color: Colors.white, fontWeight: FontWeight.w600),
-                  ),
-                ),
+                authSate.currentRole == UserRole.student
+                    ? ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 56),
+                        ),
+                        onPressed: () {
+                          context.push('/home/project_detail/submit_proposal', extra: state.projectDetail);
+                        },
+                        child: Text(
+                          'Apply Now',
+                          style: textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                        ),
+                      )
+                    : const SizedBox(),
                 const SizedBox(height: 20),
               ],
             ),

@@ -20,12 +20,14 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
           AuthenState(
             userModel: UserModel(),
             isChanged: false,
+            currentRole: UserRole.student,
           ),
         ) {
     on<LoginEvent>(_onLogin);
     on<RegisterAccount>(_onRegisterAccount);
     on<GetInformationEvent>(_onFetchInformation);
     on<UpdateInformationEvent>(_onUpdateInformation);
+    on<UpdateRoleEvents>(_onUpdateRole);
   }
 
   final AuthService _authenService = AuthService();
@@ -40,6 +42,15 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
                 UpdateStudentEvent(student: state.userModel.student!, isChange: true),
               );
         }
+
+        add(UpdateRoleEvents(role: (state.userModel.student != null ? UserRole.student : UserRole.company)));
+        if (state.userModel.company == null && state.userModel.student == null && state.userModel.roles?[0] == 0) {
+          add(UpdateRoleEvents(role: UserRole.student));
+        }
+        if (state.userModel.company == null && state.userModel.student == null && state.userModel.roles?[0] == 1) {
+          add(UpdateRoleEvents(role: UserRole.company));
+        }
+        logger.d(state.currentRole);
         emit(state.update(isChanged: !state.isChanged));
         event.onSuccess!(); // Call onSuccessCallBack
       } else {
@@ -120,6 +131,14 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
       SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();
+    }
+  }
+
+  FutureOr<void> _onUpdateRole(UpdateRoleEvents event, Emitter<AuthenState> emit) async {
+    try {
+      emit(state.update(currentRole: event.role, isChanged: !state.isChanged));
+    } catch (e) {
+      logger.e(e);
     }
   }
 }

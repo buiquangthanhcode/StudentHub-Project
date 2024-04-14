@@ -10,6 +10,7 @@ import 'package:studenthub/data/dto/student/request_post_resume.dart';
 import 'package:studenthub/data/dto/student/request_update_education.dart';
 import 'package:studenthub/data/dto/student/request_update_language.dart';
 import 'package:studenthub/models/student/student_create_profile/resume_model.dart';
+import 'package:studenthub/models/student/student_create_profile/tech_stack.dart';
 import 'package:studenthub/models/student/student_model.dart';
 import 'package:studenthub/services/student/student.dart';
 import 'package:studenthub/utils/logger.dart';
@@ -20,6 +21,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
           StudentState(
             isChange: false,
             student: Student(),
+            projectProposals: const [],
           ),
         ) {
     on<AddSkillSetEvent>(_onAllSkillSet);
@@ -44,6 +46,12 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     on<GetResumeEvent>(_onGetResume);
     on<UpdateStudentEvent>(_onUpdateStudent);
     on<ChangePassWordEvent>(_onChangePassWord);
+    on<ResetBlocEvent>(_onResetBloc);
+    on<SubmitProposal>(_onSubmitProposal);
+    on<GetProposal>(_onGetProposal);
+    on<GetAllProjectProposal>(_onGetAllProjectProposal);
+    on<SubmitTranScript>(_onSubmitTranScript);
+    on<GetTranScription>(_onGetTranScription);
   }
 
   StudentService studentService = StudentService();
@@ -279,7 +287,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
         ),
       );
       RequestPostResume requestUpdateEducation = RequestPostResume(
-        studentId: "1",
+        studentId: event.userId.toString(),
         file: multipartFiles,
       );
       final response = await studentService.uploadResume(requestUpdateEducation);
@@ -303,8 +311,9 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       EasyLoading.show(status: 'loading');
       final response = await studentService.getResume(event.studentId);
       if (response.statusCode! <= 200) {
-        logger.d(response.data);
         emit(state.update(student: state.student.copyWith(resume: response.data)));
+        logger.d(state.student.resume);
+
         if (event.onSuccess != null) {
           event.onSuccess!();
         }
@@ -326,6 +335,111 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       final response = await studentService.changePassWord(event.requestChangePassWordRequest);
       if (response.statusCode! <= 200) {
         event.onSuccess!();
+        EasyLoading.dismiss();
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      logger.e(e);
+    }
+  }
+
+  FutureOr<void> _onResetBloc(ResetBlocEvent event, Emitter<StudentState> emit) async {
+    // I wan to reset student but not id field in the student
+    emit(state.update(
+        student: state.student.copyWith(
+      educations: [],
+      experiences: [],
+      languages: [],
+      skillSets: [],
+      techStack: null,
+    )));
+  }
+
+  FutureOr<void> _onSubmitProposal(SubmitProposal event, Emitter<StudentState> emit) async {
+    try {
+      EasyLoading.show(status: 'loading');
+      final response = await studentService.postProposal(event.requestProposal);
+      if (response.statusCode! <= 201) {
+        event.onSuccess!();
+        EasyLoading.dismiss();
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      logger.e(e);
+    }
+  }
+
+  FutureOr<void> _onGetProposal(GetProposal event, Emitter<StudentState> emit) async {
+    try {
+      EasyLoading.show(status: 'loading');
+      final response = await studentService.getAllProprosal(event.userId.toString());
+      if (response.statusCode! <= 201) {
+        event.onSuccess!();
+        EasyLoading.dismiss();
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      logger.e(e);
+    }
+  }
+
+  FutureOr<void> _onGetAllProjectProposal(GetAllProjectProposal event, Emitter<StudentState> emit) async {
+    try {
+      EasyLoading.show(status: 'loading');
+      final response = await studentService.getAllProjectProposal(event.userId.toString());
+      if (response.statusCode! <= 201) {
+        emit(state.update(projectProposals: response.data ?? []));
+        event.onSuccess!();
+        EasyLoading.dismiss();
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      logger.e(e);
+    }
+  }
+
+  FutureOr<ResponseAPI<Resume>> _onSubmitTranScript(SubmitTranScript event, Emitter<StudentState> emit) async {
+    try {
+      EasyLoading.show(status: 'Loading');
+      List<MultipartFile> multipartFiles = [];
+      multipartFiles.add(
+        await MultipartFile.fromFile(
+          event.path,
+          filename: event.name,
+          // contentType: MediaType('image', 'jpg'),
+        ),
+      );
+      RequestPostResume requestSubmitProposal = RequestPostResume(
+        studentId: event.userId.toString(),
+        file: multipartFiles,
+      );
+      final response = await studentService.uploadTransciption(requestSubmitProposal);
+      if (response.statusCode! <= 200) {
+        event.onSuccess!();
+        EasyLoading.dismiss();
+      }
+      return ResponseAPI<Resume>(
+        statusCode: response.statusCode,
+        data: Resume.fromMap(response.data['result']),
+      );
+    } catch (e) {
+      EasyLoading.dismiss();
+      logger.e(e);
+      rethrow;
+    }
+  }
+
+  FutureOr<void> _onGetTranScription(GetTranScription event, Emitter<StudentState> emit) async {
+    try {
+      EasyLoading.show(status: 'loading');
+      final response = await studentService.getTranscript(event.studentId);
+      if (response.statusCode! <= 200) {
+        emit(state.update(student: state.student.copyWith(transcript: response.data)));
+        logger.d(state.student.transcript);
+
+        if (event.onSuccess != null) {
+          event.onSuccess!();
+        }
         EasyLoading.dismiss();
       }
     } catch (e) {
