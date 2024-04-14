@@ -223,18 +223,20 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                 ),
                 // const SizedBox(height: 24),
                 const Spacer(),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(double.infinity, 56),
-                  ),
-                  onPressed: () {
-                    context.push('/home/project_detail/submit_proposal', extra: state.projectDetail);
-                  },
-                  child: Text(
-                    'Apply Now',
-                    style: textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
-                  ),
-                ),
+                authSate.currentRole == UserRole.student
+                    ? ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 56),
+                        ),
+                        onPressed: () {
+                          context.push('/home/project_detail/submit_proposal', extra: state.projectDetail);
+                        },
+                        child: Text(
+                          'Apply Now',
+                          style: textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                        ),
+                      )
+                    : const SizedBox(),
                 const SizedBox(height: 20),
               ],
             ),

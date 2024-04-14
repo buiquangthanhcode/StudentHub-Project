@@ -192,3 +192,19 @@ class GetAllProjectProposal extends StudentEvent {
 
   GetAllProjectProposal({required this.userId, required this.onSuccess, this.statusFlag});
 }
+
+class SubmitTranScript extends StudentEvent {
+  final String path;
+  final int userId;
+  final String name;
+  final Function? onSuccess;
+
+  SubmitTranScript({required this.path, required this.userId, required this.name, required this.onSuccess});
+}
+
+class GetTranScription extends StudentEvent {
+  final String studentId;
+  final Function()? onSuccess;
+
+  GetTranScription({required this.studentId, this.onSuccess});
+}

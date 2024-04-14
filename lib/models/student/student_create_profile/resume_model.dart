@@ -10,6 +10,7 @@ class Resume {
   int? userId;
   int? teckStackId;
   String? resume;
+  String? transcript;
   Resume({
     this.id,
     this.createdAt,
@@ -20,6 +21,7 @@ class Resume {
     this.userId,
     this.teckStackId,
     this.resume,
+    this.transcript,
   });
 
   Resume copyWith({
@@ -32,6 +34,7 @@ class Resume {
     int? userId,
     int? teckStackId,
     String? resume,
+    String? transcript,
   }) {
     return Resume(
       id: id ?? this.id,
@@ -43,6 +46,7 @@ class Resume {
       userId: userId ?? this.userId,
       teckStackId: teckStackId ?? this.teckStackId,
       resume: resume ?? this.resume,
+      transcript: transcript ?? this.transcript,
     );
   }
 
@@ -76,6 +80,9 @@ class Resume {
     if (resume != null) {
       result.addAll({'resume': resume});
     }
+    if (transcript != null) {
+      result.addAll({'transcript': transcript});
+    }
 
     return result;
   }
@@ -91,6 +98,7 @@ class Resume {
       userId: map['userId']?.toInt(),
       teckStackId: map['teckStackId']?.toInt(),
       resume: map['resume'],
+      transcript: map['transcript'],
     );
   }
 
@@ -100,7 +108,7 @@ class Resume {
 
   @override
   String toString() {
-    return 'Resume(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, title: $title, description: $description, link: $link, userId: $userId, teckStackId: $teckStackId, resume: $resume)';
+    return 'Resume(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, title: $title, description: $description, link: $link, userId: $userId, teckStackId: $teckStackId, resume: $resume, transcript: $transcript)';
   }
 
   @override
@@ -116,7 +124,8 @@ class Resume {
         other.link == link &&
         other.userId == userId &&
         other.teckStackId == teckStackId &&
-        other.resume == resume;
+        other.resume == resume &&
+        other.transcript == transcript;
   }
 
   @override
@@ -129,6 +138,7 @@ class Resume {
         link.hashCode ^
         userId.hashCode ^
         teckStackId.hashCode ^
-        resume.hashCode;
+        resume.hashCode ^
+        transcript.hashCode;
   }
 }

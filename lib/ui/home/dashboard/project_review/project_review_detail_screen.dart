@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/models/common/project_model.dart';
@@ -29,6 +32,7 @@ class _ProjectReviewDetailScreenState extends State<ProjectReviewDetailScreen> {
   Widget build(BuildContext context) {
     logger.e(widget.item);
     final theme = Theme.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(

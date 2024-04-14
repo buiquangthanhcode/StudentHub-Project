@@ -72,6 +72,7 @@ class Student {
   TechStack? techStack;
   String? resume;
   User? user;
+  String? transcript;
   Student({
     this.id,
     this.userId,
@@ -88,6 +89,7 @@ class Student {
     this.techStack,
     this.resume,
     this.user,
+    this.transcript,
   });
 
   Student copyWith({
@@ -106,6 +108,7 @@ class Student {
     TechStack? techStack,
     String? resume,
     User? user,
+    String? transcript,
   }) {
     return Student(
       id: id ?? this.id,
@@ -123,6 +126,7 @@ class Student {
       techStack: techStack ?? this.techStack,
       resume: resume ?? this.resume,
       user: user ?? this.user,
+      transcript: transcript ?? this.transcript,
     );
   }
 
@@ -174,6 +178,9 @@ class Student {
     if (user != null) {
       result.addAll({'user': user!.toMap()});
     }
+    if (transcript != null) {
+      result.addAll({'transcript': transcript});
+    }
 
     return result;
   }
@@ -200,6 +207,7 @@ class Student {
       techStack: map['techStack'] != null ? TechStack.fromMap(map['techStack']) : null,
       resume: map['resume'],
       user: map['user'] != null ? User.fromMap(map['user']) : null,
+      transcript: map['transcript'],
     );
   }
 
@@ -209,7 +217,7 @@ class Student {
 
   @override
   String toString() {
-    return 'Student(id: $id, userId: $userId, fullname: $fullname, email: $email, techStackId: $techStackId, skillSets: $skillSets, languages: $languages, experiences: $experiences, educations: $educations, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, techStack: $techStack, resume: $resume, user: $user)';
+    return 'Student(id: $id, userId: $userId, fullname: $fullname, email: $email, techStackId: $techStackId, skillSets: $skillSets, languages: $languages, experiences: $experiences, educations: $educations, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, techStack: $techStack, resume: $resume, user: $user, transcript: $transcript)';
   }
 
   @override
@@ -231,7 +239,8 @@ class Student {
         other.deletedAt == deletedAt &&
         other.techStack == techStack &&
         other.resume == resume &&
-        other.user == user;
+        other.user == user &&
+        other.transcript == transcript;
   }
 
   @override
@@ -250,6 +259,7 @@ class Student {
         deletedAt.hashCode ^
         techStack.hashCode ^
         resume.hashCode ^
-        user.hashCode;
+        user.hashCode ^
+        transcript.hashCode;
   }
 }

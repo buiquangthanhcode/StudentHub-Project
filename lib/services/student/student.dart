@@ -284,7 +284,7 @@ class StudentService {
       logger.d(res);
       return ResponseAPI(
         statusCode: res.statusCode,
-        data: [],
+        data: res.data,
       );
     } catch (e) {
       logger.e("Unexpected Error: $e");
@@ -295,6 +295,20 @@ class StudentService {
   Future<ResponseAPI<String>> getResume(String studentId) async {
     try {
       final res = await dioClient.get('$baseURL/api/profile/student/$studentId/resume');
+
+      return ResponseAPI<String>(
+        statusCode: res.statusCode,
+        data: res.data['result'],
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
+
+  Future<ResponseAPI<String>> getTranscript(String studentId) async {
+    try {
+      final res = await dioClient.get('$baseURL/api/profile/student/$studentId/transcript');
 
       return ResponseAPI<String>(
         statusCode: res.statusCode,
@@ -357,6 +371,22 @@ class StudentService {
       return ResponseAPI<List<ProjectProposal>>(
         statusCode: res.statusCode,
         data: List<ProjectProposal>.from(res.data['result'].map((x) => ProjectProposal.fromMap((x))).toList()),
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
+
+  Future<ResponseAPI> uploadTransciption(RequestPostResume request) async {
+    try {
+      final res = await dioClient.put('$baseURL/api/profile/student/${request.studentId}/transcript',
+          data: FormData.fromMap(request.toMap()));
+
+      logger.d(res);
+      return ResponseAPI(
+        statusCode: res.statusCode,
+        data: res.data,
       );
     } catch (e) {
       logger.e("Unexpected Error: $e");
