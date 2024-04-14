@@ -4,12 +4,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/blocs/global_bloc/global_bloc.dart';
 import 'package:studenthub/blocs/global_bloc/global_event.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/blocs/student_bloc/student_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/core/dropdown_button_formfield.dart';
 import 'package:studenthub/data/dto/student/request_update_profile_student.dart';
@@ -25,6 +27,7 @@ import 'package:studenthub/ui/home/account/student_profile_creation/widget/skill
 import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/emtyDataWidget.dart';
+import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class StudentProfileCreationStep01Screen extends StatefulWidget {
   const StudentProfileCreationStep01Screen({super.key});
@@ -94,6 +97,7 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    AuthenState authSate = context.read<AuthBloc>().state;
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -105,9 +109,14 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
           style: ElevatedButton.styleFrom(
             minimumSize: const Size(56, 56),
             shape: const CircleBorder(),
+            backgroundColor: authSate.isAnonymus() ? theme.colorScheme.grey?.withOpacity(0.3) : null,
           ),
           onPressed: () {
-            context.pushNamed('student_create_profile_step_02');
+            if (authSate.isAnonymus()) {
+              SnackBarService.showSnackBar(content: "Please update your profile", status: StatusSnackBar.info);
+            } else {
+              context.pushNamed('student_create_profile_step_02');
+            }
           },
           child: const Icon(Icons.arrow_forward),
         ),
