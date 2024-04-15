@@ -31,6 +31,7 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
     on<RemoveFavoriteProjectList>(_onRemoveFavoriteProjectList);
     on<GetSearchFilterDataEvent>(_onGetSearchFilterData);
     on<GetAllProposalOfProjectEvent>(_onGetAllProjectProposalOfProject);
+    on<ResetBlocEvents>(_onResetBloc);
   }
 
   final AllProjectsService _allProjectsService = AllProjectsService();
@@ -203,5 +204,16 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
       EasyLoading.dismiss();
       logger.e(e);
     }
+  }
+
+  void _onResetBloc(ResetBlocEvents event, Emitter<AllProjectState> emit) {
+    emit(state.update(
+      projectList: const [],
+      projectDetail: Project(),
+      projectFavorite: const [],
+      projectSearchSuggestions: Set(),
+      projectSearchList: const [],
+      proposalList: const [],
+    ));
   }
 }

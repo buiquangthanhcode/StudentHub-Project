@@ -45,7 +45,8 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
       context.read<AuthBloc>().add(RegisterAccount(
           requestRegister: requestRegisterAccount,
           onSuccess: () {
-            context.pushNamed('home', queryParameters: {'welcome': 'true'});
+            SnackBarService.showSnackBar(content: 'Register successfully', status: StatusSnackBar.success);
+            context.push('/login');
           }));
     }
   }

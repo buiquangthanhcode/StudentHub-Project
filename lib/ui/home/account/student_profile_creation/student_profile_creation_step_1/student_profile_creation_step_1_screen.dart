@@ -81,17 +81,11 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
     List<SkillSet> data = List<SkillSet>.from(context.read<StudentBloc>().state.student.skillSets ?? []);
     data.add(getSkillSetByName(value, dataSourceSkillSets));
 
-    if (user.student == null) {
-      RequestUpdateProfileStudent profileStudent =
-          RequestUpdateProfileStudent(skillSets: data.map((e) => e.id.toString()).toList(), userId: -1);
-      context.read<StudentBloc>().add(PostProfileStudent(profileStudent: profileStudent, onSuccess: (userModel) {}));
-    } else {
-      RequestUpdateProfileStudent profileStudent = RequestUpdateProfileStudent(
-          skillSets: data.map((e) => e.id.toString()).toList(), userId: user.student?.id ?? -1);
-      context.read<StudentBloc>().add(
-            UpdateProfileStudent(profileStudent: profileStudent, onSuccess: (userModel) {}),
-          );
-    }
+    RequestUpdateProfileStudent profileStudent = RequestUpdateProfileStudent(
+        skillSets: data.map((e) => e.id.toString()).toList(), userId: user.student?.id ?? -1);
+    context.read<StudentBloc>().add(
+          UpdateProfileStudent(profileStudent: profileStudent, onSuccess: (userModel) {}),
+        );
   }
 
   @override

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -103,11 +104,15 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
       EasyLoading.dismiss();
     } on DioException catch (e) {
       logger.e(
-        "DioException:${e.response}",
+        "DioException2:${e.response?.data.resultMap.errorDetails}",
       );
+      SnackBarService.showSnackBar(
+          content: handleFormatMessage(e.response?.data.resultMap!.errorDetails), status: StatusSnackBar.error);
     } catch (e) {
-      logger.e("Unexpected error-> $e");
-      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
+      logger.e("Unexpected error1-> $e");
+      final exception = e as ResponseAPI;
+      SnackBarService.showSnackBar(
+          content: handleFormatMessage(exception.data['errorDetails']), status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();
     }

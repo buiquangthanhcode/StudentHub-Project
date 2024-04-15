@@ -51,3 +51,7 @@ class GetAllProposalOfProjectEvent extends AllProjectEvent {
 
   GetAllProposalOfProjectEvent({required this.requestProposal, required this.onSuccess});
 }
+
+class ResetBlocEvents extends AllProjectEvent {
+  ResetBlocEvents();
+}

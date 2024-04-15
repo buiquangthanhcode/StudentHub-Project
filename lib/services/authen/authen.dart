@@ -40,14 +40,14 @@ class AuthService {
       );
     } on DioException catch (e) {
       logger.e(
-        "DioException :${e.response}",
+        "DioException1 :${e.response}",
       );
       throw ResponseAPI(
         statusCode: e.response?.statusCode,
-        data: DataResponse.fromJson(e.response.toString()),
+        data: e.response?.data,
       );
     } catch (e) {
-      logger.e("Unexpected Error: $e");
+      logger.e("Unexpected Errorbase: $e");
       rethrow;
     }
   }
