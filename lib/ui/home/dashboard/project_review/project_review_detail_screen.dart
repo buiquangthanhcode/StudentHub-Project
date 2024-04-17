@@ -13,23 +13,27 @@ import 'package:studenthub/ui/home/projects/project_detail/project_detail_screen
 import 'package:studenthub/utils/logger.dart';
 
 class ProjectReviewDetailScreen extends StatefulWidget {
-  const ProjectReviewDetailScreen({super.key, this.item, this.projectProposal, this.initTab = 0});
+  const ProjectReviewDetailScreen(
+      {super.key, this.item, this.projectProposal, this.initTab = 0});
 
   final Project? item;
   final ProjectProposal? projectProposal;
   final int initTab;
 
   @override
-  State<ProjectReviewDetailScreen> createState() => _ProjectReviewDetailScreenState();
+  State<ProjectReviewDetailScreen> createState() =>
+      _ProjectReviewDetailScreenState();
 }
 
-class _ProjectReviewDetailScreenState extends State<ProjectReviewDetailScreen> with SingleTickerProviderStateMixin {
+class _ProjectReviewDetailScreenState extends State<ProjectReviewDetailScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this, initialIndex: widget.initTab);
+    _tabController =
+        TabController(length: 4, vsync: this, initialIndex: widget.initTab);
   }
 
   @override
@@ -80,7 +84,9 @@ class _ProjectReviewDetailScreenState extends State<ProjectReviewDetailScreen> w
                       Container(
                         decoration: BoxDecoration(
                           // all borrder
-                          border: Border.all(color: theme.colorScheme.grey!.withOpacity(0.2), width: 1),
+                          border: Border.all(
+                              color: theme.colorScheme.grey!.withOpacity(0.2),
+                              width: 1),
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: TabBar(
@@ -88,10 +94,16 @@ class _ProjectReviewDetailScreenState extends State<ProjectReviewDetailScreen> w
                           padding: EdgeInsets.zero,
                           indicatorPadding: EdgeInsets.zero,
                           labelPadding: EdgeInsets.zero,
-                          labelColor: primaryColor, // Set the color of the selected tab label
-                          labelStyle: Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w600), //
-                          unselectedLabelStyle:
-                              Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w600),
+                          labelColor:
+                              primaryColor, // Set the color of the selected tab label
+                          labelStyle: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(fontWeight: FontWeight.w600), //
+                          unselectedLabelStyle: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(fontWeight: FontWeight.w600),
                           indicator: const BoxDecoration(
                             border: Border(
                               bottom: BorderSide(
@@ -104,7 +116,7 @@ class _ProjectReviewDetailScreenState extends State<ProjectReviewDetailScreen> w
                           tabs: const [
                             Tab(text: 'Proposals'),
                             Tab(text: 'Details'),
-                            Tab(text: 'Message'),
+                            Tab(text: 'Messages'),
                             Tab(text: 'Hired'),
                           ],
                         ),
@@ -118,7 +130,9 @@ class _ProjectReviewDetailScreenState extends State<ProjectReviewDetailScreen> w
                               projectProposal: widget.projectProposal,
                             ),
                             ProjectDetailScreen(
-                              id: widget.item?.id.toString() ?? widget.projectProposal?.id.toString() ?? "0",
+                              id: widget.item?.id.toString() ??
+                                  widget.projectProposal?.id.toString() ??
+                                  "0",
                               isHiddenAppbar: true,
                               isFavorite: "false",
                             ),

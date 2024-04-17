@@ -50,22 +50,26 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
                 switch (key) {
                   case "view_proposals":
                     context.push('/company_review',
-                        extra: {'item': widget.project, 'initTab': "0"} as Map<String, dynamic>);
+                        extra: {'item': widget.project, 'initTab': "0"}
+                            as Map<String, dynamic>);
                     break;
                   case "view_messages":
                     log("View Messages");
                     context.push('/company_review',
-                        extra: {'item': widget.project, 'initTab': "2"} as Map<String, dynamic>);
+                        extra: {'item': widget.project, 'initTab': "2"}
+                            as Map<String, dynamic>);
                     break;
                   case "view_hired":
                     log("View Hired");
                     context.push('/company_review',
-                        extra: {'item': widget.project, 'initTab': "3"} as Map<String, dynamic>);
+                        extra: {'item': widget.project, 'initTab': "3"}
+                            as Map<String, dynamic>);
                     break;
                   case "view_job_posting":
                     log("View Job Posting");
                     context.push('/company_review',
-                        extra: {'item': widget.project, 'initTab': "3"} as Map<String, dynamic>);
+                        extra: {'item': widget.project, 'initTab': "1"}
+                            as Map<String, dynamic>);
                     break;
 
                   case "edit_posting":
@@ -78,61 +82,85 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
                     );
                     break;
                   case "remove_posting":
-                    int? companyId = BlocProvider.of<AuthBloc>(context).state.userModel.company!.id;
+                    int? companyId = BlocProvider.of<AuthBloc>(context)
+                        .state
+                        .userModel
+                        .company!
+                        .id;
                     context.read<ProjectBloc>().add(
                           DeleteProjectEvent(
                               companyId: companyId!,
                               projectId: widget.project.id!,
                               onSuccess: () {
                                 SnackBarService.showSnackBar(
-                                    status: StatusSnackBar.success, content: "Project was deleted successfully!");
+                                    status: StatusSnackBar.success,
+                                    content:
+                                        "Project was deleted successfully!");
                                 Navigator.pop(context);
                               }),
                         );
                     break;
                   case "close_posting":
                     log("Close Posting");
-                    int? companyId = BlocProvider.of<AuthBloc>(context).state.userModel.company!.id;
+                    int? companyId = BlocProvider.of<AuthBloc>(context)
+                        .state
+                        .userModel
+                        .company!
+                        .id;
                     context.read<ProjectBloc>().add(
                           CloseProjectEvent(
                               companyId: companyId!,
                               updatedProject: Project.fromMap(
                                 {
                                   'id': widget.project.id,
-                                  'projectScopeFlag': widget.project.projectScopeFlag,
+                                  'projectScopeFlag':
+                                      widget.project.projectScopeFlag,
                                   'title': widget.project.title,
                                   'description': widget.project.description,
-                                  'numberOfStudents': widget.project.numberOfStudents,
+                                  'numberOfStudents':
+                                      widget.project.numberOfStudents,
                                   'typeFlag': 1,
                                 },
                               ),
                               onSuccess: () {
                                 SnackBarService.showSnackBar(
-                                    status: StatusSnackBar.success, content: "Project was updated successfully!");
+                                    status: StatusSnackBar.success,
+                                    content:
+                                        "Project was updated successfully!");
                                 Navigator.pop(context);
-                                context.read<ProjectBloc>().add(GetArchivedProjectsEvent());
+                                context
+                                    .read<ProjectBloc>()
+                                    .add(GetArchivedProjectsEvent());
                               }),
                         );
                     break;
                   case "start_working":
                     log("Start Working");
-                    int? companyId = BlocProvider.of<AuthBloc>(context).state.userModel.company!.id;
+                    int? companyId = BlocProvider.of<AuthBloc>(context)
+                        .state
+                        .userModel
+                        .company!
+                        .id;
                     context.read<ProjectBloc>().add(
                           StartWorkingProjectEvent(
                               companyId: companyId!,
                               updatedProject: Project.fromMap(
                                 {
                                   'id': widget.project.id,
-                                  'projectScopeFlag': widget.project.projectScopeFlag,
+                                  'projectScopeFlag':
+                                      widget.project.projectScopeFlag,
                                   'title': widget.project.title,
                                   'description': widget.project.description,
-                                  'numberOfStudents': widget.project.numberOfStudents,
+                                  'numberOfStudents':
+                                      widget.project.numberOfStudents,
                                   'typeFlag': 0,
                                 },
                               ),
                               onSuccess: () {
                                 SnackBarService.showSnackBar(
-                                    status: StatusSnackBar.success, content: "Project was updated successfully!");
+                                    status: StatusSnackBar.success,
+                                    content:
+                                        "Project was updated successfully!");
                                 Navigator.pop(context);
                               }),
                         );
