@@ -69,20 +69,35 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
     final currentUser = BlocProvider.of<AuthBloc>(context).state.userModel;
     if (currentUser.student == null) {
       RequestUpdateProfileStudent profileStudent = RequestUpdateProfileStudent(techStackId: value?.id ?? -1);
-      context.read<StudentBloc>().add(PostProfileStudent(profileStudent: profileStudent, onSuccess: (userModel) {}));
+      context.read<StudentBloc>().add(PostProfileStudent(
+          profileStudent: profileStudent,
+          onSuccess: (userModel) {
+            context
+                .read<AuthBloc>()
+                .add(GetInformationEvent(onSuccess: () {}, accessToken: user.token ?? '', currentContext: context));
+          }));
     } else {
       RequestUpdateProfileStudent profileStudent =
           RequestUpdateProfileStudent(techStackId: value?.id ?? -1, userId: currentUser.student?.id ?? -1);
-      context.read<StudentBloc>().add(UpdateProfileStudent(profileStudent: profileStudent, onSuccess: (userModel) {}));
+      context.read<StudentBloc>().add(UpdateProfileStudent(
+          profileStudent: profileStudent,
+          onSuccess: (userModel) {
+            context
+                .read<AuthBloc>()
+                .add(GetInformationEvent(onSuccess: () {}, accessToken: user.token ?? '', currentContext: context));
+          }));
     }
+    context
+        .read<AuthBloc>()
+        .add(GetInformationEvent(onSuccess: () {}, accessToken: user.token ?? '', currentContext: context));
   }
 
   void _handleSelectedSkillSet(value) {
     List<SkillSet> data = List<SkillSet>.from(context.read<StudentBloc>().state.student.skillSets ?? []);
     data.add(getSkillSetByName(value, dataSourceSkillSets));
-
-    RequestUpdateProfileStudent profileStudent = RequestUpdateProfileStudent(
-        skillSets: data.map((e) => e.id.toString()).toList(), userId: user.student?.id ?? -1);
+    int userId = BlocProvider.of<StudentBloc>(context).state.student.id ?? -1;
+    RequestUpdateProfileStudent profileStudent =
+        RequestUpdateProfileStudent(skillSets: data.map((e) => e.id.toString()).toList(), userId: userId ?? -1);
     context.read<StudentBloc>().add(
           UpdateProfileStudent(profileStudent: profileStudent, onSuccess: (userModel) {}),
         );
@@ -91,7 +106,7 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    AuthenState authSate = context.read<AuthBloc>().state;
+    AuthenState authSate = context.watch<AuthBloc>().state;
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -103,11 +118,12 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
           style: ElevatedButton.styleFrom(
             minimumSize: const Size(56, 56),
             shape: const CircleBorder(),
-            backgroundColor: authSate.isAnonymus() ? theme.colorScheme.grey?.withOpacity(0.3) : null,
+            backgroundColor: authSate.isAnonymus() ? null : null,
           ),
           onPressed: () {
             if (authSate.isAnonymus()) {
-              SnackBarService.showSnackBar(content: "Please update your profile", status: StatusSnackBar.info);
+              SnackBarService.showSnackBar(
+                  content: "Please update your pView Proposalsrofile", status: StatusSnackBar.info);
             } else {
               context.pushNamed('student_create_profile_step_02');
             }

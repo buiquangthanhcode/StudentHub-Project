@@ -82,7 +82,6 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       EasyLoading.show(status: 'loading');
       ResponseAPI response = await studentService.postProfileStudent(event.profileStudent);
       if (response.statusCode! <= 200) {
-        emit(state.update(isChange: !state.isChange));
         event.onSuccess!(Student.fromMap(response.data.resultMap.toMap()));
         EasyLoading.dismiss();
       }

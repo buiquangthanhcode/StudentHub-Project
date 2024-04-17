@@ -73,7 +73,12 @@ final GoRouter router = GoRouter(
             path: 'project_detail',
             name: 'project_detail',
             pageBuilder: (context, state) {
-              return customTransitionPage(state.pageKey, ProjectDetailScreen(id: state.uri.queryParameters["id"]!,isFavorite: state.uri.queryParameters["isFavorite"]!,));
+              return customTransitionPage(
+                  state.pageKey,
+                  ProjectDetailScreen(
+                    id: state.uri.queryParameters["id"]!,
+                    isFavorite: state.uri.queryParameters["isFavorite"]!,
+                  ));
             },
             routes: [
               GoRoute(
@@ -230,10 +235,10 @@ final GoRouter router = GoRouter(
       path: '/company_review',
       builder: (BuildContext context, GoRouterState state) {
         final data = state.extra as Map<String, dynamic>;
-        logger.d(data['item'].runtimeType);
         return ProjectReviewDetailScreen(
           item: data['item'],
           projectProposal: data['projectProposal'],
+          initTab: int.parse(data['initTab'] ?? '0'),
         );
       },
     ),

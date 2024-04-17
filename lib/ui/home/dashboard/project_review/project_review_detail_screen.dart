@@ -13,19 +13,29 @@ import 'package:studenthub/ui/home/projects/project_detail/project_detail_screen
 import 'package:studenthub/utils/logger.dart';
 
 class ProjectReviewDetailScreen extends StatefulWidget {
-  const ProjectReviewDetailScreen({super.key, this.item, this.projectProposal});
+  const ProjectReviewDetailScreen({super.key, this.item, this.projectProposal, this.initTab = 0});
 
   final Project? item;
   final ProjectProposal? projectProposal;
+  final int initTab;
 
   @override
   State<ProjectReviewDetailScreen> createState() => _ProjectReviewDetailScreenState();
 }
 
-class _ProjectReviewDetailScreenState extends State<ProjectReviewDetailScreen> {
+class _ProjectReviewDetailScreenState extends State<ProjectReviewDetailScreen> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 4, vsync: this, initialIndex: widget.initTab);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -64,6 +74,7 @@ class _ProjectReviewDetailScreenState extends State<ProjectReviewDetailScreen> {
             Expanded(
               child: DefaultTabController(
                   length: 4,
+                  initialIndex: widget.initTab,
                   child: Column(
                     children: [
                       Container(
@@ -73,6 +84,7 @@ class _ProjectReviewDetailScreenState extends State<ProjectReviewDetailScreen> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: TabBar(
+                          controller: _tabController,
                           padding: EdgeInsets.zero,
                           indicatorPadding: EdgeInsets.zero,
                           labelPadding: EdgeInsets.zero,
@@ -99,6 +111,7 @@ class _ProjectReviewDetailScreenState extends State<ProjectReviewDetailScreen> {
                       ),
                       Expanded(
                         child: TabBarView(
+                          controller: _tabController,
                           children: [
                             ProjectReviewProposal(
                               item: widget.item,

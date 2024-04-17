@@ -566,7 +566,6 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                               ),
                             );
                       }
-                      SnackBarService.showSnackBar(content: 'Upload Successfully', status: StatusSnackBar.success);
                     }),
               ],
             );
