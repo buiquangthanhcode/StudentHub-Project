@@ -2,7 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
-class DropDownFormFieldCustom extends StatelessWidget {
+class DropDownFormFieldCustom<T> extends StatefulWidget {
   const DropDownFormFieldCustom({
     super.key,
     required this.name,
@@ -14,24 +14,29 @@ class DropDownFormFieldCustom extends StatelessWidget {
     this.initValue,
   });
   final String name;
-  final List<String> data;
-  final Function(String)? onChanged;
-  final Function(String)? onSelected;
-  final Function(String?)? onSaved;
+  final List<T> data;
+  final Function(T? value)? onChanged;
+  final Function(T? value)? onSelected;
+  final Function(T? value)? onSaved;
   final String? hint;
-  final String? initValue;
+  final T? initValue;
 
+  @override
+  State<DropDownFormFieldCustom<T>> createState() => _DropDownFormFieldCustomState<T>();
+}
+
+class _DropDownFormFieldCustomState<T> extends State<DropDownFormFieldCustom<T>> {
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       width: double.infinity,
-      child: FormBuilderField<String>(
-        name: name,
+      child: FormBuilderField<T>(
+        name: widget.name,
         builder: (field) {
-          return DropdownButtonFormField2<String>(
+          return DropdownButtonFormField2<T>(
             isExpanded: true,
-            value: initValue,
+            value: widget.initValue,
             decoration: InputDecoration(
               // Add Horizontal padding using menuItemStyleData.padding so it matches
               // the menu padding when button's width is not specified.
@@ -49,13 +54,19 @@ class DropDownFormFieldCustom extends StatelessWidget {
               // Add more decoration..
             ),
             hint: Text(
-              hint ?? 'Select the hint',
+              widget.hint ?? 'Select the hint',
               style: const TextStyle(fontSize: 14),
             ),
             autovalidateMode: AutovalidateMode.onUserInteraction,
             onChanged: (value) {
               //Do something when selected item is changed.
-              field.didChange(value);
+              if (value != null) {
+                field.didChange(value as T);
+                field.save();
+                if (widget.onChanged != null) {
+                  widget.onChanged!(value);
+                }
+              }
             },
             validator: (value) {
               if (value == null) {
@@ -63,11 +74,11 @@ class DropDownFormFieldCustom extends StatelessWidget {
               }
               return null;
             },
-            items: data
-                .map((item) => DropdownMenuItem<String>(
+            items: widget.data
+                .map((item) => DropdownMenuItem<T>(
                       value: item,
                       child: Text(
-                        item,
+                        item.toString(), // [Core][Please override toString method in your model class to show the dropdown item]
                         style: const TextStyle(
                           fontSize: 14,
                         ),
@@ -76,7 +87,13 @@ class DropDownFormFieldCustom extends StatelessWidget {
                 .toList(),
             onSaved: (value) {
               //Do something when selected item is changed.
-              field.didChange(value);
+              if (value != null) {
+                field.didChange(value as T);
+                field.save();
+                if (widget.onSaved != null) {
+                  widget.onSaved!(value);
+                }
+              }
             },
             buttonStyleData: const ButtonStyleData(
               padding: EdgeInsets.only(right: 8),

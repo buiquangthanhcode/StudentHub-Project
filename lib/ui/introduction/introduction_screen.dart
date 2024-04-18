@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/data/dto/authen/request_login.dart';
 import 'package:studenthub/ui/home/widgets/my_elavated_button.dart';
 
 class IntroductionScreen extends StatelessWidget {
@@ -17,10 +19,10 @@ class IntroductionScreen extends StatelessWidget {
             Center(
                 child: Text(
               'StudentHub',
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color: primaryColor,
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold),
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge!
+                  .copyWith(color: primaryColor, fontSize: 36, fontWeight: FontWeight.bold),
             )),
             Container(
               margin: const EdgeInsets.only(top: 36),
@@ -36,9 +38,10 @@ class IntroductionScreen extends StatelessWidget {
               width: 375,
               child: Text(
                 'Build your product with high-skilled student',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: const Color(0xFF848484),
-                    fontWeight: FontWeight.bold),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(color: const Color(0xFF848484), fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -113,19 +116,16 @@ class IntroductionScreen extends StatelessWidget {
                   TextSpan(
                     children: [
                       TextSpan(
-                          text:
-                              'When proceeding to the next step, I agreed to the ',
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: const Color(0xFF848484),
-                                  )),
+                          text: 'When proceeding to the next step, I agreed to the ',
+                          style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                color: const Color(0xFF848484),
+                              )),
                       TextSpan(
                           text: 'Terms of Service and Usage Policy.',
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: const Color(0xFF848484),
-                                    fontWeight: FontWeight.bold,
-                                  )),
+                          style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                color: const Color(0xFF848484),
+                                fontWeight: FontWeight.bold,
+                              )),
                     ],
                   ),
                   textAlign: TextAlign.center,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
 
 // Core widget builder for custom TextFormField
@@ -26,9 +27,10 @@ class TextFieldFormCustom extends StatefulWidget {
     this.fillColor,
     this.autocorrect,
     this.enableSuggestions,
-    this.obscureText,
     this.keyboardType,
     this.autofocus,
+    this.obscureText,
+    this.isPasswordText,
   });
 
   final String name;
@@ -49,11 +51,12 @@ class TextFieldFormCustom extends StatefulWidget {
   final void Function(String?)? onFieldSubmitted;
   final TextStyle? style;
   final Color? fillColor;
-  final bool? obscureText;
   final bool? enableSuggestions;
   final bool? autocorrect;
   final TextInputType? keyboardType;
   final bool? autofocus;
+  final bool? obscureText; // add new
+  final bool? isPasswordText;
 
   @override
   State<TextFieldFormCustom> createState() => _TextFieldFormCustomState();
@@ -72,6 +75,16 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
 
   final bool expands = false;
 
+  bool isHiddenPassword = false;
+
+  late bool obscureText;
+
+  @override
+  void initState() {
+    obscureText = widget.obscureText ?? false;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -82,10 +95,10 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
         onSaved: widget.onSaved,
         validator: widget.validator,
         maxLines: widget.maxLines ?? 1,
-        obscureText: widget.obscureText ?? false,
+        obscureText: obscureText,
         autocorrect: widget.autocorrect ?? true,
         autofocus: widget.autofocus ?? false,
-        initialValue: widget.initialValue,
+        initialValue: widget.initialValue ?? '',
         focusNode: widget.focusNode,
         keyboardType: widget.textInputType ?? TextInputType.text,
         textInputAction: widget.textInputAction,
@@ -104,17 +117,44 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
               fontSize: 16,
             ),
         decoration: InputDecoration(
-          prefixIcon: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              widget.icon ?? const SizedBox(),
-            ],
-          ),
+          prefixIcon: widget.maxLines == null
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    widget.icon ??
+                        const SizedBox(
+                          width: 0,
+                        ),
+                  ],
+                )
+              : null,
+          suffixIcon: widget.isPasswordText ?? false
+              ? IconButton(
+                  onPressed: () {
+                    setState(() {
+                      isHiddenPassword = !isHiddenPassword;
+                      obscureText = !obscureText;
+                    });
+                  },
+                  // icon: Icon(
+                  //   isHiddenPassword
+                  //       ? Icons.visibility
+                  //       : Icons.visibility_off_rounded,
+                  // ),
+                  icon: FaIcon(
+                    isHiddenPassword
+                        ? FontAwesomeIcons.eye
+                        : FontAwesomeIcons.eyeSlash,
+                    color: Theme.of(context).colorScheme.grey,
+                  ),
+                )
+              : null,
           hintText: widget.hintText ?? 'Please select a hint',
           hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: Theme.of(context).colorScheme.hintColor,
               ),
-          contentPadding: const EdgeInsets.all(0),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           fillColor:
               widget.fillColor ?? const Color.fromARGB(255, 242, 242, 242),
           filled: true,

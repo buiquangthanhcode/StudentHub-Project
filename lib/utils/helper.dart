@@ -1,4 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
+import 'package:studenthub/utils/logger.dart';
 
 DateTime stringToDateTime(String? dateString) {
   try {
@@ -40,4 +42,41 @@ String formatTimeFromDateTime(DateTime dateTime) {
   String formattedTime = timeFormat.format(dateTime);
 
   return formattedTime;
+}
+
+String handleFormatMessage(dynamic message) {
+  if (message is String) {
+    return message;
+  } else if (message is List) {
+    return message.join('\n');
+  } else {
+    return 'Invalid message type';
+  }
+}
+
+String formatIsoDateString(String isoDateString) {
+  try {
+    DateTime dateTime = DateTime.parse(isoDateString);
+    DateFormat formatter = DateFormat('dd-MM-yyyy');
+    return formatter.format(dateTime);
+  } catch (e) {
+    DateFormat formatter = DateFormat('dd-MM-yyyy');
+    return formatter.format(DateTime.parse('1970-01-01'));
+  }
+}
+
+SkillSet getSkillSetByName(String value, List<SkillSet> data) {
+  SkillSet? skill = data.firstWhere((element) => element.name == value, orElse: () => SkillSet(id: -1, name: ''));
+  return skill;
+}
+
+DateTime parseMonthYear(String? monthYearString) {
+  try {
+    DateFormat formatter = DateFormat('MM-yyyy');
+    return formatter.parseStrict(monthYearString ?? '1970-01-01');
+  } catch (e) {
+    // Xử lý ngoại lệ nếu có lỗi xảy ra
+    logger.e('Error parsing date: $e');
+    return DateTime.parse('1970-01-01');
+  }
 }

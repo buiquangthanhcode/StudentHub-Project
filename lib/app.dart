@@ -1,12 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:studenthub/blocs/all_project_bloc/all_project_bloc.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
+import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
+import 'package:studenthub/blocs/global_bloc/global_bloc.dart';
+// import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
+import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/theme_bloc/theme_bloc.dart';
 import 'package:studenthub/blocs/theme_bloc/theme_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/routes.dart';
-import 'package:studenthub/widgets/snack_bar_config.dart';
 
 GlobalKey<NavigatorState> navigatorKeys = GlobalKey<NavigatorState>(); //  Add by Quang Thanh
 
@@ -23,6 +29,7 @@ class StudentHub extends StatelessWidget {
   }
 
   static NavigatorState get navigatorState => navigatorKey.currentState!;
+  static final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
   @override
   Widget build(BuildContext context) {
@@ -31,17 +38,34 @@ class StudentHub extends StatelessWidget {
         BlocProvider<ThemesBloc>(
           create: (BuildContext context) => ThemesBloc(),
         ),
-        BlocProvider<StudentCreateProfileBloc>(
-          create: (BuildContext context) => StudentCreateProfileBloc(),
+        BlocProvider<AuthBloc>(
+          create: (BuildContext context) => AuthBloc(),
+        ),
+        BlocProvider<StudentBloc>(
+          create: (BuildContext context) => StudentBloc(),
+        ),
+        BlocProvider<CompanyBloc>(
+          create: (BuildContext context) => CompanyBloc(),
+        ),
+        BlocProvider<ProjectBloc>(
+          create: (BuildContext context) => ProjectBloc(),
+        ),
+        BlocProvider<AllProjectBloc>(
+          create: (BuildContext context) => AllProjectBloc(),
+        ),
+        BlocProvider<GlobalBloc>(
+          create: (BuildContext context) => GlobalBloc(),
         ),
         // Add more bloc providers
       ],
       child: BlocBuilder<ThemesBloc, ThemesState>(
         builder: (context, state) {
           return MaterialApp.router(
+            color: Colors.white,
             localizationsDelegates: context.localizationDelegates,
             supportedLocales: context.supportedLocales,
-            scaffoldMessengerKey: SnackBarService.scaffoldKey,
+            builder: EasyLoading.init(),
+            scaffoldMessengerKey: scaffoldKey,
             locale: context.locale,
             debugShowCheckedModeBanner: false,
             title: 'Student Hub',

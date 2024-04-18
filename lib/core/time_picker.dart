@@ -48,11 +48,16 @@ class _DatePickerCustomState extends State<TimePickerCustom> {
               controller: texController,
               scrollPadding: const EdgeInsets.all(0),
               decoration: InputDecoration(
+                isDense: true,
                 labelText: widget.labelText ?? 'Time',
                 hintText: widget.hintText ?? 'Time',
                 hintStyle: TextStyle(
                   color: Colors.grey[400],
                   fontSize: 16,
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  vertical: 0,
+                  horizontal: 10,
                 ),
                 labelStyle: TextStyle(
                   color: Colors.grey[400],
@@ -118,7 +123,6 @@ class _DatePickerCustomState extends State<TimePickerCustom> {
                         ),
                         negativeButtonText: "Cancel",
                         onPositivePressed: (context, time) {
-                          logger.d(time);
                           Navigator.pop(context, time);
                         },
                         onNegativePressed: (context) {

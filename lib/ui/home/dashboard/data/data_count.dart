@@ -11,15 +11,17 @@ final data = [
 List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
   return [
     {
-      "label": "View Proposal",
+      "key": "view_proposals",
+      "label": "View Proposals",
       "icon": FaIcon(
         FontAwesomeIcons.eye,
         size: 18,
         color: theme.colorScheme.grey!,
-      )
+      ),
     },
     {
-      "label": "View Message",
+      "key": "view_messages",
+      "label": "View Messages",
       "icon": FaIcon(
         FontAwesomeIcons.message,
         size: 18,
@@ -27,6 +29,7 @@ List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
       )
     },
     {
+      "key": "view_hired",
       "label": "View Hired",
       "icon": FaIcon(
         FontAwesomeIcons.user,
@@ -35,7 +38,8 @@ List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
       )
     },
     {
-      "label": "View Job posting",
+      "key": "view_job_posting",
+      "label": "View Job Posting",
       "icon": FaIcon(
         FontAwesomeIcons.eye,
         size: 18,
@@ -43,6 +47,7 @@ List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
       )
     },
     {
+      "key": "edit_posting",
       "label": "Edit Posting",
       "icon": FaIcon(
         FontAwesomeIcons.penToSquare,
@@ -51,9 +56,28 @@ List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
       )
     },
     {
+      "key": "remove_posting",
       "label": "Remove Posting",
       "icon": FaIcon(
         FontAwesomeIcons.trashCan,
+        size: 18,
+        color: theme.colorScheme.grey!,
+      )
+    },
+    {
+      "key": "close_posting",
+      "label": "Close Posting",
+      "icon": FaIcon(
+        FontAwesomeIcons.circleXmark,
+        size: 18,
+        color: theme.colorScheme.grey!,
+      )
+    },
+    {
+      "key": "start_working",
+      "label": "Start Working On This Project",
+      "icon": FaIcon(
+        FontAwesomeIcons.circleCheck,
         size: 18,
         color: theme.colorScheme.grey!,
       )
@@ -67,7 +91,7 @@ List<Map<String, dynamic>> getProposal() {
       "avatar": "https://cdn5.vectorstock.com/i/1000x1000/38/44/student-graduate-avatar-icon-vector-11983844.jpg",
       "fullname": "Bui Quang Thanh",
       "year": "4th year student",
-      "major": "FullStack Engineering",
+      "major": "Fullstack Engineering",
       "rating": "Excellent",
       "description": "I have gone through your project and it seen like a great project. I will commit for four project"
     },
@@ -76,7 +100,7 @@ List<Map<String, dynamic>> getProposal() {
       "fullname": "Dinh Nguyen Duy Khang",
       "year": "4th year student",
       "major": "Mobile Engineering",
-      "rating": "Excellent",
+      "rating": "Very Good",
       "description": "I have gone through your project and it seen like a great project. I will commit for four project"
     },
     {
@@ -84,7 +108,7 @@ List<Map<String, dynamic>> getProposal() {
       "fullname": "Nguyen Thoai Dang Khoa",
       "year": "4th year student",
       "major": "Blockchain Engineering",
-      "rating": "Excellent",
+      "rating": "Good",
       "description": "I have gone through your project and it seen like a great project. I will commit for four project"
     },
   ];

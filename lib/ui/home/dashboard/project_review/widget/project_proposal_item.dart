@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/widgets/dialog.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class ProposalItem extends StatefulWidget {
-  const ProposalItem(
-      {super.key,
-      required this.theme,
-      required this.item,
-      this.activeSentButton});
+  const ProposalItem({super.key, required this.theme, required this.item, this.activeSentButton});
 
   final ThemeData theme;
-  final dynamic item;
+  final ProjectProposal item;
   final bool? activeSentButton;
 
   @override
@@ -53,8 +51,7 @@ class _ProposalItemState extends State<ProposalItem> {
                   width: 36,
                   height: 36,
                   child: CircleAvatar(
-                    backgroundImage:
-                        AssetImage('lib/assets/images/circle_avatar.png'),
+                    backgroundImage: AssetImage('lib/assets/images/circle_avatar.png'),
                   ),
                 ),
               ),
@@ -65,11 +62,11 @@ class _ProposalItemState extends State<ProposalItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.item['fullname'],
+                    widget.item.student!.user?.fullname ?? '',
                     style: widget.theme.textTheme.bodyMedium,
                   ),
                   Text(
-                    widget.item['year'],
+                    widget.item.student?.fullname ?? '4th year student',
                     style: widget.theme.textTheme.bodyMedium,
                   ),
                 ],
@@ -82,13 +79,19 @@ class _ProposalItemState extends State<ProposalItem> {
           Row(
             children: [
               Text(
-                widget.item['major'],
-                style: widget.theme.textTheme.bodyMedium,
+                widget.item.student!.techStack?.name ?? '',
+                style: widget.theme.textTheme.bodyMedium!.copyWith(
+                  color: primaryColor,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const Spacer(),
               Text(
-                widget.item['rating'],
-                style: widget.theme.textTheme.bodyMedium,
+                widget.item.project?.title ?? 'Excellent',
+                style: widget.theme.textTheme.bodyMedium!.copyWith(
+                  color: Color.fromARGB(255, 231, 144, 5),
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ],
           ),
@@ -96,7 +99,7 @@ class _ProposalItemState extends State<ProposalItem> {
             height: 20,
           ),
           Text(
-            widget.item['description'],
+            widget.item.coverLetter ?? '',
             style: widget.theme.textTheme.bodyMedium,
           ),
           const SizedBox(
@@ -104,6 +107,46 @@ class _ProposalItemState extends State<ProposalItem> {
           ),
           Row(
             children: [
+              widget.activeSentButton ?? true
+                  ? Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          elevation: 0,
+                          minimumSize: const Size(double.infinity, 35),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            side: const BorderSide(
+                                color: primaryColor, width: 2.0),
+                          ),
+                        ),
+                        onPressed: () {
+                          showDialogCustom(context,
+                              title: 'Hide Offer',
+                              textButtom: 'Hired',
+                              subtitle: 'Do you really want to hide this offer for student to do this project?',
+                              onSave: () {
+                            SnackBarService.showSnackBar(content: "Hired Successfully", status: StatusSnackBar.success);
+                            context.pop();
+                            setState(() {
+                              isPressHiredButton = true;
+                            });
+                          });
+                        },
+                        child: Text(
+                          isPressHiredButton ? 'Send offer' : "Hired",
+                          style: widget.theme.textTheme.bodyMedium!.copyWith(
+                            color: primaryColor,
+                          ),
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
+              widget.activeSentButton ?? true
+                  ? const SizedBox(
+                      width: 10,
+                    )
+                  : const SizedBox(),
               Expanded(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -121,43 +164,6 @@ class _ProposalItemState extends State<ProposalItem> {
                   ),
                 ),
               ),
-              widget.activeSentButton ?? true
-                  ? const SizedBox(
-                      width: 10,
-                    )
-                  : const SizedBox(),
-              widget.activeSentButton ?? true
-                  ? Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 0,
-                          minimumSize: const Size(double.infinity, 35),
-                        ),
-                        onPressed: () {
-                          showDialogCustom(context,
-                              title: 'Hide Offer',
-                              textButtom: 'Hired',
-                              subtitle:
-                                  'Do you readllly want to hide this offer for student to do this project?',
-                              onSave: () {
-                            SnackBarService.showSnackBar(
-                                content: "Hired Sucessfully",
-                                status: StatusSnackBar.success);
-                            context.pop();
-                            setState(() {
-                              isPressHiredButton = true;
-                            });
-                          });
-                        },
-                        child: Text(
-                          isPressHiredButton ? 'Sent offer' : "Hired",
-                          style: widget.theme.textTheme.bodyMedium!.copyWith(
-                            color: widget.theme.colorScheme.onPrimary,
-                          ),
-                        ),
-                      ),
-                    )
-                  : const SizedBox(),
             ],
           )
         ],

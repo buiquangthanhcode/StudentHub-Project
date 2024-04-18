@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
-import 'package:studenthub/blocs/student_create_profile/student_create_profile_event.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
+import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
-import 'package:studenthub/models/student_create_profile/project_model.dart';
+import 'package:studenthub/data/dto/student/request_post_experience.dart';
+import 'package:studenthub/models/student/student_create_profile/project_model.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/edit_project_resume.dart';
 import 'package:studenthub/utils/helper.dart';
+import 'package:studenthub/widgets/dialog.dart';
+import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class ProjectResumeItem extends StatelessWidget {
   const ProjectResumeItem({super.key, required this.item});
@@ -28,6 +32,7 @@ class ProjectResumeItem extends StatelessWidget {
         ),
       ),
       child: Container(
+        margin: const EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
@@ -37,6 +42,8 @@ class ProjectResumeItem extends StatelessWidget {
         child: ExpansionTile(
           tilePadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
           childrenPadding: const EdgeInsets.all(0),
+          expandedCrossAxisAlignment: CrossAxisAlignment.start,
+          controlAffinity: ListTileControlAffinity.leading,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -47,7 +54,7 @@ class ProjectResumeItem extends StatelessWidget {
               ),
               const SizedBox(width: 5),
               Text(
-                item.name ?? '',
+                item.title ?? '',
               ),
               const Spacer(),
               GestureDetector(
@@ -62,15 +69,50 @@ class ProjectResumeItem extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               GestureDetector(
-                child: const FaIcon(
-                  FontAwesomeIcons.xmark,
-                  size: 18,
-                  color: Colors.red,
+                child: Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.grey!.withOpacity(0.08),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const FaIcon(
+                    FontAwesomeIcons.xmark,
+                    size: 18,
+                    color: Colors.red,
+                  ),
                 ),
                 onTap: () {
-                  context.read<StudentCreateProfileBloc>().add(
-                        RemoveProjectEvents(project: item, onSuccess: () {}),
+                  showDialogCustom(
+                    context,
+                    image: 'lib/assets/images/delete.png',
+                    title: 'Are you sure you want to delete this experience?',
+                    textButtom: 'Delete',
+                    subtitle: 'This action cannot be undone',
+                    onSave: () {
+                      final student = context.read<StudentBloc>().state.student;
+
+                      final currentExperience = student.experiences;
+                      for (var element in currentExperience!) {
+                        if (element.id == item.id) {
+                          currentExperience.remove(element);
+                          break;
+                        }
+                      }
+
+                      RequestPostExperience requestPostExperience = RequestPostExperience(
+                        experience: currentExperience,
+                        userId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
                       );
+                      context.read<StudentBloc>().add(AddProjectEvent(
+                            experience: requestPostExperience,
+                            onSuccess: () {
+                              SnackBarService.showSnackBar(
+                                  content: "Delete Sucessfully", status: StatusSnackBar.success);
+                              Navigator.pop(context);
+                            },
+                          ));
+                    },
+                  );
                 },
               ),
               const SizedBox(width: 10),
@@ -107,11 +149,11 @@ class ProjectResumeItem extends StatelessWidget {
                           ),
                           const SizedBox(width: 7),
                           Text(
-                            '${formatDateTime(stringToDateTime(item.startDate), format: 'MM/yyyy')} - ${formatDateTime(stringToDateTime(item.endDate), format: 'MM/yyyy')}',
+                            '${formatDateTime(parseMonthYear(item.startMonth), format: 'MM/yyyy')} - ${formatDateTime(parseMonthYear(item.endMonth), format: 'MM/yyyy')}',
                           ),
                           Builder(builder: (context) {
                             int duration = calculateMonthDifference(
-                                stringToDateTime(item.startDate), stringToDateTime(item.endDate));
+                                stringToDateTime(item.startMonth), stringToDateTime(item.endMonth));
                             return duration != 0
                                 ? Text(
                                     ', $duration  months',
@@ -131,14 +173,14 @@ class ProjectResumeItem extends StatelessWidget {
                     height: 10,
                   ),
                   Builder(builder: (context) {
-                    if (item.skills?.isNotEmpty ?? false) {
+                    if (item.skillSets?.isNotEmpty ?? false) {
                       return Wrap(
-                        spacing: 6.0,
+                        spacing: 2.0,
                         runSpacing: 6.0,
                         direction: Axis.horizontal,
-                        children: item.skills!
+                        children: item.skillSets!
                             .map((item) => Container(
-                                  margin: const EdgeInsets.only(left: 20),
+                                  margin: const EdgeInsets.only(left: 10),
                                   padding: const EdgeInsets.symmetric(horizontal: 20),
                                   decoration: BoxDecoration(
                                     border: Border.all(color: Colors.grey),

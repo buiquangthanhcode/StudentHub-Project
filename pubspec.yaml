@@ -34,7 +34,6 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
-  lottie: ^3.0.0
   flutter_animarker: ^3.2.0
   easy_localization: ^3.0.4 # Add by Quang Thanh on 2024-25-02 to handle localization
   shared_preferences: ^2.2.2 # Add by Quang Thanh on 2024-25-02 to save local storage
@@ -55,6 +54,10 @@ dependencies:
   syncfusion_flutter_datepicker: ^25.1.35
   time_pickerr: ^1.0.6
   jitsi_meet_flutter_sdk: ^0.2.2
+  dio_cache_interceptor: ^3.5.0
+  lottie: ^3.1.0
+  flutter_easyloading: ^3.0.5
+  syncfusion_flutter_pdfviewer: ^25.1.39
 
 dev_dependencies:
   flutter_test:
@@ -83,6 +86,7 @@ flutter:
     - lib/assets/translations/
     - lib/assets/images/
     - lib/assets/svgs/
+    - lib/assets/json/
     - lib/assets/fonts/
     - lib/assets/nav_icons/solid/
     - lib/assets/nav_icons/regular/

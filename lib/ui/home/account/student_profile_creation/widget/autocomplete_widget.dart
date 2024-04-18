@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
-import 'package:studenthub/blocs/student_create_profile/student_create_profile_event.dart';
-import 'package:studenthub/models/student_create_profile/skillset_model.dart';
-import 'package:studenthub/ui/home/account/student_profile_creation/data/student_data_creation.dart';
+import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
+import 'package:studenthub/blocs/student_bloc/student_event.dart';
+import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
 
 class AutoCompleteWidget extends StatefulWidget {
-  const AutoCompleteWidget({super.key});
+  const AutoCompleteWidget({
+    super.key,
+    required this.data,
+    this.onSelected,
+  });
+
+  final List<String> data;
+  final Function(String value)? onSelected;
 
   @override
   State<AutoCompleteWidget> createState() => _AutoCompleteWidgetState();
@@ -14,6 +20,7 @@ class AutoCompleteWidget extends StatefulWidget {
 
 class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
   late TextEditingController textEditingController;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -57,16 +64,23 @@ class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
           },
           fieldViewBuilder: (context, fieldTextEditingController, focusNode, onFieldSubmitted) {
             textEditingController = fieldTextEditingController;
-            return SizedBox(
-              height: 56,
-              child: TextField(
-                controller: fieldTextEditingController,
-                focusNode: focusNode,
-                decoration: const InputDecoration(
-                  hintText: 'Enter your skill',
-                  hintStyle: TextStyle(fontSize: 16),
-                  border: OutlineInputBorder(),
+            return TextFormField(
+              controller: fieldTextEditingController,
+              focusNode: focusNode,
+              style: TextStyle(
+                color: Colors.grey[400],
+                fontSize: 16,
+              ),
+              scrollPadding: const EdgeInsets.all(0),
+              decoration: const InputDecoration(
+                // contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                isDense: true,
+                hintText: 'Enter your skill',
+                hintStyle: TextStyle(
+                  fontSize: 14,
                 ),
+                border: OutlineInputBorder(),
               ),
             );
           },
@@ -74,13 +88,15 @@ class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
             if (skillsetTextEditController.text == '') {
               return const Iterable<String>.empty();
             }
-            return skillSetList.where((String option) {
+            return widget.data.where((String option) {
               return option.toLowerCase().contains(skillsetTextEditController.text);
             });
           },
           onSelected: (String value) {
-            context.read<StudentCreateProfileBloc>().add(AddSkillSetEvent(SkillSet(name: value, isSelected: false)));
             textEditingController.text = "";
+            if (widget.onSelected != null) {
+              widget.onSelected!(value);
+            }
           },
         );
       },

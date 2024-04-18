@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/core/date_picker_formfield.dart';
 import 'package:studenthub/core/text_field_custom.dart';
 import 'package:studenthub/core/time_picker.dart';
@@ -22,131 +23,148 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final formkey = GlobalKey<FormBuilderState>();
-    return FormBuilder(
-      key: formkey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Schedule a video call interview',
-            style: theme.textTheme.titleMedium!.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            'Title',
-            style: theme.textTheme.bodyMedium!.copyWith(),
-          ),
-          const SizedBox(height: 10),
-          TextFieldFormCustom(
-            autofocus: true,
-            icon: FaIcon(
-              FontAwesomeIcons.tag,
-              size: 18,
-              color: theme.colorScheme.grey!,
-            ),
-            name: 'title',
-            hintText: 'Catch up meeting',
-          ),
-          const SizedBox(height: 10),
-          Text(
-            'Start Time',
-            style: theme.textTheme.bodyMedium!.copyWith(),
-          ),
-          const SizedBox(height: 10),
-          const Row(
-            mainAxisSize: MainAxisSize.min,
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        child: FormBuilder(
+          key: formkey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                flex: 1,
-                child: DatePickerCustom(
-                  view: DateRangePickerView.month,
-                  name: 'start_date',
-                  labelText: 'Start Time',
-                  hintText: 'Start Time',
+              Text(
+                'Schedule a video call interview',
+                style: theme.textTheme.titleMedium!.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
                 ),
               ),
-              SizedBox(width: 10),
-              Expanded(
-                child: TimePickerCustom(
-                  name: 'time_start',
+              const SizedBox(height: 20),
+              Text(
+                'Title',
+                style: theme.textTheme.bodyMedium!.copyWith(),
+              ),
+              TextFieldFormCustom(
+                fillColor: Colors.white,
+                autofocus: true,
+                icon: FaIcon(
+                  FontAwesomeIcons.tag,
+                  size: 18,
+                  color: theme.colorScheme.grey!,
                 ),
+                name: 'title',
+                hintText: 'Catch up meeting',
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'Start Time',
+                style: theme.textTheme.bodyMedium!.copyWith(),
+              ),
+              const SizedBox(height: 10),
+              const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: DatePickerCustom(
+                      view: DateRangePickerView.month,
+                      name: 'start_date',
+                      labelText: 'Start Time',
+                      hintText: 'Start Time',
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: TimePickerCustom(
+                      name: 'time_start',
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'End Time',
+                style: theme.textTheme.bodyMedium!.copyWith(),
+              ),
+              const SizedBox(height: 10),
+              const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: DatePickerCustom(
+                      view: DateRangePickerView.month,
+                      name: 'end_date',
+                      hintText: 'End Date',
+                      labelText: 'End Date',
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: TimePickerCustom(
+                      name: 'time_end',
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Text(
+                'Duration: 60 minutes ',
+                style: theme.textTheme.bodyMedium!.copyWith(),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.white,
+                        elevation: 0,
+                        minimumSize: const Size(double.infinity, 56),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          side:
+                              const BorderSide(color: primaryColor, width: 2.0),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        'Cancel',
+                        style: theme.textTheme.bodyMedium!.copyWith(
+                            color: primaryColor, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 56),
+                      ),
+                      onPressed: () {
+                        if (formkey.currentState?.saveAndValidate() ?? false) {
+                          logger.d(formkey.currentState?.value);
+                          widget.onSave?.call(formkey.currentState?.value);
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: Text(
+                        'Send Invite',
+                        style: theme.textTheme.bodyMedium!.copyWith(
+                            color: Colors.white, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                ],
               ),
             ],
           ),
-          const SizedBox(height: 10),
-          Text(
-            'End Time',
-            style: theme.textTheme.bodyMedium!.copyWith(),
-          ),
-          const SizedBox(height: 10),
-          const Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Expanded(
-                flex: 1,
-                child: DatePickerCustom(
-                  view: DateRangePickerView.month,
-                  name: 'end_date',
-                  hintText: 'End Date',
-                  labelText: 'End Date',
-                ),
-              ),
-              SizedBox(width: 10),
-              Expanded(
-                child: TimePickerCustom(
-                  name: 'time_end',
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Text(
-            'Duration: 60 minutes ',
-            style: theme.textTheme.bodyMedium!.copyWith(),
-          ),
-          const SizedBox(height: 20),
-          Row(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(double.infinity, 56),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    'Cancle',
-                    style: theme.textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(double.infinity, 56),
-                  ),
-                  onPressed: () {
-                    if (formkey.currentState?.saveAndValidate() ?? false) {
-                      logger.d(formkey.currentState?.value);
-                      widget.onSave?.call(formkey.currentState?.value);
-                      Navigator.pop(context);
-                    }
-                  },
-                  child: Text(
-                    'Send Invite',
-                    style: theme.textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
+        ),
       ),
     );
   }

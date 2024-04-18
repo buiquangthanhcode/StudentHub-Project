@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/strings.dart';
+import 'package:studenthub/utils/logger.dart';
 
 class SignUpStep01Screen extends StatefulWidget {
   const SignUpStep01Screen({super.key});
@@ -16,15 +17,17 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
   List<Map<String, dynamic>> dataSelectedInfor = [
     {
       'image': "lib/assets/images/company.png",
-      'description': "I am a company,find engineer for project",
+      'description': "I am a company, find engineer for project",
       'value': true,
     },
     {
       'image': "lib/assets/images/student.png",
-      'description': "I am a student,find project for learning",
+      'description': "I am a student, find project for learning",
       'value': false,
     },
   ];
+
+  bool isCompany = true; // true for company, false1 for student
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +37,7 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Container(
-            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-            child: const Center(
-              child: SizedBox(),
-            ),
-          )),
+      appBar: AppBar(),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
@@ -49,18 +45,28 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
           children: <Widget>[
             Container(
               margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              child: Text(
-                'Lets Register \nAccount',
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
+              child: Text.rich(
+                TextSpan(
+                  text: 'Let\'s register  \n',
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 45,
+                  ),
+                  children: const [
+                    TextSpan(
+                      text: 'Account',
+                      style: TextStyle(
+                        color: primaryColor, // Replace with your desired color
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
             Container(
               margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               child: Text(
-                'Hello user, you have a greatful journey !',
+                'Create your own account to process next step',
                 style: theme.textTheme.titleMedium?.copyWith(
                   fontSize: 16,
                 ),
@@ -72,11 +78,10 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
               itemBuilder: (context, index) {
                 final item = dataSelectedInfor[index];
                 return Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   margin: const EdgeInsets.only(top: 10),
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 242, 242, 242),
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       color: theme.colorScheme.grey!,
@@ -103,16 +108,17 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                               child: CheckboxListTile(
                                 activeColor: primaryColor,
                                 visualDensity: VisualDensity.compact,
-                                checkboxShape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15)),
+                                checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                                 value: item['value'],
                                 onChanged: (value) {
-                                  setState(() {
-                                    for (var element in dataSelectedInfor) {
-                                      element['value'] = false;
+                                  for (int i = 0; i < dataSelectedInfor.length; i++) {
+                                    if (i != index) {
+                                      dataSelectedInfor[i]['value'] = false;
                                     }
-                                    item['value'] = value;
-                                  });
+                                  }
+                                  item['value'] = true;
+                                  isCompany = !isCompany;
+                                  setState(() {});
                                 },
                               ),
                             ),
@@ -120,7 +126,7 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                         ],
                       ),
                       const SizedBox(
-                        height: 5,
+                        height: 12,
                       ),
                       Text(item['description'],
                           style: theme.textTheme.bodyMedium?.copyWith(
@@ -132,11 +138,11 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
               },
               separatorBuilder: (context, index) {
                 return const SizedBox(
-                  height: 2,
+                  height: 24,
                 );
               },
             ),
-            const Spacer(),
+            // const Spacer(),
             Container(
               margin: const EdgeInsets.only(top: 20),
               child: ElevatedButton(
@@ -145,7 +151,9 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                   minimumSize: Size(maxWidth, 56),
                 ),
                 onPressed: () {
-                  context.push('/signup_02');
+                  isCompany
+                      ? context.pushNamed('signup_02_for_company', queryParameters: {'role': isCompany ? '1' : '0'})
+                      : context.pushNamed('signup_02_for_student', queryParameters: {'role': isCompany ? '1' : '0'});
                 },
                 child: Text(
                   'Create account',
@@ -163,9 +171,9 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  ' Already have an account? ',
+                  'Already have an account? ',
                   style: theme.textTheme.titleSmall?.copyWith(
-                    color: Colors.grey,
+                    color: Colors.black54,
                   ),
                 ),
                 InkWell(
@@ -176,6 +184,7 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                     'Login',
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w600,
+                      color: primaryColor,
                     ),
                   ),
                 ),

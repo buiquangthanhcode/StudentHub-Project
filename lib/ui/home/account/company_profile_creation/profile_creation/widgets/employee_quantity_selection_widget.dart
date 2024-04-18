@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:studenthub/constants/colors.dart';
 
 class EmployeeQuantitySelectionWidget extends StatefulWidget {
-  const EmployeeQuantitySelectionWidget({Key? key}) : super(key: key);
+  const EmployeeQuantitySelectionWidget(
+      {Key? key, required this.chooseEmployeesQuantity})
+      : super(key: key);
+  final Function(int value) chooseEmployeesQuantity;
 
   @override
   _EmployeeQuantitySelectionWidgetState createState() =>
@@ -19,13 +22,13 @@ class _EmployeeQuantitySelectionWidgetState
     'More than 1000',
   ];
 
-  String? radioButtonSelected;
+  int? radioButtonSelected;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    radioButtonSelected = employeeQuantityData[0];
+    radioButtonSelected = 0;
   }
 
   @override
@@ -50,7 +53,8 @@ class _EmployeeQuantitySelectionWidgetState
               (e) => GestureDetector(
                 onTap: () {
                   setState(() {
-                    radioButtonSelected = e;
+                    radioButtonSelected = employeeQuantityData.indexOf(e);
+                    widget.chooseEmployeesQuantity(radioButtonSelected!);
                   });
                 },
                 child: Container(
@@ -58,12 +62,12 @@ class _EmployeeQuantitySelectionWidgetState
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
-                    color: radioButtonSelected == e
+                    color: employeeQuantityData[radioButtonSelected!] == e
                         ? primaryColor
                         : const Color.fromARGB(255, 235, 235, 235),
                   ),
                   child: Text(e,
-                      style: radioButtonSelected == e
+                      style: employeeQuantityData[radioButtonSelected!] == e
                           ? textTheme.bodyMedium!.copyWith(color: Colors.white)
                           : textTheme.bodyMedium!),
                 ),

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studenthub/app.dart';
+import 'package:studenthub/core/easy_loading_config.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,4 +29,5 @@ Future<void> main() async {
       ),
     ),
   );
+  configEasyLoading();
 }
