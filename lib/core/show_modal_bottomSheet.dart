@@ -4,8 +4,8 @@ import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/utils/logger.dart';
 
 Future<void> showModalBottomSheetCustom(BuildContext context,
-    {Widget? widgetBuilder, Widget? headerBuilder}) async {
-  showModalBottomSheet(
+    {Widget? widgetBuilder, Widget? headerBuilder, double? height}) async {
+  await showModalBottomSheet(
       isScrollControlled: true,
       isDismissible: true,
       useSafeArea: true,
@@ -13,9 +13,16 @@ Future<void> showModalBottomSheetCustom(BuildContext context,
       enableDrag: false,
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (context) => DraggleBottomSheetCustom(
-            widgetBuilder: widgetBuilder,
-            headerBuilder: headerBuilder,
+      builder: (context) => GestureDetector(
+            onTap: () {
+              logger.d(height);
+              Navigator.pop(context);
+            },
+            child: DraggleBottomSheetCustom(
+              widgetBuilder: widgetBuilder,
+              headerBuilder: headerBuilder,
+              height: height,
+            ),
           ));
 }
 
@@ -24,22 +31,30 @@ class DraggleBottomSheetCustom extends StatefulWidget {
     super.key,
     this.widgetBuilder,
     this.headerBuilder,
+    this.height,
   });
 
   final Widget? widgetBuilder;
   final Widget? headerBuilder;
+  final double? height;
 
   @override
-  State<DraggleBottomSheetCustom> createState() =>
-      _DraggleBottomSheetCustomState();
+  State<DraggleBottomSheetCustom> createState() => _DraggleBottomSheetCustomState();
 }
 
 class _DraggleBottomSheetCustomState extends State<DraggleBottomSheetCustom> {
-  double _sheetPosition = 0.65;
+  late double _sheetPosition;
   final double _dragSensitivity = 600;
 
   @override
+  void initState() {
+    super.initState();
+    _sheetPosition = widget.height ?? 0.5;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    logger.d(widget.height);
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SizedBox.expand(
@@ -81,10 +96,7 @@ class _DraggleBottomSheetCustomState extends State<DraggleBottomSheetCustom> {
                               width: 80,
                               height: 5,
                               decoration: BoxDecoration(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .grey!
-                                    .withOpacity(0.6),
+                                color: Theme.of(context).colorScheme.grey!.withOpacity(0.6),
                                 borderRadius: BorderRadius.circular(50),
                               ),
                             ),
@@ -96,8 +108,7 @@ class _DraggleBottomSheetCustomState extends State<DraggleBottomSheetCustom> {
                     onVerticalDragUpdate: (DragUpdateDetails details) {
                       if (details.primaryDelta != null) {
                         setState(() {
-                          _sheetPosition -=
-                              details.primaryDelta! / _dragSensitivity;
+                          _sheetPosition -= details.primaryDelta! / _dragSensitivity;
                           if (_sheetPosition < 0.2) {
                             _sheetPosition = 0.2;
                           } else if (_sheetPosition > 1) {

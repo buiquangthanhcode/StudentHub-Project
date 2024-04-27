@@ -26,12 +26,7 @@ class _ProjectItemSavedState extends State<ProjectItemSaved> {
     return ngayHienTai.difference(ngayDuocCungCap).inDays;
   }
 
-  Map<int, String> time = {
-    0: 'Less than 1 month',
-    1: '1 - 3 months',
-    2: '3 - 6 months',
-    3: 'More than 6 months'
-  };
+  Map<int, String> time = {0: 'Less than 1 month', 1: '1 - 3 months', 2: '3 - 6 months', 3: 'More than 6 months'};
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +36,7 @@ class _ProjectItemSavedState extends State<ProjectItemSaved> {
     return GestureDetector(
       onTap: () {
         context.pushNamed(
-          'project_detail',
+          'project_general_detail',
           queryParameters: {
             'id': widget.project.id.toString(),
             'isFavorite': 'null',
@@ -68,14 +63,11 @@ class _ProjectItemSavedState extends State<ProjectItemSaved> {
                     children: [
                       Text(
                         'Created ${differentDay(widget.project.createdAt!)} days ago',
-                        style: textTheme.bodySmall!
-                            .copyWith(color: colorTheme.grey),
+                        style: textTheme.bodySmall!.copyWith(color: colorTheme.grey),
                       ),
                       Text(
-                        widget.project.title ??
-                            'Senior frontend developer (Fintech)',
-                        style:
-                            textTheme.bodySmall!.copyWith(color: primaryColor),
+                        widget.project.title ?? 'Senior frontend developer (Fintech)',
+                        style: textTheme.bodySmall!.copyWith(color: primaryColor),
                       ),
                       Text(
                         'Time: ${time[widget.project.projectScopeFlag] ?? '1-3 months'}, ${widget.project.numberOfStudents ?? 0} students needed',
@@ -88,17 +80,10 @@ class _ProjectItemSavedState extends State<ProjectItemSaved> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    context.read<GeneralProjectBloc>().add(
-                        RemoveFavoriteProjectList(project: widget.project));
+                    context.read<GeneralProjectBloc>().add(RemoveFavoriteProjectList(project: widget.project));
                     context.read<GeneralProjectBloc>().add(
                           RemoveFavoriteProject(
-                            studentId: context
-                                .read<AuthBloc>()
-                                .state
-                                .userModel
-                                .student!
-                                .id
-                                .toString(),
+                            studentId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
                             projectId: widget.project.id.toString(),
                           ),
                         );
@@ -136,8 +121,7 @@ class _ProjectItemSavedState extends State<ProjectItemSaved> {
                       ),
                       Expanded(
                         child: Text(
-                          widget.project.description ??
-                              'Clear expectation about your project or deliverables',
+                          widget.project.description ?? 'Clear expectation about your project or deliverables',
                           style: textTheme.bodySmall!,
                         ),
                       ),

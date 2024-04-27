@@ -1,14 +1,6 @@
-import 'dart:developer';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
-import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
-import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
-import 'package:studenthub/blocs/project_bloc/project_event.dart';
-import 'package:studenthub/blocs/project_bloc/project_state.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/blocs/student_bloc/student_state.dart';
@@ -18,6 +10,8 @@ import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/more_action_widget.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/project_item.dart';
+import 'package:studenthub/utils/helper.dart';
+import 'package:studenthub/widgets/emtyDataWidget.dart';
 
 class ProjectAllTabForStudent extends StatefulWidget {
   const ProjectAllTabForStudent({super.key});
@@ -32,7 +26,18 @@ class _ProjectAllTabForStudentState extends State<ProjectAllTabForStudent> {
     super.initState();
     int userId = BlocProvider.of<StudentBloc>(context).state.student.id ?? -1;
     context.read<StudentBloc>().add(
-          GetAllProjectProposal(userId: userId, onSuccess: () {}),
+          GetAllProjectProposal(
+            userId: userId,
+            statusFlag: "1",
+            onSuccess: () {},
+          ),
+        );
+    context.read<StudentBloc>().add(
+          GetAllProjectProposal(
+            userId: userId,
+            statusFlag: "0",
+            onSuccess: () {},
+          ),
         );
   }
 
@@ -48,33 +53,49 @@ class _ProjectAllTabForStudentState extends State<ProjectAllTabForStudent> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Active Proposal (5)',
+                'Active Proposal (${state.activeProjectProposals.length})',
                 style: theme.textTheme.bodyMedium!.copyWith(
                   color: Colors.green.shade600,
                   fontWeight: FontWeight.w600,
                 ),
               ),
               Expanded(
-                child: Center(
-                  child: ListView.separated(
-                    itemCount: 5,
-                    itemBuilder: (context, index) {
-                      return ProjectItem(theme: theme, item: Project());
-                    },
-                    separatorBuilder: (context, index) {
-                      return const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                        child: Divider(),
-                      );
-                    },
-                  ),
-                ),
+                child: Builder(builder: (context) {
+                  if (state.activeProjectProposals.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          EmptyDataWidget(
+                            mainTitle: '',
+                            subTitle: 'No project working yet.',
+                            widthImage: MediaQuery.of(context).size.width * 0.5,
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  return Center(
+                    child: ListView.separated(
+                      itemCount: state.activeProjectProposals.length,
+                      itemBuilder: (context, index) {
+                        return ProjectItem(theme: theme, projectProposal: state.activeProjectProposals[index]);
+                      },
+                      separatorBuilder: (context, index) {
+                        return const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                          child: Divider(),
+                        );
+                      },
+                    ),
+                  );
+                }),
               ),
               const SizedBox(
                 height: 10,
               ),
               Text(
-                'Submitted proposal (${state.projectProposals.length})',
+                'Submitted proposal (${state.submitProjectProposals.length})',
                 style: theme.textTheme.bodyMedium!.copyWith(
                   color: Colors.red,
                   fontWeight: FontWeight.w600,
@@ -84,20 +105,36 @@ class _ProjectAllTabForStudentState extends State<ProjectAllTabForStudent> {
                 height: 10,
               ),
               Expanded(
-                child: Center(
-                  child: ListView.separated(
-                    itemCount: state.projectProposals.length,
-                    itemBuilder: (context, index) {
-                      return ProjectItem(theme: theme, projectProposal: state.projectProposals[index]);
-                    },
-                    separatorBuilder: (context, index) {
-                      return const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                        child: Divider(),
-                      );
-                    },
-                  ),
-                ),
+                child: Builder(builder: (context) {
+                  if (state.submitProjectProposals.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          EmptyDataWidget(
+                            mainTitle: '',
+                            subTitle: 'No project working yet.',
+                            widthImage: MediaQuery.of(context).size.width * 0.5,
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  return Center(
+                    child: ListView.separated(
+                      itemCount: state.submitProjectProposals.length,
+                      itemBuilder: (context, index) {
+                        return ProjectItem(theme: theme, projectProposal: state.submitProjectProposals[index]);
+                      },
+                      separatorBuilder: (context, index) {
+                        return const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                          child: Divider(),
+                        );
+                      },
+                    ),
+                  );
+                }),
               ),
             ],
           ),

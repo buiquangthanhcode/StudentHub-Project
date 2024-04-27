@@ -75,12 +75,12 @@ class _CompanyProfileCreationScreenState
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(50),
             child: AppBar(
-                // title: Text(
-                //   'Profile',
-                //   style: TextStyle(fontWeight: FontWeight.w500),
-                // ),
-                // centerTitle: false,
-                ),
+              title: Text(
+                'Profile',
+                style: TextStyle(fontWeight: FontWeight.w500),
+              ),
+              centerTitle: false,
+            ),
           ),
           body: Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),

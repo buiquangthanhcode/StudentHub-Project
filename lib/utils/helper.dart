@@ -1,4 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:studenthub/models/common/project_proposal_modal.dart';
+import 'package:studenthub/models/common/proposal_modal.dart';
 import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
 import 'package:studenthub/utils/logger.dart';
 
@@ -79,4 +81,15 @@ DateTime parseMonthYear(String? monthYearString) {
     logger.e('Error parsing date: $e');
     return DateTime.parse('1970-01-01');
   }
+}
+
+void sortProjectsByCreatedAt(List<ProjectProposal> projects) {
+  projects.sort((a, b) {
+    if (a.createdAt != null && b.createdAt != null) return b.createdAt!.compareTo(a.createdAt!);
+    return 1;
+  });
+}
+
+bool checkIsSubmitProposal(List<Proposal> data, int studentId) {
+  return data.any((element) => element.studentId == studentId);
 }

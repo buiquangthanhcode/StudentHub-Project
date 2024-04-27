@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/data/dto/reponse.dart';
 import 'package:studenthub/data/dto/student/request_change_password.dart';
 import 'package:studenthub/data/dto/student/request_get_proposal_project.dart';
@@ -363,9 +364,14 @@ class StudentService {
     }
   }
 
-  Future<ResponseAPI<List<ProjectProposal>>> getAllProjectProposal(String studentId, {int? statusFlag}) async {
+  Future<ResponseAPI<List<ProjectProposal>>> getAllProjectProposal(GetAllProjectProposal event,
+      {int? statusFlag}) async {
     try {
-      final res = await dioClient.get('$baseURL/api/proposal/project/$studentId');
+      String url = '$baseURL/api/proposal/project/${event.userId}';
+      if (event.statusFlag != null) {
+        url = '$url?statusFlag=${event.statusFlag}';
+      }
+      final res = await dioClient.get(url);
       logger.d(res);
       // List of Request
       return ResponseAPI<List<ProjectProposal>>(

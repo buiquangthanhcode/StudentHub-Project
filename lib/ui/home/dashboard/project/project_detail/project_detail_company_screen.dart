@@ -6,30 +6,32 @@ import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
-import 'package:studenthub/ui/home/dashboard/project_review/project_reivew_hired/project_review_hired_screen.dart';
-import 'package:studenthub/ui/home/dashboard/project_review/project_review_proposal/project_review_proposal_screen.dart';
+import 'package:studenthub/ui/home/dashboard/project/project_hired/project_hired_screen.dart';
+import 'package:studenthub/ui/home/dashboard/project/project_proposal/project_proposal_screen.dart';
 import 'package:studenthub/ui/home/messages/messages_screen.dart';
-import 'package:studenthub/ui/home/projects/project_detail/project_detail_screen.dart';
+import 'package:studenthub/ui/home/projects/project_general_detail/project_general_detail_screen.dart';
 import 'package:studenthub/utils/logger.dart';
 
-class ProjectReviewDetailScreen extends StatefulWidget {
-  const ProjectReviewDetailScreen({super.key, this.item, this.projectProposal, this.initTab = 0});
+class ProjectDetailCompanyView extends StatefulWidget {
+  const ProjectDetailCompanyView({super.key, this.item, this.projectProposal, this.initTab = 0});
 
   final Project? item;
   final ProjectProposal? projectProposal;
   final int initTab;
 
   @override
-  State<ProjectReviewDetailScreen> createState() => _ProjectReviewDetailScreenState();
+  State<ProjectDetailCompanyView> createState() => _ProjectReviewDetailScreenState();
 }
 
-class _ProjectReviewDetailScreenState extends State<ProjectReviewDetailScreen> with SingleTickerProviderStateMixin {
+class _ProjectReviewDetailScreenState extends State<ProjectDetailCompanyView> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  late AuthenState authState;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this, initialIndex: widget.initTab);
+    authState = context.read<AuthBloc>().state;
   }
 
   @override
@@ -42,7 +44,6 @@ class _ProjectReviewDetailScreenState extends State<ProjectReviewDetailScreen> w
   Widget build(BuildContext context) {
     logger.e(widget.item);
     final theme = Theme.of(context);
-    logger.d(widget.item?.toMap());
 
     return Scaffold(
       appBar: AppBar(
@@ -119,10 +120,8 @@ class _ProjectReviewDetailScreenState extends State<ProjectReviewDetailScreen> w
                               projectProposal: widget.projectProposal,
                             ),
                             Builder(builder: (context) {
-                              logger.d("Từ đây");
-                              logger.d(widget.projectProposal?.toMap());
-                              return ProjectDetailScreen(
-                                id: widget.item?.id.toString() ?? widget.projectProposal?.id.toString() ?? "0",
+                              return ProjectGeneralDetailScreen(
+                                id: widget.item?.id.toString() ?? widget.projectProposal!.project?.id.toString() ?? "0",
                                 isHiddenAppbar: true,
                                 isFavorite: "false",
                               );

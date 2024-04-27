@@ -48,7 +48,7 @@ class _DatePickerCustomState extends State<DatePickerCustom> {
           builder: (field) {
             return TextFormField(
               style: TextStyle(
-                color: Colors.grey[400],
+                color: Colors.grey[900],
                 fontSize: 16,
               ),
               controller: textController,
