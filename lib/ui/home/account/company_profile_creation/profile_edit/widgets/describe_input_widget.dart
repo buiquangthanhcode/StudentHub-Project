@@ -21,7 +21,6 @@ class _DescribeInputWidgetState extends State<DescribeInputWidget> {
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
-
     return Column(
       children: [
         Row(
@@ -49,7 +48,7 @@ class _DescribeInputWidgetState extends State<DescribeInputWidget> {
           cursorHeight: 18,
           style: textTheme.bodyMedium,
           cursorColor: Colors.black,
-          maxLines: 2,
+          maxLines: 6,
           controller: widget.descriptionInputController,
           decoration: InputDecoration(
             hintText: 'Enter your description...',

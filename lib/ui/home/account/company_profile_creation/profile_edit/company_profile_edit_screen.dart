@@ -21,7 +21,8 @@ class CompanyProfileEditScreen extends StatefulWidget {
   const CompanyProfileEditScreen({Key? key}) : super(key: key);
 
   @override
-  _PCompanyProfileEditScreenState createState() => _PCompanyProfileEditScreenState();
+  _PCompanyProfileEditScreenState createState() =>
+      _PCompanyProfileEditScreenState();
 }
 
 class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
@@ -89,7 +90,13 @@ class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
         return Scaffold(
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(50),
-            child: AppBar(),
+            child: AppBar(
+              title: const Text(
+                'Edit Profile',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              centerTitle: false,
+            ),
           ),
           body: Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -99,9 +106,7 @@ class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 10),
-                    const TitleWidget(),
-                    const SizedBox(height: 70),
+                    const SizedBox(height: 24),
                     EmployeeQuantitySelectionWidget(
                       chooseEmployeeQuantity: (value) {
                         radioButtonSelected = value;
@@ -110,7 +115,8 @@ class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
                     ),
                     const SizedBox(height: 30),
                     NameInputWidget(
-                        companyNameInputController: companyNameInputController, checkFormField: checkFormField),
+                        companyNameInputController: companyNameInputController,
+                        checkFormField: checkFormField),
                     const SizedBox(height: 30),
                     UrlInputWidget(
                       websiteInputController: websiteInputController,
@@ -122,32 +128,45 @@ class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
                       checkFormField: checkFormField,
                     ),
                     const SizedBox(height: 50),
+                    // const Spacer(),
                     SaveButton(
                         buttonActive: buttonActive,
                         press: () {
                           if (_formKey.currentState!.validate()) {
-                            int id = BlocProvider.of<AuthBloc>(context).state.userModel.company!.id!;
+                            int id = BlocProvider.of<AuthBloc>(context)
+                                .state
+                                .userModel
+                                .company!
+                                .id!;
                             context.read<CompanyBloc>().add(
                                   UpdateAllDataEvent(
                                       data: Company(
                                         size: radioButtonSelected,
-                                        companyName: companyNameInputController.text,
+                                        companyName:
+                                            companyNameInputController.text,
                                         website: websiteInputController.text,
-                                        description: descriptionInputController.text,
+                                        description:
+                                            descriptionInputController.text,
                                       ),
                                       id: id,
                                       onSuccess: (Company company) {
-                                        context.read<AuthBloc>().add(UpdateInformationEvent(
-                                            userModel: state.userModel.copyWith(company: company)));
+                                        context.read<AuthBloc>().add(
+                                            UpdateInformationEvent(
+                                                userModel: state.userModel
+                                                    .copyWith(
+                                                        company: company)));
                                         SnackBarService.showSnackBar(
-                                            content: 'Successfully!', status: StatusSnackBar.success);
-                                        Future.delayed(const Duration(seconds: 1), () {
+                                            content: 'Successfully!',
+                                            status: StatusSnackBar.success);
+                                        Future.delayed(
+                                            const Duration(seconds: 1), () {
                                           Navigator.pop(context);
                                         });
                                       }),
                                 );
                           }
-                        })
+                        }),
+                    const SizedBox(height: 24),
                   ],
                 ),
               ),
