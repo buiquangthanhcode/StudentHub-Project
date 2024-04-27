@@ -32,8 +32,9 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
   @override
   void initState() {
     super.initState();
-    isSaved = widget.isFavorite == 'true';
-
+    if (widget.isFavorite != 'null') {
+      isSaved = widget.isFavorite == 'true';
+    }
     context.read<AllProjectBloc>().add(
           GetProjectDetail(id: widget.id),
         );
@@ -65,49 +66,53 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                         ),
                   ),
                   actions: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 20),
-                      child: InkWell(
-                        onTap: () {
-                          isSaved = !isSaved!;
-                          setState(() {
+                    if (widget.isFavorite != 'null')
+                      Padding(
+                        padding: const EdgeInsets.only(right: 20),
+                        child: InkWell(
+                          onTap: () {
+                            isSaved = !isSaved!;
+                            setState(() {
+                              isSaved!
+                                  ? context.read<AllProjectBloc>().add(
+                                        AddFavoriteProject(
+                                          studentId: context
+                                              .read<AuthBloc>()
+                                              .state
+                                              .userModel
+                                              .student!
+                                              .id
+                                              .toString(),
+                                          projectId: widget.id,
+                                        ),
+                                      )
+                                  : context.read<AllProjectBloc>().add(
+                                        RemoveFavoriteProject(
+                                          studentId: context
+                                              .read<AuthBloc>()
+                                              .state
+                                              .userModel
+                                              .student!
+                                              .id
+                                              .toString(),
+                                          projectId: widget.id,
+                                        ),
+                                      );
+                              // logger.d('IS FAVORITE $isSaved');
+                              // context.read<AllProjectBloc>().add(
+                              //     UpdateFavoriteProjectUI(
+                              //         projectId: int.parse(widget.id),
+                              //         isFavorite: isSaved!));
+                            });
+                          },
+                          child: FaIcon(
                             isSaved!
-                                ? context.read<AllProjectBloc>().add(
-                                      AddFavoriteProject(
-                                        studentId: context
-                                            .read<AuthBloc>()
-                                            .state
-                                            .userModel
-                                            .student!
-                                            .id
-                                            .toString(),
-                                        projectId:
-                                            widget.id,
-                                      ),
-                                    )
-                                : context.read<AllProjectBloc>().add(
-                                      RemoveFavoriteProject(
-                                        studentId: context
-                                            .read<AuthBloc>()
-                                            .state
-                                            .userModel
-                                            .student!
-                                            .id
-                                            .toString(),
-                                        projectId:
-                                            widget.id,
-                                      ),
-                                    );
-                          });
-                        },
-                        child: FaIcon(
-                          isSaved!
-                              ? FontAwesomeIcons.solidHeart
-                              : FontAwesomeIcons.heart,
-                          color: primaryColor,
+                                ? FontAwesomeIcons.solidHeart
+                                : FontAwesomeIcons.heart,
+                            color: primaryColor,
+                          ),
                         ),
-                      ),
-                    )
+                      )
                   ],
                 ),
           body: Container(

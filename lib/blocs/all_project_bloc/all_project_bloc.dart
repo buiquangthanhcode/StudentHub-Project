@@ -15,12 +15,12 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
   AllProjectBloc()
       : super(
           AllProjectState(
-              projectList: const [],
-              projectDetail: Project(),
-              projectFavorite: const [],
-              projectSearchSuggestions: Set(),
-              projectSearchList: const [],
-              ),
+            projectList: const [],
+            projectDetail: Project(),
+            projectFavorite: const [],
+            projectSearchSuggestions: Set(),
+            projectSearchList: const [],
+          ),
         ) {
     on<GetAllDataEvent>(_onGetAllData);
     on<GetProjectDetail>(_onGetProjectDetail);
@@ -29,6 +29,7 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
     on<RemoveFavoriteProject>(_onRemoveFavoriteProject);
     on<RemoveFavoriteProjectList>(_onRemoveFavoriteProjectList);
     on<GetSearchFilterDataEvent>(_onGetSearchFilterData);
+    // on<UpdateFavoriteProjectUI>(_onUpdateFavoriteProjectUI);
   }
 
   final AllProjectsService _allProjectsService = AllProjectsService();
@@ -37,8 +38,7 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
       GetAllDataEvent event, Emitter<AllProjectState> emit) async {
     try {
       EasyLoading.show(status: 'Loading...');
-      ResponseAPI result =
-          await _allProjectsService.getAllProjects();
+      ResponseAPI result = await _allProjectsService.getAllProjects();
 
       Set<String> projectSearchSuggestions = {};
       for (Project p in result.data) {
@@ -102,9 +102,6 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
       ResponseAPI result =
           await _allProjectsService.getAllFavoriteProject(event.studentId);
 
-      logger.d('all favorite');
-      logger.d(result.data);
-
       if (result.statusCode! < 300) {
         emit(state.update(projectFavorite: result.data));
       } else {
@@ -133,7 +130,14 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
           event.studentId, event.projectId);
 
       if (result.statusCode! < 300) {
-        // emit(state.update(projectFavorite: result.data));
+        final data = state.projectList.map((project) {
+          if (project.id == int.parse(event.projectId)) {
+            return project.copyWith(isFavorite: true);
+          }
+          return project;
+        }).toList();
+        
+        emit(state.update(projectList: List<Project>.from(data)));
       } else {
         SnackBarService.showSnackBar(
             content: handleFormatMessage(result.data!.errorDetails),
@@ -160,7 +164,19 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
           event.studentId, event.projectId);
 
       if (result.statusCode! < 300) {
-        // emit(state.update(projectFavorite: result.data));
+        final data = state.projectList.map((project) {
+          if (project.id == int.parse(event.projectId)) {
+            return project.copyWith(isFavorite: false);
+          }
+          return project;
+        }).toList();
+        final favoriteData = state.projectFavorite
+            .where((project) => project.id != int.parse(event.projectId))
+            .toList();
+        // logger.d("REMOVE FAVORITE: \n $data");
+        emit(state.update(
+            projectList: List<Project>.from(data),
+            projectFavorite: List<Project>.from(favoriteData)));
       } else {
         SnackBarService.showSnackBar(
             content: handleFormatMessage(result.data!.errorDetails),
@@ -181,10 +197,9 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
   }
 
   void _onRemoveFavoriteProjectList(
-      RemoveFavoriteProjectList event, Emitter<AllProjectState> emit) async {
+      RemoveFavoriteProjectList event, Emitter<AllProjectState> emit) {
     final data = List<Project>.from(state.projectFavorite);
     data.remove(event.project);
-    logger.d('PROJECT LIST ${state.projectFavorite}');
     emit(state.update(projectFavorite: List<Project>.from(data)));
   }
 

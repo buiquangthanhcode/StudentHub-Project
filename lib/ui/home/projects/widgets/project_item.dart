@@ -31,7 +31,6 @@ class _ProjectItemState extends State<ProjectItem> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    isSaved = widget.project.isFavorite ?? false;
   }
 
   int differentDay(String dateString) {
@@ -52,11 +51,12 @@ class _ProjectItemState extends State<ProjectItem> {
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     var colorTheme = Theme.of(context).colorScheme;
+    isSaved = widget.project.isFavorite ?? false;
 
     return GestureDetector(
       onTap: () {
         context.pushNamed('project_detail', queryParameters: {
-          'id': widget.project.projectId.toString(),
+          'id': widget.project.id.toString(),
           'isFavorite': widget.project.isFavorite.toString()
         });
       },
@@ -110,8 +110,7 @@ class _ProjectItemState extends State<ProjectItem> {
                                       .student!
                                       .id
                                       .toString(),
-                                  projectId:
-                                      widget.project.projectId.toString(),
+                                  projectId: widget.project.id.toString(),
                                 ),
                               )
                           : context.read<AllProjectBloc>().add(
@@ -123,8 +122,7 @@ class _ProjectItemState extends State<ProjectItem> {
                                       .student!
                                       .id
                                       .toString(),
-                                  projectId:
-                                      widget.project.projectId.toString(),
+                                  projectId: widget.project.id.toString(),
                                 ),
                               );
                     });
