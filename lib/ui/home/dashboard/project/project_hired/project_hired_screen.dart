@@ -30,6 +30,7 @@ class _ProjectDetailHiredScreenState extends State<ProjectDetailHiredScreen> {
                 theme: theme,
                 item: state.proposalList[index],
                 activeSentButton: false,
+                projectId: widget.item!.projectId.toString(),
               );
             },
             separatorBuilder: (context, index) {

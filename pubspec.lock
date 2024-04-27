@@ -642,6 +642,22 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  socket_io_client:
+    dependency: "direct main"
+    description:
+      name: socket_io_client
+      sha256: "15c9deae04e2b21065adbe864a641e0a5fc2499ff4c89e98a3877aea22ce841c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0-beta.2"
+  socket_io_common:
+    dependency: transitive
+    description:
+      name: socket_io_common
+      sha256: "5ad0f12e1b17f4300b0d6a27feaf1b7c1153ca21498ba307f0297b81449f7a44"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0-beta.0"
   source_span:
     dependency: transitive
     description:
@@ -734,34 +750,34 @@ packages:
     dependency: transitive
     description:
       name: syncfusion_pdfviewer_macos
-      sha256: ab1779d93513b70f3f8317f9ee878a8a6e4ab73810f69b33cfb6bfa113ce4b85
+      sha256: b325cbaa7189ca20df60dd1d80fce4e1572ce53f48fc3fb62520f4f18325a3bc
       url: "https://pub.dev"
     source: hosted
-    version: "25.1.39"
+    version: "25.1.41"
   syncfusion_pdfviewer_platform_interface:
     dependency: transitive
     description:
       name: syncfusion_pdfviewer_platform_interface
-      sha256: bd6cb7fc70b86ef1549063e1d5c0a85eafb08a49a1c169a18da7ca817b37d58f
+      sha256: b15b724cf11dcd04a8599f21b0b31ef6c4a4e7a839cebeea0a38ccb95aabf0a2
       url: "https://pub.dev"
     source: hosted
-    version: "25.1.39"
+    version: "25.1.41"
   syncfusion_pdfviewer_web:
     dependency: transitive
     description:
       name: syncfusion_pdfviewer_web
-      sha256: "468963cc3fdffc6195b6d8c63b22e52e54fd4322e4e75185c14cc3ae83d5c217"
+      sha256: "0587e746187bd1bbbd403e6591f7f444ef8447e635d99c71980afb48be6cf0b3"
       url: "https://pub.dev"
     source: hosted
-    version: "25.1.39"
+    version: "25.1.41"
   syncfusion_pdfviewer_windows:
     dependency: transitive
     description:
       name: syncfusion_pdfviewer_windows
-      sha256: f21b02e3566f177bd3309f1bf4277cd81e615b0e07c4bc83d846869633a48079
+      sha256: fbcb75d142f3c0ceeed1a3efca346c7a3b7af5a61f4bdafdfc00a13c6d18de6f
       url: "https://pub.dev"
     source: hosted
-    version: "25.1.39"
+    version: "25.1.41"
   term_glyph:
     dependency: transitive
     description:
@@ -846,10 +862,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_web
-      sha256: "3692a459204a33e04bc94f5fb91158faf4f2c8903281ddd82915adecdb1a901d"
+      sha256: "8d9e750d8c9338601e709cd0885f95825086bd8b642547f26bda435aade95d8a"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.0"
+    version: "2.3.1"
   url_launcher_windows:
     dependency: transitive
     description:

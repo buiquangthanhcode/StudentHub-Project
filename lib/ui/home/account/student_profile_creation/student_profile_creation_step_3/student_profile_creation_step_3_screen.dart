@@ -17,17 +17,19 @@ import 'package:studenthub/ui/home/account/company_profile_creation/profile_crea
 import 'package:studenthub/ui/home/account/student_profile_creation/student_profile_creation_step_3/widgets/title_widget.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+// import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class StudentProfileCreationStep3Screen extends StatefulWidget {
   const StudentProfileCreationStep3Screen({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _StudentProfileCreationStep3ScreenState createState() => _StudentProfileCreationStep3ScreenState();
+  _StudentProfileCreationStep3ScreenState createState() =>
+      _StudentProfileCreationStep3ScreenState();
 }
 
-class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreationStep3Screen> {
+class _StudentProfileCreationStep3ScreenState
+    extends State<StudentProfileCreationStep3Screen> {
   FilePickerResult? resultResume;
   FilePickerResult? resultTranScript;
   // var? fileName;
@@ -41,8 +43,8 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
   String image_path = 'lib/assets/images/icons8-image-48.png';
   String pdf_path = 'lib/assets/images/icons8-pdf-48.png';
   late Student student;
-  final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
-  final GlobalKey<SfPdfViewerState> _pdfViewerKeyTranScrip = GlobalKey();
+  // final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
+  // final GlobalKey<SfPdfViewerState> _pdfViewerKeyTranScrip = GlobalKey();
 
   String getLastSubstringAfterDot(String filename) {
     List<String> parts = filename.split('.');
@@ -58,8 +60,10 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
         type == 0 ? resumeLoadingState = true : transcriptLoadingState = true;
       });
 
-      resultResume = await FilePicker.platform
-          .pickFiles(type: FileType.custom, allowedExtensions: ['png', 'pdf', 'xlsx', 'jpg'], allowMultiple: true);
+      resultResume = await FilePicker.platform.pickFiles(
+          type: FileType.custom,
+          allowedExtensions: ['png', 'pdf', 'xlsx', 'jpg'],
+          allowMultiple: true);
 
       if (resultResume != null) {
         // print(result);
@@ -100,8 +104,10 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
         type == 0 ? resumeLoadingState = true : transcriptLoadingState = true;
       });
 
-      resultTranScript = await FilePicker.platform
-          .pickFiles(type: FileType.custom, allowedExtensions: ['png', 'pdf', 'xlsx', 'jpg'], allowMultiple: true);
+      resultTranScript = await FilePicker.platform.pickFiles(
+          type: FileType.custom,
+          allowedExtensions: ['png', 'pdf', 'xlsx', 'jpg'],
+          allowMultiple: true);
 
       if (resultTranScript != null) {
         // print(result);
@@ -140,22 +146,30 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
   void initState() {
     super.initState();
     student = BlocProvider.of<StudentBloc>(context).state.student;
-    context.read<StudentBloc>().add(GetResumeEvent(studentId: student.id.toString()));
-    context.read<StudentBloc>().add(GetTranScription(studentId: student.id.toString()));
+    context
+        .read<StudentBloc>()
+        .add(GetResumeEvent(studentId: student.id.toString()));
+    context
+        .read<StudentBloc>()
+        .add(GetTranScription(studentId: student.id.toString()));
 
     if (student.resume != null) {
-      String fileName = student.resume!.split('/').last.split('?').first; // Lấy tên file
+      String fileName =
+          student.resume!.split('/').last.split('?').first; // Lấy tên file
       String fileType = fileName.split('.').last;
       double fileSize = 0.1;
       String url = student.resume ?? '';
-      resume.add(FileModel(name: fileName, type: fileType, size: fileSize.toString(), url: url));
+      resume.add(FileModel(
+          name: fileName, type: fileType, size: fileSize.toString(), url: url));
     }
     if (student.transcript != null) {
-      String fileName = student.transcript!.split('/').last.split('?').first; // Lấy tên file
+      String fileName =
+          student.transcript!.split('/').last.split('?').first; // Lấy tên file
       String fileType = fileName.split('.').last;
       double fileSize = 0.1;
       String url = student.transcript ?? '';
-      transcript.add(FileModel(name: fileName, type: fileType, size: fileSize.toString(), url: url));
+      transcript.add(FileModel(
+          name: fileName, type: fileType, size: fileSize.toString(), url: url));
     }
   }
 
@@ -175,7 +189,8 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
         centerTitle: false,
       ),
       body: Padding(
-        padding: EdgeInsets.fromLTRB(20, 0, 20, screenSize.height * (Platform.isIOS ? 0.04 : 0.03)),
+        padding: EdgeInsets.fromLTRB(
+            20, 0, 20, screenSize.height * (Platform.isIOS ? 0.04 : 0.03)),
         child: BlocBuilder<StudentBloc, StudentState>(
           builder: (context, state) {
             return Column(
@@ -228,13 +243,15 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                                     const SizedBox(
                                       height: 15,
                                     ),
-                                    Text('Select File to Upload', style: textTheme.bodyMedium),
+                                    Text('Select File to Upload',
+                                        style: textTheme.bodyMedium),
                                     const SizedBox(
                                       height: 2,
                                     ),
                                     Text(
                                       'Select PDF, Excel or Image',
-                                      style: textTheme.bodySmall!.copyWith(color: colorTheme.grey),
+                                      style: textTheme.bodySmall!
+                                          .copyWith(color: colorTheme.grey),
                                     )
                                   ],
                                 )),
@@ -254,7 +271,7 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                         ...resume.map((e) => GestureDetector(
                               onTap: () {
                                 logger.d(e.url);
-                                _pdfViewerKey.currentState?.openBookmarkView();
+                                // _pdfViewerKey.currentState?.openBookmarkView();
                                 showDialog(
                                     context: context,
                                     builder: (context) => Theme(
@@ -263,24 +280,32 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                                             shadowColor: Colors.transparent,
                                           ),
                                           child: Dialog(
-                                            surfaceTintColor: Colors.transparent,
+                                            surfaceTintColor:
+                                                Colors.transparent,
                                             backgroundColor: Colors.white,
-                                            insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                            insetPadding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 20,
+                                                    vertical: 10),
                                             child: Container(
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
                                                 shape: BoxShape.rectangle,
-                                                borderRadius: BorderRadius.circular(10),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
                                               ),
-                                              height: MediaQuery.of(context).size.height * 0.8,
-                                              child: SfPdfViewer.network(
-                                                currentSearchTextHighlightColor: Colors.black,
-                                                e.url ?? '',
-                                                key: _pdfViewerKey,
-                                                onDocumentLoadFailed: (details) {
-                                                  logger.e(details.error);
-                                                },
-                                              ),
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.8,
+                                              // child: SfPdfViewer.network(
+                                              //   currentSearchTextHighlightColor: Colors.black,
+                                              //   e.url ?? '',
+                                              //   key: _pdfViewerKey,
+                                              //   onDocumentLoadFailed: (details) {
+                                              //     logger.e(details.error);
+                                              //   },
+                                              // ),
                                             ),
                                           ),
                                         ));
@@ -301,8 +326,10 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                                     Container(
                                       width: 40,
                                       height: 40,
-                                      decoration:
-                                          BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
                                       child: Image.asset(
                                         e.type == 'png' || e.type == 'jpg'
                                             ? image_path
@@ -317,12 +344,15 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                                     ),
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             e.name!,
                                             overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14),
                                           ),
                                           const SizedBox(
                                             height: 4,
@@ -330,7 +360,9 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                                           Text(
                                             '${e.size!}MB',
                                             style: TextStyle(
-                                                color: colorTheme.grey, fontWeight: FontWeight.w400, fontSize: 12),
+                                                color: colorTheme.grey,
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 12),
                                           ),
                                         ],
                                       ),
@@ -341,7 +373,8 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                                         setState(() {});
                                       },
                                       child: const Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 15),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 15),
                                         child: FaIcon(
                                           FontAwesomeIcons.xmark,
                                           size: 18,
@@ -403,13 +436,15 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                                   const SizedBox(
                                     height: 15,
                                   ),
-                                  Text('Select File to Upload', style: textTheme.bodyMedium),
+                                  Text('Select File to Upload',
+                                      style: textTheme.bodyMedium),
                                   const SizedBox(
                                     height: 2,
                                   ),
                                   Text(
                                     'Select PDF, Excel or Image',
-                                    style: textTheme.bodySmall!.copyWith(color: colorTheme.grey),
+                                    style: textTheme.bodySmall!
+                                        .copyWith(color: colorTheme.grey),
                                   )
                                 ],
                               ),
@@ -433,33 +468,46 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                                       context: context,
                                       builder: (context) => Theme(
                                             data: Theme.of(context).copyWith(
-                                              dialogBackgroundColor: Colors.white,
+                                              dialogBackgroundColor:
+                                                  Colors.white,
                                               shadowColor: Colors.transparent,
                                             ),
                                             child: Dialog(
-                                              surfaceTintColor: Colors.transparent,
+                                              surfaceTintColor:
+                                                  Colors.transparent,
                                               backgroundColor: Colors.white,
-                                              insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                              insetPadding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 20,
+                                                      vertical: 10),
                                               child: Container(
                                                 decoration: BoxDecoration(
                                                   color: Colors.white,
                                                   shape: BoxShape.rectangle,
-                                                  borderRadius: BorderRadius.circular(10),
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
                                                 ),
-                                                height: MediaQuery.of(context).size.height * 0.8,
-                                                child: SfPdfViewer.network(
-                                                  currentSearchTextHighlightColor: Colors.black,
-                                                  e.url ?? '',
-                                                  key: _pdfViewerKeyTranScrip,
-                                                  onDocumentLoadFailed: (details) {
-                                                    logger.e(details.error);
-                                                  },
-                                                ),
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.8,
+                                                // child: SfPdfViewer.network(
+                                                //   currentSearchTextHighlightColor:
+                                                //       Colors.black,
+                                                //   e.url ?? '',
+                                                //   key: _pdfViewerKeyTranScrip,
+                                                //   onDocumentLoadFailed:
+                                                //       (details) {
+                                                //     logger.e(details.error);
+                                                //   },
+                                                // ),
                                               ),
                                             ),
                                           ));
                                 } catch (e) {
-                                  SnackBarService.showSnackBar(content: 'Error', status: StatusSnackBar.error);
+                                  SnackBarService.showSnackBar(
+                                      content: 'Error',
+                                      status: StatusSnackBar.error);
                                 }
                               },
                               child: Container(
@@ -478,8 +526,10 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                                     Container(
                                       width: 40,
                                       height: 40,
-                                      decoration:
-                                          BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
                                       child: Image.asset(
                                         e.type == 'png' || e.type == 'jpg'
                                             ? image_path
@@ -494,12 +544,15 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                                     ),
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             e.name!,
                                             overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14),
                                           ),
                                           const SizedBox(
                                             height: 4,
@@ -507,7 +560,9 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                                           Text(
                                             '${e.size!}MB',
                                             style: TextStyle(
-                                                color: colorTheme.grey, fontWeight: FontWeight.w400, fontSize: 12),
+                                                color: colorTheme.grey,
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 12),
                                           ),
                                         ],
                                       ),
@@ -518,7 +573,8 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                                         setState(() {});
                                       },
                                       child: const Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 15),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 15),
                                         child: FaIcon(
                                           FontAwesomeIcons.xmark,
                                           size: 18,
@@ -539,7 +595,11 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                 ContinueButton(
                     buttonActive: true,
                     press: () {
-                      int userId = BlocProvider.of<StudentBloc>(context).state.student.id ?? -1;
+                      int userId = BlocProvider.of<StudentBloc>(context)
+                              .state
+                              .student
+                              .id ??
+                          -1;
                       if (resultResume != null) {
                         context.read<StudentBloc>().add(
                               UploadResumeEvent(
@@ -553,16 +613,19 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                       if (resultTranScript != null) {
                         context.read<StudentBloc>().add(
                               SubmitTranScript(
-                                path: resultTranScript!.files.first.path.toString(),
+                                path: resultTranScript!.files.first.path
+                                    .toString(),
                                 userId: userId,
                                 onSuccess: () {
                                   SnackBarService.showSnackBar(
-                                      content: 'Upload Successfully', status: StatusSnackBar.success);
+                                      content: 'Upload Successfully',
+                                      status: StatusSnackBar.success);
                                   context.pop(context);
                                   context.pop(context);
                                   context.pop(context);
                                 },
-                                name: resultTranScript!.files.first.name.toString(),
+                                name: resultTranScript!.files.first.name
+                                    .toString(),
                               ),
                             );
                       }
