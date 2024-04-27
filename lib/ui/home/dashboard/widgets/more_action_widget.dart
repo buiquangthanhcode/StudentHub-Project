@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_event.dart';
@@ -48,16 +49,27 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
                 final key = dataHeader[index]['key'];
                 switch (key) {
                   case "view_proposals":
-                    log("View Proposals");
+                    context.push('/company_review',
+                        extra: {'item': widget.project, 'initTab': "0"}
+                            as Map<String, dynamic>);
                     break;
                   case "view_messages":
                     log("View Messages");
+                    context.push('/company_review',
+                        extra: {'item': widget.project, 'initTab': "2"}
+                            as Map<String, dynamic>);
                     break;
                   case "view_hired":
                     log("View Hired");
+                    context.push('/company_review',
+                        extra: {'item': widget.project, 'initTab': "3"}
+                            as Map<String, dynamic>);
                     break;
                   case "view_job_posting":
                     log("View Job Posting");
+                    context.push('/company_review',
+                        extra: {'item': widget.project, 'initTab': "1"}
+                            as Map<String, dynamic>);
                     break;
 
                   case "edit_posting":

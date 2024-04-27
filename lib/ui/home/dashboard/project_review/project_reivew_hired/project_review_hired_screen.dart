@@ -1,9 +1,17 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:studenthub/blocs/all_project_bloc/all_project_bloc.dart';
+import 'package:studenthub/blocs/all_project_bloc/all_project_state.dart';
+import 'package:studenthub/models/common/project_model.dart';
+import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/ui/home/dashboard/data/data_count.dart';
 import 'package:studenthub/ui/home/dashboard/project_review/widget/project_proposal_item.dart';
 
 class ProjectDetailHiredScreen extends StatefulWidget {
-  const ProjectDetailHiredScreen({super.key});
+  const ProjectDetailHiredScreen({super.key, this.item, this.projectProposal});
+
+  final Project? item;
+  final ProjectProposal? projectProposal;
 
   @override
   State<ProjectDetailHiredScreen> createState() => _ProjectDetailHiredScreenState();
@@ -14,17 +22,21 @@ class _ProjectDetailHiredScreenState extends State<ProjectDetailHiredScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return ListView.separated(
-        itemBuilder: (context, index) {
-          return ProposalItem(
-            theme: theme,
-            item: data[index],
-            activeSentButton: false,
-          );
-        },
-        separatorBuilder: (context, index) {
-          return const Divider();
-        },
-        itemCount: data.length);
+    return BlocBuilder<AllProjectBloc, AllProjectState>(
+      builder: (context, state) {
+        return ListView.separated(
+            itemBuilder: (context, index) {
+              return ProposalItem(
+                theme: theme,
+                item: state.proposalList[index],
+                activeSentButton: false,
+              );
+            },
+            separatorBuilder: (context, index) {
+              return const Divider();
+            },
+            itemCount: state.proposalList.length);
+      },
+    );
   }
 }

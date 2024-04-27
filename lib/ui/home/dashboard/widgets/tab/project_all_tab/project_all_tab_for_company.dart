@@ -31,21 +31,37 @@ class ProjectAllTabForCompany extends StatefulWidget {
 class _ProjectAllTabState extends State<ProjectAllTabForCompany> {
   List<Project> projects = [];
 
+  int? currentUserId = null;
   @override
   void initState() {
     super.initState();
-    int? id = BlocProvider.of<AuthBloc>(context).state.userModel.company!.id;
-    logger.e(id);
-    context.read<ProjectBloc>().add(
-          GetAllProjectsEvent(
-            companyId: id!,
-          ),
-        );
+    try {
+      currentUserId = BlocProvider.of<AuthBloc>(context).state.userModel.company!.id;
+      context.read<ProjectBloc>().add(
+            GetAllProjectsEvent(
+              companyId: currentUserId!,
+            ),
+          );
+    } catch (e) {
+      logger.e('Error: $e');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    if (currentUserId == null) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          EmptyDataWidget(
+            mainTitle: '',
+            subTitle: 'Please update your profile to view projects.',
+            widthImage: MediaQuery.of(context).size.width * 0.5,
+          ),
+        ],
+      );
+    }
     return BlocBuilder<ProjectBloc, ProjectState>(
       builder: (context, state) {
         if (state.allProjects.isEmpty) {
@@ -66,8 +82,7 @@ class _ProjectAllTabState extends State<ProjectAllTabForCompany> {
             child: ListView.separated(
               itemCount: state.allProjects.length,
               itemBuilder: (context, index) {
-                return ProjectReviewItem(
-                    theme: theme, item: state.allProjects[index]);
+                return ProjectReviewItem(theme: theme, item: state.allProjects[index]);
               },
               separatorBuilder: (context, index) {
                 return const Padding(

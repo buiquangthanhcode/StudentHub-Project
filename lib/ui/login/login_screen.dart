@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,6 +11,7 @@ import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/data/dto/authen/request_login.dart';
 import 'package:studenthub/utils/logger.dart';
+import 'package:studenthub/widgets/customCheckboxWidget.dart';
 import '../../core/text_field_custom.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -72,6 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 fillColor: Colors.white,
                 name: 'username',
                 hintText: 'Username',
+                // initialValue: "nguyenthoaidangkhoa@gmail.com",
                 initialValue: "buiquangthanh1709@gmail.com",
                 icon: Container(
                   width: 18,
@@ -94,6 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 fillColor: Colors.white,
                 name: 'password',
                 hintText: 'Password',
+                // initialValue: '@Khoa123',
                 initialValue: 'Buiquangthanh@1709',
                 obscureText: true,
                 maxLines: null,
@@ -114,17 +118,36 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(
-                    top: 10), // Replace 10 with your desired margin value
+                margin: const EdgeInsets.only(top: 10), // Replace 10 with your desired margin value
                 child: Align(
                   alignment: Alignment.centerRight,
-                  child: Text(
-                    'Forgot password?',
-                    style: theme.textTheme.bodySmall!.copyWith(
-                      color: primaryColor,
-                      fontWeight: FontWeight.w600,
+                  child: Row(children: [
+                    Row(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          child: const CustomCheckBox(),
+                        ),
+                        // Container(margin: EdgeInsets.only(left: 10), child: const GradientCheckBox(),),),
+                        const SizedBox(width: 10), // Replace 10 with your desired width
+                        Text(
+                          'Remember me',
+                          style: theme.textTheme.bodySmall!.copyWith(
+                            color: primaryColor,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
+                    const Spacer(),
+                    Text(
+                      'Forgot Password?',
+                      style: theme.textTheme.bodySmall!.copyWith(
+                        color: primaryColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ]),
                 ),
               ),
               Container(
@@ -137,21 +160,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   onPressed: () {
                     // validate form
-                    if (_formKeyLogin.currentState?.saveAndValidate() ??
-                        false) {
+                    if (_formKeyLogin.currentState?.saveAndValidate() ?? false) {
                       context.read<AuthBloc>().add(
                             LoginEvent(
                               requestLogin: RequestLogin(
-                                email: _formKeyLogin
-                                    .currentState!.fields['username']!.value
-                                    .toString(),
-                                password: _formKeyLogin
-                                    .currentState!.fields['password']!.value
-                                    .toString(),
+                                email: _formKeyLogin.currentState!.fields['username']!.value.toString(),
+                                password: _formKeyLogin.currentState!.fields['password']!.value.toString(),
                               ),
                               onSuccess: () {
-                                context.pushNamed('home',
-                                    queryParameters: {'welcome': 'true'});
+                                context.pushNamed('home', queryParameters: {'welcome': 'true'});
                               },
                               currentContext: context,
                             ),
@@ -160,8 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   child: Text(
                     'Login',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                        color: Colors.white, fontWeight: FontWeight.w600),
+                    style: theme.textTheme.bodyMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
@@ -175,10 +191,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text("OR",
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                            color: theme.colorScheme.grey))),
+                        style: theme.textTheme.bodyMedium
+                            ?.copyWith(fontWeight: FontWeight.w600, fontSize: 14, color: theme.colorScheme.grey))),
                 Expanded(
                   child: Divider(
                     color: theme.colorScheme.grey, // Set the color to grey
@@ -231,8 +245,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: <TextSpan>[
                       TextSpan(
                         text: 'Sign Up',
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, color: primaryColor),
+                        style: const TextStyle(fontWeight: FontWeight.bold, color: primaryColor),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             context.pushNamed('signup_01');

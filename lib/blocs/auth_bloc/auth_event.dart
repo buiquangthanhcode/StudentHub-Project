@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/data/dto/authen/request_login.dart';
 import 'package:studenthub/data/dto/authen/request_register_account.dart';
 import 'package:studenthub/models/common/user_model.dart';
@@ -40,4 +41,10 @@ class UpdateInformationEvent extends AuthenEvent {
   final UserModel userModel;
 
   UpdateInformationEvent({required this.userModel});
+}
+
+class UpdateRoleEvents extends AuthenEvent {
+  final UserRole role;
+
+  UpdateRoleEvents({required this.role});
 }

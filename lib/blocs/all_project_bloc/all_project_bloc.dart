@@ -20,6 +20,7 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
             projectFavorite: const [],
             projectSearchSuggestions: Set(),
             projectSearchList: const [],
+            proposalList: const [],
           ),
         ) {
     on<GetAllDataEvent>(_onGetAllData);
@@ -30,6 +31,8 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
     on<RemoveFavoriteProjectList>(_onRemoveFavoriteProjectList);
     on<GetSearchFilterDataEvent>(_onGetSearchFilterData);
     // on<UpdateFavoriteProjectUI>(_onUpdateFavoriteProjectUI);
+    on<GetAllProposalOfProjectEvent>(_onGetAllProjectProposalOfProject);
+    on<ResetBlocEvents>(_onResetBloc);
   }
 
   final AllProjectsService _allProjectsService = AllProjectsService();
@@ -136,7 +139,7 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
           }
           return project;
         }).toList();
-        
+
         emit(state.update(projectList: List<Project>.from(data)));
       } else {
         SnackBarService.showSnackBar(
@@ -234,5 +237,33 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
     } finally {
       EasyLoading.dismiss();
     }
+  }
+
+  FutureOr<void> _onGetAllProjectProposalOfProject(
+      GetAllProposalOfProjectEvent event, Emitter<AllProjectState> emit) async {
+    try {
+      EasyLoading.show(status: 'loading');
+      final response =
+          await _allProjectsService.getProposalOfProject(event.requestProposal);
+      if (response.statusCode! <= 201) {
+        emit(state.update(proposalList: response.data ?? []));
+        event.onSuccess!();
+        EasyLoading.dismiss();
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      logger.e(e);
+    }
+  }
+
+  void _onResetBloc(ResetBlocEvents event, Emitter<AllProjectState> emit) {
+    emit(state.update(
+      projectList: const [],
+      projectDetail: Project(),
+      projectFavorite: const [],
+      projectSearchSuggestions: Set(),
+      projectSearchList: const [],
+      proposalList: const [],
+    ));
   }
 }

@@ -15,6 +15,8 @@ class UserModel {
   String? token;
   Company? company;
   Student? student;
+  // Add by Quang Thanh to customize
+  String? pathImage;
 
   UserModel({
     this.id,
@@ -25,6 +27,7 @@ class UserModel {
     this.token,
     this.company,
     this.student,
+    this.pathImage = 'lib/assets/images/circle_avatar.png',
   });
 
   UserModel copyWith({

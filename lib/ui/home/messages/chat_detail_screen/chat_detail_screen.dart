@@ -205,7 +205,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               'time_start': value['time_start'],
                               'time_end': value['time_end'],
                               'title': value['title'],
-                              'duration': "60 minute",
+                              'duration': "60 minutes",
                               'time': '12:59',
                               'content': value['title'],
                             });
@@ -322,35 +322,52 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                         as String),
                                   ],
                                 ),
+                                const SizedBox(height: 24),
                                 Text(
-                                    "Start Time: ${messagesData[index]['start_date'] as String} ${messagesData[index]['time_start'] as String}"),
+                                  "Start Time: ${messagesData[index]['start_date'] as String} ${messagesData[index]['time_start'] as String}",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                ),
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
-                                    "End Time: ${messagesData[index]['end_date'] as String} ${messagesData[index]['time_end'] as String}"),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "End Time: ",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                    ),
+                                    const SizedBox(width: 9),
+                                    Text(
+                                      "${messagesData[index]['end_date'] as String} ${messagesData[index]['time_end'] as String}",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                    ),
+                                  ],
+                                ),
                                 const SizedBox(
-                                  height: 10,
+                                  height: 24,
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     const Spacer(),
-                                    Expanded(
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          elevation: 0,
-                                          minimumSize:
-                                              const Size(double.infinity, 45),
-                                        ),
-                                        onPressed: () {
-                                          JitsiMeetService.instance.join();
-                                        },
-                                        child: const Text(
-                                          "Join",
-                                        ),
-                                      ),
-                                    ),
                                     Container(
                                       padding: const EdgeInsets.all(5),
                                       decoration: const BoxDecoration(
@@ -372,6 +389,21 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                           FontAwesomeIcons.ellipsis,
                                           size: 16,
                                           color: Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          elevation: 0,
+                                          minimumSize:
+                                              const Size(double.infinity, 45),
+                                        ),
+                                        onPressed: () {
+                                          JitsiMeetService.instance.join();
+                                        },
+                                        child: const Text(
+                                          "Join",
                                         ),
                                       ),
                                     ),

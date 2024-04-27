@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:studenthub/data/dto/student/request_get_proposal_project.dart';
+import 'package:studenthub/data/dto/student/request_post_proposal.dart';
 import 'package:studenthub/models/common/project_model.dart';
 
 @immutable
@@ -42,4 +44,15 @@ class RemoveFavoriteProject extends AllProjectEvent {
 class RemoveFavoriteProjectList extends AllProjectEvent {
   final Project project;
   RemoveFavoriteProjectList({required this.project});
+}
+
+class GetAllProposalOfProjectEvent extends AllProjectEvent {
+  final RequestProjectProposal requestProposal;
+  final Function? onSuccess;
+
+  GetAllProposalOfProjectEvent({required this.requestProposal, required this.onSuccess});
+}
+
+class ResetBlocEvents extends AllProjectEvent {
+  ResetBlocEvents();
 }

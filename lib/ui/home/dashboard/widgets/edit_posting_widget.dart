@@ -43,8 +43,8 @@ class _EditPostingState extends State<EditPosting> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-      height: MediaQuery.of(context).size.height * 0.9,
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      height: MediaQuery.of(context).size.height * 0.95,
       width: double.infinity,
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -101,8 +101,7 @@ class _EditPostingState extends State<EditPosting> {
                 const SizedBox(height: 2),
                 RadioListTile(
                   activeColor: primaryColor,
-                  visualDensity:
-                      const VisualDensity(vertical: -4.0, horizontal: -4.0),
+                  visualDensity: const VisualDensity(vertical: -4.0, horizontal: -4.0),
                   title: Text(
                     'Less than 1 month',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -119,8 +118,7 @@ class _EditPostingState extends State<EditPosting> {
                 ),
                 RadioListTile(
                   activeColor: primaryColor,
-                  visualDensity:
-                      const VisualDensity(vertical: -4.0, horizontal: -4.0),
+                  visualDensity: const VisualDensity(vertical: -4.0, horizontal: -4.0),
                   title: Text(
                     '1 to 3 months',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -137,8 +135,7 @@ class _EditPostingState extends State<EditPosting> {
                 ),
                 RadioListTile(
                   activeColor: primaryColor,
-                  visualDensity:
-                      const VisualDensity(vertical: -4.0, horizontal: -4.0),
+                  visualDensity: const VisualDensity(vertical: -4.0, horizontal: -4.0),
                   title: Text(
                     '3 to 6 months',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -155,8 +152,7 @@ class _EditPostingState extends State<EditPosting> {
                 ),
                 RadioListTile(
                   activeColor: primaryColor,
-                  visualDensity:
-                      const VisualDensity(vertical: -4.0, horizontal: -4.0),
+                  visualDensity: const VisualDensity(vertical: -4.0, horizontal: -4.0),
                   title: Text(
                     'More than 6 months',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -231,8 +227,7 @@ class _EditPostingState extends State<EditPosting> {
                         minimumSize: const Size(180, 56),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
-                          side:
-                              const BorderSide(color: primaryColor, width: 2.0),
+                          side: const BorderSide(color: primaryColor, width: 2.0),
                         ),
                       ),
                       onPressed: () {
@@ -240,8 +235,7 @@ class _EditPostingState extends State<EditPosting> {
                       },
                       child: Text(
                         'Cancel',
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                            color: primaryColor, fontWeight: FontWeight.w600),
+                        style: theme.textTheme.bodyMedium?.copyWith(color: primaryColor, fontWeight: FontWeight.w600),
                       ),
                     ),
                     const Spacer(),
@@ -252,46 +246,34 @@ class _EditPostingState extends State<EditPosting> {
                       ),
                       onPressed: () {
                         // validate form
-                        if (_formKeyEdit.currentState?.saveAndValidate() ??
-                            false) {
+                        if (_formKeyEdit.currentState?.saveAndValidate() ?? false) {
                           logger.d(_formKeyEdit.currentState!.value);
                         }
 
-                        int? companyId = BlocProvider.of<AuthBloc>(context)
-                            .state
-                            .userModel
-                            .company!
-                            .id;
+                        int? companyId = BlocProvider.of<AuthBloc>(context).state.userModel.company!.id;
                         context.read<ProjectBloc>().add(
                               EditProjectEvent(
                                   companyId: companyId!,
                                   updatedProject: Project.fromMap(
                                     {
                                       'id': widget.project.id,
-                                      'projectScopeFlag': _timeOption ==
-                                              TimeOption.option1
+                                      'projectScopeFlag': _timeOption == TimeOption.option1
                                           ? 0
                                           : _timeOption == TimeOption.option2
                                               ? 1
-                                              : _timeOption ==
-                                                      TimeOption.option3
+                                              : _timeOption == TimeOption.option3
                                                   ? 2
                                                   : 3,
-                                      'title': _formKeyEdit
-                                          .currentState!.value['title'],
-                                      'description': _formKeyEdit
-                                          .currentState!.value['description'],
-                                      'numberOfStudents': int.parse(_formKeyEdit
-                                          .currentState!
-                                          .value['number_of_students']),
+                                      'title': _formKeyEdit.currentState!.value['title'],
+                                      'description': _formKeyEdit.currentState!.value['description'],
+                                      'numberOfStudents':
+                                          int.parse(_formKeyEdit.currentState!.value['number_of_students']),
                                       'typeFlag': widget.project.typeFlag,
                                     },
                                   ),
                                   onSuccess: () {
                                     SnackBarService.showSnackBar(
-                                        status: StatusSnackBar.success,
-                                        content:
-                                            "Project was updated successfully!");
+                                        status: StatusSnackBar.success, content: "Project was updated successfully!");
                                     Navigator.pop(context);
                                     Navigator.pop(context);
                                   }),
@@ -299,8 +281,7 @@ class _EditPostingState extends State<EditPosting> {
                       },
                       child: Text(
                         'Edit',
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                            color: Colors.white, fontWeight: FontWeight.w600),
+                        style: theme.textTheme.bodyMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
                       ),
                     ),
                   ],

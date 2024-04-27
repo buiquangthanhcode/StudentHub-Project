@@ -3,10 +3,17 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studenthub/blocs/all_project_bloc/all_project_bloc.dart';
+import 'package:studenthub/blocs/all_project_bloc/all_project_event.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
+import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
+import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/widgets/dialog.dart';
+import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -27,7 +34,7 @@ class _AccountState extends State<AccountScreen> {
           {
             'icon': FontAwesomeIcons.solidCircleUser,
             'name': 'Profiles',
-            'route_name': state.userModel.roles?[0] == 1
+            'route_name': state.currentRole == UserRole.company
                 ? state.userModel.company == null
                     ? 'company_create_profile'
                     : 'company_edit_profile'
@@ -87,76 +94,102 @@ class _AccountState extends State<AccountScreen> {
                         onPrimary: Colors.black,
                       ),
                     ),
-                    child: ExpansionTile(
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Image.asset(
-                            'lib/assets/images/circle_avatar.png',
-                            width: 40,
-                            height: 40,
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                state.userModel.fullname ?? '',
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                state.userModel.roles?[0] == 1 ? 'Company' : 'Student',
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      children: [
-                        Row(
+                    child: StatefulBuilder(builder: (context, setState) {
+                      return ExpansionTile(
+                        title: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Spacer(),
-                            Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Image.asset(
-                                  'lib/assets/images/circle_avatar.png',
-                                  width: 30,
-                                  height: 30,
-                                )),
+                            Image.asset(
+                              state.currentRole == UserRole.student
+                                  ? 'lib/assets/images/circle_avatar.png'
+                                  : "lib/assets/images/circle_avatar.png",
+                              width: 40,
+                              height: 40,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  'Bui Quang Thanh',
+                                  state.currentRole == UserRole.student
+                                      ? state.userModel.fullname ?? ''
+                                      : state.userModel.company?.companyName ?? 'Anonymus',
                                   style: theme.textTheme.bodyMedium?.copyWith(
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Text(
-                                  'Student',
+                                  state.currentRole == UserRole.student ? 'Student' : 'Company',
                                   style: theme.textTheme.bodyMedium?.copyWith(
                                     color: Colors.grey,
                                   ),
                                 ),
                               ],
                             ),
-                            const Spacer(
-                              flex: 4,
-                            ),
                           ],
                         ),
-                      ],
-                    ),
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              showDialogCustom(context,
+                                  image: 'lib/assets/images/change_account.png',
+                                  title: 'Are you sure you want to change account ?',
+                                  textButtom: 'Change your account',
+                                  sizeImage: 50, onSave: () {
+                                context.read<AuthBloc>().add(UpdateRoleEvents(
+                                    role: state.currentRole == UserRole.student ? UserRole.company : UserRole.student));
+                                context.read<StudentBloc>().add(ResetBlocEvent());
+                                SnackBarService.showSnackBar(
+                                    content: 'Change account success', status: StatusSnackBar.success);
+                                Navigator.of(context).pop();
+                              });
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Spacer(),
+                                Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Image.asset(
+                                      state.isAnonymus()
+                                          ? 'lib/assets/images/circle_avatar.png'
+                                          : 'lib/assets/images/circle_avatar.png',
+                                      width: 40,
+                                      height: 40,
+                                    )),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      state.currentRole == UserRole.student
+                                          ? state.userModel.company?.companyName ?? 'Anonymus'
+                                          : state.userModel.fullname ?? '',
+                                      style: theme.textTheme.bodyMedium?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      state.currentRole == UserRole.student ? 'Company' : "Student",
+                                      style: theme.textTheme.bodyMedium?.copyWith(
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const Spacer(
+                                  flex: 4,
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      );
+                    }),
                   ),
                   Divider(
                     color: theme.colorScheme.grey,
@@ -175,7 +208,15 @@ class _AccountState extends State<AccountScreen> {
                         ...dataSetting.map(
                           (e) => GestureDetector(
                             onTap: () {
-                              context.pushNamed(e['route_name']);
+                              if (e['route_name'] == 'introduction') {
+                                context.read<StudentBloc>().add(ResetBlocEvent());
+                                context.read<AllProjectBloc>().add(ResetBlocEvents());
+                                Future.delayed(const Duration(milliseconds: 500), () {
+                                  context.pushNamed(e['route_name']);
+                                });
+                              } else {
+                                context.pushNamed(e['route_name']);
+                              }
                             },
                             child: Container(
                               padding: const EdgeInsets.symmetric(vertical: 22, horizontal: 5),

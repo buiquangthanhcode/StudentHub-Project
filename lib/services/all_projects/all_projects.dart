@@ -2,7 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:studenthub/data/dto/reponse.dart';
+import 'package:studenthub/data/dto/student/request_get_proposal_project.dart';
 import 'package:studenthub/models/common/project_model.dart';
+import 'package:studenthub/models/common/project_proposal_modal.dart';
+import 'package:studenthub/models/common/proposal_modal.dart';
 import 'package:studenthub/services/api_interceptor.dart';
 import 'package:studenthub/services/dio_client.dart';
 import 'package:studenthub/services/endpoint.dart';
@@ -23,8 +26,7 @@ class AllProjectsService {
 
       return ResponseAPI<List<Project>>(
         statusCode: res.statusCode,
-        data:
-            res.data['result'].map<Project>((x) => Project.fromMap(x)).toList(),
+        data: res.data['result'].map<Project>((x) => Project.fromMap(x)).toList(),
       );
     } on DioException catch (e) {
       logger.e(
@@ -64,8 +66,7 @@ class AllProjectsService {
     }
   }
 
-  Future<ResponseAPI<List<Project>>> getAllFavoriteProject(
-      String studentId) async {
+  Future<ResponseAPI<List<Project>>> getAllFavoriteProject(String studentId) async {
     try {
       final res = await dioClient.get(
         '$baseURL/api/favoriteProject/$studentId',
@@ -73,9 +74,7 @@ class AllProjectsService {
 
       return ResponseAPI<List<Project>>(
         statusCode: res.statusCode,
-        data: res.data['result']
-            .map<Project>((x) => Project.fromMap(x['project']))
-            .toList(),
+        data: res.data['result'].map<Project>((x) => Project.fromMap(x['project'])).toList(),
       );
     } on DioException catch (e) {
       logger.e(
@@ -91,8 +90,7 @@ class AllProjectsService {
     }
   }
 
-  Future<ResponseAPI<dynamic>> addFavoriteProject(
-      String studentId, String projectId) async {
+  Future<ResponseAPI<dynamic>> addFavoriteProject(String studentId, String projectId) async {
     try {
       final res = await dioClient.patch(
         '$baseURL/api/favoriteProject/$studentId',
@@ -120,8 +118,7 @@ class AllProjectsService {
     }
   }
 
-  Future<ResponseAPI<dynamic>> removeFavoriteProject(
-      String studentId, String projectId) async {
+  Future<ResponseAPI<dynamic>> removeFavoriteProject(String studentId, String projectId) async {
     try {
       final res = await dioClient.patch(
         '$baseURL/api/favoriteProject/$studentId',
@@ -173,15 +170,13 @@ class AllProjectsService {
 
       logger.d('QUERY: $query');
 
-      final res =
-          await dioClient.get('$baseURL/api/project', queryParameters: query);
+      final res = await dioClient.get('$baseURL/api/project', queryParameters: query);
 
       logger.d('RES: $res');
 
       return ResponseAPI<List<Project>>(
         statusCode: res.statusCode,
-        data:
-            res.data['result'].map<Project>((x) => Project.fromMap(x)).toList(),
+        data: res.data['result'].map<Project>((x) => Project.fromMap(x)).toList(),
       );
     } on DioException catch (e) {
       logger.e(
@@ -190,6 +185,21 @@ class AllProjectsService {
       throw ResponseAPI<List<Project>>(
         statusCode: e.response?.statusCode,
         data: [],
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
+
+  Future<ResponseAPI<List<ProjectProposal>>> getProposalOfProject(RequestProjectProposal request) async {
+    try {
+      final res = await dioClient.get('$baseURL/api/proposal/getByProjectId/${request.projectId}');
+      logger.d(res);
+      // List of Proposal
+      return ResponseAPI<List<ProjectProposal>>(
+        statusCode: res.statusCode,
+        data: List<ProjectProposal>.from(res.data['result']['items'].map((x) => ProjectProposal.fromMap((x))).toList()),
       );
     } catch (e) {
       logger.e("Unexpected Error: $e");

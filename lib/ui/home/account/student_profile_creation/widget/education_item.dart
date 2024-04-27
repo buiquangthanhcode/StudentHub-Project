@@ -6,6 +6,8 @@ import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/models/student/student_create_profile/education_model.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/edit_education.dart';
+import 'package:studenthub/widgets/dialog.dart';
+import 'package:studenthub/widgets/snack_bar_config.dart';
 
 import '../../../../../blocs/student_bloc/student_event.dart';
 
@@ -24,7 +26,6 @@ class EducationItem extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 242, 242, 242),
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
           color: theme.colorScheme.grey!.withOpacity(0.2),
@@ -35,7 +36,16 @@ class EducationItem extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(item.schoolName ?? ''),
+              Row(
+                children: [
+                  const FaIcon(
+                    FontAwesomeIcons.school,
+                    size: 14,
+                  ),
+                  const SizedBox(width: 10),
+                  Text(item.schoolName ?? ''),
+                ],
+              ),
               const SizedBox(
                 height: 5,
               ),
@@ -62,27 +72,47 @@ class EducationItem extends StatelessWidget {
           const SizedBox(width: 10),
           InkWell(
             onTap: () {
-              int userId = BlocProvider.of<StudentBloc>(context).state.student.id ?? 0;
-              List<Education> currentEducation = BlocProvider.of<StudentBloc>(context).state.student.educations ?? [];
+              showDialogCustom(
+                context,
+                image: 'lib/assets/images/delete.png',
+                title: 'Are you sure you want to delete this education?',
+                textButtom: 'Delete',
+                subtitle: 'This action cannot be undone',
+                onSave: () {
+                  int userId = BlocProvider.of<StudentBloc>(context).state.student.id ?? 0;
+                  List<Education> currentEducation =
+                      BlocProvider.of<StudentBloc>(context).state.student.educations ?? [];
 
-              for (var element in currentEducation) {
-                if (element.id == item.id) {
-                  currentEducation.remove(element);
-                  break;
-                }
-              }
-              context.read<StudentBloc>().add(
-                    UpdateEducationEvent(
-                      userId: userId,
-                      educations: currentEducation,
-                      onSuccess: () {},
-                    ),
-                  );
+                  for (var element in currentEducation) {
+                    if (element.id == item.id) {
+                      currentEducation.remove(element);
+                      break;
+                    }
+                  }
+                  context.read<StudentBloc>().add(
+                        UpdateEducationEvent(
+                          userId: userId,
+                          educations: currentEducation,
+                          onSuccess: () {
+                            SnackBarService.showSnackBar(content: "Delete Sucessfully", status: StatusSnackBar.success);
+                            Navigator.pop(context);
+                          },
+                        ),
+                      );
+                },
+              );
             },
-            child: const FaIcon(
-              FontAwesomeIcons.xmark,
-              size: 16,
-              color: Colors.red,
+            child: Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.grey!.withOpacity(0.08),
+                shape: BoxShape.circle,
+              ),
+              child: const FaIcon(
+                FontAwesomeIcons.xmark,
+                size: 16,
+                color: Colors.red,
+              ),
             ),
           ),
         ],

@@ -1,23 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/models/common/project_model.dart';
+import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/ui/home/dashboard/project_review/project_reivew_hired/project_review_hired_screen.dart';
 import 'package:studenthub/ui/home/dashboard/project_review/project_review_proposal/project_review_proposal_screen.dart';
 import 'package:studenthub/ui/home/messages/messages_screen.dart';
 import 'package:studenthub/ui/home/projects/project_detail/project_detail_screen.dart';
+import 'package:studenthub/utils/logger.dart';
 
 class ProjectReviewDetailScreen extends StatefulWidget {
-  const ProjectReviewDetailScreen({super.key});
+  const ProjectReviewDetailScreen(
+      {super.key, this.item, this.projectProposal, this.initTab = 0});
+
+  final Project? item;
+  final ProjectProposal? projectProposal;
+  final int initTab;
 
   @override
   State<ProjectReviewDetailScreen> createState() =>
       _ProjectReviewDetailScreenState();
 }
 
-class _ProjectReviewDetailScreenState extends State<ProjectReviewDetailScreen> {
+class _ProjectReviewDetailScreenState extends State<ProjectReviewDetailScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController =
+        TabController(length: 4, vsync: this, initialIndex: widget.initTab);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    logger.e(widget.item);
     final theme = Theme.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -38,23 +67,18 @@ class _ProjectReviewDetailScreenState extends State<ProjectReviewDetailScreen> {
             //         .copyWith(fontWeight: FontWeight.w600)),
             Row(children: [
               Text(
-                'Senior Frontend Developer',
+                widget.item?.title ?? '',
                 style: theme.textTheme.bodyMedium,
               ),
               const SizedBox(
                 width: 5,
-              ),
-              Text(
-                '(${'FinTech'})',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: primaryColor,
-                ),
               ),
             ]),
             const SizedBox(height: 10),
             Expanded(
               child: DefaultTabController(
                   length: 4,
+                  initialIndex: widget.initTab,
                   child: Column(
                     children: [
                       Container(
@@ -66,6 +90,7 @@ class _ProjectReviewDetailScreenState extends State<ProjectReviewDetailScreen> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: TabBar(
+                          controller: _tabController,
                           padding: EdgeInsets.zero,
                           indicatorPadding: EdgeInsets.zero,
                           labelPadding: EdgeInsets.zero,
@@ -91,24 +116,33 @@ class _ProjectReviewDetailScreenState extends State<ProjectReviewDetailScreen> {
                           tabs: const [
                             Tab(text: 'Proposals'),
                             Tab(text: 'Details'),
-                            Tab(text: 'Message'),
+                            Tab(text: 'Messages'),
                             Tab(text: 'Hired'),
                           ],
                         ),
                       ),
-                      const Expanded(
+                      Expanded(
                         child: TabBarView(
+                          controller: _tabController,
                           children: [
-                            ProjectReviewProposal(),
+                            ProjectReviewProposal(
+                              item: widget.item,
+                              projectProposal: widget.projectProposal,
+                            ),
                             ProjectDetailScreen(
-                              id: '1',
+                              id: widget.item?.id.toString() ??
+                                  widget.projectProposal?.id.toString() ??
+                                  "0",
                               isHiddenAppbar: true,
                               isFavorite: "false",
                             ),
-                            MessagesScreen(
+                            const MessagesScreen(
                               isHiddenAppbar: true,
                             ),
-                            ProjectDetailHiredScreen(),
+                            ProjectDetailHiredScreen(
+                              item: widget.item,
+                              projectProposal: widget.projectProposal,
+                            ),
                           ],
                         ),
                       ),

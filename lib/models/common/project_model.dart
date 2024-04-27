@@ -1,9 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:studenthub/models/common/project_scope.dart';
-import 'package:studenthub/models/common/proposal_model.dart';
-import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
 
 class Project {
   int? id;
@@ -138,23 +135,14 @@ class Project {
       createdAt: map['createdAt'] != null ? map['createdAt'] as String : null,
       updatedAt: map['updatedAt'] != null ? map['updatedAt'] as String : null,
       deletedAt: map['deletedAt'] != null ? map['deletedAt'] as String : null,
-      projectScopeFlag: map['projectScopeFlag'] != null
-          ? map['projectScopeFlag'] as int
-          : null,
+      projectScopeFlag: map['projectScopeFlag'] != null ? map['projectScopeFlag'] as int : null,
       title: map['title'] != null ? map['title'] as String : null,
-      description:
-          map['description'] != null ? map['description'] as String : null,
-      numberOfStudents: map['numberOfStudents'] != null
-          ? map['numberOfStudents'] as int
-          : null,
+      description: map['description'] != null ? map['description'] as String : null,
+      numberOfStudents: map['numberOfStudents'] != null ? map['numberOfStudents'] as int : null,
       typeFlag: map['typeFlag'] != null ? map['typeFlag'] as int : null,
-      proposal: map['proposal'] != null
-          ? List<String>.from((map['proposal'] as List<String>))
-          : null,
-      countProposals:
-          map['countProposals'] != null ? map['countProposals'] as int : null,
-      countMessages:
-          map['countMessages'] != null ? map['countMessages'] as int : null,
+      proposal: map['proposal'] != null ? List<String>.from((map['proposal'] as List<String>)) : null,
+      countProposals: map['countProposals'] != null ? map['countProposals'] as int : null,
+      countMessages: map['countMessages'] != null ? map['countMessages'] as int : null,
       countHired: map['countHired'] != null ? map['countHired'] as int : null,
       projectId: map['projectId'] != null ? map['projectId'] as int : null,
       isFavorite: map['isFavorite'] != null ? map['isFavorite'] as bool : null,
@@ -163,8 +151,7 @@ class Project {
 
   String toJson() => json.encode(toMap());
 
-  factory Project.fromJson(String source) =>
-      Project.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Project.fromJson(String source) => Project.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {

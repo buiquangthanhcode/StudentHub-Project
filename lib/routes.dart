@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/company_profile_creation_screen.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit/company_profile_edit_screen.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/welcome_screen.dart';
@@ -24,6 +28,7 @@ import 'package:studenthub/ui/home/account/student_profile_creation/student_prof
 import 'package:studenthub/ui/home/account/student_profile_creation/student_profile_creation_step_1/student_profile_creation_step_1_screen.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/student_profile_creation_step_2/student_profile_creation_step_2_screen.dart';
 import 'package:studenthub/ui/signup/signup_step02_screen_for_student.dart';
+import 'package:studenthub/utils/logger.dart';
 
 final GoRouter router = GoRouter(
   routes: <RouteBase>[
@@ -68,14 +73,20 @@ final GoRouter router = GoRouter(
             path: 'project_detail',
             name: 'project_detail',
             pageBuilder: (context, state) {
-              return customTransitionPage(state.pageKey, ProjectDetailScreen(id: state.uri.queryParameters["id"]!,isFavorite: state.uri.queryParameters["isFavorite"]!,));
+              return customTransitionPage(
+                  state.pageKey,
+                  ProjectDetailScreen(
+                    id: state.uri.queryParameters["id"]!,
+                    isFavorite: state.uri.queryParameters["isFavorite"]!,
+                  ));
             },
             routes: [
               GoRoute(
                 path: 'submit_proposal',
                 name: 'submit_proposal',
                 pageBuilder: (context, state) {
-                  return customTransitionPage(state.pageKey, const SubmitProposalScreen());
+                  return customTransitionPage(
+                      state.pageKey, SubmitProposalScreen(projectDetail: state.extra as Project));
                 },
               ),
             ]),
@@ -223,7 +234,12 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/company_review',
       builder: (BuildContext context, GoRouterState state) {
-        return const ProjectReviewDetailScreen();
+        final data = state.extra as Map<String, dynamic>;
+        return ProjectReviewDetailScreen(
+          item: data['item'],
+          projectProposal: data['projectProposal'],
+          initTab: int.parse(data['initTab'] ?? '0'),
+        );
       },
     ),
   ],
