@@ -4,9 +4,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_bloc.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_event.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_state.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_bloc.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_event.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_state.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/constants/colors.dart';
@@ -32,7 +32,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
     if (widget.isFavorite != 'null') {
       isSaved = widget.isFavorite == 'true';
     }
-    context.read<AllProjectBloc>().add(
+    context.read<GeneralProjectBloc>().add(
           GetProjectDetail(id: widget.id),
         );
   }
@@ -44,8 +44,8 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
     TextTheme textTheme = Theme.of(context).textTheme;
     AuthenState authSate = context.read<AuthBloc>().state;
 
-    return BlocBuilder<AllProjectBloc, AllProjectState>(
-      builder: (BuildContext context, AllProjectState state) {
+    return BlocBuilder<GeneralProjectBloc, GeneralProjectState>(
+      builder: (BuildContext context, GeneralProjectState state) {
         return Scaffold(
           appBar: widget.isHiddenAppbar ?? false
               ? null
@@ -67,7 +67,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                             isSaved = !isSaved!;
                             setState(() {
                               isSaved!
-                                  ? context.read<AllProjectBloc>().add(
+                                  ? context.read<GeneralProjectBloc>().add(
                                         AddFavoriteProject(
                                           studentId: context
                                               .read<AuthBloc>()
@@ -79,7 +79,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                                           projectId: widget.id,
                                         ),
                                       )
-                                  : context.read<AllProjectBloc>().add(
+                                  : context.read<GeneralProjectBloc>().add(
                                         RemoveFavoriteProject(
                                           studentId: context
                                               .read<AuthBloc>()

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_bloc.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_event.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_state.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_bloc.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_event.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_state.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/ui/home/projects/project_saved/widgets/project_item_saved.dart';
 
@@ -24,7 +24,7 @@ class _ProjectSavedState extends State<ProjectSavedScreen> {
     _scrollController.addListener(_scrollListener);
     super.initState();
 
-    context.read<AllProjectBloc>().add(
+    context.read<GeneralProjectBloc>().add(
           GetFavoriteProject(
               studentId: context
                   .read<AuthBloc>()
@@ -63,7 +63,7 @@ class _ProjectSavedState extends State<ProjectSavedScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AllProjectBloc, AllProjectState>(
+    return BlocBuilder<GeneralProjectBloc, GeneralProjectState>(
       builder: (context, state) {
         return Scaffold(
           body: CustomScrollView(

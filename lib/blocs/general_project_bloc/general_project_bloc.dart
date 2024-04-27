@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_event.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_state.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_event.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_state.dart';
 import 'package:studenthub/data/dto/reponse.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/services/all_projects/all_projects.dart';
@@ -11,10 +11,10 @@ import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
-class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
-  AllProjectBloc()
+class GeneralProjectBloc extends Bloc<GeneralProjectEvent, GeneralProjectState> {
+  GeneralProjectBloc()
       : super(
-          AllProjectState(
+          GeneralProjectState(
             projectList: const [],
             projectDetail: Project(),
             projectFavorite: const [],
@@ -38,7 +38,7 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
   final AllProjectsService _allProjectsService = AllProjectsService();
 
   FutureOr<void> _onGetAllData(
-      GetAllDataEvent event, Emitter<AllProjectState> emit) async {
+      GetAllDataEvent event, Emitter<GeneralProjectState> emit) async {
     try {
       EasyLoading.show(status: 'Loading...');
       ResponseAPI result = await _allProjectsService.getAllProjects();
@@ -72,7 +72,7 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
   }
 
   FutureOr<void> _onGetProjectDetail(
-      GetProjectDetail event, Emitter<AllProjectState> emit) async {
+      GetProjectDetail event, Emitter<GeneralProjectState> emit) async {
     try {
       EasyLoading.show(status: 'Loading...');
       ResponseAPI result = await _allProjectsService.getProjectDetail(event.id);
@@ -99,7 +99,7 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
   }
 
   FutureOr<void> _onGetAllFavoriteProject(
-      GetFavoriteProject event, Emitter<AllProjectState> emit) async {
+      GetFavoriteProject event, Emitter<GeneralProjectState> emit) async {
     try {
       EasyLoading.show(status: 'Loading...');
       ResponseAPI result =
@@ -127,7 +127,7 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
   }
 
   FutureOr<void> _onAddFavoriteProject(
-      AddFavoriteProject event, Emitter<AllProjectState> emit) async {
+      AddFavoriteProject event, Emitter<GeneralProjectState> emit) async {
     try {
       ResponseAPI result = await _allProjectsService.addFavoriteProject(
           event.studentId, event.projectId);
@@ -161,7 +161,7 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
   }
 
   FutureOr<void> _onRemoveFavoriteProject(
-      RemoveFavoriteProject event, Emitter<AllProjectState> emit) async {
+      RemoveFavoriteProject event, Emitter<GeneralProjectState> emit) async {
     try {
       ResponseAPI result = await _allProjectsService.removeFavoriteProject(
           event.studentId, event.projectId);
@@ -200,14 +200,14 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
   }
 
   void _onRemoveFavoriteProjectList(
-      RemoveFavoriteProjectList event, Emitter<AllProjectState> emit) {
+      RemoveFavoriteProjectList event, Emitter<GeneralProjectState> emit) {
     final data = List<Project>.from(state.projectFavorite);
     data.remove(event.project);
     emit(state.update(projectFavorite: List<Project>.from(data)));
   }
 
   FutureOr<void> _onGetSearchFilterData(
-      GetSearchFilterDataEvent event, Emitter<AllProjectState> emit) async {
+      GetSearchFilterDataEvent event, Emitter<GeneralProjectState> emit) async {
     try {
       EasyLoading.show(status: 'Loading...');
       ResponseAPI result = await _allProjectsService.getSearchFilterData(
@@ -240,7 +240,7 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
   }
 
   FutureOr<void> _onGetAllProjectProposalOfProject(
-      GetAllProposalOfProjectEvent event, Emitter<AllProjectState> emit) async {
+      GetAllProposalOfProjectEvent event, Emitter<GeneralProjectState> emit) async {
     try {
       EasyLoading.show(status: 'loading');
       final response =
@@ -256,7 +256,7 @@ class AllProjectBloc extends Bloc<AllProjectEvent, AllProjectState> {
     }
   }
 
-  void _onResetBloc(ResetBlocEvents event, Emitter<AllProjectState> emit) {
+  void _onResetBloc(ResetBlocEvents event, Emitter<GeneralProjectState> emit) {
     emit(state.update(
       projectList: const [],
       projectDetail: Project(),

@@ -1,20 +1,17 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_bloc.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_event.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_bloc.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_event.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
-import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/models/common/project_model.dart';
-import 'package:studenthub/utils/logger.dart';
 
-class ProjectItem extends StatefulWidget {
-  const ProjectItem({
+class GeneralProjectItem extends StatefulWidget {
+  const GeneralProjectItem({
     super.key,
     required this.project,
     required this.paddingRight,
@@ -23,10 +20,10 @@ class ProjectItem extends StatefulWidget {
   final double paddingRight;
 
   @override
-  State<ProjectItem> createState() => _ProjectItemState();
+  State<GeneralProjectItem> createState() => _GeneralProjectItemState();
 }
 
-class _ProjectItemState extends State<ProjectItem> {
+class _GeneralProjectItemState extends State<GeneralProjectItem> {
   bool? isSaved;
 
   @override
@@ -49,7 +46,6 @@ class _ProjectItemState extends State<ProjectItem> {
     TextTheme textTheme = Theme.of(context).textTheme;
     var colorTheme = Theme.of(context).colorScheme;
     isSaved = widget.project.isFavorite ?? false;
-    AuthenState authSate = context.read<AuthBloc>().state;
 
     return GestureDetector(
       onTap: () {
@@ -94,7 +90,7 @@ class _ProjectItemState extends State<ProjectItem> {
                     isSaved = !isSaved!;
                     setState(() {
                       isSaved!
-                          ? context.read<AllProjectBloc>().add(
+                          ? context.read<GeneralProjectBloc>().add(
                                 AddFavoriteProject(
                                   studentId: context
                                       .read<AuthBloc>()
@@ -106,7 +102,7 @@ class _ProjectItemState extends State<ProjectItem> {
                                   projectId: widget.project.id.toString(),
                                 ),
                               )
-                          : context.read<AllProjectBloc>().add(
+                          : context.read<GeneralProjectBloc>().add(
                                 RemoveFavoriteProject(
                                   studentId: context
                                       .read<AuthBloc>()

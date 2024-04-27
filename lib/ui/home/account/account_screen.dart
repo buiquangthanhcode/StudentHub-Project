@@ -3,8 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_bloc.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_event.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_bloc.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_event.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
@@ -210,7 +210,7 @@ class _AccountState extends State<AccountScreen> {
                             onTap: () {
                               if (e['route_name'] == 'introduction') {
                                 context.read<StudentBloc>().add(ResetBlocEvent());
-                                context.read<AllProjectBloc>().add(ResetBlocEvents());
+                                context.read<GeneralProjectBloc>().add(ResetBlocEvents());
                                 Future.delayed(const Duration(milliseconds: 500), () {
                                   context.pushNamed(e['route_name']);
                                 });

@@ -8,7 +8,7 @@ import 'package:studenthub/ui/home/account/account_screen.dart';
 import 'package:studenthub/ui/home/alerts/alerts_screen.dart';
 import 'package:studenthub/ui/home/dashboard/dashboard_screen.dart';
 import 'package:studenthub/ui/home/messages/messages_screen.dart';
-import 'package:studenthub/ui/home/projects/project_screen.dart';
+import 'package:studenthub/ui/home/projects/general_project_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.welcome});
@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                         break;
                       case 1:
-                        body = const ProjectScreen();
+                        body = const GeneralProjectScreen();
                         break;
                       case 2:
                         body = const MessagesScreen();

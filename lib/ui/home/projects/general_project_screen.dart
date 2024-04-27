@@ -1,28 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_bloc.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_event.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_state.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_bloc.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_event.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_state.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
-import 'package:studenthub/ui/home/projects/widgets/project_item.dart';
-import 'package:studenthub/utils/logger.dart';
-import 'package:studenthub/widgets/emtyDataWidget.dart';
+import 'package:studenthub/ui/home/projects/widgets/general_project_item.dart';
 
-class ProjectScreen extends StatefulWidget {
-  const ProjectScreen({super.key});
+class GeneralProjectScreen extends StatefulWidget {
+  const GeneralProjectScreen({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _ProjectScreenState createState() => _ProjectScreenState();
+  _GeneralProjectScreenState createState() => _GeneralProjectScreenState();
 }
 
-class _ProjectScreenState extends State<ProjectScreen> {
+class _GeneralProjectScreenState extends State<GeneralProjectScreen> {
   final searchController = TextEditingController();
   final FocusNode _searchFocus = FocusNode();
 
@@ -37,7 +34,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
 
     super.initState();
 
-    context.read<AllProjectBloc>().add(
+    context.read<GeneralProjectBloc>().add(
           GetAllDataEvent(),
         );
   }
@@ -80,8 +77,8 @@ class _ProjectScreenState extends State<ProjectScreen> {
     var colorTheme = Theme.of(context).colorScheme;
     AuthenState authSate = context.read<AuthBloc>().state;
 
-    return BlocBuilder<AllProjectBloc, AllProjectState>(
-      builder: (BuildContext context, AllProjectState state) {
+    return BlocBuilder<GeneralProjectBloc, GeneralProjectState>(
+      builder: (BuildContext context, GeneralProjectState state) {
         return Scaffold(
           body: CustomScrollView(
             controller: _scrollController,
@@ -159,7 +156,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                 delegate: SliverChildBuilderDelegate(
                   childCount: state.projectList.length,
                   (BuildContext context, int index) {
-                    return ProjectItem(
+                    return GeneralProjectItem(
                       project: state.projectList[index],
                       paddingRight: 8,
                     );

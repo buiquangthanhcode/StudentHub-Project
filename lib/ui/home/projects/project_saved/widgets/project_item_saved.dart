@@ -1,16 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_bloc.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_event.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_bloc.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_event.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/models/common/project_model.dart';
-import 'package:studenthub/utils/logger.dart';
 
 class ProjectItemSaved extends StatefulWidget {
   const ProjectItemSaved({Key? key, required this.project}) : super(key: key);
@@ -90,9 +88,9 @@ class _ProjectItemSavedState extends State<ProjectItemSaved> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    context.read<AllProjectBloc>().add(
+                    context.read<GeneralProjectBloc>().add(
                         RemoveFavoriteProjectList(project: widget.project));
-                    context.read<AllProjectBloc>().add(
+                    context.read<GeneralProjectBloc>().add(
                           RemoveFavoriteProject(
                             studentId: context
                                 .read<AuthBloc>()
