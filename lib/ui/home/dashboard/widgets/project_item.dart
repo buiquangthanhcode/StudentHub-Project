@@ -30,10 +30,10 @@ class ProjectItem extends StatelessWidget {
     return InkWell(
       onTap: () {
         if (authState.currentRole == UserRole.company) {
-          context.push('/project_detail',
+          context.push('/project_company_detail',
               extra: {'item': item, 'projectProposal': projectProposal} as Map<String, dynamic>);
         } else {
-          context.push('/project_detail',
+          context.push('/project_student_detail',
               extra: {'item': item, 'projectProposal': projectProposal} as Map<String, dynamic>);
         }
       },
@@ -101,7 +101,7 @@ class ProjectItem extends StatelessWidget {
                                 ],
                               ),
                               MoreActionWidget(
-                                project: item ?? Project(),
+                                project: item ?? projectProposal?.project ?? Project(),
                                 // projectId: item.id!,
                               ),
                             ],

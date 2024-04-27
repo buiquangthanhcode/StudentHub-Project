@@ -7,7 +7,7 @@ import 'package:studenthub/data/dto/student/request_get_proposal_project.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/ui/home/dashboard/data/data_count.dart';
-import 'package:studenthub/ui/home/dashboard/project_review/widget/project_proposal_item.dart';
+import 'package:studenthub/ui/home/dashboard/project/widget/project_proposal_item.dart';
 import 'package:studenthub/widgets/emtyDataWidget.dart';
 
 class ProjectReviewProposal extends StatefulWidget {

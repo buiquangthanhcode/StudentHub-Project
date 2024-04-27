@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,13 +7,20 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
+import 'package:studenthub/blocs/theme_bloc/theme_bloc.dart';
+import 'package:studenthub/blocs/theme_bloc/theme_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
+import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/core/text_field_custom.dart';
 import 'package:studenthub/data/dto/student/request_change_password.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
 import 'package:studenthub/widgets/dialog.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
+
+enum LanguageProfile { vn, en }
 
 class SettingDetailScreen extends StatefulWidget {
   const SettingDetailScreen({super.key});
@@ -23,6 +31,24 @@ class SettingDetailScreen extends StatefulWidget {
 
 class _SettingDetailScreenState extends State<SettingDetailScreen> {
   final _formChangePassWord = GlobalKey<FormBuilderState>();
+  LanguageProfile? langSelect = LanguageProfile.vn;
+
+  void changeLanguage(LanguageProfile? value) {
+    setState(() {
+      langSelect = value;
+      if (value == LanguageProfile.vn) {
+        context.setLocale(const Locale('vi'));
+      } else if (value == LanguageProfile.en) {
+        context.setLocale(const Locale('en'));
+      }
+      context.read<ThemesBloc>().add(ToggleLanguageEvent(context));
+    });
+
+    Future.delayed(const Duration(milliseconds: 100), () {
+      SnackBarService.showSnackBar(content: 'Change language successfully!', status: StatusSnackBar.success);
+      Navigator.pop(context, value);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +102,103 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                   onTap: () {
                     switch (e['key']) {
                       case 'language':
+                        showModalBottomSheetCustom(context,
+                            height: 0.4,
+                            widgetBuilder: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 10),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Change Language',
+                                        style: theme.textTheme.bodyMedium?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            color: theme.colorScheme.grey?.withOpacity(0.4),
+                                            borderRadius: BorderRadius.circular(50)),
+                                        padding: const EdgeInsets.all(3),
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Icon(
+                                            Icons.close,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 24),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: langSelect == LanguageProfile.vn ? const Color(0xfff2f5f8) : Colors.white,
+                                      borderRadius: BorderRadius.circular(18.0),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                                    child: RadioListTile<LanguageProfile>(
+                                      controlAffinity: ListTileControlAffinity.trailing,
+                                      value: LanguageProfile.vn,
+                                      groupValue: langSelect,
+                                      onChanged: changeLanguage,
+                                      title: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.circular(5),
+                                            child: Image.asset(
+                                              'lib/assets/images/vn.png',
+                                              width: 30,
+                                              height: 30,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 16),
+                                          Text(vietnameseKey.tr()),
+                                        ],
+                                      ),
+                                      activeColor: primaryColor,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                                    decoration: BoxDecoration(
+                                      color: langSelect == LanguageProfile.en ? const Color(0xfff2f5f8) : Colors.white,
+                                      borderRadius: BorderRadius.circular(18.0),
+                                    ),
+                                    child: RadioListTile<LanguageProfile>(
+                                      controlAffinity: ListTileControlAffinity.trailing,
+                                      value: LanguageProfile.en,
+                                      groupValue: langSelect,
+                                      onChanged: changeLanguage,
+                                      title: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          ClipRRect(
+                                              borderRadius: BorderRadius.circular(5),
+                                              child: Image.asset(
+                                                'lib/assets/images/en.png',
+                                                width: 30,
+                                                height: 30,
+                                              )),
+                                          const SizedBox(width: 16),
+                                          Text(englishKey.tr()),
+                                        ],
+                                      ),
+                                      activeColor: primaryColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ));
                         break;
                       case 'password':
                         showModalBottomSheet(

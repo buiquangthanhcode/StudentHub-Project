@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:studenthub/models/common/proposal_modal.dart';
 
 class Project {
   int? id;
@@ -13,7 +14,7 @@ class Project {
   String? description;
   int? numberOfStudents;
   int? typeFlag;
-  List<String>? proposal;
+  List<Proposal>? proposals;
   int? countProposals;
   int? countMessages;
   int? countHired;
@@ -31,7 +32,7 @@ class Project {
     this.description,
     this.numberOfStudents,
     this.typeFlag,
-    this.proposal,
+    this.proposals,
     this.countProposals,
     this.countMessages,
     this.countHired,
@@ -50,7 +51,7 @@ class Project {
     String? description,
     int? numberOfStudents,
     int? typeFlag,
-    List<String>? proposal,
+    List<Proposal>? proposals,
     int? countProposals,
     int? countMessages,
     int? countHired,
@@ -68,7 +69,7 @@ class Project {
       description: description ?? this.description,
       numberOfStudents: numberOfStudents ?? this.numberOfStudents,
       typeFlag: typeFlag ?? this.typeFlag,
-      proposal: proposal ?? this.proposal,
+      proposals: proposals ?? this.proposals,
       countProposals: countProposals ?? this.countProposals,
       countMessages: countMessages ?? this.countMessages,
       countHired: countHired ?? this.countHired,
@@ -109,8 +110,8 @@ class Project {
     if (typeFlag != null) {
       data['typeFlag'] = typeFlag;
     }
-    if (proposal != null) {
-      data['proposal'] = proposal;
+    if (proposals != null) {
+      data['proposals'] = proposals;
     }
     if (countProposals != null) {
       data['countProposals'] = countProposals;
@@ -140,7 +141,7 @@ class Project {
       description: map['description'] != null ? map['description'] as String : null,
       numberOfStudents: map['numberOfStudents'] != null ? map['numberOfStudents'] as int : null,
       typeFlag: map['typeFlag'] != null ? map['typeFlag'] as int : null,
-      proposal: map['proposal'] != null ? List<String>.from((map['proposal'] as List<String>)) : null,
+      proposals: map['proposals'] != null ? List<Proposal>.from(map['proposals'].map((x) => Proposal.fromMap(x))) : null,
       countProposals: map['countProposals'] != null ? map['countProposals'] as int : null,
       countMessages: map['countMessages'] != null ? map['countMessages'] as int : null,
       countHired: map['countHired'] != null ? map['countHired'] as int : null,
@@ -155,7 +156,7 @@ class Project {
 
   @override
   String toString() {
-    return 'Project(id: $id, companyId: $companyId, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, projectScopeFlag: $projectScopeFlag, title: $title, description: $description, numberOfStudents: $numberOfStudents, typeFlag: $typeFlag, proposal: $proposal, countProposals: $countProposals, countMessages: $countMessages, countHired: $countHired, isFavorite: $isFavorite)';
+    return 'Project(id: $id, companyId: $companyId, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, projectScopeFlag: $projectScopeFlag, title: $title, description: $description, numberOfStudents: $numberOfStudents, typeFlag: $typeFlag, proposals: $proposals, countProposals: $countProposals, countMessages: $countMessages, countHired: $countHired, isFavorite: $isFavorite)';
   }
 
   @override
@@ -172,7 +173,7 @@ class Project {
         other.description == description &&
         other.numberOfStudents == numberOfStudents &&
         other.typeFlag == typeFlag &&
-        listEquals(other.proposal, proposal) &&
+        listEquals(other.proposals, proposals) &&
         other.countProposals == countProposals &&
         other.countMessages == countMessages &&
         other.countHired == countHired &&
@@ -191,7 +192,7 @@ class Project {
         description.hashCode ^
         numberOfStudents.hashCode ^
         typeFlag.hashCode ^
-        proposal.hashCode ^
+        proposals.hashCode ^
         countProposals.hashCode ^
         countMessages.hashCode ^
         countHired.hashCode ^

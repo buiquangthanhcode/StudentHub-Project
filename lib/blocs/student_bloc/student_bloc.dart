@@ -9,9 +9,11 @@ import 'package:studenthub/data/dto/reponse.dart';
 import 'package:studenthub/data/dto/student/request_post_resume.dart';
 import 'package:studenthub/data/dto/student/request_update_education.dart';
 import 'package:studenthub/data/dto/student/request_update_language.dart';
+import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/models/student/student_create_profile/resume_model.dart';
 import 'package:studenthub/models/student/student_model.dart';
 import 'package:studenthub/services/student/student.dart';
+import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/utils/logger.dart';
 
 class StudentBloc extends Bloc<StudentEvent, StudentState> {
@@ -388,11 +390,13 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     try {
       EasyLoading.show(status: 'loading');
       final response = await studentService.getAllProjectProposal(event);
+      List<ProjectProposal> data = response.data ?? [];
       if (response.statusCode! <= 201) {
+        sortProjectsByCreatedAt(data);
         if (event.statusFlag != null && event.statusFlag == "0") {
-          emit(state.update(submitProjectProposals: response.data ?? []));
+          emit(state.update(submitProjectProposals: data));
         } else {
-          emit(state.update(activeProjectProposals: response.data ?? []));
+          emit(state.update(activeProjectProposals: data));
         }
         event.onSuccess!();
         EasyLoading.dismiss();

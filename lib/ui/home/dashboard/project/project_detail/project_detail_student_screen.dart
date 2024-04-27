@@ -1,33 +1,38 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_bloc.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_event.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_state.dart';
-import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
-import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/constants/colors.dart';
-import 'package:studenthub/utils/helper.dart';
-import 'package:studenthub/utils/logger.dart';
+import 'package:studenthub/models/common/project_model.dart';
+import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
 
-class ProjectGeneralDetailScreen extends StatefulWidget {
-  const ProjectGeneralDetailScreen({super.key, required this.id, required this.isFavorite, this.isHiddenAppbar});
+class ProjectDetailStudentView extends StatefulWidget {
+  const ProjectDetailStudentView({
+    super.key,
+    this.isFavorite,
+    this.isHiddenAppbar,
+    this.item,
+    this.projectProposal,
+  });
 
-  final String id;
-  final String isFavorite;
+  final String? isFavorite;
   final bool? isHiddenAppbar;
+  final Project? item;
+  final ProjectProposal? projectProposal;
 
   @override
-  State<ProjectGeneralDetailScreen> createState() => _ProjectDetailScreenState();
+  State<ProjectDetailStudentView> createState() => _ProjectDetailStudentViewState();
 }
 
-class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
-  bool? isSaved;
-
+class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
+  Map<int, String> time = {0: 'Less than 1 month', 1: '1 - 3 months', 2: '3 - 6 months', 3: 'More than 6 months'};
   @override
   void initState() {
     super.initState();
@@ -35,12 +40,12 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
       isSaved = widget.isFavorite == 'true';
     }
     context.read<GeneralProjectBloc>().add(
-          GetProjectDetail(id: widget.id),
+          GetProjectDetail(id: widget.item?.id.toString() ?? widget.projectProposal!.project?.id.toString() ?? ''),
         );
   }
 
-  Map<int, String> time = {0: 'Less than 1 month', 1: '1 - 3 months', 2: '3 - 6 months', 3: 'More than 6 months'};
-
+  bool? isSaved;
+  // @override
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
@@ -48,10 +53,6 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
 
     return BlocBuilder<GeneralProjectBloc, GeneralProjectState>(
       builder: (BuildContext context, GeneralProjectState state) {
-        bool isSubmitProposal = checkIsSubmitProposal(
-            state.projectDetail.proposals ?? [], context.read<AuthBloc>().state.userModel.student!.id!.toInt());
-
-        logger.d(isSubmitProposal);
         return Scaffold(
           appBar: widget.isHiddenAppbar ?? false
               ? null
@@ -76,13 +77,17 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                                   ? context.read<GeneralProjectBloc>().add(
                                         AddFavoriteProject(
                                           studentId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
-                                          projectId: widget.id,
+                                          projectId: widget.item?.id.toString() ??
+                                              widget.projectProposal!.project?.id.toString() ??
+                                              '',
                                         ),
                                       )
                                   : context.read<GeneralProjectBloc>().add(
                                         RemoveFavoriteProject(
                                           studentId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
-                                          projectId: widget.id,
+                                          projectId: widget.item?.id.toString() ??
+                                              widget.projectProposal!.project?.id.toString() ??
+                                              '',
                                         ),
                                       );
                               // logger.d('IS FAVORITE $isSaved');
@@ -227,21 +232,16 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                 // const SizedBox(height: 24),
                 const Spacer(),
                 authSate.currentRole == UserRole.student
-                    ? Opacity(
-                        opacity: !isSubmitProposal ? 1 : 0.5,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(double.infinity, 56),
-                          ),
-                          onPressed: () {
-                            if (!isSubmitProposal) {
-                              context.push('/home/project_general_detail/submit_proposal', extra: state.projectDetail);
-                            }
-                          },
-                          child: Text(
-                            'Apply Now',
-                            style: textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
-                          ),
+                    ? ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 56),
+                        ),
+                        onPressed: () {
+                          context.push('/home/chat_detail');
+                        },
+                        child: Text(
+                          'Messages',
+                          style: textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
                         ),
                       )
                     : const SizedBox(),

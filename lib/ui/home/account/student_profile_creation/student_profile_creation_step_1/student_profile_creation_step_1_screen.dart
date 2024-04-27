@@ -207,8 +207,8 @@ class _StudentProfileCreationStep01State
                         Builder(builder: (context) {
                           if (state.student.skillSets?.isNotEmpty ?? false) {
                             return Wrap(
-                              spacing: 6.0,
-                              runSpacing: 6.0,
+                              spacing: 2.0,
+                              runSpacing: 2.0,
                               direction: Axis.horizontal,
                               children: state.student.skillSets!
                                   .map((item) => SkillSetItem(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/colors.dart';
@@ -51,21 +52,18 @@ class _SubmitProposalState extends State<SubmitProposalScreen> {
                 const SizedBox(height: 10),
                 Text(
                   'Cover letter',
-                  style: theme.textTheme.bodyMedium!
-                      .copyWith(fontSize: 20, fontWeight: FontWeight.w600),
+                  style: theme.textTheme.bodyMedium!.copyWith(fontSize: 20, fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   'Desribe why do you fit to the project',
-                  style: theme.textTheme.bodyMedium!
-                      .copyWith(fontWeight: FontWeight.w400),
+                  style: theme.textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w400),
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
                   controller: _controllerCoverLetter,
                   autofocus: true,
-                  minLines:
-                      6, // any number you need (It works as the rows for the textarea)
+                  minLines: 6, // any number you need (It works as the rows for the textarea)
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
                 ),
@@ -80,15 +78,13 @@ class _SubmitProposalState extends State<SubmitProposalScreen> {
                           minimumSize: const Size(double.infinity, 56),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
-                            side: const BorderSide(
-                                color: primaryColor, width: 2.0),
+                            side: const BorderSide(color: primaryColor, width: 2.0),
                           ),
                         ),
                         onPressed: () {},
                         child: Text(
                           'Cancel',
-                          style: theme.textTheme.bodyMedium!.copyWith(
-                              color: primaryColor, fontWeight: FontWeight.w600),
+                          style: theme.textTheme.bodyMedium!.copyWith(color: primaryColor, fontWeight: FontWeight.w600),
                         ),
                       ),
                     ),
@@ -114,15 +110,29 @@ class _SubmitProposalState extends State<SubmitProposalScreen> {
                               requestProposal: requestProposal,
                               onSuccess: () {
                                 SnackBarService.showSnackBar(
-                                    content: 'Submit successfully',
-                                    status: StatusSnackBar.success);
-                                Navigator.pop(context);
+                                    content: 'Submit successfully', status: StatusSnackBar.success);
+                                context.read<StudentBloc>().add(
+                                      GetAllProjectProposal(
+                                        userId: student.student.id ?? 0,
+                                        statusFlag: "1",
+                                        onSuccess: () {},
+                                      ),
+                                    );
+                                context.read<StudentBloc>().add(
+                                      GetAllProjectProposal(
+                                        userId: student.student.id ?? 0,
+                                        statusFlag: "0",
+                                        onSuccess: () {},
+                                      ),
+                                    );
+                                context.push(
+                                  '/home',
+                                );
                               }));
                         },
                         child: Text(
                           'Submit Proposal',
-                          style: theme.textTheme.bodyMedium!.copyWith(
-                              color: Colors.white, fontWeight: FontWeight.w600),
+                          style: theme.textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
                         ),
                       ),
                     ),

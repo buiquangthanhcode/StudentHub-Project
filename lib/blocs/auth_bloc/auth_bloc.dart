@@ -132,8 +132,9 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
       }
       EasyLoading.dismiss();
     } catch (e) {
-      logger.e("Unexpect error-> $e");
-      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
+      final exception = e as ResponseAPI;
+      final data = exception.data as DataResponse;
+      SnackBarService.showSnackBar(content: handleFormatMessage(data.errorDetails), status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();
     }

@@ -5,7 +5,7 @@ import 'package:studenthub/blocs/general_project_bloc/general_project_state.dart
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/ui/home/dashboard/data/data_count.dart';
-import 'package:studenthub/ui/home/dashboard/project_review/widget/project_proposal_item.dart';
+import 'package:studenthub/ui/home/dashboard/project/widget/project_proposal_item.dart';
 
 class ProjectDetailHiredScreen extends StatefulWidget {
   const ProjectDetailHiredScreen({super.key, this.item, this.projectProposal});
