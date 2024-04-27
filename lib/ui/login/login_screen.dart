@@ -11,6 +11,7 @@ import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/data/dto/authen/request_login.dart';
 import 'package:studenthub/utils/logger.dart';
+import 'package:studenthub/widgets/bulletWidget.dart';
 import 'package:studenthub/widgets/customCheckboxWidget.dart';
 import '../../core/text_field_custom.dart';
 
@@ -23,6 +24,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKeyLogin = GlobalKey<FormBuilderState>();
+  final _formForgotPassword = GlobalKey<FormBuilderState>();
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +120,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(top: 10), // Replace 10 with your desired margin value
+                margin: const EdgeInsets.only(
+                    top: 10), // Replace 10 with your desired margin value
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Row(children: [
@@ -129,7 +132,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: const CustomCheckBox(),
                         ),
                         // Container(margin: EdgeInsets.only(left: 10), child: const GradientCheckBox(),),),
-                        const SizedBox(width: 10), // Replace 10 with your desired width
+                        const SizedBox(
+                            width: 10), // Replace 10 with your desired width
                         Text(
                           'Remember me',
                           style: theme.textTheme.bodySmall!.copyWith(
@@ -140,11 +144,152 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                     const Spacer(),
-                    Text(
-                      'Forgot Password?',
-                      style: theme.textTheme.bodySmall!.copyWith(
-                        color: primaryColor,
-                        fontWeight: FontWeight.w600,
+                    InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (context) {
+                            return Container(
+                              padding: const EdgeInsets.all(12.0),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20))),
+                              height: MediaQuery.of(context).size.height * 0.85,
+                              child: FormBuilder(
+                                key: _formForgotPassword,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  // decoration:
+                                  //     BoxDecoration(color: Colors.red),
+                                  child: Column(
+                                    children: [
+                                      const SizedBox(height: 10),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Reset Password',
+                                            style: theme.textTheme.bodyMedium
+                                                ?.copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 24,
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                                color: theme.colorScheme.grey
+                                                    ?.withOpacity(0.4),
+                                                borderRadius:
+                                                    BorderRadius.circular(50)),
+                                            padding: const EdgeInsets.all(3),
+                                            child: InkWell(
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Icon(
+                                                Icons.close,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 24),
+                                      const Text(
+                                          'Your password will be automatically reset by the system. Please check your email to receive the new password.'),
+                                      const SizedBox(height: 24),
+                                      const TextFieldFormCustom(
+                                          fillColor: Colors.white,
+                                          name: 'old_password',
+                                          hintText: 'Current Password',
+                                          isPasswordText: true,
+                                          obscureText: true,
+                                          maxLines: null,
+                                          keyboardType: TextInputType.multiline,
+                                          icon: Icon(
+                                            Icons.lock,
+                                            color: Colors.grey,
+                                          )),
+                                      const SizedBox(height: 10),
+                                      const TextFieldFormCustom(
+                                          fillColor: Colors.white,
+                                          name: 'new_password',
+                                          hintText: 'New Password',
+                                          isPasswordText: true,
+                                          obscureText: true,
+                                          maxLines: null,
+                                          keyboardType: TextInputType.multiline,
+                                          icon: Icon(
+                                            Icons.lock,
+                                            color: Colors.grey,
+                                          )),
+                                      const SizedBox(height: 10),
+                                      const TextFieldFormCustom(
+                                          fillColor: Colors.white,
+                                          name: 'confirm_password',
+                                          hintText: 'Confirm Password',
+                                          isPasswordText: true,
+                                          obscureText: true,
+                                          maxLines: null,
+                                          keyboardType: TextInputType.multiline,
+                                          icon: Icon(
+                                            Icons.lock,
+                                            color: Colors.grey,
+                                          )),
+                                      const SizedBox(height: 36),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const Text(
+                                              'Password should not use on any other site.'),
+                                          BulletList(const [
+                                            'The password must have at least 8 characters.',
+                                            'The password must contain at least 1 special character, such as &, %, TM, or E.',
+                                            'The password must contain at least 3 different kinds of characters, such as uppercase letters, lowercase letter, numeric digits, and punctuation marks.',
+                                          ])
+                                        ],
+                                      ),
+                                      const Spacer(),
+                                      ElevatedButton(
+                                        onPressed: () {},
+                                        style: ElevatedButton.styleFrom(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical:
+                                                    16), // Adjust padding as needed
+                                            minimumSize: const Size(
+                                                double.infinity,
+                                                48) // Set minimum button size
+                                            ),
+                                        child: Text(
+                                          'Change Password',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!
+                                              .copyWith(
+                                                color: Colors.white,
+                                              ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 24),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: Text(
+                        'Forgot Password?',
+                        style: theme.textTheme.bodySmall!.copyWith(
+                          color: primaryColor,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ]),
@@ -160,15 +305,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   onPressed: () {
                     // validate form
-                    if (_formKeyLogin.currentState?.saveAndValidate() ?? false) {
+                    if (_formKeyLogin.currentState?.saveAndValidate() ??
+                        false) {
                       context.read<AuthBloc>().add(
                             LoginEvent(
                               requestLogin: RequestLogin(
-                                email: _formKeyLogin.currentState!.fields['username']!.value.toString(),
-                                password: _formKeyLogin.currentState!.fields['password']!.value.toString(),
+                                email: _formKeyLogin
+                                    .currentState!.fields['username']!.value
+                                    .toString(),
+                                password: _formKeyLogin
+                                    .currentState!.fields['password']!.value
+                                    .toString(),
                               ),
                               onSuccess: () {
-                                context.pushNamed('home', queryParameters: {'welcome': 'true'});
+                                context.pushNamed('home',
+                                    queryParameters: {'welcome': 'true'});
                               },
                               currentContext: context,
                             ),
@@ -177,7 +328,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   child: Text(
                     'Login',
-                    style: theme.textTheme.bodyMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                        color: Colors.white, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
@@ -191,8 +343,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text("OR",
-                        style: theme.textTheme.bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.w600, fontSize: 14, color: theme.colorScheme.grey))),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                            color: theme.colorScheme.grey))),
                 Expanded(
                   child: Divider(
                     color: theme.colorScheme.grey, // Set the color to grey
@@ -245,7 +399,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: <TextSpan>[
                       TextSpan(
                         text: 'Sign Up',
-                        style: const TextStyle(fontWeight: FontWeight.bold, color: primaryColor),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, color: primaryColor),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             context.pushNamed('signup_01');
