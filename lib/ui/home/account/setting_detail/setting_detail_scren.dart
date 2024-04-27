@@ -84,10 +84,10 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                           builder: (context) {
                             return Container(
                               padding: const EdgeInsets.all(12.0),
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                   color: Colors.white,
-                                  borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                                  borderRadius:
+                                      BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
                               height: MediaQuery.of(context).size.height * 0.85,
                               child: FormBuilder(
                                 key: _formChangePassWord,

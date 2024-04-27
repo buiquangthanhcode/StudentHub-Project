@@ -12,18 +12,18 @@ import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
 
-class ProjectDetailScreen extends StatefulWidget {
-  const ProjectDetailScreen({super.key, required this.id, required this.isFavorite, this.isHiddenAppbar});
+class ProjectGeneralDetailScreen extends StatefulWidget {
+  const ProjectGeneralDetailScreen({super.key, required this.id, required this.isFavorite, this.isHiddenAppbar});
 
   final String id;
   final String isFavorite;
   final bool? isHiddenAppbar;
 
   @override
-  State<ProjectDetailScreen> createState() => _ProjectDetailScreenState();
+  State<ProjectGeneralDetailScreen> createState() => _ProjectDetailScreenState();
 }
 
-class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
+class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
   bool? isSaved;
 
   @override
@@ -69,25 +69,13 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                               isSaved!
                                   ? context.read<GeneralProjectBloc>().add(
                                         AddFavoriteProject(
-                                          studentId: context
-                                              .read<AuthBloc>()
-                                              .state
-                                              .userModel
-                                              .student!
-                                              .id
-                                              .toString(),
+                                          studentId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
                                           projectId: widget.id,
                                         ),
                                       )
                                   : context.read<GeneralProjectBloc>().add(
                                         RemoveFavoriteProject(
-                                          studentId: context
-                                              .read<AuthBloc>()
-                                              .state
-                                              .userModel
-                                              .student!
-                                              .id
-                                              .toString(),
+                                          studentId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
                                           projectId: widget.id,
                                         ),
                                       );
@@ -99,9 +87,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                             });
                           },
                           child: FaIcon(
-                            isSaved!
-                                ? FontAwesomeIcons.solidHeart
-                                : FontAwesomeIcons.heart,
+                            isSaved! ? FontAwesomeIcons.solidHeart : FontAwesomeIcons.heart,
                             color: primaryColor,
                           ),
                         ),
@@ -240,7 +226,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                           minimumSize: const Size(double.infinity, 56),
                         ),
                         onPressed: () {
-                          context.push('/home/project_detail/submit_proposal', extra: state.projectDetail);
+                          context.push('/home/project_general_detail/submit_proposal', extra: state.projectDetail);
                         },
                         child: Text(
                           'Apply Now',

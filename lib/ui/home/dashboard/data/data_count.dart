@@ -85,6 +85,29 @@ List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
   ];
 }
 
+List<Map<String, dynamic>> getMoreActionHeaderForStudent(ThemeData theme) {
+  return [
+    {
+      "key": "view_messages",
+      "label": "View Messages",
+      "icon": FaIcon(
+        FontAwesomeIcons.message,
+        size: 18,
+        color: theme.colorScheme.grey!,
+      )
+    },
+    {
+      "key": "view_job_posting",
+      "label": "View Job Posting",
+      "icon": FaIcon(
+        FontAwesomeIcons.eye,
+        size: 18,
+        color: theme.colorScheme.grey!,
+      )
+    },
+  ];
+}
+
 List<Map<String, dynamic>> getProposal() {
   return [
     {

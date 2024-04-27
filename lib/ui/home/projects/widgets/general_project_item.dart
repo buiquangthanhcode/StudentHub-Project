@@ -49,7 +49,7 @@ class _GeneralProjectItemState extends State<GeneralProjectItem> {
 
     return GestureDetector(
       onTap: () {
-        context.pushNamed('project_detail',
+        context.pushNamed('project_general_detail',
             queryParameters: {'id': widget.project.id.toString(), 'isFavorite': widget.project.isFavorite.toString()});
       },
       child: Container(

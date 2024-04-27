@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -138,7 +140,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   const SizedBox(height: 15),
                   Expanded(
                     child: DefaultTabController(
-                        length: 3,
+                        length: state.currentRole == UserRole.company ? 3 : 2,
                         child: Column(
                           children: [
                             TabBar(
@@ -156,11 +158,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 ),
                               ),
 
-                              tabs: const [
-                                Tab(text: 'All projects'),
-                                Tab(text: 'Working'),
-                                Tab(text: 'Archived'),
-                              ],
+                              tabs: state.currentRole == UserRole.company
+                                  ? [
+                                      const Tab(text: 'All projects'),
+                                      const Tab(text: 'Working'),
+                                      const Tab(text: 'Archived'),
+                                    ]
+                                  : [
+                                      const Tab(text: 'All projects'),
+                                      const Tab(text: 'Working'),
+                                    ],
                             ),
                             Expanded(
                               child: Builder(builder: (context) {
@@ -173,13 +180,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     ],
                                   );
                                 } else if (state.currentRole == UserRole.student) {
-                                  return const TabBarView(
-                                    children: [
-                                      ProjectAllTabForStudent(),
-                                      ProjectWorkingTabForStudent(),
-                                      ProjectArchivedTabForStudent(),
-                                    ],
-                                  );
+                                  return TabBarView(
+                                      children: state.currentRole == UserRole.company
+                                          ? [
+                                              const ProjectAllTabForStudent(),
+                                              const ProjectWorkingTabForStudent(),
+                                              const ProjectArchivedTabForStudent(),
+                                            ]
+                                          : [
+                                              const ProjectAllTabForStudent(),
+                                              const ProjectWorkingTabForStudent(),
+                                            ]);
                                 }
                                 return const SizedBox();
                               }),
