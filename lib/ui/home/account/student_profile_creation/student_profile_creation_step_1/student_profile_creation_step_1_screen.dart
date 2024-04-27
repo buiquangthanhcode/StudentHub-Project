@@ -33,10 +33,12 @@ class StudentProfileCreationStep01Screen extends StatefulWidget {
   const StudentProfileCreationStep01Screen({super.key});
 
   @override
-  State<StudentProfileCreationStep01Screen> createState() => _StudentProfileCreationStep01State();
+  State<StudentProfileCreationStep01Screen> createState() =>
+      _StudentProfileCreationStep01State();
 }
 
-class _StudentProfileCreationStep01State extends State<StudentProfileCreationStep01Screen> {
+class _StudentProfileCreationStep01State
+    extends State<StudentProfileCreationStep01Screen> {
   String? selectedValue;
   late TextEditingController textEditingController;
   late UserModel user;
@@ -47,59 +49,73 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
   void initState() {
     super.initState();
     user = BlocProvider.of<AuthBloc>(context).state.userModel;
-    context.read<GlobalBloc>().add(GetAllTeckStackEventMetadata(onSuccess: (value) {
+    context
+        .read<GlobalBloc>()
+        .add(GetAllTeckStackEventMetadata(onSuccess: (value) {
       setState(() {
         dataSourceTechStack = value;
       });
     }));
-    context.read<GlobalBloc>().add(GetAllSkillSetEventMetadata(onSuccess: (value) {
+    context
+        .read<GlobalBloc>()
+        .add(GetAllSkillSetEventMetadata(onSuccess: (value) {
       setState(() {
         dataSourceSkillSets = value;
       });
     }));
 
-    context.read<StudentBloc>().add(GetAllLanguageEvent(onSuccess: () {}, userId: user.student?.id ?? -1));
-    context.read<StudentBloc>().add(GetAllEducationEvent(onSuccess: () {}, id: user.student?.id ?? -1));
-    context
-        .read<AuthBloc>()
-        .add(GetInformationEvent(onSuccess: () {}, accessToken: user.token ?? '', currentContext: context));
+    context.read<StudentBloc>().add(
+        GetAllLanguageEvent(onSuccess: () {}, userId: user.student?.id ?? -1));
+    context.read<StudentBloc>().add(
+        GetAllEducationEvent(onSuccess: () {}, id: user.student?.id ?? -1));
+    context.read<AuthBloc>().add(GetInformationEvent(
+        onSuccess: () {},
+        accessToken: user.token ?? '',
+        currentContext: context));
   }
 
   void _handleChangeTechStack(value) {
     final currentUser = BlocProvider.of<AuthBloc>(context).state.userModel;
     if (currentUser.student == null) {
-      RequestUpdateProfileStudent profileStudent = RequestUpdateProfileStudent(techStackId: value?.id ?? -1);
+      RequestUpdateProfileStudent profileStudent =
+          RequestUpdateProfileStudent(techStackId: value?.id ?? -1);
       context.read<StudentBloc>().add(PostProfileStudent(
           profileStudent: profileStudent,
           onSuccess: (userModel) {
-            context
-                .read<AuthBloc>()
-                .add(GetInformationEvent(onSuccess: () {}, accessToken: user.token ?? '', currentContext: context));
+            context.read<AuthBloc>().add(GetInformationEvent(
+                onSuccess: () {},
+                accessToken: user.token ?? '',
+                currentContext: context));
           }));
     } else {
-      RequestUpdateProfileStudent profileStudent =
-          RequestUpdateProfileStudent(techStackId: value?.id ?? -1, userId: currentUser.student?.id ?? -1);
+      RequestUpdateProfileStudent profileStudent = RequestUpdateProfileStudent(
+          techStackId: value?.id ?? -1, userId: currentUser.student?.id ?? -1);
       context.read<StudentBloc>().add(UpdateProfileStudent(
           profileStudent: profileStudent,
           onSuccess: (userModel) {
-            context
-                .read<AuthBloc>()
-                .add(GetInformationEvent(onSuccess: () {}, accessToken: user.token ?? '', currentContext: context));
+            context.read<AuthBloc>().add(GetInformationEvent(
+                onSuccess: () {},
+                accessToken: user.token ?? '',
+                currentContext: context));
           }));
     }
-    context
-        .read<AuthBloc>()
-        .add(GetInformationEvent(onSuccess: () {}, accessToken: user.token ?? '', currentContext: context));
+    context.read<AuthBloc>().add(GetInformationEvent(
+        onSuccess: () {},
+        accessToken: user.token ?? '',
+        currentContext: context));
   }
 
   void _handleSelectedSkillSet(value) {
-    List<SkillSet> data = List<SkillSet>.from(context.read<StudentBloc>().state.student.skillSets ?? []);
+    List<SkillSet> data = List<SkillSet>.from(
+        context.read<StudentBloc>().state.student.skillSets ?? []);
     data.add(getSkillSetByName(value, dataSourceSkillSets));
     int userId = BlocProvider.of<StudentBloc>(context).state.student.id ?? -1;
-    RequestUpdateProfileStudent profileStudent =
-        RequestUpdateProfileStudent(skillSets: data.map((e) => e.id.toString()).toList(), userId: userId ?? -1);
+    RequestUpdateProfileStudent profileStudent = RequestUpdateProfileStudent(
+        skillSets: data.map((e) => e.id.toString()).toList(),
+        userId: userId ?? -1);
     context.read<StudentBloc>().add(
-          UpdateProfileStudent(profileStudent: profileStudent, onSuccess: (userModel) {}),
+          UpdateProfileStudent(
+              profileStudent: profileStudent, onSuccess: (userModel) {}),
         );
   }
 
@@ -123,7 +139,8 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
           onPressed: () {
             if (authSate.isAnonymus()) {
               SnackBarService.showSnackBar(
-                  content: "Please update your pView Proposalsrofile", status: StatusSnackBar.info);
+                  content: "Please update your pView Proposalsrofile",
+                  status: StatusSnackBar.info);
             } else {
               context.pushNamed('student_create_profile_step_02');
             }
@@ -181,17 +198,17 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
                         )),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    // const SizedBox(
+                    //   height: 10,
+                    // ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Builder(builder: (context) {
                           if (state.student.skillSets?.isNotEmpty ?? false) {
                             return Wrap(
-                              spacing: 6.0,
-                              runSpacing: 6.0,
+                              spacing: 2.0,
+                              runSpacing: 2.0,
                               direction: Axis.horizontal,
                               children: state.student.skillSets!
                                   .map((item) => SkillSetItem(
@@ -205,7 +222,9 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
                         }),
                         const SizedBox(height: 10),
                         AutoCompleteWidget(
-                          data: dataSourceSkillSets.map((e) => e.name ?? '').toList(),
+                          data: dataSourceSkillSets
+                              .map((e) => e.name ?? '')
+                              .toList(),
                           onSelected: (value) {
                             _handleSelectedSkillSet(value);
                           },
@@ -227,12 +246,15 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
                                   margin: const EdgeInsets.only(right: 10),
                                   padding: const EdgeInsets.all(5),
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: theme.colorScheme.grey!),
+                                    border: Border.all(
+                                        color: theme.colorScheme.grey!),
                                     shape: BoxShape.circle,
                                   ),
                                   child: InkWell(
                                     onTap: () {
-                                      showModalBottomSheetCustom(context, widgetBuilder: const CreateLanguageWidget());
+                                      showModalBottomSheetCustom(context,
+                                          widgetBuilder:
+                                              const CreateLanguageWidget());
                                     },
                                     child: FaIcon(
                                       FontAwesomeIcons.plus,
@@ -267,7 +289,8 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
                                           height: 10,
                                         );
                                       },
-                                      itemCount: state.student.languages!.length);
+                                      itemCount:
+                                          state.student.languages!.length);
                                 }
                                 return const SizedBox();
                               },
@@ -291,19 +314,22 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
                                   margin: const EdgeInsets.only(right: 10),
                                   padding: const EdgeInsets.all(5),
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: theme.colorScheme.grey!),
+                                    border: Border.all(
+                                        color: theme.colorScheme.grey!),
                                     shape: BoxShape.circle,
                                   ),
                                   child: InkWell(
                                     onTap: () {
                                       showModalBottomSheetCustom(
                                         context,
-                                        widgetBuilder: const CreateEducationWidget(),
+                                        widgetBuilder:
+                                            const CreateEducationWidget(),
                                         headerBuilder: Row(
                                           children: [
                                             Text(
                                               "Create Education",
-                                              style: theme.textTheme.bodyMedium?.copyWith(
+                                              style: theme.textTheme.bodyMedium
+                                                  ?.copyWith(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 20,
                                               ),
@@ -311,8 +337,11 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
                                             const Spacer(),
                                             Container(
                                               decoration: BoxDecoration(
-                                                  color: theme.colorScheme.grey!.withOpacity(0.4),
-                                                  borderRadius: BorderRadius.circular(50)),
+                                                  color: theme.colorScheme.grey!
+                                                      .withOpacity(0.4),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          50)),
                                               padding: const EdgeInsets.all(3),
                                               child: InkWell(
                                                 onTap: () {
@@ -347,13 +376,15 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
                                     widthImage: 150,
                                   );
                                 }
-                                if (state.student.educations?.isNotEmpty ?? false) {
+                                if (state.student.educations?.isNotEmpty ??
+                                    false) {
                                   return ListView.separated(
                                       shrinkWrap: true,
                                       itemBuilder: (context, index) {
                                         return EducationItem(
                                           theme: theme,
-                                          item: state.student.educations![index],
+                                          item:
+                                              state.student.educations![index],
                                         );
                                       },
                                       separatorBuilder: (context, index) {
@@ -361,7 +392,8 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
                                           height: 10,
                                         );
                                       },
-                                      itemCount: state.student.educations!.length);
+                                      itemCount:
+                                          state.student.educations!.length);
                                 }
                                 return const SizedBox();
                               },

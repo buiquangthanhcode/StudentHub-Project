@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
-import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/more_action_widget.dart';
@@ -23,10 +25,17 @@ class ProjectItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthenState authState = context.read<AuthBloc>().state;
+
     return InkWell(
       onTap: () {
-        context.push('/company_review',
-            extra: {'item': item, 'projectProposal': projectProposal} as Map<String, dynamic>);
+        if (authState.currentRole == UserRole.company) {
+          context.push('/project_company_detail',
+              extra: {'item': item, 'projectProposal': projectProposal} as Map<String, dynamic>);
+        } else {
+          context.push('/project_student_detail',
+              extra: {'item': item, 'projectProposal': projectProposal} as Map<String, dynamic>);
+        }
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -42,32 +51,64 @@ class ProjectItem extends StatelessWidget {
                 const Spacer(),
                 GestureDetector(
                   onTap: () {
-                    showModalBottomSheetCustom(context,
-                        headerBuilder: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: theme.colorScheme.grey!.withOpacity(0.4),
-                                  borderRadius: BorderRadius.circular(50)),
-                              padding: const EdgeInsets.all(3),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Icon(
-                                  Icons.close,
-                                  size: 20,
-                                  color: theme.colorScheme.grey,
-                                ),
-                              ),
+                    showModalBottomSheet(
+                      context: context,
+                      backgroundColor: Colors.transparent,
+                      builder: (context) {
+                        return Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          height: authState.currentRole == UserRole.company
+                              ? MediaQuery.of(context).size.height * 0.6
+                              : MediaQuery.of(context).size.height * 0.2,
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.background,
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(30),
                             ),
-                          ],
-                        ),
-                        widgetBuilder: MoreActionWidget(
-                          project: item ?? Project(),
-                          // projectId: item.id!,
-                        ));
+                            border: Border.all(
+                              color: theme.colorScheme.grey!.withOpacity(0.2),
+                              width: 2,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: theme.colorScheme.grey!.withOpacity(0.2),
+                                blurRadius: 10,
+                                spreadRadius: 5,
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        color: theme.colorScheme.grey!.withOpacity(0.4),
+                                        borderRadius: BorderRadius.circular(50)),
+                                    padding: const EdgeInsets.all(3),
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Icon(
+                                        Icons.close,
+                                        size: 20,
+                                        color: theme.colorScheme.grey,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              MoreActionWidget(
+                                project: item ?? projectProposal?.project ?? Project(),
+                                // projectId: item.id!,
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
                   },
                   child: Container(
                     padding: const EdgeInsets.all(5),

@@ -9,10 +9,11 @@ import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit
 import 'package:studenthub/ui/home/account/company_profile_creation/welcome_screen.dart';
 import 'package:studenthub/ui/home/account/account_screen.dart';
 import 'package:studenthub/ui/home/account/setting_detail/setting_detail_scren.dart';
-import 'package:studenthub/ui/home/dashboard/project_review/project_review_detail_screen.dart';
+import 'package:studenthub/ui/home/dashboard/project/project_detail/project_detail_company_screen.dart';
+import 'package:studenthub/ui/home/dashboard/project/project_detail/project_detail_student_screen.dart';
 import 'package:studenthub/ui/home/home_screen.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/chat_detail_screen.dart';
-import 'package:studenthub/ui/home/projects/project_detail/project_detail_screen.dart';
+import 'package:studenthub/ui/home/projects/project_general_detail/project_general_detail_screen.dart';
 import 'package:studenthub/ui/home/projects/submit_proposal/submit_proposal_sceen.dart';
 import 'package:studenthub/ui/login/login_screen.dart';
 import 'package:studenthub/ui/home/dashboard/post_a_project/step_1/project_post_step01_screen.dart';
@@ -80,12 +81,12 @@ final GoRouter router = GoRouter(
           },
         ),
         GoRoute(
-            path: 'project_detail',
-            name: 'project_detail',
+            path: 'project_general_detail',
+            name: 'project_general_detail',
             pageBuilder: (context, state) {
               return customTransitionPage(
                   state.pageKey,
-                  ProjectDetailScreen(
+                  ProjectGeneralDetailScreen(
                     id: state.uri.queryParameters["id"]!,
                     isFavorite: state.uri.queryParameters["isFavorite"]!,
                   ));
@@ -255,13 +256,23 @@ final GoRouter router = GoRouter(
       },
     ),
     GoRoute(
-      path: '/company_review',
+      path: '/project_company_detail',
       builder: (BuildContext context, GoRouterState state) {
         final data = state.extra as Map<String, dynamic>;
-        return ProjectReviewDetailScreen(
+        return ProjectDetailCompanyView(
           item: data['item'],
           projectProposal: data['projectProposal'],
           initTab: int.parse(data['initTab'] ?? '0'),
+        );
+      },
+    ),
+    GoRoute(
+      path: '/project_student_detail',
+      builder: (BuildContext context, GoRouterState state) {
+        final data = state.extra as Map<String, dynamic>;
+        return ProjectDetailStudentView(
+          item: data['item'],
+          projectProposal: data['projectProposal'],
         );
       },
     ),

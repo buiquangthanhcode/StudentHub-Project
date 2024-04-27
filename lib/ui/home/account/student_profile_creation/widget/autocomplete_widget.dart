@@ -62,19 +62,21 @@ class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
           displayStringForOption: (option) {
             return option;
           },
-          fieldViewBuilder: (context, fieldTextEditingController, focusNode, onFieldSubmitted) {
+          fieldViewBuilder: (context, fieldTextEditingController, focusNode,
+              onFieldSubmitted) {
             textEditingController = fieldTextEditingController;
             return TextFormField(
               controller: fieldTextEditingController,
               focusNode: focusNode,
               style: TextStyle(
-                color: Colors.grey[400],
+                color: Colors.grey[900],
                 fontSize: 16,
               ),
               scrollPadding: const EdgeInsets.all(0),
               decoration: const InputDecoration(
                 // contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 isDense: true,
                 hintText: 'Enter your skill',
                 hintStyle: TextStyle(
@@ -89,7 +91,9 @@ class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
               return const Iterable<String>.empty();
             }
             return widget.data.where((String option) {
-              return option.toLowerCase().contains(skillsetTextEditController.text);
+              return option
+                  .toLowerCase()
+                  .contains(skillsetTextEditController.text);
             });
           },
           onSelected: (String value) {

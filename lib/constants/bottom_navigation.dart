@@ -12,7 +12,7 @@ const bottomNavs = [
   {
     'solid-icon': 'lib/assets/nav_icons/solid/messages.svg',
     'regular-icon': 'lib/assets/nav_icons/regular/messages.svg',
-    'title': 'Message',
+    'title': 'Messages',
   },
   {
     'solid-icon': 'lib/assets/nav_icons/solid/bell.svg',

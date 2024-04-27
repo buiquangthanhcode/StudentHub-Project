@@ -44,6 +44,17 @@ class MoreActionChatDetail extends StatelessWidget {
                   callBack!(value);
                 },
               ));
+            } else if (data[index]['key'] == 're-schedule') {
+              Navigator.pop(context);
+              showModalBottomSheetCustom(
+                context,
+                height: 1,
+                widgetBuilder: ScheduleWidget(
+                  onSave: (value) {
+                    callBack!(value);
+                  },
+                ),
+              );
             }
           },
           child: Container(

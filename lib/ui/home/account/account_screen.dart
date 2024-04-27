@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -134,16 +133,20 @@ class _AccountState extends State<AccountScreen> {
                         children: [
                           GestureDetector(
                             onTap: () {
+                              final subtitle_msg = state.currentRole == UserRole.student
+                                  ? 'Start searching and implementing real-world projects right now!'
+                                  : 'Start finding and hiring young talented students!';
                               showDialogCustom(context,
                                   image: 'lib/assets/images/change_account.png',
-                                  title: 'Are you sure you want to change account ?',
+                                  title: 'Do you want to change account?',
+                                  subtitle: subtitle_msg,
                                   textButtom: 'Change your account',
                                   sizeImage: 50, onSave: () {
                                 context.read<AuthBloc>().add(UpdateRoleEvents(
                                     role: state.currentRole == UserRole.student ? UserRole.company : UserRole.student));
                                 context.read<StudentBloc>().add(ResetBlocEvent());
                                 SnackBarService.showSnackBar(
-                                    content: 'Change account success', status: StatusSnackBar.success);
+                                    content: 'Change account successfully!', status: StatusSnackBar.success);
                                 Navigator.of(context).pop();
                               });
                             },
@@ -292,6 +295,7 @@ class _AccountState extends State<AccountScreen> {
                       ],
                     ),
                   ),
+                  const SizedBox(height: 8),
                 ],
               ),
             ),

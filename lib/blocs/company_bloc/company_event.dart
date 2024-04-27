@@ -26,8 +26,7 @@ class UpdateAllDataEvent extends CompanyEvent {
   final Company data;
   final int id;
   final Function(Company company)? onSuccess;
-  UpdateAllDataEvent(
-      {required this.id, required this.data, required this.onSuccess});
+  UpdateAllDataEvent({required this.id, required this.data, required this.onSuccess});
 }
 
 class UpdateNewCompanyProfileEvent extends CompanyEvent {
@@ -75,6 +74,7 @@ class RemoveDescriptionEvent extends CompanyEvent {
   RemoveDescriptionEvent({this.onSuccess});
 }
 
+class CreateInterView extends CompanyEvent {}
 // class GetProjectEvent extends CompanyEvent {
 //   final Project newProject;
 //   GetProjectEvent(this.newProject);

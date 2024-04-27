@@ -113,7 +113,7 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
         onSubmitted: widget.onFieldSubmitted,
         style: widget.style ??
             TextStyle(
-              color: Colors.grey[600],
+              color: Colors.grey[900],
               fontSize: 16,
             ),
         decoration: InputDecoration(
@@ -142,9 +142,7 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
                   //       : Icons.visibility_off_rounded,
                   // ),
                   icon: FaIcon(
-                    isHiddenPassword
-                        ? FontAwesomeIcons.eye
-                        : FontAwesomeIcons.eyeSlash,
+                    isHiddenPassword ? FontAwesomeIcons.eye : FontAwesomeIcons.eyeSlash,
                     color: Theme.of(context).colorScheme.grey,
                   ),
                 )
@@ -153,10 +151,8 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
           hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: Theme.of(context).colorScheme.hintColor,
               ),
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          fillColor:
-              widget.fillColor ?? const Color.fromARGB(255, 242, 242, 242),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          fillColor: widget.fillColor ?? const Color.fromARGB(255, 242, 242, 242),
           filled: true,
           isDense: true,
           enabledBorder: defaultInputBorder,
