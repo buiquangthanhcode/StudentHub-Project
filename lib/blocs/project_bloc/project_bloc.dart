@@ -59,7 +59,7 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
       GetWorkingProjectsEvent event, Emitter<ProjectState> emit) async {
     try {
       final workingProjects =
-          state.allProjects.where((element) => element.typeFlag == 0).toList();
+          state.allProjects.where((element) => element.typeFlag == 1).toList();
       emit(state.update(workingProjects: workingProjects));
     } catch (e) {
       logger.e(e);
@@ -70,7 +70,7 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
       GetArchivedProjectsEvent event, Emitter<ProjectState> emit) async {
     try {
       final archivedProjects =
-          state.allProjects.where((element) => element.typeFlag == 1).toList();
+          state.allProjects.where((element) => element.typeFlag == 2).toList();
       emit(state.update(archivedProjects: archivedProjects));
     } catch (e) {
       logger.e(e);

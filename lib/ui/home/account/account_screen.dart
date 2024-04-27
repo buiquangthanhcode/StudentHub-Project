@@ -158,7 +158,7 @@ class _AccountState extends State<AccountScreen> {
                                     .read<StudentBloc>()
                                     .add(ResetBlocEvent());
                                 SnackBarService.showSnackBar(
-                                    content: 'Change account success',
+                                    content: 'Change account successfully!',
                                     status: StatusSnackBar.success);
                                 Navigator.of(context).pop();
                               });

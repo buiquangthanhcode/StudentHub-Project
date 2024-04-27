@@ -113,7 +113,7 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
         onSubmitted: widget.onFieldSubmitted,
         style: widget.style ??
             TextStyle(
-              color: Colors.grey[600],
+              color: Colors.grey[900],
               fontSize: 16,
             ),
         decoration: InputDecoration(
