@@ -1,10 +1,7 @@
 // ignore_for_file: unnecessary_null_comparison
 
-import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:socket_io_client/socket_io_client.dart';
@@ -16,10 +13,8 @@ import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/models/common/message_model.dart';
-import 'package:studenthub/services/endpoint.dart';
 import 'package:studenthub/ui/home/messages/widgets/get_more_action_widget.dart';
 import 'package:studenthub/utils/logger.dart';
-import 'package:studenthub/utils/meeting.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ChatDetailScreen extends StatefulWidget {
@@ -134,6 +129,21 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   final scrollController = ScrollController();
   Socket? socket;
 
+  String checkDateTime(String dateTimeString) {
+    DateTime now = DateTime.now();
+
+    DateTime dateTime = DateTime.parse(dateTimeString);
+
+    if (dateTime.year == now.year &&
+        dateTime.month == now.month &&
+        dateTime.day == now.day) {
+      dateTime = dateTime.toLocal();
+      return DateFormat('HH:mm').format(dateTime);
+    } else {
+      return DateFormat('dd-MM-yyyy').format(dateTime);
+    }
+  }
+
   @override
   void initState() {
     _messageFocus.addListener(_onFocusChange);
@@ -188,6 +198,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     );
   }
 
+  String getCurrentTime() {
+    // Lấy thời gian hiện tại
+    DateTime now = DateTime.now();
+
+    // Định dạng thời gian thành "HH:mm"
+    return DateFormat('HH:mm').format(now);
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -200,7 +218,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     setState(() {});
   }
 
-  String getCurrentTime() {
+  String _getCurrentTime() {
     DateTime now = DateTime.now(); // Lấy thời gian hiện tại
     String formattedTime =
         DateFormat('HH:mm').format(now); // Định dạng thời gian thành giờ:phút
@@ -222,7 +240,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               0,
               Message(
                 id: data['messageId'],
-                createAt: "2024-04-27T18:29:37.475Z",
+                createdAt: _getCurrentTime(),
                 content: data['content'],
                 sender: {"id": data['senderId'], "fullname": ""},
                 receiver: {"id": data['receiverId'], "fullname": ""},
@@ -256,7 +274,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       width: 10,
                     ),
                     Text(
-                      widget.userName ?? '',
+                      widget.userName,
                       style: textTheme.bodyLarge!
                           .copyWith(fontWeight: FontWeight.w600),
                     ),
@@ -366,8 +384,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                             MainAxisAlignment.end,
                                         children: [
                                           Text(
-                                            state.messageList[index].createAt ??
-                                                '',
+                                            state.messageList[index].createdAt!,
                                             style: const TextStyle(
                                                 fontSize: 11,
                                                 fontWeight: FontWeight.w400,
@@ -494,72 +511,77 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                             // );
                           }
                         })
-                      : Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // if (index + 1 < state.messageList.length)
-                            //   (state.messageList[index + 1].sender['id'] !=
-                            //           meId)
-                            //       ? const SizedBox(
-                            //           width: 28,
-                            //         )
-                            //       : const SizedBox(
-                            //           width: 28,
-                            //           height: 28,
-                            //           child: CircleAvatar(
-                            //             backgroundImage: AssetImage(
-                            //                 'lib/assets/images/circle_avatar.png'),
-                            //           ),
-                            //         ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Container(
-                              constraints: BoxConstraints(
-                                  maxWidth: screenSize.width * 0.65),
-                              margin: EdgeInsets.only(
-                                  top: index + 1 < state.messageList.length
-                                      ? !(state.messageList[index + 1]
-                                                  .sender['id'] ==
-                                              meId)
-                                          ? 3
-                                          : 15
-                                      : 10),
-                              padding: const EdgeInsets.fromLTRB(14, 10, 8, 4),
-                              decoration: BoxDecoration(
-                                color: const Color.fromARGB(255, 245, 245, 245),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 6),
-                                    child: Text(
-                                      state.messageList[index].content ?? '',
-                                      style: TextStyle(color: colorTheme.black),
-                                    ),
-                                  ),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        state.messageList[index].createAt ?? '',
-                                        style: const TextStyle(
-                                            fontSize: 11,
-                                            fontWeight: FontWeight.w400,
-                                            color: Color.fromARGB(
-                                                255, 80, 80, 80)),
+                      : Container(
+                          margin: EdgeInsets.only(
+                              top: index + 1 < state.messageList.length
+                                  ? !(state.messageList[index + 1]
+                                              .sender['id'] ==
+                                          meId)
+                                      ? 3
+                                      : 15
+                                  : 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (index + 1 < state.messageList.length)
+                                (state.messageList[index + 1].sender['id'] !=
+                                        meId)
+                                    ? const SizedBox(
+                                        width: 28,
+                                      )
+                                    : const SizedBox(
+                                        width: 28,
+                                        height: 28,
+                                        child: CircleAvatar(
+                                          backgroundImage: AssetImage(
+                                              'lib/assets/images/circle_avatar.png'),
+                                        ),
                                       ),
-                                    ],
-                                  ),
-                                ],
+                              const SizedBox(
+                                width: 10,
                               ),
-                            ),
-                          ],
+                              Container(
+                                constraints: BoxConstraints(
+                                    maxWidth: screenSize.width * 0.65),
+                                padding:
+                                    const EdgeInsets.fromLTRB(14, 10, 8, 4),
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 245, 245, 245),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 6),
+                                      child: Text(
+                                        state.messageList[index].content ?? '',
+                                        style:
+                                            TextStyle(color: colorTheme.black),
+                                      ),
+                                    ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          state.messageList[index].createdAt!,
+                                          style: const TextStyle(
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.w400,
+                                              color: Color.fromARGB(
+                                                  255, 80, 80, 80)),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                 ),
               ),
@@ -619,10 +641,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               ),
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            // disabledBorder: const OutlineInputBorder(
-                            //   borderSide: BorderSide(width: 0),
-                            //   borderRadius: BorderRadius.all(Radius.circular(8)),
-                            // ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
                                 width: 0,
@@ -637,19 +655,20 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         width: 15,
                       ),
                       ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            minimumSize: Size.zero,
-                            backgroundColor: primaryColor,
-                            shape: const CircleBorder(),
-                            padding: const EdgeInsets.fromLTRB(8, 8, 10, 10),
-                          ),
-                          onPressed: () {
+                        style: ElevatedButton.styleFrom(
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          minimumSize: Size.zero,
+                          backgroundColor: primaryColor,
+                          shape: const CircleBorder(),
+                          padding: const EdgeInsets.fromLTRB(8, 8, 10, 10),
+                        ),
+                        onPressed: () {
+                          if (messageController.text.isNotEmpty) {
                             state.messageList.insert(
                                 0,
                                 Message(
                                   id: 1254,
-                                  createAt: "2024-04-27T18:29:37.475Z",
+                                  createdAt: _getCurrentTime(),
                                   content: messageController.text,
                                   sender: {
                                     "id": context
@@ -662,9 +681,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                   receiver: {"id": 151, "fullname": "Tester2"},
                                   interview: null,
                                 ));
-                            // _scrollDown();
-                            // scrollController.jumpTo(
-                            //     scrollController.position.maxScrollExtent);
+
                             logger.d(
                                 'SEND MESSAGE: ${widget.projectId}. ${widget.userId}');
 
@@ -679,12 +696,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                             });
                             messageController.clear();
                             setState(() {});
-                          },
-                          child: const FaIcon(
-                            FontAwesomeIcons.solidPaperPlane,
-                            size: 20,
-                            color: Colors.white,
-                          ))
+                          }
+                        },
+                        child: const FaIcon(
+                          FontAwesomeIcons.solidPaperPlane,
+                          size: 20,
+                          color: Colors.white,
+                        ),
+                      ),
                     ],
                   ),
                 ],
