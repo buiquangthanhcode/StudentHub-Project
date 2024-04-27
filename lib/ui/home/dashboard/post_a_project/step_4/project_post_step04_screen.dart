@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -6,13 +7,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
-import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
-import 'package:studenthub/blocs/company_bloc/company_event.dart';
-import 'package:studenthub/blocs/company_bloc/company_state.dart';
 import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_event.dart';
 import 'package:studenthub/blocs/project_bloc/project_state.dart';
-import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
@@ -37,7 +35,7 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
             centerTitle: false,
             titleSpacing: 0,
             title: Text(
-              "Review your post",
+              reviewPostingKey.tr(),
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -73,7 +71,7 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Please review the content before posting",
+                      reviewPostingDescriptionKey.tr(),
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             color: Colors.black.withOpacity(0.6),
                           ),
@@ -107,7 +105,7 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Students are looking for',
+                          jobDescriptionExampleKey.tr(),
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontWeight: FontWeight.bold,
@@ -149,7 +147,7 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Project scope',
+                                projectScopeKey.tr(),
                                 style: TextStyle(
                                   color: Colors.black.withOpacity(0.8),
                                 ),
@@ -166,8 +164,8 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                                   ),
                                   Text(
                                     state.projectCreation.projectScopeFlag == 0
-                                        ? '1-3 months'
-                                        : '3-6 months',
+                                        ? oneToThreeMonthsKey.tr()
+                                        : threeToSixMonthsKey.tr(),
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall!
@@ -193,7 +191,7 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Student required',
+                                studentRequiredKey.tr(),
                                 style: TextStyle(
                                     color: Colors.black.withOpacity(0.8)),
                               ),
@@ -255,7 +253,7 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                           double.infinity, 48) // Set minimum button size
                       ),
                   child: Text(
-                    'Post a job',
+                    postAJobBtnKey.tr(),
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: Colors.white,
                         ),

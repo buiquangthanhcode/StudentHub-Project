@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -8,6 +9,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_event.dart';
 import 'package:studenthub/blocs/project_bloc/project_state.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
 
@@ -33,7 +35,7 @@ class _ProjectPostStep01ScreenState extends State<ProjectPostStep01Screen> {
             centerTitle: false,
             titleSpacing: 0,
             title: Text(
-              "Start with a strong title",
+              newPostTitleKey.tr(),
               style: Theme.of(context)
                   .textTheme
                   .titleMedium!
@@ -67,7 +69,7 @@ class _ProjectPostStep01ScreenState extends State<ProjectPostStep01Screen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "This helps your post stand out to the right students. It's t he first thing they'll see, so make it impressive!",
+                  newPostTitleDescriptionKey.tr(),
                   maxLines: 3,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: Colors.black.withOpacity(0.6),
@@ -80,7 +82,7 @@ class _ProjectPostStep01ScreenState extends State<ProjectPostStep01Screen> {
                       .textTheme
                       .bodyMedium, // Adjust the font size as needed
                   decoration: InputDecoration(
-                    hintText: 'Write a title for your post',
+                    hintText: newPostTitlePlacerHolderKey.tr(),
                     hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: const Color.fromARGB(255, 149, 148, 148),
                         ),
@@ -104,16 +106,16 @@ class _ProjectPostStep01ScreenState extends State<ProjectPostStep01Screen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Example titles',
+                      newPostTitleExampleKey.tr(),
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             color: Colors.black.withOpacity(0.6),
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                     ),
-                    BulletList(const [
-                      'Building responsive WordPress site with booking / payment functionality',
-                      'Facebook ad specialist need for product launch',
+                    BulletList([
+                      newPostTitleExample1Key.tr(),
+                      newPostTitleExample2Key.tr(),
                     ])
                   ],
                 ),
@@ -136,7 +138,7 @@ class _ProjectPostStep01ScreenState extends State<ProjectPostStep01Screen> {
                           double.infinity, 48) // Set minimum button size
                       ),
                   child: Text(
-                    'Continue',
+                    continueBtnKey.tr(),
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: Colors.white,
                         ),

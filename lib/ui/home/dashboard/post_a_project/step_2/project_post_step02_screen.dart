@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_event.dart';
 import 'package:studenthub/blocs/project_bloc/project_state.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_model.dart';
 
 enum TimeOption { option1, option2, option3, option4 }
@@ -40,7 +42,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
             centerTitle: false,
             titleSpacing: 0,
             title: Text(
-              "Estimate your job scope",
+              estimateJobKey.tr(),
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -74,14 +76,14 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Consider the size of your project and timeline",
+                  estimateJobDescriptionKey.tr(),
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: Colors.black.withOpacity(0.6),
                       ),
                 ),
                 const SizedBox(height: 36),
                 Text(
-                  'How long will your project take?',
+                  estimateJobQ1Key.tr(),
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -96,7 +98,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                       visualDensity:
                           const VisualDensity(vertical: -4.0, horizontal: -4.0),
                       title: Text(
-                        'Less than 1 month',
+                        lessThan1MonthKey.tr(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: Colors.black.withOpacity(0.6),
                             ),
@@ -114,7 +116,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                       visualDensity:
                           const VisualDensity(vertical: -4.0, horizontal: -4.0),
                       title: Text(
-                        '1 to 3 months',
+                        oneToThreeMonthsKey.tr(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: Colors.black.withOpacity(0.6),
                             ),
@@ -132,7 +134,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                       visualDensity:
                           const VisualDensity(vertical: -4.0, horizontal: -4.0),
                       title: Text(
-                        '3 to 6 months',
+                        threeToSixMonthsKey.tr(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: Colors.black.withOpacity(0.6),
                             ),
@@ -150,7 +152,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                       visualDensity:
                           const VisualDensity(vertical: -4.0, horizontal: -4.0),
                       title: Text(
-                        'More than 6 months',
+                        moreThan6Months.tr(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: Colors.black.withOpacity(0.6),
                             ),
@@ -167,7 +169,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'How many students do you want?',
+                  estimateJobQ2Key.tr(),
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -181,7 +183,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                       .textTheme
                       .bodyMedium, // Adjust the font size as needed
                   decoration: InputDecoration(
-                    hintText: 'The number of students',
+                    hintText: estimateJobQ2PlaceHolderKey.tr(),
                     hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: const Color.fromARGB(255, 149, 148, 148),
                         ),
@@ -202,18 +204,6 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                 const Spacer(),
                 ElevatedButton(
                   onPressed: () {
-                    // final _projectScopeFlag = null;
-                    // if (_timeOption == TimeOption.option1) {
-                    //   _projectScopeFlag = 0;
-                    // } else if (_timeOption == TimeOption.option2) {
-                    //   _timeOption = TimeOption.option2;
-                    // } else if (_timeOption == TimeOption.option3) {
-                    //   _timeOption = TimeOption.option3;
-                    // } else {
-                    //   _timeOption = TimeOption.option4;
-                    // }
-
-                    log("time option: ${_timeOption}");
                     final currentProject = Project(
                       title: state.projectCreation.title,
                       projectScopeFlag: _timeOption == TimeOption.option1
@@ -237,7 +227,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                           double.infinity, 48) // Set minimum button size
                       ),
                   child: Text(
-                    'Continue',
+                    continueBtnKey.tr(),
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: Colors.white,
                         ),

@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 name: 'username',
                 hintText: 'Username',
                 // initialValue: "nguyenthoaidangkhoa@gmail.com",
-                initialValue: "buiquangthanh1709@gmail.com",
+                initialValue: "nguyenthoaidangkhoa@gmail.com",
                 icon: Container(
                   width: 18,
                   height: 18,
@@ -101,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 name: 'password',
                 hintText: 'Password',
                 // initialValue: '@Khoa123',
-                initialValue: 'Buiquangthanh@1709',
+                initialValue: '@Khoa123',
                 obscureText: true,
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
@@ -121,7 +121,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(top: 10), // Replace 10 with your desired margin value
+                margin: const EdgeInsets.only(
+                    top: 10), // Replace 10 with your desired margin value
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Row(children: [
@@ -132,7 +133,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: const CustomCheckBox(),
                         ),
                         // Container(margin: EdgeInsets.only(left: 10), child: const GradientCheckBox(),),),
-                        const SizedBox(width: 10), // Replace 10 with your desired width
+                        const SizedBox(
+                            width: 10), // Replace 10 with your desired width
                         Text(
                           'Remember me',
                           style: theme.textTheme.bodySmall!.copyWith(
@@ -153,13 +155,15 @@ class _LoginScreenState extends State<LoginScreen> {
                               padding: const EdgeInsets.all(12.0),
                               decoration: const BoxDecoration(
                                   color: Colors.white,
-                                  borderRadius:
-                                      BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20))),
                               height: MediaQuery.of(context).size.height * 0.65,
                               child: FormBuilder(
                                 key: _formForgotPassword,
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
                                   // decoration:
                                   //     BoxDecoration(color: Colors.red),
                                   child: Column(
@@ -169,7 +173,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                         children: [
                                           Text(
                                             'Reset Password',
-                                            style: theme.textTheme.bodyMedium?.copyWith(
+                                            style: theme.textTheme.bodyMedium
+                                                ?.copyWith(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 24,
                                             ),
@@ -177,8 +182,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                           const Spacer(),
                                           Container(
                                             decoration: BoxDecoration(
-                                                color: theme.colorScheme.grey?.withOpacity(0.4),
-                                                borderRadius: BorderRadius.circular(50)),
+                                                color: theme.colorScheme.grey
+                                                    ?.withOpacity(0.4),
+                                                borderRadius:
+                                                    BorderRadius.circular(50)),
                                             padding: const EdgeInsets.all(3),
                                             child: InkWell(
                                               onTap: () {
@@ -210,9 +217,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                       const SizedBox(height: 36),
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          const Text('Password should not use on any other site.'),
+                                          const Text(
+                                              'Password should not use on any other site.'),
                                           BulletList(const [
                                             'The password must have at least 8 characters.',
                                             'The password must contain at least 1 special character, such as &, %, TM, or E.',
@@ -223,16 +232,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                       const Spacer(),
                                       ElevatedButton(
                                         onPressed: () {
-                                          if (_formForgotPassword.currentState?.saveAndValidate() ?? false) {
+                                          if (_formForgotPassword.currentState
+                                                  ?.saveAndValidate() ??
+                                              false) {
                                             // logger.d((_formForgotPassword
                                             //     .currentState?.value));
                                             context.read<GlobalBloc>().add(
                                                   ResetPasswordEvent(
-                                                      email: _formForgotPassword.currentState?.value["email"] as String,
+                                                      email: _formForgotPassword
+                                                              .currentState
+                                                              ?.value["email"]
+                                                          as String,
                                                       onSuccess: () {
                                                         SnackBarService.showSnackBar(
-                                                            content: 'New password sent to your email',
-                                                            status: StatusSnackBar.success);
+                                                            content:
+                                                                'New password sent to your email',
+                                                            status:
+                                                                StatusSnackBar
+                                                                    .success);
                                                         Navigator.pop(context);
                                                       }),
                                                 );
@@ -240,13 +257,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                           // log("text field: ${}");
                                         },
                                         style: ElevatedButton.styleFrom(
-                                            padding:
-                                                const EdgeInsets.symmetric(vertical: 16), // Adjust padding as needed
-                                            minimumSize: const Size(double.infinity, 48) // Set minimum button size
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical:
+                                                    16), // Adjust padding as needed
+                                            minimumSize: const Size(
+                                                double.infinity,
+                                                48) // Set minimum button size
                                             ),
                                         child: Text(
                                           'Reset Password',
-                                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!
+                                              .copyWith(
                                                 color: Colors.white,
                                               ),
                                         ),
@@ -281,15 +304,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   onPressed: () {
                     // validate form
-                    if (_formKeyLogin.currentState?.saveAndValidate() ?? false) {
+                    if (_formKeyLogin.currentState?.saveAndValidate() ??
+                        false) {
                       context.read<AuthBloc>().add(
                             LoginEvent(
                               requestLogin: RequestLogin(
-                                email: _formKeyLogin.currentState!.fields['username']!.value.toString(),
-                                password: _formKeyLogin.currentState!.fields['password']!.value.toString(),
+                                email: _formKeyLogin
+                                    .currentState!.fields['username']!.value
+                                    .toString(),
+                                password: _formKeyLogin
+                                    .currentState!.fields['password']!.value
+                                    .toString(),
                               ),
                               onSuccess: () {
-                                context.pushNamed('home', queryParameters: {'welcome': 'true'});
+                                context.pushNamed('home',
+                                    queryParameters: {'welcome': 'true'});
                               },
                               currentContext: context,
                             ),
@@ -298,7 +327,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   child: Text(
                     'Login',
-                    style: theme.textTheme.bodyMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                        color: Colors.white, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
@@ -312,8 +342,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text("OR",
-                        style: theme.textTheme.bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.w600, fontSize: 14, color: theme.colorScheme.grey))),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                            color: theme.colorScheme.grey))),
                 Expanded(
                   child: Divider(
                     color: theme.colorScheme.grey, // Set the color to grey
@@ -366,7 +398,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: <TextSpan>[
                       TextSpan(
                         text: 'Sign Up',
-                        style: const TextStyle(fontWeight: FontWeight.bold, color: primaryColor),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, color: primaryColor),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             context.pushNamed('signup_01');

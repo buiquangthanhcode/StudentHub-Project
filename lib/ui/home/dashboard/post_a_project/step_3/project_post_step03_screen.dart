@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_event.dart';
 import 'package:studenthub/blocs/project_bloc/project_state.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
 
@@ -25,14 +27,13 @@ class _ProjectPostStep03ScreenState extends State<ProjectPostStep03Screen> {
   Widget build(BuildContext context) {
     return BlocBuilder<ProjectBloc, ProjectState>(
       builder: (context, state) {
-        log("state in step 3: ${state}");
         return Scaffold(
           appBar: AppBar(
             toolbarHeight: 80,
             centerTitle: false,
             titleSpacing: 0,
             title: Text(
-              "Write project description",
+              writeDescriptionJobKey.tr(),
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -67,7 +68,7 @@ class _ProjectPostStep03ScreenState extends State<ProjectPostStep03Screen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Provide a detailed description for your project",
+                    jobDescriptionKey.tr(),
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: Colors.black.withOpacity(0.6),
                         ),
@@ -77,17 +78,17 @@ class _ProjectPostStep03ScreenState extends State<ProjectPostStep03Screen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Students are looking for',
+                        jobDescriptionExampleKey.tr(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               color: Colors.black.withOpacity(0.6),
                             ),
                       ),
-                      BulletList(const [
-                        'Clear expectation about your project or deliverables',
-                        'The skill required for your project',
-                        'Detail about your project',
+                      BulletList([
+                        jobDescriptionExample1Key.tr(),
+                        jobDescriptionExample2Key.tr(),
+                        jobDescriptionExample3Key.tr(),
                       ])
                     ],
                   ),
@@ -96,7 +97,7 @@ class _ProjectPostStep03ScreenState extends State<ProjectPostStep03Screen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Describe your project',
+                        yourDescriptionKey.tr(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -155,7 +156,7 @@ class _ProjectPostStep03ScreenState extends State<ProjectPostStep03Screen> {
                             double.infinity, 48) // Set minimum button size
                         ),
                     child: Text(
-                      'Continue',
+                      continueBtnKey.tr(),
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             color: Colors.white,
                           ),

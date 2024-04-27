@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/tab/project_all_tab/project_all_tab_for_company.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/tab/project_all_tab/project_all_tab_for_student.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/tab/project_archived_tab/project_archived_tab_for_company.dart';
@@ -120,7 +122,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             // const Icon(Icons.event_note_rounded, size: 30),
                             // const SizedBox(width: 15),
                             Text(
-                              'Your projects',
+                              yourProjectsKey.tr(),
                               style: Theme.of(context)
                                   .textTheme
                                   .titleLarge!
@@ -137,9 +139,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               },
                               icon:
                                   const FaIcon(FontAwesomeIcons.plus, size: 18),
-                              label: const Text(
-                                'Post a job',
-                                style: TextStyle(
+                              label: Text(
+                                postProjectKey.tr(),
+                                style: const TextStyle(
                                     color: Colors.white, fontSize: 18),
                               ),
                             )
