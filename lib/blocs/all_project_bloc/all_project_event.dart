@@ -15,7 +15,8 @@ class GetSearchFilterDataEvent extends AllProjectEvent {
   final int? projectScopeFlag;
   final int? numberOfStudents;
   final int? proposalsLessThan;
-  GetSearchFilterDataEvent(this.title, this.projectScopeFlag, this.numberOfStudents, this.proposalsLessThan);
+  GetSearchFilterDataEvent(this.title, this.projectScopeFlag,
+      this.numberOfStudents, this.proposalsLessThan);
 }
 
 class GetProjectDetail extends AllProjectEvent {

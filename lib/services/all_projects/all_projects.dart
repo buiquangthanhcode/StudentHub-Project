@@ -165,12 +165,14 @@ class AllProjectsService {
         query.addAll({"numberOfStudents": numberOfStudents});
       }
       if (proposalsLessThan != null) {
-        query.addAll({"proposalsLessThan": proposalsLessThan});
+        // query.addAll({"proposalsLessThan": proposalsLessThan});
       }
 
-      logger.d(query);
+      logger.d('QUERY: $query');
 
       final res = await dioClient.get('$baseURL/api/project', queryParameters: query);
+
+      logger.d('RES: $res');
 
       return ResponseAPI<List<Project>>(
         statusCode: res.statusCode,

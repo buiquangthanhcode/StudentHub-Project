@@ -46,7 +46,7 @@ class _ProjectItemSavedState extends State<ProjectItemSaved> {
           'project_detail',
           queryParameters: {
             'id': widget.project.id.toString(),
-            'isFavorite': 'true',
+            'isFavorite': 'null',
           },
         );
       },
@@ -90,7 +90,6 @@ class _ProjectItemSavedState extends State<ProjectItemSaved> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    logger.d("test data: ${widget.project}");
                     context.read<AllProjectBloc>().add(
                         RemoveFavoriteProjectList(project: widget.project));
                     context.read<AllProjectBloc>().add(

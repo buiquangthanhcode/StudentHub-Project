@@ -33,7 +33,6 @@ class _ProjectItemState extends State<ProjectItem> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    isSaved = widget.project.isFavorite ?? false;
   }
 
   int differentDay(String dateString) {
@@ -49,12 +48,13 @@ class _ProjectItemState extends State<ProjectItem> {
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     var colorTheme = Theme.of(context).colorScheme;
+    isSaved = widget.project.isFavorite ?? false;
     AuthenState authSate = context.read<AuthBloc>().state;
 
     return GestureDetector(
       onTap: () {
         context.pushNamed('project_detail', queryParameters: {
-          'id': widget.project.projectId.toString(),
+          'id': widget.project.id.toString(),
           'isFavorite': widget.project.isFavorite.toString()
         });
       },
@@ -89,31 +89,42 @@ class _ProjectItemState extends State<ProjectItem> {
                     ],
                   ),
                 ),
-                Visibility(
-                  visible: authSate.currentRole == UserRole.student,
-                  child: InkWell(
-                    onTap: () {
-                      isSaved = !isSaved!;
-                      setState(() {
-                        isSaved!
-                            ? context.read<AllProjectBloc>().add(
-                                  AddFavoriteProject(
-                                    studentId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
-                                    projectId: widget.project.projectId.toString(),
-                                  ),
-                                )
-                            : context.read<AllProjectBloc>().add(
-                                  RemoveFavoriteProject(
-                                    studentId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
-                                    projectId: widget.project.projectId.toString(),
-                                  ),
-                                );
-                      });
-                    },
-                    child: FaIcon(
-                      isSaved! ? FontAwesomeIcons.solidHeart : FontAwesomeIcons.heart,
-                      color: primaryColor,
-                    ),
+                InkWell(
+                  onTap: () {
+                    isSaved = !isSaved!;
+                    setState(() {
+                      isSaved!
+                          ? context.read<AllProjectBloc>().add(
+                                AddFavoriteProject(
+                                  studentId: context
+                                      .read<AuthBloc>()
+                                      .state
+                                      .userModel
+                                      .student!
+                                      .id
+                                      .toString(),
+                                  projectId: widget.project.id.toString(),
+                                ),
+                              )
+                          : context.read<AllProjectBloc>().add(
+                                RemoveFavoriteProject(
+                                  studentId: context
+                                      .read<AuthBloc>()
+                                      .state
+                                      .userModel
+                                      .student!
+                                      .id
+                                      .toString(),
+                                  projectId: widget.project.id.toString(),
+                                ),
+                              );
+                    });
+                  },
+                  child: FaIcon(
+                    isSaved!
+                        ? FontAwesomeIcons.solidHeart
+                        : FontAwesomeIcons.heart,
+                    color: primaryColor,
                   ),
                 )
               ],
