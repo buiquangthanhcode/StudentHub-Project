@@ -9,3 +9,9 @@ class GetAllSkillSetEventMetadata extends GlobalEvent {
   final Function(dynamic value)? onSuccess;
   GetAllSkillSetEventMetadata({this.onSuccess});
 }
+
+class ResetPasswordEvent extends GlobalEvent {
+  final String email;
+  final Function? onSuccess;
+  ResetPasswordEvent({required this.email, this.onSuccess});
+}

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -7,12 +9,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
+import 'package:studenthub/blocs/global_bloc/global_bloc.dart';
+import 'package:studenthub/blocs/global_bloc/global_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/data/dto/authen/request_login.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
 import 'package:studenthub/widgets/customCheckboxWidget.dart';
+import 'package:studenthub/widgets/snack_bar_config.dart';
 import '../../core/text_field_custom.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -77,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 name: 'username',
                 hintText: 'Username',
                 // initialValue: "nguyenthoaidangkhoa@gmail.com",
-                initialValue: "buiquangthanh1709@gmail.com",
+                initialValue: "nguyenthoaidangkhoa@gmail.com",
                 icon: Container(
                   width: 18,
                   height: 18,
@@ -100,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 name: 'password',
                 hintText: 'Password',
                 // initialValue: '@Khoa123',
-                initialValue: 'Buiquangthanh@1709',
+                initialValue: '@Khoa123',
                 obscureText: true,
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
@@ -152,12 +157,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           builder: (context) {
                             return Container(
                               padding: const EdgeInsets.all(12.0),
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                   color: Colors.white,
-                                  borderRadius: const BorderRadius.only(
+                                  borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(20),
                                       topRight: Radius.circular(20))),
-                              height: MediaQuery.of(context).size.height * 0.85,
+                              height: MediaQuery.of(context).size.height * 0.65,
                               child: FormBuilder(
                                 key: _formForgotPassword,
                                 child: Container(
@@ -202,44 +207,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                       const Text(
                                           'Your password will be automatically reset by the system. Please check your email to receive the new password.'),
                                       const SizedBox(height: 24),
-                                      const TextFieldFormCustom(
-                                          fillColor: Colors.white,
-                                          name: 'old_password',
-                                          hintText: 'Current Password',
-                                          isPasswordText: true,
-                                          obscureText: true,
-                                          maxLines: null,
-                                          keyboardType: TextInputType.multiline,
-                                          icon: Icon(
-                                            Icons.lock,
-                                            color: Colors.grey,
-                                          )),
-                                      const SizedBox(height: 10),
-                                      const TextFieldFormCustom(
-                                          fillColor: Colors.white,
-                                          name: 'new_password',
-                                          hintText: 'New Password',
-                                          isPasswordText: true,
-                                          obscureText: true,
-                                          maxLines: null,
-                                          keyboardType: TextInputType.multiline,
-                                          icon: Icon(
-                                            Icons.lock,
-                                            color: Colors.grey,
-                                          )),
-                                      const SizedBox(height: 10),
-                                      const TextFieldFormCustom(
-                                          fillColor: Colors.white,
-                                          name: 'confirm_password',
-                                          hintText: 'Confirm Password',
-                                          isPasswordText: true,
-                                          obscureText: true,
-                                          maxLines: null,
-                                          keyboardType: TextInputType.multiline,
-                                          icon: Icon(
-                                            Icons.lock,
-                                            color: Colors.grey,
-                                          )),
+                                      TextFieldFormCustom(
+                                        fillColor: Colors.white,
+                                        name: 'email',
+                                        hintText: 'Enter your email',
+                                        maxLines: null,
+                                        keyboardType: TextInputType.multiline,
+                                        icon: FaIcon(
+                                          FontAwesomeIcons.user,
+                                          size: 16,
+                                          color: theme.colorScheme.grey,
+                                        ),
+                                      ),
                                       const SizedBox(height: 36),
                                       Column(
                                         crossAxisAlignment:
@@ -256,7 +235,31 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                       const Spacer(),
                                       ElevatedButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          if (_formForgotPassword.currentState
+                                                  ?.saveAndValidate() ??
+                                              false) {
+                                            // logger.d((_formForgotPassword
+                                            //     .currentState?.value));
+                                            context.read<GlobalBloc>().add(
+                                                  ResetPasswordEvent(
+                                                      email: _formForgotPassword
+                                                              .currentState
+                                                              ?.value["email"]
+                                                          as String,
+                                                      onSuccess: () {
+                                                        SnackBarService.showSnackBar(
+                                                            content:
+                                                                'New password sent to your email',
+                                                            status:
+                                                                StatusSnackBar
+                                                                    .success);
+                                                        Navigator.pop(context);
+                                                      }),
+                                                );
+                                          }
+                                          // log("text field: ${}");
+                                        },
                                         style: ElevatedButton.styleFrom(
                                             padding: const EdgeInsets.symmetric(
                                                 vertical:
@@ -266,7 +269,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 48) // Set minimum button size
                                             ),
                                         child: Text(
-                                          'Change Password',
+                                          'Reset Password',
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium!
