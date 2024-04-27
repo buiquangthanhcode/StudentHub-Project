@@ -17,7 +17,7 @@ import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/more_action_widget.dart';
-import 'package:studenthub/ui/home/dashboard/widgets/project_review_item.dart';
+import 'package:studenthub/ui/home/dashboard/widgets/project_item.dart';
 
 class ProjectAllTabForStudent extends StatefulWidget {
   const ProjectAllTabForStudent({super.key});
@@ -32,7 +32,7 @@ class _ProjectAllTabForStudentState extends State<ProjectAllTabForStudent> {
     super.initState();
     int userId = BlocProvider.of<StudentBloc>(context).state.student.id ?? -1;
     context.read<StudentBloc>().add(
-          GetAllProjectProposal(userId: userId ?? 0, onSuccess: () {}),
+          GetAllProjectProposal(userId: userId, onSuccess: () {}),
         );
   }
 
@@ -59,7 +59,7 @@ class _ProjectAllTabForStudentState extends State<ProjectAllTabForStudent> {
                   child: ListView.separated(
                     itemCount: 5,
                     itemBuilder: (context, index) {
-                      return ProjectReviewItem(theme: theme, item: Project());
+                      return ProjectItem(theme: theme, item: Project());
                     },
                     separatorBuilder: (context, index) {
                       return const Padding(
@@ -88,7 +88,7 @@ class _ProjectAllTabForStudentState extends State<ProjectAllTabForStudent> {
                   child: ListView.separated(
                     itemCount: state.projectProposals.length,
                     itemBuilder: (context, index) {
-                      return ProjectReviewItem(theme: theme, projectProposal: state.projectProposals[index]);
+                      return ProjectItem(theme: theme, projectProposal: state.projectProposals[index]);
                     },
                     separatorBuilder: (context, index) {
                       return const Padding(

@@ -9,8 +9,8 @@ import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/more_action_widget.dart';
 import 'package:studenthub/utils/helper.dart';
 
-class ProjectReviewItem extends StatelessWidget {
-  const ProjectReviewItem({
+class ProjectItem extends StatelessWidget {
+  const ProjectItem({
     super.key,
     required this.theme,
     this.item,

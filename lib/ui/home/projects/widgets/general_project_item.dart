@@ -49,10 +49,8 @@ class _GeneralProjectItemState extends State<GeneralProjectItem> {
 
     return GestureDetector(
       onTap: () {
-        context.pushNamed('project_detail', queryParameters: {
-          'id': widget.project.id.toString(),
-          'isFavorite': widget.project.isFavorite.toString()
-        });
+        context.pushNamed('project_detail',
+            queryParameters: {'id': widget.project.id.toString(), 'isFavorite': widget.project.isFavorite.toString()});
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -92,34 +90,20 @@ class _GeneralProjectItemState extends State<GeneralProjectItem> {
                       isSaved!
                           ? context.read<GeneralProjectBloc>().add(
                                 AddFavoriteProject(
-                                  studentId: context
-                                      .read<AuthBloc>()
-                                      .state
-                                      .userModel
-                                      .student!
-                                      .id
-                                      .toString(),
+                                  studentId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
                                   projectId: widget.project.id.toString(),
                                 ),
                               )
                           : context.read<GeneralProjectBloc>().add(
                                 RemoveFavoriteProject(
-                                  studentId: context
-                                      .read<AuthBloc>()
-                                      .state
-                                      .userModel
-                                      .student!
-                                      .id
-                                      .toString(),
+                                  studentId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
                                   projectId: widget.project.id.toString(),
                                 ),
                               );
                     });
                   },
                   child: FaIcon(
-                    isSaved!
-                        ? FontAwesomeIcons.solidHeart
-                        : FontAwesomeIcons.heart,
+                    isSaved! ? FontAwesomeIcons.solidHeart : FontAwesomeIcons.heart,
                     color: primaryColor,
                   ),
                 )

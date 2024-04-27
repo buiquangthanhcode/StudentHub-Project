@@ -344,8 +344,14 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
 
   FutureOr<void> _onResetBloc(ResetBlocEvent event, Emitter<StudentState> emit) async {
     // I wan to reset student but not id field in the student
+    Student newStudent = state.student.copyWith(
+      experiences: [],
+      educations: [],
+      languages: [],
+      skillSets: [],
+    );
     emit(state.update(
-      student: Student(),
+      student: newStudent,
       projectProposals: [],
     ));
   }

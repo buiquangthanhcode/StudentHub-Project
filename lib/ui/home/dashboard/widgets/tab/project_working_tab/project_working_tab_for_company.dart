@@ -15,7 +15,7 @@ import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/ui/home/dashboard/data/data_count.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/more_action_widget.dart';
-import 'package:studenthub/ui/home/dashboard/widgets/project_review_item.dart';
+import 'package:studenthub/ui/home/dashboard/widgets/project_item.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/tab/project_all_tab/project_all_tab_for_student.dart';
 import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/utils/logger.dart';
@@ -61,8 +61,7 @@ class _ProjectAllTabState extends State<ProjectWorkingTabForCompany> {
             child: ListView.separated(
               itemCount: state.workingProjects.length,
               itemBuilder: (context, index) {
-                return ProjectReviewItem(
-                    theme: theme, item: state.workingProjects[index]);
+                return ProjectItem(theme: theme, item: state.workingProjects[index]);
               },
               separatorBuilder: (context, index) {
                 return const Padding(
