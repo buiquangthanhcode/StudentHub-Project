@@ -1,39 +1,46 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
-
 import 'package:studenthub/models/common/interview_model.dart';
+import 'package:studenthub/models/common/project_model.dart';
 
-class Message {
+class Chat {
   int? id;
   String? createAt;
   String? content;
   dynamic sender;
   dynamic receiver;
   Interview? interview;
-  Message({
+  Project project; 
+
+  Chat({
     this.id,
     this.createAt,
     this.content,
     required this.sender,
     required this.receiver,
     this.interview,
+    required this.project,
   });
 
-  Message copyWith({
+
+
+  Chat copyWith({
     int? id,
     String? createAt,
     String? content,
-    dynamic sender,
-    dynamic receiver,
+    dynamic? sender,
+    dynamic? receiver,
     Interview? interview,
+    Project? project,
   }) {
-    return Message(
+    return Chat(
       id: id ?? this.id,
       createAt: createAt ?? this.createAt,
       content: content ?? this.content,
       sender: sender ?? this.sender,
       receiver: receiver ?? this.receiver,
       interview: interview ?? this.interview,
+      project: project ?? this.project,
     );
   }
 
@@ -45,31 +52,33 @@ class Message {
       'sender': sender,
       'receiver': receiver,
       'interview': interview?.toMap(),
+      'project': project.toMap(),
     };
   }
 
-  factory Message.fromMap(Map<String, dynamic> map) {
-    return Message(
+  factory Chat.fromMap(Map<String, dynamic> map) {
+    return Chat(
       id: map['id'] != null ? map['id'] as int : null,
       createAt: map['createAt'] != null ? map['createAt'] as String : null,
       content: map['content'] != null ? map['content'] as String : null,
       sender: map['sender'] as dynamic,
       receiver: map['receiver'] as dynamic,
       interview: map['interview'] != null ? Interview.fromMap(map['interview'] as Map<String,dynamic>) : null,
+      project: Project.fromMap(map['project'] as Map<String,dynamic>),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Message.fromJson(String source) => Message.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Chat.fromJson(String source) => Chat.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'Message(id: $id, createAt: $createAt, content: $content, sender: $sender, receiver: $receiver, interview: $interview)';
+    return 'Chat(id: $id, createAt: $createAt, content: $content, sender: $sender, receiver: $receiver, interview: $interview, project: $project)';
   }
 
   @override
-  bool operator ==(covariant Message other) {
+  bool operator ==(covariant Chat other) {
     if (identical(this, other)) return true;
   
     return 
@@ -78,7 +87,8 @@ class Message {
       other.content == content &&
       other.sender == sender &&
       other.receiver == receiver &&
-      other.interview == interview;
+      other.interview == interview &&
+      other.project == project;
   }
 
   @override
@@ -88,6 +98,7 @@ class Message {
       content.hashCode ^
       sender.hashCode ^
       receiver.hashCode ^
-      interview.hashCode;
+      interview.hashCode ^
+      project.hashCode;
   }
 }

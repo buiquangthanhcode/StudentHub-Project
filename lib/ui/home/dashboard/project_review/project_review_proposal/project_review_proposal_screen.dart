@@ -31,11 +31,12 @@ class _ProjectReviewProposalState extends State<ProjectReviewProposal> {
   void initState() {
     super.initState();
     final requestProposal = RequestProjectProposal(
-      projectId: widget.item?.id.toString() ?? widget.projectProposal?.projectId.toString() ?? "0",
+      projectId: widget.item?.id.toString() ??
+          widget.projectProposal?.projectId.toString() ??
+          "0",
     );
-    context
-        .read<GeneralProjectBloc>()
-        .add(GetAllProposalOfProjectEvent(requestProposal: requestProposal, onSuccess: () {}));
+    context.read<GeneralProjectBloc>().add(GetAllProposalOfProjectEvent(
+        requestProposal: requestProposal, onSuccess: () {}));
   }
 
   @override
@@ -58,9 +59,11 @@ class _ProjectReviewProposalState extends State<ProjectReviewProposal> {
         return ListView.separated(
             itemBuilder: (context, index) {
               return ProposalItem(
-                theme: theme,
-                item: state.proposalList[index],
-              );
+                  theme: theme,
+                  item: state.proposalList[index],
+                  projectId: widget.item?.id.toString() ??
+                      widget.projectProposal?.projectId.toString() ??
+                      "0");
             },
             separatorBuilder: (context, index) {
               return const Divider();

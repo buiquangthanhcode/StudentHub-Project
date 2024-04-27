@@ -1,23 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/models/common/chat_model.dart';
 
 class ChatItem extends StatelessWidget {
   const ChatItem({
     super.key,
-    required this.item,
+    required this.chat,
   });
 
-  final Map<String, String> item;
+  final Chat chat;
 
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     var colorTheme = Theme.of(context).colorScheme;
+    String username =
+        chat.sender['id'] != context.read<AuthBloc>().state.userModel.id
+            ? chat.sender['fullname']
+            : chat.receiver['fullname'];
+    String userId = chat.sender['id'] != context.read<AuthBloc>().state.userModel.id
+            ? chat.sender['id'].toString()
+            : chat.receiver['id'].toString();
     return InkWell(
       onTap: () {
-        context.pushNamed('chat_detail');
+        context.pushNamed('chat_detail', queryParameters: {
+          'userName':
+              username,
+          'userId': userId,
+          'projectId': chat.project.id.toString(),
+        });
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 25),
@@ -49,7 +64,7 @@ class ChatItem extends StatelessWidget {
                       Expanded(
                         flex: 2,
                         child: Text(
-                          item['fullname'] ?? '',
+                          username,
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -58,7 +73,7 @@ class ChatItem extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          item['createdtime'] ?? '',
+                          chat.createAt ?? '',
                           style: textTheme.bodySmall!.copyWith(
                               fontWeight: FontWeight.w500,
                               color: colorTheme.grey,
@@ -68,7 +83,7 @@ class ChatItem extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    item['major'] ?? '',
+                    chat.project.title ?? '',
                     style: textTheme.bodySmall!.copyWith(color: primaryColor),
                   ),
                   const SizedBox(
@@ -77,7 +92,7 @@ class ChatItem extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: Text(
-                      item['message'] ?? '',
+                      chat.content ?? '',
                       overflow: TextOverflow.ellipsis,
                       style: textTheme.bodyMedium!
                           .copyWith(color: colorTheme.hintColor, fontSize: 15),

@@ -3,15 +3,21 @@ import 'package:go_router/go_router.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
+import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/dialog.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class ProposalItem extends StatefulWidget {
-  const ProposalItem({super.key, required this.theme, required this.item, this.activeSentButton});
+  const ProposalItem(
+      {super.key,
+      required this.theme,
+      required this.item,
+      this.activeSentButton, required this.projectId});
 
   final ThemeData theme;
   final ProjectProposal item;
   final bool? activeSentButton;
+  final String projectId;
 
   @override
   State<ProposalItem> createState() => _ProposalItemState();
@@ -19,6 +25,7 @@ class ProposalItem extends StatefulWidget {
 
 class _ProposalItemState extends State<ProposalItem> {
   bool isPressHiredButton = false;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,7 +58,8 @@ class _ProposalItemState extends State<ProposalItem> {
                   width: 36,
                   height: 36,
                   child: CircleAvatar(
-                    backgroundImage: AssetImage('lib/assets/images/circle_avatar.png'),
+                    backgroundImage:
+                        AssetImage('lib/assets/images/circle_avatar.png'),
                   ),
                 ),
               ),
@@ -124,9 +132,12 @@ class _ProposalItemState extends State<ProposalItem> {
                           showDialogCustom(context,
                               title: 'Hide Offer',
                               textButtom: 'Hired',
-                              subtitle: 'Do you really want to hide this offer for student to do this project?',
+                              subtitle:
+                                  'Do you really want to hide this offer for student to do this project?',
                               onSave: () {
-                            SnackBarService.showSnackBar(content: "Hired Successfully", status: StatusSnackBar.success);
+                            SnackBarService.showSnackBar(
+                                content: "Hired Successfully",
+                                status: StatusSnackBar.success);
                             context.pop();
                             setState(() {
                               isPressHiredButton = true;
@@ -154,7 +165,13 @@ class _ProposalItemState extends State<ProposalItem> {
                     minimumSize: const Size(double.infinity, 35),
                   ),
                   onPressed: () {
-                    context.push('/home/chat_detail');
+                    // logger.d(
+                    //     '${widget.item.student!.user?.fullname}\n${widget.item.studentId.toString()}\n${widget.projectId}');
+                    context.pushNamed('chat_detail', queryParameters: {
+                      'userName': widget.item.student!.user?.fullname ?? '',
+                      'userId': widget.item.studentId.toString(),
+                      'projectId': widget.projectId,
+                    });
                   },
                   child: Text(
                     "Message",
