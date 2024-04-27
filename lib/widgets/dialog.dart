@@ -39,7 +39,7 @@ Future<void> showDialogCustom(BuildContext context,
                         height: sizeImage,
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 24,
                       ),
                       Text(
                         title ?? 'Welcome to Student Hub',
@@ -47,17 +47,16 @@ Future<void> showDialogCustom(BuildContext context,
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 4,
                       ),
                       Text(
-                        subtitle ??
-                            'Start searching and implementing real-world projects right now!',
+                        subtitle ?? 'Some subtitle....',
                         textAlign: TextAlign.center,
                         style: textTheme.bodySmall!
                             .copyWith(color: colorTheme.grey),
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 24,
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(

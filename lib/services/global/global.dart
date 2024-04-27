@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:studenthub/data/dto/reponse.dart';
 import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
@@ -25,7 +27,8 @@ class GlobalService {
 
       return ResponseAPI<List<TechStack>>(
         statusCode: res.statusCode,
-        data: List<TechStack>.from(res.data['result'].map((x) => TechStack.fromMap((x)))).toList(),
+        data: List<TechStack>.from(
+            res.data['result'].map((x) => TechStack.fromMap((x)))).toList(),
       );
     } on DioException catch (e) {
       logger.e(
@@ -49,13 +52,38 @@ class GlobalService {
 
       return ResponseAPI<List<SkillSet>>(
         statusCode: res.statusCode,
-        data: List<SkillSet>.from(res.data['result'].map((x) => SkillSet.fromMap((x)))).toList(),
+        data: List<SkillSet>.from(
+            res.data['result'].map((x) => SkillSet.fromMap((x)))).toList(),
       );
     } on DioException catch (e) {
       logger.e(
         "DioException :${e.response}",
       );
       throw ResponseAPI<List<SkillSet>>(
+        statusCode: e.response?.statusCode,
+        data: [],
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
+
+  Future<ResponseAPI> resetPassword(String email) async {
+    try {
+      logger.d("Resetting password: ${email}");
+      final res = await dioClient.post('$baseURL/api/user/forgotPassword',
+          data: json.encode({
+            "email": email,
+          }));
+
+      logger.d("res in reset password: ${res}");
+      return ResponseAPI(statusCode: res.statusCode, data: res.data);
+    } on DioException catch (e) {
+      logger.e(
+        "DioException :${e.response}",
+      );
+      throw ResponseAPI(
         statusCode: e.response?.statusCode,
         data: [],
       );

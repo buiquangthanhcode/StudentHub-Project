@@ -69,7 +69,10 @@ class _AccountState extends State<AccountScreen> {
                         children: [
                           Text(
                             'Account',
-                            style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w700),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(fontWeight: FontWeight.w700),
                           ),
                         ],
                       ),
@@ -116,13 +119,16 @@ class _AccountState extends State<AccountScreen> {
                                 Text(
                                   state.currentRole == UserRole.student
                                       ? state.userModel.fullname ?? ''
-                                      : state.userModel.company?.companyName ?? 'Anonymus',
+                                      : state.userModel.company?.companyName ??
+                                          'Anonymus',
                                   style: theme.textTheme.bodyMedium?.copyWith(
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Text(
-                                  state.currentRole == UserRole.student ? 'Student' : 'Company',
+                                  state.currentRole == UserRole.student
+                                      ? 'Student'
+                                      : 'Company',
                                   style: theme.textTheme.bodyMedium?.copyWith(
                                     color: Colors.grey,
                                   ),
@@ -134,16 +140,26 @@ class _AccountState extends State<AccountScreen> {
                         children: [
                           GestureDetector(
                             onTap: () {
+                              final subtitle_msg = state.currentRole ==
+                                      UserRole.student
+                                  ? 'Start searching and implementing real-world projects right now!'
+                                  : 'Start finding and hiring young talented students!';
                               showDialogCustom(context,
                                   image: 'lib/assets/images/change_account.png',
-                                  title: 'Are you sure you want to change account ?',
+                                  title: 'Do you want to change account?',
+                                  subtitle: subtitle_msg,
                                   textButtom: 'Change your account',
                                   sizeImage: 50, onSave: () {
                                 context.read<AuthBloc>().add(UpdateRoleEvents(
-                                    role: state.currentRole == UserRole.student ? UserRole.company : UserRole.student));
-                                context.read<StudentBloc>().add(ResetBlocEvent());
+                                    role: state.currentRole == UserRole.student
+                                        ? UserRole.company
+                                        : UserRole.student));
+                                context
+                                    .read<StudentBloc>()
+                                    .add(ResetBlocEvent());
                                 SnackBarService.showSnackBar(
-                                    content: 'Change account success', status: StatusSnackBar.success);
+                                    content: 'Change account success',
+                                    status: StatusSnackBar.success);
                                 Navigator.of(context).pop();
                               });
                             },
@@ -167,15 +183,21 @@ class _AccountState extends State<AccountScreen> {
                                   children: [
                                     Text(
                                       state.currentRole == UserRole.student
-                                          ? state.userModel.company?.companyName ?? 'Anonymus'
+                                          ? state.userModel.company
+                                                  ?.companyName ??
+                                              'Anonymus'
                                           : state.userModel.fullname ?? '',
-                                      style: theme.textTheme.bodyMedium?.copyWith(
+                                      style:
+                                          theme.textTheme.bodyMedium?.copyWith(
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     Text(
-                                      state.currentRole == UserRole.student ? 'Company' : "Student",
-                                      style: theme.textTheme.bodyMedium?.copyWith(
+                                      state.currentRole == UserRole.student
+                                          ? 'Company'
+                                          : "Student",
+                                      style:
+                                          theme.textTheme.bodyMedium?.copyWith(
                                         color: Colors.grey,
                                       ),
                                     ),
@@ -201,17 +223,25 @@ class _AccountState extends State<AccountScreen> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
-                        border: Border.all(color: Color.fromARGB(255, 160, 160, 160), width: 1)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        border: Border.all(
+                            color: Color.fromARGB(255, 160, 160, 160),
+                            width: 1)),
                     child: Column(
                       children: [
                         ...dataSetting.map(
                           (e) => GestureDetector(
                             onTap: () {
                               if (e['route_name'] == 'introduction') {
-                                context.read<StudentBloc>().add(ResetBlocEvent());
-                                context.read<GeneralProjectBloc>().add(ResetBlocEvents());
-                                Future.delayed(const Duration(milliseconds: 500), () {
+                                context
+                                    .read<StudentBloc>()
+                                    .add(ResetBlocEvent());
+                                context
+                                    .read<GeneralProjectBloc>()
+                                    .add(ResetBlocEvents());
+                                Future.delayed(
+                                    const Duration(milliseconds: 500), () {
                                   context.pushNamed(e['route_name']);
                                 });
                               } else {
@@ -219,12 +249,14 @@ class _AccountState extends State<AccountScreen> {
                               }
                             },
                             child: Container(
-                              padding: const EdgeInsets.symmetric(vertical: 22, horizontal: 5),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 22, horizontal: 5),
                               decoration: BoxDecoration(
                                   border: Border(
                                       bottom: BorderSide(
                                           width: e == dataSetting.last ? 0 : 1,
-                                          color: const Color.fromARGB(255, 220, 220, 220)))),
+                                          color: const Color.fromARGB(
+                                              255, 220, 220, 220)))),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
@@ -264,7 +296,8 @@ class _AccountState extends State<AccountScreen> {
                   ),
                   const Spacer(),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 15),
                     decoration: BoxDecoration(
                       color: primaryColor,
                       borderRadius: BorderRadius.circular(10),
