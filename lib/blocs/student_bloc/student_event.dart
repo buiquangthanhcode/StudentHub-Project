@@ -93,9 +93,11 @@ class UpdateEducationEvent extends StudentEvent {
 
 class PostProfileStudent extends StudentEvent {
   final RequestUpdateProfileStudent profileStudent;
+  final BuildContext? currentContext;
   final Function(Student student)? onSuccess;
+  final String? token;
 
-  PostProfileStudent({required this.profileStudent, required this.onSuccess});
+  PostProfileStudent({required this.profileStudent, required this.onSuccess, this.currentContext, this.token});
 }
 
 class UpdateProfileStudent extends StudentEvent {

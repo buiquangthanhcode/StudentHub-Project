@@ -41,6 +41,14 @@ class AuthenState extends Equatable {
     }
   }
 
+  bool isCompanyRole() {
+    return currentRole == UserRole.company;
+  }
+
+  bool isStudentRole() {
+    return currentRole == UserRole.student;
+  }
+
   bool isAnonymus() {
     return userModel.student == null && userModel.company == null;
   }

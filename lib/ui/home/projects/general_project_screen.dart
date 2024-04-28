@@ -9,6 +9,7 @@ import 'package:studenthub/blocs/general_project_bloc/general_project_state.dart
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/ui/home/projects/widgets/general_project_item.dart';
 
 class GeneralProjectScreen extends StatefulWidget {
@@ -74,6 +75,7 @@ class _GeneralProjectScreenState extends State<GeneralProjectScreen> {
   @override
   Widget build(BuildContext context) {
     // TextTheme textTheme = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
     var colorTheme = Theme.of(context).colorScheme;
     AuthenState authSate = context.read<AuthBloc>().state;
 
@@ -110,9 +112,10 @@ class _GeneralProjectScreenState extends State<GeneralProjectScreen> {
                               height: 39,
                               width: 39,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: const Color.fromARGB(255, 245, 245, 245),
-                              ),
+                                  borderRadius: BorderRadius.circular(30),
+                                  color: theme.colorScheme.brightness == Brightness.dark
+                                      ? primaryColor
+                                      : const Color.fromARGB(255, 245, 245, 245)),
                               alignment: Alignment.center,
                               child: FaIcon(
                                 FontAwesomeIcons.magnifyingGlass,
@@ -135,7 +138,9 @@ class _GeneralProjectScreenState extends State<GeneralProjectScreen> {
                                 width: 39,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30),
-                                  color: const Color.fromARGB(255, 245, 245, 245),
+                                  color: theme.colorScheme.brightness == Brightness.dark
+                                      ? primaryColor
+                                      : const Color.fromARGB(255, 245, 245, 245),
                                 ),
                                 alignment: Alignment.center,
                                 child: FaIcon(

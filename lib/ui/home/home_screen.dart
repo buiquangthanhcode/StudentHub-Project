@@ -33,11 +33,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       body: body,
       bottomNavigationBar: Container(
         padding: EdgeInsets.fromLTRB(5, 0, 5, paddingDevice),
-        decoration: BoxDecoration(color: Colors.white, boxShadow: [
+        decoration: BoxDecoration(color: theme.colorScheme.background, boxShadow: [
           BoxShadow(
             color: const Color.fromARGB(255, 216, 216, 216).withOpacity(0.5),
             spreadRadius: 5,

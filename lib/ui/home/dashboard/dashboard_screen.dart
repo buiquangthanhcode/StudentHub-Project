@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
-import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
@@ -25,10 +24,11 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  late AuthenState authSate;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    authSate = context.read<AuthBloc>().state;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.welcome == 'true') {
@@ -48,13 +48,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
               backgroundColor: Colors.white,
               contentPadding: EdgeInsets.zero,
               content: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                 width: screenSize.width * 0.8,
                 height: screenSize.height * 0.5,
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(15))),
+                decoration:
+                    const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(15))),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -76,8 +74,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     Text(
                       'Start searching and implementing real-world projects right now!',
                       textAlign: TextAlign.center,
-                      style:
-                          textTheme.bodySmall!.copyWith(color: colorTheme.grey),
+                      style: textTheme.bodySmall!.copyWith(color: colorTheme.grey),
                     ),
                     const Spacer(),
                     ElevatedButton(
@@ -89,8 +86,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       },
                       child: Text(
                         'Get Started!',
-                        style: textTheme.bodyMedium!.copyWith(
-                            color: Colors.white, fontWeight: FontWeight.w600),
+                        style: textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
                       ),
                     ),
                   ],
@@ -121,10 +117,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             // const SizedBox(width: 15),
                             Text(
                               'Your projects',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge!
-                                  .copyWith(fontWeight: FontWeight.w700),
+                              style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w700),
                             ),
                           ],
                         ),
@@ -135,12 +128,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 // context.push('/project_post/step_01');
                                 context.push('/home/project_post/step_01');
                               },
-                              icon:
-                                  const FaIcon(FontAwesomeIcons.plus, size: 18),
+                              icon: const FaIcon(FontAwesomeIcons.plus, size: 18),
                               label: const Text(
                                 'Post a job',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
+                                style: TextStyle(color: Colors.white, fontSize: 18),
                               ),
                             )
                           : const SizedBox()
@@ -153,16 +144,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         child: Column(
                           children: [
                             TabBar(
-                              labelColor:
-                                  primaryColor, // Set the color of the selected tab label
-                              labelStyle: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(fontWeight: FontWeight.w600), //
-                              unselectedLabelStyle: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(fontWeight: FontWeight.w600),
+                              labelColor: primaryColor, // Set the color of the selected tab label
+                              labelStyle:
+                                  Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w600), //
+                              unselectedLabelStyle:
+                                  Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w600),
                               indicator: const BoxDecoration(
                                 border: Border(
                                   bottom: BorderSide(
@@ -193,12 +179,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       ProjectArchivedTabForCompany(),
                                     ],
                                   );
-                                } else if (state.currentRole ==
-                                    UserRole.student) {
-                                  return const TabBarView(children: [
-                                    ProjectAllTabForStudent(),
-                                    ProjectWorkingTabForStudent(),
-                                  ]);
+                                } else if (state.currentRole == UserRole.student) {
+                                  return const TabBarView(
+                                    children: [
+                                      ProjectAllTabForStudent(),
+                                      ProjectWorkingTabForStudent(),
+                                    ],
+                                  );
                                 }
                                 return const SizedBox();
                               }),

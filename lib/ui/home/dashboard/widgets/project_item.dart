@@ -172,33 +172,41 @@ class ProjectItem extends StatelessWidget {
                 {"label": "Messages", "total": item?.countMessages ?? projectProposal?.project?.countProposals ?? 0},
                 {"label": "Hired", "total": item?.countHired ?? projectProposal?.project?.countProposals ?? 0},
               ];
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: data
-                    .map(
-                      (item) => Container(
-                        width: MediaQuery.of(context).size.width / 4,
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.grey!.withOpacity(0.08),
-                          borderRadius: BorderRadius.circular(15),
+              return GridView.count(
+                crossAxisCount: 3, // Số cột bạn muốn hiển thị
+                crossAxisSpacing: 2, // Khoảng cách giữa các cột
+                mainAxisSpacing: 2, // Khoảng cách giữa các hàng
+                shrinkWrap: true,
+                children: data.map((item) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width / 3.5,
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    margin: const EdgeInsets.symmetric(horizontal: 2),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.grey!.withOpacity(0.08),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          item['total'].toString(),
+                          style: theme.textTheme.bodyMedium!.copyWith(
+                            color: theme.colorScheme.brightness == Brightness.dark ? Colors.white : primaryColor,
+                          ),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item['total'].toString(),
-                              style: theme.textTheme.bodyMedium!.copyWith(color: Colors.black87),
-                            ),
-                            Text(
-                              item['label'].toString(),
-                              style: theme.textTheme.bodyMedium!.copyWith(color: primaryColor),
-                            ),
-                          ],
+                        Text(
+                          item['label'].toString(),
+                          style: theme.textTheme.bodyMedium!.copyWith(
+                            color: theme.colorScheme.brightness == Brightness.dark ? Colors.white : primaryColor,
+                            fontSize: 15,
+                          ),
                         ),
-                      ),
-                    )
-                    .toList(),
+                      ],
+                    ),
+                  );
+                }).toList(),
               );
             })
           ],
