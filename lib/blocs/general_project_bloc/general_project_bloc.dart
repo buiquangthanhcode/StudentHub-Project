@@ -21,6 +21,8 @@ class GeneralProjectBloc extends Bloc<GeneralProjectEvent, GeneralProjectState> 
             projectSearchSuggestions: Set(),
             projectSearchList: const [],
             proposalList: const [],
+            proposalHireList: const [],
+            isLoading: false,
           ),
         ) {
     on<GetAllDataEvent>(_onGetAllData);
@@ -209,7 +211,11 @@ class GeneralProjectBloc extends Bloc<GeneralProjectEvent, GeneralProjectState> 
       EasyLoading.show(status: 'loading');
       final response = await _allProjectsService.getProposalOfProject(event.requestProposal);
       if (response.statusCode! <= 201) {
-        emit(state.update(proposalList: response.data ?? []));
+        if (event.requestProposal.statusFlag != null && event.requestProposal.statusFlag == 3) {
+          emit(state.update(proposalHireList: response.data ?? []));
+        } else {
+          emit(state.update(proposalList: response.data ?? []));
+        }
         event.onSuccess!();
         EasyLoading.dismiss();
       }

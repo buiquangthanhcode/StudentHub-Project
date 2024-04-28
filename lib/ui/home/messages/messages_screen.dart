@@ -5,6 +5,7 @@ import 'package:studenthub/blocs/chat_bloc/chat_bloc.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_event.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/ui/home/messages/data/get_chat_data.dart';
 import 'package:studenthub/ui/home/messages/widgets/chat_item.dart';
 
@@ -53,8 +54,7 @@ class _MessagesState extends State<MessagesScreen> {
     TextTheme textTheme = Theme.of(context).textTheme;
     var colorTheme = Theme.of(context).colorScheme;
 
-    return BlocBuilder<ChatBloc, ChatState>(
-        builder: (BuildContext context, ChatState state) {
+    return BlocBuilder<ChatBloc, ChatState>(builder: (BuildContext context, ChatState state) {
       return Scaffold(
         appBar: widget.isHiddenAppbar ?? false
             ? null
@@ -92,7 +92,9 @@ class _MessagesState extends State<MessagesScreen> {
                         decoration: InputDecoration(
                           hintText: 'Search for messages...',
                           hintStyle: textTheme.bodyMedium!.copyWith(
-                              color: Theme.of(context).colorScheme.hintColor),
+                              color: colorTheme.brightness == Brightness.dark
+                                  ? Colors.white
+                                  : Theme.of(context).colorScheme.hintColor),
                           prefixIcon: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -115,10 +117,11 @@ class _MessagesState extends State<MessagesScreen> {
                                         width: 18,
                                         height: 18,
                                         alignment: Alignment.center,
-                                        decoration: const BoxDecoration(
+                                        decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: Color.fromARGB(
-                                              255, 191, 191, 191),
+                                          color: colorTheme.brightness == Brightness.dark
+                                              ? primaryColor
+                                              : Color.fromARGB(255, 191, 191, 191),
                                         ),
                                         child: const FaIcon(
                                           FontAwesomeIcons.xmark,
@@ -130,13 +133,13 @@ class _MessagesState extends State<MessagesScreen> {
                                   ],
                                 )
                               : Container(width: 1),
-                          suffixIconConstraints:
-                              const BoxConstraints(minWidth: 50),
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 12),
+                          suffixIconConstraints: const BoxConstraints(minWidth: 50),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
                           isDense: true,
                           filled: true,
-                          fillColor: const Color.fromARGB(255, 245, 245, 245),
+                          fillColor: colorTheme.brightness == Brightness.dark
+                              ? primaryColor
+                              : const Color.fromARGB(255, 245, 245, 245),
                           errorStyle: const TextStyle(height: 0),
                           border: OutlineInputBorder(
                             borderSide: const BorderSide(

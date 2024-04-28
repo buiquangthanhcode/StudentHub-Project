@@ -10,11 +10,13 @@ class StudentState extends Equatable {
   final bool isChange;
   final List<ProjectProposal> submitProjectProposals;
   final List<ProjectProposal> activeProjectProposals;
-  StudentState({
+  final bool isLoading;
+  const StudentState({
     required this.student,
     required this.isChange,
     required this.submitProjectProposals,
     required this.activeProjectProposals,
+    required this.isLoading,
   });
 
   StudentState update({
@@ -22,12 +24,14 @@ class StudentState extends Equatable {
     bool? isChange,
     List<ProjectProposal>? submitProjectProposals,
     List<ProjectProposal>? activeProjectProposals,
+    bool? isLoading,
   }) {
     return StudentState(
       student: student ?? this.student,
       isChange: isChange ?? this.isChange,
       submitProjectProposals: submitProjectProposals ?? this.submitProjectProposals,
       activeProjectProposals: activeProjectProposals ?? this.activeProjectProposals,
+      isLoading: isLoading ?? this.isLoading,
     );
   }
 
@@ -50,6 +54,7 @@ class StudentState extends Equatable {
           List<ProjectProposal>.from(map['submitProjectProposals']?.map((x) => ProjectProposal.fromMap(x))),
       activeProjectProposals:
           List<ProjectProposal>.from(map['activeProjectProposals']?.map((x) => ProjectProposal.fromMap(x))),
+      isLoading: map['isLoading'] ?? false,
     );
   }
 

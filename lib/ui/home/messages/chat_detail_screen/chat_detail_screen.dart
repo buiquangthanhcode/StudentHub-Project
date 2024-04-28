@@ -22,11 +22,7 @@ import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/utils/socket.dart';
 
 class ChatDetailScreen extends StatefulWidget {
-  const ChatDetailScreen(
-      {super.key,
-      required this.userId,
-      required this.projectId,
-      required this.userName});
+  const ChatDetailScreen({super.key, required this.userId, required this.projectId, required this.userName});
 
   final String userName;
   final String userId;
@@ -82,8 +78,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
   String _getCurrentTime() {
     DateTime now = DateTime.now(); // Lấy thời gian hiện tại
-    String formattedTime =
-        DateFormat('HH:mm').format(now); // Định dạng thời gian thành giờ:phút
+    String formattedTime = DateFormat('HH:mm').format(now); // Định dạng thời gian thành giờ:phút
     return formattedTime;
   }
 
@@ -131,8 +126,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       width: 36,
                       height: 36,
                       child: CircleAvatar(
-                        backgroundImage:
-                            AssetImage('lib/assets/images/circle_avatar.png'),
+                        backgroundImage: AssetImage('lib/assets/images/circle_avatar.png'),
                       ),
                     ),
                     const SizedBox(
@@ -140,8 +134,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     ),
                     Text(
                       widget.userName,
-                      style: textTheme.bodyLarge!
-                          .copyWith(fontWeight: FontWeight.w600),
+                      style: textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),
@@ -209,139 +202,138 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   shrinkWrap: true,
                   itemCount: state.messageList.length,
                   reverse: true,
-                  itemBuilder: (context, index) =>
-                      state.messageList[index].sender['id'] == meId
-                          ? Builder(builder: (context) {
-                              // if (state.messageList[index].interview == null) {
-                              //   state.messageList[index].interview = false;
-                              // }
-                              if (state.messageList[index].interview == null) {
-                                return MessageSendWidget(
-                                  screenSize: screenSize,
-                                  meId: meId,
-                                  messageList: state.messageList,
-                                  index: index,
-                                );
-                              } else {
-                                return Container();
-                                // return Container(
-                                //   margin: const EdgeInsets.only(top: 10, left: 20),
-                                //   padding: const EdgeInsets.all(15),
-                                //   decoration: BoxDecoration(
-                                //     color: const Color.fromARGB(255, 245, 245, 245),
-                                //     borderRadius: BorderRadius.circular(10),
-                                //   ),
-                                //   child: Column(
-                                //     crossAxisAlignment: CrossAxisAlignment.start,
-                                //     children: [
-                                //       Row(
-                                //         children: [
-                                //           Text(state.messageList[index].
-                                //               as String),
-                                //           const Spacer(),
-                                //           Text(messagesData[index]['duration']
-                                //               as String),
-                                //         ],
-                                //       ),
-                                //       const SizedBox(height: 24),
-                                //       Text(
-                                //         "Start Time: ${messagesData[index]['start_date'] as String} ${messagesData[index]['time_start'] as String}",
-                                //         style: Theme.of(context)
-                                //             .textTheme
-                                //             .bodyMedium!
-                                //             .copyWith(
-                                //               fontSize: 16,
-                                //               fontWeight: FontWeight.w400,
-                                //             ),
-                                //       ),
-                                //       const SizedBox(
-                                //         height: 10,
-                                //       ),
-                                //       Row(
-                                //         children: [
-                                //           Text(
-                                //             "End Time: ",
-                                //             style: Theme.of(context)
-                                //                 .textTheme
-                                //                 .bodyMedium!
-                                //                 .copyWith(
-                                //                   fontSize: 16,
-                                //                   fontWeight: FontWeight.w400,
-                                //                 ),
-                                //           ),
-                                //           const SizedBox(width: 9),
-                                //           Text(
-                                //             "${messagesData[index]['end_date'] as String} ${messagesData[index]['time_end'] as String}",
-                                //             style: Theme.of(context)
-                                //                 .textTheme
-                                //                 .bodyMedium!
-                                //                 .copyWith(
-                                //                   fontSize: 16,
-                                //                   fontWeight: FontWeight.w400,
-                                //                 ),
-                                //           ),
-                                //         ],
-                                //       ),
-                                //       const SizedBox(
-                                //         height: 24,
-                                //       ),
-                                //       Row(
-                                //         mainAxisAlignment: MainAxisAlignment.end,
-                                //         children: [
-                                //           const Spacer(),
-                                //           Container(
-                                //             padding: const EdgeInsets.all(5),
-                                //             decoration: const BoxDecoration(
-                                //               color: Color.fromARGB(
-                                //                   255, 245, 245, 245),
-                                //               shape: BoxShape.circle,
-                                //             ),
-                                //             margin: const EdgeInsets.only(
-                                //                 right: 10, left: 10),
-                                //             child: InkWell(
-                                //               onTap: () {
-                                //                 showModalBottomSheetCustom(context,
-                                //                     widgetBuilder:
-                                //                         const MoreActionChatDetail(
-                                //                       isEdit: true,
-                                //                     ));
-                                //               },
-                                //               child: const FaIcon(
-                                //                 FontAwesomeIcons.ellipsis,
-                                //                 size: 16,
-                                //                 color: Colors.grey,
-                                //               ),
-                                //             ),
-                                //           ),
-                                //           Expanded(
-                                //             child: ElevatedButton(
-                                //               style: ElevatedButton.styleFrom(
-                                //                 elevation: 0,
-                                //                 minimumSize:
-                                //                     const Size(double.infinity, 45),
-                                //               ),
-                                //               onPressed: () {
-                                //                 JitsiMeetService.instance.join();
-                                //               },
-                                //               child: const Text(
-                                //                 "Join",
-                                //               ),
-                                //             ),
-                                //           ),
-                                //         ],
-                                //       )
-                                //     ],
-                                //   ),
-                                // );
-                              }
-                            })
-                          : MessageReceiveWidget(
-                              meId: meId,
+                  itemBuilder: (context, index) => state.messageList[index].sender['id'] == meId
+                      ? Builder(builder: (context) {
+                          // if (state.messageList[index].interview == null) {
+                          //   state.messageList[index].interview = false;
+                          // }
+                          if (state.messageList[index].interview == null) {
+                            return MessageSendWidget(
                               screenSize: screenSize,
-                              colorTheme: colorTheme,
+                              meId: meId,
                               messageList: state.messageList,
                               index: index,
-                            ),
+                            );
+                          } else {
+                            return Container();
+                            // return Container(
+                            //   margin: const EdgeInsets.only(top: 10, left: 20),
+                            //   padding: const EdgeInsets.all(15),
+                            //   decoration: BoxDecoration(
+                            //     color: const Color.fromARGB(255, 245, 245, 245),
+                            //     borderRadius: BorderRadius.circular(10),
+                            //   ),
+                            //   child: Column(
+                            //     crossAxisAlignment: CrossAxisAlignment.start,
+                            //     children: [
+                            //       Row(
+                            //         children: [
+                            //           Text(state.messageList[index].
+                            //               as String),
+                            //           const Spacer(),
+                            //           Text(messagesData[index]['duration']
+                            //               as String),
+                            //         ],
+                            //       ),
+                            //       const SizedBox(height: 24),
+                            //       Text(
+                            //         "Start Time: ${messagesData[index]['start_date'] as String} ${messagesData[index]['time_start'] as String}",
+                            //         style: Theme.of(context)
+                            //             .textTheme
+                            //             .bodyMedium!
+                            //             .copyWith(
+                            //               fontSize: 16,
+                            //               fontWeight: FontWeight.w400,
+                            //             ),
+                            //       ),
+                            //       const SizedBox(
+                            //         height: 10,
+                            //       ),
+                            //       Row(
+                            //         children: [
+                            //           Text(
+                            //             "End Time: ",
+                            //             style: Theme.of(context)
+                            //                 .textTheme
+                            //                 .bodyMedium!
+                            //                 .copyWith(
+                            //                   fontSize: 16,
+                            //                   fontWeight: FontWeight.w400,
+                            //                 ),
+                            //           ),
+                            //           const SizedBox(width: 9),
+                            //           Text(
+                            //             "${messagesData[index]['end_date'] as String} ${messagesData[index]['time_end'] as String}",
+                            //             style: Theme.of(context)
+                            //                 .textTheme
+                            //                 .bodyMedium!
+                            //                 .copyWith(
+                            //                   fontSize: 16,
+                            //                   fontWeight: FontWeight.w400,
+                            //                 ),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //       const SizedBox(
+                            //         height: 24,
+                            //       ),
+                            //       Row(
+                            //         mainAxisAlignment: MainAxisAlignment.end,
+                            //         children: [
+                            //           const Spacer(),
+                            //           Container(
+                            //             padding: const EdgeInsets.all(5),
+                            //             decoration: const BoxDecoration(
+                            //               color: Color.fromARGB(
+                            //                   255, 245, 245, 245),
+                            //               shape: BoxShape.circle,
+                            //             ),
+                            //             margin: const EdgeInsets.only(
+                            //                 right: 10, left: 10),
+                            //             child: InkWell(
+                            //               onTap: () {
+                            //                 showModalBottomSheetCustom(context,
+                            //                     widgetBuilder:
+                            //                         const MoreActionChatDetail(
+                            //                       isEdit: true,
+                            //                     ));
+                            //               },
+                            //               child: const FaIcon(
+                            //                 FontAwesomeIcons.ellipsis,
+                            //                 size: 16,
+                            //                 color: Colors.grey,
+                            //               ),
+                            //             ),
+                            //           ),
+                            //           Expanded(
+                            //             child: ElevatedButton(
+                            //               style: ElevatedButton.styleFrom(
+                            //                 elevation: 0,
+                            //                 minimumSize:
+                            //                     const Size(double.infinity, 45),
+                            //               ),
+                            //               onPressed: () {
+                            //                 JitsiMeetService.instance.join();
+                            //               },
+                            //               child: const Text(
+                            //                 "Join",
+                            //               ),
+                            //             ),
+                            //           ),
+                            //         ],
+                            //       )
+                            //     ],
+                            //   ),
+                            // );
+                          }
+                        })
+                      : MessageReceiveWidget(
+                          meId: meId,
+                          screenSize: screenSize,
+                          colorTheme: colorTheme,
+                          messageList: state.messageList,
+                          index: index,
+                        ),
                 ),
               ),
             ),
@@ -378,10 +370,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           style: textTheme.bodyMedium,
                           decoration: InputDecoration(
                             hintText: 'Your messages...',
-                            hintStyle: textTheme.bodyMedium!.copyWith(
-                                color: Theme.of(context).colorScheme.hintColor),
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 8),
+                            hintStyle: textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.hintColor),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                             isDense: true,
                             filled: true,
                             fillColor: const Color.fromARGB(255, 245, 245, 245),
@@ -423,8 +413,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         ),
                         onPressed: () {
                           if (messageController.text.isNotEmpty) {
-                            UserModel userModel =
-                                context.read<AuthBloc>().state.userModel;
+                            UserModel userModel = context.read<AuthBloc>().state.userModel;
                             state.messageList.insert(
                                 0,
                                 Message(
@@ -435,10 +424,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                     "id": userModel.id,
                                     "fullname": userModel.fullname,
                                   },
-                                  receiver: {
-                                    "id": widget.userId,
-                                    "fullname": widget.userName
-                                  },
+                                  receiver: {"id": widget.userId, "fullname": widget.userName},
                                   interview: null,
                                 ));
 
@@ -448,11 +434,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                             socket.sendMessage({
                               "content": messageController.text,
                               "projectId": widget.projectId,
-                              "senderId":
-                                  context.read<AuthBloc>().state.userModel.id,
+                              "senderId": context.read<AuthBloc>().state.userModel.id,
                               "receiverId": widget.userId,
-                              "messageFlag":
-                                  0 // default 0 for message, 1 for interview
+                              "messageFlag": 0 // default 0 for message, 1 for interview
                             });
                             messageController.clear();
                             setState(() {});

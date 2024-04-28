@@ -1,6 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:studenthub/constants/colors.dart';
 
 class DropDownFormFieldCustom<T> extends StatefulWidget {
   const DropDownFormFieldCustom({
@@ -28,6 +29,7 @@ class DropDownFormFieldCustom<T> extends StatefulWidget {
 class _DropDownFormFieldCustomState<T> extends State<DropDownFormFieldCustom<T>> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       width: double.infinity,
@@ -81,6 +83,7 @@ class _DropDownFormFieldCustomState<T> extends State<DropDownFormFieldCustom<T>>
                         item.toString(), // [Core][Please override toString method in your model class to show the dropdown item]
                         style: const TextStyle(
                           fontSize: 14,
+                          color: Colors.black,
                         ),
                       ),
                     ))
@@ -98,10 +101,10 @@ class _DropDownFormFieldCustomState<T> extends State<DropDownFormFieldCustom<T>>
             buttonStyleData: const ButtonStyleData(
               padding: EdgeInsets.only(right: 8),
             ),
-            iconStyleData: const IconStyleData(
+            iconStyleData: IconStyleData(
               icon: Icon(
                 Icons.arrow_drop_down,
-                color: Colors.black45,
+                color: theme.colorScheme.brightness == Brightness.dark ? primaryColor : Colors.black45,
               ),
               iconSize: 24,
             ),
@@ -109,6 +112,7 @@ class _DropDownFormFieldCustomState<T> extends State<DropDownFormFieldCustom<T>>
               maxHeight: MediaQuery.of(context).size.height / 3,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(14),
+                color: theme.colorScheme.brightness == Brightness.dark ? Colors.white : Colors.white,
               ),
               scrollbarTheme: ScrollbarThemeData(
                 radius: const Radius.circular(40),
