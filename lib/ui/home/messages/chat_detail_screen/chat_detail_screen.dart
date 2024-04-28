@@ -13,8 +13,10 @@ import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/models/common/message_model.dart';
+import 'package:studenthub/models/common/user_model.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/message_receive_widget.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/message_send_widget.dart';
+import 'package:studenthub/ui/home/messages/chat_detail_screen/zego/zego.dart';
 import 'package:studenthub/ui/home/messages/widgets/get_more_action_widget.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/utils/socket.dart';
@@ -149,25 +151,33 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     padding: const EdgeInsets.only(right: 20),
                     child: InkWell(
                       onTap: () {
-                        showModalBottomSheetCustom(context,
-                            widgetBuilder: MoreActionChatDetail(
-                          callBack: (value) {
-                            setState(() {
-                              // messagesData.insert(0, {
-                              //   'isMe': true,
-                              //   'isSchedule': true,
-                              //   'start_date': value['start_date'],
-                              //   'end_date': value['end_date'],
-                              //   'time_start': value['time_start'],
-                              //   'time_end': value['time_end'],
-                              //   'title': value['title'],
-                              //   'duration': "60 minutes",
-                              //   'time': '12:59',
-                              //   'content': value['title'],
-                              // });
-                            });
-                          },
-                        ));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CallPage(
+                                    callID: '1',
+                                  )),
+                        );
+                        // showModalBottomSheetCustom(context,
+                        //     widgetBuilder: MoreActionChatDetail(
+                        //   callBack: (value) {
+                        //     setState(() {
+
+                        //       // messagesData.insert(0, {
+                        //       //   'isMe': true,
+                        //       //   'isSchedule': true,
+                        //       //   'start_date': value['start_date'],
+                        //       //   'end_date': value['end_date'],
+                        //       //   'time_start': value['time_start'],
+                        //       //   'time_end': value['time_end'],
+                        //       //   'title': value['title'],
+                        //       //   'duration': "60 minutes",
+                        //       //   'time': '12:59',
+                        //       //   'content': value['title'],
+                        //       // });
+                        //     });
+                        //   },
+                        // ));
                       },
                       child: Container(
                         height: 39,
@@ -413,6 +423,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         ),
                         onPressed: () {
                           if (messageController.text.isNotEmpty) {
+                            UserModel userModel =
+                                context.read<AuthBloc>().state.userModel;
                             state.messageList.insert(
                                 0,
                                 Message(
@@ -420,19 +432,18 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                   createdAt: _getCurrentTime(),
                                   content: messageController.text,
                                   sender: {
-                                    "id": context
-                                        .read<AuthBloc>()
-                                        .state
-                                        .userModel
-                                        .id,
-                                    "fullname": "Bui Quang Thanh"
+                                    "id": userModel.id,
+                                    "fullname": userModel.fullname,
                                   },
-                                  receiver: {"id": 151, "fullname": "Tester2"},
+                                  receiver: {
+                                    "id": widget.userId,
+                                    "fullname": widget.userName
+                                  },
                                   interview: null,
                                 ));
 
-                            logger.d(
-                                'SEND MESSAGE: ${widget.projectId}. ${widget.userId}');
+                            // logger.d(
+                            //     'SEND MESSAGE: ${widget.projectId}. ${widget.userId}');
 
                             socket.sendMessage({
                               "content": messageController.text,

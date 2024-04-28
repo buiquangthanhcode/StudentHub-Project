@@ -49,7 +49,7 @@ class MessageSendWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    messageList[index].createdAt!,
+                    messageList[index].createdAt??'',
                     style: const TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w400,
