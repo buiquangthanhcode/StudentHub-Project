@@ -1,6 +1,9 @@
 {
 	"hi": "Hi",
-	"change_language": "Change language",
+	"change_language": "Change Language",
+	"student": "Student",
+	"company": "Company",
+	"anonymous": "Anonymous",
 	"vietnamese": "Vietnamese",
 	"english": "English",
 	"dashboard": "Dashboard",
@@ -61,5 +64,18 @@
 	"send_offer_success_msg": "Send offer successfully!",
 	"project_added_success_msg": "Project was added successfully!",
 	"project_updated_success_msg": "Project was updated successfully!",
-	"account_change_success_msg": "Change account successfully!"
+	"account_change_success_msg": "Change account successfully!",
+	"profile": "Profile",
+	"settings": "Settings",
+	"setting_details": "Setting Details",
+	"log_out": "Log out",
+	"change_password": "Change Password",
+	"notification": "Notification",
+	"help": "How can we help you?",
+	"change_account_confirm_msg": "Do you want to change account?",
+	"change_account_notice_1": "Start searching and implementing real-world projects right now!",
+	"change_account_notice_2": "Start finding and hiring young talented students",
+	"change_account": "Change your account",
+	"get_started": "Get Started",
+	"welcome_msg": "Welcome to Student Hub"
 }

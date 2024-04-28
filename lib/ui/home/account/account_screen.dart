@@ -34,7 +34,8 @@ class _AccountState extends State<AccountScreen> {
         List<Map<String, dynamic>> dataSetting = [
           {
             'icon': FontAwesomeIcons.solidCircleUser,
-            'name': 'Profiles',
+            // 'name': 'Profiles',
+            'name': profileKey.tr(),
             'route_name': state.currentRole == UserRole.company
                 ? state.userModel.company == null
                     ? 'company_create_profile'
@@ -45,12 +46,14 @@ class _AccountState extends State<AccountScreen> {
           },
           {
             'icon': FontAwesomeIcons.gears,
-            'name': 'Setting',
+            // 'name': 'Setting',
+            'name': settingsKey.tr(),
             'route_name': 'setting_detail',
           },
           {
             'icon': FontAwesomeIcons.leftLong,
-            'name': 'Log out',
+            // 'name': 'Log out',
+            'name': logoutKey.tr(),
             'route_name': 'introduction',
           },
         ];
@@ -69,7 +72,8 @@ class _AccountState extends State<AccountScreen> {
                       child: Row(
                         children: [
                           Text(
-                            'Account',
+                            // 'Account',
+                            accountNavKey.tr(),
                             style: Theme.of(context)
                                 .textTheme
                                 .titleLarge!
@@ -121,15 +125,23 @@ class _AccountState extends State<AccountScreen> {
                                   state.currentRole == UserRole.student
                                       ? state.userModel.fullname ?? ''
                                       : state.userModel.company?.companyName ??
-                                          'Anonymus',
+                                          'Anonymous',
                                   style: theme.textTheme.bodyMedium?.copyWith(
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
+                                // Text(
+                                //   state.currentRole == UserRole.student
+                                //       ? 'Student'
+                                //       : 'Company',
+                                //   style: theme.textTheme.bodyMedium?.copyWith(
+                                //     color: Colors.grey,
+                                //   ),
+                                // ),
                                 Text(
                                   state.currentRole == UserRole.student
-                                      ? 'Student'
-                                      : 'Company',
+                                      ? studentRoleKey.tr()
+                                      : companyRoleKey.tr(),
                                   style: theme.textTheme.bodyMedium?.copyWith(
                                     color: Colors.grey,
                                   ),
@@ -141,15 +153,21 @@ class _AccountState extends State<AccountScreen> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              final subtitle_msg = state.currentRole ==
-                                      UserRole.student
-                                  ? 'Start searching and implementing real-world projects right now!'
-                                  : 'Start finding and hiring young talented students!';
+                              // final subtitle_msg = state.currentRole ==
+                              //         UserRole.student
+                              //     ? 'Start searching and implementing real-world projects right now!'
+                              //     : 'Start finding and hiring young talented students!';
+                              final subtitle_msg =
+                                  state.currentRole == UserRole.student
+                                      ? changeAccountNoticeMsgKey1.tr()
+                                      : changeAccountNoticeMsgKey2.tr();
                               showDialogCustom(context,
                                   image: 'lib/assets/images/change_account.png',
-                                  title: 'Do you want to change account?',
+                                  // title: 'Do you want to change account?',
+                                  title: changeAccountConfirmMsgKey.tr(),
                                   subtitle: subtitle_msg,
-                                  textButtom: 'Change your account',
+                                  // textButtom: 'Change your account',
+                                  textButtom: changeAccountBtnKey.tr(),
                                   sizeImage: 50, onSave: () {
                                 context.read<AuthBloc>().add(UpdateRoleEvents(
                                     role: state.currentRole == UserRole.student
@@ -187,17 +205,26 @@ class _AccountState extends State<AccountScreen> {
                                       state.currentRole == UserRole.student
                                           ? state.userModel.company
                                                   ?.companyName ??
-                                              'Anonymus'
+                                              'Anonymous'
                                           : state.userModel.fullname ?? '',
                                       style:
                                           theme.textTheme.bodyMedium?.copyWith(
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
+                                    // Text(
+                                    //   state.currentRole == UserRole.student
+                                    //       ? 'Company'
+                                    //       : "Student",
+                                    //   style:
+                                    //       theme.textTheme.bodyMedium?.copyWith(
+                                    //     color: Colors.grey,
+                                    //   ),
+                                    // ),
                                     Text(
                                       state.currentRole == UserRole.student
-                                          ? 'Company'
-                                          : "Student",
+                                          ? companyRoleKey.tr()
+                                          : studentRoleKey.tr(),
                                       style:
                                           theme.textTheme.bodyMedium?.copyWith(
                                         color: Colors.grey,
@@ -315,7 +342,8 @@ class _AccountState extends State<AccountScreen> {
                           width: 10,
                         ),
                         Text(
-                          'How can we help you?',
+                          // 'How can we help you?',
+                          helpBtnKey.tr(),
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

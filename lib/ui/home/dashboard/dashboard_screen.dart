@@ -69,14 +69,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       flex: 2,
                     ),
                     Text(
-                      'Welcome to Student Hub',
+                      // 'Welcome to Student Hub',
+                      welcomeDialogMsg.tr(),
                       style: textTheme.bodyLarge,
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     Text(
-                      'Start searching and implementing real-world projects right now!',
+                      // 'Start searching and implementing real-world projects right now!',
+                      changeAccountNoticeMsgKey1.tr(),
                       textAlign: TextAlign.center,
                       style:
                           textTheme.bodySmall!.copyWith(color: colorTheme.grey),
@@ -90,7 +92,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         Navigator.pop(context);
                       },
                       child: Text(
-                        'Get Started!',
+                        // 'Get Started!',
+                        getStartedBtnKey.tr(),
                         style: textTheme.bodyMedium!.copyWith(
                             color: Colors.white, fontWeight: FontWeight.w600),
                       ),

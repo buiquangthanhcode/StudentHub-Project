@@ -2,6 +2,12 @@ const String hiKey = 'hi';
 const String vietnameseKey = 'vietnamese';
 const String englishKey = 'english';
 const String changeLanguageKey = 'change_language';
+// ---- for user role ----
+const String studentRoleKey = "student";
+const String companyRoleKey = "company";
+const String anonymousRoleKey = "anonymous";
+// ---- for welcome dialog ----
+const String welcomeDialogMsg = "welcome_msg";
 // ---- for navigation bar ----
 const String dashboardNavKey = 'dashboard';
 const String projectsNavKey = 'projects';
@@ -20,6 +26,9 @@ const String loadingBtnKey = 'loading_indicator';
 const String sendOfferBtnKey = 'send_offer';
 const String hiredBtnKey = "hired";
 const String messageBtnKey = 'message';
+const String helpBtnKey = 'help';
+const String changeAccountBtnKey = "change_account";
+const String getStartedBtnKey = "get_started";
 // for project post step 01
 const String newPostTitleKey = 'new_post_title';
 const String newPostTitleDescriptionKey = 'new_post_title_description';
@@ -81,3 +90,14 @@ const String sendOfferSuccessMsgKey = "send_offer_success_msg";
 const String projectAddedSuccessMsgKey = 'project_added_success_msg';
 const String projectUpdatedSuccessMsgKey = 'project_updated_success_msg';
 const String changeAccountSuccessMsgKey = 'account_change_success_msg';
+// --- for profile screen ---
+const String accountKey = "account";
+const String profileKey = "profile";
+const String settingsKey = "settings";
+const String settingDetailsKey = "setting_details";
+const String logoutKey = "log_out";
+const String changePasswordKey = "change_password";
+const String notificationKey = "notification";
+const String changeAccountConfirmMsgKey = "change_account_confirm_msg";
+const String changeAccountNoticeMsgKey1 = "change_account_notice_1";
+const String changeAccountNoticeMsgKey2 = "change_account_notice_2";

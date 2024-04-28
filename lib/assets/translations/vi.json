@@ -1,6 +1,9 @@
 {
 	"hi": "Xin chào",
-	"change_language": "Chọn ngôn ngữ",
+	"change_language": "Chọn Ngôn Ngữ",
+	"student": "Sinh viên",
+	"company": "Doanh nghiệp",
+	"anonymous": "Ẩn danh",
 	"vietnamese": "Tiếng Việt",
 	"english": "Tiếng Anh",
 	"dashboard": "Trang chủ",
@@ -61,5 +64,18 @@
 	"send_offer_success_msg": "Gửi lời đề nghị thành công!",
 	"project_added_success_msg": "Dự án đã được đăng tải thành công!",
 	"project_updated_success_msg": "Trạng thái đã được cập nhật thành công!",
-	"account_change_success_msg": "Thay đổi tài khoản thành công!"
+	"account_change_success_msg": "Thay đổi tài khoản thành công!",
+	"profile": "Hồ Sơ",
+	"settings": "Cài Đặt",
+	"setting_details": "Chi tiết cài đặt",
+	"log_out": "Đăng Xuất",
+	"change_password": "Đổi Mật Khẩu",
+	"notification": "Thông Báo",
+	"help": "Bạn đang cần sự trợ giúp?",
+	"change_account_confirm_msg": "Bạn muốn chuyển đổi tài khoản?",
+	"change_account_notice_1": "Tìm kiếm những dự án thực tế vô cùng hấp dẫn!",
+	"change_account_notice_2": "Tìm kiếm những sinh viên tài năng để tham gia dự án của bạn!",
+	"change_account": "Chuyển đổi tài khoản", 
+	"get_started": "Bắt đầu ngay",
+	"welcome_msg": "Chào mừng bạn đã đến"
 }

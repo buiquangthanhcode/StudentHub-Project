@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/constants/key_translator.dart';
 
 class TitleWidget extends StatefulWidget {
   const TitleWidget({Key? key}) : super(key: key);
@@ -18,7 +20,8 @@ class _TitleWidgetState extends State<TitleWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Welcome to Student Hub!',
+          // 'Welcome to Student Hub!',
+          welcomeDialogMsg.tr(),
           style: textTheme.titleLarge,
         ),
         const SizedBox(

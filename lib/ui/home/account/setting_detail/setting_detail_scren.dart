@@ -76,26 +76,30 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
     List<Map<String, dynamic>> dataSetting = [
       {
         'icon': FontAwesomeIcons.language,
-        'name': 'Change Language',
+        // 'name': 'Change Language',
+        'name': changeLanguageKey.tr(),
         'key': 'language',
       },
       {
         'icon': FontAwesomeIcons.passport,
-        'name': 'Change Password',
+        // 'name': 'Change Password',
+        'name': changePasswordKey.tr(),
         'key': 'password',
       },
       {
         'icon': FontAwesomeIcons.bell,
-        'name': 'Notification',
+        // 'name': 'Notification',
+        'name': notificationKey.tr(),
         'key': 'notification',
       },
     ];
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text(
-          'Setting Detail',
-          style: TextStyle(
+        title: Text(
+          // 'Setting Detail',
+          settingDetailsKey.tr(),
+          style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
