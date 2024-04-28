@@ -48,11 +48,12 @@ class ChatService {
     try {
       final res =
           await dioClient.get('$baseURL/api/message/$projectId/user/$userId');
-      logger.d('CHAT DATA: ${res.data}');
+      // logger.d('CHAT DATA: ${res.data}');
+      List<Message> data =
+          res.data['result'].map<Message>((x) => Message.fromMap(x)).toList();
       return ResponseAPI<List<Message>>(
         statusCode: res.statusCode,
-        data:
-            res.data['result'].map<Message>((x) => Message.fromMap(x)).toList(),
+        data: data.reversed.toList(),
       );
     } on DioException catch (e) {
       logger.e(

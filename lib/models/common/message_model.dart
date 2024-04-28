@@ -5,14 +5,14 @@ import 'package:studenthub/models/common/interview_model.dart';
 
 class Message {
   int? id;
-  String? createAt;
+  String? createdAt;
   String? content;
   dynamic sender;
   dynamic receiver;
   Interview? interview;
   Message({
     this.id,
-    this.createAt,
+    this.createdAt,
     this.content,
     required this.sender,
     required this.receiver,
@@ -21,7 +21,7 @@ class Message {
 
   Message copyWith({
     int? id,
-    String? createAt,
+    String? createdAt,
     String? content,
     dynamic sender,
     dynamic receiver,
@@ -29,7 +29,7 @@ class Message {
   }) {
     return Message(
       id: id ?? this.id,
-      createAt: createAt ?? this.createAt,
+      createdAt: createdAt ?? this.createdAt,
       content: content ?? this.content,
       sender: sender ?? this.sender,
       receiver: receiver ?? this.receiver,
@@ -40,7 +40,7 @@ class Message {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'createAt': createAt,
+      'createAt': createdAt,
       'content': content,
       'sender': sender,
       'receiver': receiver,
@@ -51,7 +51,7 @@ class Message {
   factory Message.fromMap(Map<String, dynamic> map) {
     return Message(
       id: map['id'] != null ? map['id'] as int : null,
-      createAt: map['createAt'] != null ? map['createAt'] as String : null,
+      createdAt: map['createdAt'] != null ? map['createdAt'] as String : null,
       content: map['content'] != null ? map['content'] as String : null,
       sender: map['sender'] as dynamic,
       receiver: map['receiver'] as dynamic,
@@ -65,7 +65,7 @@ class Message {
 
   @override
   String toString() {
-    return 'Message(id: $id, createAt: $createAt, content: $content, sender: $sender, receiver: $receiver, interview: $interview)';
+    return 'Message(id: $id, createAt: $createdAt, content: $content, sender: $sender, receiver: $receiver, interview: $interview)';
   }
 
   @override
@@ -74,7 +74,7 @@ class Message {
   
     return 
       other.id == id &&
-      other.createAt == createAt &&
+      other.createdAt == createdAt &&
       other.content == content &&
       other.sender == sender &&
       other.receiver == receiver &&
@@ -84,7 +84,7 @@ class Message {
   @override
   int get hashCode {
     return id.hashCode ^
-      createAt.hashCode ^
+      createdAt.hashCode ^
       content.hashCode ^
       sender.hashCode ^
       receiver.hashCode ^
