@@ -51,11 +51,15 @@
 	"active_proposals": "Active proposals",
 	"submitted_proposals": "Submitted proposals",
 	"no_project_working_indicator": "No project working yet",
-	"search_for_msg": "Search for messages...",
 	"project_review_detail_title": "Project Review Detail",
 	"4th_year_student": "4th year student",
 	"excellent_ranked": "Excellent",
 	"time_created": "Create {value} days ago",
 	"students": "students",
-	"send_offer_msg": "Do you really want to send this offer for student to do this project?"
+	"search_for_msg": "Search for messages...",
+	"send_offer_msg": "Do you really want to send this offer for student to do this project?",
+	"send_offer_success_msg": "Send offer successfully!",
+	"project_added_success_msg": "Project was added successfully!",
+	"project_updated_success_msg": "Project was updated successfully!",
+	"account_change_success_msg": "Change account successfully!"
 }

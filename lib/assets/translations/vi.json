@@ -51,11 +51,15 @@
 	"active_proposals": "Đang tương tác",
 	"submitted_proposals": "Chờ phản hồi",
 	"no_project_working_indicator": "Chưa có dự án",
-	"search_for_msg": "Tìm kiếm tin nhắn...",
 	"project_review_detail_title": "Chi tiết dự án",
 	"4th_year_student": "Sinh viên năm 4",
 	"excellent_ranked": "Loại xuất sắc",
 	"time_created": "Tạo {value} ngày trước",
 	"students": "sinh viên",
-	"send_offer_msg": "Bạn có chắc muốn gửi lời đề nghị cho ứng viên này?"
+	"search_for_msg": "Tìm kiếm tin nhắn...",
+	"send_offer_msg": "Bạn có chắc muốn gửi lời đề nghị cho ứng viên này?",
+	"send_offer_success_msg": "Gửi lời đề nghị thành công!",
+	"project_added_success_msg": "Dự án đã được đăng tải thành công!",
+	"project_updated_success_msg": "Trạng thái đã được cập nhật thành công!",
+	"account_change_success_msg": "Thay đổi tài khoản thành công!"
 }

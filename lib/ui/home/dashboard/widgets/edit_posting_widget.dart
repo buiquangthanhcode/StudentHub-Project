@@ -292,8 +292,10 @@ class _EditPostingState extends State<EditPosting> {
                                   onSuccess: () {
                                     SnackBarService.showSnackBar(
                                         status: StatusSnackBar.success,
+                                        // content:
+                                        //     "Project was updated successfully!");
                                         content:
-                                            "Project was updated successfully!");
+                                            projectUpdatedSuccessMsgKey.tr());
                                     Navigator.pop(context);
                                     Navigator.pop(context);
                                   }),

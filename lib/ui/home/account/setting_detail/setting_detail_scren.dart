@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/blocs/theme_bloc/theme_bloc.dart';
@@ -31,7 +32,24 @@ class SettingDetailScreen extends StatefulWidget {
 
 class _SettingDetailScreenState extends State<SettingDetailScreen> {
   final _formChangePassWord = GlobalKey<FormBuilderState>();
-  LanguageProfile? langSelect = LanguageProfile.vn;
+  late LanguageProfile? langSelect;
+
+  Future<LanguageProfile> getCurrentLanguage() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('language') == 'en'
+        ? LanguageProfile.en
+        : LanguageProfile.vn;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentLanguage().then((value) {
+      setState(() {
+        langSelect = value;
+      });
+    });
+  }
 
   void changeLanguage(LanguageProfile? value) {
     setState(() {

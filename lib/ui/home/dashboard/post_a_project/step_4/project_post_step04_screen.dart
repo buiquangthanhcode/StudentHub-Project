@@ -241,7 +241,8 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                         }),
                         onSuccess: () {
                           SnackBarService.showSnackBar(
-                              content: 'Project was added successfully!',
+                              // content: 'Project was added successfully!',
+                              content: projectAddedSuccessMsgKey.tr(),
                               status: StatusSnackBar.success);
                           context.pushNamed('home');
                         }));

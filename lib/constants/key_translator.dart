@@ -72,8 +72,12 @@ const String searchForMsgKey = 'search_for_msg';
 const String projectReviewDetailTitleKey = 'project_review_detail_title';
 const String fourthYearStudentKey = '4th_year_student';
 const String excellentRankedKey = 'excellent_ranked';
-
 // --- for project general item ---
 const String timeCreatedKey = 'time_created';
 const String studentsKey = 'students';
+// --- for system messages ---
 const String sendOfferConfirmMsgKey = "send_offer_msg";
+const String sendOfferSuccessMsgKey = "send_offer_success_msg";
+const String projectAddedSuccessMsgKey = 'project_added_success_msg';
+const String projectUpdatedSuccessMsgKey = 'project_updated_success_msg';
+const String changeAccountSuccessMsgKey = 'account_change_success_msg';

@@ -124,25 +124,22 @@ class _GeneralProjectScreenState extends State<GeneralProjectScreen> {
                           const SizedBox(
                             width: 8,
                           ),
-                          Visibility(
-                            visible: authSate.currentRole == UserRole.student,
-                            child: InkWell(
-                              onTap: () {
-                                context.pushNamed('project_saved');
-                              },
-                              child: Container(
-                                height: 39,
-                                width: 39,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  color: const Color.fromARGB(255, 245, 245, 245),
-                                ),
-                                alignment: Alignment.center,
-                                child: FaIcon(
-                                  FontAwesomeIcons.solidHeart,
-                                  color: colorTheme.black,
-                                  size: 21,
-                                ),
+                          InkWell(
+                            onTap: () {
+                              context.pushNamed('project_saved');
+                            },
+                            child: Container(
+                              height: 39,
+                              width: 39,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: const Color.fromARGB(255, 245, 245, 245),
+                              ),
+                              alignment: Alignment.center,
+                              child: FaIcon(
+                                FontAwesomeIcons.solidHeart,
+                                color: colorTheme.black,
+                                size: 21,
                               ),
                             ),
                           ),

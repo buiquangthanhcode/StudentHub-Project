@@ -148,7 +148,8 @@ class _ProposalItemState extends State<ProposalItem> {
                               subtitle: sendOfferConfirmMsgKey.tr(),
                               onSave: () {
                             SnackBarService.showSnackBar(
-                                content: "Send offer successfully!",
+                                // content: "Send offer successfully!",
+                                content: sendOfferSuccessMsgKey.tr(),
                                 status: StatusSnackBar.success);
                             context.pop();
                             setState(() {
