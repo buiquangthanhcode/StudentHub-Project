@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/dialog.dart';
@@ -12,7 +14,8 @@ class ProposalItem extends StatefulWidget {
       {super.key,
       required this.theme,
       required this.item,
-      this.activeSentButton, required this.projectId});
+      this.activeSentButton,
+      required this.projectId});
 
   final ThemeData theme;
   final ProjectProposal item;
@@ -74,7 +77,8 @@ class _ProposalItemState extends State<ProposalItem> {
                     style: widget.theme.textTheme.bodyMedium,
                   ),
                   Text(
-                    widget.item.student?.fullname ?? '4th year student',
+                    // widget.item.student?.fullname ?? '4th year student',
+                    widget.item.student?.fullname ?? fourthYearStudentKey.tr(),
                     style: widget.theme.textTheme.bodyMedium,
                   ),
                 ],
@@ -95,7 +99,8 @@ class _ProposalItemState extends State<ProposalItem> {
               ),
               const Spacer(),
               Text(
-                widget.item.project?.title ?? 'Excellent',
+                // widget.item.project?.title ?? 'Excellent',
+                widget.item.project?.title ?? excellentRankedKey.tr(),
                 style: widget.theme.textTheme.bodyMedium!.copyWith(
                   color: Color.fromARGB(255, 231, 144, 5),
                   fontWeight: FontWeight.w600,
@@ -124,19 +129,26 @@ class _ProposalItemState extends State<ProposalItem> {
                           minimumSize: const Size(double.infinity, 35),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
-                            side: const BorderSide(
-                                color: primaryColor, width: 2.0),
+                            // side: const BorderSide(
+                            //     color: primaryColor, width: 2.0),
+                            side: BorderSide(
+                                color: isPressHiredButton
+                                    ? Colors.green.shade600
+                                    : primaryColor,
+                                width: 2.0),
                           ),
                         ),
                         onPressed: () {
                           showDialogCustom(context,
-                              title: 'Hide Offer',
-                              textButtom: 'Hired',
-                              subtitle:
-                                  'Do you really want to hide this offer for student to do this project?',
+                              title: sendOfferBtnKey.tr(),
+                              // textButtom: 'Send',
+                              // subtitle:
+                              //     'Do you really want too send this offer for student to do this project?',
+                              textButtom: sendOfferBtnKey.tr(),
+                              subtitle: sendOfferConfirmMsgKey.tr(),
                               onSave: () {
                             SnackBarService.showSnackBar(
-                                content: "Hired Successfully",
+                                content: "Send offer successfully!",
                                 status: StatusSnackBar.success);
                             context.pop();
                             setState(() {
@@ -145,9 +157,13 @@ class _ProposalItemState extends State<ProposalItem> {
                           });
                         },
                         child: Text(
-                          isPressHiredButton ? 'Send offer' : "Hired",
+                          isPressHiredButton
+                              ? hiredProjectReviewKey.tr()
+                              : sendOfferBtnKey.tr(),
                           style: widget.theme.textTheme.bodyMedium!.copyWith(
-                            color: primaryColor,
+                            color: isPressHiredButton
+                                ? Colors.green.shade600
+                                : primaryColor,
                           ),
                         ),
                       ),
@@ -174,7 +190,7 @@ class _ProposalItemState extends State<ProposalItem> {
                     });
                   },
                   child: Text(
-                    "Message",
+                    messageBtnKey.tr(),
                     style: widget.theme.textTheme.bodyMedium!.copyWith(
                       color: widget.theme.colorScheme.onPrimary,
                     ),

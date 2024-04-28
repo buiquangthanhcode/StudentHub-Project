@@ -14,8 +14,12 @@ const String yourProjectsKey = 'your_projects';
 const String allProjectKey = 'all_projects';
 const String workingKey = 'working';
 const String archivedKey = 'archived';
-// --- for project posting flow ---
+// --- for button ---
 const String continueBtnKey = 'continue';
+const String loadingBtnKey = 'loading_indicator';
+const String sendOfferBtnKey = 'send_offer';
+const String hiredBtnKey = "hired";
+const String messageBtnKey = 'message';
 // for project post step 01
 const String newPostTitleKey = 'new_post_title';
 const String newPostTitleDescriptionKey = 'new_post_title_description';
@@ -30,7 +34,7 @@ const String estimateJobQ1Key = 'estimate_job_q1';
 const String lessThan1MonthKey = 'less_than_1_month';
 const String oneToThreeMonthsKey = '1_to_3_months';
 const String threeToSixMonthsKey = '3_to_6_months';
-const String moreThan6Months = 'more_than_6_months';
+const String moreThan6MonthsKey = 'more_than_6_months';
 const String estimateJobQ2Key = 'estimate_job_q2';
 const String estimateJobQ2PlaceHolderKey = 'estimate_job_q2_place_holder';
 // for project post step 03
@@ -51,3 +55,25 @@ const String postAJobBtnKey = 'post_a_job';
 const String proposalsProjectReviewKey = 'proposals';
 const String messagesProjectReviewKey = 'messages';
 const String hiredProjectReviewKey = 'hired';
+const String detailsProjectReviewKey = 'details';
+const String updatedTimeProjectReviewKey = 'updated_project_time';
+// --- for project tabs title ---
+const String allProjectsTabTitleKey = 'all_projects';
+const String workingTabTitleKey = 'working';
+const String archivedTabTitleKey = 'archived';
+// --- for project proposals (student role) ---
+const String activeProposalsKey = 'active_proposals';
+const String submittedProposalsKey = 'submitted_proposals';
+// --- for no project working indication message ---
+const String noProjectWorkingIndicatorKey = 'no_project_working_indicator';
+// --- for search bar placeholder ---
+const String searchForMsgKey = 'search_for_msg';
+// --- for project review detail screen ---
+const String projectReviewDetailTitleKey = 'project_review_detail_title';
+const String fourthYearStudentKey = '4th_year_student';
+const String excellentRankedKey = 'excellent_ranked';
+
+// --- for project general item ---
+const String timeCreatedKey = 'time_created';
+const String studentsKey = 'students';
+const String sendOfferConfirmMsgKey = "send_offer_msg";

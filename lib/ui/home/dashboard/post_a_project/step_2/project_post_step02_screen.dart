@@ -152,7 +152,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                       visualDensity:
                           const VisualDensity(vertical: -4.0, horizontal: -4.0),
                       title: Text(
-                        moreThan6Months.tr(),
+                        moreThan6MonthsKey.tr(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: Colors.black.withOpacity(0.6),
                             ),

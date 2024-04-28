@@ -176,13 +176,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                               tabs: state.currentRole == UserRole.company
                                   ? [
-                                      const Tab(text: 'All projects'),
-                                      const Tab(text: 'Working'),
-                                      const Tab(text: 'Archived'),
+                                      Tab(text: allProjectKey.tr()),
+                                      Tab(text: workingKey.tr()),
+                                      Tab(text: archivedKey.tr()),
                                     ]
                                   : [
-                                      const Tab(text: 'All projects'),
-                                      const Tab(text: 'Working'),
+                                      Tab(text: allProjectKey.tr()),
+                                      Tab(text: workingKey.tr()),
                                     ],
                             ),
                             Expanded(

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -6,6 +7,7 @@ import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/more_action_widget.dart';
@@ -31,10 +33,12 @@ class ProjectItem extends StatelessWidget {
       onTap: () {
         if (authState.currentRole == UserRole.company) {
           context.push('/project_company_detail',
-              extra: {'item': item, 'projectProposal': projectProposal} as Map<String, dynamic>);
+              extra: {'item': item, 'projectProposal': projectProposal}
+                  as Map<String, dynamic>);
         } else {
           context.push('/project_student_detail',
-              extra: {'item': item, 'projectProposal': projectProposal} as Map<String, dynamic>);
+              extra: {'item': item, 'projectProposal': projectProposal}
+                  as Map<String, dynamic>);
         }
       },
       child: Container(
@@ -56,7 +60,8 @@ class ProjectItem extends StatelessWidget {
                       backgroundColor: Colors.transparent,
                       builder: (context) {
                         return Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
                           height: authState.currentRole == UserRole.company
                               ? MediaQuery.of(context).size.height * 0.6
                               : MediaQuery.of(context).size.height * 0.2,
@@ -84,8 +89,10 @@ class ProjectItem extends StatelessWidget {
                                 children: [
                                   Container(
                                     decoration: BoxDecoration(
-                                        color: theme.colorScheme.grey!.withOpacity(0.4),
-                                        borderRadius: BorderRadius.circular(50)),
+                                        color: theme.colorScheme.grey!
+                                            .withOpacity(0.4),
+                                        borderRadius:
+                                            BorderRadius.circular(50)),
                                     padding: const EdgeInsets.all(3),
                                     child: InkWell(
                                       onTap: () {
@@ -101,7 +108,9 @@ class ProjectItem extends StatelessWidget {
                                 ],
                               ),
                               MoreActionWidget(
-                                project: item ?? projectProposal?.project ?? Project(),
+                                project: item ??
+                                    projectProposal?.project ??
+                                    Project(),
                                 // projectId: item.id!,
                               ),
                             ],
@@ -127,7 +136,12 @@ class ProjectItem extends StatelessWidget {
             ),
             const SizedBox(height: 2),
             Text(
-              "Updated at ${formatIsoDateString(item?.updatedAt ?? projectProposal?.project?.updatedAt ?? '')}",
+              // "Updated at ${formatIsoDateString(item?.updatedAt ?? projectProposal?.project?.updatedAt ?? '')}",
+              // "Updated at ${formatIsoDateString(item?.updatedAt ?? projectProposal?.project?.updatedAt ?? '')}",
+              updatedTimeProjectReviewKey.tr(namedArgs: {
+                "value":
+                    "${formatIsoDateString(item?.updatedAt ?? projectProposal?.project?.updatedAt ?? '')}"
+              }),
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.grey,
                 fontSize: 14,
@@ -135,8 +149,9 @@ class ProjectItem extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              'Students are looking for',
-              style: theme.textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
+              jobDescriptionExampleKey.tr(),
+              style: theme.textTheme.bodyMedium!
+                  .copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             Padding(
@@ -156,7 +171,9 @@ class ProjectItem extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      item?.description ?? projectProposal?.project?.description ?? 'Description',
+                      item?.description ??
+                          projectProposal?.project?.description ??
+                          'Description',
                       style: theme.textTheme.bodyMedium!.copyWith(
                         fontSize: 14,
                       ),
@@ -168,9 +185,24 @@ class ProjectItem extends StatelessWidget {
             const SizedBox(height: 24),
             Builder(builder: (context) {
               final data = [
-                {"label": "Proposals", "total": item?.countProposals ?? projectProposal?.project?.countProposals ?? 0},
-                {"label": "Messages", "total": item?.countMessages ?? projectProposal?.project?.countProposals ?? 0},
-                {"label": "Hired", "total": item?.countHired ?? projectProposal?.project?.countProposals ?? 0},
+                {
+                  "label": proposalsProjectReviewKey.tr(),
+                  "total": item?.countProposals ??
+                      projectProposal?.project?.countProposals ??
+                      0
+                },
+                {
+                  "label": messagesProjectReviewKey.tr(),
+                  "total": item?.countMessages ??
+                      projectProposal?.project?.countProposals ??
+                      0
+                },
+                {
+                  "label": hiredProjectReviewKey.tr(),
+                  "total": item?.countHired ??
+                      projectProposal?.project?.countProposals ??
+                      0
+                },
               ];
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -178,7 +210,8 @@ class ProjectItem extends StatelessWidget {
                     .map(
                       (item) => Container(
                         width: MediaQuery.of(context).size.width / 4,
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
                         decoration: BoxDecoration(
                           color: theme.colorScheme.grey!.withOpacity(0.08),
                           borderRadius: BorderRadius.circular(15),
@@ -188,11 +221,13 @@ class ProjectItem extends StatelessWidget {
                           children: [
                             Text(
                               item['total'].toString(),
-                              style: theme.textTheme.bodyMedium!.copyWith(color: Colors.black87),
+                              style: theme.textTheme.bodyMedium!
+                                  .copyWith(color: Colors.black87),
                             ),
                             Text(
                               item['label'].toString(),
-                              style: theme.textTheme.bodyMedium!.copyWith(color: primaryColor),
+                              style: theme.textTheme.bodyMedium!
+                                  .copyWith(color: primaryColor),
                             ),
                           ],
                         ),

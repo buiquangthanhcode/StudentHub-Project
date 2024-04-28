@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_bloc.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_event.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_state.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/data/dto/student/request_get_proposal_project.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
@@ -50,7 +52,7 @@ class _ProjectReviewProposalState extends State<ProjectReviewProposal> {
             children: [
               EmptyDataWidget(
                 mainTitle: '',
-                subTitle: 'No project working yet.',
+                subTitle: noProjectWorkingIndicatorKey.tr(),
                 widthImage: MediaQuery.of(context).size.width * 0.5,
               ),
             ],

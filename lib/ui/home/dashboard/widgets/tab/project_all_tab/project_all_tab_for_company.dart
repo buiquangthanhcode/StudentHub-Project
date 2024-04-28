@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -11,6 +12,7 @@ import 'package:studenthub/blocs/project_bloc/project_event.dart';
 import 'package:studenthub/blocs/project_bloc/project_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/ui/home/dashboard/data/data_count.dart';
@@ -36,7 +38,8 @@ class _ProjectAllTabState extends State<ProjectAllTabForCompany> {
   void initState() {
     super.initState();
     try {
-      currentUserId = BlocProvider.of<AuthBloc>(context).state.userModel.company!.id;
+      currentUserId =
+          BlocProvider.of<AuthBloc>(context).state.userModel.company!.id;
       context.read<ProjectBloc>().add(
             GetAllProjectsEvent(
               companyId: currentUserId!,
@@ -70,7 +73,7 @@ class _ProjectAllTabState extends State<ProjectAllTabForCompany> {
             children: [
               EmptyDataWidget(
                 mainTitle: '',
-                subTitle: 'No project working yet.',
+                subTitle: noProjectWorkingIndicatorKey.tr(),
                 widthImage: MediaQuery.of(context).size.width * 0.5,
               ),
             ],
@@ -82,7 +85,8 @@ class _ProjectAllTabState extends State<ProjectAllTabForCompany> {
             child: ListView.separated(
               itemCount: state.allProjects.length,
               itemBuilder: (context, index) {
-                return ProjectItem(theme: theme, item: state.allProjects[index]);
+                return ProjectItem(
+                    theme: theme, item: state.allProjects[index]);
               },
               separatorBuilder: (context, index) {
                 return const Padding(

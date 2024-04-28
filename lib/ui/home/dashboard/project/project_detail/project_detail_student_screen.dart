@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,6 +10,7 @@ import 'package:studenthub/blocs/general_project_bloc/general_project_bloc.dart'
 import 'package:studenthub/blocs/general_project_bloc/general_project_event.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_state.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
@@ -28,11 +30,23 @@ class ProjectDetailStudentView extends StatefulWidget {
   final ProjectProposal? projectProposal;
 
   @override
-  State<ProjectDetailStudentView> createState() => _ProjectDetailStudentViewState();
+  State<ProjectDetailStudentView> createState() =>
+      _ProjectDetailStudentViewState();
 }
 
 class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
-  Map<int, String> time = {0: 'Less than 1 month', 1: '1 - 3 months', 2: '3 - 6 months', 3: 'More than 6 months'};
+  // Map<int, String> time = {
+  //   0: 'Less than 1 month',
+  //   1: '1 to 3 months',
+  //   2: '3 to 6 months',
+  //   3: 'More than 6 months'
+  // };
+  Map<int, String> time = {
+    0: lessThan1MonthKey.tr(),
+    1: oneToThreeMonthsKey.tr(),
+    2: threeToSixMonthsKey.tr(),
+    3: moreThan6MonthsKey.tr(),
+  };
   @override
   void initState() {
     super.initState();
@@ -40,7 +54,10 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
       isSaved = widget.isFavorite == 'true';
     }
     context.read<GeneralProjectBloc>().add(
-          GetProjectDetail(id: widget.item?.id.toString() ?? widget.projectProposal!.project?.id.toString() ?? ''),
+          GetProjectDetail(
+              id: widget.item?.id.toString() ??
+                  widget.projectProposal!.project?.id.toString() ??
+                  ''),
         );
   }
 
@@ -76,18 +93,36 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                               isSaved!
                                   ? context.read<GeneralProjectBloc>().add(
                                         AddFavoriteProject(
-                                          studentId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
-                                          projectId: widget.item?.id.toString() ??
-                                              widget.projectProposal!.project?.id.toString() ??
-                                              '',
+                                          studentId: context
+                                              .read<AuthBloc>()
+                                              .state
+                                              .userModel
+                                              .student!
+                                              .id
+                                              .toString(),
+                                          projectId:
+                                              widget.item?.id.toString() ??
+                                                  widget.projectProposal!
+                                                      .project?.id
+                                                      .toString() ??
+                                                  '',
                                         ),
                                       )
                                   : context.read<GeneralProjectBloc>().add(
                                         RemoveFavoriteProject(
-                                          studentId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
-                                          projectId: widget.item?.id.toString() ??
-                                              widget.projectProposal!.project?.id.toString() ??
-                                              '',
+                                          studentId: context
+                                              .read<AuthBloc>()
+                                              .state
+                                              .userModel
+                                              .student!
+                                              .id
+                                              .toString(),
+                                          projectId:
+                                              widget.item?.id.toString() ??
+                                                  widget.projectProposal!
+                                                      .project?.id
+                                                      .toString() ??
+                                                  '',
                                         ),
                                       );
                               // logger.d('IS FAVORITE $isSaved');
@@ -98,7 +133,9 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                             });
                           },
                           child: FaIcon(
-                            isSaved! ? FontAwesomeIcons.solidHeart : FontAwesomeIcons.heart,
+                            isSaved!
+                                ? FontAwesomeIcons.solidHeart
+                                : FontAwesomeIcons.heart,
                             color: primaryColor,
                           ),
                         ),
@@ -113,8 +150,10 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      state.projectDetail.title ?? 'Senior frontend developer (Fintech)',
-                      style: textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600),
+                      state.projectDetail.title ??
+                          'Senior frontend developer (Fintech)',
+                      style: textTheme.bodyLarge!
+                          .copyWith(fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(
                       height: 15,
@@ -128,14 +167,16 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Students are looking for',
-                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black.withOpacity(0.6),
-                              ),
+                          jobDescriptionExampleKey.tr(),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black.withOpacity(0.6),
+                                  ),
                         ),
                         BulletList([
-                          state.projectDetail.description ?? 'Clear expectation about your project or deliverables',
+                          state.projectDetail.description ??
+                              'Clear expectation about your project or deliverables',
                           // 'The skill required for your project',
                           // 'Detail about your project',
                         ]),
@@ -161,7 +202,7 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Project scope',
+                                projectScopeKey.tr(),
                                 style: TextStyle(
                                   color: Colors.black.withOpacity(0.8),
                                 ),
@@ -177,8 +218,12 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                                     ),
                                   ),
                                   Text(
-                                    time[state.projectDetail.countProposals] ?? '3-6 months',
-                                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    time[state.projectDetail.countProposals] ??
+                                        '3-6 months',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
                                           color: Colors.black.withOpacity(0.8),
                                         ),
                                   ),
@@ -200,8 +245,9 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Student required',
-                                style: TextStyle(color: Colors.black.withOpacity(0.8)),
+                                studentRequiredKey.tr(),
+                                style: TextStyle(
+                                    color: Colors.black.withOpacity(0.8)),
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -218,7 +264,9 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall!
-                                        .copyWith(color: Colors.black.withOpacity(0.8)),
+                                        .copyWith(
+                                            color:
+                                                Colors.black.withOpacity(0.8)),
                                   ),
                                 ],
                               )
@@ -241,7 +289,8 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                         },
                         child: Text(
                           'Messages',
-                          style: textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                          style: textTheme.bodyMedium!.copyWith(
+                              color: Colors.white, fontWeight: FontWeight.w600),
                         ),
                       )
                     : const SizedBox(),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -5,6 +6,7 @@ import 'package:studenthub/blocs/chat_bloc/chat_bloc.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_event.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/ui/home/messages/data/get_chat_data.dart';
 import 'package:studenthub/ui/home/messages/widgets/chat_item.dart';
 import 'package:studenthub/ui/home/projects/widgets/general_project_item.dart';
@@ -91,7 +93,7 @@ class _MessagesState extends State<MessagesScreen> {
                         cursorColor: Colors.black,
                         style: textTheme.bodyMedium,
                         decoration: InputDecoration(
-                          hintText: 'Search for messages...',
+                          hintText: searchForMsgKey.tr(),
                           hintStyle: textTheme.bodyMedium!.copyWith(
                               color: Theme.of(context).colorScheme.hintColor),
                           prefixIcon: Column(

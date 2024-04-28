@@ -8,6 +8,7 @@ import 'package:studenthub/blocs/general_project_bloc/general_project_event.dart
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_model.dart';
 
 class ProjectItemSaved extends StatefulWidget {
@@ -26,7 +27,19 @@ class _ProjectItemSavedState extends State<ProjectItemSaved> {
     return ngayHienTai.difference(ngayDuocCungCap).inDays;
   }
 
-  Map<int, String> time = {0: 'Less than 1 month', 1: '1 - 3 months', 2: '3 - 6 months', 3: 'More than 6 months'};
+  // Map<int, String> time = {
+  //   0: 'Less than 1 month',
+  //   1: '1 to 3 months',
+  //   2: '3 to 6 months',
+  //   3: 'More than 6 months'
+  // };
+
+  Map<int, String> time = {
+    0: lessThan1MonthKey.tr(),
+    1: oneToThreeMonthsKey.tr(),
+    2: threeToSixMonthsKey.tr(),
+    3: moreThan6MonthsKey.tr(),
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -62,12 +75,18 @@ class _ProjectItemSavedState extends State<ProjectItemSaved> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Created ${differentDay(widget.project.createdAt!)} days ago',
-                        style: textTheme.bodySmall!.copyWith(color: colorTheme.grey),
+                        // 'Created ${differentDay(widget.project.createdAt!)} days ago',
+                        timeCreatedKey.tr(namedArgs: {
+                          "value": "${differentDay(widget.project.createdAt!)}",
+                        }),
+                        style: textTheme.bodySmall!
+                            .copyWith(color: colorTheme.grey),
                       ),
                       Text(
-                        widget.project.title ?? 'Senior frontend developer (Fintech)',
-                        style: textTheme.bodySmall!.copyWith(color: primaryColor),
+                        widget.project.title ??
+                            'Senior frontend developer (Fintech)',
+                        style:
+                            textTheme.bodySmall!.copyWith(color: primaryColor),
                       ),
                       Text(
                         'Time: ${time[widget.project.projectScopeFlag] ?? '1-3 months'}, ${widget.project.numberOfStudents ?? 0} students needed',
@@ -80,10 +99,17 @@ class _ProjectItemSavedState extends State<ProjectItemSaved> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    context.read<GeneralProjectBloc>().add(RemoveFavoriteProjectList(project: widget.project));
+                    context.read<GeneralProjectBloc>().add(
+                        RemoveFavoriteProjectList(project: widget.project));
                     context.read<GeneralProjectBloc>().add(
                           RemoveFavoriteProject(
-                            studentId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
+                            studentId: context
+                                .read<AuthBloc>()
+                                .state
+                                .userModel
+                                .student!
+                                .id
+                                .toString(),
                             projectId: widget.project.id.toString(),
                           ),
                         );
@@ -99,7 +125,7 @@ class _ProjectItemSavedState extends State<ProjectItemSaved> {
               height: 15,
             ),
             Text(
-              'Students are looking for',
+              jobDescriptionExampleKey.tr(),
               style: textTheme.bodySmall!,
             ),
             Padding(
@@ -121,7 +147,8 @@ class _ProjectItemSavedState extends State<ProjectItemSaved> {
                       ),
                       Expanded(
                         child: Text(
-                          widget.project.description ?? 'Clear expectation about your project or deliverables',
+                          widget.project.description ??
+                              'Clear expectation about your project or deliverables',
                           style: textTheme.bodySmall!,
                         ),
                       ),
