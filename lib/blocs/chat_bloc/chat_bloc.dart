@@ -55,6 +55,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   String checkDateTime(String dateTimeString) {
+    if (dateTimeString.isEmpty) return '';
     DateTime now = DateTime.now();
 
     DateTime dateTime = DateTime.parse(dateTimeString);
@@ -78,7 +79,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       // logger.d('MESSAGE DATA: ${result.data}');
       List<Message> data = [];
       for (Message i in result.data) {
-        i.createdAt = checkDateTime(i.createdAt!);
+        i.createdAt = checkDateTime(i.createdAt ?? '');
         data.add(i);
       }
 

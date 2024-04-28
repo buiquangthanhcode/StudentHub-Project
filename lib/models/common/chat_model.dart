@@ -5,7 +5,7 @@ import 'package:studenthub/models/common/project_model.dart';
 
 class Chat {
   int? id;
-  String? createAt;
+  String? createdAt;
   String? content;
   dynamic sender;
   dynamic receiver;
@@ -14,7 +14,7 @@ class Chat {
 
   Chat({
     this.id,
-    this.createAt,
+    this.createdAt,
     this.content,
     required this.sender,
     required this.receiver,
@@ -26,7 +26,7 @@ class Chat {
 
   Chat copyWith({
     int? id,
-    String? createAt,
+    String? createdAt,
     String? content,
     dynamic? sender,
     dynamic? receiver,
@@ -35,7 +35,7 @@ class Chat {
   }) {
     return Chat(
       id: id ?? this.id,
-      createAt: createAt ?? this.createAt,
+      createdAt: createdAt ?? this.createdAt,
       content: content ?? this.content,
       sender: sender ?? this.sender,
       receiver: receiver ?? this.receiver,
@@ -47,7 +47,7 @@ class Chat {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'createAt': createAt,
+      'createAt': createdAt,
       'content': content,
       'sender': sender,
       'receiver': receiver,
@@ -59,7 +59,7 @@ class Chat {
   factory Chat.fromMap(Map<String, dynamic> map) {
     return Chat(
       id: map['id'] != null ? map['id'] as int : null,
-      createAt: map['createAt'] != null ? map['createAt'] as String : null,
+      createdAt: map['createdAt'] != null ? map['createdAt'] as String : null,
       content: map['content'] != null ? map['content'] as String : null,
       sender: map['sender'] as dynamic,
       receiver: map['receiver'] as dynamic,
@@ -74,7 +74,7 @@ class Chat {
 
   @override
   String toString() {
-    return 'Chat(id: $id, createAt: $createAt, content: $content, sender: $sender, receiver: $receiver, interview: $interview, project: $project)';
+    return 'Chat(id: $id, createAt: $createdAt, content: $content, sender: $sender, receiver: $receiver, interview: $interview, project: $project)';
   }
 
   @override
@@ -83,7 +83,7 @@ class Chat {
   
     return 
       other.id == id &&
-      other.createAt == createAt &&
+      other.createdAt == createdAt &&
       other.content == content &&
       other.sender == sender &&
       other.receiver == receiver &&
@@ -94,7 +94,7 @@ class Chat {
   @override
   int get hashCode {
     return id.hashCode ^
-      createAt.hashCode ^
+      createdAt.hashCode ^
       content.hashCode ^
       sender.hashCode ^
       receiver.hashCode ^

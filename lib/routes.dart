@@ -2,7 +2,10 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studenthub/blocs/chat_bloc/chat_bloc.dart';
+import 'package:studenthub/blocs/chat_bloc/chat_event.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/company_profile_creation_screen.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit/company_profile_edit_screen.dart';
@@ -62,6 +65,12 @@ final GoRouter router = GoRouter(
         GoRoute(
           path: 'chat_detail',
           name: 'chat_detail',
+          onExit: (context) {
+            context.read<ChatBloc>().add(
+                  GetAllDataEvent(),
+                );
+            return true;
+          },
           pageBuilder: (context, state) {
             return customTransitionPage(
                 state.pageKey,
