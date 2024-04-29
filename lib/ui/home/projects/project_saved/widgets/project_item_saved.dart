@@ -30,7 +30,6 @@ class _ProjectItemSavedState extends State<ProjectItemSaved> {
 
   @override
   Widget build(BuildContext context) {
-    // logger.d('Project: ${widget.project}');
     TextTheme textTheme = Theme.of(context).textTheme;
     var colorTheme = Theme.of(context).colorScheme;
     return GestureDetector(

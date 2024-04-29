@@ -90,7 +90,6 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                                               '',
                                         ),
                                       );
-                              // logger.d('IS FAVORITE $isSaved');
                               // context.read<AllProjectBloc>().add(
                               //     UpdateFavoriteProjectUI(
                               //         projectId: int.parse(widget.id),

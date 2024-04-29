@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -11,7 +9,6 @@ import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/utils/helper.dart';
-import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
 
 class ProjectGeneralDetailScreen extends StatefulWidget {
@@ -51,8 +48,6 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
       builder: (BuildContext context, GeneralProjectState state) {
         bool isSubmitProposal = checkIsSubmitProposal(
             state.projectDetail.proposals ?? [], context.read<AuthBloc>().state.userModel.student!.id!.toInt());
-
-        logger.d(isSubmitProposal);
         return Scaffold(
           appBar: widget.isHiddenAppbar ?? false
               ? null
@@ -86,11 +81,6 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                                           projectId: widget.id,
                                         ),
                                       );
-                              // logger.d('IS FAVORITE $isSaved');
-                              // context.read<AllProjectBloc>().add(
-                              //     UpdateFavoriteProjectUI(
-                              //         projectId: int.parse(widget.id),
-                              //         isFavorite: isSaved!));
                             });
                           },
                           child: FaIcon(

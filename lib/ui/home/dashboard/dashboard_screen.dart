@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,7 +9,6 @@ import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/tab/project_all_tab/project_all_tab_for_company.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/tab/project_all_tab/project_all_tab_for_student.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/tab/project_archived_tab/project_archived_tab_for_company.dart';
-import 'package:studenthub/ui/home/dashboard/widgets/tab/project_archived_tab/project_archived_tab_for_student.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/tab/project_working_tab/project_working_tab_for_company.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/tab/project_working_tab/project_working_tab_for_student.dart';
 

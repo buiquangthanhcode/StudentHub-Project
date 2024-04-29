@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_event.dart';
@@ -44,12 +42,15 @@ class _ProjectAllTabState extends State<ProjectWorkingTabForStudent> {
           );
         }
         return Container(
-          margin: const EdgeInsets.only(top: 20),
+          margin: const EdgeInsets.only(top: 10),
           child: Center(
             child: ListView.separated(
               itemCount: state.workingProjects.length,
               itemBuilder: (context, index) {
-                return ProjectItem(theme: theme, item: state.workingProjects[index]);
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                  child: ProjectItem(theme: theme, item: state.workingProjects[index]),
+                );
               },
               separatorBuilder: (context, index) {
                 return const Padding(

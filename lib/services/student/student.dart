@@ -282,7 +282,6 @@ class StudentService {
       final res = await dioClient.put('$baseURL/api/profile/student/${request.studentId}/resume',
           data: FormData.fromMap(request.toMap()));
 
-      logger.d(res);
       return ResponseAPI(
         statusCode: res.statusCode,
         data: res.data,
@@ -324,7 +323,6 @@ class StudentService {
   Future<ResponseAPI<String>> changePassWord(RequestChangePassWord request) async {
     try {
       final res = await dioClient.put('$baseURL/api/user/changePassword', data: request.toJson());
-      logger.d(res);
       return ResponseAPI<String>(
         statusCode: res.statusCode,
         data: res.data['result'],
@@ -338,7 +336,6 @@ class StudentService {
   Future<ResponseAPI<RequestProposal>> postProposal(RequestProposal request) async {
     try {
       final res = await dioClient.post('$baseURL/api/proposal', data: request.toJson());
-      logger.d(res);
       return ResponseAPI<RequestProposal>(
         statusCode: res.statusCode,
         data: RequestProposal.fromMap(res.data['result']),
@@ -352,7 +349,6 @@ class StudentService {
   Future<ResponseAPI<Proposal>> getAllProprosal(String studentId) async {
     try {
       final res = await dioClient.post('$baseURL/api/proposal/student/$studentId');
-      logger.d(res);
       // List of Request
       return ResponseAPI<Proposal>(
         statusCode: res.statusCode,
@@ -372,7 +368,6 @@ class StudentService {
         url = '$url?statusFlag=${event.statusFlag}';
       }
       final res = await dioClient.get(url);
-      logger.d(res);
       // List of Request
       return ResponseAPI<List<ProjectProposal>>(
         statusCode: res.statusCode,
@@ -389,7 +384,6 @@ class StudentService {
       final res = await dioClient.put('$baseURL/api/profile/student/${request.studentId}/transcript',
           data: FormData.fromMap(request.toMap()));
 
-      logger.d(res);
       return ResponseAPI(
         statusCode: res.statusCode,
         data: res.data,

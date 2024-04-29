@@ -77,7 +77,6 @@ DateTime parseMonthYear(String? monthYearString) {
     DateFormat formatter = DateFormat('MM-yyyy');
     return formatter.parseStrict(monthYearString ?? '1970-01-01');
   } catch (e) {
-    // Xử lý ngoại lệ nếu có lỗi xảy ra
     logger.e('Error parsing date: $e');
     return DateTime.parse('1970-01-01');
   }

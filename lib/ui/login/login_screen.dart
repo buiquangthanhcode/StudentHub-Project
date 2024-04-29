@@ -12,7 +12,6 @@ import 'package:studenthub/blocs/global_bloc/global_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/data/dto/authen/request_login.dart';
-import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
 import 'package:studenthub/widgets/customCheckboxWidget.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
@@ -226,8 +225,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ElevatedButton(
                                           onPressed: () {
                                             if (_formForgotPassword.currentState?.saveAndValidate() ?? false) {
-                                              // logger.d((_formForgotPassword
-                                              //     .currentState?.value));
                                               context.read<GlobalBloc>().add(
                                                     ResetPasswordEvent(
                                                         email:
@@ -240,7 +237,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                                         }),
                                                   );
                                             }
-                                            // log("text field: ${}");
                                           },
                                           style: ElevatedButton.styleFrom(
                                               padding:
@@ -294,7 +290,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               onSuccess: () {
                                 AuthenState auth = context.read<AuthBloc>().state;
-                                logger.d(auth.userModel.toMap());
                                 if (auth.isCompanyRole() && auth.userModel.company == null) {
                                   context.pushNamed('company_create_profile');
                                 } else if (auth.isStudentRole() && auth.userModel.student == null) {

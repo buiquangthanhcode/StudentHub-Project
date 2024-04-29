@@ -6,7 +6,6 @@ import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/models/common/chat_model.dart';
-import 'package:studenthub/utils/logger.dart';
 
 class ChatItem extends StatelessWidget {
   const ChatItem({
@@ -22,9 +21,7 @@ class ChatItem extends StatelessWidget {
 
     DateTime dateTime = DateTime.parse(dateTimeString);
 
-    if (dateTime.year == now.year &&
-        dateTime.month == now.month &&
-        dateTime.day == now.day) {
+    if (dateTime.year == now.year && dateTime.month == now.month && dateTime.day == now.day) {
       dateTime = dateTime.toLocal();
       return DateFormat('HH:mm').format(dateTime);
     } else {
@@ -36,16 +33,12 @@ class ChatItem extends StatelessWidget {
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     var colorTheme = Theme.of(context).colorScheme;
-    String username = chat.sender['id'] !=
-            context.read<AuthBloc>().state.userModel.id.toString()
+    String username = chat.sender['id'] != context.read<AuthBloc>().state.userModel.id.toString()
         ? chat.sender['fullname']
         : chat.receiver['fullname'];
-    // logger.d(
-    //     'RUNNNN: ${context.read<AuthBloc>().state.userModel.id==chat.sender['id']}');
-    String userId =
-        chat.sender['id'] != context.read<AuthBloc>().state.userModel.id
-            ? chat.sender['id'].toString()
-            : chat.receiver['id'].toString();
+    String userId = chat.sender['id'] != context.read<AuthBloc>().state.userModel.id
+        ? chat.sender['id'].toString()
+        : chat.receiver['id'].toString();
 
     return InkWell(
       onTap: () {
@@ -58,9 +51,7 @@ class ChatItem extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 25),
         padding: const EdgeInsets.symmetric(vertical: 12),
-        decoration: BoxDecoration(
-            border: Border(
-                top: BorderSide(width: 1, color: colorTheme.hintColor!))),
+        decoration: BoxDecoration(border: Border(top: BorderSide(width: 1, color: colorTheme.hintColor!))),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -68,8 +59,7 @@ class ChatItem extends StatelessWidget {
               width: 46,
               height: 46,
               child: CircleAvatar(
-                backgroundImage:
-                    AssetImage('lib/assets/images/circle_avatar.png'),
+                backgroundImage: AssetImage('lib/assets/images/circle_avatar.png'),
               ),
             ),
             const SizedBox(
@@ -95,10 +85,8 @@ class ChatItem extends StatelessWidget {
                       ),
                       Text(
                         checkDateTime(chat.createdAt ?? ''),
-                        style: textTheme.bodySmall!.copyWith(
-                            fontWeight: FontWeight.w500,
-                            color: colorTheme.grey,
-                            fontSize: 13),
+                        style: textTheme.bodySmall!
+                            .copyWith(fontWeight: FontWeight.w500, color: colorTheme.grey, fontSize: 13),
                       ),
                     ],
                   ),
@@ -112,12 +100,9 @@ class ChatItem extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: Text(
-                      userId != chat.sender['id'].toString()
-                          ? 'You: ${chat.content ?? ''}'
-                          : chat.content ?? '',
+                      userId != chat.sender['id'].toString() ? 'You: ${chat.content ?? ''}' : chat.content ?? '',
                       overflow: TextOverflow.ellipsis,
-                      style: textTheme.bodyMedium!
-                          .copyWith(color: colorTheme.hintColor, fontSize: 15),
+                      style: textTheme.bodyMedium!.copyWith(color: colorTheme.hintColor, fontSize: 15),
                     ),
                   ),
                 ],

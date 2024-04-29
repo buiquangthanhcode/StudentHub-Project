@@ -10,7 +10,6 @@ import 'package:studenthub/ui/home/dashboard/project/project_hired/project_hired
 import 'package:studenthub/ui/home/dashboard/project/project_proposal/project_proposal_screen.dart';
 import 'package:studenthub/ui/home/messages/messages_screen.dart';
 import 'package:studenthub/ui/home/projects/project_general_detail/project_general_detail_screen.dart';
-import 'package:studenthub/utils/logger.dart';
 
 class ProjectDetailCompanyView extends StatefulWidget {
   const ProjectDetailCompanyView({super.key, this.item, this.projectProposal, this.initTab = 0});
@@ -42,7 +41,6 @@ class _ProjectReviewDetailScreenState extends State<ProjectDetailCompanyView> wi
 
   @override
   Widget build(BuildContext context) {
-    logger.e(widget.item);
     final theme = Theme.of(context);
 
     return Scaffold(
