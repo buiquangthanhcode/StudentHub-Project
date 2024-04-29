@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,6 +13,7 @@ import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/blocs/student_bloc/student_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/core/dropdown_button_formfield.dart';
 import 'package:studenthub/data/dto/student/request_update_profile_student.dart';
@@ -152,7 +154,10 @@ class _StudentProfileCreationStep01State
         centerTitle: false,
         titleSpacing: 0,
         title: Text(
-          user.student == null ? "Welcome to StudentHub" : "Edit Profile",
+          // user.student == null ? "Welcome to StudentHub" : "Edit Profile",
+          user.student == null
+              ? welcomeDialogMsg.tr()
+              : editProfileTitleKey.tr(),
           style: theme.textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.bold,
             fontSize: 24,
@@ -171,18 +176,22 @@ class _StudentProfileCreationStep01State
                     const SizedBox(height: 10),
                     Center(
                       child: Text(
-                        "Tell us about your self and you will be on your way connect with real-world project",
+                        // "Tell us about your self and you will be on your way connect with real-world project",
+                        editProfileDescriptionKey.tr(),
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontSize: 15,
                         ),
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Text("TechStack",
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        )),
+                    Text(
+                      // "TechStack",
+                      techStackKey.tr(),
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     DropDownFormFieldCustom<TechStack>(
                       name: "techstack",
                       data: dataSourceTechStack,
@@ -191,13 +200,17 @@ class _StudentProfileCreationStep01State
                       onSaved: (value) {
                         selectedValue = value.toString();
                       },
-                      hint: "Please selecte TechStack",
+                      // hint: "Please selecte TechStack",
+                      hint: selectTechStackKey.tr(),
                     ),
-                    Text("Skillset",
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        )),
+                    Text(
+                      // "Skillset",
+                      skillSetKey.tr(),
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     // const SizedBox(
                     //   height: 10,
                     // ),
@@ -235,7 +248,8 @@ class _StudentProfileCreationStep01State
                             Row(
                               children: [
                                 Text(
-                                  "Languages",
+                                  // "Languages",
+                                  languagesKey.tr(),
                                   style: theme.textTheme.bodyMedium!.copyWith(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
@@ -269,9 +283,10 @@ class _StudentProfileCreationStep01State
                             Builder(
                               builder: (context) {
                                 if (state.student.languages?.isEmpty ?? true) {
-                                  return const EmptyDataWidget(
+                                  return EmptyDataWidget(
                                     mainTitle: '',
-                                    subTitle: 'No data',
+                                    // subTitle: 'No data',
+                                    subTitle: noDataKey.tr(),
                                     widthImage: 150,
                                   );
                                 }
@@ -303,7 +318,8 @@ class _StudentProfileCreationStep01State
                             Row(
                               children: [
                                 Text(
-                                  "Education",
+                                  // "Education",
+                                  educationKey.tr(),
                                   style: theme.textTheme.bodyMedium!.copyWith(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
@@ -324,36 +340,45 @@ class _StudentProfileCreationStep01State
                                         context,
                                         widgetBuilder:
                                             const CreateEducationWidget(),
-                                        headerBuilder: Row(
-                                          children: [
-                                            Text(
-                                              "Create Education",
-                                              style: theme.textTheme.bodyMedium
-                                                  ?.copyWith(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                            const Spacer(),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                  color: theme.colorScheme.grey!
-                                                      .withOpacity(0.4),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          50)),
-                                              padding: const EdgeInsets.all(3),
-                                              child: InkWell(
-                                                onTap: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Icon(
-                                                  Icons.close,
-                                                  color: theme.colorScheme.grey,
+                                        headerBuilder: Container(
+                                          margin:
+                                              const EdgeInsets.only(top: 20),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                // "Create Education",
+                                                createEducationTitleKey.tr(),
+                                                style: theme
+                                                    .textTheme.bodyMedium
+                                                    ?.copyWith(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                              const Spacer(),
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                    color: theme
+                                                        .colorScheme.grey!
+                                                        .withOpacity(0.4),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            50)),
+                                                padding:
+                                                    const EdgeInsets.all(3),
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Icon(
+                                                    Icons.close,
+                                                    color:
+                                                        theme.colorScheme.grey,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       );
                                     },
@@ -370,9 +395,10 @@ class _StudentProfileCreationStep01State
                             Builder(
                               builder: (context) {
                                 if (state.student.educations?.isEmpty ?? true) {
-                                  return const EmptyDataWidget(
+                                  return EmptyDataWidget(
                                     mainTitle: '',
-                                    subTitle: 'No data',
+                                    // subTitle: 'No data',
+                                    subTitle: noDataKey.tr(),
                                     widthImage: 150,
                                   );
                                 }

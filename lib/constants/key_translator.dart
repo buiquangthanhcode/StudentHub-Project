@@ -1,6 +1,16 @@
 const String hiKey = 'hi';
 const String vietnameseKey = 'vietnamese';
 const String englishKey = 'english';
+const String frenchKey = 'french';
+const String spanishKey = 'spanish';
+const String germanKey = 'german';
+const String italianKey = 'italian';
+const String portugueseKey = 'portuguese';
+const String dutchKey = 'dutch';
+const String russianKey = 'russian';
+const String nativeKey = "native";
+const String bilingualKey = "bilingual";
+
 const String changeLanguageKey = 'change_language';
 // ---- for user role ----
 const String studentRoleKey = "student";
@@ -29,6 +39,9 @@ const String messageBtnKey = 'message';
 const String helpBtnKey = 'help';
 const String changeAccountBtnKey = "change_account";
 const String getStartedBtnKey = "get_started";
+const String saveBtnKey = "save";
+const String deleteBtnKey = "delete";
+const String saveChangesBtnKey = "save_changes";
 // for project post step 01
 const String newPostTitleKey = 'new_post_title';
 const String newPostTitleDescriptionKey = 'new_post_title_description';
@@ -90,7 +103,7 @@ const String sendOfferSuccessMsgKey = "send_offer_success_msg";
 const String projectAddedSuccessMsgKey = 'project_added_success_msg';
 const String projectUpdatedSuccessMsgKey = 'project_updated_success_msg';
 const String changeAccountSuccessMsgKey = 'account_change_success_msg';
-// --- for profile screen ---
+// --- for settings screen ---
 const String accountKey = "account";
 const String profileKey = "profile";
 const String settingsKey = "settings";
@@ -101,3 +114,39 @@ const String notificationKey = "notification";
 const String changeAccountConfirmMsgKey = "change_account_confirm_msg";
 const String changeAccountNoticeMsgKey1 = "change_account_notice_1";
 const String changeAccountNoticeMsgKey2 = "change_account_notice_2";
+// --- for profile screen ---
+const String editProfileTitleKey = "edit_profile";
+const String editProfileDescriptionKey = "edit_profile_description";
+const String techStackKey = "tech_stack";
+const String skillSetKey = "skill_set";
+const String enterSkillSetPlaceHolderKey = "skill_set_placeholder";
+const String languagesKey = "languages";
+const String educationKey = "education";
+const String noDataKey = "no_data";
+const String projectKey = "project";
+const String studentCreateProfileKey = "student_create_profile";
+const String noProjectFoundKey = "no_project_found";
+const String cvTranscriptKey = "cv_transcript";
+const String resumeCVKey = "resume_cv_key";
+const String transcriptKey = "resume_cv_key";
+const String selectFileToUploadKey = "select_file_to_upload";
+const String selectFileToUploadDescriptionKey =
+    "select_file_to_upload_description";
+// --- for edit language bottom sheet ---
+const String createLanguageKey = "create_language";
+const String selectLanguagePlaceHolderKey = "select_language_placeholder";
+const String selectLevelPlaceHolderKey = "select_level_placeholder";
+const String selectTechStackKey = "select_tech_stack";
+const String editLanguageTitleKey = "edit_language_title";
+const String thisActionCannotBeUndoneKey = "this_action_cannot_be_done";
+const String deleteLanguageConfirmMsg = "delete_language_confirm";
+const String deleteEducationConfirmMsg = "delete_education_confirm";
+const String deleteExperienceConfirmMsg = "delete_experience_confirm";
+const String deleteSuccessMsg = "delete_success_msg";
+const String createSuccessMsg = "create_success_msg";
+// --- for edit education bottom sheet ---
+const String createEducationTitleKey = "create_education_title";
+const String nameOfSchoolKey = "name_of_school";
+const String yearStartPlaceHolderKey = "year_start";
+const String yearEndPlaceHolderKey = "year_end";
+const String selectYearTitleKey = "select_year_title";

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -5,6 +6,7 @@ import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/core/dropdown_button_formfield.dart';
 import 'package:studenthub/models/student/student_create_profile/language_model.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/data/student_data_creation.dart';
@@ -34,7 +36,8 @@ class _LanguageEditState extends State<LanguageEdit> {
             Row(
               children: [
                 Text(
-                  "Edit Language",
+                  // "Edit Language",
+                  editLanguageTitleKey.tr(),
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
@@ -43,7 +46,8 @@ class _LanguageEditState extends State<LanguageEdit> {
                 const Spacer(),
                 Container(
                   decoration: BoxDecoration(
-                      color: theme.colorScheme.grey!.withOpacity(0.4), borderRadius: BorderRadius.circular(50)),
+                      color: theme.colorScheme.grey!.withOpacity(0.4),
+                      borderRadius: BorderRadius.circular(50)),
                   padding: const EdgeInsets.all(3),
                   child: InkWell(
                     onTap: () {
@@ -79,11 +83,19 @@ class _LanguageEditState extends State<LanguageEdit> {
               ),
               onPressed: () {
                 if (formkey.currentState?.saveAndValidate() ?? false) {
-                  int userId = BlocProvider.of<StudentBloc>(context).state.student.id ?? 0;
-                  List<Language> currentLanguages = BlocProvider.of<StudentBloc>(context).state.student.languages ?? [];
+                  int userId =
+                      BlocProvider.of<StudentBloc>(context).state.student.id ??
+                          0;
+                  List<Language> currentLanguages =
+                      BlocProvider.of<StudentBloc>(context)
+                              .state
+                              .student
+                              .languages ??
+                          [];
                   Language itemUpdate = Language(
                       id: widget.item.id,
-                      languageName: formkey.currentState?.fields['language']?.value,
+                      languageName:
+                          formkey.currentState?.fields['language']?.value,
                       level: formkey.currentState?.fields['level']?.value);
                   List<Language> newLanguages = currentLanguages.map((e) {
                     if (e.id == widget.item.id) {
@@ -101,7 +113,8 @@ class _LanguageEditState extends State<LanguageEdit> {
                 }
               },
               child: Text(
-                "Save",
+                // "Save",
+                saveBtnKey.tr(),
                 style: theme.textTheme.bodyMedium!.copyWith(
                   color: theme.colorScheme.onPrimary,
                 ),

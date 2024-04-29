@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
@@ -6,6 +7,7 @@ import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
 // import 'package:studenthub/blocs/company_bloc/company_create_profile_event.dart';
 import 'package:studenthub/blocs/company_bloc/company_event.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/user_model.dart';
 import 'package:studenthub/models/company/company_model.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit/widgets/save_button.dart';
@@ -91,9 +93,11 @@ class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(50),
             child: AppBar(
-              title: const Text(
-                'Edit Profile',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              title: Text(
+                // 'Edit Profile',
+                editProfileTitleKey.tr(),
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               centerTitle: false,
             ),

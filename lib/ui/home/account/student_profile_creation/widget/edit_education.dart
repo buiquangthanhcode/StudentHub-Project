@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -5,6 +6,7 @@ import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/core/text_field_custom.dart';
 import 'package:studenthub/core/year_picker_formfield.dart';
 import 'package:studenthub/models/student/student_create_profile/education_model.dart';
@@ -39,7 +41,8 @@ class _EditEducationState extends State<EducationEdit> {
               Row(
                 children: [
                   Text(
-                    "Edit Language",
+                    // "Edit Language",
+                    editLanguageTitleKey.tr(),
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
@@ -48,7 +51,8 @@ class _EditEducationState extends State<EducationEdit> {
                   const Spacer(),
                   Container(
                     decoration: BoxDecoration(
-                        color: theme.colorScheme.grey!.withOpacity(0.4), borderRadius: BorderRadius.circular(50)),
+                        color: theme.colorScheme.grey!.withOpacity(0.4),
+                        borderRadius: BorderRadius.circular(50)),
                     padding: const EdgeInsets.all(3),
                     child: InkWell(
                       onTap: () {
@@ -68,7 +72,8 @@ class _EditEducationState extends State<EducationEdit> {
                   Icons.school,
                 ),
                 name: 'nameOfSchool',
-                hintText: 'Name of School',
+                // hintText: 'Name of School',
+                hintText: nameOfSchoolKey.tr(),
                 initialValue: widget.item.schoolName,
                 autofocus: true,
                 fillColor: Colors.white,
@@ -81,7 +86,8 @@ class _EditEducationState extends State<EducationEdit> {
               PickerYearCustom(
                 name: 'year_start',
                 hintText: "Year Start",
-                initValue: parseYearToDateTime(widget.item.startYear.toString()),
+                initValue:
+                    parseYearToDateTime(widget.item.startYear.toString()),
                 labelText: 'Year Start',
               ),
               const SizedBox(height: 10),
@@ -99,14 +105,25 @@ class _EditEducationState extends State<EducationEdit> {
                 ),
                 onPressed: () {
                   if (formkey.currentState?.saveAndValidate() ?? false) {
-                    int userId = BlocProvider.of<StudentBloc>(context).state.student.id ?? 0;
+                    int userId = BlocProvider.of<StudentBloc>(context)
+                            .state
+                            .student
+                            .id ??
+                        0;
                     List<Education> currentEducation =
-                        BlocProvider.of<StudentBloc>(context).state.student.educations ?? [];
+                        BlocProvider.of<StudentBloc>(context)
+                                .state
+                                .student
+                                .educations ??
+                            [];
                     Education itemUpdate = Education(
                         id: widget.item.id,
-                        schoolName: formkey.currentState!.fields['nameOfSchool']!.value as String,
-                        startYear: int.parse(formkey.currentState!.fields['year_start']!.value),
-                        endYear: int.parse(formkey.currentState!.fields['year_end']!.value));
+                        schoolName: formkey.currentState!
+                            .fields['nameOfSchool']!.value as String,
+                        startYear: int.parse(
+                            formkey.currentState!.fields['year_start']!.value),
+                        endYear: int.parse(
+                            formkey.currentState!.fields['year_end']!.value));
 
                     List<Education> newEducation = currentEducation.map((e) {
                       if (e.id == widget.item.id) {
@@ -127,7 +144,8 @@ class _EditEducationState extends State<EducationEdit> {
                   }
                 },
                 child: Text(
-                  "Save",
+                  // "Save",
+                  saveBtnKey.tr(),
                   style: theme.textTheme.bodyMedium!.copyWith(
                     color: theme.colorScheme.onPrimary,
                   ),

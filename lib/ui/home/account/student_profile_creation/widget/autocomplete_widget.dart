@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
 
 class AutoCompleteWidget extends StatefulWidget {
@@ -73,16 +75,17 @@ class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
                 fontSize: 16,
               ),
               scrollPadding: const EdgeInsets.all(0),
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 // contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                 contentPadding:
-                    EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 isDense: true,
-                hintText: 'Enter your skill',
-                hintStyle: TextStyle(
+                // hintText: 'Enter your skill',
+                hintText: enterSkillSetPlaceHolderKey.tr(),
+                hintStyle: const TextStyle(
                   fontSize: 14,
                 ),
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
               ),
             );
           },

@@ -28,7 +28,7 @@ class _TitleWidgetState extends State<TitleWidget> {
           height: 8,
         ),
         Text(
-          'Tell us about your company and you will be on your way to connect with high-skilled students',
+          editProfileDescriptionKey.tr(),
           style: textTheme.bodySmall!.copyWith(color: colorTheme.grey),
         ),
       ],

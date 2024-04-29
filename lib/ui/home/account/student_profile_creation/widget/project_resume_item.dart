@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -6,6 +7,7 @@ import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/data/dto/student/request_post_experience.dart';
 import 'package:studenthub/models/student/student_create_profile/project_model.dart';
@@ -64,7 +66,8 @@ class ProjectResumeItem extends StatelessWidget {
                   color: theme.colorScheme.grey!,
                 ),
                 onTap: () {
-                  showModalBottomSheetCustom(context, widgetBuilder: EditProjectResumeItem(item: item));
+                  showModalBottomSheetCustom(context,
+                      widgetBuilder: EditProjectResumeItem(item: item));
                 },
               ),
               const SizedBox(width: 10),
@@ -85,9 +88,12 @@ class ProjectResumeItem extends StatelessWidget {
                   showDialogCustom(
                     context,
                     image: 'lib/assets/images/delete.png',
-                    title: 'Are you sure you want to delete this experience?',
-                    textButtom: 'Delete',
-                    subtitle: 'This action cannot be undone',
+                    // title: 'Are you sure you want to delete this experience?',
+                    title: deleteExperienceConfirmMsg.tr(),
+                    textButtom: deleteBtnKey.tr(),
+                    // textButtom: 'Delete',
+                    // subtitle: 'This action cannot be undone',
+                    subtitle: thisActionCannotBeUndoneKey.tr(),
                     onSave: () {
                       final student = context.read<StudentBloc>().state.student;
 
@@ -99,15 +105,24 @@ class ProjectResumeItem extends StatelessWidget {
                         }
                       }
 
-                      RequestPostExperience requestPostExperience = RequestPostExperience(
+                      RequestPostExperience requestPostExperience =
+                          RequestPostExperience(
                         experience: currentExperience,
-                        userId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
+                        userId: context
+                            .read<AuthBloc>()
+                            .state
+                            .userModel
+                            .student!
+                            .id
+                            .toString(),
                       );
                       context.read<StudentBloc>().add(AddProjectEvent(
                             experience: requestPostExperience,
                             onSuccess: () {
                               SnackBarService.showSnackBar(
-                                  content: "Delete Sucessfully", status: StatusSnackBar.success);
+                                  // content: "Delete Sucessfully",
+                                  content: deleteSuccessMsg.tr(),
+                                  status: StatusSnackBar.success);
                               Navigator.pop(context);
                             },
                           ));
@@ -153,7 +168,8 @@ class ProjectResumeItem extends StatelessWidget {
                           ),
                           Builder(builder: (context) {
                             int duration = calculateMonthDifference(
-                                stringToDateTime(item.startMonth), stringToDateTime(item.endMonth));
+                                stringToDateTime(item.startMonth),
+                                stringToDateTime(item.endMonth));
                             return duration != 0
                                 ? Text(
                                     ', $duration  months',
@@ -166,7 +182,8 @@ class ProjectResumeItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    'Skillset',
+                    // 'Skillset',
+                    skillSetKey.tr(),
                     style: theme.textTheme.bodyMedium,
                   ),
                   const SizedBox(
@@ -181,7 +198,8 @@ class ProjectResumeItem extends StatelessWidget {
                         children: item.skillSets!
                             .map((item) => Container(
                                   margin: const EdgeInsets.only(left: 10),
-                                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
                                   decoration: BoxDecoration(
                                     border: Border.all(color: Colors.grey),
                                     borderRadius: BorderRadius.circular(40),
@@ -192,7 +210,8 @@ class ProjectResumeItem extends StatelessWidget {
                                       Center(
                                         child: Text(
                                           item.name ?? '',
-                                          style: theme.textTheme.bodyMedium?.copyWith(),
+                                          style: theme.textTheme.bodyMedium
+                                              ?.copyWith(),
                                         ),
                                       ),
                                     ],
