@@ -93,7 +93,11 @@ class _StudentProfileCreationStep02ScreenState extends State<StudentProfileCreat
                       ),
                       child: InkWell(
                         onTap: () {
-                          showModalBottomSheetCustom(context, widgetBuilder: const CreateProjectResume());
+                          showModalBottomSheetCustom(
+                            context,
+                            height: 1,
+                            widgetBuilder: const CreateProjectResume(),
+                          );
                         },
                         child: const Icon(
                           Icons.add,

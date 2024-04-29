@@ -10,7 +10,6 @@ import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/ui/home/dashboard/data/data_count.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/edit_posting_widget.dart';
-import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class MoreActionWidget extends StatefulWidget {
@@ -57,18 +56,15 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
                             extra: {'item': widget.project} as Map<String, dynamic>);
                     break;
                   case "view_messages":
-                    log("View Messages");
                     context.push('/project_company_detail',
                         extra: {'item': widget.project, 'initTab': "2"} as Map<String, dynamic>);
                     break;
                   case "view_hired":
-                    log("View Hired");
                     context.push('/project_company_detail',
                         extra: {'item': widget.project, 'initTab': "3"} as Map<String, dynamic>);
                     break;
                   case "view_job_posting":
                     log("View Job Posting");
-                    logger.d(widget.project);
                     authState.currentRole == UserRole.company
                         ? context.push('/project_company_detail',
                             extra: {'item': widget.project, 'initTab': "1"} as Map<String, dynamic>)

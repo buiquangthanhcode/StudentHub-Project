@@ -296,6 +296,7 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
                                     onTap: () {
                                       showModalBottomSheetCustom(
                                         context,
+                                        height: 0.8,
                                         widgetBuilder: const CreateEducationWidget(),
                                         headerBuilder: Row(
                                           children: [

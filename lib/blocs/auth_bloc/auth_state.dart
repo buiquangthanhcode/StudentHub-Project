@@ -36,7 +36,7 @@ class AuthenState extends Equatable {
       }
       return null;
     } catch (e) {
-      logger.d(e);
+      logger.e(e);
       return null;
     }
   }

@@ -6,7 +6,6 @@ import 'package:studenthub/blocs/company_bloc/company_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
-import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/dialog.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
@@ -99,7 +98,7 @@ class _ProposalItemState extends State<ProposalItem> {
                     widget.item.project?.title ?? 'Excellent',
                     overflow: TextOverflow.ellipsis,
                     style: widget.theme.textTheme.bodyMedium!.copyWith(
-                      color: Color.fromARGB(255, 231, 144, 5),
+                      color: const Color.fromARGB(255, 231, 144, 5),
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -172,8 +171,6 @@ class _ProposalItemState extends State<ProposalItem> {
                     minimumSize: const Size(double.infinity, 35),
                   ),
                   onPressed: () {
-                    // logger.d(
-                    //     '${widget.item.student!.user?.fullname}\n${widget.item.studentId.toString()}\n${widget.projectId}');
                     context.pushNamed('chat_detail', queryParameters: {
                       'userName': widget.item.student!.user?.fullname ?? '',
                       'userId': widget.item.studentId.toString(),

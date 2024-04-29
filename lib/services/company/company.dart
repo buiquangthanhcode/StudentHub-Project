@@ -77,7 +77,6 @@ class CompanyService {
         '$baseURL/api/profile/company',
         data: company.toJson(),
       );
-      // logger.d(res.data['create profile success']);
 
       return ResponseAPI<Company>(
         statusCode: res.statusCode,

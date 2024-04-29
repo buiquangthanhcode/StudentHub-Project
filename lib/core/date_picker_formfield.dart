@@ -29,13 +29,13 @@ class _DatePickerCustomState extends State<DatePickerCustom> {
   String _dateCount = '';
   String _range = '';
   String _rangeCount = '';
+  final _textFormKey = GlobalKey<FormBuilderFieldState>();
 
   @override
   void initState() {
     super.initState();
     if (widget.initialDate != null) {
-      textController.text =
-          DateFormat('dd/MM/yyyy').format(widget.initialDate!).toString();
+      textController.text = DateFormat('dd/MM/yyyy').format(widget.initialDate!).toString();
     }
   }
 
@@ -44,6 +44,7 @@ class _DatePickerCustomState extends State<DatePickerCustom> {
     return SizedBox(
         height: 50,
         child: FormBuilderField(
+          key: _textFormKey,
           name: widget.name,
           builder: (field) {
             return TextFormField(
@@ -85,13 +86,11 @@ class _DatePickerCustomState extends State<DatePickerCustom> {
                 textController.text = newValue!;
               },
               onTap: () async {
-                DateTime? data =
-                    await showDatePickerCustom(context, view: widget.view);
+                DateTime? data = await showDatePickerCustom(context, view: widget.view);
                 if (data != null) {
                   field.didChange(data);
                   field.save();
-                  textController.text =
-                      DateFormat('dd/MM/yyyy').format(data).toString();
+                  textController.text = DateFormat('dd/MM/yyyy').format(data).toString();
                 }
               },
             );
@@ -120,11 +119,9 @@ class _DatePickerCustomState extends State<DatePickerCustom> {
     DateTime? initialDate,
     DateTime? firstDate,
     DateTime? lastDate,
-    DateRangePickerSelectionMode selectionMode =
-        DateRangePickerSelectionMode.single,
+    DateRangePickerSelectionMode selectionMode = DateRangePickerSelectionMode.single,
     DateRangePickerView view = DateRangePickerView.month,
-    DateRangePickerMonthViewSettings monthViewSettings =
-        const DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
+    DateRangePickerMonthViewSettings monthViewSettings = const DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
     bool showActionButtons = true,
     DateRangePickerHeaderStyle headerStyle = const DateRangePickerHeaderStyle(
         backgroundColor: primaryColor,
@@ -166,7 +163,7 @@ class _DatePickerCustomState extends State<DatePickerCustom> {
                     showActionButtons: showActionButtons,
                     cancelText: 'CANCEL',
                     confirmText: 'OK',
-                    initialSelectedDate: DateTime.now(),
+                    initialSelectedDate: initialDate ?? _textFormKey.currentState?.value ?? DateTime.now(),
                     headerStyle: headerStyle,
                     view: view,
                     monthViewSettings: monthViewSettings,

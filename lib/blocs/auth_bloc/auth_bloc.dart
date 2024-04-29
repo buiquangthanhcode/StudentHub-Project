@@ -52,7 +52,6 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
         if (state.userModel.company == null && state.userModel.student == null && state.userModel.roles?[0] == 1) {
           add(UpdateRoleEvents(role: UserRole.company));
         }
-        logger.d(state.userModel.toMap());
         emit(state.update(isChanged: !state.isChanged));
         event.onSuccess!(); // Call onSuccessCallBack
       } else {

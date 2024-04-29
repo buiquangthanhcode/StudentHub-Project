@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,16 +9,16 @@ import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/core/text_field_custom.dart';
 import 'package:studenthub/models/common/project_model.dart';
-import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
 enum TimeOption { option1, option2, option3, option4 }
 
 class EditPosting extends StatefulWidget {
   final Project project;
-  const EditPosting({Key? key, required this.project}) : super(key: key);
+  const EditPosting({super.key, required this.project});
 
   @override
+  // ignore: library_private_types_in_public_api
   _EditPostingState createState() => _EditPostingState();
 }
 
@@ -246,9 +245,7 @@ class _EditPostingState extends State<EditPosting> {
                       ),
                       onPressed: () {
                         // validate form
-                        if (_formKeyEdit.currentState?.saveAndValidate() ?? false) {
-                          logger.d(_formKeyEdit.currentState!.value);
-                        }
+                        if (_formKeyEdit.currentState?.saveAndValidate() ?? false) {}
 
                         int? companyId = BlocProvider.of<AuthBloc>(context).state.userModel.company!.id;
                         context.read<ProjectBloc>().add(
