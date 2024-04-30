@@ -267,7 +267,8 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                       Row(
                                         children: [
                                           Text(
-                                            'Change Password',
+                                            // 'Change Password',
+                                            changePasswordTitleKey.tr(),
                                             style: theme.textTheme.bodyMedium
                                                 ?.copyWith(
                                               fontWeight: FontWeight.bold,
@@ -295,44 +296,54 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                         ],
                                       ),
                                       const SizedBox(height: 24),
-                                      const Text(
-                                          'Your new password must be different from your previous password.'),
+                                      Text(
+                                        // 'Your new password must be different from your previous password.',
+                                        passwordSuggestionMsg.tr(),
+                                      ),
                                       const SizedBox(height: 24),
-                                      const TextFieldFormCustom(
+                                      TextFieldFormCustom(
                                           fillColor: Colors.white,
                                           name: 'old_password',
-                                          hintText: 'Current Password',
+                                          // hintText: 'Current Password',
+                                          hintText:
+                                              currentPasswordPlacerHolderKey
+                                                  .tr(),
                                           isPasswordText: true,
                                           obscureText: true,
                                           maxLines: null,
                                           keyboardType: TextInputType.multiline,
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.lock,
                                             color: Colors.grey,
                                           )),
                                       const SizedBox(height: 10),
-                                      const TextFieldFormCustom(
+                                      TextFieldFormCustom(
                                           fillColor: Colors.white,
                                           name: 'new_password',
-                                          hintText: 'New Password',
+                                          // hintText: 'New Password',
+                                          hintText:
+                                              newPasswordPlacerHolderKey.tr(),
                                           isPasswordText: true,
                                           obscureText: true,
                                           maxLines: null,
                                           keyboardType: TextInputType.multiline,
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.lock,
                                             color: Colors.grey,
                                           )),
                                       const SizedBox(height: 10),
-                                      const TextFieldFormCustom(
+                                      TextFieldFormCustom(
                                           fillColor: Colors.white,
                                           name: 'confirm_password',
-                                          hintText: 'Confirm Password',
+                                          // hintText: 'Confirm Password',
+                                          hintText:
+                                              confirmPasswordPlacerHolderKey
+                                                  .tr(),
                                           isPasswordText: true,
                                           obscureText: true,
                                           maxLines: null,
                                           keyboardType: TextInputType.multiline,
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.lock,
                                             color: Colors.grey,
                                           )),
@@ -341,12 +352,17 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          const Text(
-                                              'Password should not use on any other site.'),
-                                          BulletList(const [
-                                            'The password must have at least 8 characters.',
-                                            'The password must contain at least 1 special character, such as &, %, TM, or E.',
-                                            'The password must contain at least 3 different kinds of characters, such as uppercase letters, lowercase letter, numeric digits, and punctuation marks.',
+                                          Text(
+                                            // 'Password should not use  any other site.',
+                                            passwordHintMsg.tr(),
+                                          ),
+                                          BulletList([
+                                            // 'The password must have at least 8 characters.',
+                                            // 'The password must contain at least 1 special character, such as &, %, TM, or E.',
+                                            // 'The password must contain at least 3 different kinds of characters, such as uppercase letters, lowercase letter, numeric digits, and punctuation marks.',
+                                            passwordHintDetailMsg1.tr(),
+                                            passwordHintDetailMsg2.tr(),
+                                            passwordHintDetailMsg3.tr(),
                                           ])
                                         ],
                                       ),
@@ -384,11 +400,15 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                                     requestChangePassWordRequest:
                                                         changeRequest,
                                                     onSuccess: () {
-                                                      SnackBarService.showSnackBar(
-                                                          content:
-                                                              'Password was updated successfully!',
-                                                          status: StatusSnackBar
-                                                              .success);
+                                                      SnackBarService
+                                                          .showSnackBar(
+                                                              content:
+                                                                  // 'Password was updated successfully!',
+                                                                  passwordUpdatedMsg
+                                                                      .tr(),
+                                                              status:
+                                                                  StatusSnackBar
+                                                                      .success);
                                                       Navigator.pop(context);
                                                     }));
                                           }
@@ -402,7 +422,8 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                                 48) // Set minimum button size
                                             ),
                                         child: Text(
-                                          'Change Password',
+                                          // 'Change Password',
+                                          changePasswordTitleKey.tr(),
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium!

@@ -128,5 +128,15 @@
 	"resume_cv_key": "Hồ sơ/Lý lịch (*)",
 	"transcript_key": "Bảng điểm",
 	"select_file_to_upload": "Đăng tải tệp tin",
-	"select_file_to_upload_description": "Định dạng PDF, Excel hoặc Image"
+	"select_file_to_upload_description": "Định dạng PDF, Excel hoặc Image",
+	"change_password_title": "Đổi mật khẩu",
+	"current_password_placeholder": "Mật khẩu hiện tại",
+	"new_password_placeholder": "Mật khẩu mới",
+	"confirm_password_placeholder": "Xác nhận mật khẩu",
+	"password_hint_msg": "Mật khẩu không nên dùng ở các trang khác.",
+	"password_hint_detail_1": "Mật khẩu có ít nhất 8 kí tự.",
+	"password_hint_detail_2": "Mật khẩu phải chứa ít nhất 1 kí tự đặc biệt, như &, %, TM, or E.",
+	"password_hint_detail_3": "Mật khẩu phải chứa ít nhất 3 loại sau, như chữ in hoa, chữ in thường, dấu chấm câu.",
+	"password_suggestion_msg": "Mật khẩu mới phải khác với mật khẩu cũ của bạn",
+	"password_updated_msg": "Mật khẩu đã được cập nhật thành công"
 }

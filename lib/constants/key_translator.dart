@@ -160,3 +160,14 @@ const String descriptionPlaceHolderKey = "project_description_placeholder";
 const String editProjectTitleKey = "edit_project_title";
 // --- for edit cv / transcript ---
 const String cvTranscriptTitleKey = "cv_transcript_title";
+// --- for change password bottom sheet ---
+const String changePasswordTitleKey = "change_password_title";
+const String currentPasswordPlacerHolderKey = "current_password_placeholder";
+const String newPasswordPlacerHolderKey = "new_password_placeholder";
+const String confirmPasswordPlacerHolderKey = "confirm_password_placeholder";
+const String passwordSuggestionMsg = "password_suggestion_msg";
+const String passwordHintMsg = "password_hint_msg";
+const String passwordHintDetailMsg1 = "password_hint_detail_1";
+const String passwordHintDetailMsg2 = "password_hint_detail_2";
+const String passwordHintDetailMsg3 = "password_hint_detail_3";
+const String passwordUpdatedMsg = "password_updated_msg";
