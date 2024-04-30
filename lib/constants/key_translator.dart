@@ -128,7 +128,7 @@ const String studentCreateProfileKey = "student_create_profile";
 const String noProjectFoundKey = "no_project_found";
 const String cvTranscriptKey = "cv_transcript";
 const String resumeCVKey = "resume_cv_key";
-const String transcriptKey = "resume_cv_key";
+const String transcriptKey = "transcript_key";
 const String selectFileToUploadKey = "select_file_to_upload";
 const String selectFileToUploadDescriptionKey =
     "select_file_to_upload_description";
@@ -158,3 +158,5 @@ const String startDatePlaceHolderKey = "project_start_date_placeholder";
 const String endDatePlaceHolderKey = "project_end_date_placeholder";
 const String descriptionPlaceHolderKey = "project_description_placeholder";
 const String editProjectTitleKey = "edit_project_title";
+// --- for edit cv / transcript ---
+const String cvTranscriptTitleKey = "cv_transcript_title";

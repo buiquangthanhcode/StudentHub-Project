@@ -123,5 +123,10 @@
 	"project_start_date_placeholder": "Ngày bắt đầu",
 	"project_end_date_placeholder": "Ngày kết thúc",
 	"project_description_placeholder": "Mô tả",
-	"edit_project_title": "Chỉnh sửa dự án"
+	"edit_project_title": "Chỉnh sửa dự án",
+	"cv_transcript_title": "Hồ Sơ & Bảng Điểm",
+	"resume_cv_key": "Hồ sơ/Lý lịch (*)",
+	"transcript_key": "Bảng điểm",
+	"select_file_to_upload": "Đăng tải tệp tin",
+	"select_file_to_upload_description": "Định dạng PDF, Excel hoặc Image"
 }

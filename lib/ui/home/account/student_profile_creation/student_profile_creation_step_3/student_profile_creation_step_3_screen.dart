@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, non_constant_identifier_names
 import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:studenthub/blocs/student_bloc/student_state.dart';
 
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/student/student_model.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/widgets/continue_button.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/student_profile_creation_step_3/widgets/title_widget.dart';
@@ -182,7 +184,8 @@ class _StudentProfileCreationStep3ScreenState
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'CV & Transcript',
+          // 'CV & Transcript',
+          cvTranscriptTitleKey.tr(),
           style: textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w600),
         ),
         titleSpacing: 0,
@@ -201,7 +204,8 @@ class _StudentProfileCreationStep3ScreenState
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      'Resume/CV (*)',
+                      // 'Resume/CV (*)',
+                      resumeCVKey.tr(),
                       style: textTheme.bodySmall,
                     ),
                   ],
@@ -243,13 +247,17 @@ class _StudentProfileCreationStep3ScreenState
                                     const SizedBox(
                                       height: 15,
                                     ),
-                                    Text('Select File to Upload',
-                                        style: textTheme.bodyMedium),
+                                    Text(
+                                      // 'Select File to Upload',
+                                      selectFileToUploadKey.tr(),
+                                      style: textTheme.bodyMedium,
+                                    ),
                                     const SizedBox(
                                       height: 2,
                                     ),
                                     Text(
-                                      'Select PDF, Excel or Image',
+                                      // 'Select PDF, Excel or Image',
+                                      selectFileToUploadDescriptionKey.tr(),
                                       style: textTheme.bodySmall!
                                           .copyWith(color: colorTheme.grey),
                                     )
@@ -394,7 +402,8 @@ class _StudentProfileCreationStep3ScreenState
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      'Transcript (*)',
+                      // 'Transcript (*)',
+                      transcriptKey.tr(),
                       style: textTheme.bodySmall,
                     ),
                   ],
@@ -436,13 +445,17 @@ class _StudentProfileCreationStep3ScreenState
                                   const SizedBox(
                                     height: 15,
                                   ),
-                                  Text('Select File to Upload',
-                                      style: textTheme.bodyMedium),
+                                  Text(
+                                    // 'Select File to Upload',
+                                    selectFileToUploadKey.tr(),
+                                    style: textTheme.bodyMedium,
+                                  ),
                                   const SizedBox(
                                     height: 2,
                                   ),
                                   Text(
-                                    'Select PDF, Excel or Image',
+                                    // 'Select PDF, Excel or Image',
+                                    selectFileToUploadDescriptionKey.tr(),
                                     style: textTheme.bodySmall!
                                         .copyWith(color: colorTheme.grey),
                                   )

@@ -123,5 +123,10 @@
 	"project_start_date_placeholder": "Start Date",
 	"project_end_date_placeholder": "End Date",
 	"project_description_placeholder": "Description",
-	"edit_project_title": "Edit Project"
+	"edit_project_title": "Edit Project",
+	"cv_transcript_title": "CV & Transcript",
+	"resume_cv_key": "Resume/CV (*)",
+	"transcript_key": "Transcript",
+	"select_file_to_upload": "Select File To Upload",
+	"select_file_to_upload_description": "Select PDF, Excel or Image"
 }
