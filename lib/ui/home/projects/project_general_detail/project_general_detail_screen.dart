@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -11,7 +9,6 @@ import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/utils/helper.dart';
-import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
 
 class ProjectGeneralDetailScreen extends StatefulWidget {
@@ -43,6 +40,7 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     TextTheme textTheme = Theme.of(context).textTheme;
     AuthenState authSate = context.read<AuthBloc>().state;
 
@@ -50,8 +48,6 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
       builder: (BuildContext context, GeneralProjectState state) {
         bool isSubmitProposal = checkIsSubmitProposal(
             state.projectDetail.proposals ?? [], context.read<AuthBloc>().state.userModel.student!.id!.toInt());
-
-        logger.d(isSubmitProposal);
         return Scaffold(
           appBar: widget.isHiddenAppbar ?? false
               ? null
@@ -85,11 +81,6 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                                           projectId: widget.id,
                                         ),
                                       );
-                              // logger.d('IS FAVORITE $isSaved');
-                              // context.read<AllProjectBloc>().add(
-                              //     UpdateFavoriteProjectUI(
-                              //         projectId: int.parse(widget.id),
-                              //         isFavorite: isSaved!));
                             });
                           },
                           child: FaIcon(
@@ -126,7 +117,9 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                           'Students are looking for',
                           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black.withOpacity(0.6),
+                                color: theme.colorScheme.brightness == Brightness.dark
+                                    ? Colors.white
+                                    : Colors.black.withOpacity(0.6),
                               ),
                         ),
                         BulletList([
@@ -158,7 +151,9 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                               Text(
                                 'Project scope',
                                 style: TextStyle(
-                                  color: Colors.black.withOpacity(0.8),
+                                  color: theme.colorScheme.brightness == Brightness.dark
+                                      ? Colors.white
+                                      : Colors.black.withOpacity(0.8),
                                 ),
                               ),
                               Row(
@@ -174,7 +169,9 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                                   Text(
                                     time[state.projectDetail.countProposals] ?? '3-6 months',
                                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                          color: Colors.black.withOpacity(0.8),
+                                          color: theme.colorScheme.brightness == Brightness.dark
+                                              ? Colors.white
+                                              : Colors.black.withOpacity(0.8),
                                         ),
                                   ),
                                 ],
@@ -196,7 +193,10 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                             children: [
                               Text(
                                 'Student required',
-                                style: TextStyle(color: Colors.black.withOpacity(0.8)),
+                                style: TextStyle(
+                                    color: theme.colorScheme.brightness == Brightness.dark
+                                        ? Colors.white
+                                        : Colors.black.withOpacity(0.8)),
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -210,10 +210,10 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                                   ),
                                   Text(
                                     '${state.projectDetail.numberOfStudents ?? '0'} students',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall!
-                                        .copyWith(color: Colors.black.withOpacity(0.8)),
+                                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                        color: theme.colorScheme.brightness == Brightness.dark
+                                            ? Colors.white
+                                            : Colors.black.withOpacity(0.8)),
                                   ),
                                 ],
                               )
@@ -240,7 +240,9 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                           },
                           child: Text(
                             'Apply Now',
-                            style: textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                            style: textTheme.bodyMedium!.copyWith(
+                                color: theme.colorScheme.brightness == Brightness.dark ? Colors.white : primaryColor,
+                                fontWeight: FontWeight.w600),
                           ),
                         ),
                       )

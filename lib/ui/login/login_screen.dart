@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/blocs/global_bloc/global_bloc.dart';
 import 'package:studenthub/blocs/global_bloc/global_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
@@ -155,104 +156,103 @@ class _LoginScreenState extends State<LoginScreen> {
                                   color: Colors.white,
                                   borderRadius:
                                       BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-                              height: MediaQuery.of(context).size.height * 0.65,
+                              height: MediaQuery.of(context).size.height * 0.8,
                               child: FormBuilder(
                                 key: _formForgotPassword,
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                                  // decoration:
-                                  //     BoxDecoration(color: Colors.red),
-                                  child: Column(
-                                    children: [
-                                      const SizedBox(height: 10),
-                                      Row(
-                                        children: [
-                                          Text(
+                                child: SingleChildScrollView(
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                    // decoration:
+                                    //     BoxDecoration(color: Colors.red),
+                                    child: Column(
+                                      children: [
+                                        const SizedBox(height: 10),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'Reset Password',
+                                              style: theme.textTheme.bodyMedium?.copyWith(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 24,
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  color: theme.colorScheme.grey?.withOpacity(0.4),
+                                                  borderRadius: BorderRadius.circular(50)),
+                                              padding: const EdgeInsets.all(3),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Icon(
+                                                  Icons.close,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 24),
+                                        const Text(
+                                            'Your password will be automatically reset by the system. Please check your email to receive the new password.'),
+                                        const SizedBox(height: 24),
+                                        TextFieldFormCustom(
+                                          fillColor: Colors.white,
+                                          name: 'email',
+                                          hintText: 'Enter your email',
+                                          maxLines: null,
+                                          keyboardType: TextInputType.multiline,
+                                          icon: FaIcon(
+                                            FontAwesomeIcons.user,
+                                            size: 16,
+                                            color: theme.colorScheme.grey,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 36),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            const Text('Password should not use on any other site.'),
+                                            BulletList(const [
+                                              'The password must have at least 8 characters.',
+                                              'The password must contain at least 1 special character, such as &, %, TM, or E.',
+                                              'The password must contain at least 3 different kinds of characters, such as uppercase letters, lowercase letter, numeric digits, and punctuation marks.',
+                                            ])
+                                          ],
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            if (_formForgotPassword.currentState?.saveAndValidate() ?? false) {
+                                              context.read<GlobalBloc>().add(
+                                                    ResetPasswordEvent(
+                                                        email:
+                                                            _formForgotPassword.currentState?.value["email"] as String,
+                                                        onSuccess: () {
+                                                          SnackBarService.showSnackBar(
+                                                              content: 'New password sent to your email',
+                                                              status: StatusSnackBar.success);
+                                                          Navigator.pop(context);
+                                                        }),
+                                                  );
+                                            }
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              padding:
+                                                  const EdgeInsets.symmetric(vertical: 16), // Adjust padding as needed
+                                              minimumSize: const Size(double.infinity, 48) // Set minimum button size
+                                              ),
+                                          child: Text(
                                             'Reset Password',
-                                            style: theme.textTheme.bodyMedium?.copyWith(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 24,
-                                            ),
+                                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                                  color: Colors.white,
+                                                ),
                                           ),
-                                          const Spacer(),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                                color: theme.colorScheme.grey?.withOpacity(0.4),
-                                                borderRadius: BorderRadius.circular(50)),
-                                            padding: const EdgeInsets.all(3),
-                                            child: InkWell(
-                                              onTap: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Icon(
-                                                Icons.close,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 24),
-                                      const Text(
-                                          'Your password will be automatically reset by the system. Please check your email to receive the new password.'),
-                                      const SizedBox(height: 24),
-                                      TextFieldFormCustom(
-                                        fillColor: Colors.white,
-                                        name: 'email',
-                                        hintText: 'Enter your email',
-                                        maxLines: null,
-                                        keyboardType: TextInputType.multiline,
-                                        icon: FaIcon(
-                                          FontAwesomeIcons.user,
-                                          size: 16,
-                                          color: theme.colorScheme.grey,
                                         ),
-                                      ),
-                                      const SizedBox(height: 36),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          const Text('Password should not use on any other site.'),
-                                          BulletList(const [
-                                            'The password must have at least 8 characters.',
-                                            'The password must contain at least 1 special character, such as &, %, TM, or E.',
-                                            'The password must contain at least 3 different kinds of characters, such as uppercase letters, lowercase letter, numeric digits, and punctuation marks.',
-                                          ])
-                                        ],
-                                      ),
-                                      const Spacer(),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          if (_formForgotPassword.currentState?.saveAndValidate() ?? false) {
-                                            // logger.d((_formForgotPassword
-                                            //     .currentState?.value));
-                                            context.read<GlobalBloc>().add(
-                                                  ResetPasswordEvent(
-                                                      email: _formForgotPassword.currentState?.value["email"] as String,
-                                                      onSuccess: () {
-                                                        SnackBarService.showSnackBar(
-                                                            content: 'New password sent to your email',
-                                                            status: StatusSnackBar.success);
-                                                        Navigator.pop(context);
-                                                      }),
-                                                );
-                                          }
-                                          // log("text field: ${}");
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                            padding:
-                                                const EdgeInsets.symmetric(vertical: 16), // Adjust padding as needed
-                                            minimumSize: const Size(double.infinity, 48) // Set minimum button size
-                                            ),
-                                        child: Text(
-                                          'Reset Password',
-                                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                                color: Colors.white,
-                                              ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 24),
-                                    ],
+                                        const SizedBox(height: 24),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -289,7 +289,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 password: _formKeyLogin.currentState!.fields['password']!.value.toString(),
                               ),
                               onSuccess: () {
-                                context.pushNamed('home', queryParameters: {'welcome': 'true'});
+                                AuthenState auth = context.read<AuthBloc>().state;
+                                if (auth.isCompanyRole() && auth.userModel.company == null) {
+                                  context.pushNamed('company_create_profile');
+                                } else if (auth.isStudentRole() && auth.userModel.student == null) {
+                                  context.pushNamed('student_create_profile_step_01');
+                                } else {
+                                  context.pushNamed('home', queryParameters: {'welcome': 'true'});
+                                }
                               },
                               currentContext: context,
                             ),

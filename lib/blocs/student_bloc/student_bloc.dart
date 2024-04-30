@@ -2,7 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/blocs/student_bloc/student_state.dart';
 import 'package:studenthub/data/dto/reponse.dart';
@@ -24,6 +27,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
             student: Student(),
             submitProjectProposals: const [],
             activeProjectProposals: const [],
+            isLoading: false,
           ),
         ) {
     on<AddSkillSetEvent>(_onAllSkillSet);
@@ -83,8 +87,11 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     try {
       EasyLoading.show(status: 'loading');
       ResponseAPI response = await studentService.postProfileStudent(event.profileStudent);
-      if (response.statusCode! <= 200) {
+      if (response.statusCode! <= 300) {
+        event.currentContext?.read<AuthBloc>().add(GetInformationEvent(
+            onSuccess: () {}, accessToken: event.token ?? '', currentContext: event.currentContext));
         event.onSuccess!(Student.fromMap(response.data.resultMap.toMap()));
+
         EasyLoading.dismiss();
       }
     } catch (e) {
@@ -389,6 +396,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
   FutureOr<void> _onGetAllProjectProposal(GetAllProjectProposal event, Emitter<StudentState> emit) async {
     try {
       EasyLoading.show(status: 'loading');
+      emit(state.update(isLoading: true));
       final response = await studentService.getAllProjectProposal(event);
       List<ProjectProposal> data = response.data ?? [];
       if (response.statusCode! <= 201) {
@@ -399,6 +407,8 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
           emit(state.update(activeProjectProposals: data));
         }
         event.onSuccess!();
+        emit(state.update(isLoading: false));
+
         EasyLoading.dismiss();
       }
     } catch (e) {

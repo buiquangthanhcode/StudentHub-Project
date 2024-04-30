@@ -7,7 +7,6 @@ import 'package:studenthub/blocs/company_bloc/company_state.dart';
 import 'package:studenthub/data/dto/reponse.dart';
 import 'package:studenthub/models/company/company_model.dart';
 import 'package:studenthub/services/company/company.dart';
-import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
@@ -18,6 +17,7 @@ class CompanyBloc extends Bloc<CompanyEvent, CompanyState> {
           CompanyState(
             company: Company(),
             // project: Project(),
+            isLoading: false,
           ),
         ) {
     on<AddAllDataEvent>(_onAddAllData);
@@ -25,20 +25,19 @@ class CompanyBloc extends Bloc<CompanyEvent, CompanyState> {
     on<GetAllDataEvent>(_onGetAllData);
     // on<UpdateNewProjectEvent>(_onUpdateNewProject);
     // on<PostNewProjectEvent>(_onPostNewProject);
+    on<HireStudentProprosalEvent>(_onHireStudentProprosal);
   }
 
   final CompanyService _companyService = CompanyService();
 
-  FutureOr<void> _onAddAllData(
-      AddAllDataEvent event, Emitter<CompanyState> emit) async {
+  FutureOr<void> _onAddAllData(AddAllDataEvent event, Emitter<CompanyState> emit) async {
     try {
       ResponseAPI result = await _companyService.addInformation(event.data);
       if (result.statusCode! < 300) {
         event.onSuccess!(result.data);
       } else {
         SnackBarService.showSnackBar(
-            content: handleFormatMessage(result.data!.errorDetails),
-            status: StatusSnackBar.error);
+            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
       }
     } on DioException catch (e) {
       logger.e(
@@ -46,26 +45,21 @@ class CompanyBloc extends Bloc<CompanyEvent, CompanyState> {
       );
     } catch (e) {
       logger.e("Unexpect error-> $e");
-      SnackBarService.showSnackBar(
-          content: handleFormatMessage(e.toString()),
-          status: StatusSnackBar.error);
+      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();
     }
   }
 
-  FutureOr<void> _onUpdateAllData(
-      UpdateAllDataEvent event, Emitter<CompanyState> emit) async {
+  FutureOr<void> _onUpdateAllData(UpdateAllDataEvent event, Emitter<CompanyState> emit) async {
     try {
-      ResponseAPI result =
-          await _companyService.updateInformation(event.data, event.id);
+      ResponseAPI result = await _companyService.updateInformation(event.data, event.id);
 
       if (result.statusCode! < 300) {
         event.onSuccess!(result.data);
       } else {
         SnackBarService.showSnackBar(
-            content: handleFormatMessage(result.data!.errorDetails),
-            status: StatusSnackBar.error);
+            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
       }
     } on DioException catch (e) {
       logger.e(
@@ -73,27 +67,22 @@ class CompanyBloc extends Bloc<CompanyEvent, CompanyState> {
       );
     } catch (e) {
       logger.e("Unexpect error-> $e");
-      SnackBarService.showSnackBar(
-          content: handleFormatMessage(e.toString()),
-          status: StatusSnackBar.error);
+      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();
     }
   }
 
-  FutureOr<void> _onGetAllData(
-      GetAllDataEvent event, Emitter<CompanyState> emit) async {
+  FutureOr<void> _onGetAllData(GetAllDataEvent event, Emitter<CompanyState> emit) async {
     try {
       EasyLoading.show(status: 'Loading...');
-      ResponseAPI result =
-          await _companyService.getAllInformation(event.data, event.id);
+      ResponseAPI result = await _companyService.getAllInformation(event.data, event.id);
 
       if (result.statusCode! < 300) {
         event.onSuccess!();
       } else {
         SnackBarService.showSnackBar(
-            content: handleFormatMessage(result.data!.errorDetails),
-            status: StatusSnackBar.error);
+            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
       }
     } on DioException catch (e) {
       logger.e(
@@ -101,9 +90,7 @@ class CompanyBloc extends Bloc<CompanyEvent, CompanyState> {
       );
     } catch (e) {
       logger.e("Unexpect error-> $e");
-      SnackBarService.showSnackBar(
-          content: handleFormatMessage(e.toString()),
-          status: StatusSnackBar.error);
+      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();
     }
@@ -130,4 +117,26 @@ class CompanyBloc extends Bloc<CompanyEvent, CompanyState> {
 //       logger.e(e);
 //     }
 //   }
+
+  Future<void> _onHireStudentProprosal(HireStudentProprosalEvent event, Emitter<CompanyState> emit) async {
+    try {
+      ResponseAPI result = await _companyService.hireStudentProprosal(event);
+
+      if (result.statusCode! < 300) {
+        event.onSuccess!();
+      } else {
+        SnackBarService.showSnackBar(
+            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
+      }
+    } on DioException catch (e) {
+      logger.e(
+        "DioException:${e.response}",
+      );
+    } catch (e) {
+      logger.e("Unexpect error-> $e");
+      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
 }

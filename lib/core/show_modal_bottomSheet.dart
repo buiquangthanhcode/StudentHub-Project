@@ -15,7 +15,6 @@ Future<void> showModalBottomSheetCustom(BuildContext context,
       backgroundColor: Colors.transparent,
       builder: (context) => GestureDetector(
             onTap: () {
-              logger.d(height);
               Navigator.pop(context);
             },
             child: DraggleBottomSheetCustom(
@@ -54,7 +53,6 @@ class _DraggleBottomSheetCustomState extends State<DraggleBottomSheetCustom> {
 
   @override
   Widget build(BuildContext context) {
-    logger.d(widget.height);
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SizedBox.expand(

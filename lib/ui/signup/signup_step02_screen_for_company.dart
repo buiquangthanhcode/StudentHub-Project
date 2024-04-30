@@ -8,7 +8,6 @@ import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/data/dto/authen/request_register_account.dart';
-import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
 import '../../core/text_field_custom.dart';

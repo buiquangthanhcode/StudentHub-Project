@@ -6,7 +6,6 @@ import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/data/dto/student/request_post_proposal.dart';
 import 'package:studenthub/models/common/project_model.dart';
-import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class SubmitProposalScreen extends StatefulWidget {
@@ -22,7 +21,6 @@ class _SubmitProposalState extends State<SubmitProposalScreen> {
   final TextEditingController _controllerCoverLetter = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    logger.d(widget.projectDetail.toMap());
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(

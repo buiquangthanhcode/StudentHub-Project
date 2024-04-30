@@ -194,7 +194,11 @@ class AllProjectsService {
 
   Future<ResponseAPI<List<ProjectProposal>>> getProposalOfProject(RequestProjectProposal request) async {
     try {
-      final res = await dioClient.get('$baseURL/api/proposal/getByProjectId/${request.projectId}');
+      String url = '$baseURL/api/proposal/getByProjectId/${request.projectId}';
+      if (request.statusFlag != null) {
+        url += '/?statusFlag=${request.statusFlag}';
+      }
+      final res = await dioClient.get(url);
       logger.d(res);
       // List of Proposal
       return ResponseAPI<List<ProjectProposal>>(

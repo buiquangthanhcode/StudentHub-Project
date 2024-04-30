@@ -3,12 +3,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:studenthub/constants/colors.dart';
 
 class PickerYearCustom extends StatefulWidget {
-  const PickerYearCustom(
-      {super.key,
-      required this.name,
-      this.hintText,
-      this.labelText,
-      this.initValue});
+  const PickerYearCustom({super.key, required this.name, this.hintText, this.labelText, this.initValue});
 
   final String name;
   final String? hintText;
@@ -22,6 +17,8 @@ class PickerYearCustom extends StatefulWidget {
 class _PickerYearCustomState extends State<PickerYearCustom> {
   DateTime selectedDate = DateTime.now();
   final texController = TextEditingController();
+  final _textFormKey = GlobalKey<FormBuilderFieldState>();
+
   Future<DateTime?> showYearPicker(BuildContext context) async {
     DateTime? data = await showDialog<DateTime?>(
       context: context,
@@ -43,13 +40,12 @@ class _PickerYearCustomState extends State<PickerYearCustom> {
             content: StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
                 return SizedBox(
-                  // Need to use container to add size constraint.
                   width: 300,
                   height: 300,
                   child: YearPicker(
                     firstDate: DateTime(DateTime.now().year - 100, 1),
                     lastDate: DateTime(DateTime.now().year + 100, 1),
-                    selectedDate: widget.initValue ?? selectedDate,
+                    selectedDate: widget.initValue ?? _textFormKey.currentState?.value ?? DateTime.now(),
                     onChanged: (DateTime dateTime) {
                       Navigator.pop(context, dateTime);
                     },
@@ -84,6 +80,7 @@ class _PickerYearCustomState extends State<PickerYearCustom> {
         ),
       ),
       child: FormBuilderField(
+        key: _textFormKey,
         name: widget.name,
         builder: (field) {
           return Container(

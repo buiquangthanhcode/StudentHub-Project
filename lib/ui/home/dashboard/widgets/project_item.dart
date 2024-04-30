@@ -38,15 +38,19 @@ class ProjectItem extends StatelessWidget {
         }
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                Text(
-                  item?.title ?? projectProposal?.project?.title ?? 'Title',
-                  style: theme.textTheme.bodyMedium,
+                Expanded(
+                  flex: 10,
+                  child: Text(
+                    item?.title ?? projectProposal?.project?.title ?? 'Title',
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.bodyMedium,
+                  ),
                 ),
                 const Spacer(),
                 GestureDetector(
@@ -77,34 +81,36 @@ class ProjectItem extends StatelessWidget {
                               ),
                             ],
                           ),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        color: theme.colorScheme.grey!.withOpacity(0.4),
-                                        borderRadius: BorderRadius.circular(50)),
-                                    padding: const EdgeInsets.all(3),
-                                    child: InkWell(
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Icon(
-                                        Icons.close,
-                                        size: 20,
-                                        color: theme.colorScheme.grey,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          color: theme.colorScheme.grey!.withOpacity(0.4),
+                                          borderRadius: BorderRadius.circular(50)),
+                                      padding: const EdgeInsets.all(3),
+                                      child: InkWell(
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Icon(
+                                          Icons.close,
+                                          size: 20,
+                                          color: theme.colorScheme.grey,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              MoreActionWidget(
-                                project: item ?? projectProposal?.project ?? Project(),
-                                // projectId: item.id!,
-                              ),
-                            ],
+                                  ],
+                                ),
+                                MoreActionWidget(
+                                  project: item ?? projectProposal?.project ?? Project(),
+                                  // projectId: item.id!,
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       },
@@ -172,33 +178,42 @@ class ProjectItem extends StatelessWidget {
                 {"label": "Messages", "total": item?.countMessages ?? projectProposal?.project?.countProposals ?? 0},
                 {"label": "Hired", "total": item?.countHired ?? projectProposal?.project?.countProposals ?? 0},
               ];
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: data
-                    .map(
-                      (item) => Container(
-                        width: MediaQuery.of(context).size.width / 4,
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.grey!.withOpacity(0.08),
-                          borderRadius: BorderRadius.circular(15),
+              return GridView.count(
+                crossAxisCount: 3,
+                crossAxisSpacing: 2,
+                physics: const NeverScrollableScrollPhysics(),
+                mainAxisSpacing: 2,
+                shrinkWrap: true,
+                children: data.map((item) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width / 3.5,
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    margin: const EdgeInsets.symmetric(horizontal: 2),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.grey!.withOpacity(0.08),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          item['total'].toString(),
+                          style: theme.textTheme.bodyMedium!.copyWith(
+                            color: theme.colorScheme.brightness == Brightness.dark ? Colors.white : primaryColor,
+                          ),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item['total'].toString(),
-                              style: theme.textTheme.bodyMedium!.copyWith(color: Colors.black87),
-                            ),
-                            Text(
-                              item['label'].toString(),
-                              style: theme.textTheme.bodyMedium!.copyWith(color: primaryColor),
-                            ),
-                          ],
+                        Text(
+                          item['label'].toString(),
+                          style: theme.textTheme.bodyMedium!.copyWith(
+                            color: theme.colorScheme.brightness == Brightness.dark ? Colors.white : primaryColor,
+                            fontSize: 15,
+                          ),
                         ),
-                      ),
-                    )
-                    .toList(),
+                      ],
+                    ),
+                  );
+                }).toList(),
               );
             })
           ],
