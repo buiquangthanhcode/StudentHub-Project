@@ -117,5 +117,11 @@
 	"student_create_profile": "Tạo hồ sơ sinh viên",
 	"no_project_found": "Không tìm thấy hồ sơ",
 	"project": "Dự án",
-	"experiences_title": "Kinh nghiệm"
+	"experiences_title": "Kinh nghiệm",
+	"create_project_title": "Tạo dự án",
+	"project_name_placeholder": "Tên dự án",
+	"project_start_date_placeholder": "Ngày bắt đầu",
+	"project_end_date_placeholder": "Ngày kết thúc",
+	"project_description_placeholder": "Mô tả",
+	"edit_project_title": "Chỉnh sửa dự án"
 }

@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/core/date_picker_formfield.dart';
 import 'package:studenthub/core/text_field_custom.dart';
 import 'package:studenthub/core/time_picker.dart';
@@ -29,7 +31,10 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.only(left: 20, right: 20, bottom: MediaQuery.of(context).viewInsets.bottom),
+          padding: EdgeInsets.only(
+              left: 20,
+              right: 20,
+              bottom: MediaQuery.of(context).viewInsets.bottom),
           child: FormBuilder(
             key: formkey,
             child: Column(
@@ -49,7 +54,9 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                 ),
                 TextFieldFormCustom(
                   fillColor: Colors.white,
-                  initialValue: widget.schedule?.title != null ? widget.schedule?.title ?? '' : null,
+                  initialValue: widget.schedule?.title != null
+                      ? widget.schedule?.title ?? ''
+                      : null,
                   autofocus: true,
                   icon: FaIcon(
                     FontAwesomeIcons.tag,
@@ -73,8 +80,9 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                       child: DatePickerCustom(
                         view: DateRangePickerView.month,
                         name: 'start_date',
-                        initialDate:
-                            widget.schedule?.startTime != null ? stringToDateTime(widget.schedule?.startTime) : null,
+                        initialDate: widget.schedule?.startTime != null
+                            ? stringToDateTime(widget.schedule?.startTime)
+                            : null,
                         labelText: 'Start Time',
                         hintText: 'Start Time',
                       ),
@@ -83,8 +91,9 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                     Expanded(
                       child: TimePickerCustom(
                         name: 'time_start',
-                        initialDate:
-                            widget.schedule?.startTime != null ? stringToDateTime(widget.schedule?.startTime) : null,
+                        initialDate: widget.schedule?.startTime != null
+                            ? stringToDateTime(widget.schedule?.startTime)
+                            : null,
                       ),
                     ),
                   ],
@@ -102,18 +111,22 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                       flex: 1,
                       child: DatePickerCustom(
                         view: DateRangePickerView.month,
-                        initialDate:
-                            widget.schedule?.startTime != null ? stringToDateTime(widget.schedule?.startTime) : null,
+                        initialDate: widget.schedule?.startTime != null
+                            ? stringToDateTime(widget.schedule?.startTime)
+                            : null,
                         name: 'end_date',
-                        hintText: 'End Date',
-                        labelText: 'End Date',
+                        // hintText: 'End Date',
+                        // labelText: 'End Date',
+                        hintText: endDatePlaceHolderKey.tr(),
+                        labelText: endDatePlaceHolderKey.tr(),
                       ),
                     ),
                     const SizedBox(width: 10),
                     Expanded(
                       child: TimePickerCustom(
-                        initialDate:
-                            widget.schedule?.startTime != null ? stringToDateTime(widget.schedule?.startTime) : null,
+                        initialDate: widget.schedule?.startTime != null
+                            ? stringToDateTime(widget.schedule?.startTime)
+                            : null,
                         name: 'time_end',
                       ),
                     ),
@@ -136,7 +149,8 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                           minimumSize: const Size(double.infinity, 56),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
-                            side: const BorderSide(color: primaryColor, width: 2.0),
+                            side: const BorderSide(
+                                color: primaryColor, width: 2.0),
                           ),
                         ),
                         onPressed: () {
@@ -144,7 +158,8 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                         },
                         child: Text(
                           'Cancel',
-                          style: theme.textTheme.bodyMedium!.copyWith(color: primaryColor, fontWeight: FontWeight.w600),
+                          style: theme.textTheme.bodyMedium!.copyWith(
+                              color: primaryColor, fontWeight: FontWeight.w600),
                         ),
                       ),
                     ),
@@ -157,14 +172,16 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                           minimumSize: const Size(double.infinity, 56),
                         ),
                         onPressed: () {
-                          if (formkey.currentState?.saveAndValidate() ?? false) {
+                          if (formkey.currentState?.saveAndValidate() ??
+                              false) {
                             widget.onSave?.call(formkey.currentState?.value);
                             Navigator.pop(context);
                           }
                         },
                         child: Text(
                           'Send Invite',
-                          style: theme.textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                          style: theme.textTheme.bodyMedium!.copyWith(
+                              color: Colors.white, fontWeight: FontWeight.w600),
                         ),
                       ),
                     ),

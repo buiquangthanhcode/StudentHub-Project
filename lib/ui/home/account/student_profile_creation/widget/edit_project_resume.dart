@@ -39,7 +39,8 @@ class _EditProjectResumeItemState extends State<EditProjectResumeItem> {
               Row(
                 children: [
                   Text(
-                    "Edit Project",
+                    // "Edit Project",
+                    editProjectTitleKey.tr(),
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
@@ -76,22 +77,27 @@ class _EditProjectResumeItemState extends State<EditProjectResumeItem> {
                 ),
                 name: 'project_name',
                 autofocus: true,
-                hintText: 'Project Name',
+                // hintText: 'Project Name',
+                hintText: projectNamePlaceHolderKey.tr(),
                 initialValue: widget.item.title,
               ),
               const SizedBox(height: 10),
               DatePickerCustom(
                 name: 'start_date',
-                hintText: 'Start Date',
-                labelText: 'Start Date',
+                // hintText: 'Start Date',
+                // labelText: 'Start Date',
+                hintText: startDatePlaceHolderKey.tr(),
+                labelText: startDatePlaceHolderKey.tr(),
                 initialDate: parseMonthYear(widget.item.startMonth),
                 view: DateRangePickerView.month,
               ),
               const SizedBox(height: 10),
               DatePickerCustom(
                 name: 'end_date',
-                hintText: 'End Date',
-                labelText: 'End Date',
+                // hintText: 'End Date',
+                // labelText: 'End Date',
+                hintText: endDatePlaceHolderKey.tr(),
+                labelText: endDatePlaceHolderKey.tr(),
                 initialDate: parseMonthYear(widget.item.endMonth),
                 view: DateRangePickerView.month,
               ),
@@ -107,9 +113,11 @@ class _EditProjectResumeItemState extends State<EditProjectResumeItem> {
                   color: Colors.grey,
                 ),
                 name: 'description',
-                hintText: 'Description',
+                // hintText: 'Description',
+                hintText: descriptionPlaceHolderKey.tr(),
                 initialValue: widget.item.description,
               ),
+              const SizedBox(height: 24),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   elevation: 0,

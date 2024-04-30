@@ -234,7 +234,8 @@ class ProjectResumeItem extends StatelessWidget {
                       ),
                       const SizedBox(width: 7),
                       Text(
-                        'Description',
+                        // 'Description',
+                        descriptionPlaceHolderKey.tr(),
                         style: theme.textTheme.bodyMedium,
                       ),
                     ],

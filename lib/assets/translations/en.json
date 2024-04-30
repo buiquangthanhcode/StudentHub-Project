@@ -117,5 +117,11 @@
 	"student_create_profile": "Student Create Profile",
 	"no_project_found": "No project found",
 	"project": "Project",
-	"experiences_title": "Experiences"
+	"experiences_title": "Experiences",
+	"create_project_title": "Create Project",
+	"project_name_placeholder": "Project Name",
+	"project_start_date_placeholder": "Start Date",
+	"project_end_date_placeholder": "End Date",
+	"project_description_placeholder": "Description",
+	"edit_project_title": "Edit Project"
 }

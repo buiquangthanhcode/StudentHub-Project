@@ -173,7 +173,8 @@ class ProjectItem extends StatelessWidget {
                     child: Text(
                       item?.description ??
                           projectProposal?.project?.description ??
-                          'Description',
+                          // 'Description',
+                          descriptionPlaceHolderKey.tr(),
                       style: theme.textTheme.bodyMedium!.copyWith(
                         fontSize: 14,
                       ),

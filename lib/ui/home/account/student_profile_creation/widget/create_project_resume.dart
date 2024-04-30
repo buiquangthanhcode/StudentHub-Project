@@ -7,6 +7,7 @@ import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/core/date_picker_formfield.dart';
 import 'package:studenthub/core/text_field_custom.dart';
 import 'package:studenthub/data/dto/student/request_post_experience.dart';
@@ -38,7 +39,8 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
               Row(
                 children: [
                   Text(
-                    "Create Project",
+                    // "Create Project",
+                    createProjectTitleKey.tr(),
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
@@ -75,20 +77,25 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
                 ),
                 name: 'project_name',
                 autofocus: true,
-                hintText: 'Project Name',
+                // hintText: 'Project Name',
+                hintText: projectNamePlaceHolderKey.tr(),
               ),
               const SizedBox(height: 10),
-              const DatePickerCustom(
+              DatePickerCustom(
                 name: 'start_date',
-                hintText: 'Start Date',
-                labelText: 'Start Date',
+                // hintText: 'Start Date',
+                // labelText: 'Start Date',
+                hintText: startDatePlaceHolderKey.tr(),
+                labelText: startDatePlaceHolderKey.tr(),
                 view: DateRangePickerView.month,
               ),
               const SizedBox(height: 18),
-              const DatePickerCustom(
+              DatePickerCustom(
                 name: 'end_date',
-                hintText: 'End Date',
-                labelText: 'End Date',
+                // hintText: 'End Date',
+                // labelText: 'End Date',
+                hintText: endDatePlaceHolderKey.tr(),
+                labelText: endDatePlaceHolderKey.tr(),
                 view: DateRangePickerView.month,
               ),
               const SizedBox(height: 10),
@@ -103,9 +110,10 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
                   color: Colors.grey,
                 ),
                 name: 'description',
-                hintText: 'Description',
+                // hintText: 'Description',
+                hintText: descriptionPlaceHolderKey.tr(),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 12),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
@@ -158,13 +166,14 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
                   }
                 },
                 child: Text(
-                  "Save",
+                  // 'Save',
+                  saveBtnKey.tr(),
                   style: theme.textTheme.bodyMedium!.copyWith(
                     color: theme.colorScheme.onPrimary,
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
             ],
           ),
         ),

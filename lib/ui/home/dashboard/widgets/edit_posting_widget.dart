@@ -206,7 +206,8 @@ class _EditPostingState extends State<EditPosting> {
             ),
             const SizedBox(height: 20),
             Text(
-              'Description',
+              // 'Description',
+              descriptionPlaceHolderKey.tr(),
               style: theme.textTheme.bodyMedium!.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,

@@ -151,3 +151,10 @@ const String yearStartPlaceHolderKey = "year_start";
 const String yearEndPlaceHolderKey = "year_end";
 const String selectYearTitleKey = "select_year_title";
 const String experiencesTitleKey = "experiences_title";
+// --- for create project sheet ---
+const String createProjectTitleKey = "create_project_title";
+const String projectNamePlaceHolderKey = "project_name_placeholder";
+const String startDatePlaceHolderKey = "project_start_date_placeholder";
+const String endDatePlaceHolderKey = "project_end_date_placeholder";
+const String descriptionPlaceHolderKey = "project_description_placeholder";
+const String editProjectTitleKey = "edit_project_title";
