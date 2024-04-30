@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logger/logger.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
@@ -12,7 +13,8 @@ class ProposalItem extends StatefulWidget {
       {super.key,
       required this.theme,
       required this.item,
-      this.activeSentButton, required this.projectId});
+      this.activeSentButton,
+      required this.projectId});
 
   final ThemeData theme;
   final ProjectProposal item;
@@ -28,6 +30,8 @@ class _ProposalItemState extends State<ProposalItem> {
 
   @override
   Widget build(BuildContext context) {
+    logger.d("PROPOSAL: ${widget.item.toString()}");
+
     return Container(
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -169,7 +173,7 @@ class _ProposalItemState extends State<ProposalItem> {
                     //     '${widget.item.student!.user?.fullname}\n${widget.item.studentId.toString()}\n${widget.projectId}');
                     context.pushNamed('chat_detail', queryParameters: {
                       'userName': widget.item.student!.user?.fullname ?? '',
-                      'userId': widget.item.studentId.toString(),
+                      'userId': widget.item.student!.userId.toString(),
                       'projectId': widget.projectId,
                     });
                   },

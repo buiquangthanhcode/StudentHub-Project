@@ -154,8 +154,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const CallPage(
-                                    callID: '1',
+                              builder: (context) => const VideoCallPage(
+                                    conferenceID: '12345',
                                   )),
                         );
                         // showModalBottomSheetCustom(context,
@@ -441,10 +441,12 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                   },
                                   interview: null,
                                 ));
-
                             // logger.d(
                             //     'SEND MESSAGE: ${widget.projectId}. ${widget.userId}');
 
+                            logger.d('SENDER ID: ${context.read<AuthBloc>().state.userModel.id}');
+                            logger.d('RECEIVE ID: ${widget.userId}');
+                            logger.d('PROJECT ID: ${widget.projectId}');
                             socket.sendMessage({
                               "content": messageController.text,
                               "projectId": widget.projectId,
