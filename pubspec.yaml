@@ -60,7 +60,8 @@ dependencies:
   # syncfusion_flutter_pdfviewer: ^25.1.39
   socket_io_client: ^3.0.0-beta.2
   http: ^1.2.1
-  zego_uikit_prebuilt_call: ^4.8.5
+  # zego_uikit_prebuilt_call: ^4.8.5
+  zego_uikit_prebuilt_video_conference: ^2.7.4
 
 dev_dependencies:
   flutter_test:

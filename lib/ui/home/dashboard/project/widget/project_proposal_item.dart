@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logger/logger.dart';
 import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
 import 'package:studenthub/blocs/company_bloc/company_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
@@ -11,7 +12,11 @@ import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class ProposalItem extends StatefulWidget {
   const ProposalItem(
-      {super.key, required this.theme, required this.item, this.activeSentButton, required this.projectId});
+      {super.key,
+      required this.theme,
+      required this.item,
+      this.activeSentButton,
+      required this.projectId});
 
   final ThemeData theme;
   final ProjectProposal item;
@@ -27,6 +32,7 @@ class _ProposalItemState extends State<ProposalItem> {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -173,7 +179,7 @@ class _ProposalItemState extends State<ProposalItem> {
                   onPressed: () {
                     context.pushNamed('chat_detail', queryParameters: {
                       'userName': widget.item.student!.user?.fullname ?? '',
-                      'userId': widget.item.studentId.toString(),
+                      'userId': widget.item.student!.userId.toString(),
                       'projectId': widget.projectId,
                     });
                   },

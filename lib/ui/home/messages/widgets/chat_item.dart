@@ -33,18 +33,21 @@ class ChatItem extends StatelessWidget {
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     var colorTheme = Theme.of(context).colorScheme;
-    String username = chat.sender['id'] != context.read<AuthBloc>().state.userModel.id.toString()
-        ? chat.sender['fullname']
-        : chat.receiver['fullname'];
-    String userId = chat.sender['id'] != context.read<AuthBloc>().state.userModel.id
+    String chattingUserId = chat.sender['id'].toString() !=
+            context.read<AuthBloc>().state.userModel.id.toString()
         ? chat.sender['id'].toString()
         : chat.receiver['id'].toString();
+    // logger.d(chattingUserId);
+
+    String username = chat.sender['id'].toString() == chattingUserId
+        ? chat.sender['fullname'] ?? ''
+        : chat.receiver['fullname']?? '';
 
     return InkWell(
       onTap: () {
         context.pushNamed<bool>('chat_detail', queryParameters: {
           'userName': username,
-          'userId': userId,
+          'userId': chattingUserId,
           'projectId': chat.project.id.toString(),
         });
       },
@@ -100,7 +103,9 @@ class ChatItem extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: Text(
-                      userId != chat.sender['id'].toString() ? 'You: ${chat.content ?? ''}' : chat.content ?? '',
+                      chattingUserId != chat.sender['id'].toString()
+                          ? 'You: ${chat.content ?? ''}'
+                          : chat.content ?? '',
                       overflow: TextOverflow.ellipsis,
                       style: textTheme.bodyMedium!.copyWith(color: colorTheme.hintColor, fontSize: 15),
                     ),

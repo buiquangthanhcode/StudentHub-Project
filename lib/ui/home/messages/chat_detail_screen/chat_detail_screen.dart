@@ -89,22 +89,21 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     return BlocConsumer<ChatBloc, ChatState>(listener: (context, state) {
       socket.receiveMessage((data) {
         if (mounted) {
-          // logger.d('SOCKET RECEIVE DATA: $data');
-          if (data['senderId'] != meId) {
+          // logger.d('SOCKET RECEIVE DATA: ${data['notification']['message']}');
+          if (data['notification']['message']['senderId'].toString() != meId.toString()) {
             state.messageList.insert(
                 0,
                 Message(
-                  id: data['messageId'],
+                  id: data['notification']['message']['id'],
                   createdAt: _getCurrentTime(),
-                  content: data['content'],
-                  sender: {"id": data['senderId'], "fullname": ""},
-                  receiver: {"id": data['receiverId'], "fullname": ""},
+                  content: data['notification']['message']['content'],
+                  sender: {"id": data['notification']['message']['senderId'], "fullname": ""},
+                  receiver: {"id": data['notification']['message']['receiverId'], "fullname": ""},
                   interview: null,
                 ));
             setState(() {});
           }
         }
-        logger.d('LAM DAU');
       });
     }, builder: (BuildContext context, ChatState state) {
       return Container(
@@ -144,8 +143,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const CallPage(
-                                    callID: '1',
+                              builder: (context) => const VideoCallPage(
+                                    conferenceID: '12345',
                                   )),
                         );
                         // showModalBottomSheetCustom(context,
@@ -416,7 +415,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                 Message(
                                   id: 1254,
                                   createdAt: _getCurrentTime(),
-                                  content: messageController.text,
+                                  content: messageController.text.trim(),
                                   sender: {
                                     "id": userModel.id,
                                     "fullname": userModel.fullname,
@@ -424,12 +423,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                   receiver: {"id": widget.userId, "fullname": widget.userName},
                                   interview: null,
                                 ));
-
                             // logger.d(
                             //     'SEND MESSAGE: ${widget.projectId}. ${widget.userId}');
 
+                            logger.d('SENDER ID: ${context.read<AuthBloc>().state.userModel.id}');
+                            logger.d('RECEIVE ID: ${widget.userId}');
+                            logger.d('PROJECT ID: ${widget.projectId}');
                             socket.sendMessage({
-                              "content": messageController.text,
+                              "content": messageController.text.trim(),
                               "projectId": widget.projectId,
                               "senderId": context.read<AuthBloc>().state.userModel.id,
                               "receiverId": widget.userId,

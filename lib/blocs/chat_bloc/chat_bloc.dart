@@ -7,6 +7,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_event.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_state.dart';
 import 'package:studenthub/data/dto/reponse.dart';
+import 'package:studenthub/models/common/chat_model.dart';
 import 'package:studenthub/models/common/message_model.dart';
 import 'package:studenthub/services/chat/chat.dart';
 import 'package:studenthub/utils/helper.dart';
@@ -33,8 +34,11 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       EasyLoading.show(status: 'Loading...');
       ResponseAPI result = await _chatService.getAllData();
 
+      List<Chat> data = result.data;
+      data.sort((a, b) => DateTime.parse(b.createdAt!).compareTo(DateTime.parse(a.createdAt!)));
+
       if (result.statusCode! < 300) {
-        emit(state.update(chatList: result.data));
+        emit(state.update(chatList: data));
       } else {
         SnackBarService.showSnackBar(
             content: handleFormatMessage(result.data!.errorDetails),
