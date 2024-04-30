@@ -150,3 +150,4 @@ const String nameOfSchoolKey = "name_of_school";
 const String yearStartPlaceHolderKey = "year_start";
 const String yearEndPlaceHolderKey = "year_end";
 const String selectYearTitleKey = "select_year_title";
+const String experiencesTitleKey = "experiences_title";

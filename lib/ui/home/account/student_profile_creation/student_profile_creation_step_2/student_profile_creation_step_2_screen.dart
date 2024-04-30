@@ -49,9 +49,10 @@ class _StudentProfileCreationStep02ScreenState
         ),
       ),
       appBar: AppBar(
-        title: const Text(
-          'Experiences',
-          style: TextStyle(
+        title: Text(
+          // 'Experiences',
+          experiencesTitleKey.tr(),
+          style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
@@ -83,7 +84,8 @@ class _StudentProfileCreationStep02ScreenState
                 Row(
                   children: [
                     Text(
-                      "Project",
+                      // "Project",
+                      projectKey.tr(),
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -116,10 +118,12 @@ class _StudentProfileCreationStep02ScreenState
                 BlocBuilder<StudentBloc, StudentState>(
                   builder: (context, state) {
                     if (state.student.experiences?.isEmpty ?? false) {
-                      return const Center(
+                      return Center(
                         child: EmptyDataWidget(
-                          mainTitle: 'Student Create Profile',
-                          subTitle: 'No project found',
+                          // mainTitle: 'Student Create Profile',
+                          // subTitle: 'No project found',
+                          mainTitle: studentCreateProfileKey.tr(),
+                          subTitle: noProjectFoundKey.tr(),
                           widthImage: 200,
                         ),
                       );

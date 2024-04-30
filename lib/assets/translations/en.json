@@ -113,5 +113,9 @@
 	"name_of_school": "Name of university",
 	"year_start": "Year Start",
 	"year_end": "Year End",
-	"select_year_title": "Select Year"
+	"select_year_title": "Select Year",
+	"student_create_profile": "Student Create Profile",
+	"no_project_found": "No project found",
+	"project": "Project",
+	"experiences_title": "Experiences"
 }

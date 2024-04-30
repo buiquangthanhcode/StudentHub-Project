@@ -113,5 +113,9 @@
 	"name_of_school": "Tên Trường Đại Học",
 	"year_start": "Năm bắt đầu",
 	"year_end": "Năm kết thúc",
-	"select_year_title": "Chọn năm"
+	"select_year_title": "Chọn năm",
+	"student_create_profile": "Tạo hồ sơ sinh viên",
+	"no_project_found": "Không tìm thấy hồ sơ",
+	"project": "Dự án",
+	"experiences_title": "Kinh nghiệm"
 }
