@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +11,7 @@ import 'package:studenthub/blocs/global_bloc/global_bloc.dart';
 import 'package:studenthub/blocs/global_bloc/global_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/data/dto/authen/request_login.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
 import 'package:studenthub/widgets/customCheckboxWidget.dart';
@@ -50,15 +52,17 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Text.rich(
                 TextSpan(
-                  text: 'Welcome \n',
+                  // text: 'Welcome \n',
+                  text: welcomeKey.tr(),
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     fontSize: 45,
                   ),
-                  children: const [
+                  children: [
                     TextSpan(
-                      text: 'Back',
-                      style: TextStyle(
+                      // text: 'Back',
+                      text: backKey.tr(),
+                      style: const TextStyle(
                         color: primaryColor, // Replace with your desired color
                       ),
                     ),
@@ -67,7 +71,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 10),
               Text(
-                'Enter your details to login',
+                // 'Enter your details to login',
+                loginDescriptionKey.tr(),
                 style: theme.textTheme.bodyMedium?.copyWith(
                   fontSize: 16,
                 ),
@@ -76,7 +81,8 @@ class _LoginScreenState extends State<LoginScreen> {
               TextFieldFormCustom(
                 fillColor: Colors.white,
                 name: 'username',
-                hintText: 'Username',
+                // hintText: 'Username',
+                hintText: userNameKey.tr(),
                 // initialValue: "nguyenthoaidangkhoa@gmail.com",
                 initialValue: "nguyenthoaidangkhoa@gmail.com",
                 icon: Container(
@@ -99,7 +105,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 isPasswordText: true,
                 fillColor: Colors.white,
                 name: 'password',
-                hintText: 'Password',
+                // hintText: 'Password',
+                hintText: passwordKey.tr(),
                 // initialValue: '@Khoa123',
                 initialValue: '@Khoa123',
                 obscureText: true,
@@ -136,7 +143,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(
                             width: 10), // Replace 10 with your desired width
                         Text(
-                          'Remember me',
+                          // 'Remember me',
+                          rememberMeKey.tr(),
                           style: theme.textTheme.bodySmall!.copyWith(
                             color: primaryColor,
                             fontWeight: FontWeight.w600,
@@ -284,7 +292,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                       },
                       child: Text(
-                        'Forgot Password?',
+                        // 'Forgot Password?',
+                        forgotPasswordKey.tr(),
                         style: theme.textTheme.bodySmall!.copyWith(
                           color: primaryColor,
                           fontWeight: FontWeight.w600,
@@ -326,7 +335,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     }
                   },
                   child: Text(
-                    'Login',
+                    // 'Login',
+                    loginBtnKey.tr(),
                     style: theme.textTheme.bodyMedium?.copyWith(
                         color: Colors.white, fontWeight: FontWeight.w600),
                   ),
@@ -340,12 +350,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text("OR",
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                            color: theme.colorScheme.grey))),
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    // "OR",
+                    orKey.tr(),
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                      color: theme.colorScheme.grey,
+                    ),
+                  ),
+                ),
                 Expanded(
                   child: Divider(
                     color: theme.colorScheme.grey, // Set the color to grey
@@ -391,13 +406,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 alignment: Alignment.center,
                 child: RichText(
                   text: TextSpan(
-                    text: 'Already have an account? ',
+                    // text: 'Already have an account? ',
+                    text: alreadyHaveAccountKey.tr(),
                     style: theme.textTheme.titleSmall?.copyWith(
                       color: Colors.black54,
                     ),
                     children: <TextSpan>[
                       TextSpan(
-                        text: 'Sign Up',
+                        // text: 'Sign Up',
+                        text: signupBtnKey.tr(),
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, color: primaryColor),
                         recognizer: TapGestureRecognizer()

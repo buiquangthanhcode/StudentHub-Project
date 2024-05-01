@@ -138,5 +138,16 @@
 	"password_hint_detail_2": "The password must contain at least 1 special character, such as &, %, TM, or E.",
 	"password_hint_detail_3": "The password must contain at least 3 different kinds of characters, such as uppercase letters, lowercase letter, numeric digits, and punctuation marks.",
 	"password_suggestion_msg": "Your new password must be different from your previous password.",
-	"password_updated_msg": "Password was updated successfully"
+	"password_updated_msg": "Password was updated successfully",
+	"welcome": "Welcome \n",
+	"back": "Back",
+	"login_description": "Enter your details to login",
+	"remember_me": "Remember me",
+	"forgot_password": "Forgot Password?",
+	"login": "Login",
+	"signup":"Sign Up",
+	"already_have_account": "Already have an account? ",
+	"or": "OR",
+	"user_name": "Email",
+	"password": "Password"
 }

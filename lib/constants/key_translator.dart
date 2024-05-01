@@ -171,3 +171,15 @@ const String passwordHintDetailMsg1 = "password_hint_detail_1";
 const String passwordHintDetailMsg2 = "password_hint_detail_2";
 const String passwordHintDetailMsg3 = "password_hint_detail_3";
 const String passwordUpdatedMsg = "password_updated_msg";
+// --- for authentication flow ---
+const String welcomeKey = "welcome";
+const String backKey = "back";
+const String loginDescriptionKey = "login_description";
+const String rememberMeKey = "remember_me";
+const String forgotPasswordKey = "forgot_password";
+const String loginBtnKey = "login";
+const String signupBtnKey = "signup";
+const String alreadyHaveAccountKey = "already_have_account";
+const String orKey = "or";
+const String userNameKey = "user_name";
+const String passwordKey = "password";

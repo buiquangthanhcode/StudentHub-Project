@@ -138,5 +138,16 @@
 	"password_hint_detail_2": "Mật khẩu phải chứa ít nhất 1 kí tự đặc biệt, như &, %, TM, or E.",
 	"password_hint_detail_3": "Mật khẩu phải chứa ít nhất 3 loại sau, như chữ in hoa, chữ in thường, dấu chấm câu.",
 	"password_suggestion_msg": "Mật khẩu mới phải khác với mật khẩu cũ của bạn",
-	"password_updated_msg": "Mật khẩu đã được cập nhật thành công"
+	"password_updated_msg": "Mật khẩu đã được cập nhật thành công",
+	"welcome": "Chào mừng bạn \n",
+	"back": "Trở lại",
+	"login_description": "Nhập thông tin chi tiết để đăng nhập",
+	"remember_me": "Nhớ mật khẩu",
+	"forgot_password": "Quên mật khẩu?",
+	"login": "Đăng Nhập",
+	"signup":"Đăng Ký",
+	"already_have_account": "Bạn đã có tài khoản? ",
+	"or": "HOẶC",
+	"user_name": "Email",
+	"password": "Mật khẩu"
 }

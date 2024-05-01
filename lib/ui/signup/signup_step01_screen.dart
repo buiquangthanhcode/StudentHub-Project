@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/constants/strings.dart';
 import 'package:studenthub/utils/logger.dart';
 
@@ -78,7 +80,8 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
               itemBuilder: (context, index) {
                 final item = dataSelectedInfor[index];
                 return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   margin: const EdgeInsets.only(top: 10),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -108,10 +111,13 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                               child: CheckboxListTile(
                                 activeColor: primaryColor,
                                 visualDensity: VisualDensity.compact,
-                                checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                                checkboxShape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15)),
                                 value: item['value'],
                                 onChanged: (value) {
-                                  for (int i = 0; i < dataSelectedInfor.length; i++) {
+                                  for (int i = 0;
+                                      i < dataSelectedInfor.length;
+                                      i++) {
                                     if (i != index) {
                                       dataSelectedInfor[i]['value'] = false;
                                     }
@@ -152,8 +158,10 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                 ),
                 onPressed: () {
                   isCompany
-                      ? context.pushNamed('signup_02_for_company', queryParameters: {'role': isCompany ? '1' : '0'})
-                      : context.pushNamed('signup_02_for_student', queryParameters: {'role': isCompany ? '1' : '0'});
+                      ? context.pushNamed('signup_02_for_company',
+                          queryParameters: {'role': isCompany ? '1' : '0'})
+                      : context.pushNamed('signup_02_for_student',
+                          queryParameters: {'role': isCompany ? '1' : '0'});
                 },
                 child: Text(
                   'Create account',
@@ -171,7 +179,8 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Already have an account? ',
+                  // 'Already have an account? ',
+                  alreadyHaveAccountKey.tr(),
                   style: theme.textTheme.titleSmall?.copyWith(
                     color: Colors.black54,
                   ),
@@ -181,7 +190,8 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                     context.push('/login');
                   },
                   child: Text(
-                    'Login',
+                    // 'Login',
+                    loginBtnKey.tr(),
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                       color: primaryColor,
