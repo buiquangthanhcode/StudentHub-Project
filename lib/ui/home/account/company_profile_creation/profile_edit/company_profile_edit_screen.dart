@@ -8,19 +8,16 @@ import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
 // import 'package:studenthub/blocs/company_bloc/company_create_profile_event.dart';
 import 'package:studenthub/blocs/company_bloc/company_event.dart';
 import 'package:studenthub/constants/key_translator.dart';
-import 'package:studenthub/models/common/user_model.dart';
 import 'package:studenthub/models/company/company_model.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit/widgets/save_button.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit/widgets/describe_input_widget.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit/widgets/employee_quantity_selection_widget.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit/widgets/name_input_widget.dart';
-import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit/widgets/title_widget.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit/widgets/url_input_widget.dart';
-import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class CompanyProfileEditScreen extends StatefulWidget {
-  const CompanyProfileEditScreen({Key? key}) : super(key: key);
+  const CompanyProfileEditScreen({super.key});
 
   @override
   _PCompanyProfileEditScreenState createState() =>

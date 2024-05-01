@@ -8,7 +8,7 @@ class CompanyState extends Equatable {
   final Company company;
   // final Project project;
 
-  CompanyState({
+  const CompanyState({
     required this.company,
     // required this.project,
   });

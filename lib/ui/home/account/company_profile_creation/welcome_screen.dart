@@ -7,7 +7,7 @@ import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/constants/strings.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({Key? key}) : super(key: key);
+  const WelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

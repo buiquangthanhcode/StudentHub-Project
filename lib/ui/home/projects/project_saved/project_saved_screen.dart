@@ -8,7 +8,7 @@ import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/ui/home/projects/project_saved/widgets/project_item_saved.dart';
 
 class ProjectSavedScreen extends StatefulWidget {
-  const ProjectSavedScreen({Key? key}) : super(key: key);
+  const ProjectSavedScreen({super.key});
 
   @override
   _ProjectSavedState createState() => _ProjectSavedState();

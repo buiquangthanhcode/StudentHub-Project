@@ -1,10 +1,8 @@
 // ignore_for_file: unnecessary_null_comparison
 
-import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:socket_io_client/socket_io_client.dart';
@@ -16,19 +14,16 @@ import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/models/common/message_model.dart';
-import 'package:studenthub/services/endpoint.dart';
 import 'package:studenthub/ui/home/messages/widgets/get_more_action_widget.dart';
 import 'package:studenthub/utils/logger.dart';
-import 'package:studenthub/utils/meeting.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ChatDetailScreen extends StatefulWidget {
   const ChatDetailScreen(
-      {Key? key,
+      {super.key,
       required this.userId,
       required this.projectId,
-      required this.userName})
-      : super(key: key);
+      required this.userName});
 
   final String userName;
   final String userId;
@@ -149,7 +144,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
     //Add authorization to header
     socket!.io.options?['extraHeaders'] = {
-      'Authorization': 'Bearer ${token}',
+      'Authorization': 'Bearer $token',
     };
 
     socket!.io.options?['query'] = {'project_id': widget.projectId};

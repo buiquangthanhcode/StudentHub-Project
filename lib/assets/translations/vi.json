@@ -149,5 +149,22 @@
 	"already_have_account": "Bạn đã có tài khoản? ",
 	"or": "HOẶC",
 	"user_name": "Email",
-	"password": "Mật khẩu"
+	"password": "Mật khẩu",
+	"let_register": "Đăng ký\n",
+	"register_description": "Tiến hành tạo tài khoản của bạn",
+	"register_for_company": "Là doanh nghiệp, tìm kiếm kỹ sư cho dự án",	
+	"register_for_student": "Là sinh viên, tìm dự án thực tế để học hỏi",		
+	"terms_of_service": "Các điều khoản",
+	"terms_of_service_policy": "Các điều khoản và chính sách sử dụng.",
+	"agree_to": "Tôi đồng ý ",
+	"create_account": "Tạo tài khoản",
+	"sign_up_as": "Vai trò là\n",
+	"full_name": "Tên đầy đủ",
+	"email_address": "Địa chỉ email",
+	"password_for_register": "Mật khẩu (8 kí tự hoặc hơn)",
+	"looking_for_project": "Tìm kiếm dự án? ",
+	"looking_for_staff": "Tìm kiếm kỹ sư? ",
+	"apply_as_student": "Đăng ký làm sinh viên", 
+	"apply_as_company": "Đăng ký làm doanh nghiệp",
+	"proceed_next": "Khi tiến hành bước tiếp theo, tôi đồng ý với " 
 }

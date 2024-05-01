@@ -12,7 +12,7 @@ import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_model.dart';
 
 class ProjectItemSaved extends StatefulWidget {
-  const ProjectItemSaved({Key? key, required this.project}) : super(key: key);
+  const ProjectItemSaved({super.key, required this.project});
 
   final Project project;
   @override

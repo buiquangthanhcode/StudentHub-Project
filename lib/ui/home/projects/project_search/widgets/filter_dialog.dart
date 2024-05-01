@@ -1,12 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 
 class FilterDialog extends StatefulWidget {
-  const FilterDialog({Key? key, required this.applyFilter}) : super(key: key);
+  const FilterDialog({super.key, required this.applyFilter});
 
   final void Function(Map<String, dynamic> data) applyFilter;
 

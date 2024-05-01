@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -20,7 +18,6 @@ import 'package:studenthub/ui/home/dashboard/post_a_project/step_1/project_post_
 import 'package:studenthub/ui/home/dashboard/post_a_project/step_2/project_post_step02_screen.dart';
 import 'package:studenthub/ui/home/dashboard/post_a_project/step_3/project_post_step03_screen.dart';
 import 'package:studenthub/ui/home/dashboard/post_a_project/step_4/project_post_step04_screen.dart';
-import 'package:studenthub/ui/introduction/introduction_screen.dart';
 import 'package:studenthub/ui/home/projects/project_saved/project_saved_screen.dart';
 import 'package:studenthub/ui/home/projects/project_search/project_search_screen.dart';
 import 'package:studenthub/ui/signup/signup_step01_screen.dart';
@@ -29,7 +26,6 @@ import 'package:studenthub/ui/home/account/student_profile_creation/student_prof
 import 'package:studenthub/ui/home/account/student_profile_creation/student_profile_creation_step_1/student_profile_creation_step_1_screen.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/student_profile_creation_step_2/student_profile_creation_step_2_screen.dart';
 import 'package:studenthub/ui/signup/signup_step02_screen_for_student.dart';
-import 'package:studenthub/utils/logger.dart';
 
 final GoRouter router = GoRouter(
   routes: <RouteBase>[

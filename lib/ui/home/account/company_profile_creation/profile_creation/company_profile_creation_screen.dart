@@ -7,7 +7,6 @@ import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
 import 'package:studenthub/blocs/company_bloc/company_event.dart';
-import 'package:studenthub/models/common/user_model.dart';
 import 'package:studenthub/models/company/company_model.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/widgets/continue_button.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/widgets/describe_input_widget.dart';
@@ -18,7 +17,7 @@ import 'package:studenthub/ui/home/account/company_profile_creation/profile_crea
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class CompanyProfileCreationScreen extends StatefulWidget {
-  const CompanyProfileCreationScreen({Key? key}) : super(key: key);
+  const CompanyProfileCreationScreen({super.key});
 
   @override
   State<CompanyProfileCreationScreen> createState() =>

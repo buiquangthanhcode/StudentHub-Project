@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -19,7 +18,7 @@ enum TimeOption { option1, option2, option3, option4 }
 
 class EditPosting extends StatefulWidget {
   final Project project;
-  const EditPosting({Key? key, required this.project}) : super(key: key);
+  const EditPosting({super.key, required this.project});
 
   @override
   _EditPostingState createState() => _EditPostingState();
@@ -223,7 +222,7 @@ class _EditPostingState extends State<EditPosting> {
             ),
             const SizedBox(height: 20),
             Expanded(
-              child: Container(
+              child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: Row(
                   children: [

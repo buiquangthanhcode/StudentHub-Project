@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/data/dto/reponse.dart';
 import 'package:studenthub/data/dto/student/request_change_password.dart';
-import 'package:studenthub/data/dto/student/request_get_proposal_project.dart';
 import 'package:studenthub/data/dto/student/request_post_experience.dart';
 import 'package:studenthub/data/dto/student/request_post_proposal.dart';
 import 'package:studenthub/data/dto/student/request_post_resume.dart';
@@ -13,7 +11,6 @@ import 'package:studenthub/data/dto/student/request_update_language.dart';
 import 'package:studenthub/data/dto/student/request_update_profile_student.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/models/common/proposal_modal.dart';
-import 'package:studenthub/models/common/user_model.dart';
 import 'package:studenthub/models/student/student_create_profile/education_model.dart';
 import 'package:studenthub/models/student/student_create_profile/language_model.dart';
 import 'package:studenthub/models/student/student_create_profile/project_model.dart';

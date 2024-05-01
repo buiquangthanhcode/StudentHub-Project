@@ -1,14 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 
 class AlertsScreen extends StatefulWidget {
-  const AlertsScreen({Key? key}) : super(key: key);
+  const AlertsScreen({super.key});
 
   @override
   _AlertsState createState() => _AlertsState();
@@ -228,7 +226,7 @@ class NotificationItem extends StatelessWidget {
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     var colorTheme = Theme.of(context).colorScheme;
-    var screen_size = MediaQuery.of(context).size;
+    var screenSize = MediaQuery.of(context).size;
     Widget button = const SizedBox();
     Widget content = const SizedBox();
     SvgPicture icon;
@@ -241,7 +239,7 @@ class NotificationItem extends StatelessWidget {
           height: 18,
         );
         button = SizedBox(
-          width: screen_size.width * 0.4,
+          width: screenSize.width * 0.4,
           height: 36,
           child: ElevatedButton(
             onPressed: () {},
@@ -257,7 +255,7 @@ class NotificationItem extends StatelessWidget {
           height: 18,
         );
         button = SizedBox(
-          width: screen_size.width * 0.4,
+          width: screenSize.width * 0.4,
           height: 36,
           child: ElevatedButton(
             onPressed: () {},

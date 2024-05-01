@@ -4,8 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:studenthub/data/dto/reponse.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/models/company/company_model.dart';
-import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
-import 'package:studenthub/models/student/student_create_profile/tech_stack.dart';
 import 'package:studenthub/services/api_interceptor.dart';
 import 'package:studenthub/services/dio_client.dart';
 import 'package:studenthub/services/endpoint.dart';

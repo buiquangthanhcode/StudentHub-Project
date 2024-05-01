@@ -157,7 +157,7 @@ class _AccountState extends State<AccountScreen> {
                               //         UserRole.student
                               //     ? 'Start searching and implementing real-world projects right now!'
                               //     : 'Start finding and hiring young talented students!';
-                              final subtitle_msg =
+                              final subtitleMsg =
                                   state.currentRole == UserRole.student
                                       ? changeAccountNoticeMsgKey1.tr()
                                       : changeAccountNoticeMsgKey2.tr();
@@ -165,7 +165,7 @@ class _AccountState extends State<AccountScreen> {
                                   image: 'lib/assets/images/change_account.png',
                                   // title: 'Do you want to change account?',
                                   title: changeAccountConfirmMsgKey.tr(),
-                                  subtitle: subtitle_msg,
+                                  subtitle: subtitleMsg,
                                   // textButtom: 'Change your account',
                                   textButtom: changeAccountBtnKey.tr(),
                                   sizeImage: 50, onSave: () {
@@ -255,7 +255,7 @@ class _AccountState extends State<AccountScreen> {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(10)),
                         border: Border.all(
-                            color: Color.fromARGB(255, 160, 160, 160),
+                            color: const Color.fromARGB(255, 160, 160, 160),
                             width: 1)),
                     child: Column(
                       children: [

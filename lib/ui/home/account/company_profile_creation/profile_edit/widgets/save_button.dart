@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:studenthub/constants/key_translator.dart';
 
 class SaveButton extends StatefulWidget {
-  const SaveButton({Key? key, required this.buttonActive, required this.press})
-      : super(key: key);
+  const SaveButton({super.key, required this.buttonActive, required this.press});
 
   final bool buttonActive;
   final VoidCallback press;

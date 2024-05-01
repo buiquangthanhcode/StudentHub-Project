@@ -12,7 +12,6 @@ import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/blocs/student_bloc/student_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
-import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/core/dropdown_button_formfield.dart';
@@ -27,7 +26,6 @@ import 'package:studenthub/ui/home/account/student_profile_creation/widget/educa
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/language_item.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/skillset_item.dart';
 import 'package:studenthub/utils/helper.dart';
-import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/emtyDataWidget.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 

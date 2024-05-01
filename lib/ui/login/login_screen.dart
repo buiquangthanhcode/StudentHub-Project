@@ -224,13 +224,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                       ),
                                       const SizedBox(height: 36),
-                                      Column(
+                                      const Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          const Text(
+                                          Text(
                                               'Password should not use on any other site.'),
-                                          BulletList(const [
+                                          BulletList([
                                             'The password must have at least 8 characters.',
                                             'The password must contain at least 1 special character, such as &, %, TM, or E.',
                                             'The password must contain at least 3 different kinds of characters, such as uppercase letters, lowercase letter, numeric digits, and punctuation marks.',

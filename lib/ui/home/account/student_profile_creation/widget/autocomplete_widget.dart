@@ -1,10 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
-import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/key_translator.dart';
-import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
 
 class AutoCompleteWidget extends StatefulWidget {
   const AutoCompleteWidget({

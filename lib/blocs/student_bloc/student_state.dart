@@ -10,7 +10,7 @@ class StudentState extends Equatable {
   final bool isChange;
   final List<ProjectProposal> submitProjectProposals;
   final List<ProjectProposal> activeProjectProposals;
-  StudentState({
+  const StudentState({
     required this.student,
     required this.isChange,
     required this.submitProjectProposals,

@@ -1,12 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/key_translator.dart';
-import 'package:studenthub/constants/strings.dart';
-import 'package:studenthub/utils/logger.dart';
 
 class SignUpStep01Screen extends StatefulWidget {
   const SignUpStep01Screen({super.key});
@@ -19,12 +16,14 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
   List<Map<String, dynamic>> dataSelectedInfor = [
     {
       'image': "lib/assets/images/company.png",
-      'description': "I am a company, find engineer for project",
+      // 'description': "I am a company, find engineer for project",
+      'description': registerForCompanyKey.tr(),
       'value': true,
     },
     {
       'image': "lib/assets/images/student.png",
-      'description': "I am a student, find project for learning",
+      // 'description': "I am a student, find project for learning",
+      'description': registerForStudentKey.tr(),
       'value': false,
     },
   ];
@@ -49,15 +48,17 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
               margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               child: Text.rich(
                 TextSpan(
-                  text: 'Let\'s register  \n',
+                  // text: 'Let\'s register  \n',
+                  text: letRegisterKey.tr(),
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     fontSize: 45,
                   ),
-                  children: const [
+                  children: [
                     TextSpan(
-                      text: 'Account',
-                      style: TextStyle(
+                      // text: 'Account',
+                      text: accountKey.tr(),
+                      style: const TextStyle(
                         color: primaryColor, // Replace with your desired color
                       ),
                     ),
@@ -68,7 +69,8 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
             Container(
               margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               child: Text(
-                'Create your own account to process next step',
+                // 'Create your own account to process next step',
+                registerDescriptionKey.tr(),
                 style: theme.textTheme.titleMedium?.copyWith(
                   fontSize: 16,
                 ),
@@ -164,7 +166,8 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                           queryParameters: {'role': isCompany ? '1' : '0'});
                 },
                 child: Text(
-                  'Create account',
+                  // 'Create account',
+                  createAccountBtnKey.tr(),
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,

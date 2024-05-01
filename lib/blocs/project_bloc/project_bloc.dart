@@ -14,9 +14,9 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
   ProjectBloc()
       : super(
           ProjectState(
-            allProjects: [],
-            workingProjects: [],
-            archivedProjects: [],
+            allProjects: const [],
+            workingProjects: const [],
+            archivedProjects: const [],
             projectCreation: Project(),
           ),
         ) {

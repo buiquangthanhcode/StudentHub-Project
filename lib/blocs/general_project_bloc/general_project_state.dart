@@ -11,7 +11,7 @@ class GeneralProjectState extends Equatable {
 
   final List<ProjectProposal> proposalList;
 
-  GeneralProjectState({
+  const GeneralProjectState({
     required this.projectList,
     required this.projectDetail,
     required this.projectFavorite,

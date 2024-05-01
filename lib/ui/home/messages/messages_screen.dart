@@ -9,10 +9,9 @@ import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/ui/home/messages/data/get_chat_data.dart';
 import 'package:studenthub/ui/home/messages/widgets/chat_item.dart';
-import 'package:studenthub/ui/home/projects/widgets/general_project_item.dart';
 
 class MessagesScreen extends StatefulWidget {
-  const MessagesScreen({Key? key, this.isHiddenAppbar}) : super(key: key);
+  const MessagesScreen({super.key, this.isHiddenAppbar});
 
   final bool? isHiddenAppbar;
   @override

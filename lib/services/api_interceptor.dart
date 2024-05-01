@@ -3,10 +3,8 @@
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter/material.dart';
-import 'package:studenthub/app.dart';
 import 'package:studenthub/services/local_services.dart';
 import 'package:studenthub/utils/logger.dart';
-import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class AppInterceptors extends Interceptor {
   static final navigatorKey = GlobalKey<NavigatorState>();

@@ -3,8 +3,7 @@ import 'package:studenthub/constants/colors.dart';
 
 class EmployeeQuantitySelectionWidget extends StatefulWidget {
   const EmployeeQuantitySelectionWidget(
-      {Key? key, required this.chooseEmployeeQuantity, required this.value})
-      : super(key: key);
+      {super.key, required this.chooseEmployeeQuantity, required this.value});
 
   final Function(int value) chooseEmployeeQuantity;
   final int value;

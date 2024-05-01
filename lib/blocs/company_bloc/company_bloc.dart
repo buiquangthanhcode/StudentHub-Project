@@ -9,7 +9,6 @@ import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/data/dto/reponse.dart';
 import 'package:studenthub/models/company/company_model.dart';
 import 'package:studenthub/services/company/company.dart';
-import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';

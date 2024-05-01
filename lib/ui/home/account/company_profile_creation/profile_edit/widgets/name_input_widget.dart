@@ -5,10 +5,9 @@ import 'package:studenthub/constants/colors.dart';
 
 class NameInputWidget extends StatefulWidget {
   const NameInputWidget(
-      {Key? key,
+      {super.key,
       required this.companyNameInputController,
-      required this.checkFormField})
-      : super(key: key);
+      required this.checkFormField});
 
   final TextEditingController companyNameInputController;
   final Function() checkFormField;

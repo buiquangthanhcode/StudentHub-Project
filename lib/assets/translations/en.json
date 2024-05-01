@@ -149,5 +149,22 @@
 	"already_have_account": "Already have an account? ",
 	"or": "OR",
 	"user_name": "Email",
-	"password": "Password"
+	"password": "Password",
+	"let_register": "Let's register\n",
+	"register_description": "Create your own account to process next step",
+	"register_for_company": "I am a company, find engineer for project",	
+	"register_for_student": "I am a student, find project for learning",
+	"terms_of_service": "Terms of Service",
+	"terms_of_service_policy": "Terms of Service and Usage Policy.",
+	"agree_to": "I agree to ",
+	"create_account": "Create account",
+	"sign_up_as": "Sign up as\n",
+	"full_name": "Fullname",
+	"email_address": "Email address",
+	"password_for_register": "Password (8 or more characters)",
+	"looking_for_project": "Looking for project? ",
+	"looking_for_staff": "Looking for staff? ",
+	"apply_as_student": "Apply as student", 
+	"apply_as_company": "Apply as company",
+	"proceed_next": "When proceeding to the next step, I agreed to the " 
 }

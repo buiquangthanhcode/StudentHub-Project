@@ -4,7 +4,7 @@ import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/key_translator.dart';
 
 class TitleWidget extends StatefulWidget {
-  const TitleWidget({Key? key}) : super(key: key);
+  const TitleWidget({super.key});
 
   @override
   _TitleWidgetState createState() => _TitleWidgetState();

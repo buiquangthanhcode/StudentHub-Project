@@ -6,7 +6,7 @@ class ChatState extends Equatable {
   final List<Chat> chatList;
   final List<Message> messageList;
 
-  ChatState({
+  const ChatState({
     required this.chatList,
     required this.messageList,
   });

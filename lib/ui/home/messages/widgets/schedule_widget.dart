@@ -10,7 +10,6 @@ import 'package:studenthub/core/text_field_custom.dart';
 import 'package:studenthub/core/time_picker.dart';
 import 'package:studenthub/models/company/schedual_modal.dart';
 import 'package:studenthub/utils/helper.dart';
-import 'package:studenthub/utils/logger.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class ScheduleWidget extends StatefulWidget {

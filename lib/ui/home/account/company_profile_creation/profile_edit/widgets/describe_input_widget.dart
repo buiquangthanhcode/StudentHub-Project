@@ -7,10 +7,9 @@ import 'package:studenthub/constants/key_translator.dart';
 
 class DescribeInputWidget extends StatefulWidget {
   const DescribeInputWidget(
-      {Key? key,
+      {super.key,
       required this.descriptionInputController,
-      required this.checkFormField})
-      : super(key: key);
+      required this.checkFormField});
 
   final TextEditingController descriptionInputController;
   final Function() checkFormField;

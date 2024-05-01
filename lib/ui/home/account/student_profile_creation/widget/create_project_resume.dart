@@ -13,7 +13,6 @@ import 'package:studenthub/core/text_field_custom.dart';
 import 'package:studenthub/data/dto/student/request_post_experience.dart';
 import 'package:studenthub/models/student/student_create_profile/project_model.dart';
 import 'package:studenthub/utils/helper.dart';
-import 'package:studenthub/utils/logger.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class CreateProjectResume extends StatefulWidget {

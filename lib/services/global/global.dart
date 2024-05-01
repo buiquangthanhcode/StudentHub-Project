@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:studenthub/data/dto/reponse.dart';
 import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
@@ -71,13 +70,13 @@ class GlobalService {
 
   Future<ResponseAPI> resetPassword(String email) async {
     try {
-      logger.d("Resetting password: ${email}");
+      logger.d("Resetting password: $email");
       final res = await dioClient.post('$baseURL/api/user/forgotPassword',
           data: json.encode({
             "email": email,
           }));
 
-      logger.d("res in reset password: ${res}");
+      logger.d("res in reset password: $res");
       return ResponseAPI(statusCode: res.statusCode, data: res.data);
     } on DioException catch (e) {
       logger.e(

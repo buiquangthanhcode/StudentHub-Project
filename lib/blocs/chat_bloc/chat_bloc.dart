@@ -16,9 +16,9 @@ import 'package:studenthub/widgets/snack_bar_config.dart';
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   ChatBloc()
       : super(
-          ChatState(
-            chatList: const [],
-            messageList: const [],
+          const ChatState(
+            chatList: [],
+            messageList: [],
           ),
         ) {
     on<GetAllDataEvent>(_onGetAllData);
