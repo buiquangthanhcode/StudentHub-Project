@@ -109,7 +109,7 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
       searchSuggestions.add('View all');
     }
     for (String i in setSuggestion!) {
-      if (i.contains(value)) {
+      if (i.toLowerCase().contains(value.toLowerCase())) {
         searchSuggestions.add(i);
       }
     }

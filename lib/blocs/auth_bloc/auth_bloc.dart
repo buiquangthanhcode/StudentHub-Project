@@ -35,6 +35,9 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
 
   FutureOr<void> _onFetchInformation(GetInformationEvent event, Emitter<AuthenState> emit) async {
     try {
+      if (event.action == 'login') {
+        EasyLoading.show(status: 'Loading...');
+      }
       ResponseAPI result = await _authenService.fetchInformation(event.accessToken);
       if (result.statusCode! < 300) {
         emit(
@@ -54,6 +57,9 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
         }
         emit(state.update(isChanged: !state.isChanged));
         event.onSuccess!(); // Call onSuccessCallBack
+        if (event.action == 'login') {
+          EasyLoading.dismiss();
+        }
       } else {
         SnackBarService.showSnackBar(
             content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
@@ -90,7 +96,8 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
             onSuccess: () {
               event.onSuccess!();
             },
-            currentContext: event.currentContext));
+            currentContext: event.currentContext,
+            action: "login"));
       } else {
         SnackBarService.showSnackBar(
             content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);

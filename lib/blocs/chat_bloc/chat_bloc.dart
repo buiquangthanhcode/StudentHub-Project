@@ -17,19 +17,21 @@ import 'package:studenthub/widgets/snack_bar_config.dart';
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   ChatBloc()
       : super(
-          ChatState(
-            chatList: const [],
-            messageList: const [],
+          const ChatState(
+            chatList: [],
+            messageList: [],
+            messageListOfProject: [],
+            chatListOfProject: [],
           ),
         ) {
     on<GetAllDataEvent>(_onGetAllData);
     on<GetChatWithUserIdEvent>(_onGetChatWithUserId);
+    on<GetChatListDataOfProjectEvent>(_onGetChatDataOfProject);
   }
 
   final ChatService _chatService = ChatService();
 
-  FutureOr<void> _onGetAllData(
-      GetAllDataEvent event, Emitter<ChatState> emit) async {
+  FutureOr<void> _onGetAllData(GetAllDataEvent event, Emitter<ChatState> emit) async {
     try {
       EasyLoading.show(status: 'Loading...');
       ResponseAPI result = await _chatService.getAllData();
@@ -41,8 +43,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         emit(state.update(chatList: data));
       } else {
         SnackBarService.showSnackBar(
-            content: handleFormatMessage(result.data!.errorDetails),
-            status: StatusSnackBar.error);
+            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
       }
     } on DioException catch (e) {
       logger.e(
@@ -50,9 +51,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       );
     } catch (e) {
       logger.e("Unexpect error-> $e");
-      SnackBarService.showSnackBar(
-          content: handleFormatMessage(e.toString()),
-          status: StatusSnackBar.error);
+      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();
     }
@@ -64,9 +63,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
     DateTime dateTime = DateTime.parse(dateTimeString);
 
-    if (dateTime.year == now.year &&
-        dateTime.month == now.month &&
-        dateTime.day == now.day) {
+    if (dateTime.year == now.year && dateTime.month == now.month && dateTime.day == now.day) {
       dateTime = dateTime.toLocal();
       return DateFormat('HH:mm').format(dateTime);
     } else {
@@ -74,12 +71,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     }
   }
 
-  FutureOr<void> _onGetChatWithUserId(
-      GetChatWithUserIdEvent event, Emitter<ChatState> emit) async {
+  FutureOr<void> _onGetChatWithUserId(GetChatWithUserIdEvent event, Emitter<ChatState> emit) async {
     try {
       EasyLoading.show(status: 'Loading...');
-      ResponseAPI result = await _chatService.getAllChatWithUserId(
-          event.userId, event.projectId);
+      ResponseAPI result = await _chatService.getAllChatWithUserId(event.userId, event.projectId);
       // logger.d('MESSAGE DATA: ${result.data}');
       List<Message> data = [];
       for (Message i in result.data) {
@@ -91,8 +86,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         emit(state.update(messageList: data));
       } else {
         SnackBarService.showSnackBar(
-            content: handleFormatMessage(result.data!.errorDetails),
-            status: StatusSnackBar.error);
+            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
       }
     } on DioException catch (e) {
       logger.e(
@@ -100,9 +94,29 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       );
     } catch (e) {
       logger.e("Unexpect error-> $e");
-      SnackBarService.showSnackBar(
-          content: handleFormatMessage(e.toString()),
-          status: StatusSnackBar.error);
+      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
+
+  FutureOr<void> _onGetChatDataOfProject(GetChatListDataOfProjectEvent event, Emitter<ChatState> emit) async {
+    try {
+      EasyLoading.show(status: 'Loading...');
+      ResponseAPI result = await _chatService.getChatDataOfProject(event.projectId);
+      if (result.statusCode! < 300) {
+        emit(state.update(chatListOfProject: result.data));
+      } else {
+        SnackBarService.showSnackBar(
+            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
+      }
+    } on DioException catch (e) {
+      logger.e(
+        "DioException:${e.response}",
+      );
+    } catch (e) {
+      logger.e("Unexpect error-> $e");
+      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();
     }

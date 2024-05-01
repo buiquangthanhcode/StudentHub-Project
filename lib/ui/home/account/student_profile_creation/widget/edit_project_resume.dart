@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/global_bloc/global_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
@@ -10,6 +11,9 @@ import 'package:studenthub/core/date_picker_formfield.dart';
 import 'package:studenthub/core/text_field_custom.dart';
 import 'package:studenthub/data/dto/student/request_post_experience.dart';
 import 'package:studenthub/models/student/student_create_profile/project_model.dart';
+import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
+import 'package:studenthub/ui/home/account/student_profile_creation/widget/autocomplete_widget.dart';
+import 'package:studenthub/ui/home/account/student_profile_creation/widget/skillset_item.dart';
 import 'package:studenthub/utils/helper.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -24,6 +28,16 @@ class EditProjectResumeItem extends StatefulWidget {
 
 class _EditProjectResumeItemState extends State<EditProjectResumeItem> {
   final formkey = GlobalKey<FormBuilderState>();
+  List<SkillSet> dataSelected = [];
+  late List<SkillSet> dataSource;
+
+  @override
+  void initState() {
+    super.initState();
+    dataSource = context.read<GlobalBloc>().state.dataSourceSkillSet;
+    dataSelected = widget.item.skillSets ?? [];
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -34,6 +48,7 @@ class _EditProjectResumeItemState extends State<EditProjectResumeItem> {
         child: FormBuilder(
           key: formkey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
@@ -92,6 +107,40 @@ class _EditProjectResumeItemState extends State<EditProjectResumeItem> {
                 labelText: 'End Date',
                 initialDate: parseMonthYear(widget.item.endMonth),
                 view: DateRangePickerView.month,
+              ),
+              const SizedBox(height: 10),
+              Builder(builder: (context) {
+                if (dataSelected.isNotEmpty) {
+                  return Wrap(
+                    spacing: 2.0,
+                    runSpacing: 2.0,
+                    direction: Axis.horizontal,
+                    children: dataSelected
+                        .map((item) => SkillSetItem(
+                              theme: theme,
+                              item: item,
+                              isEditUI: true,
+                              onDelete: () {
+                                setState(() {
+                                  dataSelected.remove(item);
+                                });
+                              },
+                            ))
+                        .toList(),
+                  );
+                }
+                return const SizedBox();
+              }),
+              AutoCompleteWidget(
+                data: dataSource.map((e) => e.name ?? '').toList(),
+                onSelected: (value) {
+                  final skill = getSkillSetByName(value, dataSource);
+                  if (skill.id != -1) {
+                    setState(() {
+                      dataSelected.add(skill);
+                    });
+                  }
+                },
               ),
               const SizedBox(height: 10),
               TextFieldFormCustom(

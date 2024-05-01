@@ -47,7 +47,6 @@ class MoreActionChatDetail extends StatelessWidget {
               Navigator.pop(context);
               showModalBottomSheetCustom(
                 context,
-                height: 1,
                 widgetBuilder: ScheduleWidget(
                   onSave: (value) {
                     callBack!(value);

@@ -241,7 +241,7 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                           child: Text(
                             'Apply Now',
                             style: textTheme.bodyMedium!.copyWith(
-                                color: theme.colorScheme.brightness == Brightness.dark ? Colors.white : primaryColor,
+                                color: theme.colorScheme.brightness == Brightness.dark ? Colors.white : Colors.white,
                                 fontWeight: FontWeight.w600),
                           ),
                         ),

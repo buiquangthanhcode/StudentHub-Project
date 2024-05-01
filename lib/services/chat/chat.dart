@@ -43,17 +43,37 @@ class ChatService {
     }
   }
 
-  Future<ResponseAPI<List<Message>>> getAllChatWithUserId(
-      String userId, String projectId) async {
+  Future<ResponseAPI<List<Message>>> getAllChatWithUserId(String userId, String projectId) async {
     try {
-      final res =
-          await dioClient.get('$baseURL/api/message/$projectId/user/$userId');
+      final res = await dioClient.get('$baseURL/api/message/$projectId/user/$userId');
       // logger.d('CHAT DATA: ${res.data}');
-      List<Message> data =
-          res.data['result'].map<Message>((x) => Message.fromMap(x)).toList();
+      List<Message> data = res.data['result'].map<Message>((x) => Message.fromMap(x)).toList();
       return ResponseAPI<List<Message>>(
         statusCode: res.statusCode,
         data: data.reversed.toList(),
+      );
+    } on DioException catch (e) {
+      logger.e(
+        "DioException :${e.response}",
+      );
+      throw ResponseAPI<List<Project>>(
+        statusCode: e.response?.statusCode,
+        data: [],
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
+
+  Future<ResponseAPI<List<Chat>>> getChatDataOfProject(String projectId) async {
+    try {
+      final res = await dioClient.get('$baseURL/api/message/$projectId');
+      // logger.d('CHAT DATA: ${res.data}');
+      List<Chat> data = res.data['result'].map<Chat>((x) => Chat.fromMap(x)).toList();
+      return ResponseAPI<List<Chat>>(
+        statusCode: res.statusCode,
+        data: data,
       );
     } on DioException catch (e) {
       logger.e(

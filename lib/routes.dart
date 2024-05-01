@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -23,7 +20,6 @@ import 'package:studenthub/ui/home/dashboard/post_a_project/step_1/project_post_
 import 'package:studenthub/ui/home/dashboard/post_a_project/step_2/project_post_step02_screen.dart';
 import 'package:studenthub/ui/home/dashboard/post_a_project/step_3/project_post_step03_screen.dart';
 import 'package:studenthub/ui/home/dashboard/post_a_project/step_4/project_post_step04_screen.dart';
-import 'package:studenthub/ui/introduction/introduction_screen.dart';
 import 'package:studenthub/ui/home/projects/project_saved/project_saved_screen.dart';
 import 'package:studenthub/ui/home/projects/project_search/project_search_screen.dart';
 import 'package:studenthub/ui/signup/signup_step01_screen.dart';
@@ -32,7 +28,6 @@ import 'package:studenthub/ui/home/account/student_profile_creation/student_prof
 import 'package:studenthub/ui/home/account/student_profile_creation/student_profile_creation_step_1/student_profile_creation_step_1_screen.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/student_profile_creation_step_2/student_profile_creation_step_2_screen.dart';
 import 'package:studenthub/ui/signup/signup_step02_screen_for_student.dart';
-import 'package:studenthub/utils/logger.dart';
 
 final GoRouter router = GoRouter(
   routes: <RouteBase>[
@@ -49,17 +44,14 @@ final GoRouter router = GoRouter(
       name: 'home',
       pageBuilder: (context, state) {
         return customTransitionPage(
-            state.pageKey,
-            HomeScreen(
-                welcome: state.uri.queryParameters["welcome"] ?? 'false'));
+            state.pageKey, HomeScreen(welcome: state.uri.queryParameters["welcome"] ?? 'false'));
       },
       routes: [
         GoRoute(
           path: 'project_search',
           name: 'project_search',
           pageBuilder: (context, state) {
-            return customTransitionPage(
-                state.pageKey, const ProjectSearchScreen());
+            return customTransitionPage(state.pageKey, const ProjectSearchScreen());
           },
         ),
         GoRoute(
@@ -75,7 +67,7 @@ final GoRouter router = GoRouter(
             return customTransitionPage(
                 state.pageKey,
                 ChatDetailScreen(
-                  userName: state.uri.queryParameters["userName"]!,
+                  userName: state.uri.queryParameters["userName"] ?? 'undifine',
                   userId: state.uri.queryParameters["userId"]!,
                   projectId: state.uri.queryParameters["projectId"]!,
                 ));
@@ -85,8 +77,7 @@ final GoRouter router = GoRouter(
           path: 'project_saved',
           name: 'project_saved',
           pageBuilder: (context, state) {
-            return customTransitionPage(
-                state.pageKey, const ProjectSavedScreen());
+            return customTransitionPage(state.pageKey, const ProjectSavedScreen());
           },
         ),
         GoRoute(
@@ -106,9 +97,7 @@ final GoRouter router = GoRouter(
                 name: 'submit_proposal',
                 pageBuilder: (context, state) {
                   return customTransitionPage(
-                      state.pageKey,
-                      SubmitProposalScreen(
-                          projectDetail: state.extra as Project));
+                      state.pageKey, SubmitProposalScreen(projectDetail: state.extra as Project));
                 },
               ),
             ]),
@@ -121,29 +110,25 @@ final GoRouter router = GoRouter(
             GoRoute(
               path: 'step_01',
               pageBuilder: (BuildContext context, GoRouterState state) {
-                return customTransitionPage(
-                    state.pageKey, const ProjectPostStep01Screen());
+                return customTransitionPage(state.pageKey, const ProjectPostStep01Screen());
               },
             ),
             GoRoute(
               path: 'step_02',
               pageBuilder: (BuildContext context, GoRouterState state) {
-                return customTransitionPage(
-                    state.pageKey, const ProjectPostStep02Screen());
+                return customTransitionPage(state.pageKey, const ProjectPostStep02Screen());
               },
             ),
             GoRoute(
               path: 'step_03',
               pageBuilder: (BuildContext context, GoRouterState state) {
-                return customTransitionPage(
-                    state.pageKey, const ProjectPostStep03Screen());
+                return customTransitionPage(state.pageKey, const ProjectPostStep03Screen());
               },
             ),
             GoRoute(
               path: 'step_04',
               pageBuilder: (BuildContext context, GoRouterState state) {
-                return customTransitionPage(
-                    state.pageKey, const ProjectPostStep04Screen());
+                return customTransitionPage(state.pageKey, const ProjectPostStep04Screen());
               },
             ),
           ],
@@ -152,24 +137,21 @@ final GoRouter router = GoRouter(
             name: 'student_create_profile_step_01',
             path: 'student_create_profile',
             pageBuilder: (BuildContext context, GoRouterState state) {
-              return customTransitionPage(
-                  state.pageKey, const StudentProfileCreationStep01Screen());
+              return customTransitionPage(state.pageKey, const StudentProfileCreationStep01Screen());
             },
             routes: [
               GoRoute(
                   name: 'student_create_profile_step_02',
                   path: 'step_02',
                   pageBuilder: (BuildContext context, GoRouterState state) {
-                    return customTransitionPage(state.pageKey,
-                        const StudentProfileCreationStep02Screen());
+                    return customTransitionPage(state.pageKey, const StudentProfileCreationStep02Screen());
                   },
                   routes: [
                     GoRoute(
                       name: 'student_create_profile_step_03',
                       path: 'step_03',
                       pageBuilder: (BuildContext context, GoRouterState state) {
-                        return customTransitionPage(state.pageKey,
-                            const StudentProfileCreationStep3Screen());
+                        return customTransitionPage(state.pageKey, const StudentProfileCreationStep3Screen());
                       },
                     ),
                   ]),
@@ -178,8 +160,7 @@ final GoRouter router = GoRouter(
           name: 'company_create_profile',
           path: 'company_create_profile',
           pageBuilder: (BuildContext context, GoRouterState state) {
-            return customTransitionPage(
-                state.pageKey, const CompanyProfileCreationScreen());
+            return customTransitionPage(state.pageKey, const CompanyProfileCreationScreen());
           },
         ),
         GoRoute(
@@ -193,16 +174,14 @@ final GoRouter router = GoRouter(
           name: 'company_edit_profile',
           path: 'company_edit_profile',
           pageBuilder: (BuildContext context, GoRouterState state) {
-            return customTransitionPage(
-                state.pageKey, const CompanyProfileEditScreen());
+            return customTransitionPage(state.pageKey, const CompanyProfileEditScreen());
           },
         ),
         GoRoute(
           path: 'setting_detail',
           name: 'setting_detail',
           pageBuilder: (context, state) {
-            return customTransitionPage(
-                state.pageKey, const SettingDetailScreen());
+            return customTransitionPage(state.pageKey, const SettingDetailScreen());
           },
         )
       ],
@@ -223,8 +202,7 @@ final GoRouter router = GoRouter(
               path: 'signup_01',
               name: 'signup_01',
               pageBuilder: (context, state) {
-                return customTransitionPage(
-                    state.pageKey, const SignUpStep01Screen());
+                return customTransitionPage(state.pageKey, const SignUpStep01Screen());
               },
               routes: [
                 GoRoute(
@@ -293,8 +271,8 @@ CustomTransitionPage customTransitionPage(LocalKey key, Widget child) {
       transitionDuration: const Duration(milliseconds: 250),
       key: key,
       child: child,
-      transitionsBuilder: (BuildContext context, Animation<double> animation,
-          Animation<double> secondaryAnimation, Widget child) {
+      transitionsBuilder:
+          (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
         return SlideTransition(
             position: Tween<Offset>(
               begin: const Offset(1, 0),

@@ -44,7 +44,7 @@ class _PickerYearCustomState extends State<PickerYearCustom> {
                   height: 300,
                   child: YearPicker(
                     firstDate: DateTime(DateTime.now().year - 100, 1),
-                    lastDate: DateTime(DateTime.now().year + 100, 1),
+                    lastDate: DateTime(DateTime.now().year),
                     selectedDate: widget.initValue ?? _textFormKey.currentState?.value ?? DateTime.now(),
                     onChanged: (DateTime dateTime) {
                       Navigator.pop(context, dateTime);

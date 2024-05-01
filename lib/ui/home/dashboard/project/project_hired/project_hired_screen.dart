@@ -8,6 +8,7 @@ import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/ui/home/dashboard/data/data_count.dart';
 import 'package:studenthub/ui/home/dashboard/project/widget/project_proposal_item.dart';
+import 'package:studenthub/widgets/emtyDataWidget.dart';
 
 class ProjectDetailHiredScreen extends StatefulWidget {
   const ProjectDetailHiredScreen({super.key, this.item, this.projectProposal});
@@ -39,6 +40,19 @@ class _ProjectDetailHiredScreenState extends State<ProjectDetailHiredScreen> {
     final theme = Theme.of(context);
     return BlocBuilder<GeneralProjectBloc, GeneralProjectState>(
       builder: (context, state) {
+        if (state.proposalHireList.isEmpty) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              EmptyDataWidget(
+                mainTitle: '',
+                subTitle: 'No hird proposal found',
+                widthImage: MediaQuery.of(context).size.width * 0.5,
+              ),
+            ],
+          );
+        }
+
         return ListView.separated(
             itemBuilder: (context, index) {
               return ProposalItem(

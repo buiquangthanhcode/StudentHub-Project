@@ -126,7 +126,6 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                     switch (e['key']) {
                       case 'language':
                         showModalBottomSheetCustom(context,
-                            height: 0.4,
                             widgetBuilder: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 10.0),
                               child: Column(
@@ -372,7 +371,6 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                         break;
                       case 'theme':
                         showModalBottomSheetCustom(context,
-                            height: 0.4,
                             widgetBuilder: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 10.0),
                               child: Column(

@@ -95,7 +95,6 @@ class _StudentProfileCreationStep02ScreenState extends State<StudentProfileCreat
                         onTap: () {
                           showModalBottomSheetCustom(
                             context,
-                            height: 1,
                             widgetBuilder: const CreateProjectResume(),
                           );
                         },

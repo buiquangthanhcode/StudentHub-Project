@@ -393,4 +393,34 @@ class StudentService {
       rethrow;
     }
   }
+
+  Future<ResponseAPI> removeResume(String studentId) async {
+    try {
+      final res = await dioClient.delete(
+        '$baseURL/api/profile/student/$studentId/resume',
+      );
+      return ResponseAPI(
+        statusCode: res.statusCode,
+        data: res.data,
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
+
+  Future<ResponseAPI> removeTranScription(String studentId) async {
+    try {
+      final res = await dioClient.delete(
+        '$baseURL/api/profile/student/$studentId/transcript',
+      );
+      return ResponseAPI(
+        statusCode: res.statusCode,
+        data: res.data,
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
 }

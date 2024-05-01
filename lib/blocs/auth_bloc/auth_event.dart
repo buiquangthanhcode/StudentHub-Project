@@ -19,8 +19,9 @@ class GetInformationEvent extends AuthenEvent {
   final Function? onSuccess;
   final String accessToken;
   final BuildContext? currentContext;
+  final String? action;
 
-  GetInformationEvent({required this.onSuccess, required this.accessToken, this.currentContext});
+  GetInformationEvent({required this.onSuccess, required this.accessToken, this.currentContext, this.action});
 }
 
 class RegisterAccount extends AuthenEvent {

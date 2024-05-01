@@ -1,27 +1,21 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:studenthub/constants/app_theme.dart';
-import 'package:studenthub/utils/logger.dart';
 
 Future<void> showModalBottomSheetCustom(BuildContext context,
     {Widget? widgetBuilder, Widget? headerBuilder, double? height}) async {
   await showModalBottomSheet(
       isScrollControlled: true,
-      isDismissible: true,
-      useSafeArea: true,
-      elevation: 0.2,
-      enableDrag: false,
+      // isDismissible: false,
+      // useSafeArea: true,
+      // elevation: 0.2,
+      // enableDrag: false,
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (context) => GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: DraggleBottomSheetCustom(
-              widgetBuilder: widgetBuilder,
-              headerBuilder: headerBuilder,
-              height: height,
-            ),
+      builder: (context) => DraggleBottomSheetCustom(
+            widgetBuilder: widgetBuilder,
+            headerBuilder: headerBuilder,
+            height: height,
           ));
 }
 
@@ -53,76 +47,64 @@ class _DraggleBottomSheetCustomState extends State<DraggleBottomSheetCustom> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: SizedBox.expand(
-        child: DraggableScrollableSheet(
-          initialChildSize: _sheetPosition,
-          minChildSize: 0.2,
-          maxChildSize: 1,
-          expand: false,
-          builder: (context, scrollController) {
-            return Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(30),
-                ),
-                border: Border.all(
-                  color: Theme.of(context).colorScheme.grey!.withOpacity(0.2),
-                  width: 2,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Theme.of(context).colorScheme.grey!.withOpacity(0.2),
-                    blurRadius: 10,
-                    spreadRadius: 5,
-                  ),
-                ],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Grabber(
-                    headerBuilder: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        children: [
-                          Center(
-                            child: Container(
-                              width: 80,
-                              height: 5,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.grey!.withOpacity(0.6),
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                            ),
-                          ),
-                          widget.headerBuilder ?? const SizedBox(),
-                        ],
+    return Container(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(30),
+        ),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.grey!.withOpacity(0.2),
+          width: 2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).colorScheme.grey!.withOpacity(0.2),
+            blurRadius: 10,
+            spreadRadius: 5,
+          ),
+        ],
+      ),
+      child: SingleChildScrollView(
+        child: Wrap(
+          children: [
+            Grabber(
+              headerBuilder: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    Center(
+                      child: Container(
+                        width: 80,
+                        height: 5,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.grey!.withOpacity(0.6),
+                          borderRadius: BorderRadius.circular(50),
+                        ),
                       ),
                     ),
-                    onVerticalDragUpdate: (DragUpdateDetails details) {
-                      if (details.primaryDelta != null) {
-                        setState(() {
-                          _sheetPosition -= details.primaryDelta! / _dragSensitivity;
-                          if (_sheetPosition < 0.2) {
-                            _sheetPosition = 0.2;
-                          } else if (_sheetPosition > 1) {
-                            _sheetPosition = 1;
-                          }
-                        });
-                      }
-                    },
-                  ),
-                  Expanded(
-                    child: widget.widgetBuilder ?? const SizedBox(),
-                  ),
-                ],
+                    widget.headerBuilder ?? const SizedBox(),
+                  ],
+                ),
               ),
-            );
-          },
+              onVerticalDragUpdate: (DragUpdateDetails details) {
+                if (details.primaryDelta != null) {
+                  setState(() {
+                    _sheetPosition -= details.primaryDelta! / _dragSensitivity;
+                    if (_sheetPosition < 0.2) {
+                      _sheetPosition = 0.2;
+                    } else if (_sheetPosition > 1) {
+                      _sheetPosition = 1;
+                    }
+                  });
+                }
+              },
+            ),
+            widget.widgetBuilder ?? const SizedBox(),
+          ],
         ),
       ),
     );

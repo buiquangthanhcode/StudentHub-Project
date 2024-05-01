@@ -41,12 +41,6 @@ class _SubmitProposalState extends State<SubmitProposalScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Center(
-                //   child: Text(
-                //     'Submit Proposal Screen',
-                //     style: theme.textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w600),
-                //   ),
-                // ),
                 const SizedBox(height: 10),
                 Text(
                   'Cover letter',

@@ -7,6 +7,7 @@ import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/ui/home/dashboard/project/project_hired/project_hired_screen.dart';
+import 'package:studenthub/ui/home/dashboard/project/project_message/project_message_company_screen.dart';
 import 'package:studenthub/ui/home/dashboard/project/project_proposal/project_proposal_screen.dart';
 import 'package:studenthub/ui/home/messages/messages_screen.dart';
 import 'package:studenthub/ui/home/projects/project_general_detail/project_general_detail_screen.dart';
@@ -46,7 +47,7 @@ class _ProjectReviewDetailScreenState extends State<ProjectDetailCompanyView> wi
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Project Review Detail',
+          'Project Detail',
           style: theme.textTheme.headlineSmall!.copyWith(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -124,8 +125,9 @@ class _ProjectReviewDetailScreenState extends State<ProjectDetailCompanyView> wi
                                 isFavorite: "false",
                               );
                             }),
-                            const MessagesScreen(
+                            MessagesCompanyScreen(
                               isHiddenAppbar: true,
+                              item: widget.item ?? widget.projectProposal?.project ?? Project(),
                             ),
                             ProjectDetailHiredScreen(
                               item: widget.item,

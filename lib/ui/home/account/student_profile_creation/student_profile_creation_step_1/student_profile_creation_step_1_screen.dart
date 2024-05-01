@@ -11,7 +11,6 @@ import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/blocs/student_bloc/student_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
-import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/core/dropdown_button_formfield.dart';
 import 'package:studenthub/data/dto/student/request_update_profile_student.dart';
@@ -146,6 +145,7 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: BlocBuilder<StudentBloc, StudentState>(
               builder: (context, state) {
+                logger.d(state.student.toMap());
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -166,7 +166,7 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
                         )),
                     DropDownFormFieldCustom<TechStack>(
                       name: "techstack",
-                      data: dataSourceTechStack,
+                      data: removeDuplicates(dataSourceTechStack),
                       onChanged: _handleChangeTechStack,
                       initValue: state.student.techStack,
                       onSaved: (value) {
@@ -296,7 +296,6 @@ class _StudentProfileCreationStep01State extends State<StudentProfileCreationSte
                                     onTap: () {
                                       showModalBottomSheetCustom(
                                         context,
-                                        height: 0.8,
                                         widgetBuilder: const CreateEducationWidget(),
                                         headerBuilder: Row(
                                           children: [

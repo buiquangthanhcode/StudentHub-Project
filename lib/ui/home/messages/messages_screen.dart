@@ -10,7 +10,7 @@ import 'package:studenthub/ui/home/messages/data/get_chat_data.dart';
 import 'package:studenthub/ui/home/messages/widgets/chat_item.dart';
 
 class MessagesScreen extends StatefulWidget {
-  const MessagesScreen({Key? key, this.isHiddenAppbar}) : super(key: key);
+  const MessagesScreen({super.key, this.isHiddenAppbar});
 
   final bool? isHiddenAppbar;
   @override
@@ -121,7 +121,7 @@ class _MessagesState extends State<MessagesScreen> {
                                           shape: BoxShape.circle,
                                           color: colorTheme.brightness == Brightness.dark
                                               ? primaryColor
-                                              : Color.fromARGB(255, 191, 191, 191),
+                                              : const Color.fromARGB(255, 191, 191, 191),
                                         ),
                                         child: const FaIcon(
                                           FontAwesomeIcons.xmark,

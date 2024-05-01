@@ -10,11 +10,13 @@ import 'package:studenthub/blocs/chat_bloc/chat_event.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/models/common/message_model.dart';
 import 'package:studenthub/models/common/user_model.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/message_receive_widget.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/message_send_widget.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/zego/zego.dart';
+import 'package:studenthub/ui/home/messages/widgets/get_more_action_widget.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/utils/socket.dart';
 
@@ -54,10 +56,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   }
 
   String getCurrentTime() {
-    // Lấy thời gian hiện tại
     DateTime now = DateTime.now();
-
-    // Định dạng thời gian thành "HH:mm"
     return DateFormat('HH:mm').format(now);
   }
 
@@ -140,33 +139,17 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     padding: const EdgeInsets.only(right: 20),
                     child: InkWell(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const VideoCallPage(
-                                    conferenceID: '12345',
-                                  )),
-                        );
-                        // showModalBottomSheetCustom(context,
-                        //     widgetBuilder: MoreActionChatDetail(
-                        //   callBack: (value) {
-                        //     setState(() {
-
-                        //       // messagesData.insert(0, {
-                        //       //   'isMe': true,
-                        //       //   'isSchedule': true,
-                        //       //   'start_date': value['start_date'],
-                        //       //   'end_date': value['end_date'],
-                        //       //   'time_start': value['time_start'],
-                        //       //   'time_end': value['time_end'],
-                        //       //   'title': value['title'],
-                        //       //   'duration': "60 minutes",
-                        //       //   'time': '12:59',
-                        //       //   'content': value['title'],
-                        //       // });
-                        //     });
-                        //   },
-                        // ));
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => const CallPage(
+                        //             callID: '1',
+                        //           )),
+                        // );
+                        MaterialPageRoute(
+                            builder: (context) => const VideoCallPage(
+                                  conferenceID: '12345',
+                                ));
                       },
                       child: Container(
                         height: 39,

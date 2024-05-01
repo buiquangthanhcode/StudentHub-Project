@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
-import 'package:studenthub/blocs/student_bloc/student_event.dart';
-import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
+import 'package:studenthub/utils/logger.dart';
 
 class AutoCompleteWidget extends StatefulWidget {
   const AutoCompleteWidget({
@@ -20,6 +17,7 @@ class AutoCompleteWidget extends StatefulWidget {
 
 class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
   late TextEditingController textEditingController;
+  final GlobalKey _autocompleteKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +26,7 @@ class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
     return LayoutBuilder(
       builder: (context, constraints) {
         return RawAutocomplete<String>(
+          key: _autocompleteKey,
           optionsViewBuilder: (context, onSelected, options) {
             return Align(
               alignment: Alignment.topLeft,
@@ -62,8 +61,7 @@ class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
           displayStringForOption: (option) {
             return option;
           },
-          fieldViewBuilder: (context, fieldTextEditingController, focusNode,
-              onFieldSubmitted) {
+          fieldViewBuilder: (context, fieldTextEditingController, focusNode, onFieldSubmitted) {
             textEditingController = fieldTextEditingController;
             return TextFormField(
               controller: fieldTextEditingController,
@@ -75,12 +73,11 @@ class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
               scrollPadding: const EdgeInsets.all(0),
               decoration: const InputDecoration(
                 // contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 isDense: true,
                 hintText: 'Enter your skill',
                 hintStyle: TextStyle(
-                  fontSize: 14,
+                  fontSize: 15,
                 ),
                 border: OutlineInputBorder(),
               ),
@@ -90,11 +87,17 @@ class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
             if (skillsetTextEditController.text == '') {
               return const Iterable<String>.empty();
             }
-            return widget.data.where((String option) {
-              return option
-                  .toLowerCase()
-                  .contains(skillsetTextEditController.text);
+            final data = widget.data.where((String option) {
+              return option.toLowerCase().contains(skillsetTextEditController.text.toLowerCase());
             });
+
+            if (data.isNotEmpty) {
+              return data;
+            } else {
+              return Iterable<String>.generate(1, (int index) {
+                return 'Not found';
+              });
+            }
           },
           onSelected: (String value) {
             textEditingController.text = "";

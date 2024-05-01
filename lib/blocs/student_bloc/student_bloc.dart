@@ -58,6 +58,8 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     on<GetAllProjectProposal>(_onGetAllProjectProposal);
     on<SubmitTranScript>(_onSubmitTranScript);
     on<GetTranScription>(_onGetTranScription);
+    on<RemoveResumeEvent>(_onRemoveResume);
+    on<RemoveTranScriptEvent>(_onRemoveTranscript);
   }
 
   StudentService studentService = StudentService();
@@ -318,12 +320,10 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     try {
       EasyLoading.show(status: 'loading');
       final response = await studentService.getResume(event.studentId);
-      if (response.statusCode! <= 200) {
-        emit(state.update(student: state.student.copyWith(resume: response.data)));
-        logger.d(state.student.resume);
-
+      if (response.statusCode! <= 300) {
+        emit(state.update(student: state.student.copyWith(resumeUrl: response.data)));
         if (event.onSuccess != null) {
-          event.onSuccess!();
+          event.onSuccess!(response.data ?? '');
         }
         EasyLoading.dismiss();
       }
@@ -353,12 +353,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
 
   FutureOr<void> _onResetBloc(ResetBlocEvent event, Emitter<StudentState> emit) async {
     // I wan to reset student but not id field in the student
-    Student newStudent = state.student.copyWith(
-      experiences: [],
-      educations: [],
-      languages: [],
-      skillSets: [],
-    );
+    Student newStudent = state.student.reset();
     emit(state.update(
       student: newStudent,
       submitProjectProposals: [],
@@ -433,7 +428,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
         file: multipartFiles,
       );
       final response = await studentService.uploadTransciption(requestSubmitProposal);
-      if (response.statusCode! <= 200) {
+      if (response.statusCode! <= 300) {
         event.onSuccess!();
         EasyLoading.dismiss();
       }
@@ -452,10 +447,46 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     try {
       EasyLoading.show(status: 'loading');
       final response = await studentService.getTranscript(event.studentId);
-      if (response.statusCode! <= 200) {
-        emit(state.update(student: state.student.copyWith(transcript: response.data)));
-        logger.d(state.student.transcript);
+      if (response.statusCode! <= 300) {
+        emit(state.update(
+            student: state.student.copyWith(
+          transcriptUrl: response.data,
+        )));
+        if (event.onSuccess != null) {
+          event.onSuccess!(response.data ?? '');
+        }
+        EasyLoading.dismiss();
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      logger.e(e);
+    }
+  }
 
+  FutureOr<void> _onRemoveResume(RemoveResumeEvent event, Emitter<StudentState> emit) async {
+    try {
+      EasyLoading.show(status: 'loading');
+      final response = await studentService.removeResume(event.studentId.toString());
+      if (response.statusCode! <= 300) {
+        emit(state.update(student: state.student.copyWith(resumeUrl: '', resume: null)));
+
+        if (event.onSuccess != null) {
+          event.onSuccess!();
+        }
+        EasyLoading.dismiss();
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      logger.e(e);
+    }
+  }
+
+  FutureOr<void> _onRemoveTranscript(RemoveTranScriptEvent event, Emitter<StudentState> emit) async {
+    try {
+      EasyLoading.show(status: 'loading');
+      final response = await studentService.removeTranScription(event.studentId.toString());
+      if (response.statusCode! <= 300) {
+        emit(state.update(student: state.student.copyWith(transcriptUrl: '', transcript: null)));
         if (event.onSuccess != null) {
           event.onSuccess!();
         }

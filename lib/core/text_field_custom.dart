@@ -39,7 +39,7 @@ class TextFieldFormCustom extends StatefulWidget {
   final void Function(String?)? onChange;
   final GestureTapCallback? onTap;
   final void Function(String?)? onSaved;
-  final String Function(String?)? validator;
+  final String? Function(String?)? validator;
   final int? maxLines;
   final String? initialValue;
   final FocusNode? focusNode;
@@ -155,10 +155,11 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
                   color: Theme.of(context).colorScheme.grey,
                 ),
               );
-            } else if (_textfieldKey.currentState?.value != '') {
+            } else if (_textfieldKey.currentState?.value != null) {
               return IconButton(
                 onPressed: () {
-                  _textfieldKey.currentState?.didChange('');
+                  _textfieldKey.currentState?.didChange(null);
+                  setState(() {});
                 },
                 icon: Container(
                   width: 18,

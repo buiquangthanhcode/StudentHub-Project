@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/models/common/proposal_modal.dart';
 import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
+import 'package:studenthub/models/student/student_create_profile/tech_stack.dart';
 import 'package:studenthub/utils/logger.dart';
 
 DateTime stringToDateTime(String? dateString) {
@@ -91,4 +92,19 @@ void sortProjectsByCreatedAt(List<ProjectProposal> projects) {
 
 bool checkIsSubmitProposal(List<Proposal> data, int studentId) {
   return data.any((element) => element.studentId == studentId);
+}
+
+List<TechStack> removeDuplicates(List<TechStack> list) {
+  List<TechStack> uniqueList = [];
+
+  Set<String> namesSet = <String>{};
+
+  for (var teckstack in list) {
+    if (!namesSet.contains(teckstack.name ?? '')) {
+      namesSet.add(teckstack.name ?? '');
+      uniqueList.add(teckstack);
+    }
+  }
+
+  return uniqueList;
 }
