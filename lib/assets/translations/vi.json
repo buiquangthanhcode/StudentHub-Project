@@ -183,5 +183,17 @@
 	"cancel": "Hủy Bỏ",
 	"cover_letter": "Thư xin việc",
 	"cover_letter_description": "Mô tả vì sao bạn phù hợp với dự án",
-	"submit_success_msg": "Gửi thành công"
+	"submit_success_msg": "Gửi thành công",
+	"messages_btn": "Nhắn tin",
+	"project_search_title": "Tìm kiếm dự án",
+	"search_for_projects": "Tìm kiếm dự án...",
+	"suggestions": "Gợi ý",
+	"view_all_btn": "Xem toàn bộ",
+	"filter_by_title": "Lọc theo",
+	"project_length": "Độ dài dự án",
+	"students_needed": "Số sinh viên",
+	"proposals_less_than": "Số đề nghị",
+	"enter_your_number_placeholder": "Nhập số lượng",
+	"apply": "Lọc",
+	"clear_filters": "Xóa bộ lọc"
 }

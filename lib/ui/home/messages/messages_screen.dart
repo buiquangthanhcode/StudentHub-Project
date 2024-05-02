@@ -64,7 +64,8 @@ class _MessagesState extends State<MessagesScreen> {
                 automaticallyImplyLeading: false,
                 centerTitle: false,
                 title: Text(
-                  'Messages',
+                  // 'Messages',
+                  messagesNavKey.tr(),
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         fontWeight: FontWeight.w700,
                       ),

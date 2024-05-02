@@ -183,5 +183,17 @@
 	"cancel": "Cancel",
 	"cover_letter": "Cover letter",
 	"cover_letter_description": "Describe why do you fit to the project",
-	"submit_success_msg": "Submit successfully"
+	"submit_success_msg": "Submit successfully",
+	"messages_btn": "Message",
+	"project_search_title": "Projects Search",
+	"search_for_projects": "Search for projects...",
+	"suggestions": "Suggestions",
+	"view_all_btn": "View all",
+	"filter_by_title": "Filter By",
+	"project_length": "Project length",
+	"students_needed": "Students needed",
+	"proposals_less_than": "Proposals less than",
+	"enter_your_number_placeholder": "Enter your number",
+	"apply": "Apply",
+	"clear_filters": "Clear filters"
 }

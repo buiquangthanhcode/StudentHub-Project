@@ -289,7 +289,8 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                           context.push('/home/chat_detail');
                         },
                         child: Text(
-                          'Messages',
+                          // 'Messages',
+                          messagesBtnKey.tr(),
                           style: textTheme.bodyMedium!.copyWith(
                               color: Colors.white, fontWeight: FontWeight.w600),
                         ),

@@ -214,9 +214,24 @@ const String projectDetailTitleKey = "project_detail_title";
 const String generalProjectDescriptionKey = "general_project_description";
 const String generalProjectProposalKey = "general_project_number_of_proposals";
 const String applyNowBtnKey = "apply_now_btn";
+const String messagesBtnKey = "messages_btn";
 // --- for project submit proposal flow ---
 const String submitProposalTitleKey = "submit_proposal_title";
 const String cancelBtnKey = "cancel";
 const String coverLetterKey = "cover_letter";
 const String coverLetterDescriptionKey = "cover_letter_description";
 const String submitSuccessMsgKey = "submit_success_msg";
+const String messagesKey = "messages";
+// --- for project flow search flow ---
+const String projectSearchTitleKey = "project_search_title";
+const String searchForProjectsKey = "search_for_projects";
+const String suggestionsKey = "suggestions";
+const String viewAllBtnKey = "view_all_btn";
+// --- for project filter flow ---
+const String filterByTitleKey = "filter_by_title";
+const String projectLengthKey = "project_length";
+const String studentsNeededKey = "students_needed";
+const String proposalLessThanKey = "proposals_less_than";
+const String enterYourNumberPlaceHolderKey = "enter_your_number_placeholder";
+const String clearFiltersBtnKey = "clear_filters";
+const String applyBtnKey = "apply";

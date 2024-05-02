@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:studenthub/blocs/general_project_bloc/general_project_event.dart
 import 'package:studenthub/blocs/general_project_bloc/general_project_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/ui/home/projects/project_search/widgets/filter_dialog.dart';
 import 'package:studenthub/ui/home/projects/widgets/general_project_item.dart';
 import 'package:studenthub/utils/logger.dart';
@@ -117,7 +119,8 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
   void setSearchSuggetions(String value) {
     searchSuggestions = [];
     if (value.isEmpty) {
-      searchSuggestions.add('View all');
+      // searchSuggestions.add('View all');
+      searchSuggestions.add(viewAllBtnKey.tr());
     }
     for (String i in setSuggestion!) {
       if (i.contains(value)) {
@@ -144,7 +147,8 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
         centerTitle: false,
         titleSpacing: 0,
         title: Text(
-          'Project search',
+          // 'Project search',
+          projectSearchTitleKey.tr(),
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 fontWeight: FontWeight.w700,
               ),
@@ -183,7 +187,8 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                       cursorColor: Colors.black,
                       style: textTheme.bodyMedium,
                       decoration: InputDecoration(
-                        hintText: 'Search for projects...',
+                        // hintText: 'Search for projects...',
+                        hintText: searchForProjectsKey.tr(),
                         hintStyle: textTheme.bodyMedium!.copyWith(
                             color: Theme.of(context).colorScheme.hintColor),
                         prefixIcon: Column(
@@ -305,7 +310,8 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Suggestions',
+                        // 'Suggestions',
+                        suggestionsKey.tr(),
                         style: textTheme.bodyMedium!.copyWith(
                             fontWeight: FontWeight.w600,
                             color: colorTheme.grey),
