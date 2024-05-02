@@ -166,5 +166,11 @@
 	"looking_for_staff": "Tìm kiếm kỹ sư? ",
 	"apply_as_student": "Đăng ký làm sinh viên", 
 	"apply_as_company": "Đăng ký làm doanh nghiệp",
-	"proceed_next": "Khi tiến hành bước tiếp theo, tôi đồng ý với " 
+	"proceed_next": "Khi tiến hành bước tiếp theo, tôi đồng ý với ",
+	"register_success": "Đăng ký thành công",
+	"accept_terms_of_service": "Vui lòng đồng ý các điều khoản và chính sách sử dụng",
+	"reset_password_title": "Đặt lại mật khẩu",
+	"reset_password_description": "Mật khẩu của bạn sẽ tự động được đặt lại. Kiểm tra email để lấy mật khẩu mới.",
+	"enter_email_place_holder": "Nhập email của bạn",
+	"new_password_sent_msg": "Mật khẩu mới đã gửi đến email của bạn"
 }

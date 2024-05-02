@@ -30,7 +30,8 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
   void handleSubmit() {
     if (!isAcceptCondtion) {
       SnackBarService.showSnackBar(
-          content: 'Please accept the terms of service',
+          // content: 'Please accept the terms of service',
+          content: acceptTermsOfServiceKey.tr(),
           status: StatusSnackBar.info);
       return;
     }
@@ -52,7 +53,8 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
           requestRegister: requestRegisterAccount,
           onSuccess: () {
             SnackBarService.showSnackBar(
-                content: 'Register successfully',
+                // content: 'Register successfully',
+                content: registerSuccessKey.tr(),
                 status: StatusSnackBar.success);
             context.push('/login');
           }));

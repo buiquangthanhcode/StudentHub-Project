@@ -11,7 +11,6 @@ import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/data/dto/authen/request_register_account.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
-
 import '../../core/text_field_custom.dart';
 
 class SignUpStep02ScreenForCompany extends StatefulWidget {
@@ -30,7 +29,8 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForCompany> {
   void handleSubmit() {
     if (!isAcceptCondtion) {
       SnackBarService.showSnackBar(
-          content: 'Please accept the terms of service',
+          // content: 'Please accept the terms of service',
+          content: acceptTermsOfServiceKey.tr(),
           status: StatusSnackBar.info);
       return;
     }
@@ -52,7 +52,8 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForCompany> {
           requestRegister: requestRegisterAccount,
           onSuccess: () {
             SnackBarService.showSnackBar(
-                content: 'Register successfully',
+                // content: 'Register successfully',
+                content: registerSuccessKey.tr(),
                 status: StatusSnackBar.success);
             context.push('/login');
           }));

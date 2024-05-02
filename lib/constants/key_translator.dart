@@ -200,3 +200,10 @@ const String termsOfServiceKey = "terms_of_service";
 const String termsOfServiceAndPolicyKey = "terms_of_service_policy";
 const String agreeToKey = "agree_to";
 const String proceedNextKey = "proceed_next";
+const String registerSuccessKey = "register_success";
+const String acceptTermsOfServiceKey = "accept_terms_of_service";
+// --- for reset password flow ---
+const String resetPasswordTitleKey = "reset_password_title";
+const String resetPasswordDescriptionKey = "reset_password_description";
+const String enterEmailPlaceHolderKey = "enter_email_place_holder";
+const String newPasswordSentMsg = "new_password_sent_msg";

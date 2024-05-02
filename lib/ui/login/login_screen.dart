@@ -180,7 +180,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                       Row(
                                         children: [
                                           Text(
-                                            'Reset Password',
+                                            // 'Reset Password',
+                                            resetPasswordTitleKey.tr(),
                                             style: theme.textTheme.bodyMedium
                                                 ?.copyWith(
                                               fontWeight: FontWeight.bold,
@@ -208,13 +209,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ],
                                       ),
                                       const SizedBox(height: 24),
-                                      const Text(
-                                          'Your password will be automatically reset by the system. Please check your email to receive the new password.'),
+                                      Text(
+                                        // 'Your password will be automatically reset by the system. Please check your email to receive the new password.',
+                                        resetPasswordDescriptionKey.tr(),
+                                      ),
                                       const SizedBox(height: 24),
                                       TextFieldFormCustom(
                                         fillColor: Colors.white,
                                         name: 'email',
-                                        hintText: 'Enter your email',
+                                        // hintText: 'Enter your email',
+                                        hintText: enterEmailPlaceHolderKey.tr(),
                                         maxLines: null,
                                         keyboardType: TextInputType.multiline,
                                         icon: FaIcon(
@@ -224,16 +228,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                       ),
                                       const SizedBox(height: 36),
-                                      const Column(
+                                      Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                              'Password should not use on any other site.'),
+                                            // 'Password should not use  any other site.',
+                                            passwordHintMsg.tr(),
+                                          ),
                                           BulletList([
-                                            'The password must have at least 8 characters.',
-                                            'The password must contain at least 1 special character, such as &, %, TM, or E.',
-                                            'The password must contain at least 3 different kinds of characters, such as uppercase letters, lowercase letter, numeric digits, and punctuation marks.',
+                                            // 'The password must have at least 8 characters.',
+                                            // 'The password must contain at least 1 special character, such as &, %, TM, or E.',
+                                            // 'The password must contain at least 3 different kinds of characters, such as uppercase letters, lowercase letter, numeric digits, and punctuation marks.',
+                                            passwordHintDetailMsg1.tr(),
+                                            passwordHintDetailMsg2.tr(),
+                                            passwordHintDetailMsg3.tr(),
                                           ])
                                         ],
                                       ),
@@ -252,12 +261,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                                               ?.value["email"]
                                                           as String,
                                                       onSuccess: () {
-                                                        SnackBarService.showSnackBar(
-                                                            content:
-                                                                'New password sent to your email',
-                                                            status:
-                                                                StatusSnackBar
-                                                                    .success);
+                                                        SnackBarService
+                                                            .showSnackBar(
+                                                                content:
+                                                                    // 'New password sent to your email',
+                                                                    newPasswordSentMsg
+                                                                        .tr(),
+                                                                status:
+                                                                    StatusSnackBar
+                                                                        .success);
                                                         Navigator.pop(context);
                                                       }),
                                                 );
@@ -273,7 +285,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 48) // Set minimum button size
                                             ),
                                         child: Text(
-                                          'Reset Password',
+                                          // 'Reset Password',
+                                          resetPasswordTitleKey.tr(),
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium!

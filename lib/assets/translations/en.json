@@ -166,5 +166,11 @@
 	"looking_for_staff": "Looking for staff? ",
 	"apply_as_student": "Apply as student", 
 	"apply_as_company": "Apply as company",
-	"proceed_next": "When proceeding to the next step, I agreed to the " 
+	"proceed_next": "When proceeding to the next step, I agreed to the ",
+	"register_success": "Register successfully",
+	"accept_terms_of_service": "Please accept the terms of service",
+	"reset_password_title": "Reset password title",
+	"reset_password_description": "Your password will be automatically reset by the system. Please check your email to receive the new password.",
+	"enter_email_place_holder": "Enter your email",
+	"new_password_sent_msg": "New password sent to your email"
 }
