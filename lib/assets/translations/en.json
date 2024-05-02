@@ -172,5 +172,11 @@
 	"reset_password_title": "Reset password title",
 	"reset_password_description": "Your password will be automatically reset by the system. Please check your email to receive the new password.",
 	"enter_email_place_holder": "Enter your email",
-	"new_password_sent_msg": "New password sent to your email"
+	"new_password_sent_msg": "New password sent to your email",
+	"general_project_description": "Time: {value1}, {value2} students need",
+	"general_project_number_of_proposals": "Proposals: {value}",
+	"projects_title": "Projects",
+	"saved_projects_title": "Saved Projects",
+	"project_detail_title": "Project Details",
+	"apply_now_btn": "Apply Now"
 }

@@ -77,7 +77,8 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                   centerTitle: false,
                   titleSpacing: 0,
                   title: Text(
-                    "Project detail",
+                    // "Project detail",
+                    projectDetailTitleKey.tr(),
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           fontWeight: FontWeight.w700,
                         ),

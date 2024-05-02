@@ -76,7 +76,8 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                   centerTitle: false,
                   titleSpacing: 0,
                   title: Text(
-                    "Project detail",
+                    // "Project detail",
+                    projectDetailTitleKey.tr(),
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           fontWeight: FontWeight.w700,
                         ),
@@ -284,7 +285,8 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                             }
                           },
                           child: Text(
-                            'Apply Now',
+                            // 'Apply Now',
+                            applyNowBtnKey.tr(),
                             style: textTheme.bodyMedium!.copyWith(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600),

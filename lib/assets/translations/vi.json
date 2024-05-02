@@ -172,5 +172,11 @@
 	"reset_password_title": "Đặt lại mật khẩu",
 	"reset_password_description": "Mật khẩu của bạn sẽ tự động được đặt lại. Kiểm tra email để lấy mật khẩu mới.",
 	"enter_email_place_holder": "Nhập email của bạn",
-	"new_password_sent_msg": "Mật khẩu mới đã gửi đến email của bạn"
+	"new_password_sent_msg": "Mật khẩu mới đã gửi đến email của bạn",
+	"general_project_description": "Thời gian: {value1}, cần {value2} sinh viên",
+	"general_project_number_of_proposals": "Đề nghị: {value}",
+	"projects_title": "Các dự án",
+	"saved_projects_title": "Các dự án đã lưu",
+	"project_detail_title": "Chi tiết dự án",
+	"apply_now_btn": "Ứng tuyển"
 }

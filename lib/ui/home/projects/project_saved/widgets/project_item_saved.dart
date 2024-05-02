@@ -89,7 +89,13 @@ class _ProjectItemSavedState extends State<ProjectItemSaved> {
                             textTheme.bodySmall!.copyWith(color: primaryColor),
                       ),
                       Text(
-                        'Time: ${time[widget.project.projectScopeFlag] ?? '1-3 months'}, ${widget.project.numberOfStudents ?? 0} students needed',
+                        // 'Time: ${time[widget.project.projectScopeFlag] ?? '1-3 months'}, ${widget.project.numberOfStudents ?? 0} students needed',
+                        generalProjectDescriptionKey.tr(namedArgs: {
+                          "value1": time[widget.project.projectScopeFlag] ??
+                              '1-3 months',
+                          "value2":
+                              (widget.project.numberOfStudents ?? 0).toString(),
+                        }),
                         style: textTheme.bodySmall!.copyWith(
                           color: colorTheme.grey,
                         ),
@@ -160,8 +166,18 @@ class _ProjectItemSavedState extends State<ProjectItemSaved> {
             const SizedBox(
               height: 15,
             ),
-            Text('Proposal: ${widget.project.countProposals ?? 'Less than 5'} ',
-                style: textTheme.bodySmall!.copyWith(color: colorTheme.grey)),
+            // Text(
+            //   'Proposal: ${widget.project.countProposals ?? 'Less than 5'} ',
+
+            //   style: textTheme.bodySmall!.copyWith(color: colorTheme.grey),
+            // ),
+            Text(
+              generalProjectProposalKey.tr(namedArgs: {
+                "value":
+                    (widget.project.countProposals ?? 'Less than 5').toString(),
+              }),
+              style: textTheme.bodySmall!.copyWith(color: colorTheme.grey),
+            ),
           ],
         ),
       ),

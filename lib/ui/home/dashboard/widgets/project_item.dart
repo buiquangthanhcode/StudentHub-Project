@@ -139,8 +139,9 @@ class ProjectItem extends StatelessWidget {
               // "Updated at ${formatIsoDateString(item?.updatedAt ?? projectProposal?.project?.updatedAt ?? '')}",
               // "Updated at ${formatIsoDateString(item?.updatedAt ?? projectProposal?.project?.updatedAt ?? '')}",
               updatedTimeProjectReviewKey.tr(namedArgs: {
-                "value":
-                    formatIsoDateString(item?.updatedAt ?? projectProposal?.project?.updatedAt ?? '')
+                "value": formatIsoDateString(item?.updatedAt ??
+                    projectProposal?.project?.updatedAt ??
+                    '')
               }),
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.grey,

@@ -207,3 +207,10 @@ const String resetPasswordTitleKey = "reset_password_title";
 const String resetPasswordDescriptionKey = "reset_password_description";
 const String enterEmailPlaceHolderKey = "enter_email_place_holder";
 const String newPasswordSentMsg = "new_password_sent_msg";
+// --- for projects browsing password flow ---
+const String projectsTitleKey = "projects_title";
+const String savedProjectsTitleKey = "saved_projects_title";
+const String projectDetailTitleKey = "project_detail_title";
+const String generalProjectDescriptionKey = "general_project_description";
+const String generalProjectProposalKey = "general_project_number_of_proposals";
+const String applyNowBtnKey = "apply_now_btn";
