@@ -156,7 +156,8 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                           Navigator.pop(context);
                         },
                         child: Text(
-                          'Cancel',
+                          // 'Cancel',
+                          cancelBtnKey.tr(),
                           style: theme.textTheme.bodyMedium!.copyWith(
                               color: primaryColor, fontWeight: FontWeight.w600),
                         ),

@@ -178,5 +178,10 @@
 	"projects_title": "Projects",
 	"saved_projects_title": "Saved Projects",
 	"project_detail_title": "Project Details",
-	"apply_now_btn": "Apply Now"
+	"apply_now_btn": "Apply Now",
+	"submit_proposal_title": "Submit Proposal",
+	"cancel": "Cancel",
+	"cover_letter": "Cover letter",
+	"cover_letter_description": "Describe why do you fit to the project",
+	"submit_success_msg": "Submit successfully"
 }

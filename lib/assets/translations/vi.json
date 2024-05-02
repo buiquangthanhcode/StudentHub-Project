@@ -178,5 +178,10 @@
 	"projects_title": "Các dự án",
 	"saved_projects_title": "Các dự án đã lưu",
 	"project_detail_title": "Chi tiết dự án",
-	"apply_now_btn": "Ứng tuyển"
+	"apply_now_btn": "Ứng tuyển",
+	"submit_proposal_title": "Gửi Đề Nghị",
+	"cancel": "Hủy Bỏ",
+	"cover_letter": "Thư xin việc",
+	"cover_letter_description": "Mô tả vì sao bạn phù hợp với dự án",
+	"submit_success_msg": "Gửi thành công"
 }

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/utils/helper.dart';
 import 'package:time_pickerr/time_pickerr.dart';
 
@@ -28,7 +29,8 @@ class _DatePickerCustomState extends State<TimePickerCustom> {
   void initState() {
     super.initState();
     if (widget.initialDate != null) {
-      texController.text = DateFormat('dd/MM/yyyy').format(widget.initialDate!).toString();
+      texController.text =
+          DateFormat('dd/MM/yyyy').format(widget.initialDate!).toString();
     }
   }
 
@@ -120,7 +122,8 @@ class _DatePickerCustomState extends State<TimePickerCustom> {
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),
-                        negativeButtonText: "Cancel",
+                        // negativeButtonText: "Cancel",
+                        negativeButtonText: cancelBtnKey.tr(),
                         onPositivePressed: (context, time) {
                           Navigator.pop(context, time);
                         },
