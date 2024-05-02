@@ -195,5 +195,13 @@
 	"proposals_less_than": "Proposals less than",
 	"enter_your_number_placeholder": "Enter your number",
 	"apply": "Apply",
-	"clear_filters": "Clear filters"
+	"clear_filters": "Clear filters",
+	"employees": "Employees",
+	"company_name": "Company Name",
+	"website_url": "Website URL",
+	"just_me_key": "It's just me",
+	"2_9": "2-9",
+	"10_99": "10-99",
+	"100_1000": "100_1000",
+	"More than 1000": "More than 1000"
 }

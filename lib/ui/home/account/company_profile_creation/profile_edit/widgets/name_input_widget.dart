@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 
 class NameInputWidget extends StatefulWidget {
   const NameInputWidget(
@@ -27,7 +29,8 @@ class _NameInputWidgetState extends State<NameInputWidget> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              'Company name',
+              // 'Company name',
+              companyNameKey.tr(),
               style: textTheme.bodySmall,
             ),
           ],

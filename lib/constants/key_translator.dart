@@ -235,3 +235,12 @@ const String proposalLessThanKey = "proposals_less_than";
 const String enterYourNumberPlaceHolderKey = "enter_your_number_placeholder";
 const String clearFiltersBtnKey = "clear_filters";
 const String applyBtnKey = "apply";
+// --- for project editing flow ---
+const String employeesKey = "employees";
+const String companyNameKey = "company_name";
+const String websiteUrlKey = "website_url";
+const String justMeKey = "just_me_key";
+const String twoToNineKey = "2_9";
+const String tenToNinetyNineKey = "10_99";
+const String hundredToThousandKey = "100_1000";
+const String moreThanThousandKey = "More than 1000";

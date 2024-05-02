@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
 import 'package:studenthub/blocs/company_bloc/company_event.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/company/company_model.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/widgets/continue_button.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/widgets/describe_input_widget.dart';
@@ -26,12 +28,20 @@ class CompanyProfileCreationScreen extends StatefulWidget {
 
 class _CompanyProfileCreationScreenState
     extends State<CompanyProfileCreationScreen> {
+  // final employeeQuantityData = [
+  //   'It\'s just me',
+  //   '2-9',
+  //   '10-99',
+  //   '100-1000',
+  //   'More than 1000',
+  // ];
+
   final employeeQuantityData = [
-    'It\'s just me',
-    '2-9',
-    '10-99',
-    '100-1000',
-    'More than 1000',
+    justMeKey.tr(),
+    twoToNineKey.tr(),
+    tenToNinetyNineKey.tr(),
+    hundredToThousandKey.tr(),
+    moreThanThousandKey.tr(),
   ];
 
   String? radioButtonSelected;

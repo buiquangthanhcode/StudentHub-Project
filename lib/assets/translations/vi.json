@@ -195,5 +195,13 @@
 	"proposals_less_than": "Số đề nghị",
 	"enter_your_number_placeholder": "Nhập số lượng",
 	"apply": "Lọc",
-	"clear_filters": "Xóa bộ lọc"
+	"clear_filters": "Xóa bộ lọc",
+	"employees": "Số nhân viên",
+	"company_name": "Tên doanh nghiệp",
+	"website_url": "Đường dẫn website",
+	"just_me_key": "Chỉ mình tôi",
+	"2_9": "2-9",
+	"10_99": "10-99",
+	"100_1000": "100_1000",
+	"More than 1000": "More than 1000"
 }

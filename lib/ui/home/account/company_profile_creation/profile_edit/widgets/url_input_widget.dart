@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 
 class UrlInputWidget extends StatefulWidget {
   const UrlInputWidget(
@@ -26,7 +28,8 @@ class _UrlInputWidgetState extends State<UrlInputWidget> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              'Website Url',
+              // 'Website Url',
+              websiteUrlKey.tr(),
               style: textTheme.bodySmall,
             ),
           ],

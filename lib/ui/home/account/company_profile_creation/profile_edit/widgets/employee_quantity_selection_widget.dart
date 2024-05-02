@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 
 class EmployeeQuantitySelectionWidget extends StatefulWidget {
   const EmployeeQuantitySelectionWidget(
@@ -40,7 +42,8 @@ class _EmployeeQuantitySelectionWidgetState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Employees',
+          // 'Employees',
+          employeesKey.tr(),
           style: textTheme.bodySmall,
         ),
         const SizedBox(
