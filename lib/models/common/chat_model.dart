@@ -10,7 +10,7 @@ class Chat {
   dynamic sender;
   dynamic receiver;
   Interview? interview;
-  Project project; 
+  Project project;
 
   Chat({
     this.id,
@@ -21,8 +21,6 @@ class Chat {
     this.interview,
     required this.project,
   });
-
-
 
   Chat copyWith({
     int? id,
@@ -63,14 +61,19 @@ class Chat {
       content: map['content'] != null ? map['content'] as String : null,
       sender: map['sender'] as dynamic,
       receiver: map['receiver'] as dynamic,
-      interview: map['interview'] != null ? Interview.fromMap(map['interview'] as Map<String,dynamic>) : null,
-      project: Project.fromMap(map['project'] as Map<String,dynamic>),
+      interview: map['interview'] != null
+          ? Interview.fromMap(map['interview'] as Map<String, dynamic>)
+          : null,
+      project: map['project'] != null
+          ? Project.fromMap(map['project'] as Map<String, dynamic>)
+          : Project(),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Chat.fromJson(String source) => Chat.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Chat.fromJson(String source) =>
+      Chat.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -80,25 +83,24 @@ class Chat {
   @override
   bool operator ==(covariant Chat other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.id == id &&
-      other.createdAt == createdAt &&
-      other.content == content &&
-      other.sender == sender &&
-      other.receiver == receiver &&
-      other.interview == interview &&
-      other.project == project;
+
+    return other.id == id &&
+        other.createdAt == createdAt &&
+        other.content == content &&
+        other.sender == sender &&
+        other.receiver == receiver &&
+        other.interview == interview &&
+        other.project == project;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-      createdAt.hashCode ^
-      content.hashCode ^
-      sender.hashCode ^
-      receiver.hashCode ^
-      interview.hashCode ^
-      project.hashCode;
+        createdAt.hashCode ^
+        content.hashCode ^
+        sender.hashCode ^
+        receiver.hashCode ^
+        interview.hashCode ^
+        project.hashCode;
   }
 }

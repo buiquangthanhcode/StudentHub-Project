@@ -67,9 +67,11 @@ class ChatService {
   }
 
   Future<ResponseAPI<List<Chat>>> getChatDataOfProject(String projectId) async {
+    logger.d('PROJECT ID: ${projectId.toString()}');
+    
     try {
       final res = await dioClient.get('$baseURL/api/message/$projectId');
-      // logger.d('CHAT DATA: ${res.data}');
+      logger.d('CHAT DATA: ${res.data}');
       List<Chat> data = res.data['result'].map<Chat>((x) => Chat.fromMap(x)).toList();
       return ResponseAPI<List<Chat>>(
         statusCode: res.statusCode,

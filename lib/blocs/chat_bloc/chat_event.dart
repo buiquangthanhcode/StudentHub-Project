@@ -19,3 +19,9 @@ class GetChatListDataOfProjectEvent extends ChatEvent {
   String projectId;
   GetChatListDataOfProjectEvent({required this.projectId});
 }
+
+class GetChatItemOfProjectEvent extends ChatEvent {
+  String projectId;
+  int myId;
+  GetChatItemOfProjectEvent({required this.projectId,required this.myId});
+}
