@@ -6,6 +6,7 @@ import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/models/common/chat_model.dart';
+import 'package:studenthub/utils/helper.dart';
 
 class ChatItem extends StatelessWidget {
   const ChatItem({
@@ -15,33 +16,18 @@ class ChatItem extends StatelessWidget {
 
   final Chat chat;
 
-  String checkDateTime(String dateTimeString) {
-    if (dateTimeString.isEmpty) return '';
-    DateTime now = DateTime.now();
-
-    DateTime dateTime = DateTime.parse(dateTimeString);
-
-    if (dateTime.year == now.year && dateTime.month == now.month && dateTime.day == now.day) {
-      dateTime = dateTime.toLocal();
-      return DateFormat('HH:mm').format(dateTime);
-    } else {
-      return DateFormat('dd-MM-yyyy').format(dateTime);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     var colorTheme = Theme.of(context).colorScheme;
-    String chattingUserId = chat.sender['id'].toString() !=
-            context.read<AuthBloc>().state.userModel.id.toString()
+    String chattingUserId = chat.sender['id'].toString() != context.read<AuthBloc>().state.userModel.id.toString()
         ? chat.sender['id'].toString()
         : chat.receiver['id'].toString();
     // logger.d(chattingUserId);
 
     String username = chat.sender['id'].toString() == chattingUserId
         ? chat.sender['fullname'] ?? ''
-        : chat.receiver['fullname']?? '';
+        : chat.receiver['fullname'] ?? '';
 
     return InkWell(
       onTap: () {

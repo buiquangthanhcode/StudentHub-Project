@@ -16,12 +16,18 @@ class LoginEvent extends AuthenEvent {
 }
 
 class GetInformationEvent extends AuthenEvent {
-  final Function? onSuccess;
+  final Function()? onSuccess;
   final String accessToken;
   final BuildContext? currentContext;
   final String? action;
+  final Function(bool value)? onSuccessAuthenticated;
 
-  GetInformationEvent({required this.onSuccess, required this.accessToken, this.currentContext, this.action});
+  GetInformationEvent(
+      {required this.onSuccess,
+      required this.accessToken,
+      this.currentContext,
+      this.action,
+      this.onSuccessAuthenticated});
 }
 
 class RegisterAccount extends AuthenEvent {

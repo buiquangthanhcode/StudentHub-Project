@@ -12,6 +12,7 @@ import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/services/local_services.dart';
 import 'package:studenthub/widgets/dialog.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
@@ -219,6 +220,8 @@ class _AccountState extends State<AccountScreen> {
                               if (e['route_name'] == 'introduction') {
                                 context.read<StudentBloc>().add(ResetBlocEvent());
                                 context.read<GeneralProjectBloc>().add(ResetBlocEvents());
+                                final LocalStorageService tokenService = LocalStorageService();
+                                tokenService.clearToken();
                                 Future.delayed(const Duration(milliseconds: 500), () {
                                   context.pushNamed(e['route_name']);
                                 });

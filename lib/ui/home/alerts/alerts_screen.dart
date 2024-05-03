@@ -1,16 +1,23 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
+import 'package:studenthub/blocs/notification_bloc/notification_bloc.dart';
+import 'package:studenthub/blocs/notification_bloc/notification_event.dart';
+import 'package:studenthub/blocs/notification_bloc/notification_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/models/notification/notification_model.dart';
+import 'package:studenthub/utils/helper.dart';
 
 class AlertsScreen extends StatefulWidget {
-  const AlertsScreen({Key? key}) : super(key: key);
+  const AlertsScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AlertsState createState() => _AlertsState();
 }
 
@@ -18,6 +25,7 @@ class _AlertsState extends State<AlertsScreen> {
   final _scrollController = ScrollController();
   bool scrollToBottom = false;
   bool pinned = false;
+  late AuthenState _authenState;
 
   final data = [
     {'seen': false, 'type': 'message', 'title': 'Alex Jor', 'content': 'How are you?', 'time': '13:30'},
@@ -82,9 +90,13 @@ class _AlertsState extends State<AlertsScreen> {
   @override
   void initState() {
     _scrollController.addListener(_scrollListener);
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   showWelcomeDialog(context);
-    // });
+    _authenState = context.read<AuthBloc>().state;
+    context.read<NotificationBloc>().add(
+          GetNotificationListEvents(
+            onSuccess: () {},
+            userId: (_authenState.userModel.id ?? 0).toString(),
+          ),
+        );
     super.initState();
   }
 
@@ -193,15 +205,19 @@ class _AlertsState extends State<AlertsScreen> {
               ),
             ),
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              childCount: data.length,
-              (BuildContext context, int index) {
-                return NotificationItem(
-                  data: data[index],
-                );
-              },
-            ),
+          BlocBuilder<NotificationBloc, NotificationState>(
+            builder: (context, state) {
+              return SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  childCount: state.notificationList.length,
+                  (BuildContext context, int index) {
+                    return NotificationItem(
+                      item: state.notificationList[index],
+                    );
+                  },
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -212,28 +228,28 @@ class _AlertsState extends State<AlertsScreen> {
 class NotificationItem extends StatelessWidget {
   const NotificationItem({
     super.key,
-    this.data,
+    required this.item,
   });
 
-  final dynamic data;
+  final NotificationModel item;
 
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     var colorTheme = Theme.of(context).colorScheme;
-    var screen_size = MediaQuery.of(context).size;
+    var screenSize = MediaQuery.of(context).size;
     Widget button = const SizedBox();
     Widget content = const SizedBox();
     SvgPicture icon;
-    switch (data['type']) {
-      case 'interview':
+    switch (item.typeNotifyFlag) {
+      case '1': // interview
         icon = SvgPicture.asset(
           'lib/assets/nav_icons/solid/ballot-check.svg',
-          colorFilter: ColorFilter.mode(data['seen'] ? colorTheme.grey! : Colors.black, BlendMode.srcIn),
+          colorFilter: ColorFilter.mode((item.notifyFlag == "0") ? colorTheme.grey! : Colors.black, BlendMode.srcIn),
           height: 18,
         );
         button = SizedBox(
-          width: screen_size.width * 0.4,
+          width: screenSize.width * 0.4,
           height: 36,
           child: ElevatedButton(
             onPressed: () {},
@@ -241,14 +257,14 @@ class NotificationItem extends StatelessWidget {
           ),
         );
         break;
-      case 'offer':
+      case '0': // offer
         icon = SvgPicture.asset(
           'lib/assets/nav_icons/solid/ballot-check.svg',
-          colorFilter: ColorFilter.mode(data['seen'] ? colorTheme.grey! : Colors.black, BlendMode.srcIn),
+          colorFilter: ColorFilter.mode((item.notifyFlag == "0") ? colorTheme.grey! : Colors.black, BlendMode.srcIn),
           height: 18,
         );
         button = SizedBox(
-          width: screen_size.width * 0.4,
+          width: screenSize.width * 0.4,
           height: 36,
           child: ElevatedButton(
             onPressed: () {},
@@ -256,22 +272,22 @@ class NotificationItem extends StatelessWidget {
           ),
         );
         break;
-      case 'submitted':
+      case '2': // submit
         icon = SvgPicture.asset(
           'lib/assets/nav_icons/solid/ballot-check.svg',
-          colorFilter: ColorFilter.mode(data['seen'] ? colorTheme.grey! : Colors.black, BlendMode.srcIn),
+          colorFilter: ColorFilter.mode((item.notifyFlag == "0") ? colorTheme.grey! : Colors.black, BlendMode.srcIn),
           height: 18,
         );
         break;
-      case 'message':
+      case '3': // chat
         icon = SvgPicture.asset(
           'lib/assets/nav_icons/solid/messages.svg',
-          colorFilter: ColorFilter.mode(data['seen'] ? colorTheme.grey! : Colors.black, BlendMode.srcIn),
+          colorFilter: ColorFilter.mode((item.notifyFlag == "0") ? colorTheme.grey! : Colors.black, BlendMode.srcIn),
           height: 18,
         );
         content = Text(
-          data['content'],
-          style: TextStyle(color: data['seen'] ? colorTheme.grey! : Colors.black, fontSize: 12),
+          item.content ?? '',
+          style: TextStyle(color: (item.notifyFlag == "0") ? colorTheme.grey! : Colors.black, fontSize: 12),
         );
         break;
       default:
@@ -280,7 +296,6 @@ class NotificationItem extends StatelessWidget {
           colorFilter: const ColorFilter.mode(Color(0xffA0A0A0), BlendMode.srcIn),
           height: 23,
         );
-        print('Bottom navigation error!');
     }
 
     return Container(
@@ -306,7 +321,7 @@ class NotificationItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  data['title'],
+                  item.title ?? '',
                   style: textTheme.bodySmall,
                 ),
                 content,
@@ -314,7 +329,7 @@ class NotificationItem extends StatelessWidget {
                   height: 10,
                 ),
                 Text(
-                  data['time'],
+                  checkDateTime(item.createdAt ?? ''),
                   style: TextStyle(
                     color: colorTheme.grey,
                     fontSize: 13,
@@ -330,7 +345,7 @@ class NotificationItem extends StatelessWidget {
           Container(
             width: 20,
             alignment: Alignment.center,
-            child: data['seen']
+            child: (item.notifyFlag == "0")
                 ? const SizedBox()
                 : const FaIcon(
                     FontAwesomeIcons.solidCircle,

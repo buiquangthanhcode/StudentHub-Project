@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studenthub/app.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_bloc.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_event.dart';
 import 'package:studenthub/models/common/project_model.dart';
@@ -28,11 +31,20 @@ import 'package:studenthub/ui/home/account/student_profile_creation/student_prof
 import 'package:studenthub/ui/home/account/student_profile_creation/student_profile_creation_step_1/student_profile_creation_step_1_screen.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/student_profile_creation_step_2/student_profile_creation_step_2_screen.dart';
 import 'package:studenthub/ui/signup/signup_step02_screen_for_student.dart';
+import 'package:studenthub/ui/splash/splash_screen.dart';
 
 final GoRouter router = GoRouter(
+  navigatorKey: StudentHub.navigatorKey,
+  initialLocation: '/',
   routes: <RouteBase>[
     GoRoute(
       path: '/',
+      builder: (BuildContext context, GoRouterState state) {
+        return const SplashScreen();
+      },
+    ),
+    GoRoute(
+      path: '/introduction',
       name: 'introduction',
       builder: (BuildContext context, GoRouterState state) {
         // return const StudentProfileCreationStep01Screen();
