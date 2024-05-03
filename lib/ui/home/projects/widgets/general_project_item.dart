@@ -9,6 +9,7 @@ import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/models/common/project_model.dart';
+import 'package:studenthub/utils/logger.dart';
 
 class GeneralProjectItem extends StatefulWidget {
   const GeneralProjectItem({
@@ -39,7 +40,12 @@ class _GeneralProjectItemState extends State<GeneralProjectItem> {
     return ngayHienTai.difference(ngayDuocCungCap).inDays;
   }
 
-  Map<int, String> time = {0: 'Less than 1 month', 1: '1 - 3 months', 2: '3 - 6 months', 3: 'More than 6 months'};
+  Map<int, String> time = {
+    0: 'Less than 1 month',
+    1: '1 - 3 months',
+    2: '3 - 6 months',
+    3: 'More than 6 months'
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -49,13 +55,17 @@ class _GeneralProjectItemState extends State<GeneralProjectItem> {
 
     return GestureDetector(
       onTap: () {
-        context.pushNamed('project_general_detail',
-            queryParameters: {'id': widget.project.id.toString(), 'isFavorite': widget.project.isFavorite.toString()});
+        context.pushNamed('project_general_detail', queryParameters: {
+          'id': widget.project.id.toString(),
+          'isFavorite': widget.project.isFavorite.toString()
+        });
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20),
         padding: EdgeInsets.fromLTRB(0, 16, widget.paddingRight, 16),
-        decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: colorTheme.hintColor!))),
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(width: 1, color: colorTheme.hintColor!))),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -68,11 +78,14 @@ class _GeneralProjectItemState extends State<GeneralProjectItem> {
                     children: [
                       Text(
                         'Created ${differentDay(widget.project.createdAt ?? '2024-04-13T10:09:53.078Z')} days ago',
-                        style: textTheme.bodySmall!.copyWith(color: colorTheme.grey),
+                        style: textTheme.bodySmall!
+                            .copyWith(color: colorTheme.grey),
                       ),
                       Text(
-                        widget.project.title ?? 'Senior frontend developer (Fintech)',
-                        style: textTheme.bodySmall!.copyWith(color: primaryColor),
+                        widget.project.title ??
+                            'Senior frontend developer (Fintech)',
+                        style:
+                            textTheme.bodySmall!.copyWith(color: primaryColor),
                       ),
                       Text(
                         'Time: ${time[widget.project.projectScopeFlag]}, ${widget.project.numberOfStudents ?? '0'} students needed',
@@ -86,24 +99,48 @@ class _GeneralProjectItemState extends State<GeneralProjectItem> {
                 InkWell(
                   onTap: () {
                     isSaved = !isSaved!;
+                    logger.d('FAVORITE');
+                    logger.d(context
+                        .read<AuthBloc>()
+                        .state
+                        .userModel
+                        .student!
+                        .id
+                        .toString());
+                    logger.d(widget.project.id.toString());
                     setState(() {
                       isSaved!
                           ? context.read<GeneralProjectBloc>().add(
                                 AddFavoriteProject(
-                                  studentId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
+                                  studentId: context
+                                      .read<AuthBloc>()
+                                      .state
+                                      .userModel
+                                      .student!
+                                      .id
+                                      .toString(),
                                   projectId: widget.project.id.toString(),
                                 ),
                               )
                           : context.read<GeneralProjectBloc>().add(
                                 RemoveFavoriteProject(
-                                  studentId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
+                                  studentId: context
+                                      .read<AuthBloc>()
+                                      .state
+                                      .userModel
+                                      .student!
+                                      .id
+                                      .toString(),
                                   projectId: widget.project.id.toString(),
                                 ),
                               );
                     });
+                    logger.d(isSaved);
                   },
                   child: FaIcon(
-                    isSaved! ? FontAwesomeIcons.solidHeart : FontAwesomeIcons.heart,
+                    isSaved!
+                        ? FontAwesomeIcons.solidHeart
+                        : FontAwesomeIcons.heart,
                     color: primaryColor,
                   ),
                 )
@@ -135,7 +172,8 @@ class _GeneralProjectItemState extends State<GeneralProjectItem> {
                       ),
                       Expanded(
                         child: Text(
-                          widget.project.description ?? 'Clear expectation about your project or deliverables',
+                          widget.project.description ??
+                              'Clear expectation about your project or deliverables',
                           style: textTheme.bodySmall!,
                         ),
                       ),
