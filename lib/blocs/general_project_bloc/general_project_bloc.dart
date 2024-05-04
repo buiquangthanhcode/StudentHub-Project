@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_event.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_state.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/data/dto/reponse.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/services/all_projects/all_projects.dart';
@@ -43,7 +45,8 @@ class GeneralProjectBloc
   FutureOr<void> _onGetAllData(
       GetAllDataEvent event, Emitter<GeneralProjectState> emit) async {
     try {
-      EasyLoading.show(status: 'Loading...');
+      // EasyLoading.show(status: 'Loading...');
+      EasyLoading.show(status: loadingBtnKey.tr());
       ResponseAPI result = await _allProjectsService.getAllProjects();
 
       Set<String> projectSearchSuggestions = {};
@@ -77,7 +80,8 @@ class GeneralProjectBloc
   FutureOr<void> _onGetProjectDetail(
       GetProjectDetail event, Emitter<GeneralProjectState> emit) async {
     try {
-      EasyLoading.show(status: 'Loading...');
+      // EasyLoading.show(status: 'Loading...');
+      EasyLoading.show(status: loadingBtnKey.tr());
       ResponseAPI result = await _allProjectsService.getProjectDetail(event.id);
 
       if (result.statusCode! < 300) {
@@ -104,7 +108,8 @@ class GeneralProjectBloc
   FutureOr<void> _onGetAllFavoriteProject(
       GetFavoriteProject event, Emitter<GeneralProjectState> emit) async {
     try {
-      EasyLoading.show(status: 'Loading...');
+      // EasyLoading.show(status: 'Loading...');
+      EasyLoading.show(status: loadingBtnKey.tr());
       ResponseAPI result =
           await _allProjectsService.getAllFavoriteProject(event.studentId);
 
@@ -229,7 +234,8 @@ class GeneralProjectBloc
   FutureOr<void> _onGetSearchFilterData(
       GetSearchFilterDataEvent event, Emitter<GeneralProjectState> emit) async {
     try {
-      EasyLoading.show(status: 'Loading...');
+      // EasyLoading.show(status: 'Loading...');
+      EasyLoading.show(status: loadingBtnKey.tr());
       ResponseAPI result = await _allProjectsService.getSearchFilterData(
           event.title,
           event.projectScopeFlag,
@@ -265,7 +271,7 @@ class GeneralProjectBloc
       GetAllProposalOfProjectEvent event,
       Emitter<GeneralProjectState> emit) async {
     try {
-      EasyLoading.show(status: 'loading');
+      EasyLoading.show(status: loadingBtnKey.tr());
       final response =
           await _allProjectsService.getProposalOfProject(event.requestProposal);
       if (response.statusCode! <= 201) {

@@ -8,6 +8,7 @@ import 'package:studenthub/blocs/general_project_bloc/general_project_event.dart
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/utils/logger.dart';
 
@@ -40,11 +41,18 @@ class _GeneralProjectItemState extends State<GeneralProjectItem> {
     return ngayHienTai.difference(ngayDuocCungCap).inDays;
   }
 
+  // Map<int, String> time = {
+  //   0: 'Less than 1 month',
+  //   1: '1 to 3 months',
+  //   2: '3 to 6 months',
+  //   3: 'More than 6 months'
+  // };
+
   Map<int, String> time = {
-    0: 'Less than 1 month',
-    1: '1 - 3 months',
-    2: '3 - 6 months',
-    3: 'More than 6 months'
+    0: lessThan1MonthKey.tr(),
+    1: oneToThreeMonthsKey.tr(),
+    2: threeToSixMonthsKey.tr(),
+    3: moreThan6MonthsKey.tr(),
   };
 
   @override
@@ -77,7 +85,11 @@ class _GeneralProjectItemState extends State<GeneralProjectItem> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Created ${differentDay(widget.project.createdAt ?? '2024-04-13T10:09:53.078Z')} days ago',
+                        // 'Created ${differentDay(widget.project.createdAt ?? '2024-04-13T10:09:53.078Z')} days ago',
+                        timeCreatedKey.tr(namedArgs: {
+                          "value":
+                              "${differentDay(widget.project.createdAt ?? '2024-04-13T10:09:53.078Z')}",
+                        }),
                         style: textTheme.bodySmall!
                             .copyWith(color: colorTheme.grey),
                       ),
@@ -88,7 +100,13 @@ class _GeneralProjectItemState extends State<GeneralProjectItem> {
                             textTheme.bodySmall!.copyWith(color: primaryColor),
                       ),
                       Text(
-                        'Time: ${time[widget.project.projectScopeFlag]}, ${widget.project.numberOfStudents ?? '0'} students needed',
+                        // 'Time: ${time[widget.project.projectScopeFlag]}, ${widget.project.numberOfStudents ?? '0'} students needed',
+                        generalProjectDescriptionKey.tr(namedArgs: {
+                          "value1": time[widget.project.projectScopeFlag] ??
+                              '1-3 months',
+                          "value2":
+                              (widget.project.numberOfStudents ?? 0).toString(),
+                        }),
                         style: textTheme.bodySmall!.copyWith(
                           color: colorTheme.grey,
                         ),
@@ -150,7 +168,7 @@ class _GeneralProjectItemState extends State<GeneralProjectItem> {
               height: 15,
             ),
             Text(
-              'Students are looking for',
+              jobDescriptionExampleKey.tr(),
               style: textTheme.bodySmall!,
             ),
             Padding(
@@ -185,8 +203,17 @@ class _GeneralProjectItemState extends State<GeneralProjectItem> {
             const SizedBox(
               height: 15,
             ),
-            Text('Proposal: ${widget.project.countProposals ?? 'Less than 5'}',
-                style: textTheme.bodySmall!.copyWith(color: colorTheme.grey)),
+            // Text(
+            //   'Proposal: ${widget.project.countProposals ?? 'Less than 5'}',
+            //   style: textTheme.bodySmall!.copyWith(color: colorTheme.grey),
+            // ),
+            Text(
+              generalProjectProposalKey.tr(namedArgs: {
+                "value":
+                    (widget.project.countProposals ?? 'Less than 5').toString(),
+              }),
+              style: textTheme.bodySmall!.copyWith(color: colorTheme.grey),
+            ),
           ],
         ),
       ),

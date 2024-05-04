@@ -1,12 +1,13 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/data/dto/reponse.dart';
 import 'package:studenthub/models/common/user_model.dart';
 import 'package:studenthub/services/authen/authen.dart';
@@ -103,7 +104,8 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
 
   FutureOr<void> _onLogin(LoginEvent event, Emitter<AuthenState> emit) async {
     try {
-      EasyLoading.show(status: 'Loading...');
+      // EasyLoading.show(status: 'Loading...');
+      EasyLoading.show(status: loadingBtnKey.tr());
       ResponseAPI result = await _authenService.login(
         event.requestLogin,
       );
@@ -140,7 +142,8 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
 
   Future<FutureOr<void>> _onRegisterAccount(RegisterAccount event, Emitter<AuthenState> emit) async {
     try {
-      EasyLoading.show(status: 'Loading...');
+      // EasyLoading.show(status: 'Loading...');
+      EasyLoading.show(status: loadingBtnKey.tr());
       ResponseAPI result = await _authenService.register(
         event.requestRegister,
       );

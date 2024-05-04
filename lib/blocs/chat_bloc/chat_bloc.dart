@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_event.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_state.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/data/dto/reponse.dart';
 import 'package:studenthub/models/common/chat_model.dart';
 import 'package:studenthub/models/common/message_model.dart';
@@ -37,7 +38,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   FutureOr<void> _onGetAllData(
       GetAllDataEvent event, Emitter<ChatState> emit) async {
     try {
-      EasyLoading.show(status: 'Loading...');
+      // EasyLoading.show(status: 'Loading...');
+      EasyLoading.show(status: loadingBtnKey.tr());
       ResponseAPI result = await _chatService.getAllData();
 
       List<Chat> data = result.data;
@@ -84,7 +86,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   FutureOr<void> _onGetChatWithUserId(
       GetChatWithUserIdEvent event, Emitter<ChatState> emit) async {
     try {
-      EasyLoading.show(status: 'Loading...');
+      // EasyLoading.show(status: 'Loading...');
+      EasyLoading.show(status: loadingBtnKey.tr());
       ResponseAPI result = await _chatService.getAllChatWithUserId(
           event.userId, event.projectId);
       // logger.d('MESSAGE DATA: ${result.data}');

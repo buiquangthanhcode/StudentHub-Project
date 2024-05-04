@@ -163,16 +163,16 @@ class Student {
       result.addAll({'techStackId': techStackId});
     }
     if (skillSets != null) {
-      result.addAll({'skillSets': skillSets!.map((x) => x?.toMap()).toList()});
+      result.addAll({'skillSets': skillSets!.map((x) => x.toMap()).toList()});
     }
     if (languages != null) {
-      result.addAll({'languages': languages!.map((x) => x?.toMap()).toList()});
+      result.addAll({'languages': languages!.map((x) => x.toMap()).toList()});
     }
     if (experiences != null) {
-      result.addAll({'experiences': experiences!.map((x) => x?.toMap()).toList()});
+      result.addAll({'experiences': experiences!.map((x) => x.toMap()).toList()});
     }
     if (educations != null) {
-      result.addAll({'educations': educations!.map((x) => x?.toMap()).toList()});
+      result.addAll({'educations': educations!.map((x) => x.toMap()).toList()});
     }
     if (createdAt != null) {
       result.addAll({'createdAt': createdAt});

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,18 +9,24 @@ import 'package:studenthub/blocs/general_project_bloc/general_project_state.dart
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
 
 class ProjectGeneralDetailScreen extends StatefulWidget {
-  const ProjectGeneralDetailScreen({super.key, required this.id, required this.isFavorite, this.isHiddenAppbar});
+  const ProjectGeneralDetailScreen(
+      {super.key,
+      required this.id,
+      required this.isFavorite,
+      this.isHiddenAppbar});
 
   final String id;
   final String isFavorite;
   final bool? isHiddenAppbar;
 
   @override
-  State<ProjectGeneralDetailScreen> createState() => _ProjectDetailScreenState();
+  State<ProjectGeneralDetailScreen> createState() =>
+      _ProjectDetailScreenState();
 }
 
 class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
@@ -36,8 +43,19 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
         );
   }
 
-  Map<int, String> time = {0: 'Less than 1 month', 1: '1 - 3 months', 2: '3 - 6 months', 3: 'More than 6 months'};
+  // Map<int, String> time = {
+  //   0: 'Less than 1 month',
+  //   1: '1 to 3 months',
+  //   2: '3 to 6 months',
+  //   3: 'More than 6 months'
+  // };
 
+  Map<int, String> time = {
+    0: lessThan1MonthKey.tr(),
+    1: oneToThreeMonthsKey.tr(),
+    2: threeToSixMonthsKey.tr(),
+    3: moreThan6MonthsKey.tr(),
+  };
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -47,7 +65,8 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
     return BlocBuilder<GeneralProjectBloc, GeneralProjectState>(
       builder: (BuildContext context, GeneralProjectState state) {
         bool isSubmitProposal = checkIsSubmitProposal(
-            state.projectDetail.proposals ?? [], context.read<AuthBloc>().state.userModel.student!.id!.toInt());
+            state.projectDetail.proposals ?? [],
+            context.read<AuthBloc>().state.userModel.student!.id!.toInt());
         return Scaffold(
           appBar: widget.isHiddenAppbar ?? false
               ? null
@@ -55,7 +74,8 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                   centerTitle: false,
                   titleSpacing: 0,
                   title: Text(
-                    "Project detail",
+                    // "Project detail",
+                    projectDetailTitleKey.tr(),
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           fontWeight: FontWeight.w700,
                         ),
@@ -71,20 +91,34 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                               isSaved!
                                   ? context.read<GeneralProjectBloc>().add(
                                         AddFavoriteProject(
-                                          studentId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
+                                          studentId: context
+                                              .read<AuthBloc>()
+                                              .state
+                                              .userModel
+                                              .student!
+                                              .id
+                                              .toString(),
                                           projectId: widget.id,
                                         ),
                                       )
                                   : context.read<GeneralProjectBloc>().add(
                                         RemoveFavoriteProject(
-                                          studentId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
+                                          studentId: context
+                                              .read<AuthBloc>()
+                                              .state
+                                              .userModel
+                                              .student!
+                                              .id
+                                              .toString(),
                                           projectId: widget.id,
                                         ),
                                       );
                             });
                           },
                           child: FaIcon(
-                            isSaved! ? FontAwesomeIcons.solidHeart : FontAwesomeIcons.heart,
+                            isSaved!
+                                ? FontAwesomeIcons.solidHeart
+                                : FontAwesomeIcons.heart,
                             color: primaryColor,
                           ),
                         ),
@@ -99,8 +133,10 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      state.projectDetail.title ?? 'Senior frontend developer (Fintech)',
-                      style: textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600),
+                      state.projectDetail.title ??
+                          'Senior frontend developer (Fintech)',
+                      style: textTheme.bodyLarge!
+                          .copyWith(fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(
                       height: 15,
@@ -114,16 +150,16 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Students are looking for',
-                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: theme.colorScheme.brightness == Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black.withOpacity(0.6),
-                              ),
+                          jobDescriptionExampleKey.tr(),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black.withOpacity(0.6),
+                                  ),
                         ),
                         BulletList([
-                          state.projectDetail.description ?? 'Clear expectation about your project or deliverables',
+                          state.projectDetail.description ??
+                              'Clear expectation about your project or deliverables',
                           // 'The skill required for your project',
                           // 'Detail about your project',
                         ]),
@@ -149,9 +185,10 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Project scope',
+                                projectScopeKey.tr(),
                                 style: TextStyle(
-                                  color: theme.colorScheme.brightness == Brightness.dark
+                                  color: theme.colorScheme.brightness ==
+                                          Brightness.dark
                                       ? Colors.white
                                       : Colors.black.withOpacity(0.8),
                                 ),
@@ -167,9 +204,14 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                                     ),
                                   ),
                                   Text(
-                                    time[state.projectDetail.countProposals] ?? '3-6 months',
-                                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                          color: theme.colorScheme.brightness == Brightness.dark
+                                    time[state.projectDetail.countProposals] ??
+                                        '3-6 months',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: theme.colorScheme.brightness ==
+                                                  Brightness.dark
                                               ? Colors.white
                                               : Colors.black.withOpacity(0.8),
                                         ),
@@ -192,11 +234,9 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Student required',
+                                studentRequiredKey.tr(),
                                 style: TextStyle(
-                                    color: theme.colorScheme.brightness == Brightness.dark
-                                        ? Colors.white
-                                        : Colors.black.withOpacity(0.8)),
+                                    color: Colors.black.withOpacity(0.8)),
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -209,11 +249,14 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                                     ),
                                   ),
                                   Text(
-                                    '${state.projectDetail.numberOfStudents ?? '0'} students',
-                                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                        color: theme.colorScheme.brightness == Brightness.dark
-                                            ? Colors.white
-                                            : Colors.black.withOpacity(0.8)),
+                                    // '${state.projectDetail.numberOfStudents ?? '0'} students',
+                                    '${state.projectDetail.numberOfStudents ?? '0'} ${studentsKey.tr()}',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                            color:
+                                                Colors.black.withOpacity(0.8)),
                                   ),
                                 ],
                               )
@@ -235,13 +278,19 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                           ),
                           onPressed: () {
                             if (!isSubmitProposal) {
-                              context.push('/home/project_general_detail/submit_proposal', extra: state.projectDetail);
+                              context.push(
+                                  '/home/project_general_detail/submit_proposal',
+                                  extra: state.projectDetail);
                             }
                           },
                           child: Text(
-                            'Apply Now',
+                            // 'Apply Now',
+                            applyNowBtnKey.tr(),
                             style: textTheme.bodyMedium!.copyWith(
-                                color: theme.colorScheme.brightness == Brightness.dark ? Colors.white : Colors.white,
+                                color: theme.colorScheme.brightness ==
+                                        Brightness.dark
+                                    ? Colors.white
+                                    : Colors.white,
                                 fontWeight: FontWeight.w600),
                           ),
                         ),

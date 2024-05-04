@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:studenthub/constants/bottom_navigation.dart';
@@ -88,14 +89,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             SvgPicture.asset(
                               bottomNavs[index]['solid-icon'] as String,
-                              colorFilter: const ColorFilter.mode(primaryColor, BlendMode.srcIn),
+                              colorFilter: const ColorFilter.mode(
+                                  primaryColor, BlendMode.srcIn),
                               height: 24,
                             ),
                             const SizedBox(
                               height: 5,
                             ),
                             Text(
-                              bottomNavs[index]['title'] as String,
+                              tr(bottomNavs[index]['title'] ?? ''),
                               style: const TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold,
@@ -109,14 +111,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             SvgPicture.asset(
                               bottomNavs[index]['regular-icon'] as String,
-                              colorFilter: const ColorFilter.mode(Color(0xffA0A0A0), BlendMode.srcIn),
+                              colorFilter: const ColorFilter.mode(
+                                  Color(0xffA0A0A0), BlendMode.srcIn),
                               height: 23,
                             ),
                             const SizedBox(
                               height: 5,
                             ),
                             Text(
-                              bottomNavs[index]['title'] as String,
+                              tr(bottomNavs[index]['title'] as String),
                               style: const TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold,

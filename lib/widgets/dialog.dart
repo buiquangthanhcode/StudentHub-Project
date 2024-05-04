@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 
 Future<void> showDialogCustom(BuildContext context,
     {String? image,
@@ -42,7 +44,8 @@ Future<void> showDialogCustom(BuildContext context,
                         height: 24,
                       ),
                       Text(
-                        title ?? 'Welcome to Student Hub',
+                        // title ?? 'Welcome to Student Hub',
+                        title ?? welcomeDialogMsg.tr(),
                         style: textTheme.bodyLarge,
                         textAlign: TextAlign.center,
                       ),
@@ -70,7 +73,8 @@ Future<void> showDialogCustom(BuildContext context,
                           onSave!();
                         },
                         child: Text(
-                          textButtom ?? 'Get Started!',
+                          // textButtom ?? 'Get Started!',
+                          textButtom ?? getStartedBtnKey.tr(),
                           style: textTheme.bodyMedium!.copyWith(
                               color: Colors.white, fontWeight: FontWeight.w600),
                         ),

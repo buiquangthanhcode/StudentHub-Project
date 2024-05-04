@@ -1,8 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_event.dart';
 import 'package:studenthub/blocs/project_bloc/project_state.dart';
+import 'package:studenthub/constants/key_translator.dart';
+import 'package:studenthub/models/common/project_model.dart';
+import 'package:studenthub/ui/home/dashboard/widgets/project_item.dart';
+import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/project_item.dart';
 import 'package:studenthub/widgets/emtyDataWidget.dart';
@@ -35,7 +40,7 @@ class _ProjectAllTabState extends State<ProjectArchivedTabForCompany> {
             children: [
               EmptyDataWidget(
                 mainTitle: '',
-                subTitle: 'No project working yet.',
+                subTitle: noProjectWorkingIndicatorKey.tr(),
                 widthImage: MediaQuery.of(context).size.width * 0.5,
               ),
             ],
@@ -48,8 +53,10 @@ class _ProjectAllTabState extends State<ProjectArchivedTabForCompany> {
               itemCount: state.archivedProjects.length,
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                  child: ProjectItem(theme: theme, item: state.archivedProjects[index]),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                  child: ProjectItem(
+                      theme: theme, item: state.archivedProjects[index]),
                 );
               },
               separatorBuilder: (context, index) {

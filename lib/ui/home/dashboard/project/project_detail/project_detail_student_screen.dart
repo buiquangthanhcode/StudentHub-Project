@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ import 'package:studenthub/blocs/general_project_bloc/general_project_bloc.dart'
 import 'package:studenthub/blocs/general_project_bloc/general_project_event.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_state.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/chat_model.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
@@ -40,11 +42,17 @@ class ProjectDetailStudentView extends StatefulWidget {
 }
 
 class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
+  // Map<int, String> time = {
+  //   0: 'Less than 1 month',
+  //   1: '1 to 3 months',
+  //   2: '3 to 6 months',
+  //   3: 'More than 6 months'
+  // };
   Map<int, String> time = {
-    0: 'Less than 1 month',
-    1: '1 - 3 months',
-    2: '3 - 6 months',
-    3: 'More than 6 months'
+    0: lessThan1MonthKey.tr(),
+    1: oneToThreeMonthsKey.tr(),
+    2: threeToSixMonthsKey.tr(),
+    3: moreThan6MonthsKey.tr(),
   };
   @override
   void initState() {
@@ -86,68 +94,69 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                   centerTitle: false,
                   titleSpacing: 0,
                   title: Text(
-                    "Project detail",
+                    // "Project detail",
+                    projectDetailTitleKey.tr(),
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           fontWeight: FontWeight.w700,
                         ),
                   ),
                   // actions: [
-                    // if (widget.isFavorite != 'null')
-                    //   Padding(
-                    //     padding: const EdgeInsets.only(right: 20),
-                    //     child: InkWell(
-                    //       onTap: () {
-                    //         isSaved = !isSaved!;
-                    //         setState(() {
-                    //           isSaved!
-                    //               ? context.read<GeneralProjectBloc>().add(
-                    //                     AddFavoriteProject(
-                    //                       studentId: context
-                    //                           .read<AuthBloc>()
-                    //                           .state
-                    //                           .userModel
-                    //                           .student!
-                    //                           .id
-                    //                           .toString(),
-                    //                       projectId:
-                    //                           widget.item?.id.toString() ??
-                    //                               widget.projectProposal!
-                    //                                   .project?.id
-                    //                                   .toString() ??
-                    //                               '',
-                    //                     ),
-                    //                   )
-                    //               : context.read<GeneralProjectBloc>().add(
-                    //                     RemoveFavoriteProject(
-                    //                       studentId: context
-                    //                           .read<AuthBloc>()
-                    //                           .state
-                    //                           .userModel
-                    //                           .student!
-                    //                           .id
-                    //                           .toString(),
-                    //                       projectId:
-                    //                           widget.item?.id.toString() ??
-                    //                               widget.projectProposal!
-                    //                                   .project?.id
-                    //                                   .toString() ??
-                    //                               '',
-                    //                     ),
-                    //                   );
-                    //           // context.read<AllProjectBloc>().add(
-                    //           //     UpdateFavoriteProjectUI(
-                    //           //         projectId: int.parse(widget.id),
-                    //           //         isFavorite: isSaved!));
-                    //         });
-                    //       },
-                    //       child: FaIcon(
-                    //         isSaved!
-                    //             ? FontAwesomeIcons.solidHeart
-                    //             : FontAwesomeIcons.heart,
-                    //         color: primaryColor,
-                    //       ),
-                    //     ),
-                    //   )
+                  // if (widget.isFavorite != 'null')
+                  //   Padding(
+                  //     padding: const EdgeInsets.only(right: 20),
+                  //     child: InkWell(
+                  //       onTap: () {
+                  //         isSaved = !isSaved!;
+                  //         setState(() {
+                  //           isSaved!
+                  //               ? context.read<GeneralProjectBloc>().add(
+                  //                     AddFavoriteProject(
+                  //                       studentId: context
+                  //                           .read<AuthBloc>()
+                  //                           .state
+                  //                           .userModel
+                  //                           .student!
+                  //                           .id
+                  //                           .toString(),
+                  //                       projectId:
+                  //                           widget.item?.id.toString() ??
+                  //                               widget.projectProposal!
+                  //                                   .project?.id
+                  //                                   .toString() ??
+                  //                               '',
+                  //                     ),
+                  //                   )
+                  //               : context.read<GeneralProjectBloc>().add(
+                  //                     RemoveFavoriteProject(
+                  //                       studentId: context
+                  //                           .read<AuthBloc>()
+                  //                           .state
+                  //                           .userModel
+                  //                           .student!
+                  //                           .id
+                  //                           .toString(),
+                  //                       projectId:
+                  //                           widget.item?.id.toString() ??
+                  //                               widget.projectProposal!
+                  //                                   .project?.id
+                  //                                   .toString() ??
+                  //                               '',
+                  //                     ),
+                  //                   );
+                  //           // context.read<AllProjectBloc>().add(
+                  //           //     UpdateFavoriteProjectUI(
+                  //           //         projectId: int.parse(widget.id),
+                  //           //         isFavorite: isSaved!));
+                  //         });
+                  //       },
+                  //       child: FaIcon(
+                  //         isSaved!
+                  //             ? FontAwesomeIcons.solidHeart
+                  //             : FontAwesomeIcons.heart,
+                  //         color: primaryColor,
+                  //       ),
+                  //     ),
+                  //   )
                   // ],
                 ),
           body: Container(
@@ -175,7 +184,7 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Students are looking for',
+                          jobDescriptionExampleKey.tr(),
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontWeight: FontWeight.bold,
@@ -210,7 +219,7 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Project scope',
+                                projectScopeKey.tr(),
                                 style: TextStyle(
                                   color: Colors.black.withOpacity(0.8),
                                 ),
@@ -253,7 +262,7 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Student required',
+                                studentRequiredKey.tr(),
                                 style: TextStyle(
                                     color: Colors.black.withOpacity(0.8)),
                               ),
@@ -319,7 +328,7 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                                 });
                           },
                           child: Text(
-                            'Messages',
+                            messagesBtnKey.tr(),
                             style: textTheme.bodyMedium!.copyWith(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600),

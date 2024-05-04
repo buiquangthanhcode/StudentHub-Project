@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:studenthub/blocs/global_bloc/global_bloc.dart';
 import 'package:studenthub/blocs/global_bloc/global_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/data/dto/authen/request_login.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
@@ -54,16 +56,19 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 Text.rich(
                   TextSpan(
-                    text: 'Welcome \n',
+                    // text: 'Welcome \n',
+                    text: welcomeKey.tr(),
                     style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: 45,
                     ),
-                    children: const [
+                    children: [
                       TextSpan(
-                        text: 'Back',
-                        style: TextStyle(
-                          color: primaryColor, // Replace with your desired color
+                        // text: 'Back',
+                        text: backKey.tr(),
+                        style: const TextStyle(
+                          color:
+                              primaryColor, // Replace with your desired color
                         ),
                       ),
                     ],
@@ -71,7 +76,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  'Enter your details to login',
+                  // 'Enter your details to login',
+                  loginDescriptionKey.tr(),
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontSize: 16,
                   ),
@@ -80,8 +86,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 TextFieldFormCustom(
                   fillColor: Colors.white,
                   name: 'username',
-                  hintText: 'Username',
-                  // initialValue: "nguyenthoaidangkhoa@gmail.com",
+                  // hintText: 'Username',
+                  hintText: userNameKey.tr(),
                   initialValue: "buiquangthanh1709@gmail.com",
                   validator: FormBuilderValidators.compose([
                     FormBuilderValidators.required(),
@@ -107,16 +113,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   isPasswordText: true,
                   fillColor: Colors.white,
                   name: 'password',
-                  hintText: 'Password',
-                  // initialValue: '@Khoa123',
+                  // hintText: 'Password',
+                  hintText: passwordKey.tr(),
                   initialValue: 'Buiquangthanh@1709',
                   obscureText: true,
                   validator: FormBuilderValidators.compose([
                     FormBuilderValidators.required(),
                     FormBuilderValidators.minLength(8),
                     FormBuilderValidators.maxLength(20),
-                    FormBuilderValidators.match(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
-                        errorText: 'Password must contain at least 1 special character, such as &, %, TM, or E.'),
+                    FormBuilderValidators.match(
+                        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
+                        errorText:
+                            'Password must contain at least 1 special character, such as &, %, TM, or E.'),
                   ]),
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
@@ -136,7 +144,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(top: 10), // Replace 10 with your desired margin value
+                  margin: const EdgeInsets.only(
+                      top: 10), // Replace 10 with your desired margin value
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Row(children: [
@@ -147,9 +156,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: const CustomCheckBox(),
                           ),
                           // Container(margin: EdgeInsets.only(left: 10), child: const GradientCheckBox(),),),
-                          const SizedBox(width: 10), // Replace 10 with your desired width
+                          const SizedBox(
+                              width: 10), // Replace 10 with your desired width
                           Text(
-                            'Remember me',
+                            // 'Remember me',
+                            rememberMeKey.tr(),
                             style: theme.textTheme.bodySmall!.copyWith(
                               color: primaryColor,
                               fontWeight: FontWeight.w600,
@@ -168,14 +179,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                 padding: const EdgeInsets.all(12.0),
                                 decoration: const BoxDecoration(
                                     color: Colors.white,
-                                    borderRadius:
-                                        BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-                                height: MediaQuery.of(context).size.height * 0.8,
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20))),
+                                height:
+                                    MediaQuery.of(context).size.height * 0.8,
                                 child: FormBuilder(
                                   key: _formForgotPassword,
                                   child: SingleChildScrollView(
                                     child: Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10.0),
                                       // decoration:
                                       //     BoxDecoration(color: Colors.red),
                                       child: Column(
@@ -184,8 +198,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                           Row(
                                             children: [
                                               Text(
-                                                'Reset Password',
-                                                style: theme.textTheme.bodyMedium?.copyWith(
+                                                // 'Reset Password',
+                                                resetPasswordTitleKey.tr(),
+                                                style: theme
+                                                    .textTheme.bodyMedium
+                                                    ?.copyWith(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 24,
                                                 ),
@@ -193,9 +210,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                               const Spacer(),
                                               Container(
                                                 decoration: BoxDecoration(
-                                                    color: theme.colorScheme.grey?.withOpacity(0.4),
-                                                    borderRadius: BorderRadius.circular(50)),
-                                                padding: const EdgeInsets.all(3),
+                                                    color: theme
+                                                        .colorScheme.grey
+                                                        ?.withOpacity(0.4),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            50)),
+                                                padding:
+                                                    const EdgeInsets.all(3),
                                                 child: InkWell(
                                                   onTap: () {
                                                     Navigator.pop(context);
@@ -209,16 +231,22 @@ class _LoginScreenState extends State<LoginScreen> {
                                             ],
                                           ),
                                           const SizedBox(height: 24),
-                                          const Text(
-                                              'Your password will be automatically reset by the system. Please check your email to receive the new password.'),
+                                          Text(
+                                            // 'Your password will be automatically reset by the system. Please check your email to receive the new password.',
+                                            resetPasswordDescriptionKey.tr(),
+                                          ),
                                           const SizedBox(height: 24),
                                           TextFieldFormCustom(
                                             fillColor: Colors.white,
                                             name: 'email',
-                                            hintText: 'Enter your email',
+                                            // hintText: 'Enter your email',
+                                            hintText:
+                                                enterEmailPlaceHolderKey.tr(),
                                             maxLines: null,
-                                            keyboardType: TextInputType.multiline,
-                                            validator: FormBuilderValidators.compose([
+                                            keyboardType:
+                                                TextInputType.multiline,
+                                            validator:
+                                                FormBuilderValidators.compose([
                                               FormBuilderValidators.required(),
                                               FormBuilderValidators.email(),
                                             ]),
@@ -230,40 +258,66 @@ class _LoginScreenState extends State<LoginScreen> {
                                           ),
                                           const SizedBox(height: 36),
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              const Text('Password should not use on any other site.'),
-                                              BulletList(const [
-                                                'The password must have at least 8 characters.',
-                                                'The password must contain at least 1 special character, such as &, %, TM, or E.',
-                                                'The password must contain at least 3 different kinds of characters, such as uppercase letters, lowercase letter, numeric digits, and punctuation marks.',
+                                              Text(
+                                                // 'Password should not use  any other site.',
+                                                passwordHintMsg.tr(),
+                                              ),
+                                              BulletList([
+                                                // 'The password must have at least 8 characters.',
+                                                // 'The password must contain at least 1 special character, such as &, %, TM, or E.',
+                                                // 'The password must contain at least 3 different kinds of characters, such as uppercase letters, lowercase letter, numeric digits, and punctuation marks.',
+                                                passwordHintDetailMsg1.tr(),
+                                                passwordHintDetailMsg2.tr(),
+                                                passwordHintDetailMsg3.tr(),
                                               ])
                                             ],
                                           ),
                                           ElevatedButton(
                                             onPressed: () {
-                                              if (_formForgotPassword.currentState?.saveAndValidate() ?? false) {
+                                              if (_formForgotPassword
+                                                      .currentState
+                                                      ?.saveAndValidate() ??
+                                                  false) {
                                                 context.read<GlobalBloc>().add(
                                                       ResetPasswordEvent(
-                                                          email: _formForgotPassword.currentState?.value["email"]
-                                                              as String,
+                                                          email: _formForgotPassword
+                                                                  .currentState
+                                                                  ?.value[
+                                                              "email"] as String,
                                                           onSuccess: () {
-                                                            SnackBarService.showSnackBar(
-                                                                content: 'New password sent to your email',
-                                                                status: StatusSnackBar.success);
-                                                            Navigator.pop(context);
+                                                            SnackBarService
+                                                                .showSnackBar(
+                                                                    content:
+                                                                        // 'New password sent to your email',
+                                                                        newPasswordSentMsg
+                                                                            .tr(),
+                                                                    status: StatusSnackBar
+                                                                        .success);
+                                                            Navigator.pop(
+                                                                context);
                                                           }),
                                                     );
                                               }
                                             },
                                             style: ElevatedButton.styleFrom(
-                                                padding: const EdgeInsets.symmetric(
-                                                    vertical: 16), // Adjust padding as needed
-                                                minimumSize: const Size(double.infinity, 48) // Set minimum button size
+                                                padding: const EdgeInsets
+                                                    .symmetric(
+                                                    vertical:
+                                                        16), // Adjust padding as needed
+                                                minimumSize: const Size(
+                                                    double.infinity,
+                                                    48) // Set minimum button size
                                                 ),
                                             child: Text(
-                                              'Reset Password',
-                                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                              // 'Reset Password',
+                                              resetPasswordTitleKey.tr(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium!
+                                                  .copyWith(
                                                     color: Colors.white,
                                                   ),
                                             ),
@@ -279,7 +333,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           );
                         },
                         child: Text(
-                          'Forgot Password?',
+                          // 'Forgot Password?',
+                          forgotPasswordKey.tr(),
                           style: theme.textTheme.bodySmall!.copyWith(
                             color: primaryColor,
                             fontWeight: FontWeight.w600,
@@ -301,21 +356,31 @@ class _LoginScreenState extends State<LoginScreen> {
                       // validate form
                       logger.d(_formKeyLogin.currentState?.saveAndValidate());
 
-                      if (_formKeyLogin.currentState?.saveAndValidate() ?? false) {
+                      if (_formKeyLogin.currentState?.saveAndValidate() ??
+                          false) {
                         context.read<AuthBloc>().add(
                               LoginEvent(
                                 requestLogin: RequestLogin(
-                                  email: _formKeyLogin.currentState!.fields['username']!.value.toString(),
-                                  password: _formKeyLogin.currentState!.fields['password']!.value.toString(),
+                                  email: _formKeyLogin
+                                      .currentState!.fields['username']!.value
+                                      .toString(),
+                                  password: _formKeyLogin
+                                      .currentState!.fields['password']!.value
+                                      .toString(),
                                 ),
                                 onSuccess: () {
-                                  AuthenState auth = context.read<AuthBloc>().state;
-                                  if (auth.isCompanyRole() && auth.userModel.company == null) {
+                                  AuthenState auth =
+                                      context.read<AuthBloc>().state;
+                                  if (auth.isCompanyRole() &&
+                                      auth.userModel.company == null) {
                                     context.pushNamed('company_create_profile');
-                                  } else if (auth.isStudentRole() && auth.userModel.student == null) {
-                                    context.pushNamed('student_create_profile_step_01');
+                                  } else if (auth.isStudentRole() &&
+                                      auth.userModel.student == null) {
+                                    context.pushNamed(
+                                        'student_create_profile_step_01');
                                   } else {
-                                    context.pushNamed('home', queryParameters: {'welcome': 'true'});
+                                    context.pushNamed('home',
+                                        queryParameters: {'welcome': 'true'});
                                   }
                                 },
                                 currentContext: context,
@@ -324,8 +389,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       }
                     },
                     child: Text(
-                      'Login',
-                      style: theme.textTheme.bodyMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                      // 'Login',
+                      loginBtnKey.tr(),
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                          color: Colors.white, fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),
@@ -338,9 +405,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Container(
                       margin: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text("OR",
-                          style: theme.textTheme.bodyMedium
-                              ?.copyWith(fontWeight: FontWeight.w600, fontSize: 14, color: theme.colorScheme.grey))),
+                      child: Text(
+                          // "OR",
+                          orKey.tr(),
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                              color: theme.colorScheme.grey))),
                   Expanded(
                     child: Divider(
                       color: theme.colorScheme.grey, // Set the color to grey
@@ -386,14 +457,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   alignment: Alignment.center,
                   child: RichText(
                     text: TextSpan(
-                      text: 'Already have an account? ',
+                      // text: 'Already have an account? ',
+                      text: alreadyHaveAccountKey.tr(),
                       style: theme.textTheme.titleSmall?.copyWith(
                         color: Colors.black54,
                       ),
                       children: <TextSpan>[
                         TextSpan(
-                          text: 'Sign Up',
-                          style: const TextStyle(fontWeight: FontWeight.bold, color: primaryColor),
+                          // text: 'Sign Up',
+                          text: signupBtnKey.tr(),
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, color: primaryColor),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               context.pushNamed('signup_01');

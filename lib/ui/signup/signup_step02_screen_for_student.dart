@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,6 +8,7 @@ import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/data/dto/authen/request_register_account.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
@@ -30,21 +29,33 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
 
   void handleSubmit() {
     if (!isAcceptCondtion) {
-      SnackBarService.showSnackBar(content: 'Please accept the terms of service', status: StatusSnackBar.info);
+      SnackBarService.showSnackBar(
+          // content: 'Please accept the terms of service',
+          content: acceptTermsOfServiceKey.tr(),
+          status: StatusSnackBar.info);
       return;
     }
 
-    if ((formKeyLogin.currentState?.saveAndValidate() ?? false) && isAcceptCondtion) {
+    if ((formKeyLogin.currentState?.saveAndValidate() ?? false) &&
+        isAcceptCondtion) {
       final requestRegisterAccount = RequestRegisterAccount(
-        email: formKeyLogin.currentState?.fields['email']?.value.toString() ?? '',
-        password: formKeyLogin.currentState?.fields['password']?.value.toString() ?? '',
-        fullname: formKeyLogin.currentState?.fields['fullname']?.value.toString() ?? '',
+        email:
+            formKeyLogin.currentState?.fields['email']?.value.toString() ?? '',
+        password:
+            formKeyLogin.currentState?.fields['password']?.value.toString() ??
+                '',
+        fullname:
+            formKeyLogin.currentState?.fields['fullname']?.value.toString() ??
+                '',
         role: widget.role ?? "0",
       );
       context.read<AuthBloc>().add(RegisterAccount(
           requestRegister: requestRegisterAccount,
           onSuccess: () {
-            SnackBarService.showSnackBar(content: 'Register successfully', status: StatusSnackBar.success);
+            SnackBarService.showSnackBar(
+                // content: 'Register successfully',
+                content: registerSuccessKey.tr(),
+                status: StatusSnackBar.success);
             context.push('/login');
           }));
     }
@@ -70,16 +81,19 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
                   margin: const EdgeInsets.symmetric(horizontal: 10),
                   child: Text.rich(
                     TextSpan(
-                      text: 'Sign up as\n',
+                      // text: 'Sign up as\n',
+                      text: signUpAsKey.tr(),
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 45,
                       ),
-                      children: const [
+                      children: [
                         TextSpan(
-                          text: 'Student',
-                          style: TextStyle(
-                            color: primaryColor, // Replace with your desired color
+                          // text: 'Student',
+                          text: studentRoleKey.tr(),
+                          style: const TextStyle(
+                            color:
+                                primaryColor, // Replace with your desired color
                           ),
                         ),
                       ],
@@ -95,9 +109,11 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
                 TextFieldFormCustom(
                   fillColor: Colors.white,
                   name: 'fullname',
-                  hintText: 'Fullname',
+                  // hintText: 'Fullname',
+                  hintText: fullNameKey.tr(),
                   onTap: () {
-                    Scrollable.ensureVisible(formKeyLogin.currentContext!, duration: const Duration(milliseconds: 500));
+                    Scrollable.ensureVisible(formKeyLogin.currentContext!,
+                        duration: const Duration(milliseconds: 500));
                   },
                   icon: Container(
                     width: 18,
@@ -117,7 +133,8 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
                 TextFieldFormCustom(
                   fillColor: Colors.white,
                   name: 'email',
-                  hintText: 'Email address',
+                  // hintText: 'Email address',
+                  hintText: emailAddressKey.tr(),
                   icon: Container(
                     width: 18,
                     height: 18,
@@ -138,7 +155,8 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
                   obscureText: true,
                   fillColor: Colors.white,
                   name: 'password',
-                  hintText: 'Password (8 or more characters)',
+                  // hintText: 'Password (8 or more characters)',
+                  hintText: passwordForRegisterKey.tr(),
                   icon: Container(
                     width: 18,
                     height: 18,
@@ -163,15 +181,18 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
                         child: ListTileTheme(
                           horizontalTitleGap: 0.0,
                           child: CheckboxListTile(
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 25),
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 25),
                             activeColor: primaryColor,
                             title: RichText(
                                 text: TextSpan(
-                              text: 'I agree to the ',
+                              // text: 'I agree to the ',
+                              text: agreeToKey.tr(),
                               style: theme.textTheme.bodySmall,
                               children: [
                                 TextSpan(
-                                  text: 'Terms of Service',
+                                  // text: 'Terms of Service',
+                                  text: termsOfServiceKey.tr(),
                                   style: theme.textTheme.bodySmall?.copyWith(
                                     color: theme.colorScheme.grey,
                                   ),
@@ -179,7 +200,8 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
                               ],
                             )),
                             controlAffinity: ListTileControlAffinity.leading,
-                            checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                            checkboxShape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15)),
                             value: isAcceptCondtion,
                             onChanged: (value) {
                               setState(() {
@@ -203,7 +225,8 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
                     ),
                     onPressed: handleSubmit,
                     child: Text(
-                      'Create my account',
+                      // 'Create my account',
+                      createAccountBtnKey.tr(),
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
@@ -215,7 +238,8 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Looking for staff? ',
+                      // 'Looking for staff? ',
+                      lookingForStaffKey.tr(),
                       style: theme.textTheme.titleSmall?.copyWith(
                         color: Colors.black54,
                       ),
@@ -225,7 +249,8 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
                         context.pushNamed('signup_02_for_company');
                       },
                       child: Text(
-                        'Apply as a company',
+                        // 'Apply as a company',
+                        applyAsCompanyKey.tr(),
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w600,
                           color: primaryColor,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
@@ -6,6 +7,7 @@ import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
 // import 'package:studenthub/blocs/company_bloc/company_create_profile_event.dart';
 import 'package:studenthub/blocs/company_bloc/company_event.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/company/company_model.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit/widgets/save_button.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit/widgets/describe_input_widget.dart';
@@ -19,7 +21,8 @@ class CompanyProfileEditScreen extends StatefulWidget {
 
   @override
   // ignore: library_private_types_in_public_api
-  _PCompanyProfileEditScreenState createState() => _PCompanyProfileEditScreenState();
+  _PCompanyProfileEditScreenState createState() =>
+      _PCompanyProfileEditScreenState();
 }
 
 class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
@@ -88,9 +91,11 @@ class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(50),
             child: AppBar(
-              title: const Text(
-                'Edit Profile',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              title: Text(
+                // 'Edit Profile',
+                editProfileTitleKey.tr(),
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               centerTitle: false,
             ),
@@ -112,7 +117,8 @@ class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
                     ),
                     const SizedBox(height: 30),
                     NameInputWidget(
-                        companyNameInputController: companyNameInputController, checkFormField: checkFormField),
+                        companyNameInputController: companyNameInputController,
+                        checkFormField: checkFormField),
                     const SizedBox(height: 30),
                     UrlInputWidget(
                       websiteInputController: websiteInputController,
@@ -129,22 +135,33 @@ class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
                         buttonActive: buttonActive,
                         press: () {
                           if (_formKey.currentState!.validate()) {
-                            int id = BlocProvider.of<AuthBloc>(context).state.userModel.company!.id!;
+                            int id = BlocProvider.of<AuthBloc>(context)
+                                .state
+                                .userModel
+                                .company!
+                                .id!;
                             context.read<CompanyBloc>().add(
                                   UpdateAllDataEvent(
                                       data: Company(
                                         size: radioButtonSelected,
-                                        companyName: companyNameInputController.text,
+                                        companyName:
+                                            companyNameInputController.text,
                                         website: websiteInputController.text,
-                                        description: descriptionInputController.text,
+                                        description:
+                                            descriptionInputController.text,
                                       ),
                                       id: id,
                                       onSuccess: (Company company) {
-                                        context.read<AuthBloc>().add(UpdateInformationEvent(
-                                            userModel: state.userModel.copyWith(company: company)));
+                                        context.read<AuthBloc>().add(
+                                            UpdateInformationEvent(
+                                                userModel: state.userModel
+                                                    .copyWith(
+                                                        company: company)));
                                         SnackBarService.showSnackBar(
-                                            content: 'Successfully!', status: StatusSnackBar.success);
-                                        Future.delayed(const Duration(seconds: 1), () {
+                                            content: 'Successfully!',
+                                            status: StatusSnackBar.success);
+                                        Future.delayed(
+                                            const Duration(seconds: 1), () {
                                           Navigator.pop(context);
                                         });
                                       }),

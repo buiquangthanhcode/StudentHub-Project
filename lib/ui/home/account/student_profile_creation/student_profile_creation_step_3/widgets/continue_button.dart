@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 class ContinueButton extends StatefulWidget {
   const ContinueButton(
-      {Key? key, required this.buttonActive, required this.press})
-      : super(key: key);
+      {super.key, required this.buttonActive, required this.press});
 
   final bool buttonActive;
   final VoidCallback press;

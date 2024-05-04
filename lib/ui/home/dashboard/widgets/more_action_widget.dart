@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +8,7 @@ import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/ui/home/dashboard/data/data_count.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/edit_posting_widget.dart';
@@ -27,8 +29,9 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     AuthenState authState = context.read<AuthBloc>().state;
-    final dataHeader =
-        authState.currentRole == UserRole.company ? getMoreActionHeader(theme) : getMoreActionHeaderForStudent(theme);
+    final dataHeader = authState.currentRole == UserRole.company
+        ? getMoreActionHeader(theme)
+        : getMoreActionHeaderForStudent(theme);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -51,25 +54,31 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
                   case "view_proposals":
                     authState.currentRole == UserRole.company
                         ? context.push('/project_company_detail',
-                            extra: {'item': widget.project, 'initTab': "0"} as Map<String, dynamic>)
+                            extra: {'item': widget.project, 'initTab': "0"}
+                                as Map<String, dynamic>)
                         : context.push('/project_student_detail',
-                            extra: {'item': widget.project} as Map<String, dynamic>);
+                            extra: {'item': widget.project}
+                                as Map<String, dynamic>);
                     break;
                   case "view_messages":
                     context.push('/project_company_detail',
-                        extra: {'item': widget.project, 'initTab': "2"} as Map<String, dynamic>);
+                        extra: {'item': widget.project, 'initTab': "2"}
+                            as Map<String, dynamic>);
                     break;
                   case "view_hired":
                     context.push('/project_company_detail',
-                        extra: {'item': widget.project, 'initTab': "3"} as Map<String, dynamic>);
+                        extra: {'item': widget.project, 'initTab': "3"}
+                            as Map<String, dynamic>);
                     break;
                   case "view_job_posting":
                     log("View Job Posting");
                     authState.currentRole == UserRole.company
                         ? context.push('/project_company_detail',
-                            extra: {'item': widget.project, 'initTab': "1"} as Map<String, dynamic>)
+                            extra: {'item': widget.project, 'initTab': "1"}
+                                as Map<String, dynamic>)
                         : context.push('/project_student_detail',
-                            extra: {'item': widget.project} as Map<String, dynamic>);
+                            extra: {'item': widget.project}
+                                as Map<String, dynamic>);
                     break;
 
                   case "edit_posting":
@@ -82,61 +91,88 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
                     );
                     break;
                   case "remove_posting":
-                    int? companyId = BlocProvider.of<AuthBloc>(context).state.userModel.company!.id;
+                    int? companyId = BlocProvider.of<AuthBloc>(context)
+                        .state
+                        .userModel
+                        .company!
+                        .id;
                     context.read<ProjectBloc>().add(
                           DeleteProjectEvent(
                               companyId: companyId!,
                               projectId: widget.project.id!,
                               onSuccess: () {
                                 SnackBarService.showSnackBar(
-                                    status: StatusSnackBar.success, content: "Project was deleted successfully!");
+                                  status: StatusSnackBar.success,
+                                  // content: "Project was deleted successfully!",
+                                  content: deleteProjectSuccessMsgKey.tr(),
+                                );
                                 Navigator.pop(context);
                               }),
                         );
                     break;
                   case "close_posting":
                     log("Close Posting");
-                    int? companyId = BlocProvider.of<AuthBloc>(context).state.userModel.company!.id;
+                    int? companyId = BlocProvider.of<AuthBloc>(context)
+                        .state
+                        .userModel
+                        .company!
+                        .id;
                     context.read<ProjectBloc>().add(
                           CloseProjectEvent(
                               companyId: companyId!,
                               updatedProject: Project.fromMap(
                                 {
                                   'id': widget.project.id,
-                                  'projectScopeFlag': widget.project.projectScopeFlag,
+                                  'projectScopeFlag':
+                                      widget.project.projectScopeFlag,
                                   'title': widget.project.title,
                                   'description': widget.project.description,
-                                  'numberOfStudents': widget.project.numberOfStudents,
+                                  'numberOfStudents':
+                                      widget.project.numberOfStudents,
                                   'typeFlag': 2,
                                 },
                               ),
                               onSuccess: () {
                                 SnackBarService.showSnackBar(
-                                    status: StatusSnackBar.success, content: "Project was updated successfully!");
+                                  status: StatusSnackBar.success,
+                                  // content: "Project was updated successfully!",
+                                  content: projectUpdatedSuccessMsgKey.tr(),
+                                );
                                 Navigator.pop(context);
-                                context.read<ProjectBloc>().add(GetArchivedProjectsEvent());
+                                context
+                                    .read<ProjectBloc>()
+                                    .add(GetArchivedProjectsEvent());
                               }),
                         );
                     break;
                   case "start_working":
                     log("Start Working");
-                    int? companyId = BlocProvider.of<AuthBloc>(context).state.userModel.company!.id;
+                    int? companyId = BlocProvider.of<AuthBloc>(context)
+                        .state
+                        .userModel
+                        .company!
+                        .id;
                     context.read<ProjectBloc>().add(
                           StartWorkingProjectEvent(
                               companyId: companyId!,
                               updatedProject: Project.fromMap(
                                 {
                                   'id': widget.project.id,
-                                  'projectScopeFlag': widget.project.projectScopeFlag,
+                                  'projectScopeFlag':
+                                      widget.project.projectScopeFlag,
                                   'title': widget.project.title,
                                   'description': widget.project.description,
-                                  'numberOfStudents': widget.project.numberOfStudents,
+                                  'numberOfStudents':
+                                      widget.project.numberOfStudents,
                                   'typeFlag': 1,
                                 },
                               ),
                               onSuccess: () {
                                 SnackBarService.showSnackBar(
-                                    status: StatusSnackBar.success, content: "Project was updated successfully!");
+                                  status: StatusSnackBar.success,
+                                  // content: "Project was updated successfully!",
+                                  content: projectUpdatedSuccessMsgKey.tr(),
+                                );
                                 Navigator.pop(context);
                               }),
                         );

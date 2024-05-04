@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/models/student/student_create_profile/education_model.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/edit_education.dart';
@@ -61,7 +63,8 @@ class EducationItem extends StatelessWidget {
           const Spacer(),
           InkWell(
             onTap: () {
-              showModalBottomSheetCustom(context, widgetBuilder: EducationEdit(item: item));
+              showModalBottomSheetCustom(context,
+                  widgetBuilder: EducationEdit(item: item));
             },
             child: FaIcon(
               FontAwesomeIcons.penToSquare,
@@ -75,13 +78,22 @@ class EducationItem extends StatelessWidget {
               showDialogCustom(
                 context,
                 image: 'lib/assets/images/delete.png',
-                title: 'Are you sure you want to delete this education?',
-                textButtom: 'Delete',
-                subtitle: 'This action cannot be undone',
+                // title: 'Are you sure you want to delete this education?',
+                title: deleteEducationConfirmMsg.tr(),
+                // textButtom: 'Delete',
+                textButtom: deleteBtnKey.tr(),
+                // subtitle: 'This action cannot be undone',
+                subtitle: thisActionCannotBeUndoneKey.tr(),
                 onSave: () {
-                  int userId = BlocProvider.of<StudentBloc>(context).state.student.id ?? 0;
+                  int userId =
+                      BlocProvider.of<StudentBloc>(context).state.student.id ??
+                          0;
                   List<Education> currentEducation =
-                      BlocProvider.of<StudentBloc>(context).state.student.educations ?? [];
+                      BlocProvider.of<StudentBloc>(context)
+                              .state
+                              .student
+                              .educations ??
+                          [];
 
                   for (var element in currentEducation) {
                     if (element.id == item.id) {
@@ -94,7 +106,10 @@ class EducationItem extends StatelessWidget {
                           userId: userId,
                           educations: currentEducation,
                           onSuccess: () {
-                            SnackBarService.showSnackBar(content: "Delete Sucessfully", status: StatusSnackBar.success);
+                            SnackBarService.showSnackBar(
+                                // content: "Delete Sucessfully",
+                                content: deleteSuccessMsg.tr(),
+                                status: StatusSnackBar.success);
                             Navigator.pop(context);
                           },
                         ),

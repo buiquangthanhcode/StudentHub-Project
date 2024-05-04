@@ -1,9 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:studenthub/constants/key_translator.dart';
 
 class ContinueButton extends StatefulWidget {
   const ContinueButton(
-      {Key? key, required this.buttonActive, required this.press})
-      : super(key: key);
+      {super.key, required this.buttonActive, required this.press});
 
   final bool buttonActive;
   final VoidCallback press;
@@ -26,7 +27,8 @@ class _ContinueButtonState extends State<ContinueButton> {
         ),
         onPressed: widget.buttonActive ? widget.press : () {},
         child: Text(
-          'Save',
+          // 'Save',
+          saveBtnKey.tr(),
           style: textTheme.bodyMedium!
               .copyWith(color: Colors.white, fontWeight: FontWeight.w600),
         ),

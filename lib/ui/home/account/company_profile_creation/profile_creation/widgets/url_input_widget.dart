@@ -5,10 +5,9 @@ import 'package:studenthub/constants/colors.dart';
 
 class UrlInputWidget extends StatefulWidget {
   const UrlInputWidget(
-      {Key? key,
+      {super.key,
       required this.websiteInputController,
-      required this.checkFormField})
-      : super(key: key);
+      required this.checkFormField});
 
   final TextEditingController websiteInputController;
   final Function() checkFormField;

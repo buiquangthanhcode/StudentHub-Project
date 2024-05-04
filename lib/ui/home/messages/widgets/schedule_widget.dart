@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/core/date_picker_formfield.dart';
 import 'package:studenthub/core/text_field_custom.dart';
 import 'package:studenthub/core/time_picker.dart';
@@ -38,7 +40,8 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Schedule a video call interview',
+                  // 'Schedule a video call interview',
+                  scheduleVideoCallInterviewKey.tr(),
                   style: theme.textTheme.titleMedium!.copyWith(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
@@ -46,7 +49,9 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'Title',
+                  // 'Title',
+                  titleKey.tr(),
+
                   style: theme.textTheme.bodyMedium!.copyWith(),
                 ),
                 TextFieldFormCustom(
@@ -61,11 +66,13 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                     color: theme.colorScheme.grey!,
                   ),
                   name: 'title',
-                  hintText: 'Catch up meeting',
+                  // hintText: 'Catch up meeting',
+                  hintText: catchUpMeetingKey.tr(),
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  'Start Time',
+                  // 'Start Time',
+                  startTimeKey.tr(),
                   style: theme.textTheme.bodyMedium!.copyWith(),
                 ),
                 const SizedBox(height: 10),
@@ -80,8 +87,10 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                         initialDate: widget.schedule?.startTime != null
                             ? stringToDateTime(widget.schedule?.startTime)
                             : null,
-                        labelText: 'Start Time',
-                        hintText: 'Start Time',
+                        // hintText: 'Start Time',
+                        // labelText: 'Start Time',
+                        hintText: startDatePlaceHolderKey.tr(),
+                        labelText: startDatePlaceHolderKey.tr(),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -97,7 +106,8 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  'End Time',
+                  // 'End Time',
+                  endTimeKey.tr(),
                   style: theme.textTheme.bodyMedium!.copyWith(),
                 ),
                 const SizedBox(height: 10),
@@ -112,8 +122,10 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                             ? stringToDateTime(widget.schedule?.startTime)
                             : null,
                         name: 'end_date',
-                        hintText: 'End Date',
-                        labelText: 'End Date',
+                        // hintText: 'End Date',
+                        // labelText: 'End Date',
+                        hintText: endDatePlaceHolderKey.tr(),
+                        labelText: endDatePlaceHolderKey.tr(),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -129,7 +141,8 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'Duration: 60 minutes ',
+                  // 'Duration: 60 minutes ',
+                  durationKey.tr(namedArgs: {"value": 60.toString()}),
                   style: theme.textTheme.bodyMedium!.copyWith(),
                 ),
                 const SizedBox(height: 20),
@@ -152,7 +165,8 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                           Navigator.pop(context);
                         },
                         child: Text(
-                          'Cancel',
+                          // 'Cancel',
+                          cancelBtnKey.tr(),
                           style: theme.textTheme.bodyMedium!.copyWith(
                               color: primaryColor, fontWeight: FontWeight.w600),
                         ),
@@ -175,7 +189,8 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                           }
                         },
                         child: Text(
-                          'Send Invite',
+                          // 'Send Invite',
+                          sendInviteBtnKey.tr(),
                           style: theme.textTheme.bodyMedium!.copyWith(
                               color: Colors.white, fontWeight: FontWeight.w600),
                         ),

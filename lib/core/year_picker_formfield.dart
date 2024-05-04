@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 
 class PickerYearCustom extends StatefulWidget {
   const PickerYearCustom({super.key, required this.name, this.hintText, this.labelText, this.initValue});
@@ -36,7 +38,8 @@ class _PickerYearCustomState extends State<PickerYearCustom> {
           child: AlertDialog(
             backgroundColor: Colors.white,
             surfaceTintColor: Colors.white,
-            title: const Text("Select Year"),
+            // title: const Text("Select Year"),
+            title: Text(selectYearTitleKey.tr()),
             content: StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
                 return SizedBox(

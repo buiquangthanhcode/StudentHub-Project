@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -5,6 +6,7 @@ import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/core/dropdown_button_formfield.dart';
 import 'package:studenthub/models/student/student_create_profile/language_model.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/data/student_data_creation.dart';
@@ -34,7 +36,8 @@ class _CreateLanguageWidgetState extends State<CreateLanguageWidget> {
             Row(
               children: [
                 Text(
-                  "Create Language",
+                  // "Create Language",
+                  createLanguageKey.tr(),
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
@@ -43,7 +46,8 @@ class _CreateLanguageWidgetState extends State<CreateLanguageWidget> {
                 const Spacer(),
                 Container(
                   decoration: BoxDecoration(
-                      color: theme.colorScheme.grey!.withOpacity(0.4), borderRadius: BorderRadius.circular(50)),
+                      color: theme.colorScheme.grey!.withOpacity(0.4),
+                      borderRadius: BorderRadius.circular(50)),
                   padding: const EdgeInsets.all(3),
                   child: InkWell(
                     onTap: () {
@@ -62,13 +66,15 @@ class _CreateLanguageWidgetState extends State<CreateLanguageWidget> {
               data: language,
               name: 'language',
               onSelected: (value) {},
-              hint: "Please select language",
+              // hint: "Please select language",
+              hint: selectLanguagePlaceHolderKey.tr(),
             ),
             DropDownFormFieldCustom(
               name: 'level',
               data: levelLanguage,
               onSelected: (value) {},
-              hint: "Please select level",
+              // hint: "Please select level",
+              hint: selectLevelPlaceHolderKey.tr(),
             ),
             const SizedBox(height: 24),
             ElevatedButton(
@@ -78,12 +84,21 @@ class _CreateLanguageWidgetState extends State<CreateLanguageWidget> {
               ),
               onPressed: () {
                 if (formkey.currentState?.saveAndValidate() ?? false) {
-                  int userId = BlocProvider.of<AuthBloc>(context).state.userModel.student?.id ?? -1;
-                  List<Language> languages =
-                      List<Language>.from(BlocProvider.of<StudentBloc>(context).state.student.languages as Iterable);
+                  int userId = BlocProvider.of<AuthBloc>(context)
+                          .state
+                          .userModel
+                          .student
+                          ?.id ??
+                      -1;
+                  List<Language> languages = List<Language>.from(
+                      BlocProvider.of<StudentBloc>(context)
+                          .state
+                          .student
+                          .languages as Iterable);
 
                   final language = Language(
-                    languageName: formkey.currentState?.fields['language']?.value,
+                    languageName:
+                        formkey.currentState?.fields['language']?.value,
                     level: formkey.currentState?.fields['level']?.value,
                   );
 
@@ -91,14 +106,19 @@ class _CreateLanguageWidgetState extends State<CreateLanguageWidget> {
                       languages: languages..add(language),
                       userId: userId,
                       onSuccess: () {
-                        SnackBarService.showSnackBar(content: "Create Sucessfully", status: StatusSnackBar.success);
+                        SnackBarService.showSnackBar(
+                            // content: "Create Sucessfully",
+                            content: createSuccessMsg.tr(),
+                            status: StatusSnackBar.success);
                         Navigator.pop(context);
-                        context.read<StudentBloc>().add(GetAllLanguageEvent(onSuccess: () {}, userId: userId));
+                        context.read<StudentBloc>().add(GetAllLanguageEvent(
+                            onSuccess: () {}, userId: userId));
                       }));
                 }
               },
               child: Text(
-                "Save",
+                // "Save",
+                saveBtnKey.tr(),
                 style: theme.textTheme.bodyMedium!.copyWith(
                   color: theme.colorScheme.onPrimary,
                 ),

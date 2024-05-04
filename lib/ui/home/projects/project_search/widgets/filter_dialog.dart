@@ -1,12 +1,12 @@
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 
 class FilterDialog extends StatefulWidget {
-  const FilterDialog({Key? key, required this.applyFilter}) : super(key: key);
+  const FilterDialog({super.key, required this.applyFilter});
 
   final void Function(Map<String, dynamic> data) applyFilter;
 
@@ -15,11 +15,18 @@ class FilterDialog extends StatefulWidget {
 }
 
 class _FilterDialogState extends State<FilterDialog> {
+  // final projectLength = [
+  //   'Less than 1 month',
+  //   '1-3 months',
+  //   '3-6 months',
+  //   'more than 6 months',
+  // ];
+
   final projectLength = [
-    'Less than 1 month',
-    '1-3 months',
-    '3-6 months',
-    'more than 6 months',
+    lessThan1MonthKey.tr(),
+    oneToThreeMonthsKey.tr(),
+    threeToSixMonthsKey.tr(),
+    moreThan6MonthsKey.tr(),
   ];
 
   int? radioButtonSelected;
@@ -53,7 +60,8 @@ class _FilterDialogState extends State<FilterDialog> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Filter by',
+                    // 'Filter by',
+                    filterByTitleKey.tr(),
                     style: textTheme.bodyLarge,
                   ),
                   InkWell(
@@ -73,7 +81,8 @@ class _FilterDialogState extends State<FilterDialog> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        'Project length',
+                        // 'Project length',
+                        projectLengthKey.tr(),
                         style: textTheme.bodySmall,
                       ),
                     ],
@@ -124,7 +133,8 @@ class _FilterDialogState extends State<FilterDialog> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        'Students needed',
+                        // 'Students needed',
+                        studentsNeededKey.tr(),
                         style: textTheme.bodySmall,
                       ),
                     ],
@@ -149,7 +159,8 @@ class _FilterDialogState extends State<FilterDialog> {
                     cursorColor: Colors.black,
                     style: textTheme.bodyMedium,
                     decoration: InputDecoration(
-                      hintText: 'Enter your number',
+                      // hintText: 'Enter your number',
+                      hintText: enterYourNumberPlaceHolderKey.tr(),
                       hintStyle: textTheme.bodyMedium!.copyWith(
                           color: Theme.of(context).colorScheme.hintColor),
                       suffixIcon: studentInputController.text.isNotEmpty
@@ -207,7 +218,8 @@ class _FilterDialogState extends State<FilterDialog> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        'Proposals less than',
+                        // 'Proposals less than',
+                        proposalLessThanKey.tr(),
                         style: textTheme.bodySmall,
                       ),
                     ],
@@ -232,7 +244,8 @@ class _FilterDialogState extends State<FilterDialog> {
                     cursorColor: Colors.black,
                     style: textTheme.bodyMedium,
                     decoration: InputDecoration(
-                      hintText: 'Enter your number',
+                      // hintText: 'Enter your number',
+                      hintText: enterYourNumberPlaceHolderKey.tr(),
                       hintStyle: textTheme.bodyMedium!.copyWith(
                           color: Theme.of(context).colorScheme.hintColor),
                       suffixIcon: proposalInputController.text.isNotEmpty
@@ -294,7 +307,8 @@ class _FilterDialogState extends State<FilterDialog> {
                           backgroundColor: Colors.transparent),
                       onPressed: () {},
                       child: Text(
-                        'Clear filters',
+                        // 'Clear filters',
+                        clearFiltersBtnKey.tr(),
                         style: textTheme.bodyMedium!.copyWith(
                             color: primaryColor, fontWeight: FontWeight.w600),
                       ),
@@ -317,7 +331,8 @@ class _FilterDialogState extends State<FilterDialog> {
                         Navigator.pop(context);
                       },
                       child: Text(
-                        'Apply',
+                        // 'Apply',
+                        applyBtnKey.tr(),
                         style: textTheme.bodyMedium!.copyWith(
                             color: Colors.white, fontWeight: FontWeight.w600),
                       ),

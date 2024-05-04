@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,10 +6,11 @@ import 'package:studenthub/blocs/general_project_bloc/general_project_bloc.dart'
 import 'package:studenthub/blocs/general_project_bloc/general_project_event.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_state.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/ui/home/projects/project_saved/widgets/project_item_saved.dart';
 
 class ProjectSavedScreen extends StatefulWidget {
-  const ProjectSavedScreen({Key? key}) : super(key: key);
+  const ProjectSavedScreen({super.key});
 
   @override
   _ProjectSavedState createState() => _ProjectSavedState();
@@ -77,7 +79,8 @@ class _ProjectSavedState extends State<ProjectSavedScreen> {
                 pinned: pinned,
                 centerTitle: false,
                 title: Text(
-                  'Saved Project',
+                  // 'Saved Project',
+                  savedProjectsTitleKey.tr(),
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         fontWeight: FontWeight.w700,
                       ),
