@@ -50,8 +50,10 @@ class _DatePickerCustomState extends State<TimePickerCustom> {
               scrollPadding: const EdgeInsets.all(0),
               decoration: InputDecoration(
                 isDense: true,
-                labelText: widget.labelText ?? 'Time',
-                hintText: widget.hintText ?? 'Time',
+                // labelText: widget.labelText ?? 'Time',
+                // hintText: widget.hintText ?? 'Time',
+                labelText: widget.labelText ?? timePlaceHolderKey.tr(),
+                hintText: widget.hintText ?? timePlaceHolderKey.tr(),
                 hintStyle: TextStyle(
                   color: Colors.grey[400],
                   fontSize: 16,
@@ -105,7 +107,8 @@ class _DatePickerCustomState extends State<TimePickerCustom> {
                             secondary: Colors.black,
                           )),
                       child: CustomHourPicker(
-                        title: "Select Time",
+                        // title: "Select Time",
+                        title: selectTimeBtnKey.tr(),
                         titleStyle: const TextStyle(
                           color: Colors.black,
                           fontSize: 18,

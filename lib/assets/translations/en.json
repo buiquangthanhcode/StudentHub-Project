@@ -202,7 +202,7 @@
 	"just_me_key": "It's just me",
 	"2_9": "2-9",
 	"10_99": "10-99",
-	"100_1000": "100_1000",
+	"100_1000": "100-1000",
 	"More than 1000": "More than 1000",
 	"view_proposals": "View Proposals",
 	"view_messages": "View Messages",
@@ -220,5 +220,17 @@
 	"schedule_interview": "Schedule a interview",
 	"schedule_video_call_interview": "Schedule A Video Call Interview",
 	"cancel_meeting": "Cancel the meeting",
-	"reschedule_meeting": "Re-Schedule a Interview"	
+	"reschedule_meeting": "Re-Schedule a Interview",
+	"start_time": "Start Time",
+	"end_time": "End Time",
+	"time": "Time",
+	"catch_up_meeting": "Catch up meeting",
+	"start_time_placeholder": "Start Time",
+	"start_date_placeholder": "Start Date",
+	"select_time": "Select Time",
+	"interview_duration": "Duration: {value} minutes",
+	"send_invite": "Send Invite",
+	"cancel_upper": "CANCEL",
+	"ok_upper": "OK",
+	"change_language_success": "Change language successfully!"
 }

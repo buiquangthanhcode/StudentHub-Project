@@ -61,7 +61,8 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
 
     Future.delayed(const Duration(milliseconds: 100), () {
       SnackBarService.showSnackBar(
-          content: 'Change language successfully!',
+          // content: 'Change language successfully!',
+          content: changeLanguageSuccessMsgKey.tr(),
           status: StatusSnackBar.success);
       Navigator.pop(context, value);
     });

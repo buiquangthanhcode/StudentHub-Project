@@ -66,11 +66,13 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                     color: theme.colorScheme.grey!,
                   ),
                   name: 'title',
-                  hintText: 'Catch up meeting',
+                  // hintText: 'Catch up meeting',
+                  hintText: catchUpMeetingKey.tr(),
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  'Start Time',
+                  // 'Start Time',
+                  startTimeKey.tr(),
                   style: theme.textTheme.bodyMedium!.copyWith(),
                 ),
                 const SizedBox(height: 10),
@@ -85,8 +87,10 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                         initialDate: widget.schedule?.startTime != null
                             ? stringToDateTime(widget.schedule?.startTime)
                             : null,
-                        labelText: 'Start Time',
-                        hintText: 'Start Time',
+                        // hintText: 'Start Time',
+                        // labelText: 'Start Time',
+                        hintText: startDatePlaceHolderKey.tr(),
+                        labelText: startDatePlaceHolderKey.tr(),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -102,7 +106,8 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  'End Time',
+                  // 'End Time',
+                  endTimeKey.tr(),
                   style: theme.textTheme.bodyMedium!.copyWith(),
                 ),
                 const SizedBox(height: 10),
@@ -136,7 +141,8 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'Duration: 60 minutes ',
+                  // 'Duration: 60 minutes ',
+                  durationKey.tr(namedArgs: {"value": 60.toString()}),
                   style: theme.textTheme.bodyMedium!.copyWith(),
                 ),
                 const SizedBox(height: 20),
@@ -182,7 +188,8 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                           }
                         },
                         child: Text(
-                          'Send Invite',
+                          // 'Send Invite',
+                          sendInviteBtnKey.tr(),
                           style: theme.textTheme.bodyMedium!.copyWith(
                               color: Colors.white, fontWeight: FontWeight.w600),
                         ),

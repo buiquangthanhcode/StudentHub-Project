@@ -10,7 +10,6 @@ const String dutchKey = 'dutch';
 const String russianKey = 'russian';
 const String nativeKey = "native";
 const String bilingualKey = "bilingual";
-
 const String changeLanguageKey = 'change_language';
 // ---- for user role ----
 const String studentRoleKey = "student";
@@ -265,3 +264,15 @@ const String scheduleInterviewKey = "schedule_interview";
 const String scheduleVideoCallInterviewKey = "schedule_video_call_interview";
 const String cancelMeetingKey = "cancel_meeting";
 const String rescheduleMeetingKey = "reschedule_meeting";
+const String startTimeKey = "start_time";
+const String endTimeKey = "end_time";
+const String timePlaceHolderKey = "time";
+const String catchUpMeetingKey = "catch_up_meeting";
+const String startDatePlaceholderKey = "start_date_placeholder";
+const String selectTimePlaceholderKey = "select_time_placeholder";
+const String selectTimeBtnKey = "select_time";
+const String durationKey = "interview_duration";
+const String sendInviteBtnKey = "send_invite";
+const String cancelUppercaseKey = "cancel_upper";
+const String okUppercaseKey = "ok_upper";
+const String changeLanguageSuccessMsgKey = "change_language_success";

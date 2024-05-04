@@ -17,12 +17,19 @@ class EmployeeQuantitySelectionWidget extends StatefulWidget {
 
 class _EmployeeQuantitySelectionWidgetState
     extends State<EmployeeQuantitySelectionWidget> {
+  // final employeeQuantityData = [
+  //   'It\'s just me',
+  //   '2-9',
+  //   '10-99',
+  //   '100-1000',
+  //   'More than 1000',
+  // ];
   final employeeQuantityData = [
-    'It\'s just me',
-    '2-9',
-    '10-99',
-    '100-1000',
-    'More than 1000',
+    justMeKey.tr(),
+    twoToNineKey.tr(),
+    tenToNinetyNineKey.tr(),
+    hundredToThousandKey.tr(),
+    moreThanThousandKey.tr(),
   ];
 
   int? radioButtonSelected;
