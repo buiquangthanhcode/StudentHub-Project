@@ -61,7 +61,8 @@ class _EditPostingState extends State<EditPosting> {
           children: [
             const SizedBox(height: 10),
             Text(
-              'Title',
+              // 'Title',
+              titleKey.tr(),
               style: theme.textTheme.bodyMedium!.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -176,7 +177,8 @@ class _EditPostingState extends State<EditPosting> {
             ),
             const SizedBox(height: 20),
             Text(
-              'Number of students',
+              // 'Number of students',
+              numberOfStudentsKey.tr(),
               style: theme.textTheme.bodyMedium!.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -303,7 +305,8 @@ class _EditPostingState extends State<EditPosting> {
                             );
                       },
                       child: Text(
-                        'Edit',
+                        // 'Edit',
+                        editBtnKey.tr(),
                         style: theme.textTheme.bodyMedium?.copyWith(
                             color: Colors.white, fontWeight: FontWeight.w600),
                       ),

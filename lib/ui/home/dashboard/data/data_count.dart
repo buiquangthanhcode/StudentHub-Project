@@ -10,11 +10,111 @@ final data = [
   {"label": "Hired", "total": "4"},
 ];
 
+// List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
+//   return [
+//     {
+//       "key": "view_proposals",
+//       "label": "View Proposals",
+//       "icon": FaIcon(
+//         FontAwesomeIcons.eye,
+//         size: 18,
+//         color: theme.colorScheme.grey!,
+//       ),
+//     },
+//     {
+//       "key": "view_messages",
+//       "label": "View Messages",
+//       "icon": FaIcon(
+//         FontAwesomeIcons.message,
+//         size: 18,
+//         color: theme.colorScheme.grey!,
+//       )
+//     },
+//     {
+//       "key": "view_hired",
+//       "label": "View Hired",
+//       "icon": FaIcon(
+//         FontAwesomeIcons.user,
+//         size: 18,
+//         color: theme.colorScheme.grey!,
+//       )
+//     },
+//     {
+//       "key": "view_job_posting",
+//       "label": "View Job Posting",
+//       "icon": FaIcon(
+//         FontAwesomeIcons.eye,
+//         size: 18,
+//         color: theme.colorScheme.grey!,
+//       )
+//     },
+//     {
+//       "key": "edit_posting",
+//       "label": "Edit Posting",
+//       "icon": FaIcon(
+//         FontAwesomeIcons.penToSquare,
+//         size: 18,
+//         color: theme.colorScheme.grey!,
+//       )
+//     },
+//     {
+//       "key": "remove_posting",
+//       "label": "Remove Posting",
+//       "icon": FaIcon(
+//         FontAwesomeIcons.trashCan,
+//         size: 18,
+//         color: theme.colorScheme.grey!,
+//       )
+//     },
+//     {
+//       "key": "close_posting",
+//       "label": "Close Posting",
+//       "icon": FaIcon(
+//         FontAwesomeIcons.circleXmark,
+//         size: 18,
+//         color: theme.colorScheme.grey!,
+//       )
+//     },
+//     {
+//       "key": "start_working",
+//       "label": "Start Working On This Project",
+//       "icon": FaIcon(
+//         FontAwesomeIcons.circleCheck,
+//         size: 18,
+//         color: theme.colorScheme.grey!,
+//       )
+//     },
+//   ];
+// }
+
+// List<Map<String, dynamic>> getMoreActionHeaderForStudent(ThemeData theme) {
+//   return [
+//     {
+//       "key": "view_messages",
+//       "label": "View Messages",
+//       "icon": FaIcon(
+//         FontAwesomeIcons.message,
+//         size: 18,
+//         color: theme.colorScheme.grey!,
+//       )
+//     },
+//     {
+//       "key": "view_job_posting",
+//       "label": "View Job Posting",
+//       "icon": FaIcon(
+//         FontAwesomeIcons.eye,
+//         size: 18,
+//         color: theme.colorScheme.grey!,
+//       )
+//     },
+//   ];
+// }
+
 List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
   return [
     {
       "key": "view_proposals",
-      "label": "View Proposals",
+      "label": viewProposalsKey.tr(),
       "icon": FaIcon(
         FontAwesomeIcons.eye,
         size: 18,
@@ -23,7 +123,7 @@ List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
     },
     {
       "key": "view_messages",
-      "label": "View Messages",
+      "label": viewMessagesKey.tr(),
       "icon": FaIcon(
         FontAwesomeIcons.message,
         size: 18,
@@ -32,7 +132,7 @@ List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
     },
     {
       "key": "view_hired",
-      "label": "View Hired",
+      "label": viewHiredKey.tr(),
       "icon": FaIcon(
         FontAwesomeIcons.user,
         size: 18,
@@ -41,7 +141,7 @@ List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
     },
     {
       "key": "view_job_posting",
-      "label": "View Job Posting",
+      "label": viewJobPostingKey.tr(),
       "icon": FaIcon(
         FontAwesomeIcons.eye,
         size: 18,
@@ -50,7 +150,7 @@ List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
     },
     {
       "key": "edit_posting",
-      "label": "Edit Posting",
+      "label": editPostingKey.tr(),
       "icon": FaIcon(
         FontAwesomeIcons.penToSquare,
         size: 18,
@@ -59,7 +159,7 @@ List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
     },
     {
       "key": "remove_posting",
-      "label": "Remove Posting",
+      "label": removePostingKey.tr(),
       "icon": FaIcon(
         FontAwesomeIcons.trashCan,
         size: 18,
@@ -68,7 +168,7 @@ List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
     },
     {
       "key": "close_posting",
-      "label": "Close Posting",
+      "label": closePostingKey.tr(),
       "icon": FaIcon(
         FontAwesomeIcons.circleXmark,
         size: 18,
@@ -77,7 +177,7 @@ List<Map<String, dynamic>> getMoreActionHeader(ThemeData theme) {
     },
     {
       "key": "start_working",
-      "label": "Start Working On This Project",
+      "label": startWorkingKey.tr(),
       "icon": FaIcon(
         FontAwesomeIcons.circleCheck,
         size: 18,
@@ -91,7 +191,7 @@ List<Map<String, dynamic>> getMoreActionHeaderForStudent(ThemeData theme) {
   return [
     {
       "key": "view_messages",
-      "label": "View Messages",
+      "label": viewMessagesKey.tr(),
       "icon": FaIcon(
         FontAwesomeIcons.message,
         size: 18,
@@ -100,7 +200,7 @@ List<Map<String, dynamic>> getMoreActionHeaderForStudent(ThemeData theme) {
     },
     {
       "key": "view_job_posting",
-      "label": "View Job Posting",
+      "label": viewJobPostingKey.tr(),
       "icon": FaIcon(
         FontAwesomeIcons.eye,
         size: 18,

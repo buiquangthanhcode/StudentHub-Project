@@ -203,5 +203,23 @@
 	"2_9": "2-9",
 	"10_99": "10-99",
 	"100_1000": "100_1000",
-	"More than 1000": "More than 1000"
+	"More than 1000": "More than 1000",
+	"view_proposals": "Xem Đề Nghị",
+	"view_messages": "Xem Tin Nhắn",
+	"view_hired": "Đã Thuê",
+	"view_job_posting": "Xem Chi Tiết",
+	"edit_posting": "Chỉnh Sửa",
+	"remove_posting": "Xóa",
+	"close_posting": "Lưu Trữ",
+	"start_working": "Tiến Hành Dự Án",
+	"title": "Tiêu đề dự án",	
+	"number_of_students": "Số lượng sinh viên",
+	"edit_btn": "Chỉnh sửa",
+	"delete_success": "Dự án đã xóa thành công!",	
+	"chat_input_placeholder": "Gửi tin nhắn",
+	"schedule_interview": "Lên Lịch Phỏng Vấn",
+	"schedule_video_call_interview": "Lên Lịch Trực Tuyến",
+	"cancel_meeting": "Hủy Bỏ Cuộc Hẹn",
+	"reschedule_meeting": "Đổi Lịch Phỏng Vấn"	
+
 }

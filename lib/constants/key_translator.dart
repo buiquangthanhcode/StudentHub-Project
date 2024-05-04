@@ -244,3 +244,24 @@ const String twoToNineKey = "2_9";
 const String tenToNinetyNineKey = "10_99";
 const String hundredToThousandKey = "100_1000";
 const String moreThanThousandKey = "More than 1000";
+// --- for project item reaction ---
+const String viewProposalsKey = "view_proposals";
+const String viewMessagesKey = "view_messages";
+const String viewHiredKey = "view_hired";
+const String viewJobPostingKey = "view_job_posting";
+const String editPostingKey = "edit_posting";
+const String removePostingKey = "remove_posting";
+const String closePostingKey = "close_posting";
+const String startWorkingKey = "start_working";
+// --- for project title ---
+const String titleKey = "title";
+const String numberOfStudentsKey = "number_of_students";
+const String editBtnKey = "edit_btn";
+const String deleteProjectSuccessMsgKey = "delete_success";
+// --- for chat screen ---
+const String chatInputPlaceHolderKey = "chat_input_placeholder";
+// --- for interview flow ---
+const String scheduleInterviewKey = "schedule_interview";
+const String scheduleVideoCallInterviewKey = "schedule_video_call_interview";
+const String cancelMeetingKey = "cancel_meeting";
+const String rescheduleMeetingKey = "reschedule_meeting";

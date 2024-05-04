@@ -106,9 +106,10 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
                               projectId: widget.project.id!,
                               onSuccess: () {
                                 SnackBarService.showSnackBar(
-                                    status: StatusSnackBar.success,
-                                    content:
-                                        "Project was deleted successfully!");
+                                  status: StatusSnackBar.success,
+                                  // content: "Project was deleted successfully!",
+                                  content: deleteProjectSuccessMsgKey.tr(),
+                                );
                                 Navigator.pop(context);
                               }),
                         );

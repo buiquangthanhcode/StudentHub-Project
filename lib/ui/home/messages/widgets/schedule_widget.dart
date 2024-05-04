@@ -40,7 +40,8 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Schedule a video call interview',
+                  // 'Schedule a video call interview',
+                  scheduleVideoCallInterviewKey.tr(),
                   style: theme.textTheme.titleMedium!.copyWith(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
@@ -48,7 +49,9 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'Title',
+                  // 'Title',
+                  titleKey.tr(),
+
                   style: theme.textTheme.bodyMedium!.copyWith(),
                 ),
                 TextFieldFormCustom(

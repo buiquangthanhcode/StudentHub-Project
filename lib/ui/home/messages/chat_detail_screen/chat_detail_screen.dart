@@ -1,6 +1,5 @@
 // ignore_for_file: unnecessary_null_comparison
 
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +11,7 @@ import 'package:studenthub/blocs/chat_bloc/chat_event.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/models/common/message_model.dart';
 import 'package:studenthub/ui/home/messages/widgets/get_more_action_widget.dart';
@@ -591,7 +591,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           cursorColor: Colors.black,
                           style: textTheme.bodyMedium,
                           decoration: InputDecoration(
-                            hintText: 'Your messages...',
+                            // hintText: 'Your messages...',
+                            hintText: chatInputPlaceHolderKey.tr(),
                             hintStyle: textTheme.bodyMedium!.copyWith(
                                 color: Theme.of(context).colorScheme.hintColor),
                             contentPadding: const EdgeInsets.symmetric(

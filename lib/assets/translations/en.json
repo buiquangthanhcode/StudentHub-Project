@@ -203,5 +203,22 @@
 	"2_9": "2-9",
 	"10_99": "10-99",
 	"100_1000": "100_1000",
-	"More than 1000": "More than 1000"
+	"More than 1000": "More than 1000",
+	"view_proposals": "View Proposals",
+	"view_messages": "View Messages",
+	"view_hired": "View Hired",
+	"view_job_posting": "View Job Posting",
+	"edit_posting": "Edit Posting",
+	"remove_posting": "Remove Posting",
+	"close_posting": "Close Posting",
+	"start_working": "Start Working On This Project",
+	"title": "Title",
+	"number_of_students": "Number of students",
+	"edit_btn": "Edit",
+	"delete_success": "Project was deleted successfully!",
+	"chat_input_placeholder": "Send your message",
+	"schedule_interview": "Schedule a interview",
+	"schedule_video_call_interview": "Schedule A Video Call Interview",
+	"cancel_meeting": "Cancel the meeting",
+	"reschedule_meeting": "Re-Schedule a Interview"	
 }
