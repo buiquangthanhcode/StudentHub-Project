@@ -10,6 +10,7 @@ import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_model.dart';
+import 'package:studenthub/utils/logger.dart';
 
 class GeneralProjectItem extends StatefulWidget {
   const GeneralProjectItem({
@@ -116,6 +117,15 @@ class _GeneralProjectItemState extends State<GeneralProjectItem> {
                 InkWell(
                   onTap: () {
                     isSaved = !isSaved!;
+                    logger.d('FAVORITE');
+                    logger.d(context
+                        .read<AuthBloc>()
+                        .state
+                        .userModel
+                        .student!
+                        .id
+                        .toString());
+                    logger.d(widget.project.id.toString());
                     setState(() {
                       isSaved!
                           ? context.read<GeneralProjectBloc>().add(
@@ -143,6 +153,7 @@ class _GeneralProjectItemState extends State<GeneralProjectItem> {
                                 ),
                               );
                     });
+                    logger.d(isSaved);
                   },
                   child: FaIcon(
                     isSaved!

@@ -30,6 +30,7 @@ class _DatePickerCustomState extends State<DatePickerCustom> {
   String _dateCount = '';
   String _range = '';
   String _rangeCount = '';
+  final _textFormKey = GlobalKey<FormBuilderFieldState>();
 
   @override
   void initState() {
@@ -45,6 +46,7 @@ class _DatePickerCustomState extends State<DatePickerCustom> {
     return SizedBox(
         height: 50,
         child: FormBuilderField(
+          key: _textFormKey,
           name: widget.name,
           builder: (field) {
             return TextFormField(
@@ -165,11 +167,11 @@ class _DatePickerCustomState extends State<DatePickerCustom> {
                     backgroundColor: Colors.white,
                     onSelectionChanged: _onSelectionChanged,
                     showActionButtons: showActionButtons,
-                    // cancelText: 'CANCEL',
                     cancelText: cancelUppercaseKey.tr(),
-                    // confirmText: 'OK',
                     confirmText: okUppercaseKey.tr(),
-                    initialSelectedDate: DateTime.now(),
+                    initialSelectedDate: initialDate ??
+                        _textFormKey.currentState?.value ??
+                        DateTime.now(),
                     headerStyle: headerStyle,
                     view: view,
                     monthViewSettings: monthViewSettings,

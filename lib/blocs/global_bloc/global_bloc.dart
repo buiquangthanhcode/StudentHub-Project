@@ -14,16 +14,17 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
       : super(const GlobalState(
           dataSourceSkillSet: [],
           dataSourceTeckstacks: [],
+          isFirtTimeAccessApp: false,
         )) {
     on<GetAllTeckStackEventMetadata>(_onGetAllTeckStack);
     on<GetAllSkillSetEventMetadata>(_onGetAllSkillSet);
     on<ResetPasswordEvent>(_onResetPassword);
+    on<SetIsFirtTimeAccessApp>(_onSetFirstTimeAccessApp);
   }
 
   GlobalService globalService = GlobalService();
 
-  FutureOr<void> _onGetAllTeckStack(
-      GetAllTeckStackEventMetadata event, Emitter<GlobalState> emit) async {
+  FutureOr<void> _onGetAllTeckStack(GetAllTeckStackEventMetadata event, Emitter<GlobalState> emit) async {
     final response = await globalService.getAllTechStack();
     if (response.statusCode! <= 300) {
       emit(state.update(dataSourceTeckstacks: response.data ?? []));
@@ -31,8 +32,7 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
     }
   }
 
-  FutureOr<void> _onGetAllSkillSet(
-      GetAllSkillSetEventMetadata event, Emitter<GlobalState> emit) async {
+  FutureOr<void> _onGetAllSkillSet(GetAllSkillSetEventMetadata event, Emitter<GlobalState> emit) async {
     try {
       // EasyLoading.show(status: 'Loading...');
       EasyLoading.show(status: loadingBtnKey.tr());
@@ -48,8 +48,7 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
     }
   }
 
-  FutureOr<void> _onResetPassword(
-      ResetPasswordEvent event, Emitter<GlobalState> emit) async {
+  FutureOr<void> _onResetPassword(ResetPasswordEvent event, Emitter<GlobalState> emit) async {
     try {
       // EasyLoading.show(status: 'Loading...');
       EasyLoading.show(status: loadingBtnKey.tr());
@@ -62,5 +61,9 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
       EasyLoading.dismiss();
       logger.e(e);
     }
+  }
+
+  FutureOr<void> _onSetFirstTimeAccessApp(SetIsFirtTimeAccessApp event, Emitter<GlobalState> emit) async {
+    emit(state.update(isFirtTimeAccessApp: event.isFirtTimeAccessApp));
   }
 }

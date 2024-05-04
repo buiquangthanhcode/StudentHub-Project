@@ -13,10 +13,14 @@ class SkillSetItem extends StatelessWidget {
     super.key,
     required this.theme,
     required this.item,
+    this.isEditUI,
+    this.onDelete,
   });
 
   final ThemeData theme;
   final SkillSet item;
+  final bool? isEditUI;
+  final Function? onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +45,13 @@ class SkillSetItem extends StatelessWidget {
           const SizedBox(width: 10),
           InkWell(
             onTap: () {
+              if (isEditUI != null && isEditUI == true) {
+                if (onDelete != null) {
+                  onDelete!();
+                }
+                return;
+              }
+
               final currentStudent = context.read<StudentBloc>().state.student;
               List<SkillSet> data = List<SkillSet>.from(currentStudent.skillSets ?? []);
               List<SkillSet> dataSource = List<SkillSet>.from(context.read<GlobalBloc>().state.dataSourceSkillSet);

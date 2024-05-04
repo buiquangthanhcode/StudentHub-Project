@@ -3,7 +3,10 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/blocs/student_bloc/student_state.dart';
 import 'package:studenthub/constants/key_translator.dart';
@@ -26,6 +29,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
             student: Student(),
             submitProjectProposals: const [],
             activeProjectProposals: const [],
+            isLoading: false,
           ),
         ) {
     on<AddSkillSetEvent>(_onAllSkillSet);
@@ -56,6 +60,8 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     on<GetAllProjectProposal>(_onGetAllProjectProposal);
     on<SubmitTranScript>(_onSubmitTranScript);
     on<GetTranScription>(_onGetTranScription);
+    on<RemoveResumeEvent>(_onRemoveResume);
+    on<RemoveTranScriptEvent>(_onRemoveTranscript);
   }
 
   StudentService studentService = StudentService();
@@ -91,8 +97,13 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       EasyLoading.show(status: loadingBtnKey.tr());
       ResponseAPI response =
           await studentService.postProfileStudent(event.profileStudent);
-      if (response.statusCode! <= 200) {
+      if (response.statusCode! <= 300) {
+        event.currentContext?.read<AuthBloc>().add(GetInformationEvent(
+            onSuccess: () {},
+            accessToken: event.token ?? '',
+            currentContext: event.currentContext));
         event.onSuccess!(Student.fromMap(response.data.resultMap.toMap()));
+
         EasyLoading.dismiss();
       }
     } catch (e) {
@@ -346,13 +357,11 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     try {
       EasyLoading.show(status: loadingBtnKey.tr());
       final response = await studentService.getResume(event.studentId);
-      if (response.statusCode! <= 200) {
+      if (response.statusCode! <= 300) {
         emit(state.update(
-            student: state.student.copyWith(resume: response.data)));
-        logger.d(state.student.resume);
-
+            student: state.student.copyWith(resumeUrl: response.data)));
         if (event.onSuccess != null) {
-          event.onSuccess!();
+          event.onSuccess!(response.data ?? '');
         }
         EasyLoading.dismiss();
       }
@@ -386,12 +395,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
   FutureOr<void> _onResetBloc(
       ResetBlocEvent event, Emitter<StudentState> emit) async {
     // I wan to reset student but not id field in the student
-    Student newStudent = state.student.copyWith(
-      experiences: [],
-      educations: [],
-      languages: [],
-      skillSets: [],
-    );
+    Student newStudent = state.student.reset();
     emit(state.update(
       student: newStudent,
       submitProjectProposals: [],
@@ -433,6 +437,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       GetAllProjectProposal event, Emitter<StudentState> emit) async {
     try {
       EasyLoading.show(status: loadingBtnKey.tr());
+      emit(state.update(isLoading: true));
       final response = await studentService.getAllProjectProposal(event);
       List<ProjectProposal> data = response.data ?? [];
       if (response.statusCode! <= 201) {
@@ -443,6 +448,8 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
           emit(state.update(activeProjectProposals: data));
         }
         event.onSuccess!();
+        emit(state.update(isLoading: false));
+
         EasyLoading.dismiss();
       }
     } catch (e) {
@@ -469,7 +476,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       );
       final response =
           await studentService.uploadTransciption(requestSubmitProposal);
-      if (response.statusCode! <= 200) {
+      if (response.statusCode! <= 300) {
         event.onSuccess!();
         EasyLoading.dismiss();
       }
@@ -489,11 +496,53 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     try {
       EasyLoading.show(status: loadingBtnKey.tr());
       final response = await studentService.getTranscript(event.studentId);
-      if (response.statusCode! <= 200) {
+      if (response.statusCode! <= 300) {
         emit(state.update(
-            student: state.student.copyWith(transcript: response.data)));
-        logger.d(state.student.transcript);
+            student: state.student.copyWith(
+          transcriptUrl: response.data,
+        )));
+        if (event.onSuccess != null) {
+          event.onSuccess!(response.data ?? '');
+        }
+        EasyLoading.dismiss();
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      logger.e(e);
+    }
+  }
 
+  FutureOr<void> _onRemoveResume(
+      RemoveResumeEvent event, Emitter<StudentState> emit) async {
+    try {
+      EasyLoading.show(status: 'loading');
+      final response =
+          await studentService.removeResume(event.studentId.toString());
+      if (response.statusCode! <= 300) {
+        emit(state.update(
+            student: state.student.copyWith(resumeUrl: '', resume: null)));
+
+        if (event.onSuccess != null) {
+          event.onSuccess!();
+        }
+        EasyLoading.dismiss();
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      logger.e(e);
+    }
+  }
+
+  FutureOr<void> _onRemoveTranscript(
+      RemoveTranScriptEvent event, Emitter<StudentState> emit) async {
+    try {
+      EasyLoading.show(status: 'loading');
+      final response =
+          await studentService.removeTranScription(event.studentId.toString());
+      if (response.statusCode! <= 300) {
+        emit(state.update(
+            student:
+                state.student.copyWith(transcriptUrl: '', transcript: null)));
         if (event.onSuccess != null) {
           event.onSuccess!();
         }

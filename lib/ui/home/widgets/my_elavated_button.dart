@@ -28,8 +28,7 @@ class MyElevatedButton extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      decoration: BoxDecoration(
-          gradient: gradient, borderRadius: borderRadius, border: buttonBorder),
+      decoration: BoxDecoration(gradient: gradient, borderRadius: borderRadius, border: buttonBorder),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(

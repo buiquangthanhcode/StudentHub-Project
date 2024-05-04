@@ -23,10 +23,11 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  late AuthenState authSate;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    authSate = context.read<AuthBloc>().state;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.welcome == 'true') {
@@ -196,10 +197,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   );
                                 } else if (state.currentRole ==
                                     UserRole.student) {
-                                  return const TabBarView(children: [
-                                    ProjectAllTabForStudent(),
-                                    ProjectWorkingTabForStudent(),
-                                  ]);
+                                  return const TabBarView(
+                                    children: [
+                                      ProjectAllTabForStudent(),
+                                      ProjectWorkingTabForStudent(),
+                                    ],
+                                  );
                                 }
                                 return const SizedBox();
                               }),

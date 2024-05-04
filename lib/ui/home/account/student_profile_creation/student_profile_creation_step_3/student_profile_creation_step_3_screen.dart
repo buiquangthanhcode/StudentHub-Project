@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, non_constant_identifier_names
 import 'dart:io';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
@@ -7,19 +8,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:open_file_plus/open_file_plus.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
+
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/blocs/student_bloc/student_state.dart';
-
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/student/student_model.dart';
+import 'package:studenthub/services/dio_client.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/widgets/continue_button.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/student_profile_creation_step_3/widgets/title_widget.dart';
 import 'package:studenthub/utils/logger.dart';
+import 'package:studenthub/utils/request_permision.dart';
+import 'package:studenthub/widgets/download_file_widget.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
-// import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class StudentProfileCreationStep3Screen extends StatefulWidget {
   const StudentProfileCreationStep3Screen({super.key});
@@ -45,8 +51,10 @@ class _StudentProfileCreationStep3ScreenState
   String image_path = 'lib/assets/images/icons8-image-48.png';
   String pdf_path = 'lib/assets/images/icons8-pdf-48.png';
   late Student student;
-  // final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
-  // final GlobalKey<SfPdfViewerState> _pdfViewerKeyTranScrip = GlobalKey();
+  String remotePDFResumepath = '';
+  String remotePDFTranscrippath = '';
+
+  late AuthenState authenState;
 
   String getLastSubstringAfterDot(String filename) {
     List<String> parts = filename.split('.');
@@ -68,11 +76,6 @@ class _StudentProfileCreationStep3ScreenState
           allowMultiple: true);
 
       if (resultResume != null) {
-        // print(result);
-        // fileName = result!.files.first;
-        // pickerfile = result!.files.first;
-        // fileToDisplay = File(pickerfile!.path.toString());
-        // number.toStringAsFixed(1)
         for (var file in resultResume!.files) {
           type == 0
               ? resume.add(
@@ -112,11 +115,6 @@ class _StudentProfileCreationStep3ScreenState
           allowMultiple: true);
 
       if (resultTranScript != null) {
-        // print(result);
-        // fileName = result!.files.first;
-        // pickerfile = result!.files.first;
-        // fileToDisplay = File(pickerfile!.path.toString());
-        // number.toStringAsFixed(1)
         for (var file in resultTranScript!.files) {
           type == 0
               ? resume.add(
@@ -147,31 +145,83 @@ class _StudentProfileCreationStep3ScreenState
   @override
   void initState() {
     super.initState();
+    checkPermission(context);
     student = BlocProvider.of<StudentBloc>(context).state.student;
-    context
-        .read<StudentBloc>()
-        .add(GetResumeEvent(studentId: student.id.toString()));
-    context
-        .read<StudentBloc>()
-        .add(GetTranScription(studentId: student.id.toString()));
+    authenState = context.read<AuthBloc>().state;
+    context.read<StudentBloc>().add(GetResumeEvent(
+          studentId: student.id.toString(),
+          onSuccess: (link) {
+            if (link != "") {
+              String fileName = authenState.userModel.student?.resume ?? '';
+              String fileType = fileName.split('.').last;
+              double fileSize = 0.1;
+              String url = student.resumeUrl ?? link;
+              resume.add(FileModel(
+                  name: fileName,
+                  type: fileType,
+                  size: fileSize.toString(),
+                  url: url));
+            }
+            setState(() {});
+          },
+        ));
+    context.read<StudentBloc>().add(GetTranScription(
+          studentId: student.id.toString(),
+          onSuccess: (link) {
+            if (link != "") {
+              String fileName = authenState.userModel.student?.transcript ?? '';
+              String fileType = fileName.split('.').last;
+              double fileSize = 0.1;
+              String url = student.transcriptUrl ?? link;
+              transcript.add(FileModel(
+                  name: fileName,
+                  type: fileType,
+                  size: fileSize.toString(),
+                  url: url));
+            }
+            setState(() {});
+          },
+        ));
+  }
 
-    if (student.resume != null) {
-      String fileName =
-          student.resume!.split('/').last.split('?').first; // Lấy tên file
-      String fileType = fileName.split('.').last;
-      double fileSize = 0.1;
-      String url = student.resume ?? '';
-      resume.add(FileModel(
-          name: fileName, type: fileType, size: fileSize.toString(), url: url));
+  Future<void> handleOnclick(FileModel item, String type) async {
+    String resumeFileName = '';
+    String transcriptName = '';
+    logger.d(type);
+    if (type == 'resume') {
+      resumeFileName = authenState.userModel.student?.resume ?? '';
+    } else {
+      transcriptName = authenState.userModel.student?.transcript ?? '';
     }
-    if (student.transcript != null) {
-      String fileName =
-          student.transcript!.split('/').last.split('?').first; // Lấy tên file
-      String fileType = fileName.split('.').last;
-      double fileSize = 0.1;
-      String url = student.transcript ?? '';
-      transcript.add(FileModel(
-          name: fileName, type: fileType, size: fileSize.toString(), url: url));
+    String path =
+        await getPath(type == 'resume' ? resumeFileName : transcriptName);
+    final check = await File(path).exists();
+    if (check) {
+      logger.d(path);
+      OpenFile.open(path).then((value) {
+        logger.d(value.message);
+      }).catchError((e) {
+        SnackBarService.showSnackBar(
+            content: 'Lỗi', status: StatusSnackBar.error);
+      }).onError((error, stackTrace) {
+        logger.e(error);
+      });
+    } else {
+      if (context.mounted) {
+        await showDialog(
+          // ignore: use_build_context_synchronously
+          context: context,
+          builder: (context) => DownloadingDialog(
+            isOpen: true,
+            file: FileModel(
+              name: item.name,
+              type: item.type,
+              url: item.url,
+              size: item.size,
+            ),
+          ),
+        );
+      }
     }
   }
 
@@ -278,45 +328,7 @@ class _StudentProfileCreationStep3ScreenState
                       children: [
                         ...resume.map((e) => GestureDetector(
                               onTap: () {
-                                logger.d(e.url);
-                                // _pdfViewerKey.currentState?.openBookmarkView();
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => Theme(
-                                          data: Theme.of(context).copyWith(
-                                            dialogBackgroundColor: Colors.white,
-                                            shadowColor: Colors.transparent,
-                                          ),
-                                          child: Dialog(
-                                            surfaceTintColor:
-                                                Colors.transparent,
-                                            backgroundColor: Colors.white,
-                                            insetPadding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 20,
-                                                    vertical: 10),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                shape: BoxShape.rectangle,
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.8,
-                                              // child: SfPdfViewer.network(
-                                              //   currentSearchTextHighlightColor: Colors.black,
-                                              //   e.url ?? '',
-                                              //   key: _pdfViewerKey,
-                                              //   onDocumentLoadFailed: (details) {
-                                              //     logger.e(details.error);
-                                              //   },
-                                              // ),
-                                            ),
-                                          ),
-                                        ));
+                                handleOnclick(e, "resume");
                               },
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.6,
@@ -378,6 +390,18 @@ class _StudentProfileCreationStep3ScreenState
                                     InkWell(
                                       onTap: () {
                                         resume.remove(e);
+                                        context
+                                            .read<StudentBloc>()
+                                            .add(RemoveResumeEvent(
+                                              studentId: student.id ?? -1,
+                                              onSuccess: () {
+                                                SnackBarService.showSnackBar(
+                                                    content:
+                                                        'Delete Successfully',
+                                                    status:
+                                                        StatusSnackBar.success);
+                                              },
+                                            ));
                                         setState(() {});
                                       },
                                       child: const Padding(
@@ -477,46 +501,7 @@ class _StudentProfileCreationStep3ScreenState
                         ...transcript.map((e) => GestureDetector(
                               onTap: () {
                                 try {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) => Theme(
-                                            data: Theme.of(context).copyWith(
-                                              dialogBackgroundColor:
-                                                  Colors.white,
-                                              shadowColor: Colors.transparent,
-                                            ),
-                                            child: Dialog(
-                                              surfaceTintColor:
-                                                  Colors.transparent,
-                                              backgroundColor: Colors.white,
-                                              insetPadding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 20,
-                                                      vertical: 10),
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  shape: BoxShape.rectangle,
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                ),
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.8,
-                                                // child: SfPdfViewer.network(
-                                                //   currentSearchTextHighlightColor:
-                                                //       Colors.black,
-                                                //   e.url ?? '',
-                                                //   key: _pdfViewerKeyTranScrip,
-                                                //   onDocumentLoadFailed:
-                                                //       (details) {
-                                                //     logger.e(details.error);
-                                                //   },
-                                                // ),
-                                              ),
-                                            ),
-                                          ));
+                                  handleOnclick(e, 'transcript');
                                 } catch (e) {
                                   SnackBarService.showSnackBar(
                                       content: 'Error',
@@ -583,6 +568,18 @@ class _StudentProfileCreationStep3ScreenState
                                     InkWell(
                                       onTap: () {
                                         transcript.remove(e);
+                                        context
+                                            .read<StudentBloc>()
+                                            .add(RemoveTranScriptEvent(
+                                              studentId: student.id ?? -1,
+                                              onSuccess: () {
+                                                SnackBarService.showSnackBar(
+                                                    content:
+                                                        'Delete Successfully',
+                                                    status:
+                                                        StatusSnackBar.success);
+                                              },
+                                            ));
                                         setState(() {});
                                       },
                                       child: const Padding(
@@ -659,4 +656,9 @@ class FileModel {
   String? url;
 
   FileModel({this.name, this.type, this.size, this.url});
+
+  @override
+  String toString() {
+    return 'FileModel(name: $name, type: $type, size: $size, url: $url)';
+  }
 }

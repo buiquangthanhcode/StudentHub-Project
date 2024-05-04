@@ -49,8 +49,11 @@ class _ProjectAllTabState extends State<ProjectWorkingTabForCompany> {
             child: ListView.separated(
               itemCount: state.workingProjects.length,
               itemBuilder: (context, index) {
-                return ProjectItem(
-                    theme: theme, item: state.workingProjects[index]);
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: ProjectItem(
+                      theme: theme, item: state.workingProjects[index]),
+                );
               },
               separatorBuilder: (context, index) {
                 return const Padding(

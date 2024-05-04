@@ -184,6 +184,7 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                           if (formkey.currentState?.saveAndValidate() ??
                               false) {
                             widget.onSave?.call(formkey.currentState?.value);
+
                             Navigator.pop(context);
                           }
                         },

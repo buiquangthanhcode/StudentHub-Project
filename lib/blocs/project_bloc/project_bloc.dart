@@ -7,7 +7,6 @@ import 'package:studenthub/blocs/project_bloc/project_state.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/services/company/company.dart';
 import 'package:studenthub/models/common/project_model.dart';
-import 'package:studenthub/services/student/student.dart';
 import 'package:studenthub/utils/logger.dart';
 
 class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
@@ -18,6 +17,7 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
             workingProjects: const [],
             archivedProjects: const [],
             projectCreation: Project(),
+            isLoading: false,
           ),
         ) {
     on<GetAllProjectsEvent>(_onGetAllProjects);
@@ -32,17 +32,18 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
   }
 
   final CompanyService _companyService = CompanyService();
-  final StudentService _studentService = StudentService();
 
   Future<void> _onGetAllProjects(
       GetAllProjectsEvent event, Emitter<ProjectState> emit) async {
     try {
+      emit(state.update(isLoading: true));
       final response = await _companyService.getAllProjects(event.companyId);
       if (response.statusCode! <= 201) {
         emit(state.update(
             allProjects: List<Project>.from(response.data!.toList())));
         add(GetWorkingProjectsEvent());
         add(GetArchivedProjectsEvent());
+        emit(state.update(isLoading: false));
       }
     } catch (e) {
       logger.e(e);

@@ -13,6 +13,7 @@ import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/ui/home/projects/project_search/widgets/filter_dialog.dart';
 import 'package:studenthub/ui/home/projects/widgets/general_project_item.dart';
 import 'package:studenthub/utils/logger.dart';
+import 'package:studenthub/widgets/emtyDataWidget.dart';
 
 class ProjectSearchScreen extends StatefulWidget {
   const ProjectSearchScreen({super.key});
@@ -82,11 +83,9 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
 
   void _onFocusChange() {
     if (_searchFocus.hasFocus) {
-      logger.d('HAS FOCUS');
       isSearching = true;
       setSearchSuggetions(searchController.text);
     } else {
-      logger.d('DONT HAS FOCUS');
       isSearching = false;
     }
     setState(() {});
@@ -99,8 +98,6 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
         context: context,
         builder: (ctx) => FilterDialog(
               applyFilter: (data) {
-                logger.d(data);
-
                 context.read<GeneralProjectBloc>().add(GetSearchFilterDataEvent(
                     searchController.text.isEmpty
                         ? null
@@ -123,7 +120,7 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
       searchSuggestions.add(viewAllBtnKey.tr());
     }
     for (String i in setSuggestion!) {
-      if (i.contains(value)) {
+      if (i.toLowerCase().contains(value.toLowerCase())) {
         searchSuggestions.add(i);
       }
     }
@@ -140,8 +137,6 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
     // if (isSearching) {
     //   WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
     // }
-
-    logger.d('REBUILD');
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -420,13 +415,22 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
               BlocBuilder<GeneralProjectBloc, GeneralProjectState>(
                 builder: (context, state) {
                   return Expanded(
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: state.projectSearchList.length,
-                        itemBuilder: (context, index) => GeneralProjectItem(
-                              project: state.projectSearchList[index],
-                              paddingRight: 12,
-                            )),
+                    child: state.projectSearchList.isNotEmpty
+                        ? ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: state.projectSearchList.length,
+                            itemBuilder: (context, index) => GeneralProjectItem(
+                                  project: state.projectSearchList[index],
+                                  paddingRight: 12,
+                                ))
+                        : Center(
+                            child: EmptyDataWidget(
+                              mainTitle: '',
+                              subTitle: "No projects found.",
+                              widthImage:
+                                  MediaQuery.of(context).size.width * 0.5,
+                            ),
+                          ),
                   );
                 },
               )

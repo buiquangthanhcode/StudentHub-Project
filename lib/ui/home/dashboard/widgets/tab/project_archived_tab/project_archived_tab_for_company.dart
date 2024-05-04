@@ -8,6 +8,8 @@ import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/project_item.dart';
 import 'package:studenthub/utils/logger.dart';
+import 'package:studenthub/models/common/project_model.dart';
+import 'package:studenthub/ui/home/dashboard/widgets/project_item.dart';
 import 'package:studenthub/widgets/emtyDataWidget.dart';
 
 class ProjectArchivedTabForCompany extends StatefulWidget {
@@ -32,7 +34,6 @@ class _ProjectAllTabState extends State<ProjectArchivedTabForCompany> {
     final theme = Theme.of(context);
     return BlocBuilder<ProjectBloc, ProjectState>(
       builder: (context, state) {
-        logger.d("REbuild");
         if (state.archivedProjects.isEmpty) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -51,8 +52,12 @@ class _ProjectAllTabState extends State<ProjectArchivedTabForCompany> {
             child: ListView.separated(
               itemCount: state.archivedProjects.length,
               itemBuilder: (context, index) {
-                return ProjectItem(
-                    theme: theme, item: state.archivedProjects[index]);
+                return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                  child: ProjectItem(
+                      theme: theme, item: state.archivedProjects[index]),
+                );
               },
               separatorBuilder: (context, index) {
                 return const Padding(

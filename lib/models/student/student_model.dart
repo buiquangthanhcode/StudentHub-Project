@@ -73,6 +73,8 @@ class Student {
   String? resume;
   User? user;
   String? transcript;
+  String? resumeUrl;
+  String? transcriptUrl;
   Student({
     this.id,
     this.userId,
@@ -90,6 +92,8 @@ class Student {
     this.resume,
     this.user,
     this.transcript,
+    this.resumeUrl,
+    this.transcriptUrl,
   });
 
   Student copyWith({
@@ -109,6 +113,8 @@ class Student {
     String? resume,
     User? user,
     String? transcript,
+    String? resumeUrl,
+    String? transcriptUrl,
   }) {
     return Student(
       id: id ?? this.id,
@@ -127,6 +133,14 @@ class Student {
       resume: resume ?? this.resume,
       user: user ?? this.user,
       transcript: transcript ?? this.transcript,
+      resumeUrl: resumeUrl ?? this.resumeUrl,
+      transcriptUrl: transcriptUrl ?? this.transcriptUrl,
+    );
+  }
+
+  Student reset() {
+    return Student(
+      id: id,
     );
   }
 
@@ -218,48 +232,5 @@ class Student {
   @override
   String toString() {
     return 'Student(id: $id, userId: $userId, fullname: $fullname, email: $email, techStackId: $techStackId, skillSets: $skillSets, languages: $languages, experiences: $experiences, educations: $educations, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, techStack: $techStack, resume: $resume, user: $user, transcript: $transcript)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is Student &&
-        other.id == id &&
-        other.userId == userId &&
-        other.fullname == fullname &&
-        other.email == email &&
-        other.techStackId == techStackId &&
-        listEquals(other.skillSets, skillSets) &&
-        listEquals(other.languages, languages) &&
-        listEquals(other.experiences, experiences) &&
-        listEquals(other.educations, educations) &&
-        other.createdAt == createdAt &&
-        other.updatedAt == updatedAt &&
-        other.deletedAt == deletedAt &&
-        other.techStack == techStack &&
-        other.resume == resume &&
-        other.user == user &&
-        other.transcript == transcript;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-        userId.hashCode ^
-        fullname.hashCode ^
-        email.hashCode ^
-        techStackId.hashCode ^
-        skillSets.hashCode ^
-        languages.hashCode ^
-        experiences.hashCode ^
-        educations.hashCode ^
-        createdAt.hashCode ^
-        updatedAt.hashCode ^
-        deletedAt.hashCode ^
-        techStack.hashCode ^
-        resume.hashCode ^
-        user.hashCode ^
-        transcript.hashCode;
   }
 }

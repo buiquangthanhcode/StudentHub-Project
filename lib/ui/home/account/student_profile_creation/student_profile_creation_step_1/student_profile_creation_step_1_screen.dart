@@ -81,12 +81,9 @@ class _StudentProfileCreationStep01State
           RequestUpdateProfileStudent(techStackId: value?.id ?? -1);
       context.read<StudentBloc>().add(PostProfileStudent(
           profileStudent: profileStudent,
-          onSuccess: (userModel) {
-            context.read<AuthBloc>().add(GetInformationEvent(
-                onSuccess: () {},
-                accessToken: user.token ?? '',
-                currentContext: context));
-          }));
+          currentContext: context,
+          onSuccess: (userModel) {},
+          token: currentUser.token ?? ''));
     } else {
       RequestUpdateProfileStudent profileStudent = RequestUpdateProfileStudent(
           techStackId: value?.id ?? -1, userId: currentUser.student?.id ?? -1);
@@ -126,7 +123,7 @@ class _StudentProfileCreationStep01State
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.white,
+      backgroundColor: theme.colorScheme.background,
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndDocked,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 50.0),
@@ -192,7 +189,7 @@ class _StudentProfileCreationStep01State
                     ),
                     DropDownFormFieldCustom<TechStack>(
                       name: "techstack",
-                      data: dataSourceTechStack,
+                      data: removeDuplicates(dataSourceTechStack),
                       onChanged: _handleChangeTechStack,
                       initValue: state.student.techStack,
                       onSaved: (value) {
@@ -338,45 +335,56 @@ class _StudentProfileCreationStep01State
                                         context,
                                         widgetBuilder:
                                             const CreateEducationWidget(),
-                                        headerBuilder: Container(
-                                          margin:
-                                              const EdgeInsets.only(top: 20),
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                // "Create Education",
-                                                createEducationTitleKey.tr(),
-                                                style: theme
-                                                    .textTheme.bodyMedium
-                                                    ?.copyWith(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20,
+                                        headerBuilder: Row(
+                                          children: [
+                                            Text(
+                                              // "Create Education",
+                                              createEducationTitleKey.tr(),
+                                              style: theme.textTheme.bodyMedium
+                                                  ?.copyWith(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  color: theme.colorScheme.grey!
+                                                      .withOpacity(0.4),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          50)),
+                                              padding: const EdgeInsets.all(3),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Icon(
+                                                  Icons.close,
+                                                  color: theme.colorScheme.grey,
                                                 ),
                                               ),
-                                              const Spacer(),
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                    color: theme
-                                                        .colorScheme.grey!
-                                                        .withOpacity(0.4),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            50)),
-                                                padding:
-                                                    const EdgeInsets.all(3),
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Icon(
-                                                    Icons.close,
-                                                    color:
-                                                        theme.colorScheme.grey,
-                                                  ),
+                                            ),
+                                            const Spacer(),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  color: theme.colorScheme.grey!
+                                                      .withOpacity(0.4),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          50)),
+                                              padding: const EdgeInsets.all(3),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Icon(
+                                                  Icons.close,
+                                                  color: theme.colorScheme.grey,
                                                 ),
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
                                       );
                                     },

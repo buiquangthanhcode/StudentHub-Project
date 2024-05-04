@@ -9,10 +9,10 @@ import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/ui/home/dashboard/project/project_hired/project_hired_screen.dart';
+import 'package:studenthub/ui/home/dashboard/project/project_message/project_message_company_screen.dart';
 import 'package:studenthub/ui/home/dashboard/project/project_proposal/project_proposal_screen.dart';
 import 'package:studenthub/ui/home/messages/messages_screen.dart';
 import 'package:studenthub/ui/home/projects/project_general_detail/project_general_detail_screen.dart';
-import 'package:studenthub/utils/logger.dart';
 
 class ProjectDetailCompanyView extends StatefulWidget {
   const ProjectDetailCompanyView(
@@ -48,7 +48,6 @@ class _ProjectReviewDetailScreenState extends State<ProjectDetailCompanyView>
 
   @override
   Widget build(BuildContext context) {
-    logger.e(widget.item);
     final theme = Theme.of(context);
 
     return Scaffold(
@@ -143,8 +142,11 @@ class _ProjectReviewDetailScreenState extends State<ProjectDetailCompanyView>
                                 isFavorite: "false",
                               );
                             }),
-                            const MessagesScreen(
+                            MessagesCompanyScreen(
                               isHiddenAppbar: true,
+                              item: widget.item ??
+                                  widget.projectProposal?.project ??
+                                  Project(),
                             ),
                             ProjectDetailHiredScreen(
                               item: widget.item,

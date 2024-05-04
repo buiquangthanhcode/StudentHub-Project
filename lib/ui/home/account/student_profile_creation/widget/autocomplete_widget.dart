@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:studenthub/constants/key_translator.dart';
+import 'package:studenthub/utils/logger.dart';
 
 class AutoCompleteWidget extends StatefulWidget {
   const AutoCompleteWidget({
@@ -18,6 +19,7 @@ class AutoCompleteWidget extends StatefulWidget {
 
 class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
   late TextEditingController textEditingController;
+  final GlobalKey _autocompleteKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,7 @@ class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
     return LayoutBuilder(
       builder: (context, constraints) {
         return RawAutocomplete<String>(
+          key: _autocompleteKey,
           optionsViewBuilder: (context, onSelected, options) {
             return Align(
               alignment: Alignment.topLeft,
@@ -89,11 +92,19 @@ class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
             if (skillsetTextEditController.text == '') {
               return const Iterable<String>.empty();
             }
-            return widget.data.where((String option) {
+            final data = widget.data.where((String option) {
               return option
                   .toLowerCase()
-                  .contains(skillsetTextEditController.text);
+                  .contains(skillsetTextEditController.text.toLowerCase());
             });
+
+            if (data.isNotEmpty) {
+              return data;
+            } else {
+              return Iterable<String>.generate(1, (int index) {
+                return 'Not found';
+              });
+            }
           },
           onSelected: (String value) {
             textEditingController.text = "";

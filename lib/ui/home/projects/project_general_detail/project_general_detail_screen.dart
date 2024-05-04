@@ -11,7 +11,6 @@ import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/utils/helper.dart';
-import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
 
 class ProjectGeneralDetailScreen extends StatefulWidget {
@@ -59,6 +58,7 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
   };
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     TextTheme textTheme = Theme.of(context).textTheme;
     AuthenState authSate = context.read<AuthBloc>().state;
 
@@ -67,8 +67,6 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
         bool isSubmitProposal = checkIsSubmitProposal(
             state.projectDetail.proposals ?? [],
             context.read<AuthBloc>().state.userModel.student!.id!.toInt());
-
-        logger.d(isSubmitProposal);
         return Scaffold(
           appBar: widget.isHiddenAppbar ?? false
               ? null
@@ -115,11 +113,6 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                                           projectId: widget.id,
                                         ),
                                       );
-                              // logger.d('IS FAVORITE $isSaved');
-                              // context.read<AllProjectBloc>().add(
-                              //     UpdateFavoriteProjectUI(
-                              //         projectId: int.parse(widget.id),
-                              //         isFavorite: isSaved!));
                             });
                           },
                           child: FaIcon(
@@ -194,7 +187,10 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                               Text(
                                 projectScopeKey.tr(),
                                 style: TextStyle(
-                                  color: Colors.black.withOpacity(0.8),
+                                  color: theme.colorScheme.brightness ==
+                                          Brightness.dark
+                                      ? Colors.white
+                                      : Colors.black.withOpacity(0.8),
                                 ),
                               ),
                               Row(
@@ -214,7 +210,10 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                                         .textTheme
                                         .bodySmall!
                                         .copyWith(
-                                          color: Colors.black.withOpacity(0.8),
+                                          color: theme.colorScheme.brightness ==
+                                                  Brightness.dark
+                                              ? Colors.white
+                                              : Colors.black.withOpacity(0.8),
                                         ),
                                   ),
                                 ],
@@ -288,7 +287,10 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                             // 'Apply Now',
                             applyNowBtnKey.tr(),
                             style: textTheme.bodyMedium!.copyWith(
-                                color: Colors.white,
+                                color: theme.colorScheme.brightness ==
+                                        Brightness.dark
+                                    ? Colors.white
+                                    : Colors.white,
                                 fontWeight: FontWeight.w600),
                           ),
                         ),

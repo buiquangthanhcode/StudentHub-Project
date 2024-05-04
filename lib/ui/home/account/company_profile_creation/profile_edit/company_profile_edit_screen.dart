@@ -20,6 +20,7 @@ class CompanyProfileEditScreen extends StatefulWidget {
   const CompanyProfileEditScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _PCompanyProfileEditScreenState createState() =>
       _PCompanyProfileEditScreenState();
 }

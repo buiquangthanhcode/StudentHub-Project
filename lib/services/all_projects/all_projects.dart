@@ -25,7 +25,8 @@ class AllProjectsService {
 
       return ResponseAPI<List<Project>>(
         statusCode: res.statusCode,
-        data: res.data['result'].map<Project>((x) => Project.fromMap(x)).toList(),
+        data:
+            res.data['result'].map<Project>((x) => Project.fromMap(x)).toList(),
       );
     } on DioException catch (e) {
       logger.e(
@@ -65,7 +66,8 @@ class AllProjectsService {
     }
   }
 
-  Future<ResponseAPI<List<Project>>> getAllFavoriteProject(String studentId) async {
+  Future<ResponseAPI<List<Project>>> getAllFavoriteProject(
+      String studentId) async {
     try {
       final res = await dioClient.get(
         '$baseURL/api/favoriteProject/$studentId',
@@ -73,7 +75,9 @@ class AllProjectsService {
 
       return ResponseAPI<List<Project>>(
         statusCode: res.statusCode,
-        data: res.data['result'].map<Project>((x) => Project.fromMap(x['project'])).toList(),
+        data: res.data['result']
+            .map<Project>((x) => Project.fromMap(x['project']))
+            .toList(),
       );
     } on DioException catch (e) {
       logger.e(
@@ -89,7 +93,8 @@ class AllProjectsService {
     }
   }
 
-  Future<ResponseAPI<dynamic>> addFavoriteProject(String studentId, String projectId) async {
+  Future<ResponseAPI<dynamic>> addFavoriteProject(
+      String studentId, String projectId) async {
     try {
       final res = await dioClient.patch(
         '$baseURL/api/favoriteProject/$studentId',
@@ -117,7 +122,8 @@ class AllProjectsService {
     }
   }
 
-  Future<ResponseAPI<dynamic>> removeFavoriteProject(String studentId, String projectId) async {
+  Future<ResponseAPI<dynamic>> removeFavoriteProject(
+      String studentId, String projectId) async {
     try {
       final res = await dioClient.patch(
         '$baseURL/api/favoriteProject/$studentId',
@@ -169,13 +175,22 @@ class AllProjectsService {
 
       logger.d('QUERY: $query');
 
-      final res = await dioClient.get('$baseURL/api/project', queryParameters: query);
+      final res =
+          await dioClient.get('$baseURL/api/project', queryParameters: query);
 
       logger.d('RES: $res');
+      if (res.statusCode == 404) {
+        logger.d("vao day");
+        return ResponseAPI<List<Project>>(
+          statusCode: res.statusCode,
+          data: [],
+        );
+      }
 
       return ResponseAPI<List<Project>>(
         statusCode: res.statusCode,
-        data: res.data['result'].map<Project>((x) => Project.fromMap(x)).toList(),
+        data:
+            res.data['result'].map<Project>((x) => Project.fromMap(x)).toList(),
       );
     } on DioException catch (e) {
       logger.e(
@@ -191,14 +206,21 @@ class AllProjectsService {
     }
   }
 
-  Future<ResponseAPI<List<ProjectProposal>>> getProposalOfProject(RequestProjectProposal request) async {
+  Future<ResponseAPI<List<ProjectProposal>>> getProposalOfProject(
+      RequestProjectProposal request) async {
     try {
-      final res = await dioClient.get('$baseURL/api/proposal/getByProjectId/${request.projectId}');
+      String url = '$baseURL/api/proposal/getByProjectId/${request.projectId}';
+      if (request.statusFlag != null) {
+        url += '/?statusFlag=${request.statusFlag}';
+      }
+      final res = await dioClient.get(url);
       logger.d(res);
       // List of Proposal
       return ResponseAPI<List<ProjectProposal>>(
         statusCode: res.statusCode,
-        data: List<ProjectProposal>.from(res.data['result']['items'].map((x) => ProjectProposal.fromMap((x))).toList()),
+        data: List<ProjectProposal>.from(res.data['result']['items']
+            .map((x) => ProjectProposal.fromMap((x)))
+            .toList()),
       );
     } catch (e) {
       logger.e("Unexpected Error: $e");

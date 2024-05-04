@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -13,6 +14,7 @@ import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/key_translator.dart';
+import 'package:studenthub/services/local_services.dart';
 import 'package:studenthub/widgets/dialog.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
@@ -121,13 +123,19 @@ class _AccountState extends State<AccountScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  state.currentRole == UserRole.student
-                                      ? state.userModel.fullname ?? ''
-                                      : state.userModel.company?.companyName ??
-                                          'Anonymous',
-                                  style: theme.textTheme.bodyMedium?.copyWith(
-                                    fontWeight: FontWeight.bold,
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.5,
+                                  child: Text(
+                                    state.currentRole == UserRole.student
+                                        ? state.userModel.fullname ?? ''
+                                        : state.userModel.company
+                                                ?.companyName ??
+                                            'Anonymous',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: theme.textTheme.bodyMedium?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                                 // Text(
@@ -269,6 +277,9 @@ class _AccountState extends State<AccountScreen> {
                                 context
                                     .read<GeneralProjectBloc>()
                                     .add(ResetBlocEvents());
+                                final LocalStorageService tokenService =
+                                    LocalStorageService();
+                                tokenService.clearToken();
                                 Future.delayed(
                                     const Duration(milliseconds: 500), () {
                                   context.pushNamed(e['route_name']);

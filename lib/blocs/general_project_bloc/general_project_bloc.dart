@@ -24,6 +24,8 @@ class GeneralProjectBloc
             projectSearchSuggestions: Set(),
             projectSearchList: const [],
             proposalList: const [],
+            proposalHireList: const [],
+            isLoading: false,
           ),
         ) {
     on<GetAllDataEvent>(_onGetAllData);
@@ -146,7 +148,16 @@ class GeneralProjectBloc
           return project;
         }).toList();
 
-        emit(state.update(projectList: List<Project>.from(data)));
+        final searchData = state.projectSearchList.map((project) {
+          if (project.id == int.parse(event.projectId)) {
+            return project.copyWith(isFavorite: true);
+          }
+          return project;
+        }).toList();
+
+        emit(state.update(
+            projectList: List<Project>.from(data),
+            projectSearchList: List<Project>.from(searchData)));
       } else {
         SnackBarService.showSnackBar(
             content: handleFormatMessage(result.data!.errorDetails),
@@ -179,13 +190,21 @@ class GeneralProjectBloc
           }
           return project;
         }).toList();
+        final searchData = state.projectSearchList.map((project) {
+          if (project.id == int.parse(event.projectId)) {
+            return project.copyWith(isFavorite: false);
+          }
+          return project;
+        }).toList();
+
         final favoriteData = state.projectFavorite
             .where((project) => project.id != int.parse(event.projectId))
             .toList();
         // logger.d("REMOVE FAVORITE: \n $data");
         emit(state.update(
             projectList: List<Project>.from(data),
-            projectFavorite: List<Project>.from(favoriteData)));
+            projectFavorite: List<Project>.from(favoriteData),
+            projectSearchList: List<Project>.from(searchData)));
       } else {
         SnackBarService.showSnackBar(
             content: handleFormatMessage(result.data!.errorDetails),
@@ -223,7 +242,9 @@ class GeneralProjectBloc
           event.numberOfStudents,
           event.proposalsLessThan);
 
-      if (result.statusCode! < 300) {
+      logger.d("BLOC: $result");
+
+      if (result.statusCode! < 300 || result.statusCode == 404) {
         emit(state.update(
           projectSearchList: result.data,
         ));
@@ -254,7 +275,12 @@ class GeneralProjectBloc
       final response =
           await _allProjectsService.getProposalOfProject(event.requestProposal);
       if (response.statusCode! <= 201) {
-        emit(state.update(proposalList: response.data ?? []));
+        if (event.requestProposal.statusFlag != null &&
+            event.requestProposal.statusFlag == 3) {
+          emit(state.update(proposalHireList: response.data ?? []));
+        } else {
+          emit(state.update(proposalList: response.data ?? []));
+        }
         event.onSuccess!();
         EasyLoading.dismiss();
       }

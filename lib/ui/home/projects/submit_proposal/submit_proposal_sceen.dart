@@ -8,7 +8,6 @@ import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/data/dto/student/request_post_proposal.dart';
 import 'package:studenthub/models/common/project_model.dart';
-import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class SubmitProposalScreen extends StatefulWidget {
@@ -24,7 +23,6 @@ class _SubmitProposalState extends State<SubmitProposalScreen> {
   final TextEditingController _controllerCoverLetter = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    logger.d(widget.projectDetail.toMap());
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
@@ -46,12 +44,6 @@ class _SubmitProposalState extends State<SubmitProposalScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Center(
-                //   child: Text(
-                //     'Submit Proposal Screen',
-                //     style: theme.textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w600),
-                //   ),
-                // ),
                 const SizedBox(height: 10),
                 Text(
                   // 'Cover letter',

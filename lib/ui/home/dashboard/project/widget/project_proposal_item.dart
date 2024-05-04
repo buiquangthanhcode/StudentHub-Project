@@ -1,6 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logger/logger.dart';
+import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
+import 'package:studenthub/blocs/company_bloc/company_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/key_translator.dart';
@@ -44,7 +48,7 @@ class _ProposalItemState extends State<ProposalItem> {
                 height: 70,
                 clipBehavior: Clip.none,
                 width: 70,
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
@@ -57,8 +61,8 @@ class _ProposalItemState extends State<ProposalItem> {
                 //   fit: BoxFit.cover,
                 // ),
                 child: const SizedBox(
-                  width: 36,
-                  height: 36,
+                  width: 30,
+                  height: 30,
                   child: CircleAvatar(
                     backgroundImage:
                         AssetImage('lib/assets/images/circle_avatar.png'),
@@ -97,13 +101,17 @@ class _ProposalItemState extends State<ProposalItem> {
                 ),
               ),
               const Spacer(),
-              Text(
-                // widget.item.project?.title ?? 'Excellent',
-                widget.item.project?.title ?? excellentRankedKey.tr(),
-                style: widget.theme.textTheme.bodyMedium!.copyWith(
-                  color: const Color.fromARGB(255, 231, 144, 5),
-                  fontWeight: FontWeight.w600,
-                ),
+              Row(
+                children: [
+                  Text(
+                    // widget.item.project?.title ?? 'Excellent',
+                    widget.item.project?.title ?? excellentRankedKey.tr(),
+                    style: widget.theme.textTheme.bodyMedium!.copyWith(
+                      color: const Color.fromARGB(255, 231, 144, 5),
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -146,14 +154,21 @@ class _ProposalItemState extends State<ProposalItem> {
                               textButtom: sendOfferBtnKey.tr(),
                               subtitle: sendOfferConfirmMsgKey.tr(),
                               onSave: () {
-                            SnackBarService.showSnackBar(
-                                // content: "Send offer successfully!",
-                                content: sendOfferSuccessMsgKey.tr(),
-                                status: StatusSnackBar.success);
-                            context.pop();
-                            setState(() {
-                              isPressHiredButton = true;
-                            });
+                            context
+                                .read<CompanyBloc>()
+                                .add(HireStudentProprosalEvent(
+                                  proposalId: widget.item.id ?? 0,
+                                  statusFlag: 3,
+                                  onSuccess: () {
+                                    SnackBarService.showSnackBar(
+                                        content: "Hired Successfully",
+                                        status: StatusSnackBar.success);
+                                    context.pop();
+                                    setState(() {
+                                      isPressHiredButton = true;
+                                    });
+                                  },
+                                ));
                           });
                         },
                         child: Text(
@@ -181,11 +196,9 @@ class _ProposalItemState extends State<ProposalItem> {
                     minimumSize: const Size(double.infinity, 35),
                   ),
                   onPressed: () {
-                    // logger.d(
-                    //     '${widget.item.student!.user?.fullname}\n${widget.item.studentId.toString()}\n${widget.projectId}');
                     context.pushNamed('chat_detail', queryParameters: {
                       'userName': widget.item.student!.user?.fullname ?? '',
-                      'userId': widget.item.studentId.toString(),
+                      'userId': widget.item.student!.userId.toString(),
                       'projectId': widget.projectId,
                     });
                   },

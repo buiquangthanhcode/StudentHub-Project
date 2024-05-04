@@ -15,3 +15,8 @@ class ResetPasswordEvent extends GlobalEvent {
   final Function? onSuccess;
   ResetPasswordEvent({required this.email, this.onSuccess});
 }
+
+class SetIsFirtTimeAccessApp extends GlobalEvent {
+  final bool isFirtTimeAccessApp;
+  SetIsFirtTimeAccessApp({required this.isFirtTimeAccessApp});
+}

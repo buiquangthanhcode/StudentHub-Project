@@ -93,9 +93,11 @@ class UpdateEducationEvent extends StudentEvent {
 
 class PostProfileStudent extends StudentEvent {
   final RequestUpdateProfileStudent profileStudent;
+  final BuildContext? currentContext;
   final Function(Student student)? onSuccess;
+  final String? token;
 
-  PostProfileStudent({required this.profileStudent, required this.onSuccess});
+  PostProfileStudent({required this.profileStudent, required this.onSuccess, this.currentContext, this.token});
 }
 
 class UpdateProfileStudent extends StudentEvent {
@@ -148,7 +150,7 @@ class UploadResumeEvent extends StudentEvent {
 
 class GetResumeEvent extends StudentEvent {
   final String studentId;
-  final Function()? onSuccess;
+  final Function(String value)? onSuccess;
 
   GetResumeEvent({required this.studentId, this.onSuccess});
 }
@@ -204,7 +206,21 @@ class SubmitTranScript extends StudentEvent {
 
 class GetTranScription extends StudentEvent {
   final String studentId;
-  final Function()? onSuccess;
+  final Function(String value)? onSuccess;
 
   GetTranScription({required this.studentId, this.onSuccess});
+}
+
+class RemoveResumeEvent extends StudentEvent {
+  final int studentId;
+  final Function? onSuccess;
+
+  RemoveResumeEvent({required this.studentId, required this.onSuccess});
+}
+
+class RemoveTranScriptEvent extends StudentEvent {
+  final int studentId;
+  final Function? onSuccess;
+
+  RemoveTranScriptEvent({required this.studentId, required this.onSuccess});
 }

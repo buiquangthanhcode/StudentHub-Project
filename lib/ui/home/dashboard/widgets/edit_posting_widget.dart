@@ -11,7 +11,6 @@ import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/core/text_field_custom.dart';
 import 'package:studenthub/models/common/project_model.dart';
-import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
 enum TimeOption { option1, option2, option3, option4 }
@@ -21,6 +20,7 @@ class EditPosting extends StatefulWidget {
   const EditPosting({super.key, required this.project});
 
   @override
+  // ignore: library_private_types_in_public_api
   _EditPostingState createState() => _EditPostingState();
 }
 
@@ -258,9 +258,7 @@ class _EditPostingState extends State<EditPosting> {
                       onPressed: () {
                         // validate form
                         if (_formKeyEdit.currentState?.saveAndValidate() ??
-                            false) {
-                          logger.d(_formKeyEdit.currentState!.value);
-                        }
+                            false) {}
 
                         int? companyId = BlocProvider.of<AuthBloc>(context)
                             .state

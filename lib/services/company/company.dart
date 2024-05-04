@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:studenthub/blocs/company_bloc/company_event.dart';
 import 'package:studenthub/data/dto/reponse.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/models/company/company_model.dart';
@@ -76,7 +77,6 @@ class CompanyService {
         '$baseURL/api/profile/company',
         data: company.toJson(),
       );
-      // logger.d(res.data['create profile success']);
 
       return ResponseAPI<Company>(
         statusCode: res.statusCode,
@@ -96,8 +96,7 @@ class CompanyService {
     }
   }
 
-  Future<ResponseAPI<Company>> updateInformation(
-      Company company, int id) async {
+  Future<ResponseAPI<Company>> updateInformation(Company company, int id) async {
     try {
       final res = await dioClient.put(
         '$baseURL/api/profile/company/${id.toString()}',
@@ -127,8 +126,7 @@ class CompanyService {
     }
   }
 
-  Future<ResponseAPI<Company>> getAllInformation(
-      Company company, int id) async {
+  Future<ResponseAPI<Company>> getAllInformation(Company company, int id) async {
     try {
       final res = await dioClient.put(
         '$baseURL/api/profile/company/${id.toString()}',
@@ -162,8 +160,7 @@ class CompanyService {
 
       return ResponseAPI<List<Project>>(
         statusCode: res.statusCode,
-        data:
-            res.data['result'].map<Project>((x) => Project.fromMap(x)).toList(),
+        data: res.data['result'].map<Project>((x) => Project.fromMap(x)).toList(),
       );
     } on DioException catch (e) {
       logger.e(
@@ -256,6 +253,31 @@ class CompanyService {
 
       return ResponseAPI(
         statusCode: res.statusCode,
+      );
+    } on DioException catch (e) {
+      logger.e(
+        "DioException :${e.response}",
+      );
+      throw ResponseAPI(
+        statusCode: e.response?.statusCode,
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
+
+  Future<ResponseAPI> hireStudentProprosal(HireStudentProprosalEvent data) async {
+    try {
+      final res = await dioClient.patch(
+        '$baseURL/api/proposal/${data.proposalId}',
+        data: json.encode({
+          "statusFlag": data.statusFlag,
+        }),
+      );
+      return ResponseAPI(
+        statusCode: res.statusCode,
+        data: res.data,
       );
     } on DioException catch (e) {
       logger.e(
