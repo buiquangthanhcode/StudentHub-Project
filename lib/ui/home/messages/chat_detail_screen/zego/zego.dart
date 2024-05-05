@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/models/common/user_model.dart';
+import 'package:studenthub/utils/logger.dart';
 import 'package:zego_uikit_prebuilt_video_conference/zego_uikit_prebuilt_video_conference.dart';
 
 class VideoCallPage extends StatelessWidget {
@@ -14,6 +15,7 @@ class VideoCallPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    logger.d('ZEGO PAGE BUILD');
     UserModel userModel = context.read<AuthBloc>().state.userModel;
     return SafeArea(
       child: ZegoUIKitPrebuiltVideoConference(

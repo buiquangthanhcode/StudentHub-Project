@@ -18,6 +18,7 @@ import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/interview
 import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/interview_send_widget.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/message_receive_widget.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/message_send_widget.dart';
+import 'package:studenthub/ui/home/messages/chat_detail_screen/zego/zego.dart';
 import 'package:studenthub/ui/home/messages/widgets/get_more_action_widget.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/utils/socket.dart';
@@ -316,48 +317,71 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   shrinkWrap: true,
                   itemCount: state.messageList.length,
                   reverse: true,
-                  itemBuilder: (context, index) =>
-                      state.messageList[index].sender['id'] == meId
-                          ? Builder(builder: (context) {
-                              // if (state.messageList[index].interview == null) {
-                              //   state.messageList[index].interview = false;
-                              // }
-                              if (state.messageList[index].interview == null) {
-                                return MessageSendWidget(
-                                  screenSize: screenSize,
-                                  meId: meId,
-                                  messageList: state.messageList,
-                                  index: index,
+                  itemBuilder: (context, index) => state
+                              .messageList[index].sender['id'] ==
+                          meId
+                      ? Builder(builder: (context) {
+                          // if (state.messageList[index].interview == null) {
+                          //   state.messageList[index].interview = false;
+                          // }
+                          if (state.messageList[index].interview == null) {
+                            return MessageSendWidget(
+                              screenSize: screenSize,
+                              meId: meId,
+                              messageList: state.messageList,
+                              index: index,
+                            );
+                          } else {
+                            return InterviewSendWidget(
+                              meId: meId,
+                              screenSize: screenSize,
+                              colorTheme: colorTheme,
+                              messageList: state.messageList,
+                              index: index,
+                              join: (data) {
+                                logger.d('MEETING DATA: ${data.meetingRoom}');
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => VideoCallPage(
+                                      conferenceID:
+                                          data.meetingRoom['meeting_room_code'],
+                                    ),
+                                  ),
                                 );
-                              } else {
-                                return InterviewSendWidget(
-                                  meId: meId,
-                                  screenSize: screenSize,
-                                  colorTheme: colorTheme,
-                                  messageList: state.messageList,
-                                  index: index,
+                              },
+                            );
+                          }
+                        })
+                      : Builder(builder: (context) {
+                          if (state.messageList[index].interview == null) {
+                            return MessageReceiveWidget(
+                              meId: meId,
+                              screenSize: screenSize,
+                              colorTheme: colorTheme,
+                              messageList: state.messageList,
+                              index: index,
+                            );
+                          } else {
+                            return InterviewReceiveWidget(
+                              meId: meId,
+                              screenSize: screenSize,
+                              colorTheme: colorTheme,
+                              messageList: state.messageList,
+                              index: index,
+                              join: (data) {
+                                logger.d('MEETING DATA: ${data.meetingRoom}');
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => VideoCallPage(
+                                      conferenceID:
+                                          data.meetingRoom['meeting_room_code'],
+                                    ),
+                                  ),
                                 );
-                              }
-                            })
-                          : Builder(builder: (context) {
-                              if (state.messageList[index].interview == null) {
-                                return MessageReceiveWidget(
-                                  meId: meId,
-                                  screenSize: screenSize,
-                                  colorTheme: colorTheme,
-                                  messageList: state.messageList,
-                                  index: index,
-                                );
-                              } else {
-                                return InterviewReceiveWidget(
-                                  meId: meId,
-                                  screenSize: screenSize,
-                                  colorTheme: colorTheme,
-                                  messageList: state.messageList,
-                                  index: index,
-                                );
-                              }
-                            }),
+                              },
+                            );
+                          }
+                        }),
                 ),
               ),
             ),
