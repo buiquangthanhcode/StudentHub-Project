@@ -1,27 +1,29 @@
-const bottomNavs = [
+import 'package:studenthub/constants/key_translator.dart';
+
+final bottomNavs = [
   {
     'solid-icon': 'lib/assets/nav_icons/solid/rectangles-mixed.svg',
     'regular-icon': 'lib/assets/nav_icons/regular/rectangles-mixed.svg',
-    'title': 'Dashboard',
+    'title': dashboardNavKey,
   },
   {
     'solid-icon': 'lib/assets/nav_icons/solid/ballot-check.svg',
     'regular-icon': 'lib/assets/nav_icons/regular/ballot-check.svg',
-    'title': 'Projects',
+    'title': projectsNavKey,
   },
   {
     'solid-icon': 'lib/assets/nav_icons/solid/messages.svg',
     'regular-icon': 'lib/assets/nav_icons/regular/messages.svg',
-    'title': 'Message',
+    'title': messagesNavKey,
   },
   {
     'solid-icon': 'lib/assets/nav_icons/solid/bell.svg',
     'regular-icon': 'lib/assets/nav_icons/regular/bell.svg',
-    'title': 'Alerts',
+    'title': alertsNavKey,
   },
   {
     'solid-icon': 'lib/assets/nav_icons/solid/circle-user.svg',
     'regular-icon': 'lib/assets/nav_icons/regular/circle-user.svg',
-    'title': 'Account',
+    'title': accountNavKey,
   },
 ];

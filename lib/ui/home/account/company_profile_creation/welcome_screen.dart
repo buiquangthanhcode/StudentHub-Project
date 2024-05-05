@@ -1,11 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/constants/strings.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({Key? key}) : super(key: key);
+  const WelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +58,8 @@ class WelcomeScreen extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       minimumSize: const Size(double.infinity, 56)),
                   child: Text(
-                    'Get Started!',
+                    // 'Get Started!',
+                    getStartedBtnKey.tr(),
                     style: textTheme.bodyMedium!.copyWith(
                         color: Colors.white, fontWeight: FontWeight.w600),
                   ),

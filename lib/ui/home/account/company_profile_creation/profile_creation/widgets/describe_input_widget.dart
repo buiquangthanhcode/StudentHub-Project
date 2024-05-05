@@ -5,10 +5,9 @@ import 'package:studenthub/constants/colors.dart';
 
 class DescribeInputWidget extends StatefulWidget {
   const DescribeInputWidget(
-      {Key? key,
+      {super.key,
       required this.descriptionInputController,
-      required this.checkFormField})
-      : super(key: key);
+      required this.checkFormField});
 
   final TextEditingController descriptionInputController;
   final Function() checkFormField;

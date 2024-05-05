@@ -1,14 +1,14 @@
 import 'dart:developer';
-
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/ui/home/dashboard/data/data_count.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/edit_posting_widget.dart';
@@ -28,7 +28,10 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final dataHeader = getMoreActionHeader(theme);
+    AuthenState authState = context.read<AuthBloc>().state;
+    final dataHeader = authState.currentRole == UserRole.company
+        ? getMoreActionHeader(theme)
+        : getMoreActionHeaderForStudent(theme);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -49,27 +52,33 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
                 final key = dataHeader[index]['key'];
                 switch (key) {
                   case "view_proposals":
-                    context.push('/company_review',
-                        extra: {'item': widget.project, 'initTab': "0"}
-                            as Map<String, dynamic>);
+                    authState.currentRole == UserRole.company
+                        ? context.push('/project_company_detail',
+                            extra: {'item': widget.project, 'initTab': "0"}
+                                as Map<String, dynamic>)
+                        : context.push('/project_student_detail',
+                            extra: {'item': widget.project}
+                                as Map<String, dynamic>);
                     break;
                   case "view_messages":
-                    log("View Messages");
-                    context.push('/company_review',
+                    context.push('/project_company_detail',
                         extra: {'item': widget.project, 'initTab': "2"}
                             as Map<String, dynamic>);
                     break;
                   case "view_hired":
-                    log("View Hired");
-                    context.push('/company_review',
+                    context.push('/project_company_detail',
                         extra: {'item': widget.project, 'initTab': "3"}
                             as Map<String, dynamic>);
                     break;
                   case "view_job_posting":
                     log("View Job Posting");
-                    context.push('/company_review',
-                        extra: {'item': widget.project, 'initTab': "1"}
-                            as Map<String, dynamic>);
+                    authState.currentRole == UserRole.company
+                        ? context.push('/project_company_detail',
+                            extra: {'item': widget.project, 'initTab': "1"}
+                                as Map<String, dynamic>)
+                        : context.push('/project_student_detail',
+                            extra: {'item': widget.project}
+                                as Map<String, dynamic>);
                     break;
 
                   case "edit_posting":
@@ -93,9 +102,10 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
                               projectId: widget.project.id!,
                               onSuccess: () {
                                 SnackBarService.showSnackBar(
-                                    status: StatusSnackBar.success,
-                                    content:
-                                        "Project was deleted successfully!");
+                                  status: StatusSnackBar.success,
+                                  // content: "Project was deleted successfully!",
+                                  content: deleteProjectSuccessMsgKey.tr(),
+                                );
                                 Navigator.pop(context);
                               }),
                         );
@@ -119,14 +129,15 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
                                   'description': widget.project.description,
                                   'numberOfStudents':
                                       widget.project.numberOfStudents,
-                                  'typeFlag': 1,
+                                  'typeFlag': 2,
                                 },
                               ),
                               onSuccess: () {
                                 SnackBarService.showSnackBar(
-                                    status: StatusSnackBar.success,
-                                    content:
-                                        "Project was updated successfully!");
+                                  status: StatusSnackBar.success,
+                                  // content: "Project was updated successfully!",
+                                  content: projectUpdatedSuccessMsgKey.tr(),
+                                );
                                 Navigator.pop(context);
                                 context
                                     .read<ProjectBloc>()
@@ -153,14 +164,15 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
                                   'description': widget.project.description,
                                   'numberOfStudents':
                                       widget.project.numberOfStudents,
-                                  'typeFlag': 0,
+                                  'typeFlag': 1,
                                 },
                               ),
                               onSuccess: () {
                                 SnackBarService.showSnackBar(
-                                    status: StatusSnackBar.success,
-                                    content:
-                                        "Project was updated successfully!");
+                                  status: StatusSnackBar.success,
+                                  // content: "Project was updated successfully!",
+                                  content: projectUpdatedSuccessMsgKey.tr(),
+                                );
                                 Navigator.pop(context);
                               }),
                         );

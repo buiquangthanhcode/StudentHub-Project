@@ -1,5 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,18 +8,19 @@ import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/core/text_field_custom.dart';
 import 'package:studenthub/models/common/project_model.dart';
-import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
 enum TimeOption { option1, option2, option3, option4 }
 
 class EditPosting extends StatefulWidget {
   final Project project;
-  const EditPosting({Key? key, required this.project}) : super(key: key);
+  const EditPosting({super.key, required this.project});
 
   @override
+  // ignore: library_private_types_in_public_api
   _EditPostingState createState() => _EditPostingState();
 }
 
@@ -60,7 +61,8 @@ class _EditPostingState extends State<EditPosting> {
           children: [
             const SizedBox(height: 10),
             Text(
-              'Title',
+              // 'Title',
+              titleKey.tr(),
               style: theme.textTheme.bodyMedium!.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -89,7 +91,7 @@ class _EditPostingState extends State<EditPosting> {
             ),
             const SizedBox(height: 20),
             Text(
-              'Project scope',
+              projectScopeKey.tr(),
               style: theme.textTheme.bodyMedium!.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -101,9 +103,10 @@ class _EditPostingState extends State<EditPosting> {
                 const SizedBox(height: 2),
                 RadioListTile(
                   activeColor: primaryColor,
-                  visualDensity: const VisualDensity(vertical: -4.0, horizontal: -4.0),
+                  visualDensity:
+                      const VisualDensity(vertical: -4.0, horizontal: -4.0),
                   title: Text(
-                    'Less than 1 month',
+                    lessThan1MonthKey.tr(),
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: Colors.black.withOpacity(0.6),
                         ),
@@ -118,9 +121,10 @@ class _EditPostingState extends State<EditPosting> {
                 ),
                 RadioListTile(
                   activeColor: primaryColor,
-                  visualDensity: const VisualDensity(vertical: -4.0, horizontal: -4.0),
+                  visualDensity:
+                      const VisualDensity(vertical: -4.0, horizontal: -4.0),
                   title: Text(
-                    '1 to 3 months',
+                    oneToThreeMonthsKey.tr(),
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: Colors.black.withOpacity(0.6),
                         ),
@@ -135,9 +139,10 @@ class _EditPostingState extends State<EditPosting> {
                 ),
                 RadioListTile(
                   activeColor: primaryColor,
-                  visualDensity: const VisualDensity(vertical: -4.0, horizontal: -4.0),
+                  visualDensity:
+                      const VisualDensity(vertical: -4.0, horizontal: -4.0),
                   title: Text(
-                    '3 to 6 months',
+                    threeToSixMonthsKey.tr(),
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: Colors.black.withOpacity(0.6),
                         ),
@@ -152,9 +157,10 @@ class _EditPostingState extends State<EditPosting> {
                 ),
                 RadioListTile(
                   activeColor: primaryColor,
-                  visualDensity: const VisualDensity(vertical: -4.0, horizontal: -4.0),
+                  visualDensity:
+                      const VisualDensity(vertical: -4.0, horizontal: -4.0),
                   title: Text(
-                    'More than 6 months',
+                    moreThan6MonthsKey.tr(),
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: Colors.black.withOpacity(0.6),
                         ),
@@ -171,7 +177,8 @@ class _EditPostingState extends State<EditPosting> {
             ),
             const SizedBox(height: 20),
             Text(
-              'Number of students',
+              // 'Number of students',
+              numberOfStudentsKey.tr(),
               style: theme.textTheme.bodyMedium!.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -200,7 +207,8 @@ class _EditPostingState extends State<EditPosting> {
             ),
             const SizedBox(height: 20),
             Text(
-              'Description',
+              // 'Description',
+              descriptionPlaceHolderKey.tr(),
               style: theme.textTheme.bodyMedium!.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -216,7 +224,7 @@ class _EditPostingState extends State<EditPosting> {
             ),
             const SizedBox(height: 20),
             Expanded(
-              child: Container(
+              child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: Row(
                   children: [
@@ -227,15 +235,18 @@ class _EditPostingState extends State<EditPosting> {
                         minimumSize: const Size(180, 56),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
-                          side: const BorderSide(color: primaryColor, width: 2.0),
+                          side:
+                              const BorderSide(color: primaryColor, width: 2.0),
                         ),
                       ),
                       onPressed: () {
                         Navigator.pop(context);
                       },
                       child: Text(
-                        'Cancel',
-                        style: theme.textTheme.bodyMedium?.copyWith(color: primaryColor, fontWeight: FontWeight.w600),
+                        // 'Cancel',
+                        cancelBtnKey.tr(),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                            color: primaryColor, fontWeight: FontWeight.w600),
                       ),
                     ),
                     const Spacer(),
@@ -246,42 +257,56 @@ class _EditPostingState extends State<EditPosting> {
                       ),
                       onPressed: () {
                         // validate form
-                        if (_formKeyEdit.currentState?.saveAndValidate() ?? false) {
-                          logger.d(_formKeyEdit.currentState!.value);
-                        }
+                        if (_formKeyEdit.currentState?.saveAndValidate() ??
+                            false) {}
 
-                        int? companyId = BlocProvider.of<AuthBloc>(context).state.userModel.company!.id;
+                        int? companyId = BlocProvider.of<AuthBloc>(context)
+                            .state
+                            .userModel
+                            .company!
+                            .id;
                         context.read<ProjectBloc>().add(
                               EditProjectEvent(
                                   companyId: companyId!,
                                   updatedProject: Project.fromMap(
                                     {
                                       'id': widget.project.id,
-                                      'projectScopeFlag': _timeOption == TimeOption.option1
+                                      'projectScopeFlag': _timeOption ==
+                                              TimeOption.option1
                                           ? 0
                                           : _timeOption == TimeOption.option2
                                               ? 1
-                                              : _timeOption == TimeOption.option3
+                                              : _timeOption ==
+                                                      TimeOption.option3
                                                   ? 2
                                                   : 3,
-                                      'title': _formKeyEdit.currentState!.value['title'],
-                                      'description': _formKeyEdit.currentState!.value['description'],
-                                      'numberOfStudents':
-                                          int.parse(_formKeyEdit.currentState!.value['number_of_students']),
+                                      'title': _formKeyEdit
+                                          .currentState!.value['title'],
+                                      'description': _formKeyEdit
+                                          .currentState!.value['description'],
+                                      'numberOfStudents': int.parse(_formKeyEdit
+                                          .currentState!
+                                          .value['number_of_students']),
                                       'typeFlag': widget.project.typeFlag,
                                     },
                                   ),
                                   onSuccess: () {
                                     SnackBarService.showSnackBar(
-                                        status: StatusSnackBar.success, content: "Project was updated successfully!");
+                                        status: StatusSnackBar.success,
+                                        // content:
+                                        //     "Project was updated successfully!");
+                                        content:
+                                            projectUpdatedSuccessMsgKey.tr());
                                     Navigator.pop(context);
                                     Navigator.pop(context);
                                   }),
                             );
                       },
                       child: Text(
-                        'Edit',
-                        style: theme.textTheme.bodyMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                        // 'Edit',
+                        editBtnKey.tr(),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                            color: Colors.white, fontWeight: FontWeight.w600),
                       ),
                     ),
                   ],

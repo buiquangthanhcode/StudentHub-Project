@@ -1,19 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_bloc.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_event.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_bloc.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_event.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_model.dart';
-import 'package:studenthub/utils/logger.dart';
 
 class ProjectItemSaved extends StatefulWidget {
-  const ProjectItemSaved({Key? key, required this.project}) : super(key: key);
+  const ProjectItemSaved({super.key, required this.project});
 
   final Project project;
   @override
@@ -28,25 +27,31 @@ class _ProjectItemSavedState extends State<ProjectItemSaved> {
     return ngayHienTai.difference(ngayDuocCungCap).inDays;
   }
 
+  // Map<int, String> time = {
+  //   0: 'Less than 1 month',
+  //   1: '1 to 3 months',
+  //   2: '3 to 6 months',
+  //   3: 'More than 6 months'
+  // };
+
   Map<int, String> time = {
-    0: 'Less than 1 month',
-    1: '1 - 3 months',
-    2: '3 - 6 months',
-    3: 'More than 6 months'
+    0: lessThan1MonthKey.tr(),
+    1: oneToThreeMonthsKey.tr(),
+    2: threeToSixMonthsKey.tr(),
+    3: moreThan6MonthsKey.tr(),
   };
 
   @override
   Widget build(BuildContext context) {
-    // logger.d('Project: ${widget.project}');
     TextTheme textTheme = Theme.of(context).textTheme;
     var colorTheme = Theme.of(context).colorScheme;
     return GestureDetector(
       onTap: () {
         context.pushNamed(
-          'project_detail',
+          'project_general_detail',
           queryParameters: {
             'id': widget.project.id.toString(),
-            'isFavorite': 'true',
+            'isFavorite': 'null',
           },
         );
       },
@@ -69,7 +74,10 @@ class _ProjectItemSavedState extends State<ProjectItemSaved> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Created ${differentDay(widget.project.createdAt!)} days ago',
+                        // 'Created ${differentDay(widget.project.createdAt!)} days ago',
+                        timeCreatedKey.tr(namedArgs: {
+                          "value": "${differentDay(widget.project.createdAt!)}",
+                        }),
                         style: textTheme.bodySmall!
                             .copyWith(color: colorTheme.grey),
                       ),
@@ -80,7 +88,13 @@ class _ProjectItemSavedState extends State<ProjectItemSaved> {
                             textTheme.bodySmall!.copyWith(color: primaryColor),
                       ),
                       Text(
-                        'Time: ${time[widget.project.projectScopeFlag] ?? '1-3 months'}, ${widget.project.numberOfStudents ?? 0} students needed',
+                        // 'Time: ${time[widget.project.projectScopeFlag] ?? '1-3 months'}, ${widget.project.numberOfStudents ?? 0} students needed',
+                        generalProjectDescriptionKey.tr(namedArgs: {
+                          "value1": time[widget.project.projectScopeFlag] ??
+                              '1-3 months',
+                          "value2":
+                              (widget.project.numberOfStudents ?? 0).toString(),
+                        }),
                         style: textTheme.bodySmall!.copyWith(
                           color: colorTheme.grey,
                         ),
@@ -90,10 +104,9 @@ class _ProjectItemSavedState extends State<ProjectItemSaved> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    logger.d("test data: ${widget.project}");
-                    context.read<AllProjectBloc>().add(
+                    context.read<GeneralProjectBloc>().add(
                         RemoveFavoriteProjectList(project: widget.project));
-                    context.read<AllProjectBloc>().add(
+                    context.read<GeneralProjectBloc>().add(
                           RemoveFavoriteProject(
                             studentId: context
                                 .read<AuthBloc>()
@@ -117,7 +130,7 @@ class _ProjectItemSavedState extends State<ProjectItemSaved> {
               height: 15,
             ),
             Text(
-              'Students are looking for',
+              jobDescriptionExampleKey.tr(),
               style: textTheme.bodySmall!,
             ),
             Padding(
@@ -152,8 +165,18 @@ class _ProjectItemSavedState extends State<ProjectItemSaved> {
             const SizedBox(
               height: 15,
             ),
-            Text('Proposal: ${widget.project.countProposals ?? 'Less than 5'} ',
-                style: textTheme.bodySmall!.copyWith(color: colorTheme.grey)),
+            // Text(
+            //   'Proposal: ${widget.project.countProposals ?? 'Less than 5'} ',
+
+            //   style: textTheme.bodySmall!.copyWith(color: colorTheme.grey),
+            // ),
+            Text(
+              generalProjectProposalKey.tr(namedArgs: {
+                "value":
+                    (widget.project.countProposals ?? 'Less than 5').toString(),
+              }),
+              style: textTheme.bodySmall!.copyWith(color: colorTheme.grey),
+            ),
           ],
         ),
       ),

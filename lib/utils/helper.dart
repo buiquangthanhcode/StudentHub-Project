@@ -1,5 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:studenthub/models/common/project_proposal_modal.dart';
+import 'package:studenthub/models/common/proposal_modal.dart';
+import 'package:studenthub/models/notification/notification_model.dart';
 import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
+import 'package:studenthub/models/student/student_create_profile/tech_stack.dart';
 import 'package:studenthub/utils/logger.dart';
 
 DateTime stringToDateTime(String? dateString) {
@@ -75,8 +79,47 @@ DateTime parseMonthYear(String? monthYearString) {
     DateFormat formatter = DateFormat('MM-yyyy');
     return formatter.parseStrict(monthYearString ?? '1970-01-01');
   } catch (e) {
-    // Xử lý ngoại lệ nếu có lỗi xảy ra
     logger.e('Error parsing date: $e');
     return DateTime.parse('1970-01-01');
+  }
+}
+
+void sortProjectsByCreatedAt(List<ProjectProposal> projects) {
+  projects.sort((a, b) {
+    if (a.createdAt != null && b.createdAt != null) return b.createdAt!.compareTo(a.createdAt!);
+    return 1;
+  });
+}
+
+bool checkIsSubmitProposal(List<Proposal> data, int studentId) {
+  return data.any((element) => element.studentId == studentId);
+}
+
+List<TechStack> removeDuplicates(List<TechStack> list) {
+  List<TechStack> uniqueList = [];
+
+  Set<String> namesSet = <String>{};
+
+  for (var teckstack in list) {
+    if (!namesSet.contains(teckstack.name ?? '')) {
+      namesSet.add(teckstack.name ?? '');
+      uniqueList.add(teckstack);
+    }
+  }
+
+  return uniqueList;
+}
+
+String checkDateTime(String dateTimeString) {
+  if (dateTimeString.isEmpty) return '';
+  DateTime now = DateTime.now();
+
+  DateTime dateTime = DateTime.parse(dateTimeString);
+
+  if (dateTime.year == now.year && dateTime.month == now.month && dateTime.day == now.day) {
+    dateTime = dateTime.toLocal();
+    return DateFormat('HH:mm').format(dateTime);
+  } else {
+    return DateFormat('dd-MM-yyyy').format(dateTime);
   }
 }

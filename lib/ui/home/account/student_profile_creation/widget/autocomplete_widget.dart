@@ -1,8 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
-import 'package:studenthub/blocs/student_bloc/student_event.dart';
-import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
+import 'package:studenthub/constants/key_translator.dart';
+import 'package:studenthub/utils/logger.dart';
 
 class AutoCompleteWidget extends StatefulWidget {
   const AutoCompleteWidget({
@@ -20,6 +19,7 @@ class AutoCompleteWidget extends StatefulWidget {
 
 class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
   late TextEditingController textEditingController;
+  final GlobalKey _autocompleteKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +28,7 @@ class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
     return LayoutBuilder(
       builder: (context, constraints) {
         return RawAutocomplete<String>(
+          key: _autocompleteKey,
           optionsViewBuilder: (context, onSelected, options) {
             return Align(
               alignment: Alignment.topLeft,
@@ -62,25 +63,28 @@ class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
           displayStringForOption: (option) {
             return option;
           },
-          fieldViewBuilder: (context, fieldTextEditingController, focusNode, onFieldSubmitted) {
+          fieldViewBuilder: (context, fieldTextEditingController, focusNode,
+              onFieldSubmitted) {
             textEditingController = fieldTextEditingController;
             return TextFormField(
               controller: fieldTextEditingController,
               focusNode: focusNode,
               style: TextStyle(
-                color: Colors.grey[400],
+                color: Colors.grey[900],
                 fontSize: 16,
               ),
               scrollPadding: const EdgeInsets.all(0),
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 // contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 isDense: true,
-                hintText: 'Enter your skill',
-                hintStyle: TextStyle(
+                // hintText: 'Enter your skill',
+                hintText: enterSkillSetPlaceHolderKey.tr(),
+                hintStyle: const TextStyle(
                   fontSize: 14,
                 ),
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
               ),
             );
           },
@@ -88,9 +92,19 @@ class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
             if (skillsetTextEditController.text == '') {
               return const Iterable<String>.empty();
             }
-            return widget.data.where((String option) {
-              return option.toLowerCase().contains(skillsetTextEditController.text);
+            final data = widget.data.where((String option) {
+              return option
+                  .toLowerCase()
+                  .contains(skillsetTextEditController.text.toLowerCase());
             });
+
+            if (data.isNotEmpty) {
+              return data;
+            } else {
+              return Iterable<String>.generate(1, (int index) {
+                return 'Not found';
+              });
+            }
           },
           onSelected: (String value) {
             textEditingController.text = "";

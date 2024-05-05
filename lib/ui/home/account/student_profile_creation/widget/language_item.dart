@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/models/student/student_create_profile/language_model.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/widget/edit_language.dart';
@@ -41,7 +43,8 @@ class LanguageItem extends StatelessWidget {
           const Spacer(),
           InkWell(
             onTap: () {
-              showModalBottomSheetCustom(context, widgetBuilder: LanguageEdit(item: item));
+              showModalBottomSheetCustom(context,
+                  widgetBuilder: LanguageEdit(item: item));
             },
             child: FaIcon(
               FontAwesomeIcons.penToSquare,
@@ -54,17 +57,29 @@ class LanguageItem extends StatelessWidget {
             onTap: () {
               showDialogCustom(context,
                   image: 'lib/assets/images/delete.png',
-                  title: 'Are you sure you want to delete this language?',
-                  textButtom: 'Delete',
-                  subtitle: 'This action cannot be undone', onSave: () {
-                int userId = BlocProvider.of<StudentBloc>(context).state.student.id ?? -1;
-                List<Language> languages =
-                    List<Language>.from(BlocProvider.of<StudentBloc>(context).state.student.languages ?? []);
+                  // title: 'Are you sure you want to delete this language?',
+                  title: deleteLanguageConfirmMsg.tr(),
+                  // textButtom: 'Delete',
+                  textButtom: deleteBtnKey.tr(),
+                  // subtitle: 'This action cannot be undone',
+                  subtitle: thisActionCannotBeUndoneKey.tr(), onSave: () {
+                int userId =
+                    BlocProvider.of<StudentBloc>(context).state.student.id ??
+                        -1;
+                List<Language> languages = List<Language>.from(
+                    BlocProvider.of<StudentBloc>(context)
+                            .state
+                            .student
+                            .languages ??
+                        []);
                 context.read<StudentBloc>().add(UpdateLanguageEvent(
                     languages: languages..remove(item),
                     userId: userId,
                     onSuccess: () {
-                      SnackBarService.showSnackBar(content: "Delete Sucessfully", status: StatusSnackBar.success);
+                      SnackBarService.showSnackBar(
+                          // content: "Delete Sucessfully",
+                          content: deleteSuccessMsg.tr(),
+                          status: StatusSnackBar.success);
                       Navigator.pop(context);
                       // context.read<StudentBloc>().add(GetAllLanguageEvent(onSuccess: () {}, userId: userId));
                     }));

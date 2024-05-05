@@ -11,7 +11,7 @@ class MyElevatedButton extends StatelessWidget {
   final Widget child;
 
   const MyElevatedButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.child,
     this.borderRadius,
@@ -20,7 +20,7 @@ class MyElevatedButton extends StatelessWidget {
     required this.height,
     this.gradient,
     this.backgroundColor = Colors.transparent,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +28,7 @@ class MyElevatedButton extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      decoration: BoxDecoration(
-          gradient: gradient, borderRadius: borderRadius, border: buttonBorder),
+      decoration: BoxDecoration(gradient: gradient, borderRadius: borderRadius, border: buttonBorder),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(

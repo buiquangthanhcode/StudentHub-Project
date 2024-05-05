@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/models/company/company_model.dart';
-import 'package:studenthub/models/common/project_model.dart';
 
 @immutable
 abstract class CompanyEvent {}
@@ -26,8 +25,7 @@ class UpdateAllDataEvent extends CompanyEvent {
   final Company data;
   final int id;
   final Function(Company company)? onSuccess;
-  UpdateAllDataEvent(
-      {required this.id, required this.data, required this.onSuccess});
+  UpdateAllDataEvent({required this.id, required this.data, required this.onSuccess});
 }
 
 class UpdateNewCompanyProfileEvent extends CompanyEvent {
@@ -75,6 +73,7 @@ class RemoveDescriptionEvent extends CompanyEvent {
   RemoveDescriptionEvent({this.onSuccess});
 }
 
+class CreateInterView extends CompanyEvent {}
 // class GetProjectEvent extends CompanyEvent {
 //   final Project newProject;
 //   GetProjectEvent(this.newProject);
@@ -90,3 +89,11 @@ class RemoveDescriptionEvent extends CompanyEvent {
 //   final Function? onSuccess;
 //   PostNewProjectEvent({required this.newProject, this.onSuccess});
 // }
+
+class HireStudentProprosalEvent extends CompanyEvent {
+  final int proposalId;
+  final int statusFlag;
+  final Function? onSuccess;
+
+  HireStudentProprosalEvent({required this.proposalId, required this.statusFlag, required this.onSuccess});
+}

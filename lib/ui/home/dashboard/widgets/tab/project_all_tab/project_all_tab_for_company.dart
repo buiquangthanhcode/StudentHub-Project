@@ -1,23 +1,14 @@
-import 'dart:developer';
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_event.dart';
 import 'package:studenthub/blocs/project_bloc/project_state.dart';
-import 'package:studenthub/constants/app_theme.dart';
-import 'package:studenthub/constants/colors.dart';
-import 'package:studenthub/core/show_modal_bottomSheet.dart';
+import 'package:studenthub/constants/key_translator.dart';
+
 import 'package:studenthub/models/common/project_model.dart';
-import 'package:studenthub/ui/home/dashboard/data/data_count.dart';
-import 'package:studenthub/ui/home/dashboard/widgets/more_action_widget.dart';
-import 'package:studenthub/ui/home/dashboard/widgets/project_review_item.dart';
-import 'package:studenthub/ui/home/dashboard/widgets/tab/project_all_tab/project_all_tab_for_student.dart';
-import 'package:studenthub/utils/helper.dart';
+import 'package:studenthub/ui/home/dashboard/widgets/project_item.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/emtyDataWidget.dart';
 
@@ -31,12 +22,13 @@ class ProjectAllTabForCompany extends StatefulWidget {
 class _ProjectAllTabState extends State<ProjectAllTabForCompany> {
   List<Project> projects = [];
 
-  int? currentUserId = null;
+  int? currentUserId;
   @override
   void initState() {
     super.initState();
     try {
-      currentUserId = BlocProvider.of<AuthBloc>(context).state.userModel.company!.id;
+      currentUserId =
+          BlocProvider.of<AuthBloc>(context).state.userModel.company!.id;
       context.read<ProjectBloc>().add(
             GetAllProjectsEvent(
               companyId: currentUserId!,
@@ -70,7 +62,7 @@ class _ProjectAllTabState extends State<ProjectAllTabForCompany> {
             children: [
               EmptyDataWidget(
                 mainTitle: '',
-                subTitle: 'No project working yet.',
+                subTitle: noProjectWorkingIndicatorKey.tr(),
                 widthImage: MediaQuery.of(context).size.width * 0.5,
               ),
             ],
@@ -82,7 +74,12 @@ class _ProjectAllTabState extends State<ProjectAllTabForCompany> {
             child: ListView.separated(
               itemCount: state.allProjects.length,
               itemBuilder: (context, index) {
-                return ProjectReviewItem(theme: theme, item: state.allProjects[index]);
+                return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                  child:
+                      ProjectItem(theme: theme, item: state.allProjects[index]),
+                );
               },
               separatorBuilder: (context, index) {
                 return const Padding(

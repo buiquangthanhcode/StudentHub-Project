@@ -1,14 +1,16 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_bloc.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_event.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_state.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_bloc.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_event.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_state.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/ui/home/projects/project_saved/widgets/project_item_saved.dart';
 
 class ProjectSavedScreen extends StatefulWidget {
-  const ProjectSavedScreen({Key? key}) : super(key: key);
+  const ProjectSavedScreen({super.key});
 
   @override
   _ProjectSavedState createState() => _ProjectSavedState();
@@ -24,7 +26,7 @@ class _ProjectSavedState extends State<ProjectSavedScreen> {
     _scrollController.addListener(_scrollListener);
     super.initState();
 
-    context.read<AllProjectBloc>().add(
+    context.read<GeneralProjectBloc>().add(
           GetFavoriteProject(
               studentId: context
                   .read<AuthBloc>()
@@ -63,7 +65,7 @@ class _ProjectSavedState extends State<ProjectSavedScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AllProjectBloc, AllProjectState>(
+    return BlocBuilder<GeneralProjectBloc, GeneralProjectState>(
       builder: (context, state) {
         return Scaffold(
           body: CustomScrollView(
@@ -77,7 +79,8 @@ class _ProjectSavedState extends State<ProjectSavedScreen> {
                 pinned: pinned,
                 centerTitle: false,
                 title: Text(
-                  'Saved Project',
+                  // 'Saved Project',
+                  savedProjectsTitleKey.tr(),
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         fontWeight: FontWeight.w700,
                       ),

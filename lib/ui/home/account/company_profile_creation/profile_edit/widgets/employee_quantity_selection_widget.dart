@@ -1,10 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 
 class EmployeeQuantitySelectionWidget extends StatefulWidget {
   const EmployeeQuantitySelectionWidget(
-      {Key? key, required this.chooseEmployeeQuantity, required this.value})
-      : super(key: key);
+      {super.key, required this.chooseEmployeeQuantity, required this.value});
 
   final Function(int value) chooseEmployeeQuantity;
   final int value;
@@ -16,12 +17,19 @@ class EmployeeQuantitySelectionWidget extends StatefulWidget {
 
 class _EmployeeQuantitySelectionWidgetState
     extends State<EmployeeQuantitySelectionWidget> {
+  // final employeeQuantityData = [
+  //   'It\'s just me',
+  //   '2-9',
+  //   '10-99',
+  //   '100-1000',
+  //   'More than 1000',
+  // ];
   final employeeQuantityData = [
-    'It\'s just me',
-    '2-9',
-    '10-99',
-    '100-1000',
-    'More than 1000',
+    justMeKey.tr(),
+    twoToNineKey.tr(),
+    tenToNinetyNineKey.tr(),
+    hundredToThousandKey.tr(),
+    moreThanThousandKey.tr(),
   ];
 
   int? radioButtonSelected;
@@ -41,7 +49,8 @@ class _EmployeeQuantitySelectionWidgetState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Employees',
+          // 'Employees',
+          employeesKey.tr(),
           style: textTheme.bodySmall,
         ),
         const SizedBox(

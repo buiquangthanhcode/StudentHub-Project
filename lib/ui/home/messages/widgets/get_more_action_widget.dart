@@ -3,7 +3,6 @@ import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/ui/home/messages/data/get_chat_data.dart';
 import 'package:studenthub/ui/home/messages/widgets/schedule_widget.dart';
-import 'package:studenthub/utils/logger.dart';
 
 class MoreActionChatDetail extends StatelessWidget {
   const MoreActionChatDetail({
@@ -44,6 +43,16 @@ class MoreActionChatDetail extends StatelessWidget {
                   callBack!(value);
                 },
               ));
+            } else if (data[index]['key'] == 're-schedule') {
+              Navigator.pop(context);
+              showModalBottomSheetCustom(
+                context,
+                widgetBuilder: ScheduleWidget(
+                  onSave: (value) {
+                    callBack!(value);
+                  },
+                ),
+              );
             }
           },
           child: Container(

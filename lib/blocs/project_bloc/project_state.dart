@@ -2,19 +2,20 @@
 import 'package:equatable/equatable.dart';
 
 import 'package:studenthub/models/common/project_model.dart';
-import 'package:studenthub/models/company/company_model.dart';
 
 class ProjectState extends Equatable {
   final List<Project> allProjects;
   final List<Project> workingProjects;
   final List<Project> archivedProjects;
   final Project projectCreation;
+  final bool isLoading;
 
-  ProjectState({
+  const ProjectState({
     required this.allProjects,
     required this.workingProjects,
     required this.archivedProjects,
     required this.projectCreation,
+    required this.isLoading,
   });
 
   @override
@@ -23,6 +24,7 @@ class ProjectState extends Equatable {
         workingProjects,
         archivedProjects,
         projectCreation,
+        isLoading,
       ];
 
   ProjectState update({
@@ -31,12 +33,14 @@ class ProjectState extends Equatable {
     List<Project>? archivedProjects,
     Project? projectCreation,
     Project? projectSelection,
+    bool? isLoading,
   }) {
     return ProjectState(
       allProjects: allProjects ?? this.allProjects,
       workingProjects: workingProjects ?? this.workingProjects,
       archivedProjects: archivedProjects ?? this.allProjects,
       projectCreation: projectCreation ?? this.projectCreation,
+      isLoading: isLoading ?? this.isLoading,
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class DatePickerCustom extends StatefulWidget {
@@ -29,6 +30,7 @@ class _DatePickerCustomState extends State<DatePickerCustom> {
   String _dateCount = '';
   String _range = '';
   String _rangeCount = '';
+  final _textFormKey = GlobalKey<FormBuilderFieldState>();
 
   @override
   void initState() {
@@ -44,11 +46,12 @@ class _DatePickerCustomState extends State<DatePickerCustom> {
     return SizedBox(
         height: 50,
         child: FormBuilderField(
+          key: _textFormKey,
           name: widget.name,
           builder: (field) {
             return TextFormField(
               style: TextStyle(
-                color: Colors.grey[400],
+                color: Colors.grey[900],
                 fontSize: 16,
               ),
               controller: textController,
@@ -164,9 +167,11 @@ class _DatePickerCustomState extends State<DatePickerCustom> {
                     backgroundColor: Colors.white,
                     onSelectionChanged: _onSelectionChanged,
                     showActionButtons: showActionButtons,
-                    cancelText: 'CANCEL',
-                    confirmText: 'OK',
-                    initialSelectedDate: DateTime.now(),
+                    cancelText: cancelUppercaseKey.tr(),
+                    confirmText: okUppercaseKey.tr(),
+                    initialSelectedDate: initialDate ??
+                        _textFormKey.currentState?.value ??
+                        DateTime.now(),
                     headerStyle: headerStyle,
                     view: view,
                     monthViewSettings: monthViewSettings,

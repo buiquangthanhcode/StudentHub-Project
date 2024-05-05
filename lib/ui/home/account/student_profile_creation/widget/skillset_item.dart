@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
-import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
 import 'package:studenthub/blocs/global_bloc/global_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/data/dto/student/request_update_profile_student.dart';
-import 'package:studenthub/models/common/user_model.dart';
 import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
 import 'package:studenthub/utils/helper.dart';
 
@@ -16,10 +13,14 @@ class SkillSetItem extends StatelessWidget {
     super.key,
     required this.theme,
     required this.item,
+    this.isEditUI,
+    this.onDelete,
   });
 
   final ThemeData theme;
   final SkillSet item;
+  final bool? isEditUI;
+  final Function? onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +45,13 @@ class SkillSetItem extends StatelessWidget {
           const SizedBox(width: 10),
           InkWell(
             onTap: () {
+              if (isEditUI != null && isEditUI == true) {
+                if (onDelete != null) {
+                  onDelete!();
+                }
+                return;
+              }
+
               final currentStudent = context.read<StudentBloc>().state.student;
               List<SkillSet> data = List<SkillSet>.from(currentStudent.skillSets ?? []);
               List<SkillSet> dataSource = List<SkillSet>.from(context.read<GlobalBloc>().state.dataSourceSkillSet);

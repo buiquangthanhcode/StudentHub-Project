@@ -17,7 +17,7 @@ Future<void> main() async {
   } else {
     currentLocale = const Locale('vi');
   }
-  currentLocale = const Locale('en');
+  currentLocale = const Locale('vi');
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('en'), Locale('vi')],

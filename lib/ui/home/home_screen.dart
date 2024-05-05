@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:studenthub/constants/bottom_navigation.dart';
@@ -8,7 +9,7 @@ import 'package:studenthub/ui/home/account/account_screen.dart';
 import 'package:studenthub/ui/home/alerts/alerts_screen.dart';
 import 'package:studenthub/ui/home/dashboard/dashboard_screen.dart';
 import 'package:studenthub/ui/home/messages/messages_screen.dart';
-import 'package:studenthub/ui/home/projects/project_screen.dart';
+import 'package:studenthub/ui/home/projects/general_project_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.welcome});
@@ -33,11 +34,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       body: body,
       bottomNavigationBar: Container(
         padding: EdgeInsets.fromLTRB(5, 0, 5, paddingDevice),
-        decoration: BoxDecoration(color: Colors.white, boxShadow: [
+        decoration: BoxDecoration(color: theme.colorScheme.background, boxShadow: [
           BoxShadow(
             color: const Color.fromARGB(255, 216, 216, 216).withOpacity(0.5),
             spreadRadius: 5,
@@ -62,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                         break;
                       case 1:
-                        body = const ProjectScreen();
+                        body = const GeneralProjectScreen();
                         break;
                       case 2:
                         body = const MessagesScreen();
@@ -87,14 +89,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             SvgPicture.asset(
                               bottomNavs[index]['solid-icon'] as String,
-                              colorFilter: const ColorFilter.mode(primaryColor, BlendMode.srcIn),
+                              colorFilter: const ColorFilter.mode(
+                                  primaryColor, BlendMode.srcIn),
                               height: 24,
                             ),
                             const SizedBox(
                               height: 5,
                             ),
                             Text(
-                              bottomNavs[index]['title'] as String,
+                              tr(bottomNavs[index]['title'] ?? ''),
                               style: const TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold,
@@ -108,14 +111,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             SvgPicture.asset(
                               bottomNavs[index]['regular-icon'] as String,
-                              colorFilter: const ColorFilter.mode(Color(0xffA0A0A0), BlendMode.srcIn),
+                              colorFilter: const ColorFilter.mode(
+                                  Color(0xffA0A0A0), BlendMode.srcIn),
                               height: 23,
                             ),
                             const SizedBox(
                               height: 5,
                             ),
                             Text(
-                              bottomNavs[index]['title'] as String,
+                              tr(bottomNavs[index]['title'] as String),
                               style: const TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold,

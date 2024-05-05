@@ -39,7 +39,7 @@ class TextFieldFormCustom extends StatefulWidget {
   final void Function(String?)? onChange;
   final GestureTapCallback? onTap;
   final void Function(String?)? onSaved;
-  final String Function(String?)? validator;
+  final String? Function(String?)? validator;
   final int? maxLines;
   final String? initialValue;
   final FocusNode? focusNode;
@@ -85,11 +85,14 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
     super.initState();
   }
 
+  final _textfieldKey = GlobalKey<FormBuilderFieldState>();
+
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
       child: FormBuilderTextField(
+        key: _textfieldKey,
         name: widget.name,
         onTap: widget.onTap,
         onSaved: widget.onSaved,
@@ -111,9 +114,14 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
         expands: expands,
         onEditingComplete: widget.onEditingComplete,
         onSubmitted: widget.onFieldSubmitted,
+        onChanged: (value) {
+          setState(() {
+            widget.onChange?.call(value);
+          });
+        },
         style: widget.style ??
             TextStyle(
-              color: Colors.grey[600],
+              color: Colors.grey[900],
               fontSize: 16,
             ),
         decoration: InputDecoration(
@@ -128,35 +136,55 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
                   ],
                 )
               : null,
-          suffixIcon: widget.isPasswordText ?? false
-              ? IconButton(
-                  onPressed: () {
-                    setState(() {
-                      isHiddenPassword = !isHiddenPassword;
-                      obscureText = !obscureText;
-                    });
-                  },
-                  // icon: Icon(
-                  //   isHiddenPassword
-                  //       ? Icons.visibility
-                  //       : Icons.visibility_off_rounded,
-                  // ),
-                  icon: FaIcon(
-                    isHiddenPassword
-                        ? FontAwesomeIcons.eye
-                        : FontAwesomeIcons.eyeSlash,
-                    color: Theme.of(context).colorScheme.grey,
+          suffixIcon: Builder(builder: (context) {
+            if (widget.isPasswordText ?? false) {
+              return IconButton(
+                onPressed: () {
+                  setState(() {
+                    isHiddenPassword = !isHiddenPassword;
+                    obscureText = !obscureText;
+                  });
+                },
+                // icon: Icon(
+                //   isHiddenPassword
+                //       ? Icons.visibility
+                //       : Icons.visibility_off_rounded,
+                // ),
+                icon: FaIcon(
+                  isHiddenPassword ? FontAwesomeIcons.eye : FontAwesomeIcons.eyeSlash,
+                  color: Theme.of(context).colorScheme.grey,
+                ),
+              );
+            } else if (_textfieldKey.currentState?.value != null) {
+              return IconButton(
+                onPressed: () {
+                  _textfieldKey.currentState?.didChange(null);
+                  setState(() {});
+                },
+                icon: Container(
+                  width: 18,
+                  height: 18,
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color.fromARGB(255, 191, 191, 191),
                   ),
-                )
-              : null,
+                  child: const FaIcon(
+                    FontAwesomeIcons.xmark,
+                    color: Colors.white,
+                    size: 12,
+                  ),
+                ),
+              );
+            }
+            return const SizedBox.shrink();
+          }),
           hintText: widget.hintText ?? 'Please select a hint',
           hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: Theme.of(context).colorScheme.hintColor,
               ),
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          fillColor:
-              widget.fillColor ?? const Color.fromARGB(255, 242, 242, 242),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          fillColor: widget.fillColor ?? const Color.fromARGB(255, 242, 242, 242),
           filled: true,
           isDense: true,
           enabledBorder: defaultInputBorder,

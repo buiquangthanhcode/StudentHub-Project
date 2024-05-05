@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:studenthub/blocs/company_bloc/company_event.dart';
 import 'package:studenthub/blocs/company_bloc/company_state.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/data/dto/reponse.dart';
 import 'package:studenthub/models/company/company_model.dart';
 import 'package:studenthub/services/company/company.dart';
-import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
@@ -18,6 +19,7 @@ class CompanyBloc extends Bloc<CompanyEvent, CompanyState> {
           CompanyState(
             company: Company(),
             // project: Project(),
+            isLoading: false,
           ),
         ) {
     on<AddAllDataEvent>(_onAddAllData);
@@ -25,6 +27,7 @@ class CompanyBloc extends Bloc<CompanyEvent, CompanyState> {
     on<GetAllDataEvent>(_onGetAllData);
     // on<UpdateNewProjectEvent>(_onUpdateNewProject);
     // on<PostNewProjectEvent>(_onPostNewProject);
+    on<HireStudentProprosalEvent>(_onHireStudentProprosal);
   }
 
   final CompanyService _companyService = CompanyService();
@@ -84,7 +87,8 @@ class CompanyBloc extends Bloc<CompanyEvent, CompanyState> {
   FutureOr<void> _onGetAllData(
       GetAllDataEvent event, Emitter<CompanyState> emit) async {
     try {
-      EasyLoading.show(status: 'Loading...');
+      // EasyLoading.show(status: 'Loading...');
+      EasyLoading.show(status: loadingBtnKey.tr());
       ResponseAPI result =
           await _companyService.getAllInformation(event.data, event.id);
 
@@ -130,4 +134,30 @@ class CompanyBloc extends Bloc<CompanyEvent, CompanyState> {
 //       logger.e(e);
 //     }
 //   }
+
+  Future<void> _onHireStudentProprosal(
+      HireStudentProprosalEvent event, Emitter<CompanyState> emit) async {
+    try {
+      ResponseAPI result = await _companyService.hireStudentProprosal(event);
+
+      if (result.statusCode! < 300) {
+        event.onSuccess!();
+      } else {
+        SnackBarService.showSnackBar(
+            content: handleFormatMessage(result.data!.errorDetails),
+            status: StatusSnackBar.error);
+      }
+    } on DioException catch (e) {
+      logger.e(
+        "DioException:${e.response}",
+      );
+    } catch (e) {
+      logger.e("Unexpect error-> $e");
+      SnackBarService.showSnackBar(
+          content: handleFormatMessage(e.toString()),
+          status: StatusSnackBar.error);
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
 }

@@ -1,14 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 
 class DescribeInputWidget extends StatefulWidget {
   const DescribeInputWidget(
-      {Key? key,
+      {super.key,
       required this.descriptionInputController,
-      required this.checkFormField})
-      : super(key: key);
+      required this.checkFormField});
 
   final TextEditingController descriptionInputController;
   final Function() checkFormField;
@@ -21,14 +22,14 @@ class _DescribeInputWidgetState extends State<DescribeInputWidget> {
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
-
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              'Description',
+              // 'Description',
+              descriptionPlaceHolderKey.tr(),
               style: textTheme.bodySmall,
             ),
           ],
@@ -49,7 +50,7 @@ class _DescribeInputWidgetState extends State<DescribeInputWidget> {
           cursorHeight: 18,
           style: textTheme.bodyMedium,
           cursorColor: Colors.black,
-          maxLines: 2,
+          maxLines: 6,
           controller: widget.descriptionInputController,
           decoration: InputDecoration(
             hintText: 'Enter your description...',

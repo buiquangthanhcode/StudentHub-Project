@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:studenthub/utils/logger.dart';
 
 const _defaultConnectTimeout = 10000;
 const _defaultReceiveTimeout = 10000;
@@ -210,4 +212,23 @@ String handleDioError(DioExceptionType error) {
     message = 'Unexpected error occurred';
   }
   return message;
+}
+
+Future<String> getPath(String filename) async {
+  String directory;
+  if (Platform.isIOS) {
+    directory = (await getDownloadsDirectory())?.path ?? (await getTemporaryDirectory()).path;
+  } else {
+    directory = '/storage/emulated/0/Download';
+    var dirDownloadExists = true;
+    dirDownloadExists = await Directory(directory).exists();
+    if (!dirDownloadExists) {
+      directory = '/storage/emulated/0/Downloads';
+      dirDownloadExists = await Directory(directory).exists();
+      if (!dirDownloadExists) {
+        directory = (await getTemporaryDirectory()).path;
+      }
+    }
+  }
+  return "$directory/$filename";
 }

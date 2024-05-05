@@ -4,7 +4,7 @@ import 'package:studenthub/constants/colors.dart';
 // You can also use stateful builder
 // instead of stateful widget
 class CustomCheckBox extends StatefulWidget {
-  const CustomCheckBox({Key? key}) : super(key: key);
+  const CustomCheckBox({super.key});
 
   @override
   State<CustomCheckBox> createState() => _CustomCheckBoxState();

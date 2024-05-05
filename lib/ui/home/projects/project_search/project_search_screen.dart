@@ -1,18 +1,19 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_bloc.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_event.dart';
-import 'package:studenthub/blocs/all_project_bloc/all_project_state.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_bloc.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_event.dart';
+import 'package:studenthub/blocs/general_project_bloc/general_project_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
-import 'package:studenthub/models/common/project_model.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/ui/home/projects/project_search/widgets/filter_dialog.dart';
-import 'package:studenthub/ui/home/projects/widgets/project_item.dart';
+import 'package:studenthub/ui/home/projects/widgets/general_project_item.dart';
 import 'package:studenthub/utils/logger.dart';
+import 'package:studenthub/widgets/emtyDataWidget.dart';
 
 class ProjectSearchScreen extends StatefulWidget {
   const ProjectSearchScreen({super.key});
@@ -41,7 +42,7 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
     _searchFocus.addListener(_onFocusChange);
     _scrollController.addListener(_scrollListener);
     setSuggestion =
-        context.read<AllProjectBloc>().state.projectSearchSuggestions;
+        context.read<GeneralProjectBloc>().state.projectSearchSuggestions;
     setSearchSuggetions('');
 
     // WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -82,11 +83,9 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
 
   void _onFocusChange() {
     if (_searchFocus.hasFocus) {
-      logger.d('HAS FOCUS');
       isSearching = true;
       setSearchSuggetions(searchController.text);
     } else {
-      logger.d('DONT HAS FOCUS');
       isSearching = false;
     }
     setState(() {});
@@ -99,9 +98,7 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
         context: context,
         builder: (ctx) => FilterDialog(
               applyFilter: (data) {
-                logger.d(data);
-
-                context.read<AllProjectBloc>().add(GetSearchFilterDataEvent(
+                context.read<GeneralProjectBloc>().add(GetSearchFilterDataEvent(
                     searchController.text.isEmpty
                         ? null
                         : searchController.text,
@@ -119,10 +116,11 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
   void setSearchSuggetions(String value) {
     searchSuggestions = [];
     if (value.isEmpty) {
-      searchSuggestions.add('View all');
+      // searchSuggestions.add('View all');
+      searchSuggestions.add(viewAllBtnKey.tr());
     }
     for (String i in setSuggestion!) {
-      if (i.contains(value)) {
+      if (i.toLowerCase().contains(value.toLowerCase())) {
         searchSuggestions.add(i);
       }
     }
@@ -139,14 +137,13 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
     // if (isSearching) {
     //   WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
     // }
-
-    logger.d('REBUILD');
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
         titleSpacing: 0,
         title: Text(
-          'Project search',
+          // 'Project search',
+          projectSearchTitleKey.tr(),
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 fontWeight: FontWeight.w700,
               ),
@@ -180,12 +177,13 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                         setSearchSuggetions(value);
                       },
                       cursorHeight: 18,
-                      // autofocus: true,
+                      autofocus: true,
                       controller: searchController,
                       cursorColor: Colors.black,
                       style: textTheme.bodyMedium,
                       decoration: InputDecoration(
-                        hintText: 'Search for projects...',
+                        // hintText: 'Search for projects...',
+                        hintText: searchForProjectsKey.tr(),
                         hintStyle: textTheme.bodyMedium!.copyWith(
                             color: Theme.of(context).colorScheme.hintColor),
                         prefixIcon: Column(
@@ -307,7 +305,8 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Suggestions',
+                        // 'Suggestions',
+                        suggestionsKey.tr(),
                         style: textTheme.bodyMedium!.copyWith(
                             fontWeight: FontWeight.w600,
                             color: colorTheme.grey),
@@ -326,13 +325,13 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
 
                               isSearching = false;
                               if (index == 0 && searchController.text.isEmpty) {
-                                context.read<AllProjectBloc>().add(
+                                context.read<GeneralProjectBloc>().add(
                                     GetSearchFilterDataEvent(
                                         null, null, null, null));
                               } else {
                                 searchController.text =
                                     searchSuggestions[index];
-                                context.read<AllProjectBloc>().add(
+                                context.read<GeneralProjectBloc>().add(
                                     GetSearchFilterDataEvent(
                                         searchSuggestions[index],
                                         null,
@@ -413,16 +412,25 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                 ),
               ),
             if (!isSearching)
-              BlocBuilder<AllProjectBloc, AllProjectState>(
+              BlocBuilder<GeneralProjectBloc, GeneralProjectState>(
                 builder: (context, state) {
                   return Expanded(
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: state.projectSearchList.length,
-                        itemBuilder: (context, index) => ProjectItem(
-                              project: state.projectSearchList[index],
-                              paddingRight: 12,
-                            )),
+                    child: state.projectSearchList.isNotEmpty
+                        ? ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: state.projectSearchList.length,
+                            itemBuilder: (context, index) => GeneralProjectItem(
+                                  project: state.projectSearchList[index],
+                                  paddingRight: 12,
+                                ))
+                        : Center(
+                            child: EmptyDataWidget(
+                              mainTitle: '',
+                              subTitle: "No projects found.",
+                              widthImage:
+                                  MediaQuery.of(context).size.width * 0.5,
+                            ),
+                          ),
                   );
                 },
               )
