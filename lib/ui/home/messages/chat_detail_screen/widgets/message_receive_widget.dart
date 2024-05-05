@@ -71,7 +71,8 @@ class MessageReceiveWidget extends StatelessWidget {
                       style: const TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w400,
-                          color: Color.fromARGB(255, 80, 80, 80)),
+                          color: Color.fromARGB(255, 80, 80, 80),
+                          ),
                     ),
                   ],
                 ),
