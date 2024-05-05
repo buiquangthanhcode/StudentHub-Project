@@ -9,8 +9,8 @@ class Interview {
   String? deletedAt;
   String? title;
   String? startTime;
-  String? endTimel;
-  String? disableFlag;
+  String? endTime;
+  int? disableFlag;
   Interview({
     this.id,
     this.createdAt,
@@ -18,7 +18,7 @@ class Interview {
     this.deletedAt,
     this.title,
     this.startTime,
-    this.endTimel,
+    this.endTime,
     this.disableFlag,
   });
 
@@ -29,8 +29,8 @@ class Interview {
     String? deletedAt,
     String? title,
     String? startTime,
-    String? endTimel,
-    String? disableFlag,
+    String? endTime,
+    int? disableFlag,
   }) {
     return Interview(
       id: id ?? this.id,
@@ -39,7 +39,7 @@ class Interview {
       deletedAt: deletedAt ?? this.deletedAt,
       title: title ?? this.title,
       startTime: startTime ?? this.startTime,
-      endTimel: endTimel ?? this.endTimel,
+      endTime: endTime ?? this.endTime,
       disableFlag: disableFlag ?? this.disableFlag,
     );
   }
@@ -52,7 +52,7 @@ class Interview {
       'deletedAt': deletedAt,
       'title': title,
       'startTime': startTime,
-      'endTimel': endTimel,
+      'endTime': endTime,
       'disableFlag': disableFlag,
     };
   }
@@ -65,8 +65,8 @@ class Interview {
       deletedAt: map['deletedAt'] != null ? map['deletedAt'] as String : null,
       title: map['title'] != null ? map['title'] as String : null,
       startTime: map['startTime'] != null ? map['startTime'] as String : null,
-      endTimel: map['endTimel'] != null ? map['endTimel'] as String : null,
-      disableFlag: map['disableFlag'] != null ? map['disableFlag'] as String : null,
+      endTime: map['endTime'] != null ? map['endTime'] as String : null,
+      disableFlag: map['disableFlag'] != null ? map['disableFlag'] as int : null,
     );
   }
 
@@ -76,7 +76,7 @@ class Interview {
 
   @override
   String toString() {
-    return 'Interview(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, title: $title, startTime: $startTime, endTimel: $endTimel, disableFlag: $disableFlag)';
+    return 'Interview(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, title: $title, startTime: $startTime, endTime: $endTime, disableFlag: $disableFlag)';
   }
 
   @override
@@ -90,7 +90,7 @@ class Interview {
       other.deletedAt == deletedAt &&
       other.title == title &&
       other.startTime == startTime &&
-      other.endTimel == endTimel &&
+      other.endTime == endTime &&
       other.disableFlag == disableFlag;
   }
 
@@ -102,7 +102,7 @@ class Interview {
       deletedAt.hashCode ^
       title.hashCode ^
       startTime.hashCode ^
-      endTimel.hashCode ^
+      endTime.hashCode ^
       disableFlag.hashCode;
   }
 }
