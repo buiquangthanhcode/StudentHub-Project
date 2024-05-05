@@ -21,6 +21,7 @@ class GeneralProjectBloc
             projectList: const [],
             projectDetail: Project(),
             projectFavorite: const [],
+            // ignore: prefer_collection_literals
             projectSearchSuggestions: Set(),
             projectSearchList: const [],
             proposalList: const [],
@@ -35,7 +36,7 @@ class GeneralProjectBloc
     on<RemoveFavoriteProject>(_onRemoveFavoriteProject);
     on<RemoveFavoriteProjectList>(_onRemoveFavoriteProjectList);
     on<GetSearchFilterDataEvent>(_onGetSearchFilterData);
-    // on<UpdateFavoriteProjectUI>(_onUpdateFavoriteProjectUI);
+    on<GetAllSearchTitleEvent>(_onGetAllSearchTitleData);
     on<GetAllProposalOfProjectEvent>(_onGetAllProjectProposalOfProject);
     on<ResetBlocEvents>(_onResetBloc);
   }
@@ -47,7 +48,7 @@ class GeneralProjectBloc
     try {
       // EasyLoading.show(status: 'Loading...');
       EasyLoading.show(status: loadingBtnKey.tr());
-      ResponseAPI result = await _allProjectsService.getAllProjects();
+      ResponseAPI result = await _allProjectsService.getAllProjects(null, null);
 
       Set<String> projectSearchSuggestions = {};
       for (Project p in result.data) {
@@ -58,6 +59,39 @@ class GeneralProjectBloc
         emit(state.update(
             projectList: result.data,
             projectSearchSuggestions: projectSearchSuggestions));
+      } else {
+        SnackBarService.showSnackBar(
+            content: handleFormatMessage(result.data!.errorDetails),
+            status: StatusSnackBar.error);
+      }
+    } on DioException catch (e) {
+      logger.e(
+        "DioException:${e.response}",
+      );
+    } catch (e) {
+      logger.e("Unexpect error-> $e");
+      SnackBarService.showSnackBar(
+          content: handleFormatMessage(e.toString()),
+          status: StatusSnackBar.error);
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
+
+  FutureOr<void> _onGetAllSearchTitleData(
+      GetAllSearchTitleEvent event, Emitter<GeneralProjectState> emit) async {
+    try {
+      // EasyLoading.show(status: 'Loading...');
+      EasyLoading.show(status: loadingBtnKey.tr());
+      ResponseAPI result = await _allProjectsService.getAllProjects(1, 2000);
+
+      Set<String> projectSearchSuggestions = {};
+      for (Project p in result.data) {
+        projectSearchSuggestions.add(p.title.toString());
+      }
+
+      if (result.statusCode! < 300) {
+        emit(state.update(projectSearchSuggestions: projectSearchSuggestions));
       } else {
         SnackBarService.showSnackBar(
             content: handleFormatMessage(result.data!.errorDetails),
@@ -240,7 +274,9 @@ class GeneralProjectBloc
           event.title,
           event.projectScopeFlag,
           event.numberOfStudents,
-          event.proposalsLessThan);
+          event.proposalsLessThan,
+          null,
+          null);
 
       logger.d("BLOC: $result");
 

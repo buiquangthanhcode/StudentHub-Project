@@ -19,9 +19,20 @@ class AllProjectsService {
     dioClient = DioClient(dio, interceptors: [interceptors]);
   }
 
-  Future<ResponseAPI<List<Project>>> getAllProjects() async {
+  Future<ResponseAPI<List<Project>>> getAllProjects(
+      int? page, int? perPage) async {
     try {
-      final res = await dioClient.get('$baseURL/api/project');
+      Map<String, dynamic> query = {};
+
+      if (page != null) {
+        query.addAll({"page": page});
+      }
+      if (perPage != null) {
+        query.addAll({"perPage": perPage});
+      }
+
+      final res =
+          await dioClient.get('$baseURL/api/project', queryParameters: query);
 
       return ResponseAPI<List<Project>>(
         statusCode: res.statusCode,
@@ -156,6 +167,8 @@ class AllProjectsService {
     int? projectScopeFlag,
     int? numberOfStudents,
     int? proposalsLessThan,
+    int? page,
+    int? perPage,
   ) async {
     try {
       Map<String, dynamic> query = {};
@@ -171,6 +184,12 @@ class AllProjectsService {
       }
       if (proposalsLessThan != null) {
         // query.addAll({"proposalsLessThan": proposalsLessThan});
+      }
+      if (page != null) {
+        query.addAll({"page": page});
+      }
+      if (perPage != null) {
+        query.addAll({"perPage": perPage});
       }
 
       logger.d('QUERY: $query');

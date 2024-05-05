@@ -9,6 +9,10 @@ class GetAllDataEvent extends GeneralProjectEvent {
   GetAllDataEvent();
 }
 
+class GetAllSearchTitleEvent extends GeneralProjectEvent {
+  GetAllSearchTitleEvent();
+}
+
 class GetSearchFilterDataEvent extends GeneralProjectEvent {
   final String? title;
   final int? projectScopeFlag;
