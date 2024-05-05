@@ -15,13 +15,15 @@ class InterviewReceiveWidget extends StatelessWidget {
       required this.screenSize,
       required this.colorTheme,
       this.messageList,
-      required this.index});
+      required this.index,
+      required this.join});
 
   final int meId;
   final Size screenSize;
   final ColorScheme colorTheme;
   final dynamic messageList;
   final int index;
+  final void Function(dynamic data) join;
   String convertDateTimeFormat(String isoDateTime) {
     if (isoDateTime.isEmpty) return '';
     DateTime dateTime = DateTime.parse(isoDateTime);
@@ -149,6 +151,7 @@ class InterviewReceiveWidget extends StatelessWidget {
                       ),
                       onPressed: () {
                         // JitsiMeetService.instance.join();
+                        join(messageList[index].interview);
                       },
                       child: const Text(
                         "Join",
