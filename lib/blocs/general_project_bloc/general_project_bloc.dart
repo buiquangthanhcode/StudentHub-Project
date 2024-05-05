@@ -50,15 +50,10 @@ class GeneralProjectBloc
       EasyLoading.show(status: loadingBtnKey.tr());
       ResponseAPI result = await _allProjectsService.getAllProjects(null, null);
 
-      Set<String> projectSearchSuggestions = {};
-      for (Project p in result.data) {
-        projectSearchSuggestions.add(p.title.toString());
-      }
-
       if (result.statusCode! < 300) {
         emit(state.update(
             projectList: result.data,
-            projectSearchSuggestions: projectSearchSuggestions));
+            ));
       } else {
         SnackBarService.showSnackBar(
             content: handleFormatMessage(result.data!.errorDetails),

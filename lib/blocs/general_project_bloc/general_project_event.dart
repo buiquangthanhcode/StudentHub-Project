@@ -10,7 +10,9 @@ class GetAllDataEvent extends GeneralProjectEvent {
 }
 
 class GetAllSearchTitleEvent extends GeneralProjectEvent {
-  GetAllSearchTitleEvent();
+  final Function? onSuccess;
+
+  GetAllSearchTitleEvent(this.onSuccess);
 }
 
 class GetSearchFilterDataEvent extends GeneralProjectEvent {

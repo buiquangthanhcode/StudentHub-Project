@@ -43,8 +43,10 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
     setSearchSuggetions('');
 
     context.read<GeneralProjectBloc>().add(
-          GetAllSearchTitleEvent(),
-        );
+      GetAllSearchTitleEvent(() {
+        setSearchSuggetions('');
+      }),
+    );
 
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   showWelcomeDialog(context);
@@ -122,10 +124,12 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
       // searchSuggestions.add('View all');
       searchSuggestions.add(viewAllBtnKey.tr());
     }
+    else{
     for (String i in setSuggestion) {
       if (i.toLowerCase().contains(value.toLowerCase())) {
         searchSuggestions.add(i);
       }
+    }
     }
     setState(() {});
   }
