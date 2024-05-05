@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studenthub/app.dart';
 import 'package:studenthub/core/easy_loading_config.dart';
+import 'package:studenthub/core/local_notification.dart';
+import 'package:studenthub/utils/socket.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,6 +20,7 @@ Future<void> main() async {
     currentLocale = const Locale('vi');
   }
   currentLocale = const Locale('vi');
+  await LocalNotification.init();
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('en'), Locale('vi')],

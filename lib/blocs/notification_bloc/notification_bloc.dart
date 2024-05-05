@@ -4,22 +4,40 @@ import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:studenthub/app.dart';
 import 'package:studenthub/blocs/notification_bloc/notification_event.dart';
 import 'package:studenthub/blocs/notification_bloc/notification_state.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/data/dto/reponse.dart';
+import 'package:studenthub/models/common/message_model.dart';
 import 'package:studenthub/models/notification/notification_model.dart';
 import 'package:studenthub/services/notification/notification.dart';
 import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/utils/logger.dart';
+import 'package:studenthub/utils/socket.dart';
+import 'package:studenthub/utils/socket_list.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   NotificationBloc()
-      : super(const NotificationState(
-          notificationList: [],
+      : super(NotificationState(
+          notificationList: const [],
+          messageNotification: Message(sender: null, receiver: null),
+          isChanged: false,
         )) {
+    socket.receiveMessage((data) {
+      Message message = Message(
+        id: data['notification']['message']['id'],
+        createdAt: getCurrentTime(),
+        content: data['notification']['message']['content'],
+        sender: {"id": data['notification']['message']['senderId'], "fullname": ""},
+        receiver: {"id": data['notification']['message']['receiverId'], "fullname": ""},
+        interview: null,
+      );
+      add(PushNotificationMessageEvents(message: message));
+    });
     on<GetNotificationListEvents>(_onGetNotification);
+    on<PushNotificationMessageEvents>(_onPushNotificationMessage);
   }
   final NotificationService _notificationService = NotificationService();
 
@@ -51,5 +69,10 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     } finally {
       EasyLoading.dismiss();
     }
+  }
+
+  FutureOr<void> _onPushNotificationMessage(
+      PushNotificationMessageEvents event, Emitter<NotificationState> emit) async {
+    emit(state.update(messageNotification: event.message, isChanged: !state.isChanged));
   }
 }

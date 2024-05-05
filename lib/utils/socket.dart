@@ -5,29 +5,21 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/utils/logger.dart';
+import 'package:studenthub/utils/socket_list.dart';
 
 class SocketService {
-  late IO.Socket _socket;
-
+  static final IO.Socket _socket =
+      IO.io("https://api.studenthub.dev", OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
   void initSocket(BuildContext context, String projectId) {
-    _socket = IO.io(
-        "https://api.studenthub.dev",
-        OptionBuilder()
-            .setTransports(['websocket'])
-            .disableAutoConnect()
-            .build());
-
     _socket.io.options?['extraHeaders'] = {
-      'Authorization':
-          'Bearer ${context.read<AuthBloc>().state.userModel.token!}',
+      'Authorization': 'Bearer ${context.read<AuthBloc>().state.userModel.token!}',
     };
     _socket.io.options?['query'] = {'project_id': projectId};
 
     _socket.connect();
 
     // ignore: avoid_print
-    _socket
-        .onConnectError((data) => logger.e('SOCKET ON CONNECT ERROR: $data'));
+    _socket.onConnectError((data) => logger.e('SOCKET ON CONNECT ERROR: $data'));
     // ignore: avoid_print
     _socket.onError((data) => print('SOCKET ON ERROR $data'));
     // ignore: avoid_print
@@ -36,6 +28,7 @@ class SocketService {
     _socket.onConnect((data) => {
           logger.d('Connected'),
         });
+    SocketList.add(_socket);
   }
 
   void subscribe(String event, dynamic Function(dynamic) callback) {
@@ -59,6 +52,8 @@ class SocketService {
   }
 
   void disconnect() {
-    _socket.disconnect();
+    // _socket.disconnect();
   }
 }
+
+final socket = SocketService();

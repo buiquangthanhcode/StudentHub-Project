@@ -70,8 +70,7 @@ String formatIsoDateString(String isoDateString) {
 }
 
 SkillSet getSkillSetByName(String value, List<SkillSet> data) {
-  SkillSet? skill = data.firstWhere((element) => element.name == value,
-      orElse: () => SkillSet(id: -1, name: ''));
+  SkillSet? skill = data.firstWhere((element) => element.name == value, orElse: () => SkillSet(id: -1, name: ''));
   return skill;
 }
 
@@ -87,8 +86,7 @@ DateTime parseMonthYear(String? monthYearString) {
 
 void sortProjectsByCreatedAt(List<ProjectProposal> projects) {
   projects.sort((a, b) {
-    if (a.createdAt != null && b.createdAt != null)
-      return b.createdAt!.compareTo(a.createdAt!);
+    if (a.createdAt != null && b.createdAt != null) return b.createdAt!.compareTo(a.createdAt!);
     return 1;
   });
 }
@@ -119,9 +117,7 @@ String checkDateTime(String dateTimeString) {
 
   DateTime dateTime = DateTime.parse(dateTimeString);
 
-  if (dateTime.year == now.year &&
-      dateTime.month == now.month &&
-      dateTime.day == now.day) {
+  if (dateTime.year == now.year && dateTime.month == now.month && dateTime.day == now.day) {
     dateTime = dateTime.toLocal();
     return DateFormat('HH:mm').format(dateTime);
   } else {
