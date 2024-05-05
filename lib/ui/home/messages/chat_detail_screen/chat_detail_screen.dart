@@ -10,13 +10,14 @@ import 'package:studenthub/blocs/chat_bloc/chat_event.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
-import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
+import 'package:studenthub/models/common/interview_model.dart';
 import 'package:studenthub/models/common/message_model.dart';
 import 'package:studenthub/models/common/user_model.dart';
+import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/interview_receive_widget.dart';
+import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/interview_send_widget.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/message_receive_widget.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/message_send_widget.dart';
-import 'package:studenthub/ui/home/messages/chat_detail_screen/zego/zego.dart';
 import 'package:studenthub/ui/home/messages/widgets/get_more_action_widget.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/utils/socket.dart';
@@ -84,6 +85,50 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     return formattedTime;
   }
 
+  String getCurrentTimeAsString() {
+    DateTime now = DateTime.now();
+
+    String hour = now.hour.toString().padLeft(2, '0');
+    String minute = now.minute.toString().padLeft(2, '0');
+    String second = now.second.toString().padLeft(2, '0');
+
+    String timeString = '$hour$minute$second';
+    return timeString;
+  }
+
+  String convertDateTimeFormat(String isoDateTime) {
+    if (isoDateTime.isEmpty) return '';
+    DateTime dateTime = DateTime.parse(isoDateTime);
+
+    String formattedDateTime =
+        ' ${_twoDigits(dateTime.hour)}:${_twoDigits(dateTime.minute)} ${dateTime.year}-${_twoDigits(dateTime.month)}-${_twoDigits(dateTime.day)}';
+
+    return formattedDateTime;
+  }
+
+  String _twoDigits(int n) {
+    if (n >= 10) {
+      return "$n";
+    }
+    return "0$n";
+  }
+
+  String convertToIso8601(String date, String time) {
+    List<String> dateParts = date.split('/');
+    List<String> timeParts = time.split(':');
+
+    DateTime dateTime = DateTime(
+      int.parse(dateParts[2]), // Năm
+      int.parse(dateParts[1]), // Tháng
+      int.parse(dateParts[0]), // Ngày
+      int.parse(timeParts[0]), // Giờ
+      int.parse(timeParts[1]), // Phút
+    );
+
+    String iso8601String = dateTime.toUtc().toIso8601String();
+    return iso8601String;
+  }
+
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
@@ -98,21 +143,55 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           if (data['notification']['message']['senderId'].toString() !=
               meId.toString()) {
             state.messageList.insert(
-                0,
-                Message(
-                  id: data['notification']['message']['id'],
-                  createdAt: _getCurrentTime(),
-                  content: data['notification']['message']['content'],
-                  sender: {
-                    "id": data['notification']['message']['senderId'],
-                    "fullname": ""
-                  },
-                  receiver: {
-                    "id": data['notification']['message']['receiverId'],
-                    "fullname": ""
-                  },
-                  interview: null,
-                ));
+              0,
+              Message(
+                id: data['notification']['message']['id'],
+                createdAt: _getCurrentTime(),
+                content: data['notification']['message']['content'],
+                sender: {
+                  "id": data['notification']['message']['senderId'],
+                  "fullname": ""
+                },
+                receiver: {
+                  "id": data['notification']['message']['receiverId'],
+                  "fullname": ""
+                },
+                interview: null,
+              ),
+            );
+            setState(() {});
+          }
+        }
+      });
+
+      socket.receiveInterview((data) {
+        if (mounted) {
+          logger.d(
+              'SOCKET RECEIVE INTERVIEW: ${data['notification']['interview']}');
+          if (data['notification']['sender']['id'].toString() !=
+              meId.toString()) {
+            state.messageList.insert(
+              0,
+              Message(
+                id: data['notification']['interview']['id'],
+                createdAt: _getCurrentTime(),
+                content: "",
+                sender: {
+                  "id": data['notification']['sender']['id'],
+                  "fullname": ""
+                },
+                receiver: {
+                  "id": data['notification']['receiver']['id'],
+                  "fullname": ""
+                },
+                interview: Interview(
+                  id: data['notification']['interview']['id'],
+                  title: data['notification']['interview']['title'],
+                  startTime: data['notification']['interview']['startTime'],
+                  endTime: data['notification']['interview']['endTime'],
+                ),
+              ),
+            );
             setState(() {});
           }
         }
@@ -154,17 +233,58 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     padding: const EdgeInsets.only(right: 20),
                     child: InkWell(
                       onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => const CallPage(
-                        //             callID: '1',
-                        //           )),
-                        // );
-                        MaterialPageRoute(
-                            builder: (context) => const VideoCallPage(
-                                  conferenceID: '12345',
-                                ));
+                        showModalBottomSheetCustom(context,
+                            widgetBuilder: MoreActionChatDetail(
+                          callBack: (value) {
+                            logger.d(value['title']);
+                            logger.d(value['start_date']);
+                            logger.d(value['time_start']);
+                            logger.d(value['end_date']);
+                            logger.d(value['time_end']);
+                            socket.sendInterview({
+                              {
+                                "title": value['title'],
+                                "content": "Test interview",
+                                "startTime": convertToIso8601(
+                                    value['start_date'], value['time_start']),
+                                "endTime": convertToIso8601(
+                                    value['end_date'], value['time_end']),
+                                "projectId": widget.projectId,
+                                "senderId":
+                                    context.read<AuthBloc>().state.userModel.id,
+                                "receiverId": widget.userId,
+                                "meeting_room_code": getCurrentTimeAsString(),
+                                "meeting_room_id": getCurrentTimeAsString()
+                              }
+                            });
+                            setState(() {
+                              UserModel userModel =
+                                  context.read<AuthBloc>().state.userModel;
+                              state.messageList.insert(
+                                  0,
+                                  Message(
+                                    id: int.parse(getCurrentTimeAsString()),
+                                    sender: {
+                                      "id": userModel.id,
+                                      "fullname": userModel.fullname,
+                                    },
+                                    receiver: {
+                                      "id": widget.userId,
+                                      "fullname": widget.userName
+                                    },
+                                    interview: Interview(
+                                      id: int.parse(getCurrentTimeAsString()),
+                                      title: value['title'],
+                                      startTime: convertToIso8601(
+                                          value['start_date'],
+                                          value['time_start']),
+                                      endTime: convertToIso8601(
+                                          value['end_date'], value['time_end']),
+                                    ),
+                                  ));
+                            });
+                          },
+                        ));
                       },
                       child: Container(
                         height: 39,
@@ -210,125 +330,34 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                   index: index,
                                 );
                               } else {
-                                return Container();
-                                // return Container(
-                                //   margin: const EdgeInsets.only(top: 10, left: 20),
-                                //   padding: const EdgeInsets.all(15),
-                                //   decoration: BoxDecoration(
-                                //     color: const Color.fromARGB(255, 245, 245, 245),
-                                //     borderRadius: BorderRadius.circular(10),
-                                //   ),
-                                //   child: Column(
-                                //     crossAxisAlignment: CrossAxisAlignment.start,
-                                //     children: [
-                                //       Row(
-                                //         children: [
-                                //           Text(state.messageList[index].
-                                //               as String),
-                                //           const Spacer(),
-                                //           Text(messagesData[index]['duration']
-                                //               as String),
-                                //         ],
-                                //       ),
-                                //       const SizedBox(height: 24),
-                                //       Text(
-                                //         "Start Time: ${messagesData[index]['start_date'] as String} ${messagesData[index]['time_start'] as String}",
-                                //         style: Theme.of(context)
-                                //             .textTheme
-                                //             .bodyMedium!
-                                //             .copyWith(
-                                //               fontSize: 16,
-                                //               fontWeight: FontWeight.w400,
-                                //             ),
-                                //       ),
-                                //       const SizedBox(
-                                //         height: 10,
-                                //       ),
-                                //       Row(
-                                //         children: [
-                                //           Text(
-                                //             "End Time: ",
-                                //             style: Theme.of(context)
-                                //                 .textTheme
-                                //                 .bodyMedium!
-                                //                 .copyWith(
-                                //                   fontSize: 16,
-                                //                   fontWeight: FontWeight.w400,
-                                //                 ),
-                                //           ),
-                                //           const SizedBox(width: 9),
-                                //           Text(
-                                //             "${messagesData[index]['end_date'] as String} ${messagesData[index]['time_end'] as String}",
-                                //             style: Theme.of(context)
-                                //                 .textTheme
-                                //                 .bodyMedium!
-                                //                 .copyWith(
-                                //                   fontSize: 16,
-                                //                   fontWeight: FontWeight.w400,
-                                //                 ),
-                                //           ),
-                                //         ],
-                                //       ),
-                                //       const SizedBox(
-                                //         height: 24,
-                                //       ),
-                                //       Row(
-                                //         mainAxisAlignment: MainAxisAlignment.end,
-                                //         children: [
-                                //           const Spacer(),
-                                //           Container(
-                                //             padding: const EdgeInsets.all(5),
-                                //             decoration: const BoxDecoration(
-                                //               color: Color.fromARGB(
-                                //                   255, 245, 245, 245),
-                                //               shape: BoxShape.circle,
-                                //             ),
-                                //             margin: const EdgeInsets.only(
-                                //                 right: 10, left: 10),
-                                //             child: InkWell(
-                                //               onTap: () {
-                                //                 showModalBottomSheetCustom(context,
-                                //                     widgetBuilder:
-                                //                         const MoreActionChatDetail(
-                                //                       isEdit: true,
-                                //                     ));
-                                //               },
-                                //               child: const FaIcon(
-                                //                 FontAwesomeIcons.ellipsis,
-                                //                 size: 16,
-                                //                 color: Colors.grey,
-                                //               ),
-                                //             ),
-                                //           ),
-                                //           Expanded(
-                                //             child: ElevatedButton(
-                                //               style: ElevatedButton.styleFrom(
-                                //                 elevation: 0,
-                                //                 minimumSize:
-                                //                     const Size(double.infinity, 45),
-                                //               ),
-                                //               onPressed: () {
-                                //                 JitsiMeetService.instance.join();
-                                //               },
-                                //               child: const Text(
-                                //                 "Join",
-                                //               ),
-                                //             ),
-                                //           ),
-                                //         ],
-                                //       )
-                                //     ],
-                                //   ),
-                                // );
+                                return InterviewSendWidget(
+                                  meId: meId,
+                                  screenSize: screenSize,
+                                  colorTheme: colorTheme,
+                                  messageList: state.messageList,
+                                  index: index,
+                                );
                               }
                             })
-                          : MessageReceiveWidget(
-                              meId: meId,
-                              screenSize: screenSize,
-                              colorTheme: colorTheme,
-                              messageList: state.messageList,
-                              index: index,
-                            ),
+                          : Builder(builder: (context) {
+                              if (state.messageList[index].interview == null) {
+                                return MessageReceiveWidget(
+                                  meId: meId,
+                                  screenSize: screenSize,
+                                  colorTheme: colorTheme,
+                                  messageList: state.messageList,
+                                  index: index,
+                                );
+                              } else {
+                                return InterviewReceiveWidget(
+                                  meId: meId,
+                                  screenSize: screenSize,
+                                  colorTheme: colorTheme,
+                                  messageList: state.messageList,
+                                  index: index,
+                                );
+                              }
+                            }),
                 ),
               ),
             ),
@@ -364,8 +393,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           cursorColor: Colors.black,
                           style: textTheme.bodyMedium,
                           decoration: InputDecoration(
-                            // hintText: 'Your messages...',
-                            hintText: chatInputPlaceHolderKey.tr(),
+                            hintText: 'Your messages...',
                             hintStyle: textTheme.bodyMedium!.copyWith(
                                 color: Theme.of(context).colorScheme.hintColor),
                             contentPadding: const EdgeInsets.symmetric(
