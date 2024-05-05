@@ -440,7 +440,8 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                           : Center(
                               child: EmptyDataWidget(
                                 mainTitle: '',
-                                subTitle: "No projects found.",
+                                // subTitle: "No projects found.",
+                                subTitle: noProjectFoundKey.tr(),
                                 widthImage:
                                     MediaQuery.of(context).size.width * 0.5,
                               ),

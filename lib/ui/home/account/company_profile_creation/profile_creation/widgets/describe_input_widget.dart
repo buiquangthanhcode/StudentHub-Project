@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 
 class DescribeInputWidget extends StatefulWidget {
   const DescribeInputWidget(
@@ -27,7 +29,8 @@ class _DescribeInputWidgetState extends State<DescribeInputWidget> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              'Please describe your company',
+              // 'Please describe your company',
+              describeCompanyKey.tr(),
               style: textTheme.bodySmall,
             ),
           ],
@@ -51,7 +54,8 @@ class _DescribeInputWidgetState extends State<DescribeInputWidget> {
           maxLines: 2,
           controller: widget.descriptionInputController,
           decoration: InputDecoration(
-            hintText: 'Enter your description...',
+            // hintText: 'Enter your description...',
+            hintText: enterYourDescriptionPlaceHolderKey.tr(),
             hintStyle: textTheme.bodyMedium!
                 .copyWith(color: Theme.of(context).colorScheme.hintColor),
             suffixIcon: widget.descriptionInputController.text.isNotEmpty

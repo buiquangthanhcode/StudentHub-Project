@@ -137,6 +137,7 @@ const String selectLanguagePlaceHolderKey = "select_language_placeholder";
 const String selectLevelPlaceHolderKey = "select_level_placeholder";
 const String selectTechStackKey = "select_tech_stack";
 const String editLanguageTitleKey = "edit_language_title";
+const String editEducationTitleKey = "edit_education_title";
 const String thisActionCannotBeUndoneKey = "this_action_cannot_be_done";
 const String deleteLanguageConfirmMsg = "delete_language_confirm";
 const String deleteEducationConfirmMsg = "delete_education_confirm";
@@ -276,3 +277,23 @@ const String sendInviteBtnKey = "send_invite";
 const String cancelUppercaseKey = "cancel_upper";
 const String okUppercaseKey = "ok_upper";
 const String changeLanguageSuccessMsgKey = "change_language_success";
+// --- for change theme flow ---
+const String chatThemeKey = "chat_theme";
+const String dayKey = "day";
+const String nightKey = "night";
+const String changeThemeSuccessMsgKey = "change_theme_success";
+const String changeSuccessMsgKey = "change_success";
+const String noMessageKey = "no_messages";
+const String noHiredProposalKey = "no_proposal";
+// --- for update profile flow when logging first time ---
+const String updateProfileForFirstTimeMsgKey = "update_profile_for_first_time";
+const String companyProfileKey = "company_profile";
+const String howManyPeopleMsgKey = "how_many_people";
+const String whatIsNameOfCompanyMsgKey = "what_is_company_name_msg";
+const String whatIsWebUrlOfCompanyMsgKey = "what_is_url_of_company_msg";
+const String describeCompanyKey = "describe_company";
+const String enterYourCompanyPlaceHolderKey = "enter_your_company_placeholder";
+const String enterYourWebsiteURlPlaceHolderKey =
+    "enter_your_company_website_url_placeholder";
+const String enterYourDescriptionPlaceHolderKey =
+    "enter_your_description_placeholder";

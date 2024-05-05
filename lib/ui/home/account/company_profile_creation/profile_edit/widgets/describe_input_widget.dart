@@ -53,7 +53,8 @@ class _DescribeInputWidgetState extends State<DescribeInputWidget> {
           maxLines: 6,
           controller: widget.descriptionInputController,
           decoration: InputDecoration(
-            hintText: 'Enter your description...',
+            // hintText: 'Enter your description...',
+            hintText: enterYourDescriptionPlaceHolderKey.tr(),
             hintStyle: textTheme.bodyMedium!
                 .copyWith(color: Theme.of(context).colorScheme.hintColor),
             suffixIcon: widget.descriptionInputController.text.isNotEmpty

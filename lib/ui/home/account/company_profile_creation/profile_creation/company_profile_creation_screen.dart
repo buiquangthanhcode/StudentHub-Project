@@ -85,8 +85,9 @@ class _CompanyProfileCreationScreenState
             preferredSize: const Size.fromHeight(50),
             child: AppBar(
               title: Text(
-                'Profile',
-                style: TextStyle(fontWeight: FontWeight.w500),
+                // 'Profile',
+                companyProfileKey.tr(),
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 28),
               ),
               centerTitle: false,
             ),
@@ -101,7 +102,7 @@ class _CompanyProfileCreationScreenState
                   children: [
                     const SizedBox(height: 10),
                     TitleWidget(),
-                    const SizedBox(height: 60),
+                    const SizedBox(height: 30),
                     EmployeeQuantitySelectionWidget(
                       chooseEmployeesQuantity: (value) {
                         employeeQuantity = value;
@@ -143,7 +144,8 @@ class _CompanyProfileCreationScreenState
                                                     .copyWith(
                                                         company: company)));
                                         SnackBarService.showSnackBar(
-                                            content: 'Successfully!',
+                                            // content: 'Successfully!',
+                                            content: changeSuccessMsgKey.tr(),
                                             status: StatusSnackBar.success);
                                         Future.delayed(Duration(seconds: 1),
                                             () {

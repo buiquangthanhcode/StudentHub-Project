@@ -176,14 +176,18 @@ class _LoginScreenState extends State<LoginScreen> {
                             isScrollControlled: true,
                             builder: (context) {
                               return Container(
-                                padding: const EdgeInsets.all(12.0),
+                                padding: EdgeInsets.only(
+                                  top: 12,
+                                  left: 12,
+                                  right: 12,
+                                  bottom:
+                                      MediaQuery.of(context).viewInsets.bottom,
+                                ),
                                 decoration: const BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(20),
                                         topRight: Radius.circular(20))),
-                                height:
-                                    MediaQuery.of(context).size.height * 0.8,
                                 child: FormBuilder(
                                   key: _formForgotPassword,
                                   child: SingleChildScrollView(
@@ -275,6 +279,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                               ])
                                             ],
                                           ),
+                                          SizedBox(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.25),
                                           ElevatedButton(
                                             onPressed: () {
                                               if (_formForgotPassword
@@ -453,6 +462,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 // const Spacer(
                 //   flex: 10,
                 // ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.15),
                 Align(
                   alignment: Alignment.center,
                   child: RichText(

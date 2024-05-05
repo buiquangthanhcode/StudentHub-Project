@@ -84,7 +84,8 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
 
     Future.delayed(const Duration(milliseconds: 100), () {
       SnackBarService.showSnackBar(
-          content: 'Change theme successfully!',
+          // content: 'Change theme successfully!',
+          content: changeThemeSuccessMsgKey.tr(),
           status: StatusSnackBar.success);
       Navigator.pop(context, value);
     });
@@ -108,7 +109,8 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
       },
       {
         'icon': FontAwesomeIcons.themeco,
-        'name': 'Change theme',
+        // 'name': 'Change theme',
+        'name': chatThemeKey.tr(),
         'key': 'theme',
       },
       {
@@ -272,13 +274,18 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                           isScrollControlled: true,
                           builder: (context) {
                             return Container(
-                              padding: const EdgeInsets.all(12.0),
+                              padding: EdgeInsets.only(
+                                  bottom:
+                                      MediaQuery.of(context).viewInsets.bottom,
+                                  left: 12,
+                                  right: 12,
+                                  top: 12),
                               decoration: const BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(20),
                                       topRight: Radius.circular(20))),
-                              height: MediaQuery.of(context).size.height * 0.85,
+                              // height: MediaQuery.of(context).size.height * 0.65,
                               child: SingleChildScrollView(
                                 child: FormBuilder(
                                   key: _formChangePassWord,
@@ -396,6 +403,11 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                             ])
                                           ],
                                         ),
+                                        SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.1),
                                         ElevatedButton(
                                           onPressed: () {
                                             if (_formChangePassWord.currentState
@@ -486,7 +498,8 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                   Row(
                                     children: [
                                       Text(
-                                        'Change Theme',
+                                        // 'Change Theme',
+                                        chatThemeKey.tr(),
                                         style: theme.textTheme.bodyMedium
                                             ?.copyWith(
                                           fontWeight: FontWeight.bold,
@@ -543,7 +556,8 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                             ),
                                           ),
                                           const SizedBox(width: 16),
-                                          Text("Sáng"),
+                                          // Text("Sáng"),
+                                          Text(dayKey.tr())
                                         ],
                                       ),
                                       activeColor: primaryColor,
@@ -578,7 +592,8 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                                 height: 30,
                                               )),
                                           const SizedBox(width: 16),
-                                          Text("Tối"),
+                                          // Text("Tối"),
+                                          Text(nightKey.tr())
                                         ],
                                       ),
                                       activeColor: primaryColor,

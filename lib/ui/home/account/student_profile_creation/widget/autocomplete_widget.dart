@@ -51,6 +51,7 @@ class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
                           option,
                           style: theme.textTheme.bodyMedium?.copyWith(
                             fontSize: 16,
+                            color: Colors.grey[900],
                           ),
                         )),
                       );
@@ -75,14 +76,20 @@ class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
               ),
               scrollPadding: const EdgeInsets.all(0),
               decoration: InputDecoration(
+                prefixIcon: const Icon(
+                  Icons.pan_tool,
+                  color: Colors.grey,
+                  size: 18,
+                ),
                 // contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 isDense: true,
                 // hintText: 'Enter your skill',
                 hintText: enterSkillSetPlaceHolderKey.tr(),
-                hintStyle: const TextStyle(
-                  fontSize: 14,
+                hintStyle: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey[400],
                 ),
                 border: const OutlineInputBorder(),
               ),

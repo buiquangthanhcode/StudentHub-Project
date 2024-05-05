@@ -53,7 +53,8 @@ class _UrlInputWidgetState extends State<UrlInputWidget> {
           controller: widget.websiteInputController,
           cursorColor: Colors.black,
           decoration: InputDecoration(
-            hintText: 'Enter your website url...',
+            // hintText: 'Enter your website url...',
+            hintText: enterYourWebsiteURlPlaceHolderKey.tr(),
             hintStyle: textTheme.bodyMedium!
                 .copyWith(color: Theme.of(context).colorScheme.hintColor),
             suffixIcon: widget.websiteInputController.text.isNotEmpty

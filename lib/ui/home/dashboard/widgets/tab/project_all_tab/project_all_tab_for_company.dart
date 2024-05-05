@@ -48,7 +48,8 @@ class _ProjectAllTabState extends State<ProjectAllTabForCompany> {
         children: [
           EmptyDataWidget(
             mainTitle: '',
-            subTitle: 'Please update your profile to view projects.',
+            // subTitle: 'Please update your profile to view projects.',
+            subTitle: updateProfileForFirstTimeMsgKey.tr(),
             widthImage: MediaQuery.of(context).size.width * 0.5,
           ),
         ],

@@ -47,7 +47,8 @@ class _EmployeeQuantitySelectionWidgetState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'How many people are in your company?',
+          // 'How many people are in your company?',
+          howManyPeopleMsgKey.tr(),
           style: textTheme.bodySmall,
         ),
         const SizedBox(

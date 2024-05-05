@@ -327,11 +327,22 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                                       .toString(),
                                 });
                           },
-                          child: Text(
-                            messagesBtnKey.tr(),
-                            style: textTheme.bodyMedium!.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const FaIcon(
+                                FontAwesomeIcons.message,
+                                size: 20,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                messagesBtnKey.tr(),
+                                style: textTheme.bodyMedium!.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ],
                           ),
                         );
                       })

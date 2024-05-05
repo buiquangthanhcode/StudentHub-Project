@@ -214,10 +214,11 @@ class ProjectItem extends StatelessWidget {
               ];
               return GridView.count(
                 crossAxisCount: 3,
-                crossAxisSpacing: 2,
+                crossAxisSpacing: 8,
                 physics: const NeverScrollableScrollPhysics(),
                 mainAxisSpacing: 2,
                 shrinkWrap: true,
+                childAspectRatio: 1.6,
                 children: data.map((item) {
                   return Container(
                     width: MediaQuery.of(context).size.width / 3.5,
@@ -238,7 +239,7 @@ class ProjectItem extends StatelessWidget {
                             color:
                                 theme.colorScheme.brightness == Brightness.dark
                                     ? Colors.white
-                                    : primaryColor,
+                                    : Colors.black,
                           ),
                         ),
                         Text(
