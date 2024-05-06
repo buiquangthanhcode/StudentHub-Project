@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,8 @@ import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
+import 'package:studenthub/services/local_services.dart';
 import 'package:studenthub/widgets/dialog.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
@@ -33,7 +36,8 @@ class _AccountState extends State<AccountScreen> {
         List<Map<String, dynamic>> dataSetting = [
           {
             'icon': FontAwesomeIcons.solidCircleUser,
-            'name': 'Profiles',
+            // 'name': 'Profiles',
+            'name': profileKey.tr(),
             'route_name': state.currentRole == UserRole.company
                 ? state.userModel.company == null
                     ? 'company_create_profile'
@@ -44,12 +48,14 @@ class _AccountState extends State<AccountScreen> {
           },
           {
             'icon': FontAwesomeIcons.gears,
-            'name': 'Setting',
+            // 'name': 'Setting',
+            'name': settingsKey.tr(),
             'route_name': 'setting_detail',
           },
           {
             'icon': FontAwesomeIcons.leftLong,
-            'name': 'Log out',
+            // 'name': 'Log out',
+            'name': logoutKey.tr(),
             'route_name': 'introduction',
           },
         ];
@@ -68,8 +74,12 @@ class _AccountState extends State<AccountScreen> {
                       child: Row(
                         children: [
                           Text(
-                            'Account',
-                            style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w700),
+                            // 'Account',
+                            accountNavKey.tr(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(fontWeight: FontWeight.w700),
                           ),
                         ],
                       ),
@@ -114,19 +124,32 @@ class _AccountState extends State<AccountScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.5,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.5,
                                   child: Text(
                                     state.currentRole == UserRole.student
                                         ? state.userModel.fullname ?? ''
-                                        : state.userModel.company?.companyName ?? 'Anonymus',
+                                        : state.userModel.company
+                                                ?.companyName ??
+                                            'Anonymous',
                                     overflow: TextOverflow.ellipsis,
                                     style: theme.textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
+                                // Text(
+                                //   state.currentRole == UserRole.student
+                                //       ? 'Student'
+                                //       : 'Company',
+                                //   style: theme.textTheme.bodyMedium?.copyWith(
+                                //     color: Colors.grey,
+                                //   ),
+                                // ),
                                 Text(
-                                  state.currentRole == UserRole.student ? 'Student' : 'Company',
+                                  state.currentRole == UserRole.student
+                                      ? studentRoleKey.tr()
+                                      : companyRoleKey.tr(),
                                   style: theme.textTheme.bodyMedium?.copyWith(
                                     color: Colors.grey,
                                   ),
@@ -138,20 +161,33 @@ class _AccountState extends State<AccountScreen> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              final subtitle_msg = state.currentRole == UserRole.student
-                                  ? 'Start searching and implementing real-world projects right now!'
-                                  : 'Start finding and hiring young talented students!';
+                              // final subtitle_msg = state.currentRole ==
+                              //         UserRole.student
+                              //     ? 'Start searching and implementing real-world projects right now!'
+                              //     : 'Start finding and hiring young talented students!';
+                              final subtitleMsg =
+                                  state.currentRole == UserRole.student
+                                      ? changeAccountNoticeMsgKey1.tr()
+                                      : changeAccountNoticeMsgKey2.tr();
                               showDialogCustom(context,
                                   image: 'lib/assets/images/change_account.png',
-                                  title: 'Do you want to change account?',
-                                  subtitle: subtitle_msg,
-                                  textButtom: 'Change your account',
+                                  // title: 'Do you want to change account?',
+                                  title: changeAccountConfirmMsgKey.tr(),
+                                  subtitle: subtitleMsg,
+                                  // textButtom: 'Change your account',
+                                  textButtom: changeAccountBtnKey.tr(),
                                   sizeImage: 50, onSave: () {
                                 context.read<AuthBloc>().add(UpdateRoleEvents(
-                                    role: state.currentRole == UserRole.student ? UserRole.company : UserRole.student));
-                                context.read<StudentBloc>().add(ResetBlocEvent());
+                                    role: state.currentRole == UserRole.student
+                                        ? UserRole.company
+                                        : UserRole.student));
+                                context
+                                    .read<StudentBloc>()
+                                    .add(ResetBlocEvent());
                                 SnackBarService.showSnackBar(
-                                    content: 'Change account successfully!', status: StatusSnackBar.success);
+                                    // content: 'Change account successfully!',
+                                    content: changeAccountSuccessMsgKey.tr(),
+                                    status: StatusSnackBar.success);
                                 Navigator.of(context).pop();
                               });
                             },
@@ -175,15 +211,30 @@ class _AccountState extends State<AccountScreen> {
                                   children: [
                                     Text(
                                       state.currentRole == UserRole.student
-                                          ? state.userModel.company?.companyName ?? 'Anonymus'
+                                          ? state.userModel.company
+                                                  ?.companyName ??
+                                              'Anonymous'
                                           : state.userModel.fullname ?? '',
-                                      style: theme.textTheme.bodyMedium?.copyWith(
+                                      style:
+                                          theme.textTheme.bodyMedium?.copyWith(
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
+                                    // Text(
+                                    //   state.currentRole == UserRole.student
+                                    //       ? 'Company'
+                                    //       : "Student",
+                                    //   style:
+                                    //       theme.textTheme.bodyMedium?.copyWith(
+                                    //     color: Colors.grey,
+                                    //   ),
+                                    // ),
                                     Text(
-                                      state.currentRole == UserRole.student ? 'Company' : "Student",
-                                      style: theme.textTheme.bodyMedium?.copyWith(
+                                      state.currentRole == UserRole.student
+                                          ? companyRoleKey.tr()
+                                          : studentRoleKey.tr(),
+                                      style:
+                                          theme.textTheme.bodyMedium?.copyWith(
                                         color: Colors.grey,
                                       ),
                                     ),
@@ -209,17 +260,28 @@ class _AccountState extends State<AccountScreen> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
-                        border: Border.all(color: Color.fromARGB(255, 160, 160, 160), width: 1)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        border: Border.all(
+                            color: const Color.fromARGB(255, 160, 160, 160),
+                            width: 1)),
                     child: Column(
                       children: [
                         ...dataSetting.map(
                           (e) => GestureDetector(
                             onTap: () {
                               if (e['route_name'] == 'introduction') {
-                                context.read<StudentBloc>().add(ResetBlocEvent());
-                                context.read<GeneralProjectBloc>().add(ResetBlocEvents());
-                                Future.delayed(const Duration(milliseconds: 500), () {
+                                context
+                                    .read<StudentBloc>()
+                                    .add(ResetBlocEvent());
+                                context
+                                    .read<GeneralProjectBloc>()
+                                    .add(ResetBlocEvents());
+                                final LocalStorageService tokenService =
+                                    LocalStorageService();
+                                tokenService.clearToken();
+                                Future.delayed(
+                                    const Duration(milliseconds: 500), () {
                                   context.pushNamed(e['route_name']);
                                 });
                               } else {
@@ -227,12 +289,14 @@ class _AccountState extends State<AccountScreen> {
                               }
                             },
                             child: Container(
-                              padding: const EdgeInsets.symmetric(vertical: 22, horizontal: 5),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 22, horizontal: 5),
                               decoration: BoxDecoration(
                                   border: Border(
                                       bottom: BorderSide(
                                           width: e == dataSetting.last ? 0 : 1,
-                                          color: const Color.fromARGB(255, 220, 220, 220)))),
+                                          color: const Color.fromARGB(
+                                              255, 220, 220, 220)))),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
@@ -272,7 +336,8 @@ class _AccountState extends State<AccountScreen> {
                   ),
                   const Spacer(),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 15),
                     decoration: BoxDecoration(
                       color: primaryColor,
                       borderRadius: BorderRadius.circular(10),
@@ -288,7 +353,8 @@ class _AccountState extends State<AccountScreen> {
                           width: 10,
                         ),
                         Text(
-                          'How can we help you?',
+                          // 'How can we help you?',
+                          helpBtnKey.tr(),
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

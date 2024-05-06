@@ -2,7 +2,6 @@
 import 'package:equatable/equatable.dart';
 
 import 'package:studenthub/models/common/project_model.dart';
-import 'package:studenthub/models/company/company_model.dart';
 
 class ProjectState extends Equatable {
   final List<Project> allProjects;
@@ -11,7 +10,7 @@ class ProjectState extends Equatable {
   final Project projectCreation;
   final bool isLoading;
 
-  ProjectState({
+  const ProjectState({
     required this.allProjects,
     required this.workingProjects,
     required this.archivedProjects,

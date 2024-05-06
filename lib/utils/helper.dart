@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/models/common/proposal_modal.dart';
+import 'package:studenthub/models/notification/notification_model.dart';
 import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
 import 'package:studenthub/models/student/student_create_profile/tech_stack.dart';
 import 'package:studenthub/utils/logger.dart';
@@ -107,4 +108,18 @@ List<TechStack> removeDuplicates(List<TechStack> list) {
   }
 
   return uniqueList;
+}
+
+String checkDateTime(String dateTimeString) {
+  if (dateTimeString.isEmpty) return '';
+  DateTime now = DateTime.now();
+
+  DateTime dateTime = DateTime.parse(dateTimeString);
+
+  if (dateTime.year == now.year && dateTime.month == now.month && dateTime.day == now.day) {
+    dateTime = dateTime.toLocal();
+    return DateFormat('HH:mm').format(dateTime);
+  } else {
+    return DateFormat('dd-MM-yyyy').format(dateTime);
+  }
 }

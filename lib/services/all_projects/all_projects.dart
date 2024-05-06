@@ -5,7 +5,6 @@ import 'package:studenthub/data/dto/reponse.dart';
 import 'package:studenthub/data/dto/student/request_get_proposal_project.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
-import 'package:studenthub/models/common/proposal_modal.dart';
 import 'package:studenthub/services/api_interceptor.dart';
 import 'package:studenthub/services/dio_client.dart';
 import 'package:studenthub/services/endpoint.dart';

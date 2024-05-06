@@ -7,6 +7,7 @@ import 'package:studenthub/blocs/global_bloc/global_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/core/date_picker_formfield.dart';
 import 'package:studenthub/core/text_field_custom.dart';
 import 'package:studenthub/data/dto/student/request_post_experience.dart';
@@ -53,7 +54,8 @@ class _EditProjectResumeItemState extends State<EditProjectResumeItem> {
               Row(
                 children: [
                   Text(
-                    "Edit Project",
+                    // "Edit Project",
+                    editProjectTitleKey.tr(),
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
@@ -62,7 +64,8 @@ class _EditProjectResumeItemState extends State<EditProjectResumeItem> {
                   const Spacer(),
                   Container(
                     decoration: BoxDecoration(
-                        color: theme.colorScheme.grey!.withOpacity(0.4), borderRadius: BorderRadius.circular(50)),
+                        color: theme.colorScheme.grey!.withOpacity(0.4),
+                        borderRadius: BorderRadius.circular(50)),
                     padding: const EdgeInsets.all(3),
                     child: InkWell(
                       onTap: () {
@@ -89,22 +92,27 @@ class _EditProjectResumeItemState extends State<EditProjectResumeItem> {
                 ),
                 name: 'project_name',
                 autofocus: true,
-                hintText: 'Project Name',
+                // hintText: 'Project Name',
+                hintText: projectNamePlaceHolderKey.tr(),
                 initialValue: widget.item.title,
               ),
               const SizedBox(height: 10),
               DatePickerCustom(
                 name: 'start_date',
-                hintText: 'Start Date',
-                labelText: 'Start Date',
+                // hintText: 'Start Date',
+                // labelText: 'Start Date',
+                hintText: startDatePlaceHolderKey.tr(),
+                labelText: startDatePlaceHolderKey.tr(),
                 initialDate: parseMonthYear(widget.item.startMonth),
                 view: DateRangePickerView.month,
               ),
               const SizedBox(height: 10),
               DatePickerCustom(
                 name: 'end_date',
-                hintText: 'End Date',
-                labelText: 'End Date',
+                // hintText: 'End Date',
+                // labelText: 'End Date',
+                hintText: endDatePlaceHolderKey.tr(),
+                labelText: endDatePlaceHolderKey.tr(),
                 initialDate: parseMonthYear(widget.item.endMonth),
                 view: DateRangePickerView.month,
               ),
@@ -154,9 +162,11 @@ class _EditProjectResumeItemState extends State<EditProjectResumeItem> {
                   color: Colors.grey,
                 ),
                 name: 'description',
-                hintText: 'Description',
+                // hintText: 'Description',
+                hintText: descriptionPlaceHolderKey.tr(),
                 initialValue: widget.item.description,
               ),
+              const SizedBox(height: 24),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
@@ -170,18 +180,29 @@ class _EditProjectResumeItemState extends State<EditProjectResumeItem> {
                     // Update value
                     for (var element in currentExperience!) {
                       if (element.id == widget.item.id) {
-                        element.title = formkey.currentState!.fields['project_name']!.value as String;
-                        element.startMonth = DateFormat('MM-yyyy')
-                            .format(stringToDateTime(formkey.currentState?.fields['start_date']?.value));
-                        element.endMonth = DateFormat('MM-yyyy')
-                            .format(stringToDateTime(formkey.currentState?.fields['end_date']?.value));
-                        element.description = formkey.currentState!.fields['description']!.value as String;
+                        element.title = formkey.currentState!
+                            .fields['project_name']!.value as String;
+                        element.startMonth = DateFormat('MM-yyyy').format(
+                            stringToDateTime(formkey
+                                .currentState?.fields['start_date']?.value));
+                        element.endMonth = DateFormat('MM-yyyy').format(
+                            stringToDateTime(formkey
+                                .currentState?.fields['end_date']?.value));
+                        element.description = formkey.currentState!
+                            .fields['description']!.value as String;
                       }
                     }
 
-                    RequestPostExperience requestPostExperience = RequestPostExperience(
+                    RequestPostExperience requestPostExperience =
+                        RequestPostExperience(
                       experience: currentExperience,
-                      userId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
+                      userId: context
+                          .read<AuthBloc>()
+                          .state
+                          .userModel
+                          .student!
+                          .id
+                          .toString(),
                     );
 
                     context.read<StudentBloc>().add(AddProjectEvent(
@@ -193,7 +214,7 @@ class _EditProjectResumeItemState extends State<EditProjectResumeItem> {
                   }
                 },
                 child: Text(
-                  "Save",
+                  saveBtnKey.tr(),
                   style: theme.textTheme.bodyMedium!.copyWith(
                     color: theme.colorScheme.onPrimary,
                   ),

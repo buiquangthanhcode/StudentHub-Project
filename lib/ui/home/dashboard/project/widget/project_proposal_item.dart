@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -6,6 +7,7 @@ import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
 import 'package:studenthub/blocs/company_bloc/company_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/widgets/dialog.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
@@ -32,7 +34,6 @@ class _ProposalItemState extends State<ProposalItem> {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -63,7 +64,8 @@ class _ProposalItemState extends State<ProposalItem> {
                   width: 30,
                   height: 30,
                   child: CircleAvatar(
-                    backgroundImage: AssetImage('lib/assets/images/circle_avatar.png'),
+                    backgroundImage:
+                        AssetImage('lib/assets/images/circle_avatar.png'),
                   ),
                 ),
               ),
@@ -78,7 +80,8 @@ class _ProposalItemState extends State<ProposalItem> {
                     style: widget.theme.textTheme.bodyMedium,
                   ),
                   Text(
-                    widget.item.student?.fullname ?? '4th year student',
+                    // widget.item.student?.fullname ?? '4th year student',
+                    widget.item.student?.fullname ?? fourthYearStudentKey.tr(),
                     style: widget.theme.textTheme.bodyMedium,
                   ),
                 ],
@@ -101,8 +104,8 @@ class _ProposalItemState extends State<ProposalItem> {
               Row(
                 children: [
                   Text(
-                    widget.item.project?.title ?? 'Excellent',
-                    overflow: TextOverflow.ellipsis,
+                    // widget.item.project?.title ?? 'Excellent',
+                    widget.item.project?.title ?? excellentRankedKey.tr(),
                     style: widget.theme.textTheme.bodyMedium!.copyWith(
                       color: const Color.fromARGB(255, 231, 144, 5),
                       fontWeight: FontWeight.w600,
@@ -133,21 +136,33 @@ class _ProposalItemState extends State<ProposalItem> {
                           minimumSize: const Size(double.infinity, 35),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
-                            side: const BorderSide(color: primaryColor, width: 2.0),
+                            // side: const BorderSide(
+                            //     color: primaryColor, width: 2.0),
+                            side: BorderSide(
+                                color: isPressHiredButton
+                                    ? Colors.green.shade600
+                                    : primaryColor,
+                                width: 2.0),
                           ),
                         ),
                         onPressed: () {
                           showDialogCustom(context,
-                              title: 'Hide Offer',
-                              textButtom: 'Hired',
-                              subtitle: 'Do you really want to hide this offer for student to do this project?',
+                              title: sendOfferBtnKey.tr(),
+                              // textButtom: 'Send',
+                              // subtitle:
+                              //     'Do you really want too send this offer for student to do this project?',
+                              textButtom: sendOfferBtnKey.tr(),
+                              subtitle: sendOfferConfirmMsgKey.tr(),
                               onSave: () {
-                            context.read<CompanyBloc>().add(HireStudentProprosalEvent(
+                            context
+                                .read<CompanyBloc>()
+                                .add(HireStudentProprosalEvent(
                                   proposalId: widget.item.id ?? 0,
                                   statusFlag: 3,
                                   onSuccess: () {
                                     SnackBarService.showSnackBar(
-                                        content: "Hired Successfully", status: StatusSnackBar.success);
+                                        content: "Hired Successfully",
+                                        status: StatusSnackBar.success);
                                     context.pop();
                                     setState(() {
                                       isPressHiredButton = true;
@@ -157,9 +172,13 @@ class _ProposalItemState extends State<ProposalItem> {
                           });
                         },
                         child: Text(
-                          isPressHiredButton ? 'Send offer' : "Hired",
+                          isPressHiredButton
+                              ? hiredProjectReviewKey.tr()
+                              : sendOfferBtnKey.tr(),
                           style: widget.theme.textTheme.bodyMedium!.copyWith(
-                            color: primaryColor,
+                            color: isPressHiredButton
+                                ? Colors.green.shade600
+                                : primaryColor,
                           ),
                         ),
                       ),
@@ -184,7 +203,7 @@ class _ProposalItemState extends State<ProposalItem> {
                     });
                   },
                   child: Text(
-                    "Message",
+                    messageBtnKey.tr(),
                     style: widget.theme.textTheme.bodyMedium!.copyWith(
                       color: widget.theme.colorScheme.onPrimary,
                     ),

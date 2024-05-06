@@ -7,6 +7,8 @@ class LocalStorageService {
   LocalStorageService();
   static const tokenKey = 'token';
   static const userInformationKey = 'userInformation';
+  static const isFirstInstallKey = 'is-first-install';
+
   //Add more here when to save local storage
 
   Future<void> saveTokens({required String accessToken}) async {
@@ -45,5 +47,19 @@ class LocalStorageService {
     final storage = await SharedPreferences.getInstance();
     logger.i("Đang lấy thong tin nguoi dung từ localStorage");
     return UserModel.fromJson(storage.getString(userInformationKey) ?? '');
+  }
+
+  FutureOr<void> setFirstInstall({required bool isFirstInstall}) async {
+    try {
+      final storage = await SharedPreferences.getInstance();
+      await storage.setBool(isFirstInstallKey, isFirstInstall);
+    } catch (e) {
+      return;
+    }
+  }
+
+  FutureOr<bool?> getFirstInstall() async {
+    final storage = await SharedPreferences.getInstance();
+    return storage.getBool(isFirstInstallKey);
   }
 }

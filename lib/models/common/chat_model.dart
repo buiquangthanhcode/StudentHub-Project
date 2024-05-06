@@ -26,8 +26,8 @@ class Chat {
     int? id,
     String? createdAt,
     String? content,
-    dynamic? sender,
-    dynamic? receiver,
+    dynamic sender,
+    dynamic receiver,
     Interview? interview,
     Project? project,
   }) {
