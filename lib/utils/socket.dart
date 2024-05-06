@@ -37,8 +37,8 @@ class SocketService {
     _socket.on(event, callback);
   }
 
-  void receiveMessage(dynamic Function(dynamic) callback) {
-    _socket.on('RECEIVE_MESSAGE', callback);
+  void receiveMessage(int receiverId,dynamic Function(dynamic) callback) {
+    _socket.on('NOTI_$receiverId', callback);
   }
 
   void sendMessage(dynamic message) {
