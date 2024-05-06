@@ -12,7 +12,9 @@ import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/ui/home/projects/widgets/general_project_item.dart';
+import 'package:studenthub/utils/logger.dart';
 
 class GeneralProjectScreen extends StatefulWidget {
   const GeneralProjectScreen({super.key});
@@ -29,16 +31,19 @@ class _GeneralProjectScreenState extends State<GeneralProjectScreen> {
   final _scrollController = ScrollController();
   bool scrollToBottom = false;
   bool pinned = false;
+  List<Project> projectList = [];
+  int page = 1;
 
   @override
   void initState() {
     _searchFocus.addListener(_onFocusChange);
     _scrollController.addListener(_scrollListener);
+    _scrollController.addListener(_scrollToBottomListener);
 
     super.initState();
 
     context.read<GeneralProjectBloc>().add(
-          GetAllDataEvent(),
+          GetAllDataEvent(1, 10),
         );
   }
 
@@ -70,6 +75,16 @@ class _GeneralProjectScreenState extends State<GeneralProjectScreen> {
     }
   }
 
+  void _scrollToBottomListener() {
+    if (_scrollController.offset ==
+        _scrollController.position.maxScrollExtent) {
+      logger.d('scroll to bottom');
+      context.read<GeneralProjectBloc>().add(
+            GetAllDataEvent(++page, 10),
+          );
+    }
+  }
+
   void _onFocusChange() {
     setState(() {});
   }
@@ -83,6 +98,12 @@ class _GeneralProjectScreenState extends State<GeneralProjectScreen> {
 
     return BlocBuilder<GeneralProjectBloc, GeneralProjectState>(
       builder: (BuildContext context, GeneralProjectState state) {
+        logger.d('rebuild');
+        Future.delayed(Duration.zero, () {
+          setState(() {
+            projectList.addAll(state.projectList);
+          });
+        });
         return Scaffold(
           body: CustomScrollView(
             controller: _scrollController,
@@ -166,15 +187,27 @@ class _GeneralProjectScreenState extends State<GeneralProjectScreen> {
               ),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
-                  childCount: state.projectList.length,
+                  childCount: projectList.length + 1,
                   (BuildContext context, int index) {
-                    return GeneralProjectItem(
-                      project: state.projectList[index],
-                      paddingRight: 8,
-                    );
+                    if (index < projectList.length) {
+                      return GeneralProjectItem(
+                        project: projectList[index],
+                        paddingRight: 8,
+                      );
+                    } else {
+                      return const Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 36),
+                          child: CircularProgressIndicator(
+                            color: primaryColor,
+                            strokeWidth: 5,
+                          ),
+                        ),
+                      );
+                    }
                   },
                 ),
-              )
+              ),
             ],
           ),
         );

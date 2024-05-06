@@ -47,13 +47,14 @@ class GeneralProjectBloc
       GetAllDataEvent event, Emitter<GeneralProjectState> emit) async {
     try {
       // EasyLoading.show(status: 'Loading...');
-      EasyLoading.show(status: loadingBtnKey.tr());
-      ResponseAPI result = await _allProjectsService.getAllProjects(null, null);
-
+      // EasyLoading.show(status: loadingBtnKey.tr());
+      ResponseAPI result =
+          await _allProjectsService.getAllProjects(event.page, event.perPage);
+      logger.d(result.data.length);
       if (result.statusCode! < 300) {
         emit(state.update(
-            projectList: result.data,
-            ));
+          projectList: result.data,
+        ));
       } else {
         SnackBarService.showSnackBar(
             content: handleFormatMessage(result.data!.errorDetails),
