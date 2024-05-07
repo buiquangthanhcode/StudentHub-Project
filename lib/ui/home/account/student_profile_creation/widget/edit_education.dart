@@ -40,8 +40,8 @@ class _EditEducationState extends State<EducationEdit> {
               Row(
                 children: [
                   Text(
-                    // "Edit Language",
-                    editLanguageTitleKey.tr(),
+                    // "Edit Education",
+                    editEducationTitleKey.tr(),
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
@@ -96,7 +96,8 @@ class _EditEducationState extends State<EducationEdit> {
                 labelText: 'Year End',
                 initValue: parseYearToDateTime(widget.item.endYear.toString()),
               ),
-              const SizedBox(height: 10),
+              // SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+              const SizedBox(height: 50),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
@@ -149,7 +150,8 @@ class _EditEducationState extends State<EducationEdit> {
                     color: theme.colorScheme.onPrimary,
                   ),
                 ),
-              )
+              ),
+              const SizedBox(height: 16),
             ],
           ),
         ),

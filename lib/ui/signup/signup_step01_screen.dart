@@ -119,7 +119,8 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                                   activeColor: primaryColor,
                                   visualDensity: VisualDensity.compact,
                                   checkboxShape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15)),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
                                   value: item['value'],
                                   onChanged: (value) {
                                     for (int i = 0;
@@ -156,6 +157,7 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                 },
               ),
               // const Spacer(),
+              const SizedBox(height: 24),
               Container(
                 margin: const EdgeInsets.only(top: 20),
                 child: ElevatedButton(
@@ -180,9 +182,7 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.17),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -201,7 +201,7 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                       // 'Login',
                       loginBtnKey.tr(),
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.bold,
                         color: primaryColor,
                       ),
                     ),

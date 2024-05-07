@@ -158,7 +158,8 @@ class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
                                                     .copyWith(
                                                         company: company)));
                                         SnackBarService.showSnackBar(
-                                            content: 'Successfully!',
+                                            // content: 'Successfully!',
+                                            content: changeSuccessMsgKey.tr(),
                                             status: StatusSnackBar.success);
                                         Future.delayed(
                                             const Duration(seconds: 1), () {

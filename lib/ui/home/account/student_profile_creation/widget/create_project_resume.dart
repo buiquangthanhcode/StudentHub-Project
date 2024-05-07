@@ -163,6 +163,7 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
                   // hintText: 'Description',
                   hintText: descriptionPlaceHolderKey.tr(),
                 ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     elevation: 0,

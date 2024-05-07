@@ -6,16 +6,28 @@ import 'package:studenthub/models/common/project_model.dart';
 abstract class GeneralProjectEvent {}
 
 class GetAllDataEvent extends GeneralProjectEvent {
-  GetAllDataEvent();
+  final int? page;
+  final int? perPage;
+
+  GetAllDataEvent(this.page, this.perPage);
 }
+
+class GetAllSearchTitleEvent extends GeneralProjectEvent {
+  final Function? onSuccess;
+
+  GetAllSearchTitleEvent(this.onSuccess);
+}
+
 
 class GetSearchFilterDataEvent extends GeneralProjectEvent {
   final String? title;
   final int? projectScopeFlag;
   final int? numberOfStudents;
   final int? proposalsLessThan;
+  final int? page;
+  final int? perPage;
   GetSearchFilterDataEvent(this.title, this.projectScopeFlag,
-      this.numberOfStudents, this.proposalsLessThan);
+      this.numberOfStudents, this.proposalsLessThan,this.page,this.perPage);
 }
 
 class GetProjectDetail extends GeneralProjectEvent {
@@ -49,7 +61,8 @@ class GetAllProposalOfProjectEvent extends GeneralProjectEvent {
   final RequestProjectProposal requestProposal;
   final Function? onSuccess;
 
-  GetAllProposalOfProjectEvent({required this.requestProposal, required this.onSuccess});
+  GetAllProposalOfProjectEvent(
+      {required this.requestProposal, required this.onSuccess});
 }
 
 class ResetBlocEvents extends GeneralProjectEvent {

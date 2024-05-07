@@ -121,7 +121,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   FutureOr<void> _onGetChatDataOfProject(
       GetChatListDataOfProjectEvent event, Emitter<ChatState> emit) async {
     try {
-      EasyLoading.show(status: 'Loading...');
+      // EasyLoading.show(status: 'Loading...');
+      EasyLoading.show(status: loadingBtnKey.tr());
       ResponseAPI result =
           await _chatService.getChatDataOfProject(event.projectId);
       if (result.statusCode! < 300) {
@@ -148,7 +149,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   FutureOr<void> _onGetChatItemOfProject(
       GetChatItemOfProjectEvent event, Emitter<ChatState> emit) async {
     try {
-      EasyLoading.show(status: 'Loading...');
+      // EasyLoading.show(status: 'Loading...');
+      EasyLoading.show(status: loadingBtnKey.tr());
       ResponseAPI result =
           await _chatService.getChatDataOfProject(event.projectId);
       logger.d('PRO ID: ${event.projectId}');

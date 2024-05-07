@@ -64,16 +64,17 @@ class _LanguageEditState extends State<LanguageEdit> {
               data: language,
               name: 'language',
               onSelected: (value) {},
-              hint: "Please selecte Language",
+              hint: "Please select Language",
               initValue: widget.item.languageName,
             ),
             DropDownFormFieldCustom(
               name: 'level',
               data: levelLanguage,
               onSelected: (value) {},
-              hint: "Please selecte level",
+              hint: "Please select level",
               initValue: widget.item.level,
             ),
+            const SizedBox(height: 50),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 elevation: 0,
@@ -117,7 +118,8 @@ class _LanguageEditState extends State<LanguageEdit> {
                   color: theme.colorScheme.onPrimary,
                 ),
               ),
-            )
+            ),
+            const SizedBox(height: 16),
           ],
         ),
       ),

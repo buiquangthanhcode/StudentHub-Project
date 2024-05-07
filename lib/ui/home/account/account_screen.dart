@@ -167,8 +167,8 @@ class _AccountState extends State<AccountScreen> {
                               //     : 'Start finding and hiring young talented students!';
                               final subtitleMsg =
                                   state.currentRole == UserRole.student
-                                      ? changeAccountNoticeMsgKey1.tr()
-                                      : changeAccountNoticeMsgKey2.tr();
+                                      ? changeAccountNoticeMsgKey2.tr()
+                                      : changeAccountNoticeMsgKey1.tr();
                               showDialogCustom(context,
                                   image: 'lib/assets/images/change_account.png',
                                   // title: 'Do you want to change account?',
