@@ -8,6 +8,7 @@ abstract class GeneralProjectEvent {}
 class GetAllDataEvent extends GeneralProjectEvent {
   final int? page;
   final int? perPage;
+
   GetAllDataEvent(this.page, this.perPage);
 }
 
@@ -17,13 +18,16 @@ class GetAllSearchTitleEvent extends GeneralProjectEvent {
   GetAllSearchTitleEvent(this.onSuccess);
 }
 
+
 class GetSearchFilterDataEvent extends GeneralProjectEvent {
   final String? title;
   final int? projectScopeFlag;
   final int? numberOfStudents;
   final int? proposalsLessThan;
+  final int? page;
+  final int? perPage;
   GetSearchFilterDataEvent(this.title, this.projectScopeFlag,
-      this.numberOfStudents, this.proposalsLessThan);
+      this.numberOfStudents, this.proposalsLessThan,this.page,this.perPage);
 }
 
 class GetProjectDetail extends GeneralProjectEvent {

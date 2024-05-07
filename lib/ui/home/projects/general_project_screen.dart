@@ -31,20 +31,22 @@ class _GeneralProjectScreenState extends State<GeneralProjectScreen> {
   final _scrollController = ScrollController();
   bool scrollToBottom = false;
   bool pinned = false;
-  List<Project> projectList = [];
   int page = 1;
+  bool enableCall = true;
+  int preLength = -1;
+  dynamic bloc;
 
   @override
   void initState() {
     _searchFocus.addListener(_onFocusChange);
     _scrollController.addListener(_scrollListener);
-    _scrollController.addListener(_scrollToBottomListener);
 
     super.initState();
-
-    context.read<GeneralProjectBloc>().add(
-          GetAllDataEvent(1, 10),
-        );
+    _scrollController.addListener(_scrollToBottomListener);
+    bloc = context.read<GeneralProjectBloc>();
+    bloc.add(
+      GetAllDataEvent(1, 10),
+    );
   }
 
   @override
@@ -76,12 +78,15 @@ class _GeneralProjectScreenState extends State<GeneralProjectScreen> {
   }
 
   void _scrollToBottomListener() {
-    if (_scrollController.offset ==
-        _scrollController.position.maxScrollExtent) {
-      logger.d('scroll to bottom');
-      context.read<GeneralProjectBloc>().add(
-            GetAllDataEvent(++page, 10),
-          );
+    if ((_scrollController.offset ==
+            _scrollController.position.maxScrollExtent) &&
+        enableCall) {
+      logger.d('scroll to bottom: ${page + 1}');
+      enableCall = false;
+      preLength = bloc.state.projectList.length;
+      bloc.add(
+        GetAllDataEvent(++page, 10),
+      );
     }
   }
 
@@ -98,12 +103,8 @@ class _GeneralProjectScreenState extends State<GeneralProjectScreen> {
 
     return BlocBuilder<GeneralProjectBloc, GeneralProjectState>(
       builder: (BuildContext context, GeneralProjectState state) {
-        logger.d('rebuild');
-        Future.delayed(Duration.zero, () {
-          setState(() {
-            projectList.addAll(state.projectList);
-          });
-        });
+        enableCall = true;
+
         return Scaffold(
           body: CustomScrollView(
             controller: _scrollController,
@@ -187,23 +188,32 @@ class _GeneralProjectScreenState extends State<GeneralProjectScreen> {
               ),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
-                  childCount: projectList.length + 1,
+                  childCount: state.projectList.length + 1,
                   (BuildContext context, int index) {
-                    if (index < projectList.length) {
+                    if (index < state.projectList.length) {
                       return GeneralProjectItem(
-                        project: projectList[index],
+                        project: state.projectList[index],
                         paddingRight: 8,
                       );
                     } else {
-                      return const Center(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 36),
-                          child: CircularProgressIndicator(
-                            color: primaryColor,
-                            strokeWidth: 5,
-                          ),
-                        ),
-                      );
+                      return state.projectList.isNotEmpty
+                          ? preLength != state.projectList.length
+                              ? const Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 36),
+                                    child: CircularProgressIndicator(
+                                      color: primaryColor,
+                                      strokeWidth: 5,
+                                    ),
+                                  ),
+                                )
+                              : const Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 24),
+                                    child: Text('No more data to load'),
+                                  ),
+                                )
+                          : null;
                     }
                   },
                 ),

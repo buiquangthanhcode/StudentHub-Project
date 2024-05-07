@@ -33,6 +33,13 @@ class AllProjectsService {
 
       final res =
           await dioClient.get('$baseURL/api/project', queryParameters: query);
+      // logger.d('PROJECT DATa: ${res.statusCode}');
+      if (res.statusCode == 404) {
+        return ResponseAPI<List<Project>>(
+          statusCode: res.statusCode,
+          data: [],
+        );
+      }
 
       return ResponseAPI<List<Project>>(
         statusCode: res.statusCode,

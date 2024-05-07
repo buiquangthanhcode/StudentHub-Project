@@ -46,15 +46,18 @@ class GeneralProjectBloc
   FutureOr<void> _onGetAllData(
       GetAllDataEvent event, Emitter<GeneralProjectState> emit) async {
     try {
-      // EasyLoading.show(status: 'Loading...');
-      // EasyLoading.show(status: loadingBtnKey.tr());
+      if (state.projectList.isEmpty) {
+        // EasyLoading.show(status: 'Loading...');
+        EasyLoading.show(status: loadingBtnKey.tr());
+      }
       ResponseAPI result =
           await _allProjectsService.getAllProjects(event.page, event.perPage);
-      logger.d(result.data.length);
-      if (result.statusCode! < 300) {
-        emit(state.update(
-          projectList: result.data,
-        ));
+      // logger.d(result.data.length);
+
+      List<Project> data = List<Project>.from(state.projectList);
+      data.addAll(result.data);
+      if (result.statusCode! < 300 || result.statusCode == 404) {
+        emit(state.update(projectList: data, isLoading: !state.isLoading));
       } else {
         SnackBarService.showSnackBar(
             content: handleFormatMessage(result.data!.errorDetails),
@@ -261,24 +264,34 @@ class GeneralProjectBloc
     emit(state.update(projectFavorite: List<Project>.from(data)));
   }
 
+  //////////////////////////////////////////////
   FutureOr<void> _onGetSearchFilterData(
       GetSearchFilterDataEvent event, Emitter<GeneralProjectState> emit) async {
     try {
-      // EasyLoading.show(status: 'Loading...');
-      EasyLoading.show(status: loadingBtnKey.tr());
+      if (event.page==1) {
+        // EasyLoading.show(status: 'Loading...');
+        EasyLoading.show(status: loadingBtnKey.tr());
+      }
       ResponseAPI result = await _allProjectsService.getSearchFilterData(
           event.title,
           event.projectScopeFlag,
           event.numberOfStudents,
           event.proposalsLessThan,
-          null,
-          null);
+          event.page,
+          event.perPage);
 
       logger.d("BLOC: $result");
 
+      List<Project> data = [];
+      if (event.page != 1) {
+        data = List<Project>.from(state.projectSearchList);
+      }
+      data.addAll(result.data);
+
       if (result.statusCode! < 300 || result.statusCode == 404) {
         emit(state.update(
-          projectSearchList: result.data,
+          projectSearchList: data,
+          isLoading: !state.isLoading,
         ));
       } else {
         SnackBarService.showSnackBar(
