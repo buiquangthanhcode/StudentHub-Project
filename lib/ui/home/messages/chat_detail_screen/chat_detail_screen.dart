@@ -14,6 +14,7 @@ import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/models/common/message_model.dart';
 import 'package:studenthub/models/common/user_model.dart';
+import 'package:studenthub/services/chat/chat.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/message_receive_widget.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/message_send_widget.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/zego/zego.dart';
@@ -42,6 +43,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   final FocusNode _messageFocus = FocusNode();
   final scrollController = ScrollController();
   final socket = SocketService();
+  final ChatService _chatService = ChatService();
 
   @override
   void initState() {
@@ -92,9 +94,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     int meId = context.read<AuthBloc>().state.userModel.id!;
 
     return BlocConsumer<ChatBloc, ChatState>(listener: (context, state) {
-      socket.receiveMessage((data) {
+      socket.receiveMessage(meId, (data) {
+        logger.d('SOCKET RECEIVE DATA: ${data['notification']['message']}');
         if (mounted) {
-          // logger.d('SOCKET RECEIVE DATA: ${data['notification']['message']}');
           if (data['notification']['message']['senderId'].toString() !=
               meId.toString()) {
             state.messageList.insert(
@@ -436,7 +438,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                 'SENDER ID: ${context.read<AuthBloc>().state.userModel.id}');
                             logger.d('RECEIVE ID: ${widget.userId}');
                             logger.d('PROJECT ID: ${widget.projectId}');
-                            socket.sendMessage({
+                            // socket.sendMessage({
+                            //   "content": messageController.text.trim(),
+                            //   "projectId": widget.projectId,
+                            //   "senderId": context.read<AuthBloc>().state.userModel.id,
+                            //   "receiverId": widget.userId,
+                            //   "messageFlag": 0 // default 0 for message, 1 for interview
+                            // });
+                            _chatService.sendMessages({
                               "content": messageController.text.trim(),
                               "projectId": widget.projectId,
                               "senderId":
