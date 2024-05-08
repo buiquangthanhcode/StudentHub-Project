@@ -14,6 +14,7 @@ import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/models/common/interview_model.dart';
 import 'package:studenthub/models/common/message_model.dart';
 import 'package:studenthub/models/common/user_model.dart';
+import 'package:studenthub/services/chat/chat.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/interview_receive_widget.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/interview_send_widget.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/message_receive_widget.dart';
@@ -44,6 +45,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   final FocusNode _messageFocus = FocusNode();
   final scrollController = ScrollController();
   final socket = SocketService();
+  final ChatService _chatService = ChatService();
 
   @override
   void initState() {
@@ -140,7 +142,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     return BlocConsumer<ChatBloc, ChatState>(listener: (context, state) {
       socket.receiveMessage((data) {
         if (mounted) {
-          // logger.d('SOCKET RECEIVE DATA: ${data['notification']['message']}');
+          logger.d('SOCKET RECEIVE DATA: ${data['notification']['message']}');
           if (data['notification']['message']['senderId'].toString() !=
               meId.toString()) {
             state.messageList.insert(
@@ -168,28 +170,30 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       socket.receiveInterview((data) {
         if (mounted) {
           logger.d(
-              'SOCKET RECEIVE INTERVIEW: ${data['notification']['interview']}');
+              'SOCKET RECEIVE INTERVIEW: ${data['notification']['message']['interview']}');
           if (data['notification']['sender']['id'].toString() !=
               meId.toString()) {
             state.messageList.insert(
               0,
               Message(
-                id: data['notification']['interview']['id'],
+                id: data['notification']['message']['interview']['id'],
                 createdAt: _getCurrentTime(),
                 content: "",
                 sender: {
                   "id": data['notification']['sender']['id'],
-                  "fullname": ""
+                  "fullname": data['notification']['sender']['fullname']
                 },
                 receiver: {
                   "id": data['notification']['receiver']['id'],
-                  "fullname": ""
+                  "fullname": data['notification']['receiver']['fullname']
                 },
                 interview: Interview(
-                  id: data['notification']['interview']['id'],
-                  title: data['notification']['interview']['title'],
-                  startTime: data['notification']['interview']['startTime'],
-                  endTime: data['notification']['interview']['endTime'],
+                  id: data['notification']['message']['interview']['id'],
+                  title: data['notification']['message']['interview']['title'],
+                  startTime: data['notification']['message']['interview']
+                      ['startTime'],
+                  endTime: data['notification']['message']['interview']
+                      ['endTime'],
                 ),
               ),
             );
@@ -242,21 +246,35 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                             logger.d(value['time_start']);
                             logger.d(value['end_date']);
                             logger.d(value['time_end']);
-                            socket.sendInterview({
-                              {
-                                "title": value['title'],
-                                "content": "Test interview",
-                                "startTime": convertToIso8601(
-                                    value['start_date'], value['time_start']),
-                                "endTime": convertToIso8601(
-                                    value['end_date'], value['time_end']),
-                                "projectId": widget.projectId,
-                                "senderId":
-                                    context.read<AuthBloc>().state.userModel.id,
-                                "receiverId": widget.userId,
-                                "meeting_room_code": getCurrentTimeAsString(),
-                                "meeting_room_id": getCurrentTimeAsString()
-                              }
+                            // socket.sendInterview({
+                            //   {
+                            //     "title": value['title'],
+                            //     "content": "Test interview",
+                            //     "startTime": convertToIso8601(
+                            //         value['start_date'], value['time_start']),
+                            //     "endTime": convertToIso8601(
+                            //         value['end_date'], value['time_end']),
+                            //     "projectId": widget.projectId,
+                            //     "senderId":
+                            //         context.read<AuthBloc>().state.userModel.id,
+                            //     "receiverId": widget.userId,
+                            //     "meeting_room_code": getCurrentTimeAsString(),
+                            //     "meeting_room_id": getCurrentTimeAsString()
+                            //   }
+                            // });
+                            _chatService.sendInterview({
+                              "title": value['title'],
+                              "content": "Test interview",
+                              "startTime": convertToIso8601(
+                                  value['start_date'], value['time_start']),
+                              "endTime": convertToIso8601(
+                                  value['end_date'], value['time_end']),
+                              "projectId": widget.projectId,
+                              "senderId":
+                                  context.read<AuthBloc>().state.userModel.id,
+                              "receiverId": widget.userId,
+                              "meeting_room_code": getCurrentTimeAsString(),
+                              "meeting_room_id": getCurrentTimeAsString()
                             });
                             setState(() {
                               UserModel userModel =
@@ -273,6 +291,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                       "id": widget.userId,
                                       "fullname": widget.userName
                                     },
+                                    createdAt: _getCurrentTime(),
                                     interview: Interview(
                                       id: int.parse(getCurrentTimeAsString()),
                                       title: value['title'],
@@ -488,7 +507,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                 'SENDER ID: ${context.read<AuthBloc>().state.userModel.id}');
                             logger.d('RECEIVE ID: ${widget.userId}');
                             logger.d('PROJECT ID: ${widget.projectId}');
-                            socket.sendMessage({
+
+                            _chatService.sendMessages({
                               "content": messageController.text.trim(),
                               "projectId": widget.projectId,
                               "senderId":
@@ -497,6 +517,15 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               "messageFlag":
                                   0 // default 0 for message, 1 for interview
                             });
+                            // socket.sendMessage({
+                            //   "content": messageController.text.trim(),
+                            //   "projectId": widget.projectId,
+                            //   "senderId":
+                            //       context.read<AuthBloc>().state.userModel.id,
+                            //   "receiverId": widget.userId,
+                            //   "messageFlag":
+                            //       0 // default 0 for message, 1 for interview
+                            // });
                             messageController.clear();
                             setState(() {});
                           }
