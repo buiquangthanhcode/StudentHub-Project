@@ -70,7 +70,8 @@ String formatIsoDateString(String isoDateString) {
 }
 
 SkillSet getSkillSetByName(String value, List<SkillSet> data) {
-  SkillSet? skill = data.firstWhere((element) => element.name == value, orElse: () => SkillSet(id: -1, name: ''));
+  SkillSet? skill = data.firstWhere((element) => element.name == value,
+      orElse: () => SkillSet(id: -1, name: ''));
   return skill;
 }
 
@@ -86,7 +87,8 @@ DateTime parseMonthYear(String? monthYearString) {
 
 void sortProjectsByCreatedAt(List<ProjectProposal> projects) {
   projects.sort((a, b) {
-    if (a.createdAt != null && b.createdAt != null) return b.createdAt!.compareTo(a.createdAt!);
+    if (a.createdAt != null && b.createdAt != null)
+      return b.createdAt!.compareTo(a.createdAt!);
     return 1;
   });
 }
@@ -113,10 +115,13 @@ List<TechStack> removeDuplicates(List<TechStack> list) {
 String checkDateTime(String dateTimeString) {
   if (dateTimeString.isEmpty) return '';
   DateTime now = DateTime.now();
+  logger.d(dateTimeString);
 
   DateTime dateTime = DateTime.parse(dateTimeString);
 
-  if (dateTime.year == now.year && dateTime.month == now.month && dateTime.day == now.day) {
+  if (dateTime.year == now.year &&
+      dateTime.month == now.month &&
+      dateTime.day == now.day) {
     dateTime = dateTime.toLocal();
     return DateFormat('HH:mm').format(dateTime);
   } else {
@@ -124,51 +129,51 @@ String checkDateTime(String dateTimeString) {
   }
 }
 
-    String getCurrentTime() {
-    DateTime now = DateTime.now();
-    return DateFormat('HH:mm').format(now);
+String getCurrentTime() {
+  DateTime now = DateTime.now();
+  return DateFormat('HH:mm').format(now);
+}
+
+String getCurrentTimeAsString() {
+  DateTime now = DateTime.now();
+
+  String hour = now.hour.toString().padLeft(2, '0');
+  String minute = now.minute.toString().padLeft(2, '0');
+  String second = now.second.toString().padLeft(2, '0');
+
+  String timeString = '$hour$minute$second';
+  return timeString;
+}
+
+String convertDateTimeFormat(String isoDateTime) {
+  if (isoDateTime.isEmpty) return '';
+  DateTime dateTime = DateTime.parse(isoDateTime);
+
+  String formattedDateTime =
+      ' ${_twoDigits(dateTime.hour)}:${_twoDigits(dateTime.minute)} ${dateTime.year}-${_twoDigits(dateTime.month)}-${_twoDigits(dateTime.day)}';
+
+  return formattedDateTime;
+}
+
+String _twoDigits(int n) {
+  if (n >= 10) {
+    return "$n";
   }
+  return "0$n";
+}
 
-  String getCurrentTimeAsString() {
-    DateTime now = DateTime.now();
+String convertToIso8601(String date, String time) {
+  List<String> dateParts = date.split('/');
+  List<String> timeParts = time.split(':');
 
-    String hour = now.hour.toString().padLeft(2, '0');
-    String minute = now.minute.toString().padLeft(2, '0');
-    String second = now.second.toString().padLeft(2, '0');
+  DateTime dateTime = DateTime(
+    int.parse(dateParts[2]), // Năm
+    int.parse(dateParts[1]), // Tháng
+    int.parse(dateParts[0]), // Ngày
+    int.parse(timeParts[0]), // Giờ
+    int.parse(timeParts[1]), // Phút
+  );
 
-    String timeString = '$hour$minute$second';
-    return timeString;
-  }
-
-  String convertDateTimeFormat(String isoDateTime) {
-    if (isoDateTime.isEmpty) return '';
-    DateTime dateTime = DateTime.parse(isoDateTime);
-
-    String formattedDateTime =
-        ' ${_twoDigits(dateTime.hour)}:${_twoDigits(dateTime.minute)} ${dateTime.year}-${_twoDigits(dateTime.month)}-${_twoDigits(dateTime.day)}';
-
-    return formattedDateTime;
-  }
-
-  String _twoDigits(int n) {
-    if (n >= 10) {
-      return "$n";
-    }
-    return "0$n";
-  }
-
-  String convertToIso8601(String date, String time) {
-    List<String> dateParts = date.split('/');
-    List<String> timeParts = time.split(':');
-
-    DateTime dateTime = DateTime(
-      int.parse(dateParts[2]), // Năm
-      int.parse(dateParts[1]), // Tháng
-      int.parse(dateParts[0]), // Ngày
-      int.parse(timeParts[0]), // Giờ
-      int.parse(timeParts[1]), // Phút
-    );
-
-    String iso8601String = dateTime.toUtc().toIso8601String();
-    return iso8601String;
-  }
+  String iso8601String = dateTime.toUtc().toIso8601String();
+  return iso8601String;
+}
