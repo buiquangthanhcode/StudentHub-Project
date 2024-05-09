@@ -69,7 +69,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   @override
   void dispose() {
     super.dispose();
-    // socket.disconnect();
+    socket.disconnect();
     _messageFocus.removeListener(_onFocusChange);
     _messageFocus.dispose();
   }

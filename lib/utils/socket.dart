@@ -5,12 +5,15 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/utils/logger.dart';
-import 'package:studenthub/utils/socket_list.dart';
 
 class SocketService {
-  static final IO.Socket _socket =
+  IO.Socket _socket =
       IO.io("https://api.studenthub.dev", OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
+
   void initSocket(BuildContext context, String projectId) {
+    _socket =
+        IO.io("https://api.studenthub.dev", OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
+
     _socket.io.options?['extraHeaders'] = {
       'Authorization': 'Bearer ${context.read<AuthBloc>().state.userModel.token!}',
     };
@@ -28,7 +31,32 @@ class SocketService {
     _socket.onConnect((data) => {
           logger.d('Connected'),
         });
-    SocketList.add(_socket);
+  }
+
+  void initSocketForNotification(BuildContext context) {
+    _socket.io.options?['extraHeaders'] = {
+      'Authorization': 'Bearer ${context.read<AuthBloc>().state.userModel.token ?? ''}',
+    };
+    _socket.connect();
+
+    // ignore: avoid_print
+    _socket.onConnectError((data) => logger.e('SOCKET ON CONNECT ERROR: $data'));
+    // ignore: avoid_print
+    _socket.onError((data) => print('SOCKET ON ERROR $data'));
+    // ignore: avoid_print
+    _socket.on("ERROR", (data) => print('SOCKET ERROR $data'));
+
+    _socket.onConnect((data) => {
+          logger.d('Connected'),
+        });
+  }
+
+  // get socket
+  IO.Socket get socket => _socket;
+
+  void receiveNotification(BuildContext context, dynamic Function(dynamic) callback) {
+    final userId = context.read<AuthBloc>().state.userModel.id;
+    _socket.on('NOTI_$userId', callback);
   }
 
   void subscribe(String event, dynamic Function(dynamic) callback) {
@@ -52,8 +80,6 @@ class SocketService {
   }
 
   void disconnect() {
-    // _socket.disconnect();
+    _socket.disconnect();
   }
 }
-
-final socket = SocketService();

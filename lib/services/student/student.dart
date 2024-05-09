@@ -360,7 +360,7 @@ class StudentService {
   Future<ResponseAPI<List<ProjectProposal>>> getAllProjectProposal(GetAllProjectProposal event,
       {int? statusFlag}) async {
     try {
-      String url = '$baseURL/api/proposal/project/${event.userId}';
+      String url = '$baseURL/api/proposal/project/${event.userId}?offset=0&limit=100';
       if (event.statusFlag != null) {
         url = '$url?statusFlag=${event.statusFlag}';
       }

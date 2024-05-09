@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studenthub/app.dart';
 import 'package:studenthub/core/easy_loading_config.dart';
 import 'package:studenthub/core/local_notification.dart';
-import 'package:studenthub/utils/socket.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

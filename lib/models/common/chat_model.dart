@@ -45,7 +45,7 @@ class Chat {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'createAt': createdAt,
+      'createdAt': createdAt,
       'content': content,
       'sender': sender,
       'receiver': receiver,
@@ -61,19 +61,14 @@ class Chat {
       content: map['content'] != null ? map['content'] as String : null,
       sender: map['sender'] as dynamic,
       receiver: map['receiver'] as dynamic,
-      interview: map['interview'] != null
-          ? Interview.fromMap(map['interview'] as Map<String, dynamic>)
-          : null,
-      project: map['project'] != null
-          ? Project.fromMap(map['project'] as Map<String, dynamic>)
-          : Project(),
+      interview: map['interview'] != null ? Interview.fromMap(map['interview'] as Map<String, dynamic>) : null,
+      project: map['project'] != null ? Project.fromMap(map['project'] as Map<String, dynamic>) : Project(),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Chat.fromJson(String source) =>
-      Chat.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Chat.fromJson(String source) => Chat.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {

@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:studenthub/blocs/notification_bloc/notification_bloc.dart';
 import 'package:studenthub/constants/bottom_navigation.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/ui/home/account/account_screen.dart';
@@ -30,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     body = DashboardScreen(welcome: widget.welcome);
+    context.read<NotificationBloc>().state.socketNotification.initSocketForNotification(context);
   }
 
   @override
@@ -89,8 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             SvgPicture.asset(
                               bottomNavs[index]['solid-icon'] as String,
-                              colorFilter: const ColorFilter.mode(
-                                  primaryColor, BlendMode.srcIn),
+                              colorFilter: const ColorFilter.mode(primaryColor, BlendMode.srcIn),
                               height: 24,
                             ),
                             const SizedBox(
@@ -111,8 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             SvgPicture.asset(
                               bottomNavs[index]['regular-icon'] as String,
-                              colorFilter: const ColorFilter.mode(
-                                  Color(0xffA0A0A0), BlendMode.srcIn),
+                              colorFilter: const ColorFilter.mode(Color(0xffA0A0A0), BlendMode.srcIn),
                               height: 23,
                             ),
                             const SizedBox(

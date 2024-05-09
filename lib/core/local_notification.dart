@@ -43,7 +43,7 @@ class LocalNotification {
         LinuxInitializationSettings(defaultActionName: 'Open notification');
     final InitializationSettings initializationSettings = InitializationSettings(
         android: initializationSettingsAndroid, iOS: initializationSettingsDarwin, linux: initializationSettingsLinux);
-    _flutterLocalNotificationsPlugin.initialize(initializationSettings,
+    await _flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onDidReceiveNotificationResponse: onNotificationTap,
         onDidReceiveBackgroundNotificationResponse: onNotificationTap);
   }
@@ -75,21 +75,16 @@ class LocalNotification {
     );
   }
 
-  // static Future showSimpleNotification(
-  //     {required String title,
-  //     required String body,
-  //     required String payload}) async {
-  //   const AndroidNotificationDetails androidNotificationDetails =
-  //       AndroidNotificationDetails('your channel id', 'your channel name',
-  //           channelDescription: 'your channel description',
-  //           importance: Importance.max,
-  //           priority: Priority.high,
-  //           ticker: 'ticker');
-  //   const NotificationDetails notificationDetails =
-  //       NotificationDetails(android: androidNotificationDetails);
-  //   await _flutterLocalNotificationsPlugin
-  //       .show(0, title, body, notificationDetails, payload: payload);
-  // }
+  static Future showSimpleNotification({required String title, required String body, required String payload}) async {
+    const AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
+        'your channel id', 'your channel name',
+        channelDescription: 'your channel description',
+        importance: Importance.max,
+        priority: Priority.high,
+        ticker: 'ticker');
+    const NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails);
+    await _flutterLocalNotificationsPlugin.show(0, title, body, notificationDetails, payload: payload);
+  }
 
   // static Future showPeriodicNotification(
   //     {required String title,

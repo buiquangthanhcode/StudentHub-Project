@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/models/common/proposal_modal.dart';
@@ -172,4 +174,13 @@ String convertToIso8601(String date, String time) {
 
   String iso8601String = dateTime.toUtc().toIso8601String();
   return iso8601String;
+}
+
+int generateRandomInt32() {
+  Random random = Random();
+  int min = -2147483648; // Giá trị nhỏ nhất của số nguyên 32-bit
+  int max = 2147483647; // Giá trị lớn nhất của số nguyên 32-bit
+
+  int randomNumber = min + random.nextInt(max - min + 1);
+  return randomNumber;
 }
