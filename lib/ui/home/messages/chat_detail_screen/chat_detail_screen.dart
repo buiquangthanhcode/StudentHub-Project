@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logger/logger.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_bloc.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_event.dart';
@@ -15,12 +16,14 @@ import 'package:studenthub/models/common/interview_model.dart';
 import 'package:studenthub/models/common/message_model.dart';
 import 'package:studenthub/models/common/user_model.dart';
 import 'package:studenthub/services/chat/chat.dart';
+import 'package:studenthub/services/interview/interview.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/interview_receive_widget.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/interview_send_widget.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/message_receive_widget.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/message_send_widget.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/zego/zego.dart';
 import 'package:studenthub/ui/home/messages/widgets/get_more_action_widget.dart';
+import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/utils/socket.dart';
 
@@ -46,6 +49,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   final scrollController = ScrollController();
   final socket = SocketService();
   final ChatService _chatService = ChatService();
+  final InterviewService _interviewService = InterviewService();
 
   @override
   void initState() {
@@ -64,11 +68,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     super.initState();
   }
 
-  String getCurrentTime() {
-    DateTime now = DateTime.now();
-    return DateFormat('HH:mm').format(now);
-  }
-
   @override
   void dispose() {
     super.dispose();
@@ -79,57 +78,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
   void _onFocusChange() {
     setState(() {});
-  }
-
-  String _getCurrentTime() {
-    DateTime now = DateTime.now(); // Lấy thời gian hiện tại
-    String formattedTime =
-        DateFormat('HH:mm').format(now); // Định dạng thời gian thành giờ:phút
-    return formattedTime;
-  }
-
-  String getCurrentTimeAsString() {
-    DateTime now = DateTime.now();
-
-    String hour = now.hour.toString().padLeft(2, '0');
-    String minute = now.minute.toString().padLeft(2, '0');
-    String second = now.second.toString().padLeft(2, '0');
-
-    String timeString = '$hour$minute$second';
-    return timeString;
-  }
-
-  String convertDateTimeFormat(String isoDateTime) {
-    if (isoDateTime.isEmpty) return '';
-    DateTime dateTime = DateTime.parse(isoDateTime);
-
-    String formattedDateTime =
-        ' ${_twoDigits(dateTime.hour)}:${_twoDigits(dateTime.minute)} ${dateTime.year}-${_twoDigits(dateTime.month)}-${_twoDigits(dateTime.day)}';
-
-    return formattedDateTime;
-  }
-
-  String _twoDigits(int n) {
-    if (n >= 10) {
-      return "$n";
-    }
-    return "0$n";
-  }
-
-  String convertToIso8601(String date, String time) {
-    List<String> dateParts = date.split('/');
-    List<String> timeParts = time.split(':');
-
-    DateTime dateTime = DateTime(
-      int.parse(dateParts[2]), // Năm
-      int.parse(dateParts[1]), // Tháng
-      int.parse(dateParts[0]), // Ngày
-      int.parse(timeParts[0]), // Giờ
-      int.parse(timeParts[1]), // Phút
-    );
-
-    String iso8601String = dateTime.toUtc().toIso8601String();
-    return iso8601String;
   }
 
   @override
@@ -143,62 +91,64 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       socket.receiveMessage((data) {
         if (mounted) {
           logger.d('SOCKET RECEIVE DATA: ${data['notification']['message']}');
+          Message message = Message.fromMap(data['notification']['message']);
           if (data['notification']['message']['senderId'].toString() !=
               meId.toString()) {
             state.messageList.insert(
-              0,
-              Message(
-                id: data['notification']['message']['id'],
-                createdAt: _getCurrentTime(),
-                content: data['notification']['message']['content'],
-                sender: {
-                  "id": data['notification']['message']['senderId'],
-                  "fullname": ""
-                },
-                receiver: {
-                  "id": data['notification']['message']['receiverId'],
-                  "fullname": ""
-                },
-                interview: null,
-              ),
-            );
+                0,
+                message.copyWith(
+                    sender: {"id": message.senderId, "fullname": ""},
+                    receiver: {"id": message.receiverId, "fullname": ""}));
             setState(() {});
           }
         }
       });
 
       socket.receiveInterview((data) {
+        Message message = Message.fromMap(data['notification']['message']);
         if (mounted) {
           logger.d(
-              'SOCKET RECEIVE INTERVIEW: ${data['notification']['message']['interview']}');
-          if (data['notification']['sender']['id'].toString() !=
-              meId.toString()) {
-            state.messageList.insert(
-              0,
-              Message(
-                id: data['notification']['message']['interview']['id'],
-                createdAt: _getCurrentTime(),
-                content: "",
-                sender: {
-                  "id": data['notification']['sender']['id'],
-                  "fullname": data['notification']['sender']['fullname']
-                },
-                receiver: {
-                  "id": data['notification']['receiver']['id'],
-                  "fullname": data['notification']['receiver']['fullname']
-                },
-                interview: Interview(
-                  id: data['notification']['message']['interview']['id'],
-                  title: data['notification']['message']['interview']['title'],
-                  startTime: data['notification']['message']['interview']
-                      ['startTime'],
-                  endTime: data['notification']['message']['interview']
-                      ['endTime'],
-                ),
-              ),
-            );
-            setState(() {});
+              'SOCKET RECEIVE INTERVIEW: ${data['notification']['message']}');
+
+          if (message.interview!.disableFlag == 1) {
+            state.messageList
+                .where((element) =>
+                    element.interview != null &&
+                    element.interview!.disableFlag != 1)
+                .forEach((e) {
+              if (e.id == message.id) {
+                e.interview = Interview(
+                  disableFlag: 1,
+                  title: message.interview!.title,
+                );
+              }
+            });
+          } else {
+            if (message.interview!.createdAt == message.interview!.updatedAt) {
+              state.messageList.insert(
+                  0,
+                  message.copyWith(
+                      sender: {"id": message.senderId, "fullname": ""},
+                      receiver: {"id": message.receiverId, "fullname": ""}));
+            } else {
+              state.messageList
+                  .where((element) =>
+                      element.interview != null &&
+                      element.interview!.disableFlag != 1)
+                  .forEach((e) {
+                if (e.id == message.id) {
+                  e.interview = Interview(
+                    id: message.interviewId,
+                    title: message.interview!.title,
+                    startTime: message.interview!.startTime,
+                    endTime: message.interview!.endTime,
+                  );
+                  
+                }
+              });
+            }
           }
+          setState(() {});
         }
       });
     }, builder: (BuildContext context, ChatState state) {
@@ -246,23 +196,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                             logger.d(value['time_start']);
                             logger.d(value['end_date']);
                             logger.d(value['time_end']);
-                            // socket.sendInterview({
-                            //   {
-                            //     "title": value['title'],
-                            //     "content": "Test interview",
-                            //     "startTime": convertToIso8601(
-                            //         value['start_date'], value['time_start']),
-                            //     "endTime": convertToIso8601(
-                            //         value['end_date'], value['time_end']),
-                            //     "projectId": widget.projectId,
-                            //     "senderId":
-                            //         context.read<AuthBloc>().state.userModel.id,
-                            //     "receiverId": widget.userId,
-                            //     "meeting_room_code": getCurrentTimeAsString(),
-                            //     "meeting_room_id": getCurrentTimeAsString()
-                            //   }
-                            // });
-                            _chatService.sendInterview({
+
+                            _interviewService.sendInterview({
                               "title": value['title'],
                               "content": "Test interview",
                               "startTime": convertToIso8601(
@@ -275,33 +210,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               "receiverId": widget.userId,
                               "meeting_room_code": getCurrentTimeAsString(),
                               "meeting_room_id": getCurrentTimeAsString()
-                            });
-                            setState(() {
-                              UserModel userModel =
-                                  context.read<AuthBloc>().state.userModel;
-                              state.messageList.insert(
-                                  0,
-                                  Message(
-                                    id: int.parse(getCurrentTimeAsString()),
-                                    sender: {
-                                      "id": userModel.id,
-                                      "fullname": userModel.fullname,
-                                    },
-                                    receiver: {
-                                      "id": widget.userId,
-                                      "fullname": widget.userName
-                                    },
-                                    createdAt: _getCurrentTime(),
-                                    interview: Interview(
-                                      id: int.parse(getCurrentTimeAsString()),
-                                      title: value['title'],
-                                      startTime: convertToIso8601(
-                                          value['start_date'],
-                                          value['time_start']),
-                                      endTime: convertToIso8601(
-                                          value['end_date'], value['time_end']),
-                                    ),
-                                  ));
                             });
                           },
                         ));
@@ -340,9 +248,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               .messageList[index].sender['id'] ==
                           meId
                       ? Builder(builder: (context) {
-                          // if (state.messageList[index].interview == null) {
-                          //   state.messageList[index].interview = false;
-                          // }
                           if (state.messageList[index].interview == null) {
                             return MessageSendWidget(
                               screenSize: screenSize,
@@ -488,7 +393,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                 0,
                                 Message(
                                   id: 1254,
-                                  createdAt: _getCurrentTime(),
+                                  createdAt: DateTime.now().toIso8601String(),
                                   content: messageController.text.trim(),
                                   sender: {
                                     "id": userModel.id,
@@ -517,15 +422,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               "messageFlag":
                                   0 // default 0 for message, 1 for interview
                             });
-                            // socket.sendMessage({
-                            //   "content": messageController.text.trim(),
-                            //   "projectId": widget.projectId,
-                            //   "senderId":
-                            //       context.read<AuthBloc>().state.userModel.id,
-                            //   "receiverId": widget.userId,
-                            //   "messageFlag":
-                            //       0 // default 0 for message, 1 for interview
-                            // });
+
                             messageController.clear();
                             setState(() {});
                           }

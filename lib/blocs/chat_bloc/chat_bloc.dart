@@ -67,21 +67,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     }
   }
 
-  String checkDateTime(String dateTimeString) {
-    if (dateTimeString.isEmpty) return '';
-    DateTime now = DateTime.now();
 
-    DateTime dateTime = DateTime.parse(dateTimeString);
-
-    if (dateTime.year == now.year &&
-        dateTime.month == now.month &&
-        dateTime.day == now.day) {
-      dateTime = dateTime.toLocal();
-      return DateFormat('HH:mm').format(dateTime);
-    } else {
-      return DateFormat('dd-MM-yyyy').format(dateTime);
-    }
-  }
 
   FutureOr<void> _onGetChatWithUserId(
       GetChatWithUserIdEvent event, Emitter<ChatState> emit) async {
@@ -91,14 +77,14 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       ResponseAPI result = await _chatService.getAllChatWithUserId(
           event.userId, event.projectId);
       // logger.d('MESSAGE DATA: ${result.data}');
-      List<Message> data = [];
-      for (Message i in result.data) {
-        i.createdAt = checkDateTime(i.createdAt ?? '');
-        data.add(i);
-      }
+      // List<Message> data = [];
+      // for (Message i in result.data) {
+      //   i.createdAt = checkDateTime(i.createdAt ?? '');
+      //   data.add(i);
+      // }
 
       if (result.statusCode! < 300) {
-        emit(state.update(messageList: data));
+        emit(state.update(messageList: result.data));
       } else {
         SnackBarService.showSnackBar(
             content: handleFormatMessage(result.data!.errorDetails),

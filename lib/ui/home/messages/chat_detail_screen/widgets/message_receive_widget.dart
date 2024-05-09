@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/constants/app_theme.dart';
+import 'package:studenthub/utils/helper.dart';
 
 class MessageReceiveWidget extends StatelessWidget {
   const MessageReceiveWidget({
@@ -67,7 +68,7 @@ class MessageReceiveWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      messageList[index].createdAt??'',
+                      checkDateTime(messageList[index].createdAt??''),
                       style: const TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w400,

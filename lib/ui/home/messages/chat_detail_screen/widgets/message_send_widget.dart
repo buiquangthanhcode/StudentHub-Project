@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/utils/helper.dart';
 
 class MessageSendWidget extends StatelessWidget {
   const MessageSendWidget({
@@ -49,7 +50,7 @@ class MessageSendWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    messageList[index].createdAt??'',
+                    checkDateTime(messageList[index].createdAt??''),
                     style: const TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w400,
