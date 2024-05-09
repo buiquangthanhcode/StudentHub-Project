@@ -123,3 +123,52 @@ String checkDateTime(String dateTimeString) {
     return DateFormat('dd-MM-yyyy').format(dateTime);
   }
 }
+
+    String getCurrentTime() {
+    DateTime now = DateTime.now();
+    return DateFormat('HH:mm').format(now);
+  }
+
+  String getCurrentTimeAsString() {
+    DateTime now = DateTime.now();
+
+    String hour = now.hour.toString().padLeft(2, '0');
+    String minute = now.minute.toString().padLeft(2, '0');
+    String second = now.second.toString().padLeft(2, '0');
+
+    String timeString = '$hour$minute$second';
+    return timeString;
+  }
+
+  String convertDateTimeFormat(String isoDateTime) {
+    if (isoDateTime.isEmpty) return '';
+    DateTime dateTime = DateTime.parse(isoDateTime);
+
+    String formattedDateTime =
+        ' ${_twoDigits(dateTime.hour)}:${_twoDigits(dateTime.minute)} ${dateTime.year}-${_twoDigits(dateTime.month)}-${_twoDigits(dateTime.day)}';
+
+    return formattedDateTime;
+  }
+
+  String _twoDigits(int n) {
+    if (n >= 10) {
+      return "$n";
+    }
+    return "0$n";
+  }
+
+  String convertToIso8601(String date, String time) {
+    List<String> dateParts = date.split('/');
+    List<String> timeParts = time.split(':');
+
+    DateTime dateTime = DateTime(
+      int.parse(dateParts[2]), // Năm
+      int.parse(dateParts[1]), // Tháng
+      int.parse(dateParts[0]), // Ngày
+      int.parse(timeParts[0]), // Giờ
+      int.parse(timeParts[1]), // Phút
+    );
+
+    String iso8601String = dateTime.toUtc().toIso8601String();
+    return iso8601String;
+  }
