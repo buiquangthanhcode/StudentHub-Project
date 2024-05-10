@@ -42,7 +42,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
           await _notificationService.getNotificationList(event.userId ?? '');
       if (result.statusCode! < 300) {
         List<NotificationModel> data = result.data;
-        emit(state.update(notificationList: data.reversed.toList()));
+        emit(state.update(notificationList: data.toList()));
         event.onSuccess!();
       } else {
         SnackBarService.showSnackBar(

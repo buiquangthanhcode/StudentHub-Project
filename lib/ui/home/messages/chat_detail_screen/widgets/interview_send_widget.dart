@@ -187,7 +187,7 @@ class InterviewSendWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          checkDateTime(messageList[index].createdAt??''),
+                          checkDateTime(messageList[index].createdAt ?? ''),
                           style: const TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w400,

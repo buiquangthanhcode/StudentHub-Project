@@ -130,8 +130,8 @@ class _SubmitProposalState extends State<SubmitProposalScreen> {
                                         onSuccess: () {},
                                       ),
                                     );
-                                context.push(
-                                  '/home',
+                                context.goNamed(
+                                  'home',
                                 );
                               }));
                         },
