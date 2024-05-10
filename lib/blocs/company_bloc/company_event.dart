@@ -90,10 +90,18 @@ class CreateInterView extends CompanyEvent {}
 //   PostNewProjectEvent({required this.newProject, this.onSuccess});
 // }
 
-class HireStudentProprosalEvent extends CompanyEvent {
+class SetEventActionToStudent extends CompanyEvent {
   final int proposalId;
   final int statusFlag;
   final Function? onSuccess;
 
-  HireStudentProprosalEvent({required this.proposalId, required this.statusFlag, required this.onSuccess});
+  SetEventActionToStudent({required this.proposalId, required this.statusFlag, required this.onSuccess});
+}
+
+class SetActiveProposal extends CompanyEvent {
+  final int proposalId;
+  final int statusFlag;
+  final Function? onSuccess;
+
+  SetActiveProposal({required this.proposalId, required this.statusFlag, required this.onSuccess});
 }

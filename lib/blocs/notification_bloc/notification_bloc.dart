@@ -1,15 +1,16 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:studenthub/app.dart';
+import 'package:go_router/go_router.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/blocs/notification_bloc/notification_event.dart';
 import 'package:studenthub/blocs/notification_bloc/notification_state.dart';
 import 'package:studenthub/constants/key_translator.dart';
+import 'package:studenthub/core/local_notification.dart';
 import 'package:studenthub/data/dto/reponse.dart';
-import 'package:studenthub/models/common/interview_model.dart';
 import 'package:studenthub/models/common/message_model.dart';
 import 'package:studenthub/models/notification/notification_model.dart';
 import 'package:studenthub/services/notification/notification.dart';
@@ -25,37 +26,9 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
             messageNotification: Message(sender: null, receiver: null),
             isChanged: false,
             socketNotification: SocketService())) {
-    if (state.socketNotification.socket.connected) {
-      // state.socketNotification.receiveMessage((data) {
-      //   Message message = Message(
-      //     id: data['notification']['message']['id'],
-      //     createdAt: getCurrentTime(),
-      //     content: data['notification']['message']['content'],
-      //     sender: {"id": data['notification']['message']['senderId'], "fullname": ""},
-      //     receiver: {"id": data['notification']['message']['receiverId'], "fullname": ""},
-      //     interview: null,
-      //   );
-      //   add(PushNotificationMessageEvents(message: message));
-      // });
-
-      // state.socketNotification.receiveInterview((data) {
-      //   Message message = Message(
-      //       id: data['notification']['interview']['id'],
-      //       createdAt: getCurrentTime(),
-      //       content: "",
-      //       sender: {"id": data['notification']['sender']['id'], "fullname": ""},
-      //       receiver: {"id": data['notification']['receiver']['id'], "fullname": ""},
-      //       interview: Interview(
-      //         id: data['notification']['interview']['id'],
-      //         title: data['notification']['interview']['title'],
-      //         startTime: data['notification']['interview']['startTime'],
-      //         endTime: data['notification']['interview']['endTime'],
-      //       ));
-      //   add(PushNotificationMessageEvents(message: message));
-      // });
-    }
     on<GetNotificationListEvents>(_onGetNotification);
     on<PushNotificationMessageEvents>(_onPushNotificationMessage);
+    on<StartListenerEvents>(_onStartListener);
   }
 
   final NotificationService _notificationService = NotificationService();
@@ -87,5 +60,58 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   FutureOr<void> _onPushNotificationMessage(
       PushNotificationMessageEvents event, Emitter<NotificationState> emit) async {
     emit(state.update(messageNotification: event.message, isChanged: !state.isChanged));
+  }
+
+  // This is main function handle notification of app
+  FutureOr<void> _onStartListener(StartListenerEvents event, Emitter<NotificationState> emit) async {
+    AuthenState authState = event.context.read<AuthBloc>().state;
+    state.socketNotification.receiveNotification((authState.userModel.id ?? 0).toString(), (value) {
+      switch (value['notification']['typeNotifyFlag']) {
+        case "0":
+          LocalNotification.showSimpleNotification(
+            title: "StudentHub",
+            body: 'You have received a new offer from the ${value['notification']['sender']['fullname']}',
+            payload: DateTime.now().toString(),
+          );
+          break;
+        case "1":
+          // Interview
+          LocalNotification.showSimpleNotification(
+            title: "StudentHub",
+            body: 'You have received a new interview from the ${value['notification']['sender']['fullname']}',
+            payload: DateTime.now().toString(),
+          );
+          break;
+        case "2":
+          // New Proposal
+          LocalNotification.showSimpleNotification(
+            title: "StudentHub",
+            body: 'You have received a new proposal from the ${value['notification']['sender']['fullname']}',
+            payload: DateTime.now().toString(),
+          );
+          break;
+        case "3":
+          if (!GoRouter.of(event.context).location().contains('chat_detail')) {
+            LocalNotification.showSimpleNotification(
+              title: "StudentHub",
+              body: 'You have a new message from ${value['notification']['sender']['fullname']}',
+              payload: DateTime.now().toString(),
+            );
+          }
+        case "4":
+          //Hire
+          if (!GoRouter.of(event.context).location().contains('chat_detail')) {
+            LocalNotification.showSimpleNotification(
+              title: "StudentHub",
+              body: 'You have received a new hire from the ${value['notification']['sender']['fullname']}',
+              payload: DateTime.now().toString(),
+            );
+          }
+          break;
+
+        default:
+      }
+      event.onListener(value);
+    });
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:go_router/go_router.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/models/common/proposal_modal.dart';
 import 'package:studenthub/models/notification/notification_model.dart';
@@ -183,4 +184,14 @@ int generateRandomInt32() {
 
   int randomNumber = min + random.nextInt(max - min + 1);
   return randomNumber;
+}
+
+extension GoRouterExtension on GoRouter {
+  String location() {
+    final RouteMatch lastMatch = routerDelegate.currentConfiguration.last;
+    final RouteMatchList matchList =
+        lastMatch is ImperativeRouteMatch ? lastMatch.matches : routerDelegate.currentConfiguration;
+    final String location = matchList.uri.toString();
+    return location;
+  }
 }

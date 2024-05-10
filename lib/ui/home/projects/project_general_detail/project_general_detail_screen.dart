@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
+import 'package:studenthub/blocs/company_bloc/company_event.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_bloc.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_event.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_state.dart';
@@ -10,23 +12,22 @@ import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/key_translator.dart';
+import 'package:studenthub/models/common/proposal_modal.dart';
 import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
+import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class ProjectGeneralDetailScreen extends StatefulWidget {
   const ProjectGeneralDetailScreen(
-      {super.key,
-      required this.id,
-      required this.isFavorite,
-      this.isHiddenAppbar});
+      {super.key, required this.id, required this.isFavorite, this.isHiddenAppbar, this.proposalId});
 
   final String id;
   final String isFavorite;
   final bool? isHiddenAppbar;
+  final String? proposalId;
 
   @override
-  State<ProjectGeneralDetailScreen> createState() =>
-      _ProjectDetailScreenState();
+  State<ProjectGeneralDetailScreen> createState() => _ProjectDetailScreenState();
 }
 
 class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
@@ -57,6 +58,20 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
     3: moreThan6MonthsKey.tr(),
   };
   @override
+  bool checkCurrentUserSentProposal(List<Proposal> proposals) {
+    AuthenState auth = context.read<AuthBloc>().state;
+    if (auth.isStudentRole()) {
+      int studentId = auth.userModel.student?.id?.toInt() ?? 0;
+      for (var proposal in proposals) {
+        if (proposal.studentId == studentId && proposal.statusFlag == 2) {
+          return true;
+        }
+      }
+      return false;
+    }
+    return false;
+  }
+
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     TextTheme textTheme = Theme.of(context).textTheme;
@@ -65,8 +80,8 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
     return BlocBuilder<GeneralProjectBloc, GeneralProjectState>(
       builder: (BuildContext context, GeneralProjectState state) {
         bool isSubmitProposal = checkIsSubmitProposal(
-            state.projectDetail.proposals ?? [],
-            context.read<AuthBloc>().state.userModel.student!.id!.toInt());
+            state.projectDetail.proposals ?? [], context.read<AuthBloc>().state.userModel.student?.id?.toInt() ?? 0);
+        bool isSentProposal = checkCurrentUserSentProposal(state.projectDetail.proposals ?? []);
         return Scaffold(
           appBar: widget.isHiddenAppbar ?? false
               ? null
@@ -91,34 +106,20 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                               isSaved!
                                   ? context.read<GeneralProjectBloc>().add(
                                         AddFavoriteProject(
-                                          studentId: context
-                                              .read<AuthBloc>()
-                                              .state
-                                              .userModel
-                                              .student!
-                                              .id
-                                              .toString(),
+                                          studentId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
                                           projectId: widget.id,
                                         ),
                                       )
                                   : context.read<GeneralProjectBloc>().add(
                                         RemoveFavoriteProject(
-                                          studentId: context
-                                              .read<AuthBloc>()
-                                              .state
-                                              .userModel
-                                              .student!
-                                              .id
-                                              .toString(),
+                                          studentId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
                                           projectId: widget.id,
                                         ),
                                       );
                             });
                           },
                           child: FaIcon(
-                            isSaved!
-                                ? FontAwesomeIcons.solidHeart
-                                : FontAwesomeIcons.heart,
+                            isSaved! ? FontAwesomeIcons.solidHeart : FontAwesomeIcons.heart,
                             color: primaryColor,
                           ),
                         ),
@@ -133,10 +134,8 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      state.projectDetail.title ??
-                          'Senior frontend developer (Fintech)',
-                      style: textTheme.bodyLarge!
-                          .copyWith(fontWeight: FontWeight.w600),
+                      state.projectDetail.title ?? 'Senior frontend developer (Fintech)',
+                      style: textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(
                       height: 15,
@@ -151,15 +150,13 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                       children: [
                         Text(
                           jobDescriptionExampleKey.tr(),
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black.withOpacity(0.6),
-                                  ),
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black.withOpacity(0.6),
+                              ),
                         ),
                         BulletList([
-                          state.projectDetail.description ??
-                              'Clear expectation about your project or deliverables',
+                          state.projectDetail.description ?? 'Clear expectation about your project or deliverables',
                           // 'The skill required for your project',
                           // 'Detail about your project',
                         ]),
@@ -187,8 +184,7 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                               Text(
                                 projectScopeKey.tr(),
                                 style: TextStyle(
-                                  color: theme.colorScheme.brightness ==
-                                          Brightness.dark
+                                  color: theme.colorScheme.brightness == Brightness.dark
                                       ? Colors.white
                                       : Colors.black.withOpacity(0.8),
                                 ),
@@ -204,14 +200,9 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                                     ),
                                   ),
                                   Text(
-                                    time[state.projectDetail.countProposals] ??
-                                        '3-6 months',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall!
-                                        .copyWith(
-                                          color: theme.colorScheme.brightness ==
-                                                  Brightness.dark
+                                    time[state.projectDetail.countProposals] ?? '3-6 months',
+                                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                          color: theme.colorScheme.brightness == Brightness.dark
                                               ? Colors.white
                                               : Colors.black.withOpacity(0.8),
                                         ),
@@ -235,8 +226,7 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                             children: [
                               Text(
                                 studentRequiredKey.tr(),
-                                style: TextStyle(
-                                    color: Colors.black.withOpacity(0.8)),
+                                style: TextStyle(color: Colors.black.withOpacity(0.8)),
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -254,9 +244,7 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall!
-                                        .copyWith(
-                                            color:
-                                                Colors.black.withOpacity(0.8)),
+                                        .copyWith(color: Colors.black.withOpacity(0.8)),
                                   ),
                                 ],
                               )
@@ -271,26 +259,33 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                 const Spacer(),
                 authSate.currentRole == UserRole.student
                     ? Opacity(
-                        opacity: !isSubmitProposal ? 1 : 0.5,
+                        opacity: (!isSubmitProposal || isSentProposal) ? 1 : 0.5,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size(double.infinity, 56),
                           ),
                           onPressed: () {
+                            if (isSentProposal) {
+                              context.read<CompanyBloc>().add(SetEventActionToStudent(
+                                    proposalId: int.parse((widget.proposalId ?? 0).toString()),
+                                    statusFlag: 3,
+                                    onSuccess: () {
+                                      SnackBarService.showSnackBar(
+                                          content: "Accepted Successfully", status: StatusSnackBar.success);
+                                      context.pop();
+                                    },
+                                  ));
+                              return;
+                            }
                             if (!isSubmitProposal) {
-                              context.push(
-                                  '/home/project_general_detail/submit_proposal',
-                                  extra: state.projectDetail);
+                              context.push('/home/project_general_detail/submit_proposal', extra: state.projectDetail);
                             }
                           },
                           child: Text(
                             // 'Apply Now',
-                            applyNowBtnKey.tr(),
+                            !isSentProposal ? applyNowBtnKey.tr() : "Accepted Offer",
                             style: textTheme.bodyMedium!.copyWith(
-                                color: theme.colorScheme.brightness ==
-                                        Brightness.dark
-                                    ? Colors.white
-                                    : Colors.white,
+                                color: theme.colorScheme.brightness == Brightness.dark ? Colors.white : Colors.white,
                                 fontWeight: FontWeight.w600),
                           ),
                         ),

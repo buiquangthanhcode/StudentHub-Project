@@ -82,6 +82,7 @@ final GoRouter router = GoRouter(
                   userName: state.uri.queryParameters["userName"] ?? 'undifine',
                   userId: state.uri.queryParameters["userId"]!,
                   projectId: state.uri.queryParameters["projectId"]!,
+                  projectProposalId: state.uri.queryParameters["projectProposalId"] ?? "-1",
                 ));
           },
         ),
@@ -101,6 +102,7 @@ final GoRouter router = GoRouter(
                   ProjectGeneralDetailScreen(
                     id: state.uri.queryParameters["id"]!,
                     isFavorite: state.uri.queryParameters["isFavorite"]!,
+                    proposalId: state.uri.queryParameters["proposalId"] ?? "-1",
                   ));
             },
             routes: [

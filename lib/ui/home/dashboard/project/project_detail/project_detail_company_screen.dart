@@ -11,32 +11,27 @@ import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/ui/home/dashboard/project/project_hired/project_hired_screen.dart';
 import 'package:studenthub/ui/home/dashboard/project/project_message/project_message_company_screen.dart';
 import 'package:studenthub/ui/home/dashboard/project/project_proposal/project_proposal_screen.dart';
-import 'package:studenthub/ui/home/messages/messages_screen.dart';
 import 'package:studenthub/ui/home/projects/project_general_detail/project_general_detail_screen.dart';
 
 class ProjectDetailCompanyView extends StatefulWidget {
-  const ProjectDetailCompanyView(
-      {super.key, this.item, this.projectProposal, this.initTab = 0});
+  const ProjectDetailCompanyView({super.key, this.item, this.projectProposal, this.initTab = 0});
 
   final Project? item;
   final ProjectProposal? projectProposal;
   final int initTab;
 
   @override
-  State<ProjectDetailCompanyView> createState() =>
-      _ProjectReviewDetailScreenState();
+  State<ProjectDetailCompanyView> createState() => _ProjectReviewDetailScreenState();
 }
 
-class _ProjectReviewDetailScreenState extends State<ProjectDetailCompanyView>
-    with SingleTickerProviderStateMixin {
+class _ProjectReviewDetailScreenState extends State<ProjectDetailCompanyView> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late AuthenState authState;
 
   @override
   void initState() {
     super.initState();
-    _tabController =
-        TabController(length: 4, vsync: this, initialIndex: widget.initTab);
+    _tabController = TabController(length: 4, vsync: this, initialIndex: widget.initTab);
     authState = context.read<AuthBloc>().state;
   }
 
@@ -87,9 +82,7 @@ class _ProjectReviewDetailScreenState extends State<ProjectDetailCompanyView>
                       Container(
                         decoration: BoxDecoration(
                           // all borrder
-                          border: Border.all(
-                              color: theme.colorScheme.grey!.withOpacity(0.2),
-                              width: 1),
+                          border: Border.all(color: theme.colorScheme.grey!.withOpacity(0.2), width: 1),
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: TabBar(
@@ -97,16 +90,10 @@ class _ProjectReviewDetailScreenState extends State<ProjectDetailCompanyView>
                           padding: EdgeInsets.zero,
                           indicatorPadding: EdgeInsets.zero,
                           labelPadding: EdgeInsets.zero,
-                          labelColor:
-                              primaryColor, // Set the color of the selected tab label
-                          labelStyle: Theme.of(context)
-                              .textTheme
-                              .titleSmall!
-                              .copyWith(fontWeight: FontWeight.w600), //
-                          unselectedLabelStyle: Theme.of(context)
-                              .textTheme
-                              .titleSmall!
-                              .copyWith(fontWeight: FontWeight.w600),
+                          labelColor: primaryColor, // Set the color of the selected tab label
+                          labelStyle: Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w600), //
+                          unselectedLabelStyle:
+                              Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w600),
                           indicator: const BoxDecoration(
                             border: Border(
                               bottom: BorderSide(
@@ -134,19 +121,14 @@ class _ProjectReviewDetailScreenState extends State<ProjectDetailCompanyView>
                             ),
                             Builder(builder: (context) {
                               return ProjectGeneralDetailScreen(
-                                id: widget.item?.id.toString() ??
-                                    widget.projectProposal!.project?.id
-                                        .toString() ??
-                                    "0",
+                                id: widget.item?.id.toString() ?? widget.projectProposal!.project?.id.toString() ?? "0",
                                 isHiddenAppbar: true,
                                 isFavorite: "false",
                               );
                             }),
                             MessagesCompanyScreen(
                               isHiddenAppbar: true,
-                              item: widget.item ??
-                                  widget.projectProposal?.project ??
-                                  Project(),
+                              item: widget.item ?? widget.projectProposal?.project ?? Project(),
                             ),
                             ProjectDetailHiredScreen(
                               item: widget.item,

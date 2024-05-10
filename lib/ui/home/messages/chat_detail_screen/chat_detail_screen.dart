@@ -9,6 +9,8 @@ import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_bloc.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_event.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_state.dart';
+import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
+import 'package:studenthub/blocs/company_bloc/company_event.dart';
 import 'package:studenthub/blocs/notification_bloc/notification_bloc.dart';
 import 'package:studenthub/blocs/notification_bloc/notification_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
@@ -31,11 +33,13 @@ import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/utils/socket.dart';
 
 class ChatDetailScreen extends StatefulWidget {
-  const ChatDetailScreen({super.key, required this.userId, required this.projectId, required this.userName});
+  const ChatDetailScreen(
+      {super.key, required this.userId, required this.projectId, required this.userName, this.projectProposalId});
 
   final String userName;
   final String userId;
   final String projectId;
+  final String? projectProposalId;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -53,7 +57,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   @override
   void initState() {
     _messageFocus.addListener(_onFocusChange);
-    socket.initSocket(context, widget.projectId);
+    final token = context.read<AuthBloc>().state.userModel.token ?? "";
+    socket.initSocket(token, widget.projectId);
     logger.d('userId: ${widget.userId}');
     logger.d('projectId:${widget.projectId}');
 
@@ -97,7 +102,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     sender: {"id": message.senderId, "fullname": ""},
                     receiver: {"id": message.receiverId, "fullname": ""}));
             setState(() {});
-            context.read<NotificationBloc>().add(PushNotificationMessageEvents(message: message));
           }
         }
       });
@@ -396,6 +400,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               "receiverId": widget.userId,
                               "messageFlag": 0 // default 0 for message, 1 for interview
                             });
+                            //  Add by Quang Thanh to update proposal active when company send message
+                            if (state.messageList.isEmpty) {
+                              context.read<CompanyBloc>().add(SetActiveProposal(
+                                  proposalId: int.parse(widget.projectProposalId ?? "-1"),
+                                  statusFlag: 1,
+                                  onSuccess: () {}));
+                            }
+                            // End Quang Thanh
 
                             messageController.clear();
                             setState(() {});

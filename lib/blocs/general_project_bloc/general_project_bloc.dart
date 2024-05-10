@@ -8,13 +8,14 @@ import 'package:studenthub/blocs/general_project_bloc/general_project_state.dart
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/data/dto/reponse.dart';
 import 'package:studenthub/models/common/project_model.dart';
+import 'package:studenthub/models/common/project_proposal_modal.dart';
+import 'package:studenthub/models/common/proposal_modal.dart';
 import 'package:studenthub/services/all_projects/all_projects.dart';
 import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
-class GeneralProjectBloc
-    extends Bloc<GeneralProjectEvent, GeneralProjectState> {
+class GeneralProjectBloc extends Bloc<GeneralProjectEvent, GeneralProjectState> {
   GeneralProjectBloc()
       : super(
           GeneralProjectState(
@@ -43,15 +44,13 @@ class GeneralProjectBloc
 
   final AllProjectsService _allProjectsService = AllProjectsService();
 
-  FutureOr<void> _onGetAllData(
-      GetAllDataEvent event, Emitter<GeneralProjectState> emit) async {
+  FutureOr<void> _onGetAllData(GetAllDataEvent event, Emitter<GeneralProjectState> emit) async {
     try {
       if (state.projectList.isEmpty) {
         // EasyLoading.show(status: 'Loading...');
         EasyLoading.show(status: loadingBtnKey.tr());
       }
-      ResponseAPI result =
-          await _allProjectsService.getAllProjects(event.page, event.perPage);
+      ResponseAPI result = await _allProjectsService.getAllProjects(event.page, event.perPage);
       // logger.d(result.data.length);
 
       List<Project> data = List<Project>.from(state.projectList);
@@ -60,8 +59,7 @@ class GeneralProjectBloc
         emit(state.update(projectList: data, isLoading: !state.isLoading));
       } else {
         SnackBarService.showSnackBar(
-            content: handleFormatMessage(result.data!.errorDetails),
-            status: StatusSnackBar.error);
+            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
       }
     } on DioException catch (e) {
       logger.e(
@@ -69,16 +67,13 @@ class GeneralProjectBloc
       );
     } catch (e) {
       logger.e("Unexpect error-> $e");
-      SnackBarService.showSnackBar(
-          content: handleFormatMessage(e.toString()),
-          status: StatusSnackBar.error);
+      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();
     }
   }
 
-  FutureOr<void> _onGetAllSearchTitleData(
-      GetAllSearchTitleEvent event, Emitter<GeneralProjectState> emit) async {
+  FutureOr<void> _onGetAllSearchTitleData(GetAllSearchTitleEvent event, Emitter<GeneralProjectState> emit) async {
     try {
       // EasyLoading.show(status: 'Loading...');
       EasyLoading.show(status: loadingBtnKey.tr());
@@ -93,8 +88,7 @@ class GeneralProjectBloc
         emit(state.update(projectSearchSuggestions: projectSearchSuggestions));
       } else {
         SnackBarService.showSnackBar(
-            content: handleFormatMessage(result.data!.errorDetails),
-            status: StatusSnackBar.error);
+            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
       }
     } on DioException catch (e) {
       logger.e(
@@ -102,16 +96,13 @@ class GeneralProjectBloc
       );
     } catch (e) {
       logger.e("Unexpect error-> $e");
-      SnackBarService.showSnackBar(
-          content: handleFormatMessage(e.toString()),
-          status: StatusSnackBar.error);
+      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();
     }
   }
 
-  FutureOr<void> _onGetProjectDetail(
-      GetProjectDetail event, Emitter<GeneralProjectState> emit) async {
+  FutureOr<void> _onGetProjectDetail(GetProjectDetail event, Emitter<GeneralProjectState> emit) async {
     try {
       // EasyLoading.show(status: 'Loading...');
       EasyLoading.show(status: loadingBtnKey.tr());
@@ -121,8 +112,7 @@ class GeneralProjectBloc
         emit(state.update(projectDetail: result.data));
       } else {
         SnackBarService.showSnackBar(
-            content: handleFormatMessage(result.data!.errorDetails),
-            status: StatusSnackBar.error);
+            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
       }
     } on DioException catch (e) {
       logger.e(
@@ -130,28 +120,23 @@ class GeneralProjectBloc
       );
     } catch (e) {
       logger.e("Unexpect error-> $e");
-      SnackBarService.showSnackBar(
-          content: handleFormatMessage(e.toString()),
-          status: StatusSnackBar.error);
+      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();
     }
   }
 
-  FutureOr<void> _onGetAllFavoriteProject(
-      GetFavoriteProject event, Emitter<GeneralProjectState> emit) async {
+  FutureOr<void> _onGetAllFavoriteProject(GetFavoriteProject event, Emitter<GeneralProjectState> emit) async {
     try {
       // EasyLoading.show(status: 'Loading...');
       EasyLoading.show(status: loadingBtnKey.tr());
-      ResponseAPI result =
-          await _allProjectsService.getAllFavoriteProject(event.studentId);
+      ResponseAPI result = await _allProjectsService.getAllFavoriteProject(event.studentId);
 
       if (result.statusCode! < 300) {
         emit(state.update(projectFavorite: result.data));
       } else {
         SnackBarService.showSnackBar(
-            content: handleFormatMessage(result.data!.errorDetails),
-            status: StatusSnackBar.error);
+            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
       }
     } on DioException catch (e) {
       logger.e(
@@ -159,19 +144,15 @@ class GeneralProjectBloc
       );
     } catch (e) {
       logger.e("Unexpect error-> $e");
-      SnackBarService.showSnackBar(
-          content: handleFormatMessage(e.toString()),
-          status: StatusSnackBar.error);
+      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();
     }
   }
 
-  FutureOr<void> _onAddFavoriteProject(
-      AddFavoriteProject event, Emitter<GeneralProjectState> emit) async {
+  FutureOr<void> _onAddFavoriteProject(AddFavoriteProject event, Emitter<GeneralProjectState> emit) async {
     try {
-      ResponseAPI result = await _allProjectsService.addFavoriteProject(
-          event.studentId, event.projectId);
+      ResponseAPI result = await _allProjectsService.addFavoriteProject(event.studentId, event.projectId);
 
       if (result.statusCode! < 300) {
         final data = state.projectList.map((project) {
@@ -188,13 +169,10 @@ class GeneralProjectBloc
           return project;
         }).toList();
 
-        emit(state.update(
-            projectList: List<Project>.from(data),
-            projectSearchList: List<Project>.from(searchData)));
+        emit(state.update(projectList: List<Project>.from(data), projectSearchList: List<Project>.from(searchData)));
       } else {
         SnackBarService.showSnackBar(
-            content: handleFormatMessage(result.data!.errorDetails),
-            status: StatusSnackBar.error);
+            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
       }
     } on DioException catch (e) {
       logger.e(
@@ -202,19 +180,15 @@ class GeneralProjectBloc
       );
     } catch (e) {
       logger.e("Unexpect error-> $e");
-      SnackBarService.showSnackBar(
-          content: handleFormatMessage(e.toString()),
-          status: StatusSnackBar.error);
+      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();
     }
   }
 
-  FutureOr<void> _onRemoveFavoriteProject(
-      RemoveFavoriteProject event, Emitter<GeneralProjectState> emit) async {
+  FutureOr<void> _onRemoveFavoriteProject(RemoveFavoriteProject event, Emitter<GeneralProjectState> emit) async {
     try {
-      ResponseAPI result = await _allProjectsService.removeFavoriteProject(
-          event.studentId, event.projectId);
+      ResponseAPI result = await _allProjectsService.removeFavoriteProject(event.studentId, event.projectId);
 
       if (result.statusCode! < 300) {
         final data = state.projectList.map((project) {
@@ -230,9 +204,8 @@ class GeneralProjectBloc
           return project;
         }).toList();
 
-        final favoriteData = state.projectFavorite
-            .where((project) => project.id != int.parse(event.projectId))
-            .toList();
+        final favoriteData =
+            state.projectFavorite.where((project) => project.id != int.parse(event.projectId)).toList();
         // logger.d("REMOVE FAVORITE: \n $data");
         emit(state.update(
             projectList: List<Project>.from(data),
@@ -240,8 +213,7 @@ class GeneralProjectBloc
             projectSearchList: List<Project>.from(searchData)));
       } else {
         SnackBarService.showSnackBar(
-            content: handleFormatMessage(result.data!.errorDetails),
-            status: StatusSnackBar.error);
+            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
       }
     } on DioException catch (e) {
       logger.e(
@@ -249,36 +221,27 @@ class GeneralProjectBloc
       );
     } catch (e) {
       logger.e("Unexpect error-> $e");
-      SnackBarService.showSnackBar(
-          content: handleFormatMessage(e.toString()),
-          status: StatusSnackBar.error);
+      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();
     }
   }
 
-  void _onRemoveFavoriteProjectList(
-      RemoveFavoriteProjectList event, Emitter<GeneralProjectState> emit) {
+  void _onRemoveFavoriteProjectList(RemoveFavoriteProjectList event, Emitter<GeneralProjectState> emit) {
     final data = List<Project>.from(state.projectFavorite);
     data.remove(event.project);
     emit(state.update(projectFavorite: List<Project>.from(data)));
   }
 
   //////////////////////////////////////////////
-  FutureOr<void> _onGetSearchFilterData(
-      GetSearchFilterDataEvent event, Emitter<GeneralProjectState> emit) async {
+  FutureOr<void> _onGetSearchFilterData(GetSearchFilterDataEvent event, Emitter<GeneralProjectState> emit) async {
     try {
-      if (event.page==1) {
+      if (event.page == 1) {
         // EasyLoading.show(status: 'Loading...');
         EasyLoading.show(status: loadingBtnKey.tr());
       }
-      ResponseAPI result = await _allProjectsService.getSearchFilterData(
-          event.title,
-          event.projectScopeFlag,
-          event.numberOfStudents,
-          event.proposalsLessThan,
-          event.page,
-          event.perPage);
+      ResponseAPI result = await _allProjectsService.getSearchFilterData(event.title, event.projectScopeFlag,
+          event.numberOfStudents, event.proposalsLessThan, event.page, event.perPage);
 
       logger.d("BLOC: $result");
 
@@ -295,8 +258,7 @@ class GeneralProjectBloc
         ));
       } else {
         SnackBarService.showSnackBar(
-            content: handleFormatMessage(result.data!.errorDetails),
-            status: StatusSnackBar.error);
+            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
       }
     } on DioException catch (e) {
       logger.e(
@@ -304,27 +266,28 @@ class GeneralProjectBloc
       );
     } catch (e) {
       logger.e("Unexpect error-> $e");
-      SnackBarService.showSnackBar(
-          content: handleFormatMessage(e.toString()),
-          status: StatusSnackBar.error);
+      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();
     }
   }
 
   FutureOr<void> _onGetAllProjectProposalOfProject(
-      GetAllProposalOfProjectEvent event,
-      Emitter<GeneralProjectState> emit) async {
+      GetAllProposalOfProjectEvent event, Emitter<GeneralProjectState> emit) async {
     try {
       EasyLoading.show(status: loadingBtnKey.tr());
-      final response =
-          await _allProjectsService.getProposalOfProject(event.requestProposal);
+      final response = await _allProjectsService.getProposalOfProject(event.requestProposal);
       if (response.statusCode! <= 201) {
-        if (event.requestProposal.statusFlag != null &&
-            event.requestProposal.statusFlag == 3) {
+        if (event.requestProposal.statusFlag != null && event.requestProposal.statusFlag == 3) {
           emit(state.update(proposalHireList: response.data ?? []));
         } else {
-          emit(state.update(proposalList: response.data ?? []));
+          List<ProjectProposal> result = [];
+          response.data?.forEach((element) {
+            if (element.statusFlag != 3) {
+              result.add(element);
+            }
+          });
+          emit(state.update(proposalList: result));
         }
         event.onSuccess!();
         EasyLoading.dismiss();

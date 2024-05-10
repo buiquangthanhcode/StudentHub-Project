@@ -129,8 +129,7 @@ const String cvTranscriptKey = "cv_transcript";
 const String resumeCVKey = "resume_cv_key";
 const String transcriptKey = "transcript_key";
 const String selectFileToUploadKey = "select_file_to_upload";
-const String selectFileToUploadDescriptionKey =
-    "select_file_to_upload_description";
+const String selectFileToUploadDescriptionKey = "select_file_to_upload_description";
 // --- for edit language bottom sheet ---
 const String createLanguageKey = "create_language";
 const String selectLanguagePlaceHolderKey = "select_language_placeholder";
@@ -293,7 +292,5 @@ const String whatIsNameOfCompanyMsgKey = "what_is_company_name_msg";
 const String whatIsWebUrlOfCompanyMsgKey = "what_is_url_of_company_msg";
 const String describeCompanyKey = "describe_company";
 const String enterYourCompanyPlaceHolderKey = "enter_your_company_placeholder";
-const String enterYourWebsiteURlPlaceHolderKey =
-    "enter_your_company_website_url_placeholder";
-const String enterYourDescriptionPlaceHolderKey =
-    "enter_your_description_placeholder";
+const String enterYourWebsiteURlPlaceHolderKey = "enter_your_company_website_url_placeholder";
+const String enterYourDescriptionPlaceHolderKey = "enter_your_description_placeholder";

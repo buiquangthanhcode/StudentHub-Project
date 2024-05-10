@@ -27,7 +27,6 @@ import 'package:studenthub/core/local_notification.dart';
 import 'package:studenthub/routes.dart';
 import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/utils/logger.dart';
-import 'package:studenthub/widgets/notification_alert/info_toast.dart';
 
 GlobalKey<NavigatorState> navigatorKeys = GlobalKey<NavigatorState>(); //  Add by Quang Thanh
 
@@ -132,32 +131,6 @@ class _StudentHubState extends State<StudentHub> with WidgetsBindingObserver {
                       break;
                   }
                 },
-              ),
-              BlocListener<NotificationBloc, NotificationState>(
-                listener: (context, state) {
-                  AuthenState authState = context.read<AuthBloc>().state;
-                  logger.d("Thoong baos");
-                  if (state.messageNotification.id != null &&
-                      state.messageNotification.sender['id'] != authState.userModel.id) {
-                    if (state.messageNotification.interview == null) {
-                      LocalNotification.showSimpleNotification(
-                        title: "StudentHub",
-                        body: 'You have a new message from ${state.messageNotification.sender['fullname']}',
-                        payload: DateTime.now().toString(),
-                      );
-                    } else {
-                      LocalNotification.showScheduleNotification(
-                        title: "StudentHub",
-                        body:
-                            'You have a new message from ${state.messageNotification.sender['fullname']} about interview',
-                        payload: DateTime.now().toString(),
-                        duration: 1,
-                        notification_id: generateRandomInt32(),
-                      );
-                    }
-                  }
-                },
-                child: Container(),
               ),
             ],
             child: MaterialApp.router(

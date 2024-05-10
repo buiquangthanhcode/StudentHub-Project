@@ -141,7 +141,8 @@ class Project {
       description: map['description'] != null ? map['description'] as String : null,
       numberOfStudents: map['numberOfStudents'] != null ? map['numberOfStudents'] as int : null,
       typeFlag: map['typeFlag'] != null ? map['typeFlag'] as int : null,
-      proposals: map['proposals'] != null ? List<Proposal>.from(map['proposals'].map((x) => Proposal.fromMap(x))) : null,
+      proposals:
+          map['proposals'] != null ? List<Proposal>.from(map['proposals'].map((x) => Proposal.fromMap(x))) : null,
       countProposals: map['countProposals'] != null ? map['countProposals'] as int : null,
       countMessages: map['countMessages'] != null ? map['countMessages'] as int : null,
       countHired: map['countHired'] != null ? map['countHired'] as int : null,
