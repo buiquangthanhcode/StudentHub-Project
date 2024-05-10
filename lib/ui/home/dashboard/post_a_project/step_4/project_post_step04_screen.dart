@@ -8,6 +8,7 @@ import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_event.dart';
 import 'package:studenthub/blocs/project_bloc/project_state.dart';
+import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
@@ -71,7 +72,7 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                     Text(
                       reviewPostingDescriptionKey.tr(),
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: Colors.black.withOpacity(0.6),
+                            color: Theme.of(context).colorScheme.black,
                           ),
                     ),
                     const SizedBox(height: 36),
@@ -80,16 +81,15 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                     //   style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     //         fontSize: 18,
                     //         fontWeight: FontWeight.bold,
-                    //         color: Colors.black.withOpacity(0.8),
+                    //         color: Theme.of(context).colorScheme.black
                     //       ),
                     // ),
                     Text(
                       state.projectCreation.title ?? 'None title',
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black.withOpacity(0.8),
-                          ),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.black),
                     ),
                     const SizedBox(height: 12),
                     const Divider(
@@ -107,7 +107,7 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black.withOpacity(0.6),
+                                    color: Theme.of(context).colorScheme.black,
                                   ),
                         ),
                         // BulletList(const [
@@ -147,8 +147,7 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                               Text(
                                 projectScopeKey.tr(),
                                 style: TextStyle(
-                                  color: Colors.black.withOpacity(0.8),
-                                ),
+                                    color: Theme.of(context).colorScheme.black),
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -168,8 +167,9 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                                         .textTheme
                                         .bodySmall!
                                         .copyWith(
-                                          color: Colors.black.withOpacity(0.8),
-                                        ),
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .black),
                                   ),
                                 ],
                               )
@@ -191,7 +191,8 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                               Text(
                                 studentRequiredKey.tr(),
                                 style: TextStyle(
-                                    color: Colors.black.withOpacity(0.8)),
+                                  color: Theme.of(context).colorScheme.black,
+                                ),
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -210,8 +211,9 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                                         .textTheme
                                         .bodySmall!
                                         .copyWith(
-                                            color:
-                                                Colors.black.withOpacity(0.8)),
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .black),
                                   ),
                                 ],
                               )

@@ -32,7 +32,8 @@ class DraggleBottomSheetCustom extends StatefulWidget {
   final double? height;
 
   @override
-  State<DraggleBottomSheetCustom> createState() => _DraggleBottomSheetCustomState();
+  State<DraggleBottomSheetCustom> createState() =>
+      _DraggleBottomSheetCustomState();
 }
 
 class _DraggleBottomSheetCustomState extends State<DraggleBottomSheetCustom> {
@@ -47,12 +48,14 @@ class _DraggleBottomSheetCustomState extends State<DraggleBottomSheetCustom> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
+        // color: Colors.white,
+        color: theme.colorScheme.white,
         borderRadius: const BorderRadius.vertical(
           top: Radius.circular(30),
         ),
@@ -81,7 +84,10 @@ class _DraggleBottomSheetCustomState extends State<DraggleBottomSheetCustom> {
                         width: 80,
                         height: 5,
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.grey!.withOpacity(0.6),
+                          color: Theme.of(context)
+                              .colorScheme
+                              .grey!
+                              .withOpacity(0.6),
                           borderRadius: BorderRadius.circular(50),
                         ),
                       ),

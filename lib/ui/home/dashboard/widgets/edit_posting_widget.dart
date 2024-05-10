@@ -66,7 +66,7 @@ class _EditPostingState extends State<EditPosting> {
               style: theme.textTheme.bodyMedium!.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.black.withOpacity(0.6),
+                color: Theme.of(context).colorScheme.black,
               ),
             ),
             TextFieldFormCustom(
@@ -95,7 +95,7 @@ class _EditPostingState extends State<EditPosting> {
               style: theme.textTheme.bodyMedium!.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.black.withOpacity(0.6),
+                color: Theme.of(context).colorScheme.black,
               ),
             ),
             Column(
@@ -108,7 +108,7 @@ class _EditPostingState extends State<EditPosting> {
                   title: Text(
                     lessThan1MonthKey.tr(),
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: Colors.black.withOpacity(0.6),
+                          color: Theme.of(context).colorScheme.black,
                         ),
                   ),
                   value: TimeOption.option1,
@@ -126,7 +126,7 @@ class _EditPostingState extends State<EditPosting> {
                   title: Text(
                     oneToThreeMonthsKey.tr(),
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: Colors.black.withOpacity(0.6),
+                          color: Theme.of(context).colorScheme.black,
                         ),
                   ),
                   value: TimeOption.option2,
@@ -144,7 +144,7 @@ class _EditPostingState extends State<EditPosting> {
                   title: Text(
                     threeToSixMonthsKey.tr(),
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: Colors.black.withOpacity(0.6),
+                          color: Theme.of(context).colorScheme.black,
                         ),
                   ),
                   value: TimeOption.option3,
@@ -162,7 +162,7 @@ class _EditPostingState extends State<EditPosting> {
                   title: Text(
                     moreThan6MonthsKey.tr(),
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: Colors.black.withOpacity(0.6),
+                          color: Theme.of(context).colorScheme.black,
                         ),
                   ),
                   value: TimeOption.option4,
@@ -182,7 +182,7 @@ class _EditPostingState extends State<EditPosting> {
               style: theme.textTheme.bodyMedium!.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.black.withOpacity(0.6),
+                color: Theme.of(context).colorScheme.black,
               ),
             ),
             TextFieldFormCustom(
@@ -212,7 +212,7 @@ class _EditPostingState extends State<EditPosting> {
               style: theme.textTheme.bodyMedium!.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.black.withOpacity(0.6),
+                color: Theme.of(context).colorScheme.black,
               ),
             ),
             TextFieldFormCustom(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:studenthub/constants/app_theme.dart';
 
 class BulletList extends StatelessWidget {
   final List<String> strings;
@@ -36,8 +37,9 @@ class BulletList extends StatelessWidget {
                   softWrap: true,
                   style: TextStyle(
                     fontSize: 14,
-                    color:
-                        theme.colorScheme.brightness == Brightness.dark ? Colors.white : Colors.black.withOpacity(0.5),
+                    color: theme.colorScheme.brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black.withOpacity(0.5),
                     height: 1.55,
                   ),
                 ),

@@ -7,6 +7,7 @@ import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_bloc.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_event.dart';
 import 'package:studenthub/models/common/project_model.dart';
+import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/company_profile_creation_screen.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit/company_profile_edit_screen.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/welcome_screen.dart';
@@ -56,14 +57,17 @@ final GoRouter router = GoRouter(
       name: 'home',
       pageBuilder: (context, state) {
         return customTransitionPage(
-            state.pageKey, HomeScreen(welcome: state.uri.queryParameters["welcome"] ?? 'false'));
+            state.pageKey,
+            HomeScreen(
+                welcome: state.uri.queryParameters["welcome"] ?? 'false'));
       },
       routes: [
         GoRoute(
           path: 'project_search',
           name: 'project_search',
           pageBuilder: (context, state) {
-            return customTransitionPage(state.pageKey, const ProjectSearchScreen());
+            return customTransitionPage(
+                state.pageKey, const ProjectSearchScreen());
           },
         ),
         GoRoute(
@@ -82,7 +86,8 @@ final GoRouter router = GoRouter(
                   userName: state.uri.queryParameters["userName"] ?? 'undifine',
                   userId: state.uri.queryParameters["userId"]!,
                   projectId: state.uri.queryParameters["projectId"]!,
-                  projectProposalId: state.uri.queryParameters["projectProposalId"] ?? "-1",
+                  projectProposalId:
+                      state.uri.queryParameters["projectProposalId"] ?? "-1",
                 ));
           },
         ),
@@ -90,7 +95,8 @@ final GoRouter router = GoRouter(
           path: 'project_saved',
           name: 'project_saved',
           pageBuilder: (context, state) {
-            return customTransitionPage(state.pageKey, const ProjectSavedScreen());
+            return customTransitionPage(
+                state.pageKey, const ProjectSavedScreen());
           },
         ),
         GoRoute(
@@ -111,7 +117,9 @@ final GoRouter router = GoRouter(
                 name: 'submit_proposal',
                 pageBuilder: (context, state) {
                   return customTransitionPage(
-                      state.pageKey, SubmitProposalScreen(projectDetail: state.extra as Project));
+                      state.pageKey,
+                      SubmitProposalScreen(
+                          projectDetail: state.extra as Project));
                 },
               ),
             ]),
@@ -124,25 +132,29 @@ final GoRouter router = GoRouter(
             GoRoute(
               path: 'step_01',
               pageBuilder: (BuildContext context, GoRouterState state) {
-                return customTransitionPage(state.pageKey, const ProjectPostStep01Screen());
+                return customTransitionPage(
+                    state.pageKey, const ProjectPostStep01Screen());
               },
             ),
             GoRoute(
               path: 'step_02',
               pageBuilder: (BuildContext context, GoRouterState state) {
-                return customTransitionPage(state.pageKey, const ProjectPostStep02Screen());
+                return customTransitionPage(
+                    state.pageKey, const ProjectPostStep02Screen());
               },
             ),
             GoRoute(
               path: 'step_03',
               pageBuilder: (BuildContext context, GoRouterState state) {
-                return customTransitionPage(state.pageKey, const ProjectPostStep03Screen());
+                return customTransitionPage(
+                    state.pageKey, const ProjectPostStep03Screen());
               },
             ),
             GoRoute(
               path: 'step_04',
               pageBuilder: (BuildContext context, GoRouterState state) {
-                return customTransitionPage(state.pageKey, const ProjectPostStep04Screen());
+                return customTransitionPage(
+                    state.pageKey, const ProjectPostStep04Screen());
               },
             ),
           ],
@@ -151,21 +163,24 @@ final GoRouter router = GoRouter(
             name: 'student_create_profile_step_01',
             path: 'student_create_profile',
             pageBuilder: (BuildContext context, GoRouterState state) {
-              return customTransitionPage(state.pageKey, const StudentProfileCreationStep01Screen());
+              return customTransitionPage(
+                  state.pageKey, const StudentProfileCreationStep01Screen());
             },
             routes: [
               GoRoute(
                   name: 'student_create_profile_step_02',
                   path: 'step_02',
                   pageBuilder: (BuildContext context, GoRouterState state) {
-                    return customTransitionPage(state.pageKey, const StudentProfileCreationStep02Screen());
+                    return customTransitionPage(state.pageKey,
+                        const StudentProfileCreationStep02Screen());
                   },
                   routes: [
                     GoRoute(
                       name: 'student_create_profile_step_03',
                       path: 'step_03',
                       pageBuilder: (BuildContext context, GoRouterState state) {
-                        return customTransitionPage(state.pageKey, const StudentProfileCreationStep3Screen());
+                        return customTransitionPage(state.pageKey,
+                            const StudentProfileCreationStep3Screen());
                       },
                     ),
                   ]),
@@ -174,7 +189,8 @@ final GoRouter router = GoRouter(
           name: 'company_create_profile',
           path: 'company_create_profile',
           pageBuilder: (BuildContext context, GoRouterState state) {
-            return customTransitionPage(state.pageKey, const CompanyProfileCreationScreen());
+            return customTransitionPage(
+                state.pageKey, const CompanyProfileCreationScreen());
           },
         ),
         GoRoute(
@@ -188,14 +204,16 @@ final GoRouter router = GoRouter(
           name: 'company_edit_profile',
           path: 'company_edit_profile',
           pageBuilder: (BuildContext context, GoRouterState state) {
-            return customTransitionPage(state.pageKey, const CompanyProfileEditScreen());
+            return customTransitionPage(
+                state.pageKey, const CompanyProfileEditScreen());
           },
         ),
         GoRoute(
           path: 'setting_detail',
           name: 'setting_detail',
           pageBuilder: (context, state) {
-            return customTransitionPage(state.pageKey, const SettingDetailScreen());
+            return customTransitionPage(
+                state.pageKey, const SettingDetailScreen());
           },
         )
       ],
@@ -216,7 +234,8 @@ final GoRouter router = GoRouter(
               path: 'signup_01',
               name: 'signup_01',
               pageBuilder: (context, state) {
-                return customTransitionPage(state.pageKey, const SignUpStep01Screen());
+                return customTransitionPage(
+                    state.pageKey, const SignUpStep01Screen());
               },
               routes: [
                 GoRoute(
@@ -285,8 +304,8 @@ CustomTransitionPage customTransitionPage(LocalKey key, Widget child) {
       transitionDuration: const Duration(milliseconds: 250),
       key: key,
       child: child,
-      transitionsBuilder:
-          (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+      transitionsBuilder: (BuildContext context, Animation<double> animation,
+          Animation<double> secondaryAnimation, Widget child) {
         return SlideTransition(
             position: Tween<Offset>(
               begin: const Offset(1, 0),

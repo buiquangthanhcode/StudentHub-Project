@@ -16,9 +16,9 @@ Future<void> main() async {
   if (currentLanguageStorage != null) {
     currentLocale = Locale(currentLanguageStorage);
   } else {
-    currentLocale = const Locale('vi');
+    currentLocale = const Locale('en');
   }
-  currentLocale = const Locale('vi');
+  currentLocale = const Locale('en');
   await LocalNotification.init();
   runApp(
     EasyLocalization(

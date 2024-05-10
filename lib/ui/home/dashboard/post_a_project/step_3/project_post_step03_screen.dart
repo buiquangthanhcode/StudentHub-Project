@@ -6,6 +6,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_event.dart';
 import 'package:studenthub/blocs/project_bloc/project_state.dart';
+import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
@@ -68,7 +69,7 @@ class _ProjectPostStep03ScreenState extends State<ProjectPostStep03Screen> {
                   Text(
                     jobDescriptionKey.tr(),
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: Colors.black.withOpacity(0.6),
+                          color: Theme.of(context).colorScheme.black,
                         ),
                   ),
                   const SizedBox(height: 36),
@@ -80,7 +81,7 @@ class _ProjectPostStep03ScreenState extends State<ProjectPostStep03Screen> {
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black.withOpacity(0.6),
+                              color: Theme.of(context).colorScheme.black,
                             ),
                       ),
                       BulletList([
@@ -99,7 +100,7 @@ class _ProjectPostStep03ScreenState extends State<ProjectPostStep03Screen> {
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black.withOpacity(0.6),
+                              color: Theme.of(context).colorScheme.black,
                             ),
                         // textAlign: TextAlign.left,
                       ),

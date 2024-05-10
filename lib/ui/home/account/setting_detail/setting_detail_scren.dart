@@ -223,7 +223,9 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                             ),
                                           ),
                                           const SizedBox(width: 16),
-                                          Text(vietnameseKey.tr()),
+                                          Text(vietnameseKey.tr(),
+                                              style: const TextStyle(
+                                                  color: Colors.black)),
                                         ],
                                       ),
                                       activeColor: primaryColor,
@@ -258,7 +260,9 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                                 height: 30,
                                               )),
                                           const SizedBox(width: 16),
-                                          Text(englishKey.tr()),
+                                          Text(englishKey.tr(),
+                                              style: const TextStyle(
+                                                  color: Colors.black)),
                                         ],
                                       ),
                                       activeColor: primaryColor,
@@ -557,7 +561,11 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                           ),
                                           const SizedBox(width: 16),
                                           // Text("Sáng"),
-                                          Text(dayKey.tr())
+                                          Text(
+                                            dayKey.tr(),
+                                            style: const TextStyle(
+                                                color: Colors.black),
+                                          )
                                         ],
                                       ),
                                       activeColor: primaryColor,
@@ -593,7 +601,11 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                               )),
                                           const SizedBox(width: 16),
                                           // Text("Tối"),
-                                          Text(nightKey.tr())
+                                          Text(
+                                            nightKey.tr(),
+                                            style: const TextStyle(
+                                                color: Colors.black),
+                                          )
                                         ],
                                       ),
                                       activeColor: primaryColor,

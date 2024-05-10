@@ -7,6 +7,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_event.dart';
 import 'package:studenthub/blocs/project_bloc/project_state.dart';
+import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
@@ -70,7 +71,7 @@ class _ProjectPostStep01ScreenState extends State<ProjectPostStep01Screen> {
                   newPostTitleDescriptionKey.tr(),
                   maxLines: 3,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: Colors.black.withOpacity(0.6),
+                        color: Theme.of(context).colorScheme.black,
                       ),
                 ),
                 const SizedBox(height: 48),
@@ -106,7 +107,7 @@ class _ProjectPostStep01ScreenState extends State<ProjectPostStep01Screen> {
                     Text(
                       newPostTitleExampleKey.tr(),
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: Colors.black.withOpacity(0.6),
+                            color: Theme.of(context).colorScheme.black,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
