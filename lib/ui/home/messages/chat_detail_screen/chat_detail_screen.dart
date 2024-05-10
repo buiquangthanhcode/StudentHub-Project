@@ -31,6 +31,7 @@ import 'package:studenthub/ui/home/messages/widgets/get_more_action_widget.dart'
 import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/utils/socket.dart';
+import 'package:studenthub/widgets/dialog.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   const ChatDetailScreen(
@@ -215,7 +216,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                   context.read<AuthBloc>().state.userModel.id,
                               "receiverId": widget.userId,
                               "meeting_room_code": getCurrentTimeAsString(),
-                              "meeting_room_id": getCurrentTimeAsString()
+                              "meeting_room_id": getCurrentTimeAsString(),
+                              "expired_at": convertToIso8601(
+                                  value['end_date'], value['time_end']),
                             });
                           },
                         ));
@@ -269,15 +272,32 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               messageList: state.messageList,
                               index: index,
                               join: (data) {
-                                logger.d('MEETING DATA: ${data.meetingRoom}');
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => VideoCallPage(
-                                      conferenceID:
-                                          data.meetingRoom['meeting_room_code'],
-                                    ),
-                                  ),
-                                );
+                                _interviewService
+                                    .checkAvailability(
+                                        data.meetingRoom['meeting_room_code'],
+                                        data.meetingRoom['meeting_room_code'])
+                                    .then((value) {
+                                  if (value.data!) {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => VideoCallPage(
+                                          conferenceID: data
+                                              .meetingRoom['meeting_room_code'],
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    showDialogCustom(context,
+                                        title: 'Error',
+                                        image:
+                                            'lib/assets/images/empty_data.png',
+                                        subtitle:
+                                            'The meeting room is not available',
+                                        textButtom: 'OK', onSave: () {
+                                      Navigator.pop(context);
+                                    });
+                                  }
+                                });
                               },
                             );
                           }
@@ -299,15 +319,32 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               messageList: state.messageList,
                               index: index,
                               join: (data) {
-                                logger.d('MEETING DATA: ${data.meetingRoom}');
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => VideoCallPage(
-                                      conferenceID:
-                                          data.meetingRoom['meeting_room_code'],
-                                    ),
-                                  ),
-                                );
+                                _interviewService
+                                    .checkAvailability(
+                                        data.meetingRoom['meeting_room_code'],
+                                        data.meetingRoom['meeting_room_code'])
+                                    .then((value) {
+                                  if (value.data!) {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => VideoCallPage(
+                                          conferenceID: data
+                                              .meetingRoom['meeting_room_code'],
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    showDialogCustom(context,
+                                        title: 'Error',
+                                        image:
+                                            'lib/assets/images/empty_data.png',
+                                        subtitle:
+                                            'The meeting room is not available',
+                                        textButtom: 'OK', onSave: () {
+                                      Navigator.pop(context);
+                                    });
+                                  }
+                                });
                               },
                             );
                           }
@@ -393,7 +430,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           padding: const EdgeInsets.fromLTRB(8, 8, 10, 10),
                         ),
                         onPressed: () {
-                          if (messageController.text.isNotEmpty) {
+                          if (messageController.text.trim().isNotEmpty) {
                             UserModel userModel =
                                 context.read<AuthBloc>().state.userModel;
                             state.messageList.insert(

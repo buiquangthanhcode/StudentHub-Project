@@ -19,7 +19,7 @@ class InterviewService {
     dioClient = DioClient(dio, interceptors: [interceptors]);
   }
 
-    Future<ResponseAPI<dynamic>> sendInterview(dynamic data_) async {
+  Future<ResponseAPI<dynamic>> sendInterview(dynamic data_) async {
     try {
       final res = await dioClient.post(
         '$baseURL/api/interview',
@@ -46,7 +46,7 @@ class InterviewService {
     }
   }
 
-  Future<ResponseAPI<dynamic>> updateInterview(int id,dynamic data_) async {
+  Future<ResponseAPI<dynamic>> updateInterview(int id, dynamic data_) async {
     try {
       final res = await dioClient.patch(
         '$baseURL/api/interview/$id',
@@ -73,7 +73,7 @@ class InterviewService {
     }
   }
 
-    Future<ResponseAPI<dynamic>> cancelInterview(int id) async {
+  Future<ResponseAPI<dynamic>> cancelInterview(int id) async {
     try {
       final res = await dioClient.patch(
         '$baseURL/api/interview/$id/disable',
@@ -99,13 +99,19 @@ class InterviewService {
     }
   }
 
-  Future<ResponseAPI<bool>> checkAvailability() async {
+  Future<ResponseAPI<bool>> checkAvailability(String code,String id) async {
     try {
-      final res = await dioClient.get('$baseURL/api/message');
+      final res = await dioClient
+          .get('$baseURL/meeting-room/check-availability', queryParameters: {
+            "meeting_room_code": code,
+            "meeting_room_id": id,
+          });
+
+      // logger.d('CHECK AVAILABILITY: ${res.data}');
 
       return ResponseAPI<bool>(
         statusCode: res.statusCode,
-        data: true,
+        data: res.data['result'],
       );
     } on DioException catch (e) {
       logger.e(
