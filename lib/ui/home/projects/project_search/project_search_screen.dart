@@ -220,7 +220,7 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                         setSearchSuggetions(value);
                       },
                       cursorHeight: 18,
-                      autofocus: true,
+                      // autofocus: true,
                       controller: searchController,
                       cursorColor: Colors.black,
                       style: textTheme.bodyMedium,
