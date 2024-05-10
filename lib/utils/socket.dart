@@ -10,6 +10,8 @@ import 'package:studenthub/utils/logger.dart';
 class SocketService {
   static final IO.Socket _socket =
       IO.io("https://api.studenthub.dev", OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
+  static final IO.Socket _socketNotification =
+      IO.io("https://api.studenthub.dev", OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
 
   void initSocket(String token, String projectId) {
     _socket.io.options?['extraHeaders'] = {
@@ -32,25 +34,25 @@ class SocketService {
   }
 
   void initSocketForNotification(BuildContext context) {
-    _socket.io.options?['extraHeaders'] = {
+    _socketNotification.io.options?['extraHeaders'] = {
       'Authorization': 'Bearer ${context.read<AuthBloc>().state.userModel.token ?? ''}',
     };
-    _socket.connect();
+    _socketNotification.connect();
 
     // ignore: avoid_print
-    _socket.onConnectError((data) => logger.e('SOCKET ON CONNECT ERROR: $data'));
+    _socketNotification.onConnectError((data) => logger.e('SOCKET ON CONNECT ERROR: $data'));
     // ignore: avoid_print
-    _socket.onError((data) => print('SOCKET ON ERROR $data'));
+    _socketNotification.onError((data) => print('SOCKET ON ERROR $data'));
     // ignore: avoid_print
-    _socket.on("ERROR", (data) => print('SOCKET ERROR $data'));
+    _socketNotification.on("ERROR", (data) => print('SOCKET ERROR $data'));
 
-    _socket.onConnect((data) => {
+    _socketNotification.onConnect((data) => {
           logger.d('Connected Notification'),
         });
   }
 
   // get socket
-  IO.Socket get socket => _socket;
+  IO.Socket get socketNotification => _socketNotification;
 
   void receiveNotification(String userId, dynamic Function(dynamic) callback) {
     logger.d('NOTI_$userId');

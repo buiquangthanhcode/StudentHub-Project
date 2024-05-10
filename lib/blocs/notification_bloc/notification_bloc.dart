@@ -66,6 +66,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   FutureOr<void> _onStartListener(StartListenerEvents event, Emitter<NotificationState> emit) async {
     AuthenState authState = event.context.read<AuthBloc>().state;
     state.socketNotification.receiveNotification((authState.userModel.id ?? 0).toString(), (value) {
+      logger.d(value);
       switch (value['notification']['typeNotifyFlag']) {
         case "0":
           LocalNotification.showSimpleNotification(
@@ -100,13 +101,11 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
           }
         case "4":
           //Hire
-          if (!GoRouter.of(event.context).location().contains('chat_detail')) {
-            LocalNotification.showSimpleNotification(
-              title: "StudentHub",
-              body: 'You have received a new hire from the ${value['notification']['sender']['fullname']}',
-              payload: DateTime.now().toString(),
-            );
-          }
+          LocalNotification.showSimpleNotification(
+            title: "StudentHub",
+            body: 'You have received a new hire from the ${value['notification']['sender']['fullname']}',
+            payload: DateTime.now().toString(),
+          );
           break;
 
         default:

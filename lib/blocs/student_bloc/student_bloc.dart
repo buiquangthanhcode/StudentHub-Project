@@ -66,15 +66,12 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
 
   StudentService studentService = StudentService();
 
-  FutureOr<void> _onGetAllExperience(
-      GetAllExperience event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onGetAllExperience(GetAllExperience event, Emitter<StudentState> emit) async {
     try {
       EasyLoading.show(status: loadingBtnKey.tr());
-      final response =
-          await studentService.getAllExperience(event.userId.toString());
+      final response = await studentService.getAllExperience(event.userId.toString());
       if (response.statusCode! <= 200) {
-        emit(state.update(
-            student: state.student.copyWith(experiences: response.data ?? [])));
+        emit(state.update(student: state.student.copyWith(experiences: response.data ?? [])));
         if (event.onSuccess != null) {
           event.onSuccess!();
         }
@@ -86,22 +83,17 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     }
   }
 
-  FutureOr<void> _onUpdateUI(
-      UpdateUIEvent event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onUpdateUI(UpdateUIEvent event, Emitter<StudentState> emit) async {
     emit(state.update(isChange: !state.isChange));
   }
 
-  FutureOr<void> _onPostProfileStudent(
-      PostProfileStudent event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onPostProfileStudent(PostProfileStudent event, Emitter<StudentState> emit) async {
     try {
       EasyLoading.show(status: loadingBtnKey.tr());
-      ResponseAPI response =
-          await studentService.postProfileStudent(event.profileStudent);
+      ResponseAPI response = await studentService.postProfileStudent(event.profileStudent);
       if (response.statusCode! <= 300) {
         event.currentContext?.read<AuthBloc>().add(GetInformationEvent(
-            onSuccess: () {},
-            accessToken: event.token ?? '',
-            currentContext: event.currentContext));
+            onSuccess: () {}, accessToken: event.token ?? '', currentContext: event.currentContext));
         event.onSuccess!(Student.fromMap(response.data.resultMap.toMap()));
 
         EasyLoading.dismiss();
@@ -114,11 +106,9 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     }
   }
 
-  FutureOr<void> _onUpdateProfileStudent(
-      UpdateProfileStudent event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onUpdateProfileStudent(UpdateProfileStudent event, Emitter<StudentState> emit) async {
     try {
-      ResponseAPI<Student> response =
-          await studentService.updateProfileStudent(event.profileStudent);
+      ResponseAPI<Student> response = await studentService.updateProfileStudent(event.profileStudent);
       if (response.statusCode! <= 200) {
         logger.i(response.data?.toMap());
 
@@ -134,14 +124,12 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     } finally {}
   }
 
-  FutureOr<void> _onGetAllLanguage(
-      GetAllLanguageEvent event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onGetAllLanguage(GetAllLanguageEvent event, Emitter<StudentState> emit) async {
     try {
       EasyLoading.show(status: loadingBtnKey.tr());
       final response = await studentService.getAllLanguage(event.userId);
       if (response.statusCode! <= 200) {
-        emit(state.update(
-            student: state.student.copyWith(languages: response.data ?? [])));
+        emit(state.update(student: state.student.copyWith(languages: response.data ?? [])));
         event.onSuccess!();
         EasyLoading.dismiss();
       }
@@ -151,14 +139,12 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     }
   }
 
-  FutureOr<void> _onGetAllSkillSet(
-      GetAllSkillSetEvent event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onGetAllSkillSet(GetAllSkillSetEvent event, Emitter<StudentState> emit) async {
     try {
       EasyLoading.show(status: loadingBtnKey.tr());
       final response = await studentService.getAllSkillSet();
       if (response.statusCode! <= 200) {
-        emit(state.update(
-            student: state.student.copyWith(skillSets: response.data ?? [])));
+        emit(state.update(student: state.student.copyWith(skillSets: response.data ?? [])));
         event.onSuccess!();
         EasyLoading.dismiss();
       }
@@ -168,14 +154,12 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     }
   }
 
-  FutureOr<void> _onGetAllEducation(
-      GetAllEducationEvent event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onGetAllEducation(GetAllEducationEvent event, Emitter<StudentState> emit) async {
     try {
       EasyLoading.show(status: loadingBtnKey.tr());
       final response = await studentService.getAllEducation(event.id);
       if (response.statusCode! <= 200) {
-        emit(state.update(
-            student: state.student.copyWith(educations: response.data ?? [])));
+        emit(state.update(student: state.student.copyWith(educations: response.data ?? [])));
         event.onSuccess!();
         EasyLoading.dismiss();
       }
@@ -185,24 +169,21 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     }
   }
 
-  FutureOr<void> _onAllSkillSet(
-      AddSkillSetEvent event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onAllSkillSet(AddSkillSetEvent event, Emitter<StudentState> emit) async {
     // // Clone skill set and then update staet
     // final List<SkillSet> newSkillSet = List<SkillSet>.from(state.skillset);
     // newSkillSet.add(event.skill);
     // emit(state.update(skillset: newSkillSet));
   }
 
-  FutureOr<void> _onRemoveSkillSet(
-      RemoveSkillSetEvent event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onRemoveSkillSet(RemoveSkillSetEvent event, Emitter<StudentState> emit) async {
     // // Clone skill set and then update state
     // final List<SkillSet> newSkillSet = List<SkillSet>.from(state.skillset);
     // newSkillSet.remove(event.skill);
     // emit(state.update(skillset: newSkillSet));
   }
 
-  FutureOr<void> _onAddLanguage(
-      AddLanguageEvent event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onAddLanguage(AddLanguageEvent event, Emitter<StudentState> emit) async {
     // // Clone skill set and then update state
     // final List<Language> newLanguage = List<Language>.from(state.languages);
     // newLanguage.add(event.language);
@@ -210,8 +191,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     // event.onSuccess!();
   }
 
-  FutureOr<void> _onRemoveLanguage(
-      RemoveLanguageEvent event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onRemoveLanguage(RemoveLanguageEvent event, Emitter<StudentState> emit) async {
     // // Clone skill set and then update state
     // final List<Language> newLanguage = List<Language>.from(state.languages);
     // newLanguage.remove(event.language);
@@ -219,19 +199,16 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     // event.onSuccess!();
   }
 
-  FutureOr<void> _onUpdateLanguage(
-      UpdateLanguageEvent event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onUpdateLanguage(UpdateLanguageEvent event, Emitter<StudentState> emit) async {
     try {
       EasyLoading.show(status: loadingBtnKey.tr());
       RequestUpdateLanguage requestUpdateLanguage = RequestUpdateLanguage(
         userid: event.userId,
         languages: event.languages,
       );
-      final response =
-          await studentService.updateLanguage(requestUpdateLanguage);
+      final response = await studentService.updateLanguage(requestUpdateLanguage);
       if (response.statusCode! <= 200) {
-        emit(state.update(
-            student: state.student.copyWith(languages: event.languages)));
+        emit(state.update(student: state.student.copyWith(languages: event.languages)));
         event.onSuccess!();
         EasyLoading.dismiss();
       }
@@ -242,8 +219,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     }
   }
 
-  FutureOr<void> _onAddEducation(
-      AddEducationEvent event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onAddEducation(AddEducationEvent event, Emitter<StudentState> emit) async {
     // // Clone skill set and then update state
     // final List<Education> newEducation = List<Education>.from(state.edutcations);
     // newEducation.add(event.education);
@@ -251,8 +227,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     // event.onSuccess!();
   }
 
-  FutureOr<void> _onRemoveEducation(
-      RemoveEducationEvent event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onRemoveEducation(RemoveEducationEvent event, Emitter<StudentState> emit) async {
     // // Clone skill set and then update state
     // final List<Education> newEducation = List<Education>.from(state.edutcations);
     // newEducation.remove(event.education);
@@ -260,19 +235,16 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     // event.onSuccess!();
   }
 
-  FutureOr<void> _onUpdateEducation(
-      UpdateEducationEvent event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onUpdateEducation(UpdateEducationEvent event, Emitter<StudentState> emit) async {
     try {
       EasyLoading.show(status: loadingBtnKey.tr());
       RequestUpdateEducation requestUpdateEducation = RequestUpdateEducation(
         userid: event.userId,
         educations: event.educations,
       );
-      final response =
-          await studentService.updateEducation(requestUpdateEducation);
+      final response = await studentService.updateEducation(requestUpdateEducation);
       if (response.statusCode! <= 200) {
-        emit(state.update(
-            student: state.student.copyWith(educations: event.educations)));
+        emit(state.update(student: state.student.copyWith(educations: event.educations)));
         emit(state.update(isChange: !state.isChange));
         event.onSuccess!();
         EasyLoading.dismiss();
@@ -283,14 +255,12 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     }
   }
 
-  FutureOr<void> _onAddProject(
-      AddProjectEvent event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onAddProject(AddProjectEvent event, Emitter<StudentState> emit) async {
     try {
       EasyLoading.show(status: loadingBtnKey.tr());
       final response = await studentService.updateExperience(event.experience);
       if (response.statusCode! <= 200) {
-        emit(state.update(
-            student: state.student.copyWith(experiences: response.data ?? [])));
+        emit(state.update(student: state.student.copyWith(experiences: response.data ?? [])));
         emit(state.update(isChange: !state.isChange));
         event.onSuccess!();
         EasyLoading.dismiss();
@@ -301,8 +271,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     }
   }
 
-  FutureOr<void> _onUpdateProject(
-      UpdateProjectEvent event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onUpdateProject(UpdateProjectEvent event, Emitter<StudentState> emit) async {
     // // Clone skill set and then update state
     // final List<ProjectResume> newProject = List<ProjectResume>.from(state.experiences);
     // newProject[newProject.indexWhere((element) => element.id == event.project.id)] = event.project;
@@ -310,8 +279,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     // event.onSuccess!();
   }
 
-  FutureOr<void> _onRemoveProject(
-      RemoveProjectEvents event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onRemoveProject(RemoveProjectEvents event, Emitter<StudentState> emit) async {
     // // Clone skill set and then update state
     // final List<ProjectResume> newProject = List<ProjectResume>.from(state.experiences);
     // newProject.remove(event.project);
@@ -319,8 +287,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     // event.onSuccess!();
   }
 
-  FutureOr<ResponseAPI<Resume>> _onPostResume(
-      UploadResumeEvent event, Emitter<StudentState> emit) async {
+  FutureOr<ResponseAPI<Resume>> _onPostResume(UploadResumeEvent event, Emitter<StudentState> emit) async {
     try {
       EasyLoading.show(status: loadingBtnKey.tr());
       List<MultipartFile> multipartFiles = [];
@@ -335,8 +302,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
         studentId: event.userId.toString(),
         file: multipartFiles,
       );
-      final response =
-          await studentService.uploadResume(requestUpdateEducation);
+      final response = await studentService.uploadResume(requestUpdateEducation);
       if (response.statusCode! <= 200) {
         event.onSuccess!();
         EasyLoading.dismiss();
@@ -352,14 +318,12 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     }
   }
 
-  FutureOr<void> _onGetResume(
-      GetResumeEvent event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onGetResume(GetResumeEvent event, Emitter<StudentState> emit) async {
     try {
       EasyLoading.show(status: loadingBtnKey.tr());
       final response = await studentService.getResume(event.studentId);
       if (response.statusCode! <= 300) {
-        emit(state.update(
-            student: state.student.copyWith(resumeUrl: response.data)));
+        emit(state.update(student: state.student.copyWith(resumeUrl: response.data)));
         if (event.onSuccess != null) {
           event.onSuccess!(response.data ?? '');
         }
@@ -371,17 +335,14 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     }
   }
 
-  FutureOr<void> _onUpdateStudent(
-      UpdateStudentEvent event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onUpdateStudent(UpdateStudentEvent event, Emitter<StudentState> emit) async {
     emit(state.update(student: event.student));
   }
 
-  FutureOr<void> _onChangePassWord(
-      ChangePassWordEvent event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onChangePassWord(ChangePassWordEvent event, Emitter<StudentState> emit) async {
     try {
       EasyLoading.show(status: loadingBtnKey.tr());
-      final response = await studentService
-          .changePassWord(event.requestChangePassWordRequest);
+      final response = await studentService.changePassWord(event.requestChangePassWordRequest);
       if (response.statusCode! <= 200) {
         event.onSuccess!();
         EasyLoading.dismiss();
@@ -392,8 +353,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     }
   }
 
-  FutureOr<void> _onResetBloc(
-      ResetBlocEvent event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onResetBloc(ResetBlocEvent event, Emitter<StudentState> emit) async {
     // I wan to reset student but not id field in the student
     Student newStudent = state.student.reset();
     emit(state.update(
@@ -402,8 +362,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     ));
   }
 
-  FutureOr<void> _onSubmitProposal(
-      SubmitProposal event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onSubmitProposal(SubmitProposal event, Emitter<StudentState> emit) async {
     try {
       EasyLoading.show(status: loadingBtnKey.tr());
       final response = await studentService.postProposal(event.requestProposal);
@@ -417,12 +376,10 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     }
   }
 
-  FutureOr<void> _onGetProposal(
-      GetProposal event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onGetProposal(GetProposal event, Emitter<StudentState> emit) async {
     try {
       EasyLoading.show(status: loadingBtnKey.tr());
-      final response =
-          await studentService.getAllProprosal(event.userId.toString());
+      final response = await studentService.getAllProprosal(event.userId.toString());
       if (response.statusCode! <= 201) {
         event.onSuccess!();
         EasyLoading.dismiss();
@@ -433,8 +390,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     }
   }
 
-  FutureOr<void> _onGetAllProjectProposal(
-      GetAllProjectProposal event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onGetAllProjectProposal(GetAllProjectProposal event, Emitter<StudentState> emit) async {
     try {
       EasyLoading.show(status: loadingBtnKey.tr());
       emit(state.update(isLoading: true));
@@ -445,7 +401,13 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
         if (event.statusFlag != null && event.statusFlag == "0") {
           emit(state.update(submitProjectProposals: data));
         } else {
-          emit(state.update(activeProjectProposals: data));
+          List<ProjectProposal> result = [];
+          data.forEach((element) {
+            if (element.statusFlag == 1) {
+              result.add(element);
+            }
+          });
+          emit(state.update(activeProjectProposals: result));
         }
         event.onSuccess!();
         emit(state.update(isLoading: false));
@@ -458,8 +420,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     }
   }
 
-  FutureOr<ResponseAPI<Resume>> _onSubmitTranScript(
-      SubmitTranScript event, Emitter<StudentState> emit) async {
+  FutureOr<ResponseAPI<Resume>> _onSubmitTranScript(SubmitTranScript event, Emitter<StudentState> emit) async {
     try {
       EasyLoading.show(status: loadingBtnKey.tr());
       List<MultipartFile> multipartFiles = [];
@@ -474,8 +435,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
         studentId: event.userId.toString(),
         file: multipartFiles,
       );
-      final response =
-          await studentService.uploadTransciption(requestSubmitProposal);
+      final response = await studentService.uploadTransciption(requestSubmitProposal);
       if (response.statusCode! <= 300) {
         event.onSuccess!();
         EasyLoading.dismiss();
@@ -491,8 +451,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     }
   }
 
-  FutureOr<void> _onGetTranScription(
-      GetTranScription event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onGetTranScription(GetTranScription event, Emitter<StudentState> emit) async {
     try {
       EasyLoading.show(status: loadingBtnKey.tr());
       final response = await studentService.getTranscript(event.studentId);
@@ -512,15 +471,12 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     }
   }
 
-  FutureOr<void> _onRemoveResume(
-      RemoveResumeEvent event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onRemoveResume(RemoveResumeEvent event, Emitter<StudentState> emit) async {
     try {
       EasyLoading.show(status: 'loading');
-      final response =
-          await studentService.removeResume(event.studentId.toString());
+      final response = await studentService.removeResume(event.studentId.toString());
       if (response.statusCode! <= 300) {
-        emit(state.update(
-            student: state.student.copyWith(resumeUrl: '', resume: null)));
+        emit(state.update(student: state.student.copyWith(resumeUrl: '', resume: null)));
 
         if (event.onSuccess != null) {
           event.onSuccess!();
@@ -533,16 +489,12 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     }
   }
 
-  FutureOr<void> _onRemoveTranscript(
-      RemoveTranScriptEvent event, Emitter<StudentState> emit) async {
+  FutureOr<void> _onRemoveTranscript(RemoveTranScriptEvent event, Emitter<StudentState> emit) async {
     try {
       EasyLoading.show(status: 'loading');
-      final response =
-          await studentService.removeTranScription(event.studentId.toString());
+      final response = await studentService.removeTranScription(event.studentId.toString());
       if (response.statusCode! <= 300) {
-        emit(state.update(
-            student:
-                state.student.copyWith(transcriptUrl: '', transcript: null)));
+        emit(state.update(student: state.student.copyWith(transcriptUrl: '', transcript: null)));
         if (event.onSuccess != null) {
           event.onSuccess!();
         }
