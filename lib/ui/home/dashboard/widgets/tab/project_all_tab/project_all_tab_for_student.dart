@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +10,7 @@ import 'package:studenthub/blocs/student_bloc/student_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/key_translator.dart';
+import 'package:studenthub/core/local_notification.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/more_action_widget.dart';
@@ -18,8 +21,7 @@ class ProjectAllTabForStudent extends StatefulWidget {
   const ProjectAllTabForStudent({super.key});
 
   @override
-  State<ProjectAllTabForStudent> createState() =>
-      _ProjectAllTabForStudentState();
+  State<ProjectAllTabForStudent> createState() => _ProjectAllTabForStudentState();
 }
 
 class _ProjectAllTabForStudentState extends State<ProjectAllTabForStudent> {
@@ -81,15 +83,11 @@ class _ProjectAllTabForStudentState extends State<ProjectAllTabForStudent> {
                     child: ListView.separated(
                       itemCount: state.activeProjectProposals.length,
                       itemBuilder: (context, index) {
-                        return ProjectItem(
-                            theme: theme,
-                            projectProposal:
-                                state.activeProjectProposals[index]);
+                        return ProjectItem(theme: theme, projectProposal: state.activeProjectProposals[index]);
                       },
                       separatorBuilder: (context, index) {
                         return const Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                           child: Divider(),
                         );
                       },
@@ -130,15 +128,11 @@ class _ProjectAllTabForStudentState extends State<ProjectAllTabForStudent> {
                     child: ListView.separated(
                       itemCount: state.submitProjectProposals.length,
                       itemBuilder: (context, index) {
-                        return ProjectItem(
-                            theme: theme,
-                            projectProposal:
-                                state.submitProjectProposals[index]);
+                        return ProjectItem(theme: theme, projectProposal: state.submitProjectProposals[index]);
                       },
                       separatorBuilder: (context, index) {
                         return const Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                           child: Divider(),
                         );
                       },
@@ -157,8 +151,7 @@ class _ProjectAllTabForStudentState extends State<ProjectAllTabForStudent> {
 class ProjectProposalStudent extends StatefulWidget {
   final ThemeData theme;
   final Project item;
-  const ProjectProposalStudent(
-      {super.key, required this.theme, required this.item});
+  const ProjectProposalStudent({super.key, required this.theme, required this.item});
 
   @override
   State<ProjectProposalStudent> createState() => _ProjectProposalStudentState();

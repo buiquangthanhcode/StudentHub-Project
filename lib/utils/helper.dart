@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:easy_localization/easy_localization.dart';
+import 'package:go_router/go_router.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/models/common/proposal_modal.dart';
 import 'package:studenthub/models/notification/notification_model.dart';
@@ -70,8 +73,7 @@ String formatIsoDateString(String isoDateString) {
 }
 
 SkillSet getSkillSetByName(String value, List<SkillSet> data) {
-  SkillSet? skill = data.firstWhere((element) => element.name == value,
-      orElse: () => SkillSet(id: -1, name: ''));
+  SkillSet? skill = data.firstWhere((element) => element.name == value, orElse: () => SkillSet(id: -1, name: ''));
   return skill;
 }
 
@@ -87,8 +89,7 @@ DateTime parseMonthYear(String? monthYearString) {
 
 void sortProjectsByCreatedAt(List<ProjectProposal> projects) {
   projects.sort((a, b) {
-    if (a.createdAt != null && b.createdAt != null)
-      return b.createdAt!.compareTo(a.createdAt!);
+    if (a.createdAt != null && b.createdAt != null) return b.createdAt!.compareTo(a.createdAt!);
     return 1;
   });
 }
@@ -119,9 +120,7 @@ String checkDateTime(String dateTimeString) {
 
   DateTime dateTime = DateTime.parse(dateTimeString);
 
-  if (dateTime.year == now.year &&
-      dateTime.month == now.month &&
-      dateTime.day == now.day) {
+  if (dateTime.year == now.year && dateTime.month == now.month && dateTime.day == now.day) {
     dateTime = dateTime.toLocal();
     return DateFormat('HH:mm').format(dateTime);
   } else {
@@ -176,4 +175,23 @@ String convertToIso8601(String date, String time) {
 
   String iso8601String = dateTime.toUtc().toIso8601String();
   return iso8601String;
+}
+
+int generateRandomInt32() {
+  Random random = Random();
+  int min = -2147483648; // Giá trị nhỏ nhất của số nguyên 32-bit
+  int max = 2147483647; // Giá trị lớn nhất của số nguyên 32-bit
+
+  int randomNumber = min + random.nextInt(max - min + 1);
+  return randomNumber;
+}
+
+extension GoRouterExtension on GoRouter {
+  String location() {
+    final RouteMatch lastMatch = routerDelegate.currentConfiguration.last;
+    final RouteMatchList matchList =
+        lastMatch is ImperativeRouteMatch ? lastMatch.matches : routerDelegate.currentConfiguration;
+    final String location = matchList.uri.toString();
+    return location;
+  }
 }

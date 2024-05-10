@@ -25,8 +25,6 @@ class SnackBarService {
             Expanded(
               child: Text(
                 content,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
               ),
             ),
           ],

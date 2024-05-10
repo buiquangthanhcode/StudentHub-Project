@@ -7,6 +7,7 @@ import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/models/common/chat_model.dart';
 import 'package:studenthub/utils/helper.dart';
+import 'package:studenthub/utils/logger.dart';
 
 class ChatItem extends StatelessWidget {
   const ChatItem({
