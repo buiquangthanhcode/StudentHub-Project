@@ -10,6 +10,7 @@ import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/ui/home/messages/data/get_chat_data.dart';
 import 'package:studenthub/ui/home/messages/widgets/chat_item.dart';
+import 'package:studenthub/widgets/emtyDataWidget.dart';
 
 class MessagesScreen extends StatefulWidget {
   const MessagesScreen({super.key, this.isHiddenAppbar});
@@ -76,6 +77,7 @@ class _MessagesState extends State<MessagesScreen> {
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -184,12 +186,29 @@ class _MessagesState extends State<MessagesScreen> {
                 height: 20,
               ),
               Expanded(
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: state.chatList.length,
-                    itemBuilder: (context, index) => ChatItem(
-                          chat: state.chatList[index],
-                        )),
+                child: state.chatList.isNotEmpty
+                    ? ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: state.chatList.length,
+                        itemBuilder: (context, index) => ChatItem(
+                              chat: state.chatList[index],
+                            ))
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        
+                        children: [
+                          Center(
+                            child: EmptyDataWidget(
+                              mainTitle: '',
+                              subTitle:
+                                  "You haven't received any messages yet.",
+                              // subTitle: noProjectFoundKey.tr(),
+                              widthImage:
+                                  MediaQuery.of(context).size.width * 0.5,
+                            ),
+                          ),
+                        ],
+                      ),
               ),
             ],
           ),

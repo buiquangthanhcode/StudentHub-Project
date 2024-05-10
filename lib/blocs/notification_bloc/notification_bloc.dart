@@ -22,28 +22,32 @@ import 'package:studenthub/widgets/snack_bar_config.dart';
 class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   NotificationBloc()
       : super(NotificationState(
-            notificationList: const [],
-            messageNotification: Message(sender: null, receiver: null),
-            isChanged: false,
-            socketNotification: SocketService())) {
+          notificationList: const [],
+          messageNotification: Message(sender: null, receiver: null),
+          isChanged: false,
+          socketNotification: SocketService(),
+        )) {
     on<GetNotificationListEvents>(_onGetNotification);
     on<PushNotificationMessageEvents>(_onPushNotificationMessage);
     on<StartListenerEvents>(_onStartListener);
   }
 
   final NotificationService _notificationService = NotificationService();
-  FutureOr<void> _onGetNotification(GetNotificationListEvents event, Emitter<NotificationState> emit) async {
+  FutureOr<void> _onGetNotification(
+      GetNotificationListEvents event, Emitter<NotificationState> emit) async {
     try {
       // EasyLoading.show(status: 'Loading...');
       EasyLoading.show(status: loadingBtnKey.tr());
-      ResponseAPI result = await _notificationService.getNotificationList(event.userId ?? '');
+      ResponseAPI result =
+          await _notificationService.getNotificationList(event.userId ?? '');
       if (result.statusCode! < 300) {
         List<NotificationModel> data = result.data;
-        emit(state.update(notificationList: data.reversed.toList()));
+        emit(state.update(notificationList: data.toList()));
         event.onSuccess!();
       } else {
         SnackBarService.showSnackBar(
-            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
+            content: handleFormatMessage(result.data!.errorDetails),
+            status: StatusSnackBar.error);
       }
     } on DioException catch (e) {
       logger.e(
@@ -51,26 +55,33 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       );
     } catch (e) {
       logger.e("Unexpect error-> $e");
-      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
+      SnackBarService.showSnackBar(
+          content: handleFormatMessage(e.toString()),
+          status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();
     }
   }
 
-  FutureOr<void> _onPushNotificationMessage(
-      PushNotificationMessageEvents event, Emitter<NotificationState> emit) async {
-    emit(state.update(messageNotification: event.message, isChanged: !state.isChanged));
+  FutureOr<void> _onPushNotificationMessage(PushNotificationMessageEvents event,
+      Emitter<NotificationState> emit) async {
+    emit(state.update(
+        messageNotification: event.message, isChanged: !state.isChanged));
   }
 
   // This is main function handle notification of app
-  FutureOr<void> _onStartListener(StartListenerEvents event, Emitter<NotificationState> emit) async {
+  FutureOr<void> _onStartListener(
+      StartListenerEvents event, Emitter<NotificationState> emit) async {
     AuthenState authState = event.context.read<AuthBloc>().state;
-    state.socketNotification.receiveNotification((authState.userModel.id ?? 0).toString(), (value) {
+    SocketService.receiveNotification((authState.userModel.id ?? 0).toString(),
+        (value) {
+      logger.d(value);
       switch (value['notification']['typeNotifyFlag']) {
         case "0":
           LocalNotification.showSimpleNotification(
             title: "StudentHub",
-            body: 'You have received a new offer from the ${value['notification']['sender']['fullname']}',
+            body:
+                'You have received a new offer from the ${value['notification']['sender']['fullname']}',
             payload: DateTime.now().toString(),
           );
           break;
@@ -78,7 +89,8 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
           // Interview
           LocalNotification.showSimpleNotification(
             title: "StudentHub",
-            body: 'You have received a new interview from the ${value['notification']['sender']['fullname']}',
+            body:
+                'You have received a new interview from the ${value['notification']['sender']['fullname']}',
             payload: DateTime.now().toString(),
           );
           break;
@@ -86,7 +98,8 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
           // New Proposal
           LocalNotification.showSimpleNotification(
             title: "StudentHub",
-            body: 'You have received a new proposal from the ${value['notification']['sender']['fullname']}',
+            body:
+                'You have received a new proposal from the ${value['notification']['sender']['fullname']}',
             payload: DateTime.now().toString(),
           );
           break;
@@ -94,19 +107,19 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
           if (!GoRouter.of(event.context).location().contains('chat_detail')) {
             LocalNotification.showSimpleNotification(
               title: "StudentHub",
-              body: 'You have a new message from ${value['notification']['sender']['fullname']}',
+              body:
+                  'You have a new message from ${value['notification']['sender']['fullname']}',
               payload: DateTime.now().toString(),
             );
           }
         case "4":
           //Hire
-          if (!GoRouter.of(event.context).location().contains('chat_detail')) {
-            LocalNotification.showSimpleNotification(
-              title: "StudentHub",
-              body: 'You have received a new hire from the ${value['notification']['sender']['fullname']}',
-              payload: DateTime.now().toString(),
-            );
-          }
+          LocalNotification.showSimpleNotification(
+            title: "StudentHub",
+            body:
+                'You have received a new hire from the ${value['notification']['sender']['fullname']}',
+            payload: DateTime.now().toString(),
+          );
           break;
 
         default:

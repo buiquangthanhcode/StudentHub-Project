@@ -155,11 +155,13 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
                   color: Theme.of(context).colorScheme.grey,
                 ),
               );
-            } else if (_textfieldKey.currentState?.value != null) {
+            } else if (_textfieldKey.currentState?.value != '') {
               return IconButton(
                 onPressed: () {
-                  _textfieldKey.currentState?.didChange(null);
-                  setState(() {});
+                  print("!23");
+                  setState(() {
+                    _textfieldKey.currentState?.didChange('');
+                  });
                 },
                 icon: Container(
                   width: 18,

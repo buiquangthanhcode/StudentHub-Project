@@ -31,6 +31,7 @@ import 'package:studenthub/ui/home/messages/widgets/get_more_action_widget.dart'
 import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/utils/socket.dart';
+import 'package:studenthub/widgets/dialog.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   const ChatDetailScreen(
@@ -54,7 +55,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   final messageController = TextEditingController();
   final FocusNode _messageFocus = FocusNode();
   final scrollController = ScrollController();
-  final socket = SocketService();
   final ChatService _chatService = ChatService();
   final InterviewService _interviewService = InterviewService();
 
@@ -64,7 +64,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   void initState() {
     _messageFocus.addListener(_onFocusChange);
     final token = context.read<AuthBloc>().state.userModel.token ?? "";
-    socket.initSocket(token, widget.projectId);
+    SocketService.initMessageSocket(token, widget.projectId);
     logger.d('userId: ${widget.userId}');
     logger.d('projectId:${widget.projectId}');
 
@@ -80,7 +80,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   @override
   void dispose() {
     super.dispose();
-    socket.disconnect();
+    SocketService.messageDisconnect();
+
     _messageFocus.removeListener(_onFocusChange);
     _messageFocus.dispose();
   }
@@ -97,7 +98,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     int meId = context.read<AuthBloc>().state.userModel.id!;
 
     return BlocConsumer<ChatBloc, ChatState>(listener: (context, state) {
-      socket.receiveMessage((data) {
+      SocketService.receiveMessage((data) {
         if (mounted) {
           logger.d('SOCKET RECEIVE DATA: ${data['notification']['message']}');
           Message message = Message.fromMap(data['notification']['message']);
@@ -113,7 +114,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         }
       });
 
-      socket.receiveInterview((data) {
+      SocketService.receiveInterview((data) {
         Message message = Message.fromMap(data['notification']['message']);
         if (mounted) {
           logger.d(
@@ -219,7 +220,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                   context.read<AuthBloc>().state.userModel.id,
                               "receiverId": widget.userId,
                               "meeting_room_code": getCurrentTimeAsString(),
-                              "meeting_room_id": getCurrentTimeAsString()
+                              "meeting_room_id": getCurrentTimeAsString(),
+                              "expired_at": convertToIso8601(
+                                  value['end_date'], value['time_end']),
                             });
                           },
                         ));
@@ -275,15 +278,32 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               messageList: state.messageList,
                               index: index,
                               join: (data) {
-                                logger.d('MEETING DATA: ${data.meetingRoom}');
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => VideoCallPage(
-                                      conferenceID:
-                                          data.meetingRoom['meeting_room_code'],
-                                    ),
-                                  ),
-                                );
+                                _interviewService
+                                    .checkAvailability(
+                                        data.meetingRoom['meeting_room_code'],
+                                        data.meetingRoom['meeting_room_code'])
+                                    .then((value) {
+                                  if (value.data!) {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => VideoCallPage(
+                                          conferenceID: data
+                                              .meetingRoom['meeting_room_code'],
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    showDialogCustom(context,
+                                        title: 'Error',
+                                        image:
+                                            'lib/assets/images/empty_data.png',
+                                        subtitle:
+                                            'The meeting room is not available',
+                                        textButtom: 'OK', onSave: () {
+                                      Navigator.pop(context);
+                                    });
+                                  }
+                                });
                               },
                             );
                           }
@@ -305,15 +325,32 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               messageList: state.messageList,
                               index: index,
                               join: (data) {
-                                logger.d('MEETING DATA: ${data.meetingRoom}');
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => VideoCallPage(
-                                      conferenceID:
-                                          data.meetingRoom['meeting_room_code'],
-                                    ),
-                                  ),
-                                );
+                                _interviewService
+                                    .checkAvailability(
+                                        data.meetingRoom['meeting_room_code'],
+                                        data.meetingRoom['meeting_room_code'])
+                                    .then((value) {
+                                  if (value.data!) {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => VideoCallPage(
+                                          conferenceID: data
+                                              .meetingRoom['meeting_room_code'],
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    showDialogCustom(context,
+                                        title: 'Error',
+                                        image:
+                                            'lib/assets/images/empty_data.png',
+                                        subtitle:
+                                            'The meeting room is not available',
+                                        textButtom: 'OK', onSave: () {
+                                      Navigator.pop(context);
+                                    });
+                                  }
+                                });
                               },
                             );
                           }
@@ -358,13 +395,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           decoration: InputDecoration(
                             // hintText: 'Your messages...',
                             hintText: chatInputPlaceHolderKey.tr(),
-                            hintStyle: brightness == Brightness.dark
-                                ? TextStyle(
-                                    color: Colors.white,
-                                  )
-                                : TextStyle(
-                                    color: Colors.grey,
-                                  ),
+                            hintStyle: textTheme.bodyMedium!.copyWith(
+                                color: Theme.of(context).colorScheme.hintColor),
                             contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 8),
                             isDense: true,
@@ -410,7 +442,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           padding: const EdgeInsets.fromLTRB(8, 8, 10, 10),
                         ),
                         onPressed: () {
-                          if (messageController.text.isNotEmpty) {
+                          if (messageController.text.trim().isNotEmpty) {
                             UserModel userModel =
                                 context.read<AuthBloc>().state.userModel;
                             state.messageList.insert(

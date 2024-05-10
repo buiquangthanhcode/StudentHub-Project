@@ -36,9 +36,13 @@ PODS:
     - DKImagePickerController/PhotoGallery
     - Flutter
   - Flutter (1.0.0)
+  - flutter_local_notifications (0.0.1):
+    - Flutter
   - flutter_logs (0.0.1):
     - Flutter
     - ZIPFoundation
+  - flutter_timezone (0.0.1):
+    - Flutter
   - Giphy (2.2.4):
     - libwebp
   - jitsi_meet_flutter_sdk (0.2.2):
@@ -103,7 +107,9 @@ DEPENDENCIES:
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
+  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_logs (from `.symlinks/plugins/flutter_logs/ios`)
+  - flutter_timezone (from `.symlinks/plugins/flutter_timezone/ios`)
   - jitsi_meet_flutter_sdk (from `.symlinks/plugins/jitsi_meet_flutter_sdk/ios`)
   - native_device_orientation (from `.symlinks/plugins/native_device_orientation/ios`)
   - open_file_plus (from `.symlinks/plugins/open_file_plus/ios`)
@@ -140,8 +146,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/file_picker/ios"
   Flutter:
     :path: Flutter
+  flutter_local_notifications:
+    :path: ".symlinks/plugins/flutter_local_notifications/ios"
   flutter_logs:
     :path: ".symlinks/plugins/flutter_logs/ios"
+  flutter_timezone:
+    :path: ".symlinks/plugins/flutter_timezone/ios"
   jitsi_meet_flutter_sdk:
     :path: ".symlinks/plugins/jitsi_meet_flutter_sdk/ios"
   native_device_orientation:
@@ -179,7 +189,9 @@ SPEC CHECKSUMS:
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
   file_picker: 15fd9539e4eb735dc54bae8c0534a7a9511a03de
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_local_notifications: 4cde75091f6327eb8517fa068a0a5950212d2086
   flutter_logs: 5d0dca26963e0f30b11a995a764744ef77d5d428
+  flutter_timezone: ffb07bdad3c6276af8dada0f11978d8a1f8a20bb
   Giphy: 6b5f6986c8df4f71e01a8ef86595f426b3439fb5
   jitsi_meet_flutter_sdk: 16277747c45e403ca20557cf9cdcb6e760335b04
   JitsiMeetSDK: 90076e4c83732332d9b2a01192951673679e5031

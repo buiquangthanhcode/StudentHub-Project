@@ -13,6 +13,7 @@ import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/models/notification/notification_model.dart';
 import 'package:studenthub/utils/helper.dart';
+import 'package:studenthub/widgets/emtyDataWidget.dart';
 
 class AlertsScreen extends StatefulWidget {
   const AlertsScreen({super.key});
@@ -29,7 +30,13 @@ class _AlertsState extends State<AlertsScreen> {
   late AuthenState _authenState;
 
   final data = [
-    {'seen': false, 'type': 'message', 'title': 'Alex Jor', 'content': 'How are you?', 'time': '13:30'},
+    {
+      'seen': false,
+      'type': 'message',
+      'title': 'Alex Jor',
+      'content': 'How are you?',
+      'time': '13:30'
+    },
     {
       'seen': true,
       'type': 'submitted',
@@ -40,7 +47,8 @@ class _AlertsState extends State<AlertsScreen> {
     {
       'seen': true,
       'type': 'interview',
-      'title': 'You have invited to interview for project "Javis - AI Copilot" at 14:00 March 20, Thursday',
+      'title':
+          'You have invited to interview for project "Javis - AI Copilot" at 14:00 March 20, Thursday',
       'content': '',
       'time': '6/6/2024'
     },
@@ -61,14 +69,16 @@ class _AlertsState extends State<AlertsScreen> {
     {
       'seen': false,
       'type': 'interview',
-      'title': 'You have invited to interview for project "Javis - AI Copilot" at 14:00 March 20, Thursday',
+      'title':
+          'You have invited to interview for project "Javis - AI Copilot" at 14:00 March 20, Thursday',
       'content': '',
       'time': '6/6/2024'
     },
     {
       'seen': true,
       'type': 'interview',
-      'title': 'You have invited to interview for project "Javis - AI Copilot" at 14:00 March 20, Thursday',
+      'title':
+          'You have invited to interview for project "Javis - AI Copilot" at 14:00 March 20, Thursday',
       'content': '',
       'time': '6/6/2024'
     },
@@ -208,16 +218,32 @@ class _AlertsState extends State<AlertsScreen> {
           ),
           BlocBuilder<NotificationBloc, NotificationState>(
             builder: (context, state) {
-              return SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  childCount: state.notificationList.length,
-                  (BuildContext context, int index) {
-                    return NotificationItem(
-                      item: state.notificationList[index],
+              bool isNotEmpty = state.notificationList.isNotEmpty;
+              return isNotEmpty
+                  ? SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        childCount: state.notificationList.length,
+                        (BuildContext context, int index) {
+                          return NotificationItem(
+                            item: state.notificationList[index],
+                          );
+                        },
+                      ),
+                    )
+                  : SliverFillRemaining(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          EmptyDataWidget(
+                            mainTitle: '',
+                            subTitle:
+                                "You haven't received any notifications yet.",
+                            // subTitle: noProjectFoundKey.tr(),
+                            widthImage: MediaQuery.of(context).size.width * 0.5,
+                          ),
+                        ],
+                      ),
                     );
-                  },
-                ),
-              );
             },
           ),
         ],
@@ -246,7 +272,9 @@ class NotificationItem extends StatelessWidget {
       case '1': // interview
         icon = SvgPicture.asset(
           'lib/assets/nav_icons/solid/ballot-check.svg',
-          colorFilter: ColorFilter.mode((item.notifyFlag == "0") ? colorTheme.grey! : Colors.black, BlendMode.srcIn),
+          colorFilter: ColorFilter.mode(
+              (item.notifyFlag == "0") ? colorTheme.grey! : Colors.black,
+              BlendMode.srcIn),
           height: 18,
         );
         button = SizedBox(
@@ -261,12 +289,16 @@ class NotificationItem extends StatelessWidget {
       case '0': // offer
         icon = SvgPicture.asset(
           'lib/assets/nav_icons/solid/ballot-check.svg',
-          colorFilter: ColorFilter.mode((item.notifyFlag == "0") ? colorTheme.grey! : Colors.black, BlendMode.srcIn),
+          colorFilter: ColorFilter.mode(
+              (item.notifyFlag == "0") ? colorTheme.grey! : Colors.black,
+              BlendMode.srcIn),
           height: 18,
         );
         content = Text(
           item.content ?? '',
-          style: TextStyle(color: (item.notifyFlag == "0") ? colorTheme.grey! : Colors.black, fontSize: 12),
+          style: TextStyle(
+              color: (item.notifyFlag == "0") ? colorTheme.grey! : Colors.black,
+              fontSize: 12),
         );
         button = SizedBox(
           width: screenSize.width * 0.4,
@@ -289,25 +321,32 @@ class NotificationItem extends StatelessWidget {
       case '2': // submit
         icon = SvgPicture.asset(
           'lib/assets/nav_icons/solid/ballot-check.svg',
-          colorFilter: ColorFilter.mode((item.notifyFlag == "0") ? colorTheme.grey! : Colors.black, BlendMode.srcIn),
+          colorFilter: ColorFilter.mode(
+              (item.notifyFlag == "0") ? colorTheme.grey! : Colors.black,
+              BlendMode.srcIn),
           height: 18,
         );
         break;
       case '3': // chat
         icon = SvgPicture.asset(
           'lib/assets/nav_icons/solid/messages.svg',
-          colorFilter: ColorFilter.mode((item.notifyFlag == "0") ? colorTheme.grey! : Colors.black, BlendMode.srcIn),
+          colorFilter: ColorFilter.mode(
+              (item.notifyFlag == "0") ? colorTheme.grey! : Colors.black,
+              BlendMode.srcIn),
           height: 18,
         );
         content = Text(
           item.content ?? '',
-          style: TextStyle(color: (item.notifyFlag == "0") ? colorTheme.grey! : Colors.black, fontSize: 12),
+          style: TextStyle(
+              color: (item.notifyFlag == "0") ? colorTheme.grey! : Colors.black,
+              fontSize: 12),
         );
         break;
       default:
         icon = SvgPicture.asset(
           'lib/assets/nav_icons/solid/ballot-check.svg',
-          colorFilter: const ColorFilter.mode(Color(0xffA0A0A0), BlendMode.srcIn),
+          colorFilter:
+              const ColorFilter.mode(Color(0xffA0A0A0), BlendMode.srcIn),
           height: 23,
         );
     }
@@ -317,14 +356,17 @@ class NotificationItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 20),
       decoration: BoxDecoration(
         // color: Color.fromARGB(255, 235, 239, 255),
-        border: Border(bottom: BorderSide(width: 1, color: colorTheme.hintColor!)),
+        border:
+            Border(bottom: BorderSide(width: 1, color: colorTheme.hintColor!)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             padding: const EdgeInsets.all(12),
-            decoration: const BoxDecoration(color: Color.fromARGB(255, 245, 245, 245), shape: BoxShape.circle),
+            decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 245, 245, 245),
+                shape: BoxShape.circle),
             child: icon,
           ),
           const SizedBox(

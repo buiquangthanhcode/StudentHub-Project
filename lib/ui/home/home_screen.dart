@@ -14,6 +14,7 @@ import 'package:studenthub/ui/home/dashboard/dashboard_screen.dart';
 import 'package:studenthub/ui/home/messages/messages_screen.dart';
 import 'package:studenthub/ui/home/projects/general_project_screen.dart';
 import 'package:studenthub/utils/logger.dart';
+import 'package:studenthub/utils/socket.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.welcome});
@@ -34,7 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     body = DashboardScreen(welcome: widget.welcome);
-    context.read<NotificationBloc>().state.socketNotification.initSocketForNotification(context);
+    SocketService
+        .initSocketForNotification(context);
     context.read<NotificationBloc>().add(StartListenerEvents(
         context: context,
         onListener: (data) {
@@ -50,7 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
       body: body,
       bottomNavigationBar: Container(
         padding: EdgeInsets.fromLTRB(5, 0, 5, paddingDevice),
-        decoration: BoxDecoration(color: theme.colorScheme.background, boxShadow: [
+        decoration:
+            BoxDecoration(color: theme.colorScheme.background, boxShadow: [
           BoxShadow(
             color: const Color.fromARGB(255, 216, 216, 216).withOpacity(0.5),
             spreadRadius: 5,
@@ -100,7 +103,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             SvgPicture.asset(
                               bottomNavs[index]['solid-icon'] as String,
-                              colorFilter: const ColorFilter.mode(primaryColor, BlendMode.srcIn),
+                              colorFilter: const ColorFilter.mode(
+                                  primaryColor, BlendMode.srcIn),
                               height: 24,
                             ),
                             const SizedBox(
@@ -121,7 +125,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             SvgPicture.asset(
                               bottomNavs[index]['regular-icon'] as String,
-                              colorFilter: const ColorFilter.mode(Color(0xffA0A0A0), BlendMode.srcIn),
+                              colorFilter: const ColorFilter.mode(
+                                  Color(0xffA0A0A0), BlendMode.srcIn),
                               height: 23,
                             ),
                             const SizedBox(
