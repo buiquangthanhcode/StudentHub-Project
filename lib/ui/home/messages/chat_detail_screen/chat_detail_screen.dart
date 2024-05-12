@@ -443,6 +443,15 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         ),
                         onPressed: () {
                           if (messageController.text.trim().isNotEmpty) {
+                            if (state.messageList.isEmpty) {
+                              context.read<CompanyBloc>().add(SetActiveProposal(
+                                  proposalId: int.parse(
+                                      widget.projectProposalId ?? "-1"),
+                                  statusFlag: 1,
+                                  onSuccess: () {}));
+                              // End Quang Thanh
+                            }
+
                             UserModel userModel =
                                 context.read<AuthBloc>().state.userModel;
                             state.messageList.insert(
@@ -479,14 +488,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                   0 // default 0 for message, 1 for interview
                             });
                             //  Add by Quang Thanh to update proposal active when company send message
-                            if (state.messageList.isEmpty) {
-                              context.read<CompanyBloc>().add(SetActiveProposal(
-                                  proposalId: int.parse(
-                                      widget.projectProposalId ?? "-1"),
-                                  statusFlag: 1,
-                                  onSuccess: () {}));
-                            }
-                            // End Quang Thanh
 
                             messageController.clear();
                             setState(() {});
