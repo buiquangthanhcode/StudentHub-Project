@@ -7,7 +7,9 @@ class MessageReceiveWidget extends StatelessWidget {
     super.key,
     required this.meId,
     required this.screenSize,
-    required this.colorTheme, this.messageList, required this.index,
+    required this.colorTheme,
+    this.messageList,
+    required this.index,
   });
 
   final int meId;
@@ -50,7 +52,8 @@ class MessageReceiveWidget extends StatelessWidget {
             constraints: BoxConstraints(maxWidth: screenSize.width * 0.65),
             padding: const EdgeInsets.fromLTRB(14, 10, 8, 4),
             decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 245, 245, 245),
+              // color: const Color.fromARGB(255, 245, 245, 245),
+              color: Theme.of(context).colorScheme.chatColorContentBackground,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
@@ -60,7 +63,10 @@ class MessageReceiveWidget extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 6),
                   child: Text(
                     messageList[index].content ?? '',
-                    style: TextStyle(color: colorTheme.black),
+                    style: TextStyle(
+                      // color: colorTheme.black,
+                      color: Theme.of(context).colorScheme.chatColorContent,
+                    ),
                   ),
                 ),
                 Row(
@@ -68,12 +74,12 @@ class MessageReceiveWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      checkDateTime(messageList[index].createdAt??''),
+                      checkDateTime(messageList[index].createdAt ?? ''),
                       style: const TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w400,
-                          color: Color.fromARGB(255, 80, 80, 80),
-                          ),
+                        fontSize: 11,
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromARGB(255, 80, 80, 80),
+                      ),
                     ),
                   ],
                 ),

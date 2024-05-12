@@ -14,6 +14,7 @@ import 'package:studenthub/blocs/chat_bloc/chat_state.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_bloc.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_event.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_state.dart';
+import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/chat_model.dart';
@@ -225,8 +226,7 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                               Text(
                                 projectScopeKey.tr(),
                                 style: TextStyle(
-                                  color: Colors.black.withOpacity(0.8),
-                                ),
+                                    color: Theme.of(context).colorScheme.black),
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -245,7 +245,10 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                                         .textTheme
                                         .bodySmall!
                                         .copyWith(
-                                          color: Colors.black.withOpacity(0.8),
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .black
+                                              ?.withOpacity(0.8),
                                         ),
                                   ),
                                 ],
@@ -268,7 +271,10 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                               Text(
                                 studentRequiredKey.tr(),
                                 style: TextStyle(
-                                    color: Colors.black.withOpacity(0.8)),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .black
+                                        ?.withOpacity(0.8)),
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -281,14 +287,19 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                                     ),
                                   ),
                                   Text(
-                                    '${state.projectDetail.numberOfStudents ?? '0'} students',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall!
-                                        .copyWith(
-                                            color:
-                                                Colors.black.withOpacity(0.8)),
-                                  ),
+                                      '${state.projectDetail.numberOfStudents ?? '0'} ${studentsKey.tr()}',
+                                      // style: Theme.of(context)
+                                      //     .textTheme
+                                      //     .bodySmall!
+                                      //     .copyWith(
+                                      //         color:
+                                      //             Theme.of(context).colorScheme.black),
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .black
+                                            ?.withOpacity(0.8),
+                                      )),
                                 ],
                               )
                             ],

@@ -68,7 +68,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     Text(
                       // 'Welcome to Student Hub',
                       welcomeDialogMsg.tr(),
-                      style: textTheme.bodyLarge,
+                      style: textTheme.bodyLarge!.copyWith(color: Colors.black),
                     ),
                     const SizedBox(
                       height: 10,
@@ -77,8 +77,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       // 'Start searching and implementing real-world projects right now!',
                       changeAccountNoticeMsgKey1.tr(),
                       textAlign: TextAlign.center,
-                      style:
-                          textTheme.bodySmall!.copyWith(color: colorTheme.grey),
+                      style: textTheme.bodySmall!.copyWith(
+                          // color: colorTheme.grey,
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? colorTheme.grey
+                                  : Colors.black),
                     ),
                     const Spacer(),
                     ElevatedButton(

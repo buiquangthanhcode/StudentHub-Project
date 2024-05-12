@@ -58,6 +58,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   final ChatService _chatService = ChatService();
   final InterviewService _interviewService = InterviewService();
 
+  get brightness => null;
+
   @override
   void initState() {
     _messageFocus.addListener(_onFocusChange);
@@ -160,11 +162,13 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       });
     }, builder: (BuildContext context, ChatState state) {
       return Container(
-        color: Colors.white,
+        // color: Colors.white,
+        color: Theme.of(context).colorScheme.chatColorBackground,
         child: SafeArea(
           top: false,
           child: Scaffold(
-            backgroundColor: Colors.white,
+            // backgroundColor: Colors.white,
+            backgroundColor: Theme.of(context).colorScheme.chatColorBackground,
             appBar: PreferredSize(
               preferredSize: const Size(double.infinity, 64),
               child: AppBar(
@@ -227,9 +231,11 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         height: 39,
                         width: 39,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: const Color.fromARGB(255, 245, 245, 245),
-                        ),
+                            borderRadius: BorderRadius.circular(30),
+                            // color: const Color.fromARGB(255, 245, 245, 245),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .chatColorBackground),
                         alignment: Alignment.center,
                         child: FaIcon(
                           FontAwesomeIcons.bars,
@@ -353,7 +359,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               ),
             ),
             bottomSheet: Container(
-              color: Colors.white,
+              // color: Colors.white,
+              color: Theme.of(context).colorScheme.chatColorBackground,
               padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -382,7 +389,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           focusNode: _messageFocus,
                           cursorHeight: 18,
                           cursorColor: Colors.black,
-                          style: textTheme.bodyMedium,
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: Colors.black,
+                          ),
                           decoration: InputDecoration(
                             // hintText: 'Your messages...',
                             hintText: chatInputPlaceHolderKey.tr(),
@@ -393,6 +402,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                             isDense: true,
                             filled: true,
                             fillColor: const Color.fromARGB(255, 245, 245, 245),
+                            // fillColor: Theme.of(context)
+                            //     .colorScheme
+                            //     .chatColorBackground,
                             errorStyle: const TextStyle(height: 0),
                             border: OutlineInputBorder(
                               borderSide: const BorderSide(

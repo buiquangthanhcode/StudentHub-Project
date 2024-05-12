@@ -86,7 +86,7 @@ class InterviewReceiveWidget extends StatelessWidget {
                 : const EdgeInsets.fromLTRB(14, 10, 8, 4),
             decoration: BoxDecoration(
                 color: isCancel
-                    ? Colors.white
+                    ? Theme.of(context).colorScheme.chatColorContentBackground
                     : const Color.fromARGB(255, 245, 245, 245),
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
@@ -208,7 +208,7 @@ class InterviewReceiveWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            checkDateTime(messageList[index].createdAt??''),
+                            checkDateTime(messageList[index].createdAt ?? ''),
                             style: const TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w400,

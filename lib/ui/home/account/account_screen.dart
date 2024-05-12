@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -233,10 +232,14 @@ class _AccountState extends State<AccountScreen> {
                                       state.currentRole == UserRole.student
                                           ? companyRoleKey.tr()
                                           : studentRoleKey.tr(),
-                                      style:
-                                          theme.textTheme.bodyMedium?.copyWith(
-                                        color: Colors.grey,
-                                      ),
+                                      style: theme.textTheme.bodyMedium
+                                          ?.copyWith(
+                                              // color: Colors.grey,
+                                              color: Theme.of(context)
+                                                          .brightness ==
+                                                      Brightness.dark
+                                                  ? Colors.black54
+                                                  : Colors.grey),
                                     ),
                                   ],
                                 ),
@@ -282,6 +285,7 @@ class _AccountState extends State<AccountScreen> {
                                 tokenService.clearToken();
                                 Future.delayed(
                                     const Duration(milliseconds: 500), () {
+                                  // context.read<AuthBloc>().add(ResetBloc());
                                   context.pushNamed(e['route_name']);
                                 });
                               } else {
