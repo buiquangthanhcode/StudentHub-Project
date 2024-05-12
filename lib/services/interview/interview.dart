@@ -126,4 +126,29 @@ class InterviewService {
       rethrow;
     }
   }
+
+      Future<ResponseAPI<bool>> getActiveInterview(String userId) async {
+    try {
+      final res = await dioClient
+          .get('$baseURL/api/interview/user/$userId');
+
+      logger.d('CHECK AVAILABILITY: ${res.data}');
+
+      return ResponseAPI<bool>(
+        statusCode: res.statusCode,
+        data: res.data['result'],
+      );
+    } on DioException catch (e) {
+      logger.e(
+        "DioException :${e.response}",
+      );
+      throw ResponseAPI<List<Project>>(
+        statusCode: e.response?.statusCode,
+        data: [],
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
 }

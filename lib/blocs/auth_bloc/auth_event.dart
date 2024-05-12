@@ -55,5 +55,3 @@ class UpdateRoleEvents extends AuthenEvent {
 
   UpdateRoleEvents({required this.role});
 }
-
-class ResetBloc extends AuthenEvent {}
