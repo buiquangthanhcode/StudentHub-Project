@@ -53,7 +53,8 @@ class _MessagesState extends State<MessagesScreen> {
     TextTheme textTheme = Theme.of(context).textTheme;
     var colorTheme = Theme.of(context).colorScheme;
 
-    return BlocBuilder<ChatBloc, ChatState>(builder: (BuildContext context, ChatState state) {
+    return BlocBuilder<ChatBloc, ChatState>(
+        builder: (BuildContext context, ChatState state) {
       return Scaffold(
         appBar: widget.isHiddenAppbar ?? false
             ? null
@@ -120,9 +121,11 @@ class _MessagesState extends State<MessagesScreen> {
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: colorTheme.brightness == Brightness.dark
+                                          color: colorTheme.brightness ==
+                                                  Brightness.dark
                                               ? primaryColor
-                                              : const Color.fromARGB(255, 191, 191, 191),
+                                              : const Color.fromARGB(
+                                                  255, 191, 191, 191),
                                         ),
                                         child: const FaIcon(
                                           FontAwesomeIcons.xmark,
@@ -134,8 +137,10 @@ class _MessagesState extends State<MessagesScreen> {
                                   ],
                                 )
                               : Container(width: 1),
-                          suffixIconConstraints: const BoxConstraints(minWidth: 50),
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                          suffixIconConstraints:
+                              const BoxConstraints(minWidth: 50),
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 12),
                           isDense: true,
                           filled: true,
                           fillColor: colorTheme.brightness == Brightness.dark
@@ -186,9 +191,11 @@ class _MessagesState extends State<MessagesScreen> {
                           Center(
                             child: EmptyDataWidget(
                               mainTitle: '',
-                              subTitle: "You haven't received any messages yet.",
+                              // subTitle: "You haven't received any messages yet.",
                               // subTitle: noProjectFoundKey.tr(),
-                              widthImage: MediaQuery.of(context).size.width * 0.5,
+                              subTitle: noMessagesAlertKey.tr(),
+                              widthImage:
+                                  MediaQuery.of(context).size.width * 0.5,
                             ),
                           ),
                         ],

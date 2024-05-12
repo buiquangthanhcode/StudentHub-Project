@@ -129,7 +129,8 @@ const String cvTranscriptKey = "cv_transcript";
 const String resumeCVKey = "resume_cv_key";
 const String transcriptKey = "transcript_key";
 const String selectFileToUploadKey = "select_file_to_upload";
-const String selectFileToUploadDescriptionKey = "select_file_to_upload_description";
+const String selectFileToUploadDescriptionKey =
+    "select_file_to_upload_description";
 // --- for edit language bottom sheet ---
 const String createLanguageKey = "create_language";
 const String selectLanguagePlaceHolderKey = "select_language_placeholder";
@@ -277,7 +278,7 @@ const String cancelUppercaseKey = "cancel_upper";
 const String okUppercaseKey = "ok_upper";
 const String changeLanguageSuccessMsgKey = "change_language_success";
 // --- for change theme flow ---
-const String chatThemeKey = "chat_theme";
+const String changeThemeKey = "change_theme";
 const String dayKey = "day";
 const String nightKey = "night";
 const String changeThemeSuccessMsgKey = "change_theme_success";
@@ -292,5 +293,24 @@ const String whatIsNameOfCompanyMsgKey = "what_is_company_name_msg";
 const String whatIsWebUrlOfCompanyMsgKey = "what_is_url_of_company_msg";
 const String describeCompanyKey = "describe_company";
 const String enterYourCompanyPlaceHolderKey = "enter_your_company_placeholder";
-const String enterYourWebsiteURlPlaceHolderKey = "enter_your_company_website_url_placeholder";
-const String enterYourDescriptionPlaceHolderKey = "enter_your_description_placeholder";
+const String enterYourWebsiteURlPlaceHolderKey =
+    "enter_your_company_website_url_placeholder";
+const String enterYourDescriptionPlaceHolderKey =
+    "enter_your_description_placeholder";
+// --- for alerts screen ---
+const String viewOfferBtnKey = "view_offer";
+const String youHaveOfferMsgKey = "you_have_offer_msg";
+const String joinBtnKey = "join";
+const String newMsgKeyTitle = "new_msg";
+const String newOfferKeyTitle = "new_offer";
+const String markAllAsReadKey = "mark_all_as_read";
+const String noNotificationsAlertKey = "no_notifications_alert";
+const String noMessagesAlertKey = "no_messages_alert";
+// --- for accept offer screen ---
+const String acceptOfferBtnKey = "accept_offer";
+const String acceptOfferSuccessMsgKey = "accept_offer_msg";
+// --- for project posting flow ---
+const String oneOfFourKey = "one_of_four";
+const String twoOfFourKey = "two_of_four";
+const String threeOfFourKey = "three_of_four";
+const String fourOfFourKey = "four_of_four";

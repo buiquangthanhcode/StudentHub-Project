@@ -89,22 +89,36 @@ class _CreateEducationWidgetState extends State<CreateEducationWidget> {
               ),
               onPressed: () {
                 if (formkey.currentState?.saveAndValidate() ?? false) {
-                  if (int.parse(formkey.currentState!.fields['year_start']!.value) >
-                      int.parse(formkey.currentState!.fields['year_end']!.value)) {
+                  if (int.parse(
+                          formkey.currentState!.fields['year_start']!.value) >
+                      int.parse(
+                          formkey.currentState!.fields['year_end']!.value)) {
                     SnackBarService.showSnackBar(
-                        content: "Year start must be less than year end", status: StatusSnackBar.info);
+                        content: "Year start must be less than year end",
+                        status: StatusSnackBar.info);
                   } else {
-                    int userId = BlocProvider.of<AuthBloc>(context).state.userModel.student?.id ?? -1;
+                    int userId = BlocProvider.of<AuthBloc>(context)
+                            .state
+                            .userModel
+                            .student
+                            ?.id ??
+                        -1;
                     List<Education> educations = List<Education>.from(
-                        BlocProvider.of<StudentBloc>(context).state.student.educations as Iterable);
+                        BlocProvider.of<StudentBloc>(context)
+                            .state
+                            .student
+                            .educations as Iterable);
                     context.read<StudentBloc>().add(
                           UpdateEducationEvent(
                             userId: userId,
                             educations: educations
                               ..add(Education(
-                                schoolName: formkey.currentState!.fields['nameOfSchool']!.value as String,
-                                startYear: int.parse(formkey.currentState!.fields['year_start']!.value),
-                                endYear: int.parse(formkey.currentState!.fields['year_end']!.value),
+                                schoolName: formkey.currentState!
+                                    .fields['nameOfSchool']!.value as String,
+                                startYear: int.parse(formkey
+                                    .currentState!.fields['year_start']!.value),
+                                endYear: int.parse(formkey
+                                    .currentState!.fields['year_end']!.value),
                               )),
                             onSuccess: () {
                               Navigator.pop(context);
@@ -118,7 +132,8 @@ class _CreateEducationWidgetState extends State<CreateEducationWidget> {
                 // "Save",
                 saveBtnKey.tr(),
                 style: theme.textTheme.bodyMedium!.copyWith(
-                  color: theme.colorScheme.onPrimary,
+                  // color: theme.colorScheme.onPrimary,
+                  color: Colors.white,
                 ),
               ),
             ),

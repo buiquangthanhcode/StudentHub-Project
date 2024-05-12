@@ -237,6 +237,9 @@ class ProjectItem extends StatelessWidget {
                           item['total'].toString(),
                           style: theme.textTheme.bodyMedium!.copyWith(
                             color:
+                                // theme.colorScheme.brightness == Brightness.dark
+                                //     ? Colors.white
+                                //     : Colors.black,
                                 theme.colorScheme.brightness == Brightness.dark
                                     ? Colors.white
                                     : Colors.black,
@@ -246,9 +249,10 @@ class ProjectItem extends StatelessWidget {
                           item['label'].toString(),
                           style: theme.textTheme.bodyMedium!.copyWith(
                             color:
-                                theme.colorScheme.brightness == Brightness.dark
-                                    ? Colors.white
-                                    : primaryColor,
+                                // theme.colorScheme.brightness == Brightness.dark
+                                //     ? Colors.white //
+                                //     : primaryColor,
+                                primaryColor,
                             fontSize: 15,
                           ),
                         ),

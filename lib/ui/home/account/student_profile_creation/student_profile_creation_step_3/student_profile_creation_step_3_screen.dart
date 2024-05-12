@@ -33,10 +33,12 @@ class StudentProfileCreationStep3Screen extends StatefulWidget {
 
   @override
   // ignore: library_private_types_in_public_api
-  _StudentProfileCreationStep3ScreenState createState() => _StudentProfileCreationStep3ScreenState();
+  _StudentProfileCreationStep3ScreenState createState() =>
+      _StudentProfileCreationStep3ScreenState();
 }
 
-class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreationStep3Screen> {
+class _StudentProfileCreationStep3ScreenState
+    extends State<StudentProfileCreationStep3Screen> {
   FilePickerResult? resultResume;
   FilePickerResult? resultTranScript;
   // var? fileName;
@@ -61,8 +63,10 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
         type == 0 ? resumeLoadingState = true : transcriptLoadingState = true;
       });
 
-      resultResume = await FilePicker.platform
-          .pickFiles(type: FileType.custom, allowedExtensions: ['png', 'pdf', 'xlsx', 'jpg'], allowMultiple: true);
+      resultResume = await FilePicker.platform.pickFiles(
+          type: FileType.custom,
+          allowedExtensions: ['png', 'pdf', 'xlsx', 'jpg'],
+          allowMultiple: true);
 
       if (resultResume != null) {
         for (var file in resultResume!.files) {
@@ -98,8 +102,10 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
         type == 0 ? resumeLoadingState = true : transcriptLoadingState = true;
       });
 
-      resultTranScript = await FilePicker.platform
-          .pickFiles(type: FileType.custom, allowedExtensions: ['png', 'pdf', 'xlsx', 'jpg'], allowMultiple: true);
+      resultTranScript = await FilePicker.platform.pickFiles(
+          type: FileType.custom,
+          allowedExtensions: ['png', 'pdf', 'xlsx', 'jpg'],
+          allowMultiple: true);
 
       if (resultTranScript != null) {
         for (var file in resultTranScript!.files) {
@@ -143,7 +149,11 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
               String fileType = fileName.split('.').last;
               double fileSize = 0.1;
               String url = student.resumeUrl ?? link;
-              resume.add(FileModel(name: fileName, type: fileType, size: fileSize.toString(), url: url));
+              resume.add(FileModel(
+                  name: fileName,
+                  type: fileType,
+                  size: fileSize.toString(),
+                  url: url));
             }
             setState(() {});
           },
@@ -156,7 +166,11 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
               String fileType = fileName.split('.').last;
               double fileSize = 0.1;
               String url = student.transcriptUrl ?? link;
-              transcript.add(FileModel(name: fileName, type: fileType, size: fileSize.toString(), url: url));
+              transcript.add(FileModel(
+                  name: fileName,
+                  type: fileType,
+                  size: fileSize.toString(),
+                  url: url));
             }
             setState(() {});
           },
@@ -172,14 +186,16 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
     } else {
       transcriptName = authenState.userModel.student?.transcript ?? '';
     }
-    String path = await getPath(type == 'resume' ? resumeFileName : transcriptName);
+    String path =
+        await getPath(type == 'resume' ? resumeFileName : transcriptName);
     final check = await File(path).exists();
     if (check) {
       logger.d(path);
       OpenFile.open(path).then((value) {
         logger.d(value.message);
       }).catchError((e) {
-        SnackBarService.showSnackBar(content: 'Lỗi', status: StatusSnackBar.error);
+        SnackBarService.showSnackBar(
+            content: 'Lỗi', status: StatusSnackBar.error);
       }).onError((error, stackTrace) {
         logger.e(error);
       });
@@ -219,7 +235,8 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
         centerTitle: false,
       ),
       body: Padding(
-        padding: EdgeInsets.fromLTRB(20, 0, 20, screenSize.height * (Platform.isIOS ? 0.04 : 0.03)),
+        padding: EdgeInsets.fromLTRB(
+            20, 0, 20, screenSize.height * (Platform.isIOS ? 0.04 : 0.03)),
         child: BlocBuilder<StudentBloc, StudentState>(
           builder: (context, state) {
             return Column(
@@ -284,7 +301,8 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                                     Text(
                                       // 'Select PDF, Excel or Image',
                                       selectFileToUploadDescriptionKey.tr(),
-                                      style: textTheme.bodySmall!.copyWith(color: colorTheme.grey),
+                                      style: textTheme.bodySmall!
+                                          .copyWith(color: colorTheme.grey),
                                     )
                                   ],
                                 )),
@@ -309,9 +327,13 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                                 width: MediaQuery.of(context).size.width * 0.6,
                                 margin: const EdgeInsets.only(right: 10),
                                 padding: const EdgeInsets.fromLTRB(15, 8, 0, 8),
-                                decoration: const BoxDecoration(
-                                  color: Color(0xffF6F7F9),
-                                  borderRadius: BorderRadius.all(
+                                decoration: BoxDecoration(
+                                  // color: Color(0xffF6F7F9),
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? const Color(0xff242435)
+                                      : Colors.white,
+                                  borderRadius: const BorderRadius.all(
                                     Radius.circular(6),
                                   ),
                                 ),
@@ -321,8 +343,10 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                                     Container(
                                       width: 40,
                                       height: 40,
-                                      decoration:
-                                          BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
                                       child: Image.asset(
                                         e.type == 'png' || e.type == 'jpg'
                                             ? image_path
@@ -337,12 +361,15 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                                     ),
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             e.name!,
                                             overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14),
                                           ),
                                           const SizedBox(
                                             height: 4,
@@ -350,7 +377,9 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                                           Text(
                                             '${e.size!}MB',
                                             style: TextStyle(
-                                                color: colorTheme.grey, fontWeight: FontWeight.w400, fontSize: 12),
+                                                color: colorTheme.grey,
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 12),
                                           ),
                                         ],
                                       ),
@@ -358,17 +387,23 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                                     InkWell(
                                       onTap: () {
                                         resume.remove(e);
-                                        context.read<StudentBloc>().add(RemoveResumeEvent(
+                                        context
+                                            .read<StudentBloc>()
+                                            .add(RemoveResumeEvent(
                                               studentId: student.id ?? -1,
                                               onSuccess: () {
                                                 SnackBarService.showSnackBar(
-                                                    content: 'Delete Successfully', status: StatusSnackBar.success);
+                                                    content:
+                                                        'Delete Successfully',
+                                                    status:
+                                                        StatusSnackBar.success);
                                               },
                                             ));
                                         setState(() {});
                                       },
                                       child: const Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 15),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 15),
                                         child: FaIcon(
                                           FontAwesomeIcons.xmark,
                                           size: 18,
@@ -442,7 +477,8 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                                   Text(
                                     // 'Select PDF, Excel or Image',
                                     selectFileToUploadDescriptionKey.tr(),
-                                    style: textTheme.bodySmall!.copyWith(color: colorTheme.grey),
+                                    style: textTheme.bodySmall!
+                                        .copyWith(color: colorTheme.grey),
                                   )
                                 ],
                               ),
@@ -464,16 +500,22 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                                 try {
                                   handleOnclick(e, 'transcript');
                                 } catch (e) {
-                                  SnackBarService.showSnackBar(content: 'Error', status: StatusSnackBar.error);
+                                  SnackBarService.showSnackBar(
+                                      content: 'Error',
+                                      status: StatusSnackBar.error);
                                 }
                               },
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.7,
                                 margin: const EdgeInsets.only(right: 10),
                                 padding: const EdgeInsets.fromLTRB(15, 8, 0, 8),
-                                decoration: const BoxDecoration(
-                                  color: Color(0xffF6F7F9),
-                                  borderRadius: BorderRadius.all(
+                                decoration: BoxDecoration(
+                                  // color: Color(0xffF6F7F9),
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? const Color(0xff242435)
+                                      : Colors.white,
+                                  borderRadius: const BorderRadius.all(
                                     Radius.circular(6),
                                   ),
                                 ),
@@ -483,8 +525,10 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                                     Container(
                                       width: 40,
                                       height: 40,
-                                      decoration:
-                                          BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
                                       child: Image.asset(
                                         e.type == 'png' || e.type == 'jpg'
                                             ? image_path
@@ -499,12 +543,15 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                                     ),
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             e.name!,
                                             overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14),
                                           ),
                                           const SizedBox(
                                             height: 4,
@@ -512,7 +559,9 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                                           Text(
                                             '${e.size!}MB',
                                             style: TextStyle(
-                                                color: colorTheme.grey, fontWeight: FontWeight.w400, fontSize: 12),
+                                                color: colorTheme.grey,
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 12),
                                           ),
                                         ],
                                       ),
@@ -520,17 +569,23 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                                     InkWell(
                                       onTap: () {
                                         transcript.remove(e);
-                                        context.read<StudentBloc>().add(RemoveTranScriptEvent(
+                                        context
+                                            .read<StudentBloc>()
+                                            .add(RemoveTranScriptEvent(
                                               studentId: student.id ?? -1,
                                               onSuccess: () {
                                                 SnackBarService.showSnackBar(
-                                                    content: 'Delete Successfully', status: StatusSnackBar.success);
+                                                    content:
+                                                        'Delete Successfully',
+                                                    status:
+                                                        StatusSnackBar.success);
                                               },
                                             ));
                                         setState(() {});
                                       },
                                       child: const Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 15),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 15),
                                         child: FaIcon(
                                           FontAwesomeIcons.xmark,
                                           size: 18,
@@ -551,7 +606,11 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                 ContinueButton(
                     buttonActive: true,
                     press: () {
-                      int userId = BlocProvider.of<StudentBloc>(context).state.student.id ?? -1;
+                      int userId = BlocProvider.of<StudentBloc>(context)
+                              .state
+                              .student
+                              .id ??
+                          -1;
                       if (resultResume != null) {
                         context.read<StudentBloc>().add(
                               UploadResumeEvent(
@@ -565,15 +624,19 @@ class _StudentProfileCreationStep3ScreenState extends State<StudentProfileCreati
                       if (resultTranScript != null) {
                         context.read<StudentBloc>().add(
                               SubmitTranScript(
-                                path: resultTranScript!.files.first.path.toString(),
+                                path: resultTranScript!.files.first.path
+                                    .toString(),
                                 userId: userId,
                                 onSuccess: () {},
-                                name: resultTranScript!.files.first.name.toString(),
+                                name: resultTranScript!.files.first.name
+                                    .toString(),
                               ),
                             );
                       }
 
-                      SnackBarService.showSnackBar(content: 'Upload Successfully', status: StatusSnackBar.success);
+                      SnackBarService.showSnackBar(
+                          content: 'Upload Successfully',
+                          status: StatusSnackBar.success);
                       context.pushNamed(
                         'home',
                       );

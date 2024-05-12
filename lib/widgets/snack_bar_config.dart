@@ -26,6 +26,7 @@ class SnackBarService {
             Expanded(
               child: Text(
                 content,
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ],

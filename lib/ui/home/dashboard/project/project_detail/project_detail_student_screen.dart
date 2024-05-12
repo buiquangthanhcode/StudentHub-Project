@@ -187,7 +187,11 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black.withOpacity(0.6),
+                                    // color: Colors.black.withOpacity(0.6),
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? Colors.black.withOpacity(0.6)
+                                        : Colors.white,
                                   ),
                         ),
                         BulletList([
@@ -358,8 +362,9 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                                 Text(
                                   messagesBtnKey.tr(),
                                   style: textTheme.bodyMedium!.copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600),
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ],
                             ),

@@ -60,7 +60,8 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                   backgroundColor: const Color(0xff3961FB).withOpacity(0.2),
                   circularStrokeCap: CircularStrokeCap.round,
                   center: Text(
-                    '2 of 4',
+                    // '2 of 4',
+                    twoOfFourKey.tr(),
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           fontSize: 13,
                         ),
@@ -94,7 +95,8 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                     const SizedBox(height: 12),
                     RadioListTile(
                       activeColor: primaryColor,
-                      visualDensity: const VisualDensity(vertical: -4.0, horizontal: -4.0),
+                      visualDensity:
+                          const VisualDensity(vertical: -4.0, horizontal: -4.0),
                       title: Text(
                         lessThan1MonthKey.tr(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -111,7 +113,8 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                     ),
                     RadioListTile(
                       activeColor: primaryColor,
-                      visualDensity: const VisualDensity(vertical: -4.0, horizontal: -4.0),
+                      visualDensity:
+                          const VisualDensity(vertical: -4.0, horizontal: -4.0),
                       title: Text(
                         oneToThreeMonthsKey.tr(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -128,7 +131,8 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                     ),
                     RadioListTile(
                       activeColor: primaryColor,
-                      visualDensity: const VisualDensity(vertical: -4.0, horizontal: -4.0),
+                      visualDensity:
+                          const VisualDensity(vertical: -4.0, horizontal: -4.0),
                       title: Text(
                         threeToSixMonthsKey.tr(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -145,7 +149,8 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                     ),
                     RadioListTile(
                       activeColor: primaryColor,
-                      visualDensity: const VisualDensity(vertical: -4.0, horizontal: -4.0),
+                      visualDensity:
+                          const VisualDensity(vertical: -4.0, horizontal: -4.0),
                       title: Text(
                         moreThan6MonthsKey.tr(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -183,7 +188,8 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                   },
                   // keyboard
                   keyboardType: TextInputType.number,
-                  style: Theme.of(context).textTheme.bodyMedium, // Adjust the font size as needed
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Colors.black), // Adjust the font size as needed
                   decoration: InputDecoration(
                     hintText: estimateJobQ2PlaceHolderKey.tr(),
                     hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -195,9 +201,10 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                         width: 4.0,
                       ),
                     ),
-                    contentPadding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12 // Adjust the vertical padding as needed
-                            ),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 12 // Adjust the vertical padding as needed
+                        ),
                   ),
                   onChanged: (value) {
                     setState(() {});
@@ -221,12 +228,16 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                                   : 3,
                       numberOfStudents: int.parse(_textEditingController.text),
                     );
-                    context.read<ProjectBloc>().add(UpdateNewProjectEvent(currentProject));
+                    context
+                        .read<ProjectBloc>()
+                        .add(UpdateNewProjectEvent(currentProject));
                     context.push('/home/project_post/step_03');
                   },
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16), // Adjust padding as needed
-                    minimumSize: const Size(double.infinity, 48), // Set minimum button size
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16), // Adjust padding as needed
+                    minimumSize: const Size(
+                        double.infinity, 48), // Set minimum button size
                     backgroundColor: (_textEditingController.text.isNotEmpty)
                         ? const Color(0xff3961FB)
                         : const Color(0xff3961FB).withOpacity(0.5),

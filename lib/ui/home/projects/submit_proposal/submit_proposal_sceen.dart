@@ -36,8 +36,11 @@ class _SubmitProposalState extends State<SubmitProposalScreen> {
         ),
       ),
       body: Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
+          decoration: BoxDecoration(
+            // color: Colors.white,
+            color: Theme.of(context).brightness == Brightness.light
+                ? Colors.white
+                : const Color(0xff0C1421),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -60,6 +63,7 @@ class _SubmitProposalState extends State<SubmitProposalScreen> {
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
+                  style: const TextStyle(color: Colors.black),
                   controller: _controllerCoverLetter,
                   autofocus: true,
                   minLines:

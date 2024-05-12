@@ -47,9 +47,12 @@ class _EditPostingState extends State<EditPosting> {
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       height: MediaQuery.of(context).size.height * 0.95,
       width: double.infinity,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
+      decoration: BoxDecoration(
+        // color: Colors.white,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? const Color(0xff0C1421)
+            : Colors.white,
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(10),
           topRight: Radius.circular(10),
         ),

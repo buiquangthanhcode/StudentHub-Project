@@ -44,16 +44,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              backgroundColor: Colors.white,
+              // backgroundColor: Colors.white,
+              backgroundColor: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.black
+                  : Colors.white,
               contentPadding: EdgeInsets.zero,
               content: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                 width: screenSize.width * 0.8,
                 height: screenSize.height * 0.5,
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(15))),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.transparent,
+                    ),
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.black
+                        : Colors.white,
+                    borderRadius: const BorderRadius.all(Radius.circular(15))),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -68,7 +78,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     Text(
                       // 'Welcome to Student Hub',
                       welcomeDialogMsg.tr(),
-                      style: textTheme.bodyLarge!.copyWith(color: Colors.black),
+                      style: textTheme.bodyLarge!.copyWith(
+                          // color: Colors.black,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : Colors.black),
                     ),
                     const SizedBox(
                       height: 10,
@@ -82,7 +96,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           color:
                               Theme.of(context).brightness == Brightness.light
                                   ? colorTheme.grey
-                                  : Colors.black),
+                                  : Colors.white),
                     ),
                     const Spacer(),
                     ElevatedButton(

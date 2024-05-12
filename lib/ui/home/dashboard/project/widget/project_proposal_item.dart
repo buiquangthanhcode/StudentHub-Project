@@ -13,7 +13,11 @@ import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class ProposalItem extends StatefulWidget {
   const ProposalItem(
-      {super.key, required this.theme, required this.item, this.activeSentButton, required this.projectId});
+      {super.key,
+      required this.theme,
+      required this.item,
+      this.activeSentButton,
+      required this.projectId});
 
   final ThemeData theme;
   final ProjectProposal item;
@@ -64,7 +68,8 @@ class _ProposalItemState extends State<ProposalItem> {
                     width: 30,
                     height: 30,
                     child: CircleAvatar(
-                      backgroundImage: AssetImage('lib/assets/images/circle_avatar.png'),
+                      backgroundImage:
+                          AssetImage('lib/assets/images/circle_avatar.png'),
                     ),
                   ),
                 ),
@@ -80,7 +85,8 @@ class _ProposalItemState extends State<ProposalItem> {
                     ),
                     Text(
                       // widget.item.student?.fullname ?? '4th year student',
-                      widget.item.student?.fullname ?? fourthYearStudentKey.tr(),
+                      widget.item.student?.fullname ??
+                          fourthYearStudentKey.tr(),
                       style: widget.theme.textTheme.bodyMedium,
                     ),
                   ],
@@ -138,7 +144,10 @@ class _ProposalItemState extends State<ProposalItem> {
                               // side: const BorderSide(
                               //     color: primaryColor, width: 2.0),
                               side: BorderSide(
-                                  color: isPressSentButton ? Colors.green.shade600 : primaryColor, width: 2.0),
+                                  color: isPressSentButton
+                                      ? Colors.green.shade600
+                                      : primaryColor,
+                                  width: 2.0),
                             ),
                           ),
                           onPressed: () {
@@ -148,13 +157,17 @@ class _ProposalItemState extends State<ProposalItem> {
                                 // subtitle:
                                 //     'Do you really want too send this offer for student to do this project?',
                                 textButtom: sendOfferBtnKey.tr(),
-                                subtitle: sendOfferConfirmMsgKey.tr(), onSave: () {
-                              context.read<CompanyBloc>().add(SetEventActionToStudent(
+                                subtitle: sendOfferConfirmMsgKey.tr(),
+                                onSave: () {
+                              context
+                                  .read<CompanyBloc>()
+                                  .add(SetEventActionToStudent(
                                     proposalId: widget.item.id ?? 0,
                                     statusFlag: 2,
                                     onSuccess: () {
                                       SnackBarService.showSnackBar(
-                                          content: "Sent Successfully", status: StatusSnackBar.success);
+                                          content: "Sent Successfully",
+                                          status: StatusSnackBar.success);
                                       context.pop();
                                       setState(() {
                                         isPressSentButton = true;
@@ -164,9 +177,13 @@ class _ProposalItemState extends State<ProposalItem> {
                             });
                           },
                           child: Text(
-                            (isPressSentButton || widget.item.statusFlag == 2) ? "Đã gửi" : sendOfferBtnKey.tr(),
+                            (isPressSentButton || widget.item.statusFlag == 2)
+                                ? "Đã gửi"
+                                : sendOfferBtnKey.tr(),
                             style: widget.theme.textTheme.bodyMedium!.copyWith(
-                              color: isPressSentButton ? Colors.green.shade600 : primaryColor,
+                              color: isPressSentButton
+                                  ? Colors.green.shade600
+                                  : primaryColor,
                             ),
                           ),
                         ),
@@ -194,7 +211,8 @@ class _ProposalItemState extends State<ProposalItem> {
                     child: Text(
                       messageBtnKey.tr(),
                       style: widget.theme.textTheme.bodyMedium!.copyWith(
-                        color: widget.theme.colorScheme.onPrimary,
+                        // color: widget.theme.colorScheme.onPrimary,
+                        color: Colors.white,
                       ),
                     ),
                   ),

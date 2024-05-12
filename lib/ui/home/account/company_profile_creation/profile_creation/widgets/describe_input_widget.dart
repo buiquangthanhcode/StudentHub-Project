@@ -49,7 +49,7 @@ class _DescribeInputWidgetState extends State<DescribeInputWidget> {
             return null;
           },
           cursorHeight: 18,
-          style: textTheme.bodyMedium,
+          style: textTheme.bodyMedium!.copyWith(color: Colors.black),
           cursorColor: Colors.black,
           maxLines: 2,
           controller: widget.descriptionInputController,

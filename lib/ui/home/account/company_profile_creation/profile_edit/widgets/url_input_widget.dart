@@ -49,7 +49,7 @@ class _UrlInputWidgetState extends State<UrlInputWidget> {
             return null;
           },
           cursorHeight: 18,
-          style: textTheme.bodyMedium,
+          style: textTheme.bodyMedium!.copyWith(color: Colors.black),
           controller: widget.websiteInputController,
           cursorColor: Colors.black,
           decoration: InputDecoration(

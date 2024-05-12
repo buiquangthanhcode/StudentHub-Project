@@ -214,7 +214,7 @@ class AppThemes {
       color: Colors.white,
     ),
     dialogTheme: DialogTheme(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),

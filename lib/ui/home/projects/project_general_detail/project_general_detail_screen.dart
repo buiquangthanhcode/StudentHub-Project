@@ -177,7 +177,11 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).colorScheme.black,
+                                    // color: Theme.of(context).colorScheme.black,
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? Colors.black.withOpacity(0.6)
+                                        : Colors.white,
                                   ),
                         ),
                         BulletList([
@@ -227,7 +231,8 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                                     ),
                                   ),
                                   Text(
-                                    time[state.projectDetail.countProposals] ??
+                                    time[state
+                                            .projectDetail.projectScopeFlag] ??
                                         '3-6 months',
                                     style: Theme.of(context)
                                         .textTheme
@@ -313,7 +318,9 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                                     statusFlag: 3,
                                     onSuccess: () {
                                       SnackBarService.showSnackBar(
-                                          content: "Accepted Successfully",
+                                          // content: "Accepted Successfully",
+                                          content:
+                                              acceptOfferSuccessMsgKey.tr(),
                                           status: StatusSnackBar.success);
                                       context.pop();
                                     },
@@ -328,9 +335,12 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                           },
                           child: Text(
                             // 'Apply Now',
+                            // !isSentProposal
+                            //     ? applyNowBtnKey.tr()
+                            //     : "Accepted Offer",
                             !isSentProposal
                                 ? applyNowBtnKey.tr()
-                                : "Accepted Offer",
+                                : acceptOfferBtnKey.tr(),
                             style: textTheme.bodyMedium!.copyWith(
                                 color: theme.colorScheme.brightness ==
                                         Brightness.dark

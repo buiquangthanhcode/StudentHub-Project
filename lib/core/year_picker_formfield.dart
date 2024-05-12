@@ -60,7 +60,9 @@ class _PickerYearCustomState extends State<PickerYearCustom> {
                   child: YearPicker(
                     firstDate: DateTime(DateTime.now().year - 100, 1),
                     lastDate: DateTime(DateTime.now().year),
-                    selectedDate: widget.initValue ?? _textFormKey.currentState?.value ?? DateTime.now(),
+                    selectedDate: widget.initValue ??
+                        _textFormKey.currentState?.value ??
+                        DateTime.now(),
                     onChanged: (DateTime dateTime) {
                       Navigator.pop(context, dateTime);
                     },
@@ -124,6 +126,7 @@ class _PickerYearCustomState extends State<PickerYearCustom> {
               prefixIcon: const Icon(
                 Icons.calendar_today,
                 size: 16,
+                color: Colors.black,
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),

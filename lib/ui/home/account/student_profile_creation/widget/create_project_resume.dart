@@ -65,7 +65,8 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
                     const Spacer(),
                     Container(
                       decoration: BoxDecoration(
-                          color: theme.colorScheme.grey!.withOpacity(0.4), borderRadius: BorderRadius.circular(50)),
+                          color: theme.colorScheme.grey!.withOpacity(0.4),
+                          borderRadius: BorderRadius.circular(50)),
                       padding: const EdgeInsets.all(3),
                       child: InkWell(
                         onTap: () {
@@ -172,20 +173,31 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
                   onPressed: () {
                     if (formkey.currentState?.saveAndValidate() ?? false) {
                       final student = context.read<StudentBloc>().state.student;
-                      RequestPostExperience requestPostExperience = RequestPostExperience(
+                      RequestPostExperience requestPostExperience =
+                          RequestPostExperience(
                         experience: [
                           ...student.experiences ?? [],
                           ProjectResume(
                             skillSets: dataSelected,
-                            title: formkey.currentState?.fields['project_name']?.value,
-                            startMonth: DateFormat('MM-yyyy')
-                                .format(stringToDateTime(formkey.currentState?.fields['start_date']?.value)),
-                            endMonth: DateFormat('MM-yyyy')
-                                .format(stringToDateTime(formkey.currentState?.fields['end_date']?.value)),
-                            description: formkey.currentState?.fields['description']?.value,
+                            title: formkey
+                                .currentState?.fields['project_name']?.value,
+                            startMonth: DateFormat('MM-yyyy').format(
+                                stringToDateTime(formkey.currentState
+                                    ?.fields['start_date']?.value)),
+                            endMonth: DateFormat('MM-yyyy').format(
+                                stringToDateTime(formkey
+                                    .currentState?.fields['end_date']?.value)),
+                            description: formkey
+                                .currentState?.fields['description']?.value,
                           )
                         ],
-                        userId: context.read<AuthBloc>().state.userModel.student!.id.toString(),
+                        userId: context
+                            .read<AuthBloc>()
+                            .state
+                            .userModel
+                            .student!
+                            .id
+                            .toString(),
                       );
 
                       context.read<StudentBloc>().add(AddProjectEvent(
@@ -193,7 +205,13 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
                             onSuccess: () {
                               Navigator.pop(context);
                               context.read<AuthBloc>().add(GetInformationEvent(
-                                  onSuccess: () {}, accessToken: context.read<AuthBloc>().state.userModel.token ?? ''));
+                                  onSuccess: () {},
+                                  accessToken: context
+                                          .read<AuthBloc>()
+                                          .state
+                                          .userModel
+                                          .token ??
+                                      ''));
                             },
                           ));
                     }
@@ -202,7 +220,8 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
                     // 'Save',
                     saveBtnKey.tr(),
                     style: theme.textTheme.bodyMedium!.copyWith(
-                      color: theme.colorScheme.onPrimary,
+                      // color: theme.colorScheme.onPrimary,
+                      color: Colors.white,
                     ),
                   ),
                 ),

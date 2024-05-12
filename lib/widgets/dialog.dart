@@ -17,16 +17,26 @@ Future<void> showDialogCustom(BuildContext context,
       context: context,
       builder: (context) => AlertDialog(
             titlePadding: EdgeInsets.zero,
-            backgroundColor: Colors.white,
+            backgroundColor: Theme.of(context).brightness == Brightness.dark
+                ? Colors.black
+                : Colors.white,
             contentPadding: EdgeInsets.zero,
             content: Container(
               padding: const EdgeInsets.symmetric(
                 horizontal: 20,
                 vertical: 20,
               ),
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(15))),
+              decoration: BoxDecoration(
+                  // color: Colors.white,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.black
+                      : Colors.white,
+                  border: Border.all(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.transparent,
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(15))),
               child: Stack(
                 clipBehavior: Clip.antiAlias,
                 children: [
