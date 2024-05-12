@@ -2,17 +2,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
-import 'package:studenthub/app.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
-import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/blocs/navigation_bloc/navigation_bloc.dart';
 import 'package:studenthub/blocs/navigation_bloc/navigation_event.dart';
 import 'package:studenthub/blocs/navigation_bloc/navigation_type.dart';
 import 'package:studenthub/services/local_services.dart';
-import 'package:studenthub/utils/logger.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
