@@ -148,17 +148,20 @@ class _AlertsState extends State<AlertsScreen> {
               decoration: const BoxDecoration(
                 color: Colors.white,
               ),
-              child: const Row(
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  FaIcon(
+                  const FaIcon(
                     FontAwesomeIcons.solidEnvelopeOpen,
                     size: 21,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
-                  Text('Mark all as read')
+                  Text(
+                    // 'Mark all as read',
+                    markAllAsReadKey.tr(),
+                  )
                 ],
               ),
             ));
@@ -194,27 +197,27 @@ class _AlertsState extends State<AlertsScreen> {
                           fontWeight: FontWeight.w700,
                         ),
                   ),
-                  InkWell(
-                    onTap: () {
-                      showOptionsDialog();
-                    },
-                    child: Container(
-                      height: 39,
-                      width: 39,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: colorTheme.brightness == Brightness.dark
-                            ? primaryColor
-                            : const Color.fromARGB(255, 245, 245, 245),
-                      ),
-                      alignment: Alignment.center,
-                      child: FaIcon(
-                        FontAwesomeIcons.gear,
-                        color: colorTheme.black,
-                        size: 21,
-                      ),
-                    ),
-                  ),
+                  // InkWell(
+                  //   onTap: () {
+                  //     showOptionsDialog();
+                  //   },
+                  //   child: Container(
+                  //     height: 39,
+                  //     width: 39,
+                  //     decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(30),
+                  //       color: colorTheme.brightness == Brightness.dark
+                  //           ? primaryColor
+                  //           : const Color.fromARGB(255, 245, 245, 245),
+                  //     ),
+                  //     alignment: Alignment.center,
+                  //     child: FaIcon(
+                  //       FontAwesomeIcons.gear,
+                  //       color: colorTheme.black,
+                  //       size: 21,
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -240,8 +243,9 @@ class _AlertsState extends State<AlertsScreen> {
                           EmptyDataWidget(
                             mainTitle: '',
                             subTitle:
-                                "You haven't received any notifications yet.",
-                            // subTitle: noProjectFoundKey.tr(),
+                                // "You haven't received any notifications yet.",
+                                // subTitle: noProjectFoundKey.tr(),
+                                noNotificationsAlertKey.tr(),
                             widthImage: MediaQuery.of(context).size.width * 0.5,
                           ),
                         ],
@@ -285,7 +289,10 @@ class NotificationItem extends StatelessWidget {
           height: 36,
           child: ElevatedButton(
             onPressed: () {},
-            child: const Text('Join'),
+            child: Text(
+              // 'Join',
+              joinBtnKey.tr(),
+            ),
           ),
         );
         break;
@@ -317,7 +324,10 @@ class NotificationItem extends StatelessWidget {
                 },
               );
             },
-            child: const Text('View offer'),
+            child: Text(
+              // 'View offer',
+              viewOfferBtnKey.tr(),
+            ),
           ),
         );
         break;

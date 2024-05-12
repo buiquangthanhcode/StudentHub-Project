@@ -53,7 +53,8 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                   backgroundColor: const Color(0xff3961FB).withOpacity(0.2),
                   circularStrokeCap: CircularStrokeCap.round,
                   center: Text(
-                    '4 of 4',
+                    // '4 of 4',
+                    fourOfFourKey.tr(),
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           fontSize: 13,
                         ),
@@ -107,7 +108,11 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).colorScheme.black,
+                                    // color: Theme.of(context).colorScheme.black,
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? Colors.black.withOpacity(0.6)
+                                        : Colors.white,
                                   ),
                         ),
                         // BulletList(const [

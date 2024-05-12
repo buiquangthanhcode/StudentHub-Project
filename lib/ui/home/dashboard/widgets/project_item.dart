@@ -34,10 +34,12 @@ class ProjectItem extends StatelessWidget {
       onTap: () {
         if (authState.currentRole == UserRole.company) {
           context.push('/project_company_detail',
-              extra: {'item': item, 'projectProposal': projectProposal} as Map<String, dynamic>);
+              extra: {'item': item, 'projectProposal': projectProposal}
+                  as Map<String, dynamic>);
         } else {
           context.push('/project_student_detail',
-              extra: {'item': item, 'projectProposal': projectProposal} as Map<String, dynamic>);
+              extra: {'item': item, 'projectProposal': projectProposal}
+                  as Map<String, dynamic>);
         }
       },
       child: Container(
@@ -63,7 +65,8 @@ class ProjectItem extends StatelessWidget {
                       backgroundColor: Colors.transparent,
                       builder: (context) {
                         return Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
                           height: authState.currentRole == UserRole.company
                               ? MediaQuery.of(context).size.height * 0.6
                               : MediaQuery.of(context).size.height * 0.2,
@@ -92,8 +95,10 @@ class ProjectItem extends StatelessWidget {
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
-                                          color: theme.colorScheme.grey!.withOpacity(0.4),
-                                          borderRadius: BorderRadius.circular(50)),
+                                          color: theme.colorScheme.grey!
+                                              .withOpacity(0.4),
+                                          borderRadius:
+                                              BorderRadius.circular(50)),
                                       padding: const EdgeInsets.all(3),
                                       child: InkWell(
                                         onTap: () {
@@ -109,7 +114,9 @@ class ProjectItem extends StatelessWidget {
                                   ],
                                 ),
                                 MoreActionWidget(
-                                  project: item ?? projectProposal?.project ?? Project(),
+                                  project: item ??
+                                      projectProposal?.project ??
+                                      Project(),
                                   // projectId: item.id!,
                                 ),
                               ],
@@ -144,7 +151,9 @@ class ProjectItem extends StatelessWidget {
                     children: [
                       Text(
                         updatedTimeProjectReviewKey.tr(namedArgs: {
-                          "value": formatIsoDateString(item?.updatedAt ?? projectProposal?.project?.updatedAt ?? '')
+                          "value": formatIsoDateString(item?.updatedAt ??
+                              projectProposal?.project?.updatedAt ??
+                              '')
                         }),
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: theme.colorScheme.grey,
@@ -154,7 +163,8 @@ class ProjectItem extends StatelessWidget {
                       const SizedBox(height: 10),
                       Text(
                         jobDescriptionExampleKey.tr(),
-                        style: theme.textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
+                        style: theme.textTheme.bodyMedium!
+                            .copyWith(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 10),
                       Padding(
@@ -211,15 +221,21 @@ class ProjectItem extends StatelessWidget {
               final data = [
                 {
                   "label": proposalsProjectReviewKey.tr(),
-                  "total": item?.countProposals ?? projectProposal?.project?.countProposals ?? 0
+                  "total": item?.countProposals ??
+                      projectProposal?.project?.countProposals ??
+                      0
                 },
                 {
                   "label": messagesProjectReviewKey.tr(),
-                  "total": item?.countMessages ?? projectProposal?.project?.countProposals ?? 0
+                  "total": item?.countMessages ??
+                      projectProposal?.project?.countProposals ??
+                      0
                 },
                 {
                   "label": hiredProjectReviewKey.tr(),
-                  "total": item?.countHired ?? projectProposal?.project?.countProposals ?? 0
+                  "total": item?.countHired ??
+                      projectProposal?.project?.countProposals ??
+                      0
                 },
               ];
               return GridView.count(
@@ -232,7 +248,8 @@ class ProjectItem extends StatelessWidget {
                 children: data.map((item) {
                   return Container(
                     width: MediaQuery.of(context).size.width / 3.5,
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
                     margin: const EdgeInsets.symmetric(horizontal: 2),
                     decoration: BoxDecoration(
                       color: theme.colorScheme.grey!.withOpacity(0.08),
@@ -245,13 +262,23 @@ class ProjectItem extends StatelessWidget {
                         Text(
                           item['total'].toString(),
                           style: theme.textTheme.bodyMedium!.copyWith(
-                            color: theme.colorScheme.brightness == Brightness.dark ? Colors.white : Colors.black,
+                            color:
+                                // theme.colorScheme.brightness == Brightness.dark
+                                //     ? Colors.white
+                                //     : Colors.black,
+                                theme.colorScheme.brightness == Brightness.dark
+                                    ? Colors.white
+                                    : Colors.black,
                           ),
                         ),
                         Text(
                           item['label'].toString(),
                           style: theme.textTheme.bodyMedium!.copyWith(
-                            color: theme.colorScheme.brightness == Brightness.dark ? Colors.white : primaryColor,
+                            color:
+                                // theme.colorScheme.brightness == Brightness.dark
+                                //     ? Colors.white //
+                                //     : primaryColor,
+                                primaryColor,
                             fontSize: 15,
                           ),
                         ),

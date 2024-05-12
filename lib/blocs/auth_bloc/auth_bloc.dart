@@ -32,6 +32,7 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
     on<GetInformationEvent>(_onFetchInformation);
     on<UpdateInformationEvent>(_onUpdateInformation);
     on<UpdateRoleEvents>(_onUpdateRole);
+    on<ResetBloc>(_onResetBloc);
   }
 
   final AuthService _authenService = AuthService();
@@ -59,26 +60,11 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
                     student: state.userModel.student!, isChange: true),
               );
         }
-
-        add(UpdateRoleEvents(
-            role: (state.userModel.student != null
+        emit(state.update(
+            isChanged: !state.isChanged,
+            currentRole: (state.userModel.roles?[0] == 0
                 ? UserRole.student
                 : UserRole.company)));
-
-        if (state.userModel.company == null &&
-            state.userModel.student == null &&
-            state.userModel.roles?[0] == 0) {
-          add(UpdateRoleEvents(role: UserRole.student));
-        }
-
-        if (state.userModel.company == null &&
-            state.userModel.student == null &&
-            state.userModel.roles?[0] == 1) {
-          add(UpdateRoleEvents(role: UserRole.company));
-        }
-
-        emit(state.update(isChanged: !state.isChanged));
-        emit(state.update(isAuthented: true));
         event.onSuccess!(); // Call onSuccessCallBack
         if (event.onSuccessAuthenticated != null) {
           event.onSuccessAuthenticated!(true);
@@ -151,13 +137,13 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
       SnackBarService.showSnackBar(
           content:
               handleFormatMessage(e.response?.data.resultMap!.errorDetails),
-          status: StatusSnackBar.error);
+          status: StatusSnackBar.info);
     } catch (e) {
       logger.e("Unexpected error1-> $e");
       final exception = e as ResponseAPI;
       SnackBarService.showSnackBar(
           content: handleFormatMessage(exception.data['errorDetails']),
-          status: StatusSnackBar.error);
+          status: StatusSnackBar.info);
     } finally {
       EasyLoading.dismiss();
     }
@@ -176,7 +162,7 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
       } else {
         SnackBarService.showSnackBar(
             content: handleFormatMessage(result.data!.errorDetails),
-            status: StatusSnackBar.error);
+            status: StatusSnackBar.info);
       }
       EasyLoading.dismiss();
     } catch (e) {
@@ -184,7 +170,7 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
       final data = exception.data as DataResponse;
       SnackBarService.showSnackBar(
           content: handleFormatMessage(data.errorDetails),
-          status: StatusSnackBar.error);
+          status: StatusSnackBar.info);
     } finally {
       EasyLoading.dismiss();
     }
@@ -197,5 +183,16 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
     } catch (e) {
       logger.e(e);
     }
+  }
+
+  FutureOr<void> _onResetBloc(
+      ResetBloc event, Emitter<AuthenState> emit) async {
+    emit(state.update(
+      userModel: UserModel(),
+      isChanged: false,
+      currentRole: UserRole.student,
+      isLoading: false,
+      isAuthented: false,
+    ));
   }
 }

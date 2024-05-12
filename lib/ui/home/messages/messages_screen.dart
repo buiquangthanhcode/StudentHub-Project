@@ -152,10 +152,13 @@ class _MessagesState extends State<MessagesScreen> {
                                         width: 18,
                                         height: 18,
                                         alignment: Alignment.center,
-                                        decoration: const BoxDecoration(
+                                        decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: Color.fromARGB(
-                                              255, 191, 191, 191),
+                                          color: colorTheme.brightness ==
+                                                  Brightness.dark
+                                              ? primaryColor
+                                              : const Color.fromARGB(
+                                                  255, 191, 191, 191),
                                         ),
                                         child: const FaIcon(
                                           FontAwesomeIcons.xmark,
@@ -225,9 +228,9 @@ class _MessagesState extends State<MessagesScreen> {
                           Center(
                             child: EmptyDataWidget(
                               mainTitle: '',
-                              subTitle:
-                                  "You haven't received any messages yet.",
+                              // subTitle: "You haven't received any messages yet.",
                               // subTitle: noProjectFoundKey.tr(),
+                              subTitle: noMessagesAlertKey.tr(),
                               widthImage:
                                   MediaQuery.of(context).size.width * 0.5,
                             ),

@@ -36,12 +36,16 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
 
   Future<LanguageProfile> getCurrentLanguage() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('language') == 'en' ? LanguageProfile.en : LanguageProfile.vn;
+    return prefs.getString('language') == 'en'
+        ? LanguageProfile.en
+        : LanguageProfile.vn;
   }
 
   Future<ThemeProfile> getCurrentTheme() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('theme') == 'dark' ? ThemeProfile.dark : ThemeProfile.light;
+    return prefs.getString('theme') == 'dark'
+        ? ThemeProfile.dark
+        : ThemeProfile.light;
   }
 
   @override
@@ -117,7 +121,7 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
       {
         'icon': FontAwesomeIcons.themeco,
         // 'name': 'Change theme',
-        'name': chatThemeKey.tr(),
+        'name': changeThemeKey.tr(),
         'key': 'theme',
       },
       {
@@ -152,7 +156,8 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 15),
           decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(10)),
-              border: Border.all(color: const Color.fromARGB(255, 160, 160, 160), width: 1)),
+              border: Border.all(
+                  color: const Color.fromARGB(255, 160, 160, 160), width: 1)),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -163,7 +168,8 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                       case 'language':
                         showModalBottomSheetCustom(context,
                             widgetBuilder: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -172,7 +178,8 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                     children: [
                                       Text(
                                         changeLanguageKey.tr(),
-                                        style: theme.textTheme.bodyMedium?.copyWith(
+                                        style: theme.textTheme.bodyMedium
+                                            ?.copyWith(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20,
                                         ),
@@ -180,8 +187,10 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                       const Spacer(),
                                       Container(
                                         decoration: BoxDecoration(
-                                            color: theme.colorScheme.grey?.withOpacity(0.4),
-                                            borderRadius: BorderRadius.circular(50)),
+                                            color: theme.colorScheme.grey
+                                                ?.withOpacity(0.4),
+                                            borderRadius:
+                                                BorderRadius.circular(50)),
                                         padding: const EdgeInsets.all(3),
                                         child: InkWell(
                                           onTap: () {
@@ -198,20 +207,35 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                   const SizedBox(height: 24),
                                   Container(
                                     decoration: BoxDecoration(
-                                      color: langSelect == LanguageProfile.vn ? const Color(0xfff2f5f8) : Colors.white,
+                                      // color: langSelect == LanguageProfile.vn
+                                      //     ? const Color(0xfff2f5f8)
+                                      //     : Colors.white,
+                                      color: langSelect == LanguageProfile.vn
+                                          ? (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? const Color(0xff242435)
+                                              : const Color(0xfff2f5f8))
+                                          : (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? Colors.black
+                                              : Colors.white),
                                       borderRadius: BorderRadius.circular(18.0),
                                     ),
-                                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 4, horizontal: 8),
                                     child: RadioListTile<LanguageProfile>(
-                                      controlAffinity: ListTileControlAffinity.trailing,
+                                      controlAffinity:
+                                          ListTileControlAffinity.trailing,
                                       value: LanguageProfile.vn,
                                       groupValue: langSelect,
                                       onChanged: changeLanguage,
                                       title: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           ClipRRect(
-                                            borderRadius: BorderRadius.circular(5),
+                                            borderRadius:
+                                                BorderRadius.circular(5),
                                             child: Image.asset(
                                               'lib/assets/images/vn.png',
                                               width: 30,
@@ -219,7 +243,17 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                             ),
                                           ),
                                           const SizedBox(width: 16),
-                                          Text(vietnameseKey.tr(), style: const TextStyle(color: Colors.black)),
+                                          Text(
+                                            vietnameseKey.tr(),
+                                            style: TextStyle(
+                                              // color: Colors.black,
+                                              color: Theme.of(context)
+                                                          .brightness ==
+                                                      Brightness.light
+                                                  ? Colors.black
+                                                  : Colors.white,
+                                            ),
+                                          ),
                                         ],
                                       ),
                                       activeColor: primaryColor,
@@ -227,28 +261,53 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                   ),
                                   const SizedBox(height: 8),
                                   Container(
-                                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 4, horizontal: 8),
                                     decoration: BoxDecoration(
-                                      color: langSelect == LanguageProfile.en ? const Color(0xfff2f5f8) : Colors.white,
+                                      // color: langSelect == LanguageProfile.en
+                                      //     ? const Color(0xfff2f5f8)
+                                      //     : Colors.white,
+                                      color: langSelect == LanguageProfile.en
+                                          ? (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? const Color(0xff242435)
+                                              : const Color(0xfff2f5f8))
+                                          : (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? Colors.black
+                                              : Colors.white),
                                       borderRadius: BorderRadius.circular(18.0),
                                     ),
                                     child: RadioListTile<LanguageProfile>(
-                                      controlAffinity: ListTileControlAffinity.trailing,
+                                      controlAffinity:
+                                          ListTileControlAffinity.trailing,
                                       value: LanguageProfile.en,
                                       groupValue: langSelect,
                                       onChanged: changeLanguage,
                                       title: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           ClipRRect(
-                                              borderRadius: BorderRadius.circular(5),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
                                               child: Image.asset(
                                                 'lib/assets/images/en.png',
                                                 width: 30,
                                                 height: 30,
                                               )),
                                           const SizedBox(width: 16),
-                                          Text(englishKey.tr(), style: const TextStyle(color: Colors.black)),
+                                          Text(
+                                            englishKey.tr(),
+                                            style: TextStyle(
+                                              // color: Colors.black,
+                                              color: Theme.of(context)
+                                                          .brightness ==
+                                                      Brightness.light
+                                                  ? Colors.black
+                                                  : Colors.white,
+                                            ),
+                                          ),
                                         ],
                                       ),
                                       activeColor: primaryColor,
@@ -266,23 +325,28 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                           builder: (context) {
                             return Container(
                               padding: EdgeInsets.only(
-                                bottom: MediaQuery.of(context).viewInsets.bottom,
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom,
                                 left: 12,
                                 right: 12,
                                 top: 12,
                               ),
                               decoration: BoxDecoration(
                                   // color: Colors.white,
-                                  color: theme.brightness == Brightness.dark ? Colors.black : Colors.white,
+                                  color: theme.brightness == Brightness.dark
+                                      ? Colors.black
+                                      : Colors.white,
                                   // color: Colors.red,
                                   borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20))),
                               // height: MediaQuery.of(context).size.height * 0.65,
                               child: SingleChildScrollView(
                                 child: FormBuilder(
                                   key: _formChangePassWord,
                                   child: Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0),
                                     // decoration:
                                     //     BoxDecoration(color: Colors.red),
                                     child: Column(
@@ -293,18 +357,24 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                             Text(
                                               // 'Change Password',
                                               changePasswordTitleKey.tr(),
-                                              style: theme.textTheme.bodyMedium?.copyWith(
+                                              style: theme.textTheme.bodyMedium
+                                                  ?.copyWith(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 24,
-                                                color:
-                                                    theme.brightness == Brightness.dark ? Colors.white : Colors.black,
+                                                color: theme.brightness ==
+                                                        Brightness.dark
+                                                    ? Colors.white
+                                                    : Colors.black,
                                               ),
                                             ),
                                             const Spacer(),
                                             Container(
                                               decoration: BoxDecoration(
-                                                  color: theme.colorScheme.grey?.withOpacity(0.4),
-                                                  borderRadius: BorderRadius.circular(50)),
+                                                  color: theme.colorScheme.grey
+                                                      ?.withOpacity(0.4),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          50)),
                                               padding: const EdgeInsets.all(3),
                                               child: InkWell(
                                                 onTap: () {
@@ -323,19 +393,25 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                             // 'Your new password must be different from your previous password.',
                                             passwordSuggestionMsg.tr(),
                                             style: TextStyle(
-                                              color: theme.brightness == Brightness.dark ? Colors.white : Colors.black,
+                                              color: theme.brightness ==
+                                                      Brightness.dark
+                                                  ? Colors.white
+                                                  : Colors.black,
                                             )),
                                         const SizedBox(height: 24),
                                         TextFieldFormCustom(
                                             fillColor: Colors.white,
                                             name: 'old_password',
                                             // hintText: 'Current Password',
-                                            hintText: currentPasswordPlacerHolderKey.tr(),
+                                            hintText:
+                                                currentPasswordPlacerHolderKey
+                                                    .tr(),
                                             isPasswordText: true,
                                             obscureText: true,
                                             maxLines: null,
-                                            keyboardType: TextInputType.multiline,
-                                            icon: Icon(
+                                            keyboardType:
+                                                TextInputType.multiline,
+                                            icon: const Icon(
                                               Icons.lock,
                                               color: Colors.grey,
                                             )),
@@ -344,12 +420,14 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                             fillColor: Colors.white,
                                             name: 'new_password',
                                             // hintText: 'New Password',
-                                            hintText: newPasswordPlacerHolderKey.tr(),
+                                            hintText:
+                                                newPasswordPlacerHolderKey.tr(),
                                             isPasswordText: true,
                                             obscureText: true,
                                             maxLines: null,
-                                            keyboardType: TextInputType.multiline,
-                                            icon: Icon(
+                                            keyboardType:
+                                                TextInputType.multiline,
+                                            icon: const Icon(
                                               Icons.lock,
                                               color: Colors.grey,
                                             )),
@@ -358,18 +436,22 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                             fillColor: Colors.white,
                                             name: 'confirm_password',
                                             // hintText: 'Confirm Password',
-                                            hintText: confirmPasswordPlacerHolderKey.tr(),
+                                            hintText:
+                                                confirmPasswordPlacerHolderKey
+                                                    .tr(),
                                             isPasswordText: true,
                                             obscureText: true,
                                             maxLines: null,
-                                            keyboardType: TextInputType.multiline,
-                                            icon: Icon(
+                                            keyboardType:
+                                                TextInputType.multiline,
+                                            icon: const Icon(
                                               Icons.lock,
                                               color: Colors.grey,
                                             )),
                                         const SizedBox(height: 36),
                                         Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               // 'Password should not use  any other site.',
@@ -385,39 +467,73 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                             ])
                                           ],
                                         ),
-                                        SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                                        SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.1),
                                         ElevatedButton(
                                           onPressed: () {
-                                            if (_formChangePassWord.currentState?.saveAndValidate() ?? false) {
-                                              logger.d((_formChangePassWord.currentState?.value));
-                                              RequestChangePassWord changeRequest = RequestChangePassWord(
-                                                  oldPassword:
-                                                      _formChangePassWord.currentState?.fields['old_password']?.value,
-                                                  newPassword:
-                                                      _formChangePassWord.currentState?.fields['new_password']?.value,
-                                                  confirmPassword: _formChangePassWord
-                                                      .currentState?.fields['confirm_password']?.value);
-                                              context.read<StudentBloc>().add(ChangePassWordEvent(
-                                                  requestChangePassWordRequest: changeRequest,
-                                                  onSuccess: () {
-                                                    SnackBarService.showSnackBar(
-                                                        content:
-                                                            // 'Password was updated successfully!',
-                                                            passwordUpdatedMsg.tr(),
-                                                        status: StatusSnackBar.success);
-                                                    Navigator.pop(context);
-                                                  }));
+                                            if (_formChangePassWord.currentState
+                                                    ?.saveAndValidate() ??
+                                                false) {
+                                              logger.d((_formChangePassWord
+                                                  .currentState?.value));
+                                              RequestChangePassWord
+                                                  changeRequest =
+                                                  RequestChangePassWord(
+                                                      oldPassword:
+                                                          _formChangePassWord
+                                                              .currentState
+                                                              ?.fields[
+                                                                  'old_password']
+                                                              ?.value,
+                                                      newPassword:
+                                                          _formChangePassWord
+                                                              .currentState
+                                                              ?.fields[
+                                                                  'new_password']
+                                                              ?.value,
+                                                      confirmPassword:
+                                                          _formChangePassWord
+                                                              .currentState
+                                                              ?.fields[
+                                                                  'confirm_password']
+                                                              ?.value);
+                                              context.read<StudentBloc>().add(
+                                                  ChangePassWordEvent(
+                                                      requestChangePassWordRequest:
+                                                          changeRequest,
+                                                      onSuccess: () {
+                                                        SnackBarService
+                                                            .showSnackBar(
+                                                                content:
+                                                                    // 'Password was updated successfully!',
+                                                                    passwordUpdatedMsg
+                                                                        .tr(),
+                                                                status:
+                                                                    StatusSnackBar
+                                                                        .success);
+                                                        Navigator.pop(context);
+                                                      }));
                                             }
                                           },
                                           style: ElevatedButton.styleFrom(
-                                              padding:
-                                                  const EdgeInsets.symmetric(vertical: 16), // Adjust padding as needed
-                                              minimumSize: const Size(double.infinity, 48) // Set minimum button size
+                                              padding: const EdgeInsets
+                                                  .symmetric(
+                                                  vertical:
+                                                      16), // Adjust padding as needed
+                                              minimumSize: const Size(
+                                                  double.infinity,
+                                                  48) // Set minimum button size
                                               ),
                                           child: Text(
                                             // 'Change Password',
                                             changePasswordTitleKey.tr(),
-                                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(
                                                   color: Colors.white,
                                                 ),
                                           ),
@@ -437,7 +553,8 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                       case 'theme':
                         showModalBottomSheetCustom(context,
                             widgetBuilder: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -446,8 +563,9 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                     children: [
                                       Text(
                                         // 'Change Theme',
-                                        chatThemeKey.tr(),
-                                        style: theme.textTheme.bodyMedium?.copyWith(
+                                        changeThemeKey.tr(),
+                                        style: theme.textTheme.bodyMedium
+                                            ?.copyWith(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20,
                                         ),
@@ -455,8 +573,10 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                       const Spacer(),
                                       Container(
                                         decoration: BoxDecoration(
-                                            color: theme.colorScheme.grey?.withOpacity(0.4),
-                                            borderRadius: BorderRadius.circular(50)),
+                                            color: theme.colorScheme.grey
+                                                ?.withOpacity(0.4),
+                                            borderRadius:
+                                                BorderRadius.circular(50)),
                                         padding: const EdgeInsets.all(3),
                                         child: InkWell(
                                           onTap: () {
@@ -473,31 +593,52 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                   const SizedBox(height: 24),
                                   Container(
                                     decoration: BoxDecoration(
-                                      color: themeSelect == ThemeProfile.light ? const Color(0xfff2f5f8) : Colors.white,
+                                      color: themeSelect == ThemeProfile.light
+                                          ? (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? const Color(0xff242435)
+                                              : const Color(0xfff2f5f8))
+                                          : (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? Colors.black
+                                              : Colors.white),
                                       borderRadius: BorderRadius.circular(18.0),
                                     ),
-                                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 4, horizontal: 8),
                                     child: RadioListTile<ThemeProfile>(
-                                      controlAffinity: ListTileControlAffinity.trailing,
+                                      controlAffinity:
+                                          ListTileControlAffinity.trailing,
                                       value: ThemeProfile.light,
                                       groupValue: themeSelect,
                                       onChanged: changeTheme,
                                       title: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           ClipRRect(
-                                            borderRadius: BorderRadius.circular(5),
-                                            child: Image.asset(
-                                              'lib/assets/images/light.png',
-                                              width: 30,
-                                              height: 30,
-                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            // child: Image.asset(
+                                            //   'lib/assets/images/light.png',
+                                            //   width: 30,
+                                            //   height: 30,
+                                            // ),
+                                            child: const Icon(
+                                                FontAwesomeIcons.sun),
                                           ),
                                           const SizedBox(width: 16),
                                           // Text("Sáng"),
                                           Text(
                                             dayKey.tr(),
-                                            style: const TextStyle(color: Colors.black),
+                                            style: TextStyle(
+                                              // color: Colors.black,
+                                              color: Theme.of(context)
+                                                          .brightness ==
+                                                      Brightness.light
+                                                  ? Colors.black
+                                                  : Colors.white,
+                                            ),
                                           )
                                         ],
                                       ),
@@ -506,31 +647,53 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                   ),
                                   const SizedBox(height: 8),
                                   Container(
-                                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 4, horizontal: 8),
                                     decoration: BoxDecoration(
-                                      color: themeSelect == ThemeProfile.dark ? const Color(0xfff2f5f8) : Colors.white,
+                                      color: themeSelect == ThemeProfile.dark
+                                          ? (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? const Color(0xff242435)
+                                              : const Color(0xfff2f5f8))
+                                          : (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? Colors.black
+                                              : Colors.white),
                                       borderRadius: BorderRadius.circular(18.0),
                                     ),
                                     child: RadioListTile<ThemeProfile>(
-                                      controlAffinity: ListTileControlAffinity.trailing,
+                                      controlAffinity:
+                                          ListTileControlAffinity.trailing,
                                       value: ThemeProfile.dark,
                                       groupValue: themeSelect,
                                       onChanged: changeTheme,
                                       title: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           ClipRRect(
-                                              borderRadius: BorderRadius.circular(5),
-                                              child: Image.asset(
-                                                'lib/assets/images/dark.png',
-                                                width: 30,
-                                                height: 30,
-                                              )),
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            // child: Image.asset(
+                                            //   'lib/assets/images/dark.png',
+                                            //   width: 30,
+                                            //   height: 30,
+                                            // ),
+                                            child: const FaIcon(
+                                                FontAwesomeIcons.cloudMoon),
+                                          ),
                                           const SizedBox(width: 16),
                                           // Text("Tối"),
                                           Text(
                                             nightKey.tr(),
-                                            style: const TextStyle(color: Colors.black),
+                                            style: TextStyle(
+                                              // color: Colors.black,
+                                              color: Theme.of(context)
+                                                          .brightness ==
+                                                      Brightness.light
+                                                  ? Colors.black
+                                                  : Colors.white,
+                                            ),
                                           )
                                         ],
                                       ),
@@ -545,12 +708,14 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                     }
                   },
                   child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 22, horizontal: 5),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 22, horizontal: 5),
                     decoration: BoxDecoration(
                         border: Border(
                             bottom: BorderSide(
                                 width: e == dataSetting.last ? 0 : 1,
-                                color: const Color.fromARGB(255, 220, 220, 220)))),
+                                color:
+                                    const Color.fromARGB(255, 220, 220, 220)))),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [

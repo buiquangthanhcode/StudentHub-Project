@@ -219,7 +219,8 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
                     // 'Save',
                     saveBtnKey.tr(),
                     style: theme.textTheme.bodyMedium!.copyWith(
-                      color: theme.colorScheme.onPrimary,
+                      // color: theme.colorScheme.onPrimary,
+                      color: Colors.white,
                     ),
                   ),
                 ),

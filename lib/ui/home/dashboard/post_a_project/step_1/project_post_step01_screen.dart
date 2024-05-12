@@ -54,7 +54,8 @@ class _ProjectPostStep01ScreenState extends State<ProjectPostStep01Screen> {
                   backgroundColor: const Color(0xff3961FB).withOpacity(0.2),
                   circularStrokeCap: CircularStrokeCap.round,
                   center: Text(
-                    '1 of 4',
+                    // '1 of 4',
+                    oneOfFourKey.tr(),
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           fontSize: 13,
                         ),
@@ -74,7 +75,11 @@ class _ProjectPostStep01ScreenState extends State<ProjectPostStep01Screen> {
                     newPostTitleDescriptionKey.tr(),
                     maxLines: 3,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: Colors.black.withOpacity(0.6),
+                          // color: Colors.black.withOpacity(0.6),
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Colors.black.withOpacity(0.6)
+                                  : Colors.white,
                         ),
                   ),
                   const SizedBox(height: 48),
@@ -87,9 +92,8 @@ class _ProjectPostStep01ScreenState extends State<ProjectPostStep01Screen> {
                       }
                       return null;
                     },
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium, // Adjust the font size as needed
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: Colors.black), // Adjust the font size as needed
                     decoration: InputDecoration(
                       hintText: newPostTitlePlacerHolderKey.tr(),
                       hintStyle:
@@ -119,7 +123,11 @@ class _ProjectPostStep01ScreenState extends State<ProjectPostStep01Screen> {
                       Text(
                         newPostTitleExampleKey.tr(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: Colors.black.withOpacity(0.6),
+                              // color: Colors.black.withOpacity(0.6),
+                              color: Theme.of(context).brightness ==
+                                      Brightness.light
+                                  ? Colors.black.withOpacity(0.6)
+                                  : Colors.white,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),

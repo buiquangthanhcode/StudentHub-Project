@@ -69,6 +69,7 @@ class _EditEducationState extends State<EducationEdit> {
               TextFieldFormCustom(
                 icon: const Icon(
                   Icons.school,
+                  color: Colors.black,
                 ),
                 name: 'nameOfSchool',
                 // hintText: 'Name of School',
@@ -147,7 +148,8 @@ class _EditEducationState extends State<EducationEdit> {
                   // "Save",
                   saveBtnKey.tr(),
                   style: theme.textTheme.bodyMedium!.copyWith(
-                    color: theme.colorScheme.onPrimary,
+                    // color: theme.colorScheme.onPrimary,
+                    color: Colors.white,
                   ),
                 ),
               ),

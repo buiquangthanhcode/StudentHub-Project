@@ -6,21 +6,38 @@ import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/key_translator.dart';
 
 Future<void> showDialogCustom(BuildContext context,
-    {String? image, String? title, String? subtitle, Function? onSave, String? textButtom, double? sizeImage}) async {
+    {String? image,
+    String? title,
+    String? subtitle,
+    Function? onSave,
+    String? textButtom,
+    double? sizeImage}) async {
   TextTheme textTheme = Theme.of(context).textTheme;
   var colorTheme = Theme.of(context).colorScheme;
   showDialog(
       context: context,
       builder: (context) => AlertDialog(
             titlePadding: EdgeInsets.zero,
-            backgroundColor: Colors.white,
+            backgroundColor: Theme.of(context).brightness == Brightness.dark
+                ? Colors.black
+                : Colors.white,
             contentPadding: EdgeInsets.zero,
             content: Container(
               padding: const EdgeInsets.symmetric(
                 horizontal: 20,
                 vertical: 20,
               ),
-              decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(15))),
+              decoration: BoxDecoration(
+                  // color: Colors.white,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.black
+                      : Colors.white,
+                  border: Border.all(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.transparent,
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(15))),
               child: Stack(
                 clipBehavior: Clip.antiAlias,
                 children: [
@@ -49,7 +66,8 @@ Future<void> showDialogCustom(BuildContext context,
                       Text(
                         subtitle ?? 'Some subtitle....',
                         textAlign: TextAlign.center,
-                        style: textTheme.bodySmall!.copyWith(color: colorTheme.grey),
+                        style: textTheme.bodySmall!
+                            .copyWith(color: colorTheme.grey),
                       ),
                       const SizedBox(
                         height: 24,
@@ -68,7 +86,8 @@ Future<void> showDialogCustom(BuildContext context,
                         child: Text(
                           // textButtom ?? 'Get Started!',
                           textButtom ?? getStartedBtnKey.tr(),
-                          style: textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                          style: textTheme.bodyMedium!.copyWith(
+                              color: Colors.white, fontWeight: FontWeight.w600),
                         ),
                       ),
                     ],
@@ -83,7 +102,10 @@ Future<void> showDialogCustom(BuildContext context,
                       child: Container(
                         margin: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.grey?.withOpacity(0.5),
+                          color: Theme.of(context)
+                              .colorScheme
+                              .grey
+                              ?.withOpacity(0.5),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: InkWell(

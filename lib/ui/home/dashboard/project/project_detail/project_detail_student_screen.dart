@@ -39,7 +39,8 @@ class ProjectDetailStudentView extends StatefulWidget {
   final ProjectProposal? projectProposal;
 
   @override
-  State<ProjectDetailStudentView> createState() => _ProjectDetailStudentViewState();
+  State<ProjectDetailStudentView> createState() =>
+      _ProjectDetailStudentViewState();
 }
 
 class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
@@ -65,7 +66,10 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
       isSaved = widget.isFavorite == 'true';
     }
     context.read<GeneralProjectBloc>().add(
-          GetProjectDetail(id: widget.item?.id.toString() ?? widget.projectProposal!.project?.id.toString() ?? ''),
+          GetProjectDetail(
+              id: widget.item?.id.toString() ??
+                  widget.projectProposal!.project?.id.toString() ??
+                  ''),
         );
     // logger.d('PROJECT ID: ${widget.projectProposal!.projectId.toString()}');
     // context.read<ChatBloc>().add(
@@ -168,8 +172,10 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      state.projectDetail.title ?? 'Senior frontend developer (Fintech)',
-                      style: textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600),
+                      state.projectDetail.title ??
+                          'Senior frontend developer (Fintech)',
+                      style: textTheme.bodyLarge!
+                          .copyWith(fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(
                       height: 15,
@@ -184,13 +190,19 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                       children: [
                         Text(
                           jobDescriptionExampleKey.tr(),
-                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black.withOpacity(0.6),
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    // color: Colors.black.withOpacity(0.6),
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? Colors.black.withOpacity(0.6)
+                                        : Colors.white,
+                                  ),
                         ),
                         BulletList([
-                          state.projectDetail.description ?? 'Clear expectation about your project or deliverables',
+                          state.projectDetail.description ??
+                              'Clear expectation about your project or deliverables',
                           // 'The skill required for your project',
                           // 'Detail about your project',
                         ]),
@@ -217,7 +229,8 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                             children: [
                               Text(
                                 projectScopeKey.tr(),
-                                style: TextStyle(color: Theme.of(context).colorScheme.black),
+                                style: TextStyle(
+                                    color: Theme.of(context).colorScheme.black),
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -230,9 +243,16 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                                     ),
                                   ),
                                   Text(
-                                    time[state.projectDetail.countProposals] ?? '3-6 months',
-                                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                          color: Theme.of(context).colorScheme.black?.withOpacity(0.8),
+                                    time[state.projectDetail.countProposals] ??
+                                        '3-6 months',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .black
+                                              ?.withOpacity(0.8),
                                         ),
                                   ),
                                 ],
@@ -254,7 +274,11 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                             children: [
                               Text(
                                 studentRequiredKey.tr(),
-                                style: TextStyle(color: Theme.of(context).colorScheme.black?.withOpacity(0.8)),
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .black
+                                        ?.withOpacity(0.8)),
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -266,7 +290,8 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                                       size: 6,
                                     ),
                                   ),
-                                  Text('${state.projectDetail.numberOfStudents ?? '0'} ${studentsKey.tr()}',
+                                  Text(
+                                      '${state.projectDetail.numberOfStudents ?? '0'} ${studentsKey.tr()}',
                                       // style: Theme.of(context)
                                       //     .textTheme
                                       //     .bodySmall!
@@ -274,7 +299,10 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                                       //         color:
                                       //             Theme.of(context).colorScheme.black),
                                       style: TextStyle(
-                                        color: Theme.of(context).colorScheme.black?.withOpacity(0.8),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .black
+                                            ?.withOpacity(0.8),
                                       )),
                                 ],
                               )
@@ -288,29 +316,43 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                 // const SizedBox(height: 24),
                 const Spacer(),
                 authSate.currentRole == UserRole.student
-                    ? BlocBuilder<ChatBloc, ChatState>(builder: (BuildContext context, ChatState state) {
-                        String currentId = context.read<AuthBloc>().state.userModel.id!.toString();
-                        String projectId = widget.projectProposal!.projectId.toString();
+                    ? BlocBuilder<ChatBloc, ChatState>(
+                        builder: (BuildContext context, ChatState state) {
+                        String currentId = context
+                            .read<AuthBloc>()
+                            .state
+                            .userModel
+                            .id!
+                            .toString();
+                        String projectId =
+                            widget.projectProposal!.projectId.toString();
                         String userId = '';
                         String username = '';
                         if (firstTime) {
                           firstTime = false;
                           ChatService chatService = ChatService();
-                          chatService.getChatDataOfProject(projectId).then((valueData) {
+                          chatService
+                              .getChatDataOfProject(projectId)
+                              .then((valueData) {
                             logger.d('CHAT -- DATA: ${valueData.data}');
                             for (Chat i in valueData.data!) {
-                              if (i.receiver["id"].toString() == currentId || i.sender["id"].toString() == currentId) {
-                                userId = i.receiver["id"].toString() == currentId
-                                    ? i.sender["id"].toString()
-                                    : i.receiver["id"].toString();
-                                username = i.receiver["id"].toString() == currentId
-                                    ? i.sender["fullname"].toString()
-                                    : i.receiver["fullname"].toString();
+                              if (i.receiver["id"].toString() == currentId ||
+                                  i.sender["id"].toString() == currentId) {
+                                userId =
+                                    i.receiver["id"].toString() == currentId
+                                        ? i.sender["id"].toString()
+                                        : i.receiver["id"].toString();
+                                username =
+                                    i.receiver["id"].toString() == currentId
+                                        ? i.sender["fullname"].toString()
+                                        : i.receiver["fullname"].toString();
                                 break;
                               }
                             }
                             if (userId.isNotEmpty && projectId.isNotEmpty) {
-                              chatService.getAllChatWithUserId(userId, projectId).then((value) {
+                              chatService
+                                  .getAllChatWithUserId(userId, projectId)
+                                  .then((value) {
                                 setState(() {
                                   hasChat = value.data!.isNotEmpty;
                                 });
@@ -327,11 +369,12 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                             ),
                             onPressed: hasChat
                                 ? () {
-                                    context.pushNamed<bool>('chat_detail', queryParameters: {
-                                      'userName': username,
-                                      'userId': userId,
-                                      'projectId': projectId,
-                                    });
+                                    context.pushNamed<bool>('chat_detail',
+                                        queryParameters: {
+                                          'userName': username,
+                                          'userId': userId,
+                                          'projectId': projectId,
+                                        });
                                   }
                                 : () {},
                             child: Row(
@@ -345,8 +388,10 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                                 const SizedBox(width: 8),
                                 Text(
                                   messagesBtnKey.tr(),
-                                  style:
-                                      textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                                  style: textTheme.bodyMedium!.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ],
                             ),

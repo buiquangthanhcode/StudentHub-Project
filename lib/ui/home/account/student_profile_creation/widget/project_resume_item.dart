@@ -52,11 +52,15 @@ class ProjectResumeItem extends StatelessWidget {
               FaIcon(
                 FontAwesomeIcons.tags,
                 size: 18,
-                color: theme.colorScheme.grey!,
+                // color: theme.colorScheme.grey!,
+                color: Theme.of(context).brightness == Brightness.light
+                    ? theme.colorScheme.grey!
+                    : Colors.white,
               ),
               const SizedBox(width: 5),
               Text(
                 item.title ?? '',
+                style: theme.textTheme.bodyMedium,
               ),
               const Spacer(),
               GestureDetector(

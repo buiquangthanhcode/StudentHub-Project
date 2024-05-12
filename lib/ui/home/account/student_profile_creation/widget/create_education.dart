@@ -113,7 +113,8 @@ class _CreateEducationWidgetState extends State<CreateEducationWidget> {
                 // "Save",
                 saveBtnKey.tr(),
                 style: theme.textTheme.bodyMedium!.copyWith(
-                  color: theme.colorScheme.onPrimary,
+                  // color: theme.colorScheme.onPrimary,
+                  color: Colors.white,
                 ),
               ),
             ),
