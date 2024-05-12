@@ -32,12 +32,20 @@ class SettingDetailScreen extends StatefulWidget {
 class _SettingDetailScreenState extends State<SettingDetailScreen> {
   final _formChangePassWord = GlobalKey<FormBuilderState>();
   late LanguageProfile? langSelect;
+  late ThemeProfile? themeSelect;
 
   Future<LanguageProfile> getCurrentLanguage() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('language') == 'en'
         ? LanguageProfile.en
         : LanguageProfile.vn;
+  }
+
+  Future<ThemeProfile> getCurrentTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('theme') == 'dark'
+        ? ThemeProfile.dark
+        : ThemeProfile.light;
   }
 
   @override
@@ -48,9 +56,12 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
         langSelect = value;
       });
     });
+    getCurrentTheme().then((value) {
+      setState(() {
+        themeSelect = value;
+      });
+    });
   }
-
-  ThemeProfile? themeSelect = ThemeProfile.light;
 
   void changeLanguage(LanguageProfile? value) {
     setState(() {

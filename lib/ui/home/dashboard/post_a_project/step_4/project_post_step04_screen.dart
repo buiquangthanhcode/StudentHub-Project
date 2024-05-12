@@ -249,7 +249,7 @@ class _ProjectPostStep04ScreenState extends State<ProjectPostStep04Screen> {
                               // content: 'Project was added successfully!',
                               content: projectAddedSuccessMsgKey.tr(),
                               status: StatusSnackBar.success);
-                          context.pushNamed('home');
+                          context.goNamed('home');
                         }));
                   },
                   style: ElevatedButton.styleFrom(

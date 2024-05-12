@@ -161,7 +161,6 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
                   ),
                   name: 'description',
                   // hintText: 'Description',
-                  maxLines: 5,
                   hintText: descriptionPlaceHolderKey.tr(),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.05),

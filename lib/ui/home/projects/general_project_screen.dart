@@ -12,7 +12,10 @@ import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/models/common/project_model.dart';
+import 'package:studenthub/services/chat/chat.dart';
 import 'package:studenthub/ui/home/projects/widgets/general_project_item.dart';
+import 'package:studenthub/utils/logger.dart';
 
 class GeneralProjectScreen extends StatefulWidget {
   const GeneralProjectScreen({super.key});
@@ -76,7 +79,10 @@ class _GeneralProjectScreenState extends State<GeneralProjectScreen> {
   }
 
   void _scrollToBottomListener() {
-    if ((_scrollController.offset == _scrollController.position.maxScrollExtent) && enableCall) {
+    if ((_scrollController.offset ==
+            _scrollController.position.maxScrollExtent) &&
+        enableCall) {
+      logger.d('scroll to bottom: ${page + 1}');
       enableCall = false;
       preLength = bloc.state.projectList.length;
       bloc.add(
@@ -133,9 +139,11 @@ class _GeneralProjectScreenState extends State<GeneralProjectScreen> {
                               width: 39,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30),
-                                  color: theme.colorScheme.brightness == Brightness.dark
+                                  color: theme.colorScheme.brightness ==
+                                          Brightness.dark
                                       ? primaryColor
-                                      : const Color.fromARGB(255, 245, 245, 245)),
+                                      : const Color.fromARGB(
+                                          255, 245, 245, 245)),
                               alignment: Alignment.center,
                               child: FaIcon(
                                 FontAwesomeIcons.magnifyingGlass,
@@ -158,9 +166,11 @@ class _GeneralProjectScreenState extends State<GeneralProjectScreen> {
                                 width: 39,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30),
-                                  color: theme.colorScheme.brightness == Brightness.dark
+                                  color: theme.colorScheme.brightness ==
+                                          Brightness.dark
                                       ? primaryColor
-                                      : const Color.fromARGB(255, 245, 245, 245),
+                                      : const Color.fromARGB(
+                                          255, 245, 245, 245),
                                 ),
                                 alignment: Alignment.center,
                                 child: FaIcon(

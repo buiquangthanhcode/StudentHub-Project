@@ -255,8 +255,11 @@ extension CustomColorSchemeX on ColorScheme {
   Color? get chatColorContent =>
       brightness == Brightness.dark ? Colors.white : const Color(0xff181828);
 
-  Color? get chatColorContentBackground =>
-      brightness == Brightness.dark ? const Color(0xff242435) : Colors.white;
+  Color? get chatColorContentBackground => brightness == Brightness.dark
+      ? const Color(0xff242435)
+      : const Color.fromARGB(255, 245, 245, 245);
+  Color? get chatColorCancelContentBackground =>
+      brightness == Brightness.dark ? const Color(0xff0A1422) : Colors.white;
 }
 
 //And then access that property through Theme.of(context)... for example:

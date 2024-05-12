@@ -3,7 +3,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
@@ -23,10 +22,12 @@ class CompanyProfileCreationScreen extends StatefulWidget {
   const CompanyProfileCreationScreen({super.key});
 
   @override
-  State<CompanyProfileCreationScreen> createState() => _CompanyProfileCreationScreenState();
+  State<CompanyProfileCreationScreen> createState() =>
+      _CompanyProfileCreationScreenState();
 }
 
-class _CompanyProfileCreationScreenState extends State<CompanyProfileCreationScreen> {
+class _CompanyProfileCreationScreenState
+    extends State<CompanyProfileCreationScreen> {
   // final employeeQuantityData = [
   //   'It\'s just me',
   //   '2-9',
@@ -109,7 +110,8 @@ class _CompanyProfileCreationScreenState extends State<CompanyProfileCreationScr
                     ),
                     SizedBox(height: 30),
                     NameInputWidget(
-                        companyNameInputController: companyNameInputController, checkFormField: checkFormField),
+                        companyNameInputController: companyNameInputController,
+                        checkFormField: checkFormField),
                     const SizedBox(height: 30),
                     UrlInputWidget(
                       websiteInputController: websiteInputController,
@@ -129,19 +131,25 @@ class _CompanyProfileCreationScreenState extends State<CompanyProfileCreationScr
                                   AddAllDataEvent(
                                       data: Company(
                                         size: employeeQuantity,
-                                        companyName: companyNameInputController.text,
+                                        companyName:
+                                            companyNameInputController.text,
                                         website: websiteInputController.text,
-                                        description: descriptionInputController.text,
+                                        description:
+                                            descriptionInputController.text,
                                       ),
                                       onSuccess: (Company company) {
-                                        context.read<AuthBloc>().add(UpdateInformationEvent(
-                                            userModel: state.userModel.copyWith(company: company)));
+                                        context.read<AuthBloc>().add(
+                                            UpdateInformationEvent(
+                                                userModel: state.userModel
+                                                    .copyWith(
+                                                        company: company)));
                                         SnackBarService.showSnackBar(
                                             // content: 'Successfully!',
                                             content: changeSuccessMsgKey.tr(),
                                             status: StatusSnackBar.success);
-                                        Future.delayed(Duration(seconds: 1), () {
-                                          GoRouter.of(context).go('/home');
+                                        Future.delayed(Duration(seconds: 1),
+                                            () {
+                                          Navigator.pop(context);
                                         });
                                       }),
                                 );

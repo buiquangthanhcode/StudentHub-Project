@@ -37,26 +37,34 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
 
   final AuthService _authenService = AuthService();
 
-  FutureOr<void> _onFetchInformation(GetInformationEvent event, Emitter<AuthenState> emit) async {
+  FutureOr<void> _onFetchInformation(
+      GetInformationEvent event, Emitter<AuthenState> emit) async {
     try {
       if (event.action == 'login') {
         // EasyLoading.show(status: 'Loading...');
         EasyLoading.show(status: loadingBtnKey.tr());
       }
       emit(state.update(isLoading: true));
-      ResponseAPI result = await _authenService.fetchInformation(event.accessToken);
+      ResponseAPI result =
+          await _authenService.fetchInformation(event.accessToken);
       if (result.statusCode! < 300) {
-        emit(
-            state.update(userModel: UserModel.fromMap({...result.data.resultMap.toMap(), 'token': event.accessToken})));
+        emit(state.update(
+            userModel: UserModel.fromMap({
+          ...result.data.resultMap.toMap(),
+          'token': event.accessToken
+        })));
 
         if (state.userModel.student != null) {
           event.currentContext?.read<StudentBloc>().add(
-                UpdateStudentEvent(student: state.userModel.student!, isChange: true),
+                UpdateStudentEvent(
+                    student: state.userModel.student!, isChange: true),
               );
         }
         emit(state.update(
             isChanged: !state.isChanged,
-            currentRole: (state.userModel.roles?[0] == 0 ? UserRole.student : UserRole.company)));
+            currentRole: (state.userModel.roles?[0] == 0
+                ? UserRole.student
+                : UserRole.company)));
         event.onSuccess!(); // Call onSuccessCallBack
         if (event.onSuccessAuthenticated != null) {
           event.onSuccessAuthenticated!(true);
@@ -71,7 +79,8 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
         }
       } else {
         SnackBarService.showSnackBar(
-            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
+            content: handleFormatMessage(result.data!.errorDetails),
+            status: StatusSnackBar.error);
       }
       emit(state.update(isLoading: false));
     } on DioException catch (e) {
@@ -82,11 +91,14 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
     } catch (e) {
       emit(state.update(isLoading: false));
       logger.e("Unexpect error-> $e");
-      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
+      SnackBarService.showSnackBar(
+          content: handleFormatMessage(e.toString()),
+          status: StatusSnackBar.error);
     } finally {}
   }
 
-  FutureOr<void> _onUpdateInformation(UpdateInformationEvent event, Emitter<AuthenState> emit) async {
+  FutureOr<void> _onUpdateInformation(
+      UpdateInformationEvent event, Emitter<AuthenState> emit) async {
     try {
       emit(state.update(userModel: event.userModel));
     } catch (e) {
@@ -103,7 +115,8 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
       );
       if (result.statusCode! < 300) {
         LocalStorageService localService = LocalStorageService();
-        await localService.saveTokens(accessToken: result.data?.resultMap?.token ?? '');
+        await localService.saveTokens(
+            accessToken: result.data?.resultMap?.token ?? '');
         add(GetInformationEvent(
             accessToken: result.data?.resultMap?.token ?? '',
             onSuccess: () {
@@ -113,7 +126,8 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
             action: "login"));
       } else {
         SnackBarService.showSnackBar(
-            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
+            content: handleFormatMessage(result.data!.errorDetails),
+            status: StatusSnackBar.error);
       }
       EasyLoading.dismiss();
     } on DioException catch (e) {
@@ -121,18 +135,22 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
         "DioException2:${e.response?.data.resultMap.errorDetails}",
       );
       SnackBarService.showSnackBar(
-          content: handleFormatMessage(e.response?.data.resultMap!.errorDetails), status: StatusSnackBar.info);
+          content:
+              handleFormatMessage(e.response?.data.resultMap!.errorDetails),
+          status: StatusSnackBar.info);
     } catch (e) {
       logger.e("Unexpected error1-> $e");
       final exception = e as ResponseAPI;
       SnackBarService.showSnackBar(
-          content: handleFormatMessage(exception.data['errorDetails']), status: StatusSnackBar.info);
+          content: handleFormatMessage(exception.data['errorDetails']),
+          status: StatusSnackBar.info);
     } finally {
       EasyLoading.dismiss();
     }
   }
 
-  Future<FutureOr<void>> _onRegisterAccount(RegisterAccount event, Emitter<AuthenState> emit) async {
+  Future<FutureOr<void>> _onRegisterAccount(
+      RegisterAccount event, Emitter<AuthenState> emit) async {
     try {
       // EasyLoading.show(status: 'Loading...');
       EasyLoading.show(status: loadingBtnKey.tr());
@@ -143,19 +161,23 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
         event.onSuccess!(); // Call onSuccessCallBack
       } else {
         SnackBarService.showSnackBar(
-            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.info);
+            content: handleFormatMessage(result.data!.errorDetails),
+            status: StatusSnackBar.info);
       }
       EasyLoading.dismiss();
     } catch (e) {
       final exception = e as ResponseAPI;
       final data = exception.data as DataResponse;
-      SnackBarService.showSnackBar(content: handleFormatMessage(data.errorDetails), status: StatusSnackBar.info);
+      SnackBarService.showSnackBar(
+          content: handleFormatMessage(data.errorDetails),
+          status: StatusSnackBar.info);
     } finally {
       EasyLoading.dismiss();
     }
   }
 
-  FutureOr<void> _onUpdateRole(UpdateRoleEvents event, Emitter<AuthenState> emit) async {
+  FutureOr<void> _onUpdateRole(
+      UpdateRoleEvents event, Emitter<AuthenState> emit) async {
     try {
       emit(state.update(currentRole: event.role, isChanged: !state.isChanged));
     } catch (e) {
@@ -163,7 +185,8 @@ class AuthBloc extends Bloc<AuthenEvent, AuthenState> {
     }
   }
 
-  FutureOr<void> _onResetBloc(ResetBloc event, Emitter<AuthenState> emit) async {
+  FutureOr<void> _onResetBloc(
+      ResetBloc event, Emitter<AuthenState> emit) async {
     emit(state.update(
       userModel: UserModel(),
       isChanged: false,

@@ -58,6 +58,7 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
   };
 
   bool hasChat = false;
+  bool firstTime = true;
   @override
   void initState() {
     super.initState();
@@ -70,12 +71,13 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                   widget.projectProposal!.project?.id.toString() ??
                   ''),
         );
-    context.read<ChatBloc>().add(
-          GetChatItemOfProjectEvent(
-            projectId: widget.projectProposal!.projectId.toString(),
-            myId: context.read<AuthBloc>().state.userModel.id!,
-          ),
-        );
+    // logger.d('PROJECT ID: ${widget.projectProposal!.projectId.toString()}');
+    // context.read<ChatBloc>().add(
+    //       GetChatItemOfProjectEvent(
+    //         projectId: widget.projectProposal!.projectId.toString(),
+    //         myId: context.read<AuthBloc>().state.userModel.id!,
+    //       ),
+    //     );
   }
 
   bool? isSaved;
@@ -84,6 +86,10 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     AuthenState authSate = context.read<AuthBloc>().state;
+
+    logger.d('ITEM: ${widget.item}');
+    logger.d('PROJECT PROPOSAL: ${widget.projectProposal}');
+
     return BlocBuilder<GeneralProjectBloc, GeneralProjectState>(
       builder: (BuildContext context, GeneralProjectState state) {
         return Scaffold(
@@ -320,20 +326,41 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                             .toString();
                         String projectId =
                             widget.projectProposal!.projectId.toString();
-                        String userId =
-                            state.chatItem.sender['id'].toString() == currentId
-                                ? state.chatItem.receiver['id'].toString()
-                                : state.chatItem.sender['id'].toString();
-                        String username =
-                            state.chatItem.sender['id'].toString() == currentId
-                                ? state.chatItem.receiver['fullname'].toString()
-                                : state.chatItem.sender['fullname'].toString();
-                        // ChatService chatService = ChatService();
-                        // chatService.getAllChatWithUserId(userId, projectId).then((value) {
-                        //   setState(() {
-                        //     hasChat = value.data!.isNotEmpty;
-                        //   });
-                        // });
+                        String userId = '';
+                        String username = '';
+                        if (firstTime) {
+                          firstTime = false;
+                          ChatService chatService = ChatService();
+                          chatService
+                              .getChatDataOfProject(projectId)
+                              .then((valueData) {
+                            logger.d('CHAT -- DATA: ${valueData.data}');
+                            for (Chat i in valueData.data!) {
+                              if (i.receiver["id"].toString() == currentId ||
+                                  i.sender["id"].toString() == currentId) {
+                                userId =
+                                    i.receiver["id"].toString() == currentId
+                                        ? i.sender["id"].toString()
+                                        : i.receiver["id"].toString();
+                                username =
+                                    i.receiver["id"].toString() == currentId
+                                        ? i.sender["fullname"].toString()
+                                        : i.receiver["fullname"].toString();
+                                break;
+                              }
+                            }
+                            if (userId.isNotEmpty && projectId.isNotEmpty) {
+                              chatService
+                                  .getAllChatWithUserId(userId, projectId)
+                                  .then((value) {
+                                setState(() {
+                                  hasChat = value.data!.isNotEmpty;
+                                });
+                                logger.d('CHAT: ${value.data!.length}');
+                              });
+                            }
+                          });
+                        }
                         return Opacity(
                           opacity: hasChat ? 1 : 0.5,
                           child: ElevatedButton(

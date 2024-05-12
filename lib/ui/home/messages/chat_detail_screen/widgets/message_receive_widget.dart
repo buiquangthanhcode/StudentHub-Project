@@ -52,7 +52,6 @@ class MessageReceiveWidget extends StatelessWidget {
             constraints: BoxConstraints(maxWidth: screenSize.width * 0.65),
             padding: const EdgeInsets.fromLTRB(14, 10, 8, 4),
             decoration: BoxDecoration(
-              // color: const Color.fromARGB(255, 245, 245, 245),
               color: Theme.of(context).colorScheme.chatColorContentBackground,
               borderRadius: BorderRadius.circular(10),
             ),
@@ -75,10 +74,12 @@ class MessageReceiveWidget extends StatelessWidget {
                   children: [
                     Text(
                       checkDateTime(messageList[index].createdAt ?? ''),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w400,
-                        color: Color.fromARGB(255, 80, 80, 80),
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? const Color.fromARGB(255, 200, 200, 200)
+                            : const Color.fromARGB(255, 80, 80, 80),
                       ),
                     ),
                   ],

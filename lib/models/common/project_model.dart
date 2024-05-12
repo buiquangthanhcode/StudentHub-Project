@@ -20,6 +20,7 @@ class Project {
   int? countHired;
   int? projectId;
   bool? isFavorite;
+  int? status;
 
   Project({
     this.id,
@@ -38,6 +39,7 @@ class Project {
     this.countHired,
     this.projectId,
     this.isFavorite,
+    this.status,
   });
 
   Project copyWith({
@@ -57,6 +59,7 @@ class Project {
     int? countHired,
     int? projectId,
     bool? isFavorite,
+    int? status,
   }) {
     return Project(
       id: id ?? this.id,
@@ -75,6 +78,7 @@ class Project {
       countHired: countHired ?? this.countHired,
       projectId: projectId ?? this.projectId,
       isFavorite: isFavorite ?? this.isFavorite,
+      status: status ?? this.status,
     );
   }
 
@@ -125,6 +129,9 @@ class Project {
     if (isFavorite != null) {
       data['isFavorite'] = isFavorite;
     }
+    if (status != null) {
+      data['status'] = status;
+    }
 
     return data;
   }
@@ -148,6 +155,7 @@ class Project {
       countHired: map['countHired'] != null ? map['countHired'] as int : null,
       projectId: map['projectId'] != null ? map['projectId'] as int : null,
       isFavorite: map['isFavorite'] != null ? map['isFavorite'] as bool : null,
+      status: map['status'] != null ? map['status'] as int : null,
     );
   }
 

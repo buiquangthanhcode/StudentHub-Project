@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_event.dart';
@@ -10,7 +9,6 @@ import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/core/text_field_custom.dart';
 import 'package:studenthub/core/year_picker_formfield.dart';
 import 'package:studenthub/models/student/student_create_profile/education_model.dart';
-import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class CreateEducationWidget extends StatefulWidget {
@@ -21,7 +19,6 @@ class CreateEducationWidget extends StatefulWidget {
 }
 
 class _CreateEducationWidgetState extends State<CreateEducationWidget> {
-  FocusNode title = FocusNode();
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -41,13 +38,9 @@ class _CreateEducationWidgetState extends State<CreateEducationWidget> {
                 Icons.school,
               ),
               name: 'nameOfSchool',
-              focusNode: title,
               // hintText: 'Name of School',
               hintText: nameOfSchoolKey.tr(),
               fillColor: Colors.white,
-              validator: FormBuilderValidators.compose([
-                FormBuilderValidators.required(),
-              ]),
               style: TextStyle(
                 color: Colors.grey[600],
                 fontSize: 16,
@@ -56,31 +49,19 @@ class _CreateEducationWidgetState extends State<CreateEducationWidget> {
             const SizedBox(height: 10),
             PickerYearCustom(
               name: 'year_start',
-              validator: FormBuilderValidators.compose([
-                FormBuilderValidators.required(),
-              ]),
+              // hintText: "Year Start",
+              // labelText: 'Year Start',
               hintText: yearStartPlaceHolderKey.tr(),
               labelText: yearStartPlaceHolderKey.tr(),
-              onSave: () {
-                if (context.mounted) {
-                  title.requestFocus();
-                }
-              },
             ),
             const SizedBox(height: 18),
             PickerYearCustom(
-                name: 'year_end',
-                validator: FormBuilderValidators.compose([
-                  FormBuilderValidators.required(),
-                ]),
-                hintText: yearEndPlaceHolderKey.tr(),
-                labelText: yearEndPlaceHolderKey.tr(),
-                onSave: () {
-                  print("123123213");
-                  if (context.mounted) {
-                    title.requestFocus();
-                  }
-                }),
+              name: 'year_end',
+              // hintText: "Year End",
+              // labelText: 'Year End',
+              hintText: yearEndPlaceHolderKey.tr(),
+              labelText: yearEndPlaceHolderKey.tr(),
+            ),
             const SizedBox(height: 24),
             ElevatedButton(
               style: ElevatedButton.styleFrom(

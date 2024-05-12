@@ -224,3 +224,11 @@ class RemoveTranScriptEvent extends StudentEvent {
 
   RemoveTranScriptEvent({required this.studentId, required this.onSuccess});
 }
+
+class GetWorkingProjectEvents extends StudentEvent {
+  final int userId;
+  final String typeFlag;
+  final Function? onSuccess;
+
+  GetWorkingProjectEvents({required this.userId, required this.onSuccess, required this.typeFlag});
+}

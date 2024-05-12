@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:studenthub/models/common/chat_model.dart';
+import 'package:studenthub/models/common/interview_model.dart';
 import 'package:studenthub/models/common/message_model.dart';
 
 class ChatState extends Equatable {
@@ -8,6 +9,7 @@ class ChatState extends Equatable {
   final List<Message> messageListOfProject;
   final List<Chat> chatListOfProject;
   final Chat chatItem;
+  final List<Interview> activeInterview;
 
   const ChatState({
     required this.chatList,
@@ -15,11 +17,18 @@ class ChatState extends Equatable {
     required this.messageListOfProject,
     required this.chatListOfProject,
     required this.chatItem,
+    required this.activeInterview,
   });
 
   @override
-  List<Object?> get props =>
-      [chatList, messageList, messageListOfProject, chatListOfProject,chatItem];
+  List<Object?> get props => [
+        chatList,
+        messageList,
+        messageListOfProject,
+        chatListOfProject,
+        chatItem,
+        activeInterview
+      ];
 
   ChatState update({
     List<Chat>? chatList,
@@ -27,6 +36,7 @@ class ChatState extends Equatable {
     List<Message>? messageListOfProject,
     List<Chat>? chatListOfProject,
     Chat? chatItem,
+    List<Interview>? activeInterview,
   }) {
     return ChatState(
       chatList: chatList ?? this.chatList,
@@ -34,6 +44,7 @@ class ChatState extends Equatable {
       messageListOfProject: messageListOfProject ?? this.messageListOfProject,
       chatListOfProject: chatListOfProject ?? this.chatListOfProject,
       chatItem: chatItem ?? this.chatItem,
+      activeInterview: activeInterview ?? this.activeInterview,
     );
   }
 }

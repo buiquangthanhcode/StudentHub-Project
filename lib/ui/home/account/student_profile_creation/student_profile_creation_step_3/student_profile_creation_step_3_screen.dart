@@ -22,7 +22,6 @@ import 'package:studenthub/models/student/student_model.dart';
 import 'package:studenthub/services/dio_client.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_creation/widgets/continue_button.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/student_profile_creation_step_3/widgets/title_widget.dart';
-import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/utils/request_permision.dart';
 import 'package:studenthub/widgets/download_file_widget.dart';
@@ -56,6 +55,14 @@ class _StudentProfileCreationStep3ScreenState
   String remotePDFTranscrippath = '';
 
   late AuthenState authenState;
+
+  String getLastSubstringAfterDot(String filename) {
+    List<String> parts = filename.split('.');
+    if (parts.length > 1) {
+      return parts.last;
+    }
+    return '';
+  }
 
   void pickFileResume(int type) async {
     try {

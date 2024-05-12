@@ -12,7 +12,10 @@ class LoginEvent extends AuthenEvent {
   final Function? onSuccess;
   final BuildContext? currentContext;
 
-  LoginEvent({required this.requestLogin, required this.onSuccess, this.currentContext});
+  LoginEvent(
+      {required this.requestLogin,
+      required this.onSuccess,
+      this.currentContext});
 }
 
 class GetInformationEvent extends AuthenEvent {

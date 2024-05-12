@@ -17,6 +17,7 @@ import 'package:studenthub/ui/home/account/setting_detail/setting_detail_scren.d
 import 'package:studenthub/ui/home/dashboard/project/project_detail/project_detail_company_screen.dart';
 import 'package:studenthub/ui/home/dashboard/project/project_detail/project_detail_student_screen.dart';
 import 'package:studenthub/ui/home/home_screen.dart';
+import 'package:studenthub/ui/home/messages/active_interview/active_interview_screen.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/chat_detail_screen.dart';
 import 'package:studenthub/ui/home/projects/project_general_detail/project_general_detail_screen.dart';
 import 'package:studenthub/ui/home/projects/submit_proposal/submit_proposal_sceen.dart';
@@ -93,6 +94,20 @@ final GoRouter router = GoRouter(
           },
         ),
         GoRoute(
+          path: 'active_interview',
+          name: 'active_interview',
+          onExit: (context) {
+            context.read<ChatBloc>().add(
+                  GetAllDataEvent(),
+                );
+            return true;
+          },
+          pageBuilder: (context, state) {
+            return customTransitionPage(
+                state.pageKey, const ActiveInterviewScreen());
+          },
+        ),
+        GoRoute(
           path: 'project_saved',
           name: 'project_saved',
           pageBuilder: (context, state) {
@@ -152,6 +167,7 @@ final GoRouter router = GoRouter(
               },
             ),
             GoRoute(
+              name: 'step_04',
               path: 'step_04',
               pageBuilder: (BuildContext context, GoRouterState state) {
                 return customTransitionPage(
