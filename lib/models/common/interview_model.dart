@@ -12,6 +12,7 @@ class Interview {
   int? disableFlag;
   int? meetingRoomId;
   dynamic meetingRoom;
+  
   Interview({
     this.id,
     this.createdAt,

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_bloc.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_event.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_state.dart';
@@ -77,11 +78,11 @@ class _MessagesState extends State<MessagesScreen> {
                   InkWell(
                     onTap: () {
                       // context.pushNamed('project_saved');
+                      context.pushNamed('active_interview');
                     },
                     child: Container(
                       height: 39,
                       width: 39,
-                      margin: const EdgeInsets.only(right: 20),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
                         color: theme.colorScheme.brightness == Brightness.dark
@@ -96,6 +97,7 @@ class _MessagesState extends State<MessagesScreen> {
                       ),
                     ),
                   ),
+                  const SizedBox(width: 20),
                 ],
               ),
         body: Padding(
@@ -241,11 +243,3 @@ class _MessagesState extends State<MessagesScreen> {
     });
   }
 }
-
-
-
-
-
-
-
-

@@ -12,6 +12,7 @@ import 'package:studenthub/models/common/chat_model.dart';
 import 'package:studenthub/models/common/message_model.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/services/chat/chat.dart';
+import 'package:studenthub/services/interview/interview.dart';
 import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/snack_bar_config.dart';
@@ -20,20 +21,26 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   ChatBloc()
       : super(
           ChatState(
-            chatList: const [],
-            messageList: const [],
-            messageListOfProject: const [],
-            chatListOfProject: const [],
-            chatItem: Chat(sender: {}, receiver: {}, project: Project()),
-          ),
+              chatList: const [],
+              messageList: const [],
+              messageListOfProject: const [],
+              chatListOfProject: const [],
+              chatItem: Chat(
+                sender: {},
+                receiver: {},
+                project: Project(),
+              ),
+              activeInterview: const []),
         ) {
     on<GetAllDataEvent>(_onGetAllData);
     on<GetChatWithUserIdEvent>(_onGetChatWithUserId);
     on<GetChatListDataOfProjectEvent>(_onGetChatDataOfProject);
     on<GetChatItemOfProjectEvent>(_onGetChatItemOfProject);
+    on<GetActiveInterviewEvent>(_onGetActiveInterview);
   }
 
   final ChatService _chatService = ChatService();
+  final InterviewService _interviewService = InterviewService();
 
   FutureOr<void> _onGetAllData(
       GetAllDataEvent event, Emitter<ChatState> emit) async {
@@ -67,7 +74,33 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     }
   }
 
-
+  FutureOr<void> _onGetActiveInterview(
+      GetActiveInterviewEvent event, Emitter<ChatState> emit) async {
+    try {
+      // EasyLoading.show(status: 'Loading...');
+      EasyLoading.show(status: loadingBtnKey.tr());
+      ResponseAPI result =
+          await _interviewService.getActiveInterview(event.userId);
+      if (result.statusCode! < 300) {
+        emit(state.update(activeInterview: result.data));
+      } else {
+        SnackBarService.showSnackBar(
+            content: handleFormatMessage(result.data!.errorDetails),
+            status: StatusSnackBar.error);
+      }
+    } on DioException catch (e) {
+      logger.e(
+        "DioException:${e.response}",
+      );
+    } catch (e) {
+      logger.e("Unexpect error-> $e");
+      SnackBarService.showSnackBar(
+          content: handleFormatMessage(e.toString()),
+          status: StatusSnackBar.error);
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
 
   FutureOr<void> _onGetChatWithUserId(
       GetChatWithUserIdEvent event, Emitter<ChatState> emit) async {

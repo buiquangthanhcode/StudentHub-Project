@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:studenthub/data/dto/reponse.dart';
 import 'package:studenthub/models/common/chat_model.dart';
+import 'package:studenthub/models/common/interview_model.dart';
 import 'package:studenthub/models/common/message_model.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/services/api_interceptor.dart';
@@ -99,13 +100,13 @@ class InterviewService {
     }
   }
 
-  Future<ResponseAPI<bool>> checkAvailability(String code,String id) async {
+  Future<ResponseAPI<bool>> checkAvailability(String code, String id) async {
     try {
       final res = await dioClient
           .get('$baseURL/meeting-room/check-availability', queryParameters: {
-            "meeting_room_code": code,
-            "meeting_room_id": id,
-          });
+        "meeting_room_code": code,
+        "meeting_room_id": id,
+      });
 
       // logger.d('CHECK AVAILABILITY: ${res.data}');
 
@@ -127,16 +128,19 @@ class InterviewService {
     }
   }
 
-      Future<ResponseAPI<bool>> getActiveInterview(String userId) async {
+  Future<ResponseAPI<List<Interview>>> getActiveInterview(String userId) async {
     try {
-      final res = await dioClient
-          .get('$baseURL/api/interview/user/$userId');
+      final res = await dioClient.get('$baseURL/api/interview/user/$userId');
 
-      logger.d('CHECK AVAILABILITY: ${res.data}');
+      logger.d('INTERVIEW ACTIVE: ${res.data}');
 
-      return ResponseAPI<bool>(
+      List<Interview> data = res.data['result']
+          .map<Interview>((x) => Interview.fromMap(x))
+          .toList();
+
+      return ResponseAPI<List<Interview>>(
         statusCode: res.statusCode,
-        data: res.data['result'],
+        data: data.reversed.toList(),
       );
     } on DioException catch (e) {
       logger.e(

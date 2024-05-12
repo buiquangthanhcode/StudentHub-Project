@@ -71,12 +71,12 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                   ''),
         );
     // logger.d('PROJECT ID: ${widget.projectProposal!.projectId.toString()}');
-    context.read<ChatBloc>().add(
-          GetChatItemOfProjectEvent(
-            projectId: widget.projectProposal!.projectId.toString(),
-            myId: context.read<AuthBloc>().state.userModel.id!,
-          ),
-        );
+    // context.read<ChatBloc>().add(
+    //       GetChatItemOfProjectEvent(
+    //         projectId: widget.projectProposal!.projectId.toString(),
+    //         myId: context.read<AuthBloc>().state.userModel.id!,
+    //       ),
+    //     );
   }
 
   bool? isSaved;
@@ -87,7 +87,7 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
     AuthenState authSate = context.read<AuthBloc>().state;
 
     logger.d('ITEM: ${widget.item}');
-    logger.d('ITEM: ${widget.projectProposal}');
+    logger.d('PROJECT PROPOSAL: ${widget.projectProposal}');
 
     return BlocBuilder<GeneralProjectBloc, GeneralProjectState>(
       builder: (BuildContext context, GeneralProjectState state) {
@@ -311,24 +311,39 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                             .toString();
                         String projectId =
                             widget.projectProposal!.projectId.toString();
-                        String userId =
-                            state.chatItem.sender['id'].toString() == currentId
-                                ? state.chatItem.receiver['id'].toString()
-                                : state.chatItem.sender['id'].toString();
-                        String username =
-                            state.chatItem.sender['id'].toString() == currentId
-                                ? state.chatItem.receiver['fullname'].toString()
-                                : state.chatItem.sender['fullname'].toString();
+                        String userId = '';
+                        String username = '';
                         if (firstTime) {
                           firstTime = false;
                           ChatService chatService = ChatService();
                           chatService
-                              .getAllChatWithUserId(userId, projectId)
-                              .then((value) {
-                            setState(() {
-                              hasChat = value.data!.isNotEmpty;
-                            });
-                            logger.d('CHAT: ${value.data!.length}');
+                              .getChatDataOfProject(projectId)
+                              .then((valueData) {
+                            logger.d('CHAT -- DATA: ${valueData.data}');
+                            for (Chat i in valueData.data!) {
+                              if (i.receiver["id"].toString() == currentId ||
+                                  i.sender["id"].toString() == currentId) {
+                                userId =
+                                    i.receiver["id"].toString() == currentId
+                                        ? i.sender["id"].toString()
+                                        : i.receiver["id"].toString();
+                                username =
+                                    i.receiver["id"].toString() == currentId
+                                        ? i.sender["fullname"].toString()
+                                        : i.receiver["fullname"].toString();
+                                break;
+                              }
+                            }
+                            if (userId.isNotEmpty && projectId.isNotEmpty) {
+                              chatService
+                                  .getAllChatWithUserId(userId, projectId)
+                                  .then((value) {
+                                setState(() {
+                                  hasChat = value.data!.isNotEmpty;
+                                });
+                                logger.d('CHAT: ${value.data!.length}');
+                              });
+                            }
                           });
                         }
                         return Opacity(
