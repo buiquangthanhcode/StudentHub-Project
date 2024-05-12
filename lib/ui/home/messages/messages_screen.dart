@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_bloc.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_event.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/models/common/chat_model.dart';
 import 'package:studenthub/ui/home/messages/data/get_chat_data.dart';
 import 'package:studenthub/ui/home/messages/widgets/chat_item.dart';
 import 'package:studenthub/widgets/emtyDataWidget.dart';
@@ -24,6 +26,7 @@ class MessagesScreen extends StatefulWidget {
 class _MessagesState extends State<MessagesScreen> {
   final searchController = TextEditingController();
   final FocusNode _searchFocus = FocusNode();
+  List<Chat> chatListSearch = [];
 
   @override
   void initState() {
@@ -52,7 +55,26 @@ class _MessagesState extends State<MessagesScreen> {
     setState(() {});
   }
 
-  final data = getChatList();
+  // final data = getChatList();
+
+  void searchChat(List<Chat> data) {
+    String value = searchController.text.trim();
+    String myId = context.read<AuthBloc>().state.userModel.id.toString();
+    if (value.isNotEmpty) {
+      chatListSearch = data.where((chat) {
+        String chattingUserId =
+            chat.sender['id'].toString() != myId ? chat.sender['id'].toString() : chat.receiver['id'].toString();
+
+        String username = chat.sender['id'].toString() == chattingUserId
+            ? chat.sender['fullname'] ?? ''
+            : chat.receiver['fullname'] ?? '';
+        return chat.project.title!.toLowerCase().contains(value.toLowerCase()) ||
+            username.toLowerCase().contains(value.toLowerCase());
+      }).toList();
+    }
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
@@ -112,15 +134,13 @@ class _MessagesState extends State<MessagesScreen> {
                       child: TextField(
                         focusNode: _searchFocus,
                         onChanged: (value) {
-                          if (value.isEmpty) {
-                            setState(() {});
-                          }
+                          searchChat(state.chatList);
                         },
-                        onSubmitted: (value) {
-                          context.read<ChatBloc>().add(
-                                SearchChatEvent(search: value),
-                              );
-                        },
+                        // onSubmitted: (value) {
+                        //   context.read<ChatBloc>().add(
+                        //         SearchChatEvent(search: value),
+                        //       );
+                        // },
                         cursorHeight: 18,
                         controller: searchController,
                         cursorColor: Colors.black,
@@ -214,28 +234,49 @@ class _MessagesState extends State<MessagesScreen> {
                 height: 20,
               ),
               Expanded(
-                child: state.chatList.isNotEmpty
-                    ? ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: state.chatList.length,
-                        itemBuilder: (context, index) => ChatItem(
-                              chat: state.chatList[index],
-                            ))
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Center(
-                            child: EmptyDataWidget(
-                              mainTitle: '',
-                              // subTitle: "You haven't received any messages yet.",
-                              // subTitle: noProjectFoundKey.tr(),
-                              subTitle: noMessagesAlertKey.tr(),
-                              widthImage: MediaQuery.of(context).size.width * 0.5,
-                            ),
-                          ),
-                        ],
-                      ),
-              ),
+                  child: searchController.text.isEmpty
+                      ? state.chatList.isNotEmpty
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: state.chatList.length,
+                              itemBuilder: (context, index) => ChatItem(
+                                    chat: state.chatList[index],
+                                  ))
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Center(
+                                  child: EmptyDataWidget(
+                                    mainTitle: '',
+                                    // subTitle: "You haven't received any messages yet.",
+                                    // subTitle: noProjectFoundKey.tr(),
+                                    subTitle: noMessagesAlertKey.tr(),
+                                    widthImage: MediaQuery.of(context).size.width * 0.5,
+                                  ),
+                                ),
+                              ],
+                            )
+                      : chatListSearch.isNotEmpty
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: chatListSearch.length,
+                              itemBuilder: (context, index) => ChatItem(
+                                    chat: chatListSearch[index],
+                                  ))
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Center(
+                                  child: EmptyDataWidget(
+                                    mainTitle: '',
+                                    // subTitle: "You haven't received any messages yet.",
+                                    // subTitle: noProjectFoundKey.tr(),
+                                    subTitle: "The chat cannot be found.",
+                                    widthImage: MediaQuery.of(context).size.width * 0.5,
+                                  ),
+                                ),
+                              ],
+                            )),
             ],
           ),
         ),
