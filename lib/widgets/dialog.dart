@@ -1,16 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/key_translator.dart';
 
 Future<void> showDialogCustom(BuildContext context,
-    {String? image,
-    String? title,
-    String? subtitle,
-    Function? onSave,
-    String? textButtom,
-    double? sizeImage}) async {
+    {String? image, String? title, String? subtitle, Function? onSave, String? textButtom, double? sizeImage}) async {
   TextTheme textTheme = Theme.of(context).textTheme;
   var colorTheme = Theme.of(context).colorScheme;
   showDialog(
@@ -24,9 +20,7 @@ Future<void> showDialogCustom(BuildContext context,
                 horizontal: 20,
                 vertical: 20,
               ),
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(15))),
+              decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(15))),
               child: Stack(
                 clipBehavior: Clip.antiAlias,
                 children: [
@@ -55,8 +49,7 @@ Future<void> showDialogCustom(BuildContext context,
                       Text(
                         subtitle ?? 'Some subtitle....',
                         textAlign: TextAlign.center,
-                        style: textTheme.bodySmall!
-                            .copyWith(color: colorTheme.grey),
+                        style: textTheme.bodySmall!.copyWith(color: colorTheme.grey),
                       ),
                       const SizedBox(
                         height: 24,
@@ -75,8 +68,7 @@ Future<void> showDialogCustom(BuildContext context,
                         child: Text(
                           // textButtom ?? 'Get Started!',
                           textButtom ?? getStartedBtnKey.tr(),
-                          style: textTheme.bodyMedium!.copyWith(
-                              color: Colors.white, fontWeight: FontWeight.w600),
+                          style: textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
                         ),
                       ),
                     ],
@@ -91,10 +83,7 @@ Future<void> showDialogCustom(BuildContext context,
                       child: Container(
                         margin: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .grey
-                              ?.withOpacity(0.5),
+                          color: Theme.of(context).colorScheme.grey?.withOpacity(0.5),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: InkWell(

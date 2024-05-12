@@ -10,13 +10,22 @@ Future<void> main() async {
   await EasyLocalization.ensureInitialized();
 
   Locale currentLocale = const Locale('vi');
+  ThemeMode currentTheme = ThemeMode.light;
   final prefs = await SharedPreferences.getInstance();
   final String? currentLanguageStorage = prefs.getString('language');
+  final String? currentThemeStorgae = prefs.getString('theme');
 
   if (currentLanguageStorage != null) {
     currentLocale = Locale(currentLanguageStorage);
   } else {
     currentLocale = const Locale('en');
+  }
+  if (currentThemeStorgae != null) {
+    if (currentThemeStorgae == 'dark') {
+      currentTheme = ThemeMode.dark;
+    } else {
+      currentTheme = ThemeMode.light;
+    }
   }
   currentLocale = const Locale('en');
   await LocalNotification.init();
@@ -27,7 +36,7 @@ Future<void> main() async {
       startLocale: currentLocale,
       path: 'lib/assets/translations',
       child: StudentHub(
-        themeStorage: currentLanguageStorage,
+        themeStorage: currentThemeStorgae,
       ),
     ),
   );

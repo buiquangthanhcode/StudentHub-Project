@@ -9,6 +9,7 @@ import 'package:studenthub/data/dto/student/request_post_resume.dart';
 import 'package:studenthub/data/dto/student/request_update_education.dart';
 import 'package:studenthub/data/dto/student/request_update_language.dart';
 import 'package:studenthub/data/dto/student/request_update_profile_student.dart';
+import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/models/common/proposal_modal.dart';
 import 'package:studenthub/models/student/student_create_profile/education_model.dart';
@@ -414,6 +415,29 @@ class StudentService {
       return ResponseAPI(
         statusCode: res.statusCode,
         data: res.data,
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
+
+  Future<ResponseAPI> getWorkingProject(GetWorkingProjectEvents event) async {
+    try {
+      final res = await dioClient.get(
+        '$baseURL/api/project/student/${event.userId}?typeFlag=${event.typeFlag}',
+      );
+
+      return ResponseAPI(
+        statusCode: res.statusCode,
+        data: res.data['result'].map<Project>((x) => Project.fromMap(x)).toList(),
+      );
+    } on DioException catch (e) {
+      logger.e(
+        "DioException :${e.response}",
+      );
+      throw ResponseAPI(
+        statusCode: e.response?.statusCode,
       );
     } catch (e) {
       logger.e("Unexpected Error: $e");

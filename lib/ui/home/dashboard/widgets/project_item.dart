@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -33,12 +34,10 @@ class ProjectItem extends StatelessWidget {
       onTap: () {
         if (authState.currentRole == UserRole.company) {
           context.push('/project_company_detail',
-              extra: {'item': item, 'projectProposal': projectProposal}
-                  as Map<String, dynamic>);
+              extra: {'item': item, 'projectProposal': projectProposal} as Map<String, dynamic>);
         } else {
           context.push('/project_student_detail',
-              extra: {'item': item, 'projectProposal': projectProposal}
-                  as Map<String, dynamic>);
+              extra: {'item': item, 'projectProposal': projectProposal} as Map<String, dynamic>);
         }
       },
       child: Container(
@@ -64,8 +63,7 @@ class ProjectItem extends StatelessWidget {
                       backgroundColor: Colors.transparent,
                       builder: (context) {
                         return Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                           height: authState.currentRole == UserRole.company
                               ? MediaQuery.of(context).size.height * 0.6
                               : MediaQuery.of(context).size.height * 0.2,
@@ -94,10 +92,8 @@ class ProjectItem extends StatelessWidget {
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
-                                          color: theme.colorScheme.grey!
-                                              .withOpacity(0.4),
-                                          borderRadius:
-                                              BorderRadius.circular(50)),
+                                          color: theme.colorScheme.grey!.withOpacity(0.4),
+                                          borderRadius: BorderRadius.circular(50)),
                                       padding: const EdgeInsets.all(3),
                                       child: InkWell(
                                         onTap: () {
@@ -113,9 +109,7 @@ class ProjectItem extends StatelessWidget {
                                   ],
                                 ),
                                 MoreActionWidget(
-                                  project: item ??
-                                      projectProposal?.project ??
-                                      Project(),
+                                  project: item ?? projectProposal?.project ?? Project(),
                                   // projectId: item.id!,
                                 ),
                               ],
@@ -141,75 +135,91 @@ class ProjectItem extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 2),
-            Text(
-              // "Updated at ${formatIsoDateString(item?.updatedAt ?? projectProposal?.project?.updatedAt ?? '')}",
-              // "Updated at ${formatIsoDateString(item?.updatedAt ?? projectProposal?.project?.updatedAt ?? '')}",
-              updatedTimeProjectReviewKey.tr(namedArgs: {
-                "value": formatIsoDateString(item?.updatedAt ??
-                    projectProposal?.project?.updatedAt ??
-                    '')
-              }),
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.grey,
-                fontSize: 14,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              jobDescriptionExampleKey.tr(),
-              style: theme.textTheme.bodyMedium!
-                  .copyWith(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.only(left: 15),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(6, 9, 6, 6),
-                    child: FaIcon(
-                      FontAwesomeIcons.solidCircle,
-                      size: 6,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  Expanded(
-                    child: Text(
-                      item?.description ??
-                          projectProposal?.project?.description ??
-                          // 'Description',
-                          descriptionPlaceHolderKey.tr(),
-                      style: theme.textTheme.bodyMedium!.copyWith(
-                        fontSize: 14,
+            Row(
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        updatedTimeProjectReviewKey.tr(namedArgs: {
+                          "value": formatIsoDateString(item?.updatedAt ?? projectProposal?.project?.updatedAt ?? '')
+                        }),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: theme.colorScheme.grey,
+                          fontSize: 14,
+                        ),
                       ),
-                    ),
+                      const SizedBox(height: 10),
+                      Text(
+                        jobDescriptionExampleKey.tr(),
+                        style: theme.textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.fromLTRB(6, 9, 6, 6),
+                              child: FaIcon(
+                                FontAwesomeIcons.solidCircle,
+                                size: 6,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Expanded(
+                              child: Text(
+                                item?.description ??
+                                    projectProposal?.project?.description ??
+                                    // 'Description',
+                                    descriptionPlaceHolderKey.tr(),
+                                style: theme.textTheme.bodyMedium!.copyWith(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                Builder(builder: (context) {
+                  if (item?.status == 1) {
+                    return const FaIcon(
+                      FontAwesomeIcons.circleCheck,
+                      size: 20,
+                    );
+                  }
+                  if (item?.status == 2) {
+                    return const FaIcon(
+                      FontAwesomeIcons.circleExclamation,
+                      size: 20,
+                    );
+                  }
+                  return const SizedBox.shrink();
+                }),
+              ],
             ),
-            const SizedBox(height: 24),
             Builder(builder: (context) {
               final data = [
                 {
                   "label": proposalsProjectReviewKey.tr(),
-                  "total": item?.countProposals ??
-                      projectProposal?.project?.countProposals ??
-                      0
+                  "total": item?.countProposals ?? projectProposal?.project?.countProposals ?? 0
                 },
                 {
                   "label": messagesProjectReviewKey.tr(),
-                  "total": item?.countMessages ??
-                      projectProposal?.project?.countProposals ??
-                      0
+                  "total": item?.countMessages ?? projectProposal?.project?.countProposals ?? 0
                 },
                 {
                   "label": hiredProjectReviewKey.tr(),
-                  "total": item?.countHired ??
-                      projectProposal?.project?.countProposals ??
-                      0
+                  "total": item?.countHired ?? projectProposal?.project?.countProposals ?? 0
                 },
               ];
               return GridView.count(
@@ -222,8 +232,7 @@ class ProjectItem extends StatelessWidget {
                 children: data.map((item) {
                   return Container(
                     width: MediaQuery.of(context).size.width / 3.5,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     margin: const EdgeInsets.symmetric(horizontal: 2),
                     decoration: BoxDecoration(
                       color: theme.colorScheme.grey!.withOpacity(0.08),
@@ -236,19 +245,13 @@ class ProjectItem extends StatelessWidget {
                         Text(
                           item['total'].toString(),
                           style: theme.textTheme.bodyMedium!.copyWith(
-                            color:
-                                theme.colorScheme.brightness == Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black,
+                            color: theme.colorScheme.brightness == Brightness.dark ? Colors.white : Colors.black,
                           ),
                         ),
                         Text(
                           item['label'].toString(),
                           style: theme.textTheme.bodyMedium!.copyWith(
-                            color:
-                                theme.colorScheme.brightness == Brightness.dark
-                                    ? Colors.white
-                                    : primaryColor,
+                            color: theme.colorScheme.brightness == Brightness.dark ? Colors.white : primaryColor,
                             fontSize: 15,
                           ),
                         ),
