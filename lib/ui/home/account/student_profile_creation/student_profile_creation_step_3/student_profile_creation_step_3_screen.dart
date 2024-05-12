@@ -334,9 +334,13 @@ class _StudentProfileCreationStep3ScreenState
                                 width: MediaQuery.of(context).size.width * 0.6,
                                 margin: const EdgeInsets.only(right: 10),
                                 padding: const EdgeInsets.fromLTRB(15, 8, 0, 8),
-                                decoration: const BoxDecoration(
-                                  color: Color(0xffF6F7F9),
-                                  borderRadius: BorderRadius.all(
+                                decoration: BoxDecoration(
+                                  // color: Color(0xffF6F7F9),
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? const Color(0xff242435)
+                                      : Colors.white,
+                                  borderRadius: const BorderRadius.all(
                                     Radius.circular(6),
                                   ),
                                 ),
@@ -512,9 +516,13 @@ class _StudentProfileCreationStep3ScreenState
                                 width: MediaQuery.of(context).size.width * 0.7,
                                 margin: const EdgeInsets.only(right: 10),
                                 padding: const EdgeInsets.fromLTRB(15, 8, 0, 8),
-                                decoration: const BoxDecoration(
-                                  color: Color(0xffF6F7F9),
-                                  borderRadius: BorderRadius.all(
+                                decoration: BoxDecoration(
+                                  // color: Color(0xffF6F7F9),
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? const Color(0xff242435)
+                                      : Colors.white,
+                                  borderRadius: const BorderRadius.all(
                                     Radius.circular(6),
                                   ),
                                 ),
@@ -626,19 +634,19 @@ class _StudentProfileCreationStep3ScreenState
                                 path: resultTranScript!.files.first.path
                                     .toString(),
                                 userId: userId,
-                                onSuccess: () {
-                                  SnackBarService.showSnackBar(
-                                      content: 'Upload Successfully',
-                                      status: StatusSnackBar.success);
-                                  context.pop(context);
-                                  context.pop(context);
-                                  context.pop(context);
-                                },
+                                onSuccess: () {},
                                 name: resultTranScript!.files.first.name
                                     .toString(),
                               ),
                             );
                       }
+
+                      SnackBarService.showSnackBar(
+                          content: 'Upload Successfully',
+                          status: StatusSnackBar.success);
+                      context.pushNamed(
+                        'home',
+                      );
                     }),
               ],
             );

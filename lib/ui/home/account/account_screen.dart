@@ -94,6 +94,11 @@ class _AccountState extends State<AccountScreen> {
                       hoverColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       unselectedWidgetColor: primaryColor,
+                      dialogTheme: DialogTheme(
+                          backgroundColor:
+                              Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.black
+                                  : Colors.white),
                       expansionTileTheme: const ExpansionTileThemeData(
                         backgroundColor: Colors.transparent,
                         collapsedBackgroundColor: Colors.transparent,

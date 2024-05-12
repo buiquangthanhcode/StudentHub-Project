@@ -14,6 +14,7 @@ import 'package:studenthub/data/dto/reponse.dart';
 import 'package:studenthub/data/dto/student/request_post_resume.dart';
 import 'package:studenthub/data/dto/student/request_update_education.dart';
 import 'package:studenthub/data/dto/student/request_update_language.dart';
+import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/models/student/student_create_profile/resume_model.dart';
 import 'package:studenthub/models/student/student_model.dart';
@@ -30,6 +31,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
             submitProjectProposals: const [],
             activeProjectProposals: const [],
             isLoading: false,
+            workingProject: const [],
           ),
         ) {
     on<AddSkillSetEvent>(_onAllSkillSet);
@@ -62,6 +64,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     on<GetTranScription>(_onGetTranScription);
     on<RemoveResumeEvent>(_onRemoveResume);
     on<RemoveTranScriptEvent>(_onRemoveTranscript);
+    on<GetWorkingProjectEvents>(_onGetWorkingProject);
   }
 
   StudentService studentService = StudentService();
@@ -495,6 +498,23 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       final response = await studentService.removeTranScription(event.studentId.toString());
       if (response.statusCode! <= 300) {
         emit(state.update(student: state.student.copyWith(transcriptUrl: '', transcript: null)));
+        if (event.onSuccess != null) {
+          event.onSuccess!();
+        }
+        EasyLoading.dismiss();
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      logger.e(e);
+    }
+  }
+
+  FutureOr<void> _onGetWorkingProject(GetWorkingProjectEvents event, Emitter<StudentState> emit) async {
+    try {
+      EasyLoading.show(status: loadingBtnKey.tr());
+      final response = await studentService.getWorkingProject(event);
+      if (response.statusCode! <= 200) {
+        emit(state.update(workingProject: response.data));
         if (event.onSuccess != null) {
           event.onSuccess!();
         }

@@ -234,7 +234,7 @@
 	"cancel_upper": "CANCEL",
 	"ok_upper": "OK",
 	"change_language_success": "Change language successfully!",
-	"chat_theme": "Change Theme",
+	"change_theme": "Change Theme",
 	"day": "Day",
 	"night": "Night",
 	"change_theme_success": "Change theme successfully!",
@@ -249,5 +249,18 @@
 	"describe_company": "Please describe your company",
 	"enter_your_company_placeholder": "Enter your company's name",
 	"enter_your_company_website_url_placeholder": "Enter your website's URL",
-	"enter_your_description_placeholder": "Enter your description"
+	"enter_your_description_placeholder": "Enter your description",
+	"view_offer": "View offer",
+	"you_have_offer_msg": "You have an OFFER!",
+	"join": "Join",
+	"new_msg": "New message is sent by {value}",
+	"mark_all_as_read": "Mark all as read",
+	"no_notifications_alert": "You haven't received any notifications yet.",
+	"no_messages_alert": "You haven't received any messages yet.",
+	"accept_offer": "Accept Offer",
+	"accept_offer_msg": "Accept successfully",
+	"one_of_four": "1 / 4",
+	"two_of_four": "2 / 4",
+	"three_of_four": "3 / 4",
+	"four_of_four": "4 / 4"
 }

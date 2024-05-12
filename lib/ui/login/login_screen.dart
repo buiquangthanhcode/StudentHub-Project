@@ -89,6 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   // hintText: 'Username',
                   hintText: userNameKey.tr(),
                   initialValue: "buiquangthanh1709@gmail.com",
+                  // initialValue: "nguyenthoaidangkhoa+15@gmail.com",
                   validator: FormBuilderValidators.compose([
                     FormBuilderValidators.required(),
                     FormBuilderValidators.email(),
@@ -116,7 +117,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   // hintText: 'Password',
                   hintText: passwordKey.tr(),
                   initialValue: 'Buiquangthanh@1709',
+                  // initialValue: '@Khoa123',
                   obscureText: true,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: FormBuilderValidators.compose([
                     FormBuilderValidators.required(),
                     FormBuilderValidators.minLength(8),

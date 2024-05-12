@@ -32,12 +32,20 @@ class SettingDetailScreen extends StatefulWidget {
 class _SettingDetailScreenState extends State<SettingDetailScreen> {
   final _formChangePassWord = GlobalKey<FormBuilderState>();
   late LanguageProfile? langSelect;
+  late ThemeProfile? themeSelect;
 
   Future<LanguageProfile> getCurrentLanguage() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('language') == 'en'
         ? LanguageProfile.en
         : LanguageProfile.vn;
+  }
+
+  Future<ThemeProfile> getCurrentTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('theme') == 'dark'
+        ? ThemeProfile.dark
+        : ThemeProfile.light;
   }
 
   @override
@@ -48,9 +56,12 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
         langSelect = value;
       });
     });
+    getCurrentTheme().then((value) {
+      setState(() {
+        themeSelect = value;
+      });
+    });
   }
-
-  ThemeProfile? themeSelect = ThemeProfile.light;
 
   void changeLanguage(LanguageProfile? value) {
     setState(() {
@@ -110,7 +121,7 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
       {
         'icon': FontAwesomeIcons.themeco,
         // 'name': 'Change theme',
-        'name': chatThemeKey.tr(),
+        'name': changeThemeKey.tr(),
         'key': 'theme',
       },
       {
@@ -196,9 +207,18 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                   const SizedBox(height: 24),
                                   Container(
                                     decoration: BoxDecoration(
+                                      // color: langSelect == LanguageProfile.vn
+                                      //     ? const Color(0xfff2f5f8)
+                                      //     : Colors.white,
                                       color: langSelect == LanguageProfile.vn
-                                          ? const Color(0xfff2f5f8)
-                                          : Colors.white,
+                                          ? (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? const Color(0xff242435)
+                                              : const Color(0xfff2f5f8))
+                                          : (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? Colors.black
+                                              : Colors.white),
                                       borderRadius: BorderRadius.circular(18.0),
                                     ),
                                     padding: const EdgeInsets.symmetric(
@@ -223,9 +243,17 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                             ),
                                           ),
                                           const SizedBox(width: 16),
-                                          Text(vietnameseKey.tr(),
-                                              style: const TextStyle(
-                                                  color: Colors.black)),
+                                          Text(
+                                            vietnameseKey.tr(),
+                                            style: TextStyle(
+                                              // color: Colors.black,
+                                              color: Theme.of(context)
+                                                          .brightness ==
+                                                      Brightness.light
+                                                  ? Colors.black
+                                                  : Colors.white,
+                                            ),
+                                          ),
                                         ],
                                       ),
                                       activeColor: primaryColor,
@@ -236,9 +264,18 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 4, horizontal: 8),
                                     decoration: BoxDecoration(
+                                      // color: langSelect == LanguageProfile.en
+                                      //     ? const Color(0xfff2f5f8)
+                                      //     : Colors.white,
                                       color: langSelect == LanguageProfile.en
-                                          ? const Color(0xfff2f5f8)
-                                          : Colors.white,
+                                          ? (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? const Color(0xff242435)
+                                              : const Color(0xfff2f5f8))
+                                          : (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? Colors.black
+                                              : Colors.white),
                                       borderRadius: BorderRadius.circular(18.0),
                                     ),
                                     child: RadioListTile<LanguageProfile>(
@@ -260,9 +297,17 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                                 height: 30,
                                               )),
                                           const SizedBox(width: 16),
-                                          Text(englishKey.tr(),
-                                              style: const TextStyle(
-                                                  color: Colors.black)),
+                                          Text(
+                                            englishKey.tr(),
+                                            style: TextStyle(
+                                              // color: Colors.black,
+                                              color: Theme.of(context)
+                                                          .brightness ==
+                                                      Brightness.light
+                                                  ? Colors.black
+                                                  : Colors.white,
+                                            ),
+                                          ),
                                         ],
                                       ),
                                       activeColor: primaryColor,
@@ -366,7 +411,7 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                             maxLines: null,
                                             keyboardType:
                                                 TextInputType.multiline,
-                                            icon: Icon(
+                                            icon: const Icon(
                                               Icons.lock,
                                               color: Colors.grey,
                                             )),
@@ -382,7 +427,7 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                             maxLines: null,
                                             keyboardType:
                                                 TextInputType.multiline,
-                                            icon: Icon(
+                                            icon: const Icon(
                                               Icons.lock,
                                               color: Colors.grey,
                                             )),
@@ -399,7 +444,7 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                             maxLines: null,
                                             keyboardType:
                                                 TextInputType.multiline,
-                                            icon: Icon(
+                                            icon: const Icon(
                                               Icons.lock,
                                               color: Colors.grey,
                                             )),
@@ -518,7 +563,7 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                     children: [
                                       Text(
                                         // 'Change Theme',
-                                        chatThemeKey.tr(),
+                                        changeThemeKey.tr(),
                                         style: theme.textTheme.bodyMedium
                                             ?.copyWith(
                                           fontWeight: FontWeight.bold,
@@ -549,8 +594,14 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                   Container(
                                     decoration: BoxDecoration(
                                       color: themeSelect == ThemeProfile.light
-                                          ? const Color(0xfff2f5f8)
-                                          : Colors.white,
+                                          ? (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? const Color(0xff242435)
+                                              : const Color(0xfff2f5f8))
+                                          : (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? Colors.black
+                                              : Colors.white),
                                       borderRadius: BorderRadius.circular(18.0),
                                     ),
                                     padding: const EdgeInsets.symmetric(
@@ -568,18 +619,26 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                           ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(5),
-                                            child: Image.asset(
-                                              'lib/assets/images/light.png',
-                                              width: 30,
-                                              height: 30,
-                                            ),
+                                            // child: Image.asset(
+                                            //   'lib/assets/images/light.png',
+                                            //   width: 30,
+                                            //   height: 30,
+                                            // ),
+                                            child: const Icon(
+                                                FontAwesomeIcons.sun),
                                           ),
                                           const SizedBox(width: 16),
                                           // Text("Sáng"),
                                           Text(
                                             dayKey.tr(),
-                                            style: const TextStyle(
-                                                color: Colors.black),
+                                            style: TextStyle(
+                                              // color: Colors.black,
+                                              color: Theme.of(context)
+                                                          .brightness ==
+                                                      Brightness.light
+                                                  ? Colors.black
+                                                  : Colors.white,
+                                            ),
                                           )
                                         ],
                                       ),
@@ -592,8 +651,14 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                         vertical: 4, horizontal: 8),
                                     decoration: BoxDecoration(
                                       color: themeSelect == ThemeProfile.dark
-                                          ? const Color(0xfff2f5f8)
-                                          : Colors.white,
+                                          ? (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? const Color(0xff242435)
+                                              : const Color(0xfff2f5f8))
+                                          : (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? Colors.black
+                                              : Colors.white),
                                       borderRadius: BorderRadius.circular(18.0),
                                     ),
                                     child: RadioListTile<ThemeProfile>(
@@ -607,19 +672,28 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                             MainAxisAlignment.start,
                                         children: [
                                           ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                              child: Image.asset(
-                                                'lib/assets/images/dark.png',
-                                                width: 30,
-                                                height: 30,
-                                              )),
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            // child: Image.asset(
+                                            //   'lib/assets/images/dark.png',
+                                            //   width: 30,
+                                            //   height: 30,
+                                            // ),
+                                            child: const FaIcon(
+                                                FontAwesomeIcons.cloudMoon),
+                                          ),
                                           const SizedBox(width: 16),
                                           // Text("Tối"),
                                           Text(
                                             nightKey.tr(),
-                                            style: const TextStyle(
-                                                color: Colors.black),
+                                            style: TextStyle(
+                                              // color: Colors.black,
+                                              color: Theme.of(context)
+                                                          .brightness ==
+                                                      Brightness.light
+                                                  ? Colors.black
+                                                  : Colors.white,
+                                            ),
                                           )
                                         ],
                                       ),

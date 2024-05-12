@@ -73,7 +73,8 @@ String formatIsoDateString(String isoDateString) {
 }
 
 SkillSet getSkillSetByName(String value, List<SkillSet> data) {
-  SkillSet? skill = data.firstWhere((element) => element.name == value, orElse: () => SkillSet(id: -1, name: ''));
+  SkillSet? skill = data.firstWhere((element) => element.name == value,
+      orElse: () => SkillSet(id: -1, name: ''));
   return skill;
 }
 
@@ -89,7 +90,8 @@ DateTime parseMonthYear(String? monthYearString) {
 
 void sortProjectsByCreatedAt(List<ProjectProposal> projects) {
   projects.sort((a, b) {
-    if (a.createdAt != null && b.createdAt != null) return b.createdAt!.compareTo(a.createdAt!);
+    if (a.createdAt != null && b.createdAt != null)
+      return b.createdAt!.compareTo(a.createdAt!);
     return 1;
   });
 }
@@ -120,7 +122,9 @@ String checkDateTime(String dateTimeString) {
 
   DateTime dateTime = DateTime.parse(dateTimeString);
 
-  if (dateTime.year == now.year && dateTime.month == now.month && dateTime.day == now.day) {
+  if (dateTime.year == now.year &&
+      dateTime.month == now.month &&
+      dateTime.day == now.day) {
     dateTime = dateTime.toLocal();
     return DateFormat('HH:mm').format(dateTime);
   } else {
@@ -189,9 +193,18 @@ int generateRandomInt32() {
 extension GoRouterExtension on GoRouter {
   String location() {
     final RouteMatch lastMatch = routerDelegate.currentConfiguration.last;
-    final RouteMatchList matchList =
-        lastMatch is ImperativeRouteMatch ? lastMatch.matches : routerDelegate.currentConfiguration;
+    final RouteMatchList matchList = lastMatch is ImperativeRouteMatch
+        ? lastMatch.matches
+        : routerDelegate.currentConfiguration;
     final String location = matchList.uri.toString();
     return location;
   }
+}
+
+String getLastSubstringAfterDot(String filename) {
+  List<String> parts = filename.split('.');
+  if (parts.length > 1) {
+    return parts.last;
+  }
+  return '';
 }

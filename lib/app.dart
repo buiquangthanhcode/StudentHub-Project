@@ -1,12 +1,8 @@
-import 'dart:math';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
-import 'package:socket_io_client/socket_io_client.dart';
-import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_bloc.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
@@ -15,18 +11,15 @@ import 'package:studenthub/blocs/navigation_bloc/navigation_bloc.dart';
 import 'package:studenthub/blocs/navigation_bloc/navigation_state.dart';
 import 'package:studenthub/blocs/navigation_bloc/navigation_type.dart';
 import 'package:studenthub/blocs/notification_bloc/notification_bloc.dart';
-import 'package:studenthub/blocs/notification_bloc/notification_state.dart';
 import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
 import 'package:studenthub/blocs/global_bloc/global_bloc.dart';
 // import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/theme_bloc/theme_bloc.dart';
+import 'package:studenthub/blocs/theme_bloc/theme_event.dart';
 import 'package:studenthub/blocs/theme_bloc/theme_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
-import 'package:studenthub/core/local_notification.dart';
 import 'package:studenthub/routes.dart';
-import 'package:studenthub/utils/helper.dart';
-import 'package:studenthub/utils/logger.dart';
 
 GlobalKey<NavigatorState> navigatorKeys = GlobalKey<NavigatorState>(); //  Add by Quang Thanh
 
@@ -80,7 +73,7 @@ class _StudentHubState extends State<StudentHub> with WidgetsBindingObserver {
           create: (BuildContext context) => NavigatorStatusBloc(),
         ),
         BlocProvider<ThemesBloc>(
-          create: (BuildContext context) => ThemesBloc(),
+          create: (BuildContext context) => ThemesBloc()..add(ToggleThemeEvent()),
         ),
         BlocProvider<AuthBloc>(
           create: (BuildContext context) => AuthBloc(),
