@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -7,7 +6,6 @@ import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/models/common/chat_model.dart';
 import 'package:studenthub/utils/helper.dart';
-import 'package:studenthub/utils/logger.dart';
 
 class ChatItem extends StatelessWidget {
   const ChatItem({
@@ -24,7 +22,6 @@ class ChatItem extends StatelessWidget {
     String chattingUserId = chat.sender['id'].toString() != context.read<AuthBloc>().state.userModel.id.toString()
         ? chat.sender['id'].toString()
         : chat.receiver['id'].toString();
-    // logger.d(chattingUserId);
 
     String username = chat.sender['id'].toString() == chattingUserId
         ? chat.sender['fullname'] ?? ''

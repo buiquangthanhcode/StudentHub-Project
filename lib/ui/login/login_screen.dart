@@ -117,6 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   hintText: passwordKey.tr(),
                   initialValue: 'Buiquangthanh@1709',
                   obscureText: true,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: FormBuilderValidators.compose([
                     FormBuilderValidators.required(),
                     FormBuilderValidators.minLength(8),
@@ -368,8 +369,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     onPressed: () {
                       // validate form
-                      logger.d(_formKeyLogin.currentState?.saveAndValidate());
-
                       if (_formKeyLogin.currentState?.saveAndValidate() ??
                           false) {
                         context.read<AuthBloc>().add(
@@ -385,7 +384,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 onSuccess: () {
                                   AuthenState auth =
                                       context.read<AuthBloc>().state;
-                                  logger.d(auth.currentRole);
                                   if (auth.isCompanyRole() &&
                                       auth.userModel.company == null) {
                                     context.pushNamed('company_create_profile');

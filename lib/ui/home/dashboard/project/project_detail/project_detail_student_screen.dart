@@ -70,7 +70,6 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                   widget.projectProposal!.project?.id.toString() ??
                   ''),
         );
-    // logger.d('PROJECT ID: ${widget.projectProposal!.projectId.toString()}');
     context.read<ChatBloc>().add(
           GetChatItemOfProjectEvent(
             projectId: widget.projectProposal!.projectId.toString(),
@@ -85,10 +84,6 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     AuthenState authSate = context.read<AuthBloc>().state;
-
-    logger.d('ITEM: ${widget.item}');
-    logger.d('ITEM: ${widget.projectProposal}');
-
     return BlocBuilder<GeneralProjectBloc, GeneralProjectState>(
       builder: (BuildContext context, GeneralProjectState state) {
         return Scaffold(
@@ -192,10 +187,7 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontWeight: FontWeight.bold,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .black
-                                        ?.withOpacity(0.6),
+                                    color: Colors.black.withOpacity(0.6),
                                   ),
                         ),
                         BulletList([
@@ -332,15 +324,12 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                             state.chatItem.sender['id'].toString() == currentId
                                 ? state.chatItem.receiver['fullname'].toString()
                                 : state.chatItem.sender['fullname'].toString();
-                        ChatService chatService = ChatService();
-                        chatService
-                            .getAllChatWithUserId(userId, projectId)
-                            .then((value) {
-                          setState(() {
-                            hasChat = value.data!.isNotEmpty;
-                          });
-                          logger.d('CHAT: ${value.data!.length}');
-                        });
+                        // ChatService chatService = ChatService();
+                        // chatService.getAllChatWithUserId(userId, projectId).then((value) {
+                        //   setState(() {
+                        //     hasChat = value.data!.isNotEmpty;
+                        //   });
+                        // });
                         return Opacity(
                           opacity: hasChat ? 1 : 0.5,
                           child: ElevatedButton(

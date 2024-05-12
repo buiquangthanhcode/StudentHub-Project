@@ -31,6 +31,7 @@ class TextFieldFormCustom extends StatefulWidget {
     this.autofocus,
     this.obscureText,
     this.isPasswordText,
+    this.autovalidateMode,
   });
 
   final String name;
@@ -57,6 +58,7 @@ class TextFieldFormCustom extends StatefulWidget {
   final bool? autofocus;
   final bool? obscureText; // add new
   final bool? isPasswordText;
+  final AutovalidateMode? autovalidateMode;
 
   @override
   State<TextFieldFormCustom> createState() => _TextFieldFormCustomState();
@@ -99,6 +101,7 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
         validator: widget.validator,
         maxLines: widget.maxLines ?? 1,
         obscureText: obscureText,
+        autovalidateMode: widget.autovalidateMode,
         autocorrect: widget.autocorrect ?? true,
         autofocus: widget.autofocus ?? false,
         initialValue: widget.initialValue ?? '',
@@ -158,7 +161,6 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
             } else if (_textfieldKey.currentState?.value != '') {
               return IconButton(
                 onPressed: () {
-                  print("!23");
                   setState(() {
                     _textfieldKey.currentState?.didChange('');
                   });

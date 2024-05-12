@@ -12,6 +12,7 @@ import 'package:studenthub/ui/home/account/company_profile_creation/profile_crea
 import 'package:studenthub/ui/home/account/company_profile_creation/profile_edit/company_profile_edit_screen.dart';
 import 'package:studenthub/ui/home/account/company_profile_creation/welcome_screen.dart';
 import 'package:studenthub/ui/home/account/account_screen.dart';
+import 'package:studenthub/ui/home/account/detail/student_detail_screen.dart';
 import 'package:studenthub/ui/home/account/setting_detail/setting_detail_scren.dart';
 import 'package:studenthub/ui/home/dashboard/project/project_detail/project_detail_company_screen.dart';
 import 'package:studenthub/ui/home/dashboard/project/project_detail/project_detail_student_screen.dart';
@@ -269,6 +270,15 @@ final GoRouter router = GoRouter(
         return const AccountScreen();
       },
     ),
+    GoRoute(
+      path: '/student_detail',
+      builder: (BuildContext context, GoRouterState state) {
+        return StudentDetailScreen(
+          item: state.extra as ProjectProposal,
+        );
+      },
+    ),
+
     GoRoute(
       path: '/welcome_screen',
       builder: (BuildContext context, GoRouterState state) {

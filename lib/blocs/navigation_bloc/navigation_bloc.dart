@@ -4,8 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:studenthub/blocs/navigation_bloc/navigation_event.dart';
 import 'package:studenthub/blocs/navigation_bloc/navigation_state.dart';
 import 'package:studenthub/blocs/navigation_bloc/navigation_type.dart';
-import 'package:studenthub/services/local_services.dart';
-import 'package:studenthub/utils/logger.dart';
 
 class NavigatorStatusBloc extends Bloc<NavigatorStatusEvent, NavigatorStatusState> {
   NavigatorStatusBloc()

@@ -18,10 +18,12 @@ class EducationItem extends StatelessWidget {
     super.key,
     required this.theme,
     required this.item,
+    this.isShowOnlyUI = false,
   });
 
   final ThemeData theme;
   final Education item;
+  final bool isShowOnlyUI;
 
   @override
   Widget build(BuildContext context) {
@@ -63,8 +65,7 @@ class EducationItem extends StatelessWidget {
           const Spacer(),
           InkWell(
             onTap: () {
-              showModalBottomSheetCustom(context,
-                  widgetBuilder: EducationEdit(item: item));
+              showModalBottomSheetCustom(context, widgetBuilder: EducationEdit(item: item));
             },
             child: FaIcon(
               FontAwesomeIcons.penToSquare,
@@ -85,15 +86,9 @@ class EducationItem extends StatelessWidget {
                 // subtitle: 'This action cannot be undone',
                 subtitle: thisActionCannotBeUndoneKey.tr(),
                 onSave: () {
-                  int userId =
-                      BlocProvider.of<StudentBloc>(context).state.student.id ??
-                          0;
+                  int userId = BlocProvider.of<StudentBloc>(context).state.student.id ?? 0;
                   List<Education> currentEducation =
-                      BlocProvider.of<StudentBloc>(context)
-                              .state
-                              .student
-                              .educations ??
-                          [];
+                      BlocProvider.of<StudentBloc>(context).state.student.educations ?? [];
 
                   for (var element in currentEducation) {
                     if (element.id == item.id) {

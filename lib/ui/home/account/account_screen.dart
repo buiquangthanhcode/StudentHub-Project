@@ -286,6 +286,7 @@ class _AccountState extends State<AccountScreen> {
                                 tokenService.clearToken();
                                 Future.delayed(
                                     const Duration(milliseconds: 500), () {
+                                  context.read<AuthBloc>().add(ResetBloc());
                                   context.pushNamed(e['route_name']);
                                 });
                               } else {

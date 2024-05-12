@@ -7,7 +7,7 @@ import 'package:open_file_plus/open_file_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/ui/home/account/student_profile_creation/student_profile_creation_step_3/student_profile_creation_step_3_screen.dart';
-import 'package:studenthub/utils/logger.dart';
+
 import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class DownloadingDialog extends StatefulWidget {

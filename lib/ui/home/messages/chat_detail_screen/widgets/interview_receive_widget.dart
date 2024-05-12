@@ -3,13 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
-import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
-import 'package:studenthub/models/common/interview_model.dart';
 import 'package:studenthub/services/interview/interview.dart';
 import 'package:studenthub/ui/home/messages/widgets/get_more_action_widget.dart';
 import 'package:studenthub/utils/helper.dart';
-import 'package:studenthub/utils/logger.dart';
 
 class InterviewReceiveWidget extends StatelessWidget {
   const InterviewReceiveWidget(
@@ -47,7 +44,6 @@ class InterviewReceiveWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     InterviewService _interviewService = InterviewService();
-    // logger.d(messageList[index].interview.id);
     bool isCancel = messageList[index].interview.disableFlag == 1;
 
     return Container(
