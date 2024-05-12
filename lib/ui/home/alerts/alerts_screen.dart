@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +12,7 @@ import 'package:studenthub/blocs/notification_bloc/notification_event.dart';
 import 'package:studenthub/blocs/notification_bloc/notification_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/notification/notification_model.dart';
 import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/widgets/emtyDataWidget.dart';
@@ -186,7 +188,8 @@ class _AlertsState extends State<AlertsScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Alerts',
+                    // 'Alerts',
+                    alertsNavKey.tr(),
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           fontWeight: FontWeight.w700,
                         ),

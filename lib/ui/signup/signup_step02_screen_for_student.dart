@@ -29,11 +29,17 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
   final formKeyLogin = GlobalKey<FormBuilderState>();
 
   void handleSubmit() {
-    if ((formKeyLogin.currentState?.saveAndValidate() ?? false) && isAcceptCondition) {
+    if ((formKeyLogin.currentState?.saveAndValidate() ?? false) &&
+        isAcceptCondition) {
       final requestRegisterAccount = RequestRegisterAccount(
-        email: formKeyLogin.currentState?.fields['email']?.value.toString() ?? '',
-        password: formKeyLogin.currentState?.fields['password']?.value.toString() ?? '',
-        fullname: formKeyLogin.currentState?.fields['fullname']?.value.toString() ?? '',
+        email:
+            formKeyLogin.currentState?.fields['email']?.value.toString() ?? '',
+        password:
+            formKeyLogin.currentState?.fields['password']?.value.toString() ??
+                '',
+        fullname:
+            formKeyLogin.currentState?.fields['fullname']?.value.toString() ??
+                '',
         role: widget.role ?? "0",
       );
       if (!isAcceptCondition) {
@@ -87,7 +93,8 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
                           // text: 'Student',
                           text: studentRoleKey.tr(),
                           style: const TextStyle(
-                            color: primaryColor, // Replace with your desired color
+                            color:
+                                primaryColor, // Replace with your desired color
                           ),
                         ),
                       ],
@@ -109,7 +116,8 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
                     FormBuilderValidators.required(),
                   ]),
                   onTap: () {
-                    Scrollable.ensureVisible(formKeyLogin.currentContext!, duration: const Duration(milliseconds: 500));
+                    Scrollable.ensureVisible(formKeyLogin.currentContext!,
+                        duration: const Duration(milliseconds: 500));
                   },
                   icon: Container(
                     width: 18,
@@ -186,7 +194,8 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
                         child: ListTileTheme(
                           horizontalTitleGap: 0.0,
                           child: CheckboxListTile(
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 25),
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 25),
                             activeColor: primaryColor,
                             title: RichText(
                                 text: TextSpan(
@@ -204,7 +213,8 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
                               ],
                             )),
                             controlAffinity: ListTileControlAffinity.leading,
-                            checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                            checkboxShape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15)),
                             value: isAcceptCondition,
                             onChanged: (value) {
                               setState(() {
@@ -244,7 +254,10 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
                       // 'Looking for staff? ',
                       lookingForStaffKey.tr(),
                       style: theme.textTheme.titleSmall?.copyWith(
-                        color: Colors.black54,
+                        // color: Colors.black54,
+                        color: Theme.of(context).brightness == Brightness.light
+                            ? Colors.black54
+                            : Colors.white,
                       ),
                     ),
                     InkWell(

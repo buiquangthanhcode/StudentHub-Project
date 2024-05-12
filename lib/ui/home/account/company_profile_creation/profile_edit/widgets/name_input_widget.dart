@@ -58,8 +58,7 @@ class _NameInputWidgetState extends State<NameInputWidget> {
           decoration: InputDecoration(
             // hintText: 'Enter your company name...',
             hintText: enterYourCompanyPlaceHolderKey.tr(),
-            hintStyle: textTheme.bodyMedium!
-                .copyWith(color: Theme.of(context).colorScheme.hintColor),
+            hintStyle: textTheme.bodyMedium!,
             suffixIcon: widget.companyNameInputController.text.isNotEmpty
                 ? Column(
                     mainAxisAlignment: MainAxisAlignment.center,

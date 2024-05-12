@@ -233,10 +233,14 @@ class _AccountState extends State<AccountScreen> {
                                       state.currentRole == UserRole.student
                                           ? companyRoleKey.tr()
                                           : studentRoleKey.tr(),
-                                      style:
-                                          theme.textTheme.bodyMedium?.copyWith(
-                                        color: Colors.grey,
-                                      ),
+                                      style: theme.textTheme.bodyMedium
+                                          ?.copyWith(
+                                              // color: Colors.grey,
+                                              color: Theme.of(context)
+                                                          .brightness ==
+                                                      Brightness.dark
+                                                  ? Colors.black54
+                                                  : Colors.grey),
                                     ),
                                   ],
                                 ),

@@ -28,11 +28,17 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForCompany> {
   final formKeyLogin = GlobalKey<FormBuilderState>();
 
   void handleSubmit() {
-    if ((formKeyLogin.currentState?.saveAndValidate() ?? false) && isAcceptCondtion) {
+    if ((formKeyLogin.currentState?.saveAndValidate() ?? false) &&
+        isAcceptCondtion) {
       final requestRegisterAccount = RequestRegisterAccount(
-        email: formKeyLogin.currentState?.fields['email']?.value.toString() ?? '',
-        password: formKeyLogin.currentState?.fields['password']?.value.toString() ?? '',
-        fullname: formKeyLogin.currentState?.fields['fullname']?.value.toString() ?? '',
+        email:
+            formKeyLogin.currentState?.fields['email']?.value.toString() ?? '',
+        password:
+            formKeyLogin.currentState?.fields['password']?.value.toString() ??
+                '',
+        fullname:
+            formKeyLogin.currentState?.fields['fullname']?.value.toString() ??
+                '',
         role: widget.role ?? "0",
       );
       if (!isAcceptCondtion) {
@@ -86,7 +92,8 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForCompany> {
                           // text: 'Company',
                           text: companyRoleKey.tr(),
                           style: const TextStyle(
-                            color: primaryColor, // Replace with your desired color
+                            color:
+                                primaryColor, // Replace with your desired color
                           ),
                         ),
                       ],
@@ -108,7 +115,8 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForCompany> {
                     FormBuilderValidators.required(),
                   ]),
                   onTap: () {
-                    Scrollable.ensureVisible(formKeyLogin.currentContext!, duration: const Duration(milliseconds: 500));
+                    Scrollable.ensureVisible(formKeyLogin.currentContext!,
+                        duration: const Duration(milliseconds: 500));
                   },
                   icon: Container(
                     width: 18,
@@ -184,7 +192,8 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForCompany> {
                         child: ListTileTheme(
                           horizontalTitleGap: 0.0,
                           child: CheckboxListTile(
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 25),
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 25),
                             activeColor: primaryColor,
                             title: RichText(
                                 text: TextSpan(
@@ -202,7 +211,8 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForCompany> {
                               ],
                             )),
                             controlAffinity: ListTileControlAffinity.leading,
-                            checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                            checkboxShape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15)),
                             value: isAcceptCondtion,
                             onChanged: (value) {
                               setState(() {
@@ -242,7 +252,10 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForCompany> {
                       // 'Looking for project? ',
                       lookingForProjectKey.tr(),
                       style: theme.textTheme.titleSmall?.copyWith(
-                        color: Colors.black54,
+                        // color: Colors.black54,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black54,
                       ),
                     ),
                     InkWell(
