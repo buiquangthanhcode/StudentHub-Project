@@ -67,7 +67,8 @@ class InterviewReceiveWidget extends StatelessWidget {
                     width: 28,
                     height: 28,
                     child: CircleAvatar(
-                      backgroundImage: AssetImage('lib/assets/images/circle_avatar.png'),
+                      backgroundImage:
+                          AssetImage('lib/assets/images/circle_avatar.png'),
                     ),
                   ),
           const SizedBox(
@@ -80,9 +81,13 @@ class InterviewReceiveWidget extends StatelessWidget {
                 ? const EdgeInsets.symmetric(horizontal: 10, vertical: 12)
                 : const EdgeInsets.fromLTRB(14, 10, 8, 4),
             decoration: BoxDecoration(
-                color: isCancel ? Colors.white : const Color.fromARGB(255, 245, 245, 245),
+                color: isCancel
+                    ? Theme.of(context).colorScheme.chatColorContentBackground
+                    : const Color.fromARGB(255, 245, 245, 245),
                 borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: const Color.fromARGB(255, 210, 210, 210), width: isCancel ? 2 : 0)),
+                border: Border.all(
+                    color: const Color.fromARGB(255, 210, 210, 210),
+                    width: isCancel ? 2 : 0)),
             child: isCancel
                 ? Text(
                     'A meeting ${messageList[index].interview.title ?? ''} has been canceled.',
@@ -152,13 +157,19 @@ class InterviewReceiveWidget extends StatelessWidget {
                                       isEdit: true,
                                       callBack: (value) {
                                         if (value == true) {
-                                          _interviewService.cancelInterview(messageList[index].interview.id);
+                                          _interviewService.cancelInterview(
+                                              messageList[index].interview.id);
                                         } else if (value == false) {
                                         } else {
-                                          _interviewService.updateInterview(messageList[index].interview.id, {
+                                          _interviewService.updateInterview(
+                                              messageList[index].interview.id, {
                                             "title": value['title'],
-                                            "startTime": convertToIso8601(value['start_date'], value['time_start']),
-                                            "endTime": convertToIso8601(value['end_date'], value['time_end']),
+                                            "startTime": convertToIso8601(
+                                                value['start_date'],
+                                                value['time_start']),
+                                            "endTime": convertToIso8601(
+                                                value['end_date'],
+                                                value['time_end']),
                                           });
                                         }
                                       },

@@ -7,6 +7,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_event.dart';
 import 'package:studenthub/blocs/project_bloc/project_state.dart';
+import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
@@ -15,7 +16,8 @@ class ProjectPostStep01Screen extends StatefulWidget {
   const ProjectPostStep01Screen({super.key});
 
   @override
-  State<ProjectPostStep01Screen> createState() => _ProjectPostStep01ScreenState();
+  State<ProjectPostStep01Screen> createState() =>
+      _ProjectPostStep01ScreenState();
 }
 
 class _ProjectPostStep01ScreenState extends State<ProjectPostStep01Screen> {
@@ -34,7 +36,10 @@ class _ProjectPostStep01ScreenState extends State<ProjectPostStep01Screen> {
             titleSpacing: 0,
             title: Text(
               newPostTitleKey.tr(),
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold, fontSize: 22),
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium!
+                  .copyWith(fontWeight: FontWeight.bold, fontSize: 22),
             ),
             actions: [
               Padding(
@@ -82,12 +87,15 @@ class _ProjectPostStep01ScreenState extends State<ProjectPostStep01Screen> {
                       }
                       return null;
                     },
-                    style: Theme.of(context).textTheme.bodyMedium, // Adjust the font size as needed
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium, // Adjust the font size as needed
                     decoration: InputDecoration(
                       hintText: newPostTitlePlacerHolderKey.tr(),
-                      hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: const Color.fromARGB(255, 149, 148, 148),
-                          ),
+                      hintStyle:
+                          Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                color: const Color.fromARGB(255, 149, 148, 148),
+                              ),
                       border: const OutlineInputBorder(
                         borderSide: BorderSide(
                           color: Colors.black,
@@ -95,7 +103,9 @@ class _ProjectPostStep01ScreenState extends State<ProjectPostStep01Screen> {
                         ),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 12 // Adjust the vertical padding as needed
+                          vertical: 8,
+                          horizontal:
+                              12 // Adjust the vertical padding as needed
                           ),
                     ),
                     onChanged: (value) {
@@ -123,17 +133,22 @@ class _ProjectPostStep01ScreenState extends State<ProjectPostStep01Screen> {
                   const Spacer(),
                   ElevatedButton(
                     onPressed: () {
-                      if (_formKeyPostStep01.currentState?.validate() ?? false) {
+                      if (_formKeyPostStep01.currentState?.validate() ??
+                          false) {
                         final currentProject = Project(
                           title: _textEditingController.text,
                         );
-                        context.read<ProjectBloc>().add(UpdateNewProjectEvent(currentProject));
+                        context
+                            .read<ProjectBloc>()
+                            .add(UpdateNewProjectEvent(currentProject));
                         context.push('/home/project_post/step_02');
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16), // Adjust padding as needed
-                      minimumSize: const Size(double.infinity, 48), // Set minimum button size
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16), // Adjust padding as needed
+                      minimumSize: const Size(
+                          double.infinity, 48), // Set minimum button size
                       backgroundColor: (_textEditingController.text.isNotEmpty)
                           ? const Color(0xff3961FB)
                           : const Color(0xff3961FB).withOpacity(0.5),

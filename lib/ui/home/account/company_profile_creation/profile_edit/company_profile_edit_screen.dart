@@ -94,8 +94,10 @@ class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
               title: Text(
                 // 'Edit Profile',
                 editProfileTitleKey.tr(),
-                style:
-                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall
+                    ?.copyWith(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               centerTitle: false,
             ),

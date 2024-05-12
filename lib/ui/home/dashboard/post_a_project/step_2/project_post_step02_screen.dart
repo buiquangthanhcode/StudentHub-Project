@@ -6,6 +6,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_event.dart';
 import 'package:studenthub/blocs/project_bloc/project_state.dart';
+import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_model.dart';
@@ -76,7 +77,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                 Text(
                   estimateJobDescriptionKey.tr(),
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: Colors.black.withOpacity(0.6),
+                        color: Theme.of(context).colorScheme.black,
                       ),
                 ),
                 const SizedBox(height: 36),
@@ -85,7 +86,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black.withOpacity(0.6),
+                        color: Theme.of(context).colorScheme.black,
                       ),
                 ),
                 Column(
@@ -97,7 +98,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                       title: Text(
                         lessThan1MonthKey.tr(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: Colors.black.withOpacity(0.6),
+                              color: Theme.of(context).colorScheme.black,
                             ),
                       ),
                       value: TimeOption.option1,
@@ -114,7 +115,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                       title: Text(
                         oneToThreeMonthsKey.tr(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: Colors.black.withOpacity(0.6),
+                              color: Theme.of(context).colorScheme.black,
                             ),
                       ),
                       value: TimeOption.option2,
@@ -131,7 +132,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                       title: Text(
                         threeToSixMonthsKey.tr(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: Colors.black.withOpacity(0.6),
+                              color: Theme.of(context).colorScheme.black,
                             ),
                       ),
                       value: TimeOption.option3,
@@ -148,7 +149,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                       title: Text(
                         moreThan6MonthsKey.tr(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: Colors.black.withOpacity(0.6),
+                              color: Theme.of(context).colorScheme.black,
                             ),
                       ),
                       value: TimeOption.option4,
@@ -167,7 +168,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black.withOpacity(0.6),
+                        color: Theme.of(context).colorScheme.black,
                       ),
                 ),
                 const SizedBox(height: 12),

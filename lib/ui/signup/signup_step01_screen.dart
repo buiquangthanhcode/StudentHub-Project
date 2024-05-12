@@ -91,7 +91,10 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     margin: const EdgeInsets.only(top: 10),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      // color: Colors.white,
+                      color: Brightness.dark == Theme.of(context).brightness
+                          ? Colors.black
+                          : Colors.white,
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
                         color: theme.colorScheme.grey!,
@@ -142,10 +145,12 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                         const SizedBox(
                           height: 12,
                         ),
-                        Text(item['description'],
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w400,
-                            ))
+                        Text(
+                          item['description'],
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w400,
+                          ),
+                        )
                       ],
                     ),
                   );
@@ -177,6 +182,9 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                     createAccountBtnKey.tr(),
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: Colors.white,
+                      // color: Theme.of(context).brightness == Brightness.dark
+                      //     ? Colors.white
+                      //     : Colors.black54,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -190,7 +198,9 @@ class _SignUpStep01State extends State<SignUpStep01Screen> {
                     // 'Already have an account? ',
                     alreadyHaveAccountKey.tr(),
                     style: theme.textTheme.titleSmall?.copyWith(
-                      color: Colors.black54,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black54,
                     ),
                   ),
                   InkWell(

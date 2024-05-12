@@ -51,7 +51,6 @@ class _EmployeeQuantitySelectionWidgetState
         Text(
           // 'Employees',
           employeesKey.tr(),
-          style: textTheme.bodySmall,
         ),
         const SizedBox(
           height: 12,
@@ -80,7 +79,8 @@ class _EmployeeQuantitySelectionWidgetState
                   child: Text(e,
                       style: employeeQuantityData[radioButtonSelected!] == e
                           ? textTheme.bodyMedium!.copyWith(color: Colors.white)
-                          : textTheme.bodyMedium!),
+                          : textTheme.bodyMedium!
+                              .copyWith(color: Colors.black)),
                 ),
               ),
             ),

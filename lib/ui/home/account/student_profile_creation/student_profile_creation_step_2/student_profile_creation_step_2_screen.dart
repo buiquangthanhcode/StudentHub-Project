@@ -52,10 +52,14 @@ class _StudentProfileCreationStep02ScreenState
         title: Text(
           // 'Experiences',
           experiencesTitleKey.tr(),
-          style: const TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
+          // style: const TextStyle(
+          //   fontSize: 24,
+          //   fontWeight: FontWeight.bold,
+          // ),
+          style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
         ),
         titleSpacing: 0,
         centerTitle: false,

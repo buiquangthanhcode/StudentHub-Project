@@ -67,7 +67,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         // text: 'Back',
                         text: backKey.tr(),
                         style: const TextStyle(
-                          color: primaryColor, // Replace with your desired color
+                          color:
+                              primaryColor, // Replace with your desired color
                         ),
                       ),
                     ],
@@ -121,8 +122,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     FormBuilderValidators.required(),
                     FormBuilderValidators.minLength(8),
                     FormBuilderValidators.maxLength(20),
-                    FormBuilderValidators.match(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
-                        errorText: 'Password must contain at least 1 special character, such as &, %, TM, or E.'),
+                    FormBuilderValidators.match(
+                        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
+                        errorText:
+                            'Password must contain at least 1 special character, such as &, %, TM, or E.'),
                   ]),
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
@@ -142,7 +145,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(top: 10), // Replace 10 with your desired margin value
+                  margin: const EdgeInsets.only(
+                      top: 10), // Replace 10 with your desired margin value
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Row(children: [
@@ -153,7 +157,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: const CustomCheckBox(),
                           ),
                           // Container(margin: EdgeInsets.only(left: 10), child: const GradientCheckBox(),),),
-                          const SizedBox(width: 10), // Replace 10 with your desired width
+                          const SizedBox(
+                              width: 10), // Replace 10 with your desired width
                           Text(
                             // 'Remember me',
                             rememberMeKey.tr(),
@@ -170,23 +175,31 @@ class _LoginScreenState extends State<LoginScreen> {
                           showModalBottomSheet(
                             context: context,
                             isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
                             builder: (context) {
                               return Container(
                                 padding: EdgeInsets.only(
                                   top: 12,
                                   left: 12,
                                   right: 12,
-                                  bottom: MediaQuery.of(context).viewInsets.bottom,
+                                  bottom:
+                                      MediaQuery.of(context).viewInsets.bottom,
                                 ),
-                                decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius:
-                                        BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                                decoration: BoxDecoration(
+                                    // color: Colors.white,
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.dark
+                                        ? Colors.black
+                                        : Colors.white,
+                                    borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20))),
                                 child: FormBuilder(
                                   key: _formForgotPassword,
                                   child: SingleChildScrollView(
                                     child: Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10.0),
                                       // decoration:
                                       //     BoxDecoration(color: Colors.red),
                                       child: Column(
@@ -197,7 +210,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                               Text(
                                                 // 'Reset Password',
                                                 resetPasswordTitleKey.tr(),
-                                                style: theme.textTheme.bodyMedium?.copyWith(
+                                                style: theme
+                                                    .textTheme.bodyMedium
+                                                    ?.copyWith(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 24,
                                                 ),
@@ -205,9 +220,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                               const Spacer(),
                                               Container(
                                                 decoration: BoxDecoration(
-                                                    color: theme.colorScheme.grey?.withOpacity(0.4),
-                                                    borderRadius: BorderRadius.circular(50)),
-                                                padding: const EdgeInsets.all(3),
+                                                    color: theme
+                                                        .colorScheme.grey
+                                                        ?.withOpacity(0.4),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            50)),
+                                                padding:
+                                                    const EdgeInsets.all(3),
                                                 child: InkWell(
                                                   onTap: () {
                                                     Navigator.pop(context);
@@ -230,10 +250,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                             fillColor: Colors.white,
                                             name: 'email',
                                             // hintText: 'Enter your email',
-                                            hintText: enterEmailPlaceHolderKey.tr(),
+                                            hintText:
+                                                enterEmailPlaceHolderKey.tr(),
                                             maxLines: null,
-                                            keyboardType: TextInputType.multiline,
-                                            validator: FormBuilderValidators.compose([
+                                            keyboardType:
+                                                TextInputType.multiline,
+                                            validator:
+                                                FormBuilderValidators.compose([
                                               FormBuilderValidators.required(),
                                               FormBuilderValidators.email(),
                                             ]),
@@ -245,7 +268,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                           ),
                                           const SizedBox(height: 36),
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 // 'Password should not use  any other site.',
@@ -261,34 +285,54 @@ class _LoginScreenState extends State<LoginScreen> {
                                               ])
                                             ],
                                           ),
-                                          SizedBox(height: MediaQuery.of(context).size.height * 0.25),
+                                          SizedBox(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.25),
                                           ElevatedButton(
                                             onPressed: () {
-                                              if (_formForgotPassword.currentState?.saveAndValidate() ?? false) {
+                                              if (_formForgotPassword
+                                                      .currentState
+                                                      ?.saveAndValidate() ??
+                                                  false) {
                                                 context.read<GlobalBloc>().add(
                                                       ResetPasswordEvent(
-                                                          email: _formForgotPassword.currentState?.value["email"]
-                                                              as String,
+                                                          email: _formForgotPassword
+                                                                  .currentState
+                                                                  ?.value[
+                                                              "email"] as String,
                                                           onSuccess: () {
-                                                            SnackBarService.showSnackBar(
-                                                                content:
-                                                                    // 'New password sent to your email',
-                                                                    newPasswordSentMsg.tr(),
-                                                                status: StatusSnackBar.success);
-                                                            Navigator.pop(context);
+                                                            SnackBarService
+                                                                .showSnackBar(
+                                                                    content:
+                                                                        // 'New password sent to your email',
+                                                                        newPasswordSentMsg
+                                                                            .tr(),
+                                                                    status: StatusSnackBar
+                                                                        .success);
+                                                            Navigator.pop(
+                                                                context);
                                                           }),
                                                     );
                                               }
                                             },
                                             style: ElevatedButton.styleFrom(
-                                                padding: const EdgeInsets.symmetric(
-                                                    vertical: 16), // Adjust padding as needed
-                                                minimumSize: const Size(double.infinity, 48) // Set minimum button size
+                                                padding: const EdgeInsets
+                                                    .symmetric(
+                                                    vertical:
+                                                        16), // Adjust padding as needed
+                                                minimumSize: const Size(
+                                                    double.infinity,
+                                                    48) // Set minimum button size
                                                 ),
                                             child: Text(
                                               // 'Reset Password',
                                               resetPasswordTitleKey.tr(),
-                                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium!
+                                                  .copyWith(
                                                     color: Colors.white,
                                                   ),
                                             ),
@@ -325,21 +369,31 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     onPressed: () {
                       // validate form
-                      if (_formKeyLogin.currentState?.saveAndValidate() ?? false) {
+                      if (_formKeyLogin.currentState?.saveAndValidate() ??
+                          false) {
                         context.read<AuthBloc>().add(
                               LoginEvent(
                                 requestLogin: RequestLogin(
-                                  email: _formKeyLogin.currentState!.fields['username']!.value.toString(),
-                                  password: _formKeyLogin.currentState!.fields['password']!.value.toString(),
+                                  email: _formKeyLogin
+                                      .currentState!.fields['username']!.value
+                                      .toString(),
+                                  password: _formKeyLogin
+                                      .currentState!.fields['password']!.value
+                                      .toString(),
                                 ),
                                 onSuccess: () {
-                                  AuthenState auth = context.read<AuthBloc>().state;
-                                  if (auth.isCompanyRole() && auth.userModel.company == null) {
+                                  AuthenState auth =
+                                      context.read<AuthBloc>().state;
+                                  if (auth.isCompanyRole() &&
+                                      auth.userModel.company == null) {
                                     context.pushNamed('company_create_profile');
-                                  } else if (auth.isStudentRole() && auth.userModel.student == null) {
-                                    context.pushNamed('student_create_profile_step_01');
+                                  } else if (auth.isStudentRole() &&
+                                      auth.userModel.student == null) {
+                                    context.pushNamed(
+                                        'student_create_profile_step_01');
                                   } else {
-                                    context.pushNamed('home', queryParameters: {'welcome': 'true'});
+                                    context.pushNamed('home',
+                                        queryParameters: {'welcome': 'true'});
                                   }
                                 },
                                 currentContext: context,
@@ -350,7 +404,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Text(
                       // 'Login',
                       loginBtnKey.tr(),
-                      style: theme.textTheme.bodyMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                          color: Colors.white, fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),
@@ -366,8 +421,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Text(
                           // "OR",
                           orKey.tr(),
-                          style: theme.textTheme.bodyMedium
-                              ?.copyWith(fontWeight: FontWeight.w600, fontSize: 14, color: theme.colorScheme.grey))),
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                              color: theme.colorScheme.grey))),
                   Expanded(
                     child: Divider(
                       color: theme.colorScheme.grey, // Set the color to grey
@@ -417,13 +474,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       // text: 'Already have an account? ',
                       text: alreadyHaveAccountKey.tr(),
                       style: theme.textTheme.titleSmall?.copyWith(
-                        color: Colors.black54,
+                        // color: Colors.black54,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black54,
                       ),
                       children: <TextSpan>[
                         TextSpan(
                           // text: 'Sign Up',
                           text: signupBtnKey.tr(),
-                          style: const TextStyle(fontWeight: FontWeight.bold, color: primaryColor),
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, color: primaryColor),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               context.pushNamed('signup_01');

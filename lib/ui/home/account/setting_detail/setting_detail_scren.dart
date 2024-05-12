@@ -223,7 +223,9 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                             ),
                                           ),
                                           const SizedBox(width: 16),
-                                          Text(vietnameseKey.tr()),
+                                          Text(vietnameseKey.tr(),
+                                              style: const TextStyle(
+                                                  color: Colors.black)),
                                         ],
                                       ),
                                       activeColor: primaryColor,
@@ -258,7 +260,9 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                                 height: 30,
                                               )),
                                           const SizedBox(width: 16),
-                                          Text(englishKey.tr()),
+                                          Text(englishKey.tr(),
+                                              style: const TextStyle(
+                                                  color: Colors.black)),
                                         ],
                                       ),
                                       activeColor: primaryColor,
@@ -272,17 +276,23 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                         showModalBottomSheet(
                           context: context,
                           isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
                           builder: (context) {
                             return Container(
                               padding: EdgeInsets.only(
-                                  bottom:
-                                      MediaQuery.of(context).viewInsets.bottom,
-                                  left: 12,
-                                  right: 12,
-                                  top: 12),
-                              decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.only(
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom,
+                                left: 12,
+                                right: 12,
+                                top: 12,
+                              ),
+                              decoration: BoxDecoration(
+                                  // color: Colors.white,
+                                  color: theme.brightness == Brightness.dark
+                                      ? Colors.black
+                                      : Colors.white,
+                                  // color: Colors.red,
+                                  borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(20),
                                       topRight: Radius.circular(20))),
                               // height: MediaQuery.of(context).size.height * 0.65,
@@ -306,6 +316,10 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                                   ?.copyWith(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 24,
+                                                color: theme.brightness ==
+                                                        Brightness.dark
+                                                    ? Colors.white
+                                                    : Colors.black,
                                               ),
                                             ),
                                             const Spacer(),
@@ -331,9 +345,14 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                         ),
                                         const SizedBox(height: 24),
                                         Text(
-                                          // 'Your new password must be different from your previous password.',
-                                          passwordSuggestionMsg.tr(),
-                                        ),
+                                            // 'Your new password must be different from your previous password.',
+                                            passwordSuggestionMsg.tr(),
+                                            style: TextStyle(
+                                              color: theme.brightness ==
+                                                      Brightness.dark
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                            )),
                                         const SizedBox(height: 24),
                                         TextFieldFormCustom(
                                             fillColor: Colors.white,
@@ -557,7 +576,11 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                           ),
                                           const SizedBox(width: 16),
                                           // Text("Sáng"),
-                                          Text(dayKey.tr())
+                                          Text(
+                                            dayKey.tr(),
+                                            style: const TextStyle(
+                                                color: Colors.black),
+                                          )
                                         ],
                                       ),
                                       activeColor: primaryColor,
@@ -593,7 +616,11 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                               )),
                                           const SizedBox(width: 16),
                                           // Text("Tối"),
-                                          Text(nightKey.tr())
+                                          Text(
+                                            nightKey.tr(),
+                                            style: const TextStyle(
+                                                color: Colors.black),
+                                          )
                                         ],
                                       ),
                                       activeColor: primaryColor,

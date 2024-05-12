@@ -6,6 +6,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_event.dart';
 import 'package:studenthub/blocs/project_bloc/project_state.dart';
+import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
@@ -14,7 +15,8 @@ class ProjectPostStep03Screen extends StatefulWidget {
   const ProjectPostStep03Screen({super.key});
 
   @override
-  State<ProjectPostStep03Screen> createState() => _ProjectPostStep03ScreenState();
+  State<ProjectPostStep03Screen> createState() =>
+      _ProjectPostStep03ScreenState();
 }
 
 class _ProjectPostStep03ScreenState extends State<ProjectPostStep03Screen> {
@@ -59,9 +61,9 @@ class _ProjectPostStep03ScreenState extends State<ProjectPostStep03Screen> {
               )
             ],
           ),
-          body: Form(
-            key: _formKeyPostStep03,
-            child: SingleChildScrollView(
+          body: Builder(builder: (context) {
+            return Form(
+              key: _formKeyPostStep03,
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 4),
                 child: Column(
@@ -79,11 +81,12 @@ class _ProjectPostStep03ScreenState extends State<ProjectPostStep03Screen> {
                       children: [
                         Text(
                           jobDescriptionExampleKey.tr(),
-                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black.withOpacity(0.6),
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black.withOpacity(0.6),
+                                  ),
                         ),
                         BulletList([
                           jobDescriptionExample1Key.tr(),
@@ -98,35 +101,33 @@ class _ProjectPostStep03ScreenState extends State<ProjectPostStep03Screen> {
                       children: [
                         Text(
                           yourDescriptionKey.tr(),
-                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black.withOpacity(0.6),
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black.withOpacity(0.6),
+                                  ),
                           // textAlign: TextAlign.left,
                         ),
                         const SizedBox(height: 12),
-                        TextFormField(
+                        TextField(
                           controller: _textEditingController,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Không được để trông';
-                            }
-                            return null;
-                          },
                           cursorHeight: 20,
-                          style: Theme.of(context).textTheme.bodyMedium, // Adjust the font size as needed
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium, // Adjust the font size as needed
                           maxLines: null, // Allows multiple lines
                           minLines: 6,
-                          onChanged: (value) {
-                            setState(() {});
-                          },
                           keyboardType: TextInputType.multiline,
-                          textInputAction: TextInputAction.newline, // Use 'newline' action for 'Done' button
+                          textInputAction: TextInputAction
+                              .newline, // Use 'newline' action for 'Done' button
                           decoration: InputDecoration(
-                            hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                  color: const Color.fromARGB(255, 149, 148, 148),
+                            hintStyle: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  color:
+                                      const Color.fromARGB(255, 149, 148, 148),
                                 ),
                             border: const OutlineInputBorder(
                               borderSide: BorderSide(
@@ -142,27 +143,23 @@ class _ProjectPostStep03ScreenState extends State<ProjectPostStep03Screen> {
                     // const Spacer(),
                     ElevatedButton(
                       onPressed: () {
-                        if (_textEditingController.text.isEmpty) {
-                          return;
-                        }
-                        if (_formKeyPostStep03.currentState?.validate() ?? false) {
-                          // context.push('/project_post/step_04');
-                          final currentProject = {
-                            ...state.projectCreation.toMap(),
-                            'description': _textEditingController.text
-                          };
-                          Project newProject = Project.fromMap(currentProject);
-                          context.read<ProjectBloc>().add(UpdateNewProjectEvent(newProject));
-                          context.push('/home/project_post/step_04');
-                        }
+                        // context.push('/project_post/step_04');
+                        final currentProject = {
+                          ...state.projectCreation.toMap(),
+                          'description': _textEditingController.text
+                        };
+                        Project newProject = Project.fromMap(currentProject);
+                        context
+                            .read<ProjectBloc>()
+                            .add(UpdateNewProjectEvent(newProject));
+                        context.push('/home/project_post/step_04');
                       },
                       style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16), // Adjust padding as needed
-                        minimumSize: const Size(double.infinity, 48), // Set minimum button size,
-                        backgroundColor: (_textEditingController.text.isNotEmpty)
-                            ? const Color(0xff3961FB)
-                            : const Color(0xff3961FB).withOpacity(0.5),
-                      ),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 16), // Adjust padding as needed
+                          minimumSize: const Size(
+                              double.infinity, 48) // Set minimum button size
+                          ),
                       child: Text(
                         continueBtnKey.tr(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -174,8 +171,8 @@ class _ProjectPostStep03ScreenState extends State<ProjectPostStep03Screen> {
                   ],
                 ),
               ),
-            ),
-          ),
+            );
+          }),
         );
       },
     );

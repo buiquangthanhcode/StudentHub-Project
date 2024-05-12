@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/key_translator.dart';
 
@@ -71,17 +72,27 @@ class _EmployeeQuantitySelectionWidgetState
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
+                    // color: employeeQuantityData[radioButtonSelected!] == e
+                    //     ? primaryColor
+                    //     : const Color.fromARGB(255, 235, 235, 235),
                     color: employeeQuantityData[radioButtonSelected!] == e
                         ? primaryColor
                         : const Color.fromARGB(255, 235, 235, 235),
                   ),
-                  child: Text(e,
-                      style: employeeQuantityData[radioButtonSelected!] == e
-                          ? textTheme.bodyMedium!.copyWith(color: Colors.white)
-                          : textTheme.bodyMedium!),
+                  child: Text(
+                    e,
+                    // style: employeeQuantityData[radioButtonSelected!] == e
+                    //     ? textTheme.bodyMedium!.copyWith(color: Colors.white)
+                    //     : textTheme.bodyMedium!),
+                    style: employeeQuantityData[radioButtonSelected!] == e
+                        ? textTheme.bodyMedium?.copyWith(
+                            color: Colors.white,
+                          )
+                        : textTheme.bodyMedium?.copyWith(color: Colors.black),
+                  ),
                 ),
               ),
-            ),
+            )
           ],
         ),
       ],
