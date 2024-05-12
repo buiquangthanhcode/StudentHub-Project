@@ -212,7 +212,6 @@ class InterviewReceiveWidget extends StatelessWidget {
                               minimumSize: const Size(100, 40),
                             ),
                             onPressed: () {
-                              // JitsiMeetService.instance.join();
                               join(messageList[index].interview);
                             },
                             child: const Text(

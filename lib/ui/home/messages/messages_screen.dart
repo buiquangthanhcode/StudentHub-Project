@@ -59,8 +59,7 @@ class _MessagesState extends State<MessagesScreen> {
     var colorTheme = Theme.of(context).colorScheme;
     final theme = Theme.of(context);
 
-    return BlocBuilder<ChatBloc, ChatState>(
-        builder: (BuildContext context, ChatState state) {
+    return BlocBuilder<ChatBloc, ChatState>(builder: (BuildContext context, ChatState state) {
       return Scaffold(
         appBar: widget.isHiddenAppbar ?? false
             ? null
@@ -77,7 +76,6 @@ class _MessagesState extends State<MessagesScreen> {
                 actions: [
                   InkWell(
                     onTap: () {
-                      // context.pushNamed('project_saved');
                       context.pushNamed('active_interview');
                     },
                     child: Container(
@@ -114,26 +112,28 @@ class _MessagesState extends State<MessagesScreen> {
                       child: TextField(
                         focusNode: _searchFocus,
                         onChanged: (value) {
-                          if (value.isEmpty || value.length == 1) {
+                          if (value.isEmpty) {
                             setState(() {});
                           }
+                        },
+                        onSubmitted: (value) {
+                          context.read<ChatBloc>().add(
+                                SearchChatEvent(search: value),
+                              );
                         },
                         cursorHeight: 18,
                         controller: searchController,
                         cursorColor: Colors.black,
-                        style:
-                            textTheme.bodyMedium!.copyWith(color: Colors.black),
+                        style: textTheme.bodyMedium!.copyWith(color: Colors.black),
                         decoration: InputDecoration(
                           hintText: searchForMsgKey.tr(),
-                          hintStyle: textTheme.bodyMedium!.copyWith(
-                              color: Theme.of(context).colorScheme.hintColor),
+                          hintStyle: textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.hintColor),
                           prefixIcon: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               FaIcon(
                                 FontAwesomeIcons.magnifyingGlass,
-                                color: theme.colorScheme.brightness ==
-                                        Brightness.dark
+                                color: theme.colorScheme.brightness == Brightness.dark
                                     ? Theme.of(context).colorScheme.hintColor
                                     : colorTheme.black,
                               ),
@@ -147,6 +147,9 @@ class _MessagesState extends State<MessagesScreen> {
                                       onTap: () {
                                         searchController.clear();
                                         setState(() {});
+                                        context.read<ChatBloc>().add(
+                                              GetAllDataEvent(),
+                                            );
                                       },
                                       child: Container(
                                         width: 18,
@@ -154,11 +157,9 @@ class _MessagesState extends State<MessagesScreen> {
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: colorTheme.brightness ==
-                                                  Brightness.dark
+                                          color: colorTheme.brightness == Brightness.dark
                                               ? primaryColor
-                                              : const Color.fromARGB(
-                                                  255, 191, 191, 191),
+                                              : const Color.fromARGB(255, 191, 191, 191),
                                         ),
                                         child: const FaIcon(
                                           FontAwesomeIcons.xmark,
@@ -170,10 +171,8 @@ class _MessagesState extends State<MessagesScreen> {
                                   ],
                                 )
                               : Container(width: 1),
-                          suffixIconConstraints:
-                              const BoxConstraints(minWidth: 50),
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 12),
+                          suffixIconConstraints: const BoxConstraints(minWidth: 50),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
                           isDense: true,
                           filled: true,
                           fillColor: colorTheme.brightness == Brightness.dark
@@ -231,8 +230,7 @@ class _MessagesState extends State<MessagesScreen> {
                               // subTitle: "You haven't received any messages yet.",
                               // subTitle: noProjectFoundKey.tr(),
                               subTitle: noMessagesAlertKey.tr(),
-                              widthImage:
-                                  MediaQuery.of(context).size.width * 0.5,
+                              widthImage: MediaQuery.of(context).size.width * 0.5,
                             ),
                           ),
                         ],

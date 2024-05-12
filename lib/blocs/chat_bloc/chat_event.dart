@@ -36,3 +36,9 @@ class GetChatItemOfProjectEvent extends ChatEvent {
   int myId;
   GetChatItemOfProjectEvent({required this.projectId, required this.myId});
 }
+
+// ignore: must_be_immutable
+class SearchChatEvent extends ChatEvent {
+  String search;
+  SearchChatEvent({required this.search});
+}

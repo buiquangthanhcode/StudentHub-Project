@@ -1,13 +1,15 @@
 import 'dart:math';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/models/common/proposal_modal.dart';
-import 'package:studenthub/models/notification/notification_model.dart';
 import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
 import 'package:studenthub/models/student/student_create_profile/tech_stack.dart';
 import 'package:studenthub/utils/logger.dart';
+import 'package:studenthub/utils/show_confirm_dialog.dart';
 
 DateTime stringToDateTime(String? dateString) {
   try {
@@ -73,8 +75,7 @@ String formatIsoDateString(String isoDateString) {
 }
 
 SkillSet getSkillSetByName(String value, List<SkillSet> data) {
-  SkillSet? skill = data.firstWhere((element) => element.name == value,
-      orElse: () => SkillSet(id: -1, name: ''));
+  SkillSet? skill = data.firstWhere((element) => element.name == value, orElse: () => SkillSet(id: -1, name: ''));
   return skill;
 }
 
@@ -90,8 +91,7 @@ DateTime parseMonthYear(String? monthYearString) {
 
 void sortProjectsByCreatedAt(List<ProjectProposal> projects) {
   projects.sort((a, b) {
-    if (a.createdAt != null && b.createdAt != null)
-      return b.createdAt!.compareTo(a.createdAt!);
+    if (a.createdAt != null && b.createdAt != null) return b.createdAt!.compareTo(a.createdAt!);
     return 1;
   });
 }
@@ -122,9 +122,7 @@ String checkDateTime(String dateTimeString) {
 
   DateTime dateTime = DateTime.parse(dateTimeString);
 
-  if (dateTime.year == now.year &&
-      dateTime.month == now.month &&
-      dateTime.day == now.day) {
+  if (dateTime.year == now.year && dateTime.month == now.month && dateTime.day == now.day) {
     dateTime = dateTime.toLocal();
     return DateFormat('HH:mm').format(dateTime);
   } else {
@@ -193,9 +191,8 @@ int generateRandomInt32() {
 extension GoRouterExtension on GoRouter {
   String location() {
     final RouteMatch lastMatch = routerDelegate.currentConfiguration.last;
-    final RouteMatchList matchList = lastMatch is ImperativeRouteMatch
-        ? lastMatch.matches
-        : routerDelegate.currentConfiguration;
+    final RouteMatchList matchList =
+        lastMatch is ImperativeRouteMatch ? lastMatch.matches : routerDelegate.currentConfiguration;
     final String location = matchList.uri.toString();
     return location;
   }
@@ -207,4 +204,24 @@ String getLastSubstringAfterDot(String filename) {
     return parts.last;
   }
   return '';
+}
+
+Future<void> requestNotificationPermission(BuildContext context) async {
+  var permissionStatus = await Permission.notification.status;
+
+  switch (permissionStatus) {
+    case PermissionStatus.denied:
+      await Permission.notification.request();
+      break;
+    case PermissionStatus.permanentlyDenied:
+      // ignore: use_build_context_synchronously
+      showDialogConfirm(context, title: 'Student Platform wants to grant notification permission',
+          confirmOnPress: () async {
+        await openAppSettings();
+        // ignore: use_build_context_synchronously
+        Navigator.pop(context);
+      });
+      break;
+    default:
+  }
 }

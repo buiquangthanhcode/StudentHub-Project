@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/blocs/global_bloc/global_bloc.dart';
 import 'package:studenthub/blocs/global_bloc/global_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
@@ -62,8 +61,8 @@ class _StudentDetailScreenState extends State<StudentDetailScreen> {
         ),
         body: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          decoration: const BoxDecoration(
-            color: Colors.white,
+          decoration: BoxDecoration(
+            color: Theme.of(context).scaffoldBackgroundColor,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -236,9 +235,9 @@ class _StudentDetailScreenState extends State<StudentDetailScreen> {
                       width: MediaQuery.of(context).size.width * 0.7,
                       margin: const EdgeInsets.only(right: 10),
                       padding: const EdgeInsets.fromLTRB(15, 8, 0, 8),
-                      decoration: const BoxDecoration(
-                        color: Color(0xffF6F7F9),
-                        borderRadius: BorderRadius.all(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).brightness == Brightness.dark ? const Color(0xff242435) : Colors.white,
+                        borderRadius: const BorderRadius.all(
                           Radius.circular(6),
                         ),
                       ),
@@ -305,9 +304,9 @@ class _StudentDetailScreenState extends State<StudentDetailScreen> {
                       width: MediaQuery.of(context).size.width * 0.7,
                       margin: const EdgeInsets.only(right: 10),
                       padding: const EdgeInsets.fromLTRB(15, 8, 0, 8),
-                      decoration: const BoxDecoration(
-                        color: Color(0xffF6F7F9),
-                        borderRadius: BorderRadius.all(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).brightness == Brightness.dark ? const Color(0xff242435) : Colors.white,
+                        borderRadius: const BorderRadius.all(
                           Radius.circular(6),
                         ),
                       ),

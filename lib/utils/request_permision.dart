@@ -11,7 +11,7 @@ Future<void> checkPermission(BuildContext context) async {
     switch (permissionStatus) {
       case PermissionStatus.denied:
         // ignore: use_build_context_synchronously
-        showDialogConfirm(context, title: 'StudentHub muốn cấp quyền vào thư mục', confirmOnPress: () async {
+        showDialogConfirm(context, title: 'Student Platform wants to access the directory.', confirmOnPress: () async {
           await openAppSettings();
           // ignore: use_build_context_synchronously
           Navigator.pop(context);

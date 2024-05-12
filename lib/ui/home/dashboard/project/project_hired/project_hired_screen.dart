@@ -19,8 +19,7 @@ class ProjectDetailHiredScreen extends StatefulWidget {
   final ProjectProposal? projectProposal;
 
   @override
-  State<ProjectDetailHiredScreen> createState() =>
-      _ProjectDetailHiredScreenState();
+  State<ProjectDetailHiredScreen> createState() => _ProjectDetailHiredScreenState();
 }
 
 class _ProjectDetailHiredScreenState extends State<ProjectDetailHiredScreen> {
@@ -30,17 +29,18 @@ class _ProjectDetailHiredScreenState extends State<ProjectDetailHiredScreen> {
   void initState() {
     super.initState();
     final requestProposal = RequestProjectProposal(
-      projectId: widget.item?.id.toString() ??
-          widget.projectProposal?.projectId.toString() ??
-          "0",
+      projectId: widget.item?.id.toString() ?? widget.projectProposal?.projectId.toString() ?? "0",
       statusFlag: 3,
     );
-    context.read<GeneralProjectBloc>().add(GetAllProposalOfProjectEvent(
-        requestProposal: requestProposal, onSuccess: () {}));
+    context
+        .read<GeneralProjectBloc>()
+        .add(GetAllProposalOfProjectEvent(requestProposal: requestProposal, onSuccess: () {}));
   }
 
   @override
   Widget build(BuildContext context) {
+    print(widget.item?.toMap());
+    print(widget.projectProposal?.toMap());
     final theme = Theme.of(context);
     return BlocBuilder<GeneralProjectBloc, GeneralProjectState>(
       builder: (context, state) {
@@ -64,7 +64,7 @@ class _ProjectDetailHiredScreenState extends State<ProjectDetailHiredScreen> {
                 theme: theme,
                 item: state.proposalHireList[index],
                 activeSentButton: false,
-                projectId: widget.item!.projectId.toString(),
+                projectId: (widget.item?.id ?? widget.projectProposal?.project?.projectId ?? "0").toString(),
               );
             },
             separatorBuilder: (context, index) {

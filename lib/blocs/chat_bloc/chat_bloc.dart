@@ -37,28 +37,26 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<GetChatListDataOfProjectEvent>(_onGetChatDataOfProject);
     on<GetChatItemOfProjectEvent>(_onGetChatItemOfProject);
     on<GetActiveInterviewEvent>(_onGetActiveInterview);
+    on<SearchChatEvent>(_onSearch);
   }
 
   final ChatService _chatService = ChatService();
   final InterviewService _interviewService = InterviewService();
 
-  FutureOr<void> _onGetAllData(
-      GetAllDataEvent event, Emitter<ChatState> emit) async {
+  FutureOr<void> _onGetAllData(GetAllDataEvent event, Emitter<ChatState> emit) async {
     try {
       // EasyLoading.show(status: 'Loading...');
       EasyLoading.show(status: loadingBtnKey.tr());
       ResponseAPI result = await _chatService.getAllData();
 
       List<Chat> data = result.data;
-      data.sort((a, b) =>
-          DateTime.parse(b.createdAt!).compareTo(DateTime.parse(a.createdAt!)));
+      data.sort((a, b) => DateTime.parse(b.createdAt!).compareTo(DateTime.parse(a.createdAt!)));
 
       if (result.statusCode! < 300) {
         emit(state.update(chatList: data));
       } else {
         SnackBarService.showSnackBar(
-            content: handleFormatMessage(result.data!.errorDetails),
-            status: StatusSnackBar.error);
+            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
       }
     } on DioException catch (e) {
       logger.e(
@@ -66,27 +64,22 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       );
     } catch (e) {
       logger.e("Unexpect error-> $e");
-      SnackBarService.showSnackBar(
-          content: handleFormatMessage(e.toString()),
-          status: StatusSnackBar.error);
+      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();
     }
   }
 
-  FutureOr<void> _onGetActiveInterview(
-      GetActiveInterviewEvent event, Emitter<ChatState> emit) async {
+  FutureOr<void> _onGetActiveInterview(GetActiveInterviewEvent event, Emitter<ChatState> emit) async {
     try {
       // EasyLoading.show(status: 'Loading...');
       EasyLoading.show(status: loadingBtnKey.tr());
-      ResponseAPI result =
-          await _interviewService.getActiveInterview(event.userId);
+      ResponseAPI result = await _interviewService.getActiveInterview(event.userId);
       if (result.statusCode! < 300) {
         emit(state.update(activeInterview: result.data));
       } else {
         SnackBarService.showSnackBar(
-            content: handleFormatMessage(result.data!.errorDetails),
-            status: StatusSnackBar.error);
+            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
       }
     } on DioException catch (e) {
       logger.e(
@@ -94,21 +87,17 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       );
     } catch (e) {
       logger.e("Unexpect error-> $e");
-      SnackBarService.showSnackBar(
-          content: handleFormatMessage(e.toString()),
-          status: StatusSnackBar.error);
+      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();
     }
   }
 
-  FutureOr<void> _onGetChatWithUserId(
-      GetChatWithUserIdEvent event, Emitter<ChatState> emit) async {
+  FutureOr<void> _onGetChatWithUserId(GetChatWithUserIdEvent event, Emitter<ChatState> emit) async {
     try {
       // EasyLoading.show(status: 'Loading...');
       EasyLoading.show(status: loadingBtnKey.tr());
-      ResponseAPI result = await _chatService.getAllChatWithUserId(
-          event.userId, event.projectId);
+      ResponseAPI result = await _chatService.getAllChatWithUserId(event.userId, event.projectId);
       // logger.d('MESSAGE DATA: ${result.data}');
       // List<Message> data = [];
       // for (Message i in result.data) {
@@ -120,8 +109,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         emit(state.update(messageList: result.data));
       } else {
         SnackBarService.showSnackBar(
-            content: handleFormatMessage(result.data!.errorDetails),
-            status: StatusSnackBar.error);
+            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
       }
     } on DioException catch (e) {
       logger.e(
@@ -129,27 +117,22 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       );
     } catch (e) {
       logger.e("Unexpect error-> $e");
-      SnackBarService.showSnackBar(
-          content: handleFormatMessage(e.toString()),
-          status: StatusSnackBar.error);
+      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();
     }
   }
 
-  FutureOr<void> _onGetChatDataOfProject(
-      GetChatListDataOfProjectEvent event, Emitter<ChatState> emit) async {
+  FutureOr<void> _onGetChatDataOfProject(GetChatListDataOfProjectEvent event, Emitter<ChatState> emit) async {
     try {
       // EasyLoading.show(status: 'Loading...');
       EasyLoading.show(status: loadingBtnKey.tr());
-      ResponseAPI result =
-          await _chatService.getChatDataOfProject(event.projectId);
+      ResponseAPI result = await _chatService.getChatDataOfProject(event.projectId);
       if (result.statusCode! < 300) {
         emit(state.update(chatListOfProject: result.data));
       } else {
         SnackBarService.showSnackBar(
-            content: handleFormatMessage(result.data!.errorDetails),
-            status: StatusSnackBar.error);
+            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
       }
     } on DioException catch (e) {
       logger.e(
@@ -157,21 +140,17 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       );
     } catch (e) {
       logger.e("Unexpect error-> $e");
-      SnackBarService.showSnackBar(
-          content: handleFormatMessage(e.toString()),
-          status: StatusSnackBar.error);
+      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();
     }
   }
 
-  FutureOr<void> _onGetChatItemOfProject(
-      GetChatItemOfProjectEvent event, Emitter<ChatState> emit) async {
+  FutureOr<void> _onGetChatItemOfProject(GetChatItemOfProjectEvent event, Emitter<ChatState> emit) async {
     try {
       // EasyLoading.show(status: 'Loading...');
       EasyLoading.show(status: loadingBtnKey.tr());
-      ResponseAPI result =
-          await _chatService.getChatDataOfProject(event.projectId);
+      ResponseAPI result = await _chatService.getChatDataOfProject(event.projectId);
       logger.d('PRO ID: ${event.projectId}');
       logger.d('MY ID: ${event.myId}');
 
@@ -185,8 +164,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         }
       } else {
         SnackBarService.showSnackBar(
-            content: handleFormatMessage(result.data!.errorDetails),
-            status: StatusSnackBar.error);
+            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
       }
     } on DioException catch (e) {
       logger.e(
@@ -194,9 +172,27 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       );
     } catch (e) {
       logger.e("Unexpect error-> $e");
-      SnackBarService.showSnackBar(
-          content: handleFormatMessage(e.toString()),
-          status: StatusSnackBar.error);
+      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
+
+  FutureOr<void> _onSearch(SearchChatEvent event, Emitter<ChatState> emit) async {
+    try {
+      // Filter by state according event.search
+      List<Chat> data = state.chatList
+          .where(
+              (element) => RegExp(event.search, caseSensitive: false).hasMatch(element.sender["fullname"].toString()))
+          .toList();
+      emit(state.update(chatList: data));
+    } on DioException catch (e) {
+      logger.e(
+        "DioException:${e.response}",
+      );
+    } catch (e) {
+      logger.e("Unexpect error-> $e");
+      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();
     }
