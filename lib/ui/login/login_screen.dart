@@ -117,7 +117,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   hintText: passwordKey.tr(),
                   initialValue: 'Buiquangthanh@1709',
                   obscureText: true,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: FormBuilderValidators.compose([
                     FormBuilderValidators.required(),
                     FormBuilderValidators.minLength(8),

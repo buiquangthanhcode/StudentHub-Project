@@ -1,3 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 @immutable
@@ -5,6 +8,14 @@ abstract class ChatEvent {}
 
 class GetAllDataEvent extends ChatEvent {
   GetAllDataEvent();
+}
+
+// ignore: must_be_immutable
+class GetActiveInterviewEvent extends ChatEvent {
+  String userId;
+  GetActiveInterviewEvent({
+    required this.userId,
+  });
 }
 
 // ignore: must_be_immutable
@@ -23,5 +34,5 @@ class GetChatListDataOfProjectEvent extends ChatEvent {
 class GetChatItemOfProjectEvent extends ChatEvent {
   String projectId;
   int myId;
-  GetChatItemOfProjectEvent({required this.projectId,required this.myId});
+  GetChatItemOfProjectEvent({required this.projectId, required this.myId});
 }

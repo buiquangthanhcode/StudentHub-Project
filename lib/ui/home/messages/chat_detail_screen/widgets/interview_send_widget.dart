@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
+import 'package:studenthub/models/common/interview_model.dart';
 import 'package:studenthub/services/interview/interview.dart';
 import 'package:studenthub/ui/home/messages/widgets/get_more_action_widget.dart';
 import 'package:studenthub/utils/helper.dart';
+import 'package:studenthub/utils/logger.dart';
 
 class InterviewSendWidget extends StatelessWidget {
   const InterviewSendWidget({
@@ -44,6 +47,7 @@ class InterviewSendWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     InterviewService _interviewService = InterviewService();
+    // logger.d(messageList[index].interview.id);
     bool isCancel = messageList[index].interview.disableFlag == 1;
 
     return Row(
@@ -62,17 +66,27 @@ class InterviewSendWidget extends StatelessWidget {
               ? const EdgeInsets.symmetric(horizontal: 10, vertical: 12)
               : const EdgeInsets.fromLTRB(14, 10, 8, 4),
           decoration: BoxDecoration(
-              color: isCancel ? Colors.white : primaryColor,
+              color: isCancel
+                  ? Theme.of(context)
+                      .colorScheme
+                      .chatColorCancelContentBackground
+                  : primaryColor,
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: const Color.fromARGB(255, 210, 210, 210), width: isCancel ? 2 : 0)),
+              border: Border.all(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? const Color.fromARGB(255, 80, 80, 80)
+                      : const Color.fromARGB(255, 210, 210, 210),
+                  width: isCancel ? 2 : 0)),
           child: isCancel
               ? Text(
                   'A meeting ${messageList[index].interview.title ?? ''} has been canceled.',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontStyle: FontStyle.italic,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: Color.fromARGB(255, 190, 190, 190),
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? const Color.fromARGB(255, 117, 117, 117)
+                        : const Color.fromARGB(255, 190, 190, 190),
                   ),
                 )
               : Column(
@@ -96,20 +110,20 @@ class InterviewSendWidget extends StatelessWidget {
                     const SizedBox(height: 10),
                     Text(
                       "Start Time: ${convertDateTimeFormat(messageList[index].interview.startTime ?? '')}",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.white),
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white),
                     ),
                     const SizedBox(
                       height: 6,
                     ),
                     Text(
                       "End Time: ${convertDateTimeFormat(messageList[index].interview.endTime ?? '')}",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.white),
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white),
                     ),
                     const SizedBox(
                       height: 16,
@@ -131,13 +145,19 @@ class InterviewSendWidget extends StatelessWidget {
                                     isEdit: true,
                                     callBack: (value) {
                                       if (value == true) {
-                                        _interviewService.cancelInterview(messageList[index].interview.id);
+                                        _interviewService.cancelInterview(
+                                            messageList[index].interview.id);
                                       } else if (value == false) {
                                       } else {
-                                        _interviewService.updateInterview(messageList[index].interview.id, {
+                                        _interviewService.updateInterview(
+                                            messageList[index].interview.id, {
                                           "title": value['title'],
-                                          "startTime": convertToIso8601(value['start_date'], value['time_start']),
-                                          "endTime": convertToIso8601(value['end_date'], value['time_end']),
+                                          "startTime": convertToIso8601(
+                                              value['start_date'],
+                                              value['time_start']),
+                                          "endTime": convertToIso8601(
+                                              value['end_date'],
+                                              value['time_end']),
                                         });
                                       }
                                     },
@@ -178,7 +198,9 @@ class InterviewSendWidget extends StatelessWidget {
                         Text(
                           checkDateTime(messageList[index].createdAt ?? ''),
                           style: const TextStyle(
-                              fontSize: 11, fontWeight: FontWeight.w400, color: Color.fromARGB(255, 230, 230, 230)),
+                              fontSize: 11,
+                              fontWeight: FontWeight.w400,
+                              color: Color.fromARGB(255, 230, 230, 230)),
                         ),
                       ],
                     ),

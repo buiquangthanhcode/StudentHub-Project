@@ -44,13 +44,13 @@ class SnackBarService {
 Color getColorSnackBar(StatusSnackBar type) {
   switch (type) {
     case StatusSnackBar.info:
-      return priorityColor.withOpacity(0.9);
+      return priorityColor;
     case StatusSnackBar.warning:
-      return statusColor.withOpacity(0.9);
+      return statusColor;
     case StatusSnackBar.error:
-      return cardinalColor.withOpacity(0.9);
+      return cardinalColor;
     case StatusSnackBar.success:
-      return fandangoColor.withOpacity(0.9);
+      return fandangoColor;
     default:
       return raisinBlackColor;
   }

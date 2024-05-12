@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:studenthub/constants/key_translator.dart';
+import 'package:studenthub/utils/logger.dart';
 
 class AutoCompleteWidget extends StatefulWidget {
   const AutoCompleteWidget({
@@ -63,7 +64,8 @@ class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
           displayStringForOption: (option) {
             return option;
           },
-          fieldViewBuilder: (context, fieldTextEditingController, focusNode, onFieldSubmitted) {
+          fieldViewBuilder: (context, fieldTextEditingController, focusNode,
+              onFieldSubmitted) {
             textEditingController = fieldTextEditingController;
             return TextFormField(
               controller: fieldTextEditingController,
@@ -80,7 +82,8 @@ class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
                   size: 18,
                 ),
                 // contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 isDense: true,
                 // hintText: 'Enter your skill',
                 hintText: enterSkillSetPlaceHolderKey.tr(),
@@ -97,7 +100,9 @@ class _AutoCompleteWidgetState extends State<AutoCompleteWidget> {
               return const Iterable<String>.empty();
             }
             final data = widget.data.where((String option) {
-              return option.toLowerCase().contains(skillsetTextEditController.text.toLowerCase());
+              return option
+                  .toLowerCase()
+                  .contains(skillsetTextEditController.text.toLowerCase());
             });
 
             if (data.isNotEmpty) {

@@ -12,6 +12,7 @@ import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/ui/home/projects/project_search/widgets/filter_dialog.dart';
 import 'package:studenthub/ui/home/projects/widgets/general_project_item.dart';
+import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/emtyDataWidget.dart';
 
 class ProjectSearchScreen extends StatefulWidget {
@@ -115,10 +116,16 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                 filterData = data;
                 page = 1;
                 bloc.add(GetSearchFilterDataEvent(
-                    searchController.text.isEmpty ? null : searchController.text,
+                    searchController.text.isEmpty
+                        ? null
+                        : searchController.text,
                     filterData['projectScopeFlag'],
-                    filterData['numberOfStudents'].isEmpty ? null : int.parse(filterData['numberOfStudents']),
-                    filterData['proposalsLessThan'].isEmpty ? null : int.parse(filterData['proposalsLessThan']),
+                    filterData['numberOfStudents'].isEmpty
+                        ? null
+                        : int.parse(filterData['numberOfStudents']),
+                    filterData['proposalsLessThan'].isEmpty
+                        ? null
+                        : int.parse(filterData['proposalsLessThan']),
                     page,
                     10));
               },
@@ -142,14 +149,22 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
   }
 
   void _scrollToBottomListener() {
-    if ((_listController.offset == _listController.position.maxScrollExtent) && enableCall) {
+    if ((_listController.offset == _listController.position.maxScrollExtent) &&
+        enableCall) {
+      logger.d('scroll to bottom: ${page + 1}');
       enableCall = false;
       preLength = bloc.state.projectSearchList.length;
       bloc.add(GetSearchFilterDataEvent(
           searchController.text.isEmpty ? null : searchController.text,
-          filterData['projectScopeFlag'] == -1 ? null : filterData['projectScopeFlag'],
-          filterData['numberOfStudents'].isEmpty ? null : int.parse(filterData['numberOfStudents']),
-          filterData['proposalsLessThan'].isEmpty ? null : int.parse(filterData['proposalsLessThan']),
+          filterData['projectScopeFlag'] == -1
+              ? null
+              : filterData['projectScopeFlag'],
+          filterData['numberOfStudents'].isEmpty
+              ? null
+              : int.parse(filterData['numberOfStudents']),
+          filterData['proposalsLessThan'].isEmpty
+              ? null
+              : int.parse(filterData['proposalsLessThan']),
           ++page,
           10));
     }
@@ -212,7 +227,8 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                       decoration: InputDecoration(
                         // hintText: 'Search for projects...',
                         hintText: searchForProjectsKey.tr(),
-                        hintStyle: textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.hintColor),
+                        hintStyle: textTheme.bodyMedium!.copyWith(
+                            color: Theme.of(context).colorScheme.hintColor),
                         prefixIcon: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -239,7 +255,8 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                                       alignment: Alignment.center,
                                       decoration: const BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: Color.fromARGB(255, 191, 191, 191),
+                                        color:
+                                            Color.fromARGB(255, 191, 191, 191),
                                       ),
                                       child: const FaIcon(
                                         FontAwesomeIcons.xmark,
@@ -251,8 +268,10 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                                 ],
                               )
                             : Container(width: 1),
-                        suffixIconConstraints: const BoxConstraints(minWidth: 50),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                        suffixIconConstraints:
+                            const BoxConstraints(minWidth: 50),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 12),
                         isDense: true,
                         filled: true,
                         fillColor: const Color.fromARGB(255, 245, 245, 245),
@@ -331,7 +350,9 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                       Text(
                         // 'Suggestions',
                         suggestionsKey.tr(),
-                        style: textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w600, color: colorTheme.grey),
+                        style: textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: colorTheme.grey),
                       ),
                       const SizedBox(
                         height: 5,
@@ -352,18 +373,30 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                                 'proposalsLessThan': '',
                               };
                               if (index == 0 && searchController.text.isEmpty) {
-                                bloc.add(GetSearchFilterDataEvent(null, null, null, null, page, 10));
+                                bloc.add(GetSearchFilterDataEvent(
+                                    null, null, null, null, page, 10));
                               } else {
-                                searchController.text = searchSuggestions[index];
-                                bloc.add(GetSearchFilterDataEvent(searchController.text, null, null, null, page, 10));
+                                searchController.text =
+                                    searchSuggestions[index];
+                                bloc.add(GetSearchFilterDataEvent(
+                                    searchController.text,
+                                    null,
+                                    null,
+                                    null,
+                                    page,
+                                    10));
                               }
                               setState(() {});
                             },
                             child: index != 0
                                 ? Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 15),
                                     decoration: BoxDecoration(
-                                        border: Border(bottom: BorderSide(width: 1, color: colorTheme.hintColor!))),
+                                        border: Border(
+                                            bottom: BorderSide(
+                                                width: 1,
+                                                color: colorTheme.hintColor!))),
                                     child: Row(
                                       children: [
                                         Expanded(
@@ -374,7 +407,8 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                                         )),
                                         const Spacer(),
                                         FaIcon(
-                                          FontAwesomeIcons.arrowUpRightFromSquare,
+                                          FontAwesomeIcons
+                                              .arrowUpRightFromSquare,
                                           size: 20,
                                           color: colorTheme.grey,
                                         ),
@@ -382,26 +416,38 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                                     ),
                                   )
                                 : Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 15),
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                        color: searchController.text.isEmpty ? primaryColor : Colors.white,
-                                        border: Border(bottom: BorderSide(width: 1, color: colorTheme.hintColor!))),
+                                        color: searchController.text.isEmpty
+                                            ? primaryColor
+                                            : Colors.white,
+                                        border: Border(
+                                            bottom: BorderSide(
+                                                width: 1,
+                                                color: colorTheme.hintColor!))),
                                     child: Row(
                                       children: [
                                         Expanded(
                                             child: Text(
                                           style: TextStyle(
-                                              color: searchController.text.isEmpty ? Colors.white : Colors.black),
+                                              color:
+                                                  searchController.text.isEmpty
+                                                      ? Colors.white
+                                                      : Colors.black),
                                           searchSuggestions[index],
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 2,
                                         )),
                                         const Spacer(),
                                         FaIcon(
-                                          FontAwesomeIcons.arrowUpRightFromSquare,
+                                          FontAwesomeIcons
+                                              .arrowUpRightFromSquare,
                                           size: 20,
-                                          color: searchController.text.isEmpty ? Colors.white : colorTheme.grey,
+                                          color: searchController.text.isEmpty
+                                              ? Colors.white
+                                              : colorTheme.grey,
                                         ),
                                       ],
                                     ),
@@ -430,12 +476,19 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                                   paddingRight: 12,
                                 );
                               } else {
+                                logger.d("PRE: $preLength");
+                                logger.d(
+                                    "SEARCH: ${state.projectSearchList.length}");
                                 return state.projectSearchList.isNotEmpty
-                                    ? (preLength != state.projectSearchList.length &&
-                                            state.projectSearchList.length >= 10)
+                                    ? (preLength !=
+                                                state
+                                                    .projectSearchList.length &&
+                                            state.projectSearchList.length >=
+                                                10)
                                         ? const Center(
                                             child: Padding(
-                                              padding: EdgeInsets.symmetric(vertical: 36),
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 36),
                                               child: CircularProgressIndicator(
                                                 color: primaryColor,
                                                 strokeWidth: 5,
@@ -444,8 +497,10 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                                           )
                                         : const Center(
                                             child: Padding(
-                                              padding: EdgeInsets.symmetric(vertical: 24),
-                                              child: Text('No more data to load'),
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 24),
+                                              child:
+                                                  Text('No more data to load'),
                                             ),
                                           )
                                     : null;
@@ -456,7 +511,8 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                               mainTitle: '',
                               // subTitle: "No projects found.",
                               subTitle: noProjectFoundKey.tr(),
-                              widthImage: MediaQuery.of(context).size.width * 0.5,
+                              widthImage:
+                                  MediaQuery.of(context).size.width * 0.5,
                             ),
                           ),
                   );

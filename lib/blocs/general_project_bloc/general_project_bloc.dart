@@ -51,6 +51,7 @@ class GeneralProjectBloc extends Bloc<GeneralProjectEvent, GeneralProjectState> 
         EasyLoading.show(status: loadingBtnKey.tr());
       }
       ResponseAPI result = await _allProjectsService.getAllProjects(event.page, event.perPage);
+      // logger.d(result.data.length);
 
       List<Project> data = List<Project>.from(state.projectList);
       data.addAll(result.data);
@@ -205,6 +206,7 @@ class GeneralProjectBloc extends Bloc<GeneralProjectEvent, GeneralProjectState> 
 
         final favoriteData =
             state.projectFavorite.where((project) => project.id != int.parse(event.projectId)).toList();
+        // logger.d("REMOVE FAVORITE: \n $data");
         emit(state.update(
             projectList: List<Project>.from(data),
             projectFavorite: List<Project>.from(favoriteData),
@@ -240,6 +242,9 @@ class GeneralProjectBloc extends Bloc<GeneralProjectEvent, GeneralProjectState> 
       }
       ResponseAPI result = await _allProjectsService.getSearchFilterData(event.title, event.projectScopeFlag,
           event.numberOfStudents, event.proposalsLessThan, event.page, event.perPage);
+
+      logger.d("BLOC: $result");
+
       List<Project> data = [];
       if (event.page != 1) {
         data = List<Project>.from(state.projectSearchList);

@@ -36,65 +36,70 @@ class _DatePickerCustomState extends State<DatePickerCustom> {
   void initState() {
     super.initState();
     if (widget.initialDate != null) {
-      textController.text = DateFormat('dd/MM/yyyy').format(widget.initialDate!).toString();
+      textController.text =
+          DateFormat('dd/MM/yyyy').format(widget.initialDate!).toString();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return FormBuilderField(
-      key: _textFormKey,
-      name: widget.name,
-      builder: (field) {
-        return TextFormField(
-          style: TextStyle(
-            color: Colors.grey[900],
-            fontSize: 16,
-          ),
-          controller: textController,
-          scrollPadding: const EdgeInsets.all(0),
-          decoration: InputDecoration(
-            labelText: widget.labelText ?? 'Date of Birth',
-            hintText: widget.hintText ?? 'Date of Birth',
-            contentPadding: const EdgeInsets.symmetric(
-              vertical: 0,
-              horizontal: 10,
-            ),
-            isDense: true,
-            hintStyle: TextStyle(
-              color: Colors.grey[400],
-              fontSize: 16,
-            ),
-            labelStyle: TextStyle(
-              color: Colors.grey[400],
-              fontSize: 16,
-            ),
-            prefixIcon: Icon(
-              Icons.calendar_today_rounded,
-              size: 16,
-              color: Colors.grey[500],
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-          ),
-          readOnly: true,
-          onSaved: (newValue) {
-            field.didChange(newValue);
-            field.save();
-            textController.text = newValue!;
+    return SizedBox(
+        height: 50,
+        child: FormBuilderField(
+          key: _textFormKey,
+          name: widget.name,
+          builder: (field) {
+            return TextFormField(
+              style: TextStyle(
+                color: Colors.grey[900],
+                fontSize: 16,
+              ),
+              controller: textController,
+              scrollPadding: const EdgeInsets.all(0),
+              decoration: InputDecoration(
+                labelText: widget.labelText ?? 'Date of Birth',
+                hintText: widget.hintText ?? 'Date of Birth',
+                contentPadding: const EdgeInsets.symmetric(
+                  vertical: 0,
+                  horizontal: 10,
+                ),
+                isDense: true,
+                hintStyle: TextStyle(
+                  color: Colors.grey[400],
+                  fontSize: 16,
+                ),
+                labelStyle: TextStyle(
+                  color: Colors.grey[400],
+                  fontSize: 16,
+                ),
+                prefixIcon: Icon(
+                  Icons.calendar_today_rounded,
+                  size: 16,
+                  color: Colors.grey[500],
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+              readOnly: true,
+              onSaved: (newValue) {
+                field.didChange(newValue);
+                field.save();
+                textController.text = newValue!;
+              },
+              onTap: () async {
+                DateTime? data =
+                    await showDatePickerCustom(context, view: widget.view);
+                if (data != null) {
+                  field.didChange(data);
+                  field.save();
+                  textController.text =
+                      DateFormat('dd/MM/yyyy').format(data).toString();
+                }
+              },
+            );
           },
-          onTap: () async {
-            DateTime? data = await showDatePickerCustom(context, view: widget.view);
-            if (data != null) {
-              field.didChange(data);
-              field.save();
-              textController.text = DateFormat('dd/MM/yyyy').format(data).toString();
-            }
-          },
-        );
-      },
-    );
+        ));
   }
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
@@ -118,9 +123,11 @@ class _DatePickerCustomState extends State<DatePickerCustom> {
     DateTime? initialDate,
     DateTime? firstDate,
     DateTime? lastDate,
-    DateRangePickerSelectionMode selectionMode = DateRangePickerSelectionMode.single,
+    DateRangePickerSelectionMode selectionMode =
+        DateRangePickerSelectionMode.single,
     DateRangePickerView view = DateRangePickerView.month,
-    DateRangePickerMonthViewSettings monthViewSettings = const DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
+    DateRangePickerMonthViewSettings monthViewSettings =
+        const DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
     bool showActionButtons = true,
     DateRangePickerHeaderStyle headerStyle = const DateRangePickerHeaderStyle(
         backgroundColor: primaryColor,
@@ -162,7 +169,9 @@ class _DatePickerCustomState extends State<DatePickerCustom> {
                     showActionButtons: showActionButtons,
                     cancelText: cancelUppercaseKey.tr(),
                     confirmText: okUppercaseKey.tr(),
-                    initialSelectedDate: initialDate ?? _textFormKey.currentState?.value ?? DateTime.now(),
+                    initialSelectedDate: initialDate ??
+                        _textFormKey.currentState?.value ??
+                        DateTime.now(),
                     headerStyle: headerStyle,
                     view: view,
                     monthViewSettings: monthViewSettings,

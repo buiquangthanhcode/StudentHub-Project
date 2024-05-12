@@ -29,7 +29,7 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
   final formKeyLogin = GlobalKey<FormBuilderState>();
 
   void handleSubmit() {
-    if ((formKeyLogin.currentState?.saveAndValidate() ?? false)) {
+    if ((formKeyLogin.currentState?.saveAndValidate() ?? false) && isAcceptCondition) {
       final requestRegisterAccount = RequestRegisterAccount(
         email:
             formKeyLogin.currentState?.fields['email']?.value.toString() ?? '',
@@ -46,6 +46,7 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
             // content: 'Please accept the terms of service',
             content: acceptTermsOfServiceKey.tr(),
             status: StatusSnackBar.info);
+        return;
       } else {
         context.read<AuthBloc>().add(RegisterAccount(
             requestRegister: requestRegisterAccount,

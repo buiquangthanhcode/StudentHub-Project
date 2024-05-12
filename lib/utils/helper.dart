@@ -116,6 +116,8 @@ List<TechStack> removeDuplicates(List<TechStack> list) {
 String checkDateTime(String dateTimeString) {
   if (dateTimeString.isEmpty) return '';
   DateTime now = DateTime.now();
+  logger.d(dateTimeString);
+
   DateTime dateTime = DateTime.parse(dateTimeString);
 
   if (dateTime.year == now.year && dateTime.month == now.month && dateTime.day == now.day) {
@@ -192,12 +194,4 @@ extension GoRouterExtension on GoRouter {
     final String location = matchList.uri.toString();
     return location;
   }
-}
-
-String getLastSubstringAfterDot(String filename) {
-  List<String> parts = filename.split('.');
-  if (parts.length > 1) {
-    return parts.last;
-  }
-  return '';
 }

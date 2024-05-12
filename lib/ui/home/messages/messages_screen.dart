@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_bloc.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_event.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_state.dart';
@@ -17,7 +18,6 @@ class MessagesScreen extends StatefulWidget {
 
   final bool? isHiddenAppbar;
   @override
-  // ignore: library_private_types_in_public_api
   _MessagesState createState() => _MessagesState();
 }
 
@@ -27,7 +27,12 @@ class _MessagesState extends State<MessagesScreen> {
 
   @override
   void initState() {
+    // _value = widget.value;
     _searchFocus.addListener(_onFocusChange);
+
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   showWelcomeDialog(context);
+    // });
     context.read<ChatBloc>().add(
           GetAllDataEvent(),
         );
@@ -52,8 +57,10 @@ class _MessagesState extends State<MessagesScreen> {
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     var colorTheme = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
 
-    return BlocBuilder<ChatBloc, ChatState>(builder: (BuildContext context, ChatState state) {
+    return BlocBuilder<ChatBloc, ChatState>(
+        builder: (BuildContext context, ChatState state) {
       return Scaffold(
         appBar: widget.isHiddenAppbar ?? false
             ? null
@@ -67,6 +74,31 @@ class _MessagesState extends State<MessagesScreen> {
                         fontWeight: FontWeight.w700,
                       ),
                 ),
+                actions: [
+                  InkWell(
+                    onTap: () {
+                      // context.pushNamed('project_saved');
+                      context.pushNamed('active_interview');
+                    },
+                    child: Container(
+                      height: 39,
+                      width: 39,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: theme.colorScheme.brightness == Brightness.dark
+                            ? primaryColor
+                            : const Color.fromARGB(255, 245, 245, 245),
+                      ),
+                      alignment: Alignment.center,
+                      child: FaIcon(
+                        FontAwesomeIcons.solidCalendarCheck,
+                        color: colorTheme.black,
+                        size: 21,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                ],
               ),
         body: Padding(
           padding: const EdgeInsets.only(top: 10),
@@ -89,19 +121,21 @@ class _MessagesState extends State<MessagesScreen> {
                         cursorHeight: 18,
                         controller: searchController,
                         cursorColor: Colors.black,
-                        style: textTheme.bodyMedium,
+                        style:
+                            textTheme.bodyMedium!.copyWith(color: Colors.black),
                         decoration: InputDecoration(
                           hintText: searchForMsgKey.tr(),
                           hintStyle: textTheme.bodyMedium!.copyWith(
-                              color: colorTheme.brightness == Brightness.dark
-                                  ? Colors.white
-                                  : Theme.of(context).colorScheme.hintColor),
+                              color: Theme.of(context).colorScheme.hintColor),
                           prefixIcon: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               FaIcon(
                                 FontAwesomeIcons.magnifyingGlass,
-                                color: colorTheme.black,
+                                color: theme.colorScheme.brightness ==
+                                        Brightness.dark
+                                    ? Theme.of(context).colorScheme.hintColor
+                                    : colorTheme.black,
                               ),
                             ],
                           ),
@@ -118,11 +152,10 @@ class _MessagesState extends State<MessagesScreen> {
                                         width: 18,
                                         height: 18,
                                         alignment: Alignment.center,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: colorTheme.brightness == Brightness.dark
-                                              ? primaryColor
-                                              : const Color.fromARGB(255, 191, 191, 191),
+                                          color: Color.fromARGB(
+                                              255, 191, 191, 191),
                                         ),
                                         child: const FaIcon(
                                           FontAwesomeIcons.xmark,
@@ -134,12 +167,14 @@ class _MessagesState extends State<MessagesScreen> {
                                   ],
                                 )
                               : Container(width: 1),
-                          suffixIconConstraints: const BoxConstraints(minWidth: 50),
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                          suffixIconConstraints:
+                              const BoxConstraints(minWidth: 50),
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 12),
                           isDense: true,
                           filled: true,
                           fillColor: colorTheme.brightness == Brightness.dark
-                              ? primaryColor
+                              ? Colors.white
                               : const Color.fromARGB(255, 245, 245, 245),
                           errorStyle: const TextStyle(height: 0),
                           border: OutlineInputBorder(
@@ -156,6 +191,10 @@ class _MessagesState extends State<MessagesScreen> {
                             ),
                             borderRadius: BorderRadius.circular(8),
                           ),
+                          // disabledBorder: const OutlineInputBorder(
+                          //   borderSide: BorderSide(width: 0),
+                          //   borderRadius: BorderRadius.all(Radius.circular(8)),
+                          // ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
                               width: 0,
@@ -186,9 +225,11 @@ class _MessagesState extends State<MessagesScreen> {
                           Center(
                             child: EmptyDataWidget(
                               mainTitle: '',
-                              subTitle: "You haven't received any messages yet.",
+                              subTitle:
+                                  "You haven't received any messages yet.",
                               // subTitle: noProjectFoundKey.tr(),
-                              widthImage: MediaQuery.of(context).size.width * 0.5,
+                              widthImage:
+                                  MediaQuery.of(context).size.width * 0.5,
                             ),
                           ),
                         ],
