@@ -35,11 +35,7 @@ import 'package:studenthub/widgets/dialog.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   const ChatDetailScreen(
-      {super.key,
-      required this.userId,
-      required this.projectId,
-      required this.userName,
-      this.projectProposalId});
+      {super.key, required this.userId, required this.projectId, required this.userName, this.projectProposalId});
 
   final String userName;
   final String userId;
@@ -100,8 +96,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         if (mounted) {
           logger.d('SOCKET RECEIVE DATA: ${data['notification']['message']}');
           Message message = Message.fromMap(data['notification']['message']);
-          if (data['notification']['message']['senderId'].toString() !=
-              meId.toString()) {
+          if (data['notification']['message']['senderId'].toString() != meId.toString()) {
             state.messageList.insert(
                 0,
                 message.copyWith(
@@ -115,14 +110,11 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       SocketService.receiveInterview((data) {
         Message message = Message.fromMap(data['notification']['message']);
         if (mounted) {
-          logger.d(
-              'SOCKET RECEIVE INTERVIEW: ${data['notification']['message']}');
+          logger.d('SOCKET RECEIVE INTERVIEW: ${data['notification']['message']}');
 
           if (message.interview!.disableFlag == 1) {
             state.messageList
-                .where((element) =>
-                    element.interview != null &&
-                    element.interview!.disableFlag != 1)
+                .where((element) => element.interview != null && element.interview!.disableFlag != 1)
                 .forEach((e) {
               if (e.id == message.id) {
                 e.interview = Interview(
@@ -140,9 +132,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       receiver: {"id": message.receiverId, "fullname": ""}));
             } else {
               state.messageList
-                  .where((element) =>
-                      element.interview != null &&
-                      element.interview!.disableFlag != 1)
+                  .where((element) => element.interview != null && element.interview!.disableFlag != 1)
                   .forEach((e) {
                 if (e.id == message.id) {
                   e.interview = Interview(
@@ -175,8 +165,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       width: 36,
                       height: 36,
                       child: CircleAvatar(
-                        backgroundImage:
-                            AssetImage('lib/assets/images/circle_avatar.png'),
+                        backgroundImage: AssetImage('lib/assets/images/circle_avatar.png'),
                       ),
                     ),
                     const SizedBox(
@@ -184,8 +173,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     ),
                     Text(
                       widget.userName,
-                      style: textTheme.bodyLarge!
-                          .copyWith(fontWeight: FontWeight.w600),
+                      style: textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),
@@ -195,30 +183,19 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     padding: const EdgeInsets.only(right: 20),
                     child: InkWell(
                       onTap: () {
-                        showModalBottomSheetCustom(context,
-                            widgetBuilder: MoreActionChatDetail(
+                        showModalBottomSheetCustom(context, widgetBuilder: MoreActionChatDetail(
                           callBack: (value) {
-                            logger.d(value['title']);
-                            logger.d(value['start_date']);
-                            logger.d(value['time_start']);
-                            logger.d(value['end_date']);
-                            logger.d(value['time_end']);
-
                             _interviewService.sendInterview({
                               "title": value['title'],
                               "content": "Test interview",
-                              "startTime": convertToIso8601(
-                                  value['start_date'], value['time_start']),
-                              "endTime": convertToIso8601(
-                                  value['end_date'], value['time_end']),
+                              "startTime": convertToIso8601(value['start_date'], value['time_start']),
+                              "endTime": convertToIso8601(value['end_date'], value['time_end']),
                               "projectId": widget.projectId,
-                              "senderId":
-                                  context.read<AuthBloc>().state.userModel.id,
+                              "senderId": context.read<AuthBloc>().state.userModel.id,
                               "receiverId": widget.userId,
                               "meeting_room_code": getCurrentTimeAsString(),
                               "meeting_room_id": getCurrentTimeAsString(),
-                              "expired_at": convertToIso8601(
-                                  value['end_date'], value['time_end']),
+                              "expired_at": convertToIso8601(value['end_date'], value['time_end']),
                             });
                           },
                         ));
@@ -253,9 +230,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   shrinkWrap: true,
                   itemCount: state.messageList.length,
                   reverse: true,
-                  itemBuilder: (context, index) => state
-                              .messageList[index].sender['id'] ==
-                          meId
+                  itemBuilder: (context, index) => state.messageList[index].sender['id'] == meId
                       ? Builder(builder: (context) {
                           if (state.messageList[index].interview == null) {
                             return MessageSendWidget(
@@ -274,25 +249,21 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               join: (data) {
                                 _interviewService
                                     .checkAvailability(
-                                        data.meetingRoom['meeting_room_code'],
-                                        data.meetingRoom['meeting_room_code'])
+                                        data.meetingRoom['meeting_room_code'], data.meetingRoom['meeting_room_code'])
                                     .then((value) {
                                   if (value.data!) {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) => VideoCallPage(
-                                          conferenceID: data
-                                              .meetingRoom['meeting_room_code'],
+                                          conferenceID: data.meetingRoom['meeting_room_code'],
                                         ),
                                       ),
                                     );
                                   } else {
                                     showDialogCustom(context,
                                         title: 'Error',
-                                        image:
-                                            'lib/assets/images/empty_data.png',
-                                        subtitle:
-                                            'The meeting room is not available',
+                                        image: 'lib/assets/images/empty_data.png',
+                                        subtitle: 'The meeting room is not available',
                                         textButtom: 'OK', onSave: () {
                                       Navigator.pop(context);
                                     });
@@ -321,25 +292,21 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               join: (data) {
                                 _interviewService
                                     .checkAvailability(
-                                        data.meetingRoom['meeting_room_code'],
-                                        data.meetingRoom['meeting_room_code'])
+                                        data.meetingRoom['meeting_room_code'], data.meetingRoom['meeting_room_code'])
                                     .then((value) {
                                   if (value.data!) {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) => VideoCallPage(
-                                          conferenceID: data
-                                              .meetingRoom['meeting_room_code'],
+                                          conferenceID: data.meetingRoom['meeting_room_code'],
                                         ),
                                       ),
                                     );
                                   } else {
                                     showDialogCustom(context,
                                         title: 'Error',
-                                        image:
-                                            'lib/assets/images/empty_data.png',
-                                        subtitle:
-                                            'The meeting room is not available',
+                                        image: 'lib/assets/images/empty_data.png',
+                                        subtitle: 'The meeting room is not available',
                                         textButtom: 'OK', onSave: () {
                                       Navigator.pop(context);
                                     });
@@ -386,10 +353,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           decoration: InputDecoration(
                             // hintText: 'Your messages...',
                             hintText: chatInputPlaceHolderKey.tr(),
-                            hintStyle: textTheme.bodyMedium!.copyWith(
-                                color: Theme.of(context).colorScheme.hintColor),
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 8),
+                            hintStyle: textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.hintColor),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                             isDense: true,
                             filled: true,
                             fillColor: const Color.fromARGB(255, 245, 245, 245),
@@ -431,8 +396,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         ),
                         onPressed: () {
                           if (messageController.text.trim().isNotEmpty) {
-                            UserModel userModel =
-                                context.read<AuthBloc>().state.userModel;
+                            UserModel userModel = context.read<AuthBloc>().state.userModel;
                             state.messageList.insert(
                                 0,
                                 Message(
@@ -443,34 +407,27 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                     "id": userModel.id,
                                     "fullname": userModel.fullname,
                                   },
-                                  receiver: {
-                                    "id": widget.userId,
-                                    "fullname": widget.userName
-                                  },
+                                  receiver: {"id": widget.userId, "fullname": widget.userName},
                                   interview: null,
                                 ));
                             // logger.d(
                             //     'SEND MESSAGE: ${widget.projectId}. ${widget.userId}');
 
-                            logger.d(
-                                'SENDER ID: ${context.read<AuthBloc>().state.userModel.id}');
+                            logger.d('SENDER ID: ${context.read<AuthBloc>().state.userModel.id}');
                             logger.d('RECEIVE ID: ${widget.userId}');
                             logger.d('PROJECT ID: ${widget.projectId}');
 
                             _chatService.sendMessages({
                               "content": messageController.text.trim(),
                               "projectId": widget.projectId,
-                              "senderId":
-                                  context.read<AuthBloc>().state.userModel.id,
+                              "senderId": context.read<AuthBloc>().state.userModel.id,
                               "receiverId": widget.userId,
-                              "messageFlag":
-                                  0 // default 0 for message, 1 for interview
+                              "messageFlag": 0 // default 0 for message, 1 for interview
                             });
                             //  Add by Quang Thanh to update proposal active when company send message
                             if (state.messageList.isEmpty) {
                               context.read<CompanyBloc>().add(SetActiveProposal(
-                                  proposalId: int.parse(
-                                      widget.projectProposalId ?? "-1"),
+                                  proposalId: int.parse(widget.projectProposalId ?? "-1"),
                                   statusFlag: 1,
                                   onSuccess: () {}));
                             }
