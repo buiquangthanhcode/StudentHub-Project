@@ -165,6 +165,7 @@ final GoRouter router = GoRouter(
               },
             ),
             GoRoute(
+              name: 'step_04',
               path: 'step_04',
               pageBuilder: (BuildContext context, GoRouterState state) {
                 return customTransitionPage(
