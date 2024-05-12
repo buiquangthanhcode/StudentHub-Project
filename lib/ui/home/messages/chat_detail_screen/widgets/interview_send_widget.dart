@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
 import 'package:studenthub/models/common/interview_model.dart';
@@ -65,19 +66,27 @@ class InterviewSendWidget extends StatelessWidget {
               ? const EdgeInsets.symmetric(horizontal: 10, vertical: 12)
               : const EdgeInsets.fromLTRB(14, 10, 8, 4),
           decoration: BoxDecoration(
-              color: isCancel ? Colors.white : primaryColor,
+              color: isCancel
+                  ? Theme.of(context)
+                      .colorScheme
+                      .chatColorCancelContentBackground
+                  : primaryColor,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
-                  color: const Color.fromARGB(255, 210, 210, 210),
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? const Color.fromARGB(255, 80, 80, 80)
+                      : const Color.fromARGB(255, 210, 210, 210),
                   width: isCancel ? 2 : 0)),
           child: isCancel
               ? Text(
                   'A meeting ${messageList[index].interview.title ?? ''} has been canceled.',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontStyle: FontStyle.italic,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: Color.fromARGB(255, 190, 190, 190),
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? const Color.fromARGB(255, 117, 117, 117)
+                        : const Color.fromARGB(255, 190, 190, 190),
                   ),
                 )
               : Column(

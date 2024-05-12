@@ -33,7 +33,6 @@ class _ActiveInterviewScreenState extends State<ActiveInterviewScreen> {
     return BlocBuilder<ChatBloc, ChatState>(
         builder: (BuildContext context, ChatState state) {
       return Scaffold(
-        backgroundColor: Colors.white,
         appBar: PreferredSize(
           preferredSize: const Size(double.infinity, 64),
           child: AppBar(

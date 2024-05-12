@@ -121,19 +121,21 @@ class _MessagesState extends State<MessagesScreen> {
                         cursorHeight: 18,
                         controller: searchController,
                         cursorColor: Colors.black,
-                        style: textTheme.bodyMedium,
+                        style:
+                            textTheme.bodyMedium!.copyWith(color: Colors.black),
                         decoration: InputDecoration(
                           hintText: searchForMsgKey.tr(),
                           hintStyle: textTheme.bodyMedium!.copyWith(
-                              color: colorTheme.brightness == Brightness.dark
-                                  ? Colors.white
-                                  : Theme.of(context).colorScheme.hintColor),
+                              color: Theme.of(context).colorScheme.hintColor),
                           prefixIcon: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               FaIcon(
                                 FontAwesomeIcons.magnifyingGlass,
-                                color: colorTheme.black,
+                                color: theme.colorScheme.brightness ==
+                                        Brightness.dark
+                                    ? Theme.of(context).colorScheme.hintColor
+                                    : colorTheme.black,
                               ),
                             ],
                           ),
@@ -150,13 +152,10 @@ class _MessagesState extends State<MessagesScreen> {
                                         width: 18,
                                         height: 18,
                                         alignment: Alignment.center,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: colorTheme.brightness ==
-                                                  Brightness.dark
-                                              ? primaryColor
-                                              : const Color.fromARGB(
-                                                  255, 191, 191, 191),
+                                          color: Color.fromARGB(
+                                              255, 191, 191, 191),
                                         ),
                                         child: const FaIcon(
                                           FontAwesomeIcons.xmark,
@@ -175,7 +174,7 @@ class _MessagesState extends State<MessagesScreen> {
                           isDense: true,
                           filled: true,
                           fillColor: colorTheme.brightness == Brightness.dark
-                              ? primaryColor
+                              ? Colors.white
                               : const Color.fromARGB(255, 245, 245, 245),
                           errorStyle: const TextStyle(height: 0),
                           border: OutlineInputBorder(
