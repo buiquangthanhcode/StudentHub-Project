@@ -38,4 +38,26 @@ class NotificationService {
       rethrow;
     }
   }
+
+  Future<ResponseAPI> markAsRead(String id) async {
+    try {
+      final res = await dioClient.patch('$baseURL/api/notification/readNoti/$id');
+
+      return ResponseAPI(
+        statusCode: res.statusCode,
+        data: (res.statusCode! <= 300 ? true : false),
+      );
+    } on DioException catch (e) {
+      logger.e(
+        "DioException :${e.response}",
+      );
+      throw ResponseAPI(
+        statusCode: e.response?.statusCode,
+        data: [],
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
 }

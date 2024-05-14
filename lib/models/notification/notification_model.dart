@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 
 import 'package:studenthub/models/common/interview_model.dart';
 import 'package:studenthub/models/common/message_model.dart';
+import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/models/common/proposal_modal.dart';
 
 class NotificationModel {
@@ -23,7 +24,7 @@ class NotificationModel {
   Participant? receiver;
   Interview? interview;
   MeetingRoom? meetingRoom;
-  Proposal? proposal;
+  ProjectProposal? proposal;
 
   NotificationModel(
       {this.id,
@@ -61,7 +62,7 @@ class NotificationModel {
       Participant? receiver,
       Interview? interview,
       MeetingRoom? meetingRoom,
-      Proposal? proposal}) {
+      ProjectProposal? proposal}) {
     return NotificationModel(
         id: id ?? this.id,
         createdAt: createdAt ?? this.createdAt,
@@ -158,7 +159,7 @@ class NotificationModel {
       receiver: map['receiver'] != null ? Participant.fromMap(map['receiver']) : null,
       interview: map['interview'] != null ? Interview.fromMap(map['interview']) : null,
       meetingRoom: map['meetingRoom'] != null ? MeetingRoom.fromMap(map['meetingRoom']) : null,
-      proposal: map['proposal'] != null ? Proposal.fromMap(map['proposal']) : null,
+      proposal: map['proposal'] != null ? ProjectProposal.fromMap(map['proposal']) : null,
     );
   }
 

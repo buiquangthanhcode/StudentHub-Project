@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:form_builder_validators/localization/l10n.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_bloc.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_bloc.dart';
@@ -13,7 +14,6 @@ import 'package:studenthub/blocs/navigation_bloc/navigation_type.dart';
 import 'package:studenthub/blocs/notification_bloc/notification_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
 import 'package:studenthub/blocs/global_bloc/global_bloc.dart';
-// import 'package:studenthub/blocs/student_create_profile/student_create_profile_bloc.dart';
 import 'package:studenthub/blocs/student_bloc/student_bloc.dart';
 import 'package:studenthub/blocs/theme_bloc/theme_bloc.dart';
 import 'package:studenthub/blocs/theme_bloc/theme_event.dart';
@@ -73,7 +73,7 @@ class _StudentHubState extends State<StudentHub> with WidgetsBindingObserver {
           create: (BuildContext context) => NavigatorStatusBloc(),
         ),
         BlocProvider<ThemesBloc>(
-          create: (BuildContext context) => ThemesBloc()..add(ToggleThemeEvent()),
+          create: (BuildContext context) => ThemesBloc()..add(InitialThemeEvent()),
         ),
         BlocProvider<AuthBloc>(
           create: (BuildContext context) => AuthBloc(),
@@ -128,11 +128,14 @@ class _StudentHubState extends State<StudentHub> with WidgetsBindingObserver {
             ],
             child: MaterialApp.router(
               color: Colors.white,
-              localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
               builder: EasyLoading.init(),
               scaffoldMessengerKey: StudentHub.scaffoldKey,
               locale: context.locale,
+              localizationsDelegates: [
+                ...context.localizationDelegates,
+                FormBuilderLocalizations.delegate,
+              ],
               debugShowCheckedModeBanner: false,
               title: 'Student Hub',
               theme: state.themeMode == ThemeMode.dark
