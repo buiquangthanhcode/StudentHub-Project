@@ -169,91 +169,103 @@ class _AlertsState extends State<AlertsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var colorTheme = Theme.of(context).colorScheme;
-
     // Future.delayed(Duration.zero, () {
     //   showOptionsDialog();
     // });
 
-    return Scaffold(
-      body: CustomScrollView(
-        controller: _scrollController,
-        slivers: [
-          SliverAppBar(
-            automaticallyImplyLeading: false,
-            expandedHeight: 60,
-            collapsedHeight: 60,
-            elevation: 0,
-            pinned: pinned,
-            title: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    // 'Alerts',
-                    alertsNavKey.tr(),
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          fontWeight: FontWeight.w700,
-                        ),
-                  ),
-                  // InkWell(
-                  //   onTap: () {
-                  //     showOptionsDialog();
-                  //   },
-                  //   child: Container(
-                  //     height: 39,
-                  //     width: 39,
-                  //     decoration: BoxDecoration(
-                  //       borderRadius: BorderRadius.circular(30),
-                  //       color: colorTheme.brightness == Brightness.dark
-                  //           ? primaryColor
-                  //           : const Color.fromARGB(255, 245, 245, 245),
-                  //     ),
-                  //     alignment: Alignment.center,
-                  //     child: FaIcon(
-                  //       FontAwesomeIcons.gear,
-                  //       color: colorTheme.black,
-                  //       size: 21,
-                  //     ),
-                  //   ),
-                  // ),
-                ],
+    return RefreshIndicator(
+      color: primaryColor,
+      onRefresh: () {
+        _authenState = context.read<AuthBloc>().state;
+        context.read<NotificationBloc>().add(
+              GetNotificationListEvents(
+                onSuccess: () {},
+                userId: (_authenState.userModel.id ?? 0).toString(),
+              ),
+            );
+        return Future.delayed(const Duration(seconds: 1));
+      },
+      child: Scaffold(
+        body: CustomScrollView(
+          controller: _scrollController,
+          slivers: [
+            SliverAppBar(
+              automaticallyImplyLeading: false,
+              expandedHeight: 60,
+              collapsedHeight: 60,
+              elevation: 0,
+              pinned: pinned,
+              title: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      // 'Alerts',
+                      alertsNavKey.tr(),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            fontWeight: FontWeight.w700,
+                          ),
+                    ),
+                    // InkWell(
+                    //   onTap: () {
+                    //     showOptionsDialog();
+                    //   },
+                    //   child: Container(
+                    //     height: 39,
+                    //     width: 39,
+                    //     decoration: BoxDecoration(
+                    //       borderRadius: BorderRadius.circular(30),
+                    //       color: colorTheme.brightness == Brightness.dark
+                    //           ? primaryColor
+                    //           : const Color.fromARGB(255, 245, 245, 245),
+                    //     ),
+                    //     alignment: Alignment.center,
+                    //     child: FaIcon(
+                    //       FontAwesomeIcons.gear,
+                    //       color: colorTheme.black,
+                    //       size: 21,
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
+                ),
               ),
             ),
-          ),
-          BlocBuilder<NotificationBloc, NotificationState>(
-            builder: (context, state) {
-              bool isNotEmpty = state.notificationList.isNotEmpty;
-              return isNotEmpty
-                  ? SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        childCount: state.notificationList.length,
-                        (BuildContext context, int index) {
-                          return NotificationItem(
-                            item: state.notificationList[index],
-                          );
-                        },
-                      ),
-                    )
-                  : SliverFillRemaining(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          EmptyDataWidget(
-                            mainTitle: '',
-                            subTitle:
-                                // "You haven't received any notifications yet.",
-                                // subTitle: noProjectFoundKey.tr(),
-                                noNotificationsAlertKey.tr(),
-                            widthImage: MediaQuery.of(context).size.width * 0.5,
-                          ),
-                        ],
-                      ),
-                    );
-            },
-          ),
-        ],
+            BlocBuilder<NotificationBloc, NotificationState>(
+              builder: (context, state) {
+                bool isNotEmpty = state.notificationList.isNotEmpty;
+                return isNotEmpty
+                    ? SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          childCount: state.notificationList.length,
+                          (BuildContext context, int index) {
+                            return NotificationItem(
+                              item: state.notificationList[index],
+                            );
+                          },
+                        ),
+                      )
+                    : SliverFillRemaining(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            EmptyDataWidget(
+                              mainTitle: '',
+                              subTitle:
+                                  // "You haven't received any notifications yet.",
+                                  // subTitle: noProjectFoundKey.tr(),
+                                  noNotificationsAlertKey.tr(),
+                              widthImage:
+                                  MediaQuery.of(context).size.width * 0.5,
+                            ),
+                          ],
+                        ),
+                      );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
