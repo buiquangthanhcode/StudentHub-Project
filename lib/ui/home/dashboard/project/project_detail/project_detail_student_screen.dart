@@ -14,11 +14,13 @@ import 'package:studenthub/blocs/chat_bloc/chat_state.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_bloc.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_event.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_state.dart';
+import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/chat_model.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
+import 'package:studenthub/services/chat/chat.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
 
@@ -54,6 +56,9 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
     2: threeToSixMonthsKey.tr(),
     3: moreThan6MonthsKey.tr(),
   };
+
+  bool hasChat = false;
+  bool firstTime = true;
   @override
   void initState() {
     super.initState();
@@ -67,12 +72,12 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                   ''),
         );
     // logger.d('PROJECT ID: ${widget.projectProposal!.projectId.toString()}');
-    context.read<ChatBloc>().add(
-          GetChatItemOfProjectEvent(
-            projectId: widget.projectProposal!.projectId.toString(),
-            myId: context.read<AuthBloc>().state.userModel.id!,
-          ),
-        );
+    // context.read<ChatBloc>().add(
+    //       GetChatItemOfProjectEvent(
+    //         projectId: widget.projectProposal!.projectId.toString(),
+    //         myId: context.read<AuthBloc>().state.userModel.id!,
+    //       ),
+    //     );
   }
 
   bool? isSaved;
@@ -83,7 +88,7 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
     AuthenState authSate = context.read<AuthBloc>().state;
 
     logger.d('ITEM: ${widget.item}');
-    logger.d('ITEM: ${widget.projectProposal}');
+    logger.d('PROJECT PROPOSAL: ${widget.projectProposal}');
 
     return BlocBuilder<GeneralProjectBloc, GeneralProjectState>(
       builder: (BuildContext context, GeneralProjectState state) {
@@ -188,7 +193,11 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black.withOpacity(0.6),
+                                    // color: Colors.black.withOpacity(0.6),
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? Colors.black.withOpacity(0.6)
+                                        : Colors.white,
                                   ),
                         ),
                         BulletList([
@@ -221,8 +230,7 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                               Text(
                                 projectScopeKey.tr(),
                                 style: TextStyle(
-                                  color: Colors.black.withOpacity(0.8),
-                                ),
+                                    color: Theme.of(context).colorScheme.black),
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -241,7 +249,10 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                                         .textTheme
                                         .bodySmall!
                                         .copyWith(
-                                          color: Colors.black.withOpacity(0.8),
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .black
+                                              ?.withOpacity(0.8),
                                         ),
                                   ),
                                 ],
@@ -264,7 +275,10 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                               Text(
                                 studentRequiredKey.tr(),
                                 style: TextStyle(
-                                    color: Colors.black.withOpacity(0.8)),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .black
+                                        ?.withOpacity(0.8)),
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -277,14 +291,19 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                                     ),
                                   ),
                                   Text(
-                                    '${state.projectDetail.numberOfStudents ?? '0'} students',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall!
-                                        .copyWith(
-                                            color:
-                                                Colors.black.withOpacity(0.8)),
-                                  ),
+                                      '${state.projectDetail.numberOfStudents ?? '0'} ${studentsKey.tr()}',
+                                      // style: Theme.of(context)
+                                      //     .textTheme
+                                      //     .bodySmall!
+                                      //     .copyWith(
+                                      //         color:
+                                      //             Theme.of(context).colorScheme.black),
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .black
+                                            ?.withOpacity(0.8),
+                                      )),
                                 ],
                               )
                             ],
@@ -305,33 +324,77 @@ class _ProjectDetailStudentViewState extends State<ProjectDetailStudentView> {
                             .userModel
                             .id!
                             .toString();
-                        String userId =
-                            state.chatItem.sender['id'].toString() == currentId
-                                ? state.chatItem.receiver['id'].toString()
-                                : state.chatItem.sender['id'].toString();
-                        String username =
-                            state.chatItem.sender['id'].toString() == currentId
-                                ? state.chatItem.receiver['fullname'].toString()
-                                : state.chatItem.sender['fullname'].toString();
-
-                        return ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(double.infinity, 56),
-                          ),
-                          onPressed: () {
-                            context.pushNamed<bool>('chat_detail',
-                                queryParameters: {
-                                  'userName': username,
-                                  'userId': userId,
-                                  'projectId': widget.projectProposal!.projectId
-                                      .toString(),
+                        String projectId =
+                            widget.projectProposal!.projectId.toString();
+                        String userId = '';
+                        String username = '';
+                        if (firstTime) {
+                          firstTime = false;
+                          ChatService chatService = ChatService();
+                          chatService
+                              .getChatDataOfProject(projectId)
+                              .then((valueData) {
+                            logger.d('CHAT -- DATA: ${valueData.data}');
+                            for (Chat i in valueData.data!) {
+                              if (i.receiver["id"].toString() == currentId ||
+                                  i.sender["id"].toString() == currentId) {
+                                userId =
+                                    i.receiver["id"].toString() == currentId
+                                        ? i.sender["id"].toString()
+                                        : i.receiver["id"].toString();
+                                username =
+                                    i.receiver["id"].toString() == currentId
+                                        ? i.sender["fullname"].toString()
+                                        : i.receiver["fullname"].toString();
+                                break;
+                              }
+                            }
+                            if (userId.isNotEmpty && projectId.isNotEmpty) {
+                              chatService
+                                  .getAllChatWithUserId(userId, projectId)
+                                  .then((value) {
+                                setState(() {
+                                  hasChat = value.data!.isNotEmpty;
                                 });
-                          },
-                          child: Text(
-                            messagesBtnKey.tr(),
-                            style: textTheme.bodyMedium!.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600),
+                                logger.d('CHAT: ${value.data!.length}');
+                              });
+                            }
+                          });
+                        }
+                        return Opacity(
+                          opacity: hasChat ? 1 : 0.5,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(double.infinity, 56),
+                            ),
+                            onPressed: hasChat
+                                ? () {
+                                    context.pushNamed<bool>('chat_detail',
+                                        queryParameters: {
+                                          'userName': username,
+                                          'userId': userId,
+                                          'projectId': projectId,
+                                        });
+                                  }
+                                : () {},
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const FaIcon(
+                                  FontAwesomeIcons.message,
+                                  size: 20,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  messagesBtnKey.tr(),
+                                  style: textTheme.bodyMedium!.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       })

@@ -6,6 +6,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:studenthub/blocs/project_bloc/project_bloc.dart';
 import 'package:studenthub/blocs/project_bloc/project_event.dart';
 import 'package:studenthub/blocs/project_bloc/project_state.dart';
+import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_model.dart';
@@ -59,7 +60,8 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                   backgroundColor: const Color(0xff3961FB).withOpacity(0.2),
                   circularStrokeCap: CircularStrokeCap.round,
                   center: Text(
-                    '2 of 4',
+                    // '2 of 4',
+                    twoOfFourKey.tr(),
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           fontSize: 13,
                         ),
@@ -76,7 +78,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                 Text(
                   estimateJobDescriptionKey.tr(),
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: Colors.black.withOpacity(0.6),
+                        color: Theme.of(context).colorScheme.black,
                       ),
                 ),
                 const SizedBox(height: 36),
@@ -85,7 +87,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black.withOpacity(0.6),
+                        color: Theme.of(context).colorScheme.black,
                       ),
                 ),
                 Column(
@@ -98,7 +100,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                       title: Text(
                         lessThan1MonthKey.tr(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: Colors.black.withOpacity(0.6),
+                              color: Theme.of(context).colorScheme.black,
                             ),
                       ),
                       value: TimeOption.option1,
@@ -116,7 +118,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                       title: Text(
                         oneToThreeMonthsKey.tr(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: Colors.black.withOpacity(0.6),
+                              color: Theme.of(context).colorScheme.black,
                             ),
                       ),
                       value: TimeOption.option2,
@@ -134,7 +136,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                       title: Text(
                         threeToSixMonthsKey.tr(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: Colors.black.withOpacity(0.6),
+                              color: Theme.of(context).colorScheme.black,
                             ),
                       ),
                       value: TimeOption.option3,
@@ -152,7 +154,7 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                       title: Text(
                         moreThan6MonthsKey.tr(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: Colors.black.withOpacity(0.6),
+                              color: Theme.of(context).colorScheme.black,
                             ),
                       ),
                       value: TimeOption.option4,
@@ -171,15 +173,23 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black.withOpacity(0.6),
+                        color: Theme.of(context).colorScheme.black,
                       ),
                 ),
                 const SizedBox(height: 12),
-                TextField(
+                TextFormField(
                   controller: _textEditingController,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium, // Adjust the font size as needed
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Không được để trống';
+                    }
+                    return null;
+                  },
+                  // keyboard
+                  keyboardType: TextInputType.number,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Colors.black), // Adjust the font size as needed
                   decoration: InputDecoration(
                     hintText: estimateJobQ2PlaceHolderKey.tr(),
                     hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -196,12 +206,17 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                         horizontal: 12 // Adjust the vertical padding as needed
                         ),
                   ),
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    setState(() {});
+                  },
                 ),
                 // const SizedBox(height: 24),
                 const Spacer(),
                 ElevatedButton(
                   onPressed: () {
+                    if (_textEditingController.text.isEmpty) {
+                      return;
+                    }
                     final currentProject = Project(
                       title: state.projectCreation.title,
                       projectScopeFlag: _timeOption == TimeOption.option1
@@ -219,11 +234,14 @@ class _ProjectPostStep02State extends State<ProjectPostStep02Screen> {
                     context.push('/home/project_post/step_03');
                   },
                   style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 16), // Adjust padding as needed
-                      minimumSize: const Size(
-                          double.infinity, 48) // Set minimum button size
-                      ),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16), // Adjust padding as needed
+                    minimumSize: const Size(
+                        double.infinity, 48), // Set minimum button size
+                    backgroundColor: (_textEditingController.text.isNotEmpty)
+                        ? const Color(0xff3961FB)
+                        : const Color(0xff3961FB).withOpacity(0.5),
+                  ),
                   child: Text(
                     continueBtnKey.tr(),
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(

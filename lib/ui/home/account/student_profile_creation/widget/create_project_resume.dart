@@ -163,6 +163,7 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
                   // hintText: 'Description',
                   hintText: descriptionPlaceHolderKey.tr(),
                 ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
@@ -218,7 +219,8 @@ class _CreateProjectResumeState extends State<CreateProjectResume> {
                     // 'Save',
                     saveBtnKey.tr(),
                     style: theme.textTheme.bodyMedium!.copyWith(
-                      color: theme.colorScheme.onPrimary,
+                      // color: theme.colorScheme.onPrimary,
+                      color: Colors.white,
                     ),
                   ),
                 ),

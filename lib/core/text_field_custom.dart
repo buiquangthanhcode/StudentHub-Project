@@ -31,6 +31,7 @@ class TextFieldFormCustom extends StatefulWidget {
     this.autofocus,
     this.obscureText,
     this.isPasswordText,
+    this.autovalidateMode,
   });
 
   final String name;
@@ -57,6 +58,7 @@ class TextFieldFormCustom extends StatefulWidget {
   final bool? autofocus;
   final bool? obscureText; // add new
   final bool? isPasswordText;
+  final AutovalidateMode? autovalidateMode;
 
   @override
   State<TextFieldFormCustom> createState() => _TextFieldFormCustomState();
@@ -99,6 +101,7 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
         validator: widget.validator,
         maxLines: widget.maxLines ?? 1,
         obscureText: obscureText,
+        autovalidateMode: widget.autovalidateMode,
         autocorrect: widget.autocorrect ?? true,
         autofocus: widget.autofocus ?? false,
         initialValue: widget.initialValue ?? '',
@@ -151,15 +154,19 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
                 //       : Icons.visibility_off_rounded,
                 // ),
                 icon: FaIcon(
-                  isHiddenPassword ? FontAwesomeIcons.eye : FontAwesomeIcons.eyeSlash,
+                  isHiddenPassword
+                      ? FontAwesomeIcons.eye
+                      : FontAwesomeIcons.eyeSlash,
                   color: Theme.of(context).colorScheme.grey,
                 ),
               );
-            } else if (_textfieldKey.currentState?.value != null) {
+            } else if (_textfieldKey.currentState?.value != '') {
               return IconButton(
                 onPressed: () {
-                  _textfieldKey.currentState?.didChange(null);
-                  setState(() {});
+                  print("!23");
+                  setState(() {
+                    _textfieldKey.currentState?.didChange('');
+                  });
                 },
                 icon: Container(
                   width: 18,
@@ -183,8 +190,10 @@ class _TextFieldFormCustomState extends State<TextFieldFormCustom> {
           hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: Theme.of(context).colorScheme.hintColor,
               ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          fillColor: widget.fillColor ?? const Color.fromARGB(255, 242, 242, 242),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          fillColor:
+              widget.fillColor ?? const Color.fromARGB(255, 242, 242, 242),
           filled: true,
           isDense: true,
           enabledBorder: defaultInputBorder,

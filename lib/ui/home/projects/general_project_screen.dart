@@ -12,7 +12,10 @@ import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/models/common/project_model.dart';
+import 'package:studenthub/services/chat/chat.dart';
 import 'package:studenthub/ui/home/projects/widgets/general_project_item.dart';
+import 'package:studenthub/utils/logger.dart';
 
 class GeneralProjectScreen extends StatefulWidget {
   const GeneralProjectScreen({super.key});
@@ -29,6 +32,10 @@ class _GeneralProjectScreenState extends State<GeneralProjectScreen> {
   final _scrollController = ScrollController();
   bool scrollToBottom = false;
   bool pinned = false;
+  int page = 1;
+  bool enableCall = true;
+  int preLength = -1;
+  dynamic bloc;
 
   @override
   void initState() {
@@ -36,10 +43,11 @@ class _GeneralProjectScreenState extends State<GeneralProjectScreen> {
     _scrollController.addListener(_scrollListener);
 
     super.initState();
-
-    context.read<GeneralProjectBloc>().add(
-          GetAllDataEvent(),
-        );
+    _scrollController.addListener(_scrollToBottomListener);
+    bloc = context.read<GeneralProjectBloc>();
+    bloc.add(
+      GetAllDataEvent(1, 10),
+    );
   }
 
   @override
@@ -70,6 +78,19 @@ class _GeneralProjectScreenState extends State<GeneralProjectScreen> {
     }
   }
 
+  void _scrollToBottomListener() {
+    if ((_scrollController.offset ==
+            _scrollController.position.maxScrollExtent) &&
+        enableCall) {
+      logger.d('scroll to bottom: ${page + 1}');
+      enableCall = false;
+      preLength = bloc.state.projectList.length;
+      bloc.add(
+        GetAllDataEvent(++page, 10),
+      );
+    }
+  }
+
   void _onFocusChange() {
     setState(() {});
   }
@@ -81,104 +102,140 @@ class _GeneralProjectScreenState extends State<GeneralProjectScreen> {
     var colorTheme = Theme.of(context).colorScheme;
     AuthenState authSate = context.read<AuthBloc>().state;
 
-    return BlocBuilder<GeneralProjectBloc, GeneralProjectState>(
-      builder: (BuildContext context, GeneralProjectState state) {
-        return Scaffold(
-          body: CustomScrollView(
-            controller: _scrollController,
-            slivers: [
-              SliverAppBar(
-                automaticallyImplyLeading: false,
-                expandedHeight: 60,
-                collapsedHeight: 60,
-                elevation: 0,
-                pinned: pinned || _searchFocus.hasFocus,
-                title: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        // 'Projects',
-                        projectsTitleKey.tr(),
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                              fontWeight: FontWeight.w700,
-                            ),
-                      ),
-                      Row(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              context.pushNamed('project_search');
-                            },
-                            child: Container(
-                              height: 39,
-                              width: 39,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  color: theme.colorScheme.brightness ==
-                                          Brightness.dark
-                                      ? primaryColor
-                                      : const Color.fromARGB(
-                                          255, 245, 245, 245)),
-                              alignment: Alignment.center,
-                              child: FaIcon(
-                                FontAwesomeIcons.magnifyingGlass,
-                                color: colorTheme.black,
-                                size: 21,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Visibility(
-                            visible: authSate.currentRole == UserRole.student,
-                            child: InkWell(
+    return RefreshIndicator(
+      color: primaryColor,
+      onRefresh: () {
+        bloc.add(
+          GetAllDataEvent(0, 10),
+        );
+        page = 1;
+        return Future.delayed(const Duration(seconds: 1));
+      },
+      child: BlocBuilder<GeneralProjectBloc, GeneralProjectState>(
+        builder: (BuildContext context, GeneralProjectState state) {
+          enableCall = true;
+
+          return Scaffold(
+            body: CustomScrollView(
+              controller: _scrollController,
+              slivers: [
+                SliverAppBar(
+                  automaticallyImplyLeading: false,
+                  expandedHeight: 60,
+                  collapsedHeight: 60,
+                  elevation: 0,
+                  pinned: pinned || _searchFocus.hasFocus,
+                  title: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          // 'Projects',
+                          projectsTitleKey.tr(),
+                          style:
+                              Theme.of(context).textTheme.titleLarge!.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                        ),
+                        Row(
+                          children: [
+                            InkWell(
                               onTap: () {
-                                context.pushNamed('project_saved');
+                                context.pushNamed('project_search');
                               },
                               child: Container(
                                 height: 39,
                                 width: 39,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  color: theme.colorScheme.brightness ==
-                                          Brightness.dark
-                                      ? primaryColor
-                                      : const Color.fromARGB(
-                                          255, 245, 245, 245),
-                                ),
+                                    borderRadius: BorderRadius.circular(30),
+                                    color: theme.colorScheme.brightness ==
+                                            Brightness.dark
+                                        ? primaryColor
+                                        : const Color.fromARGB(
+                                            255, 245, 245, 245)),
                                 alignment: Alignment.center,
                                 child: FaIcon(
-                                  FontAwesomeIcons.solidHeart,
+                                  FontAwesomeIcons.magnifyingGlass,
                                   color: colorTheme.black,
                                   size: 21,
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Visibility(
+                              visible: authSate.currentRole == UserRole.student,
+                              child: InkWell(
+                                onTap: () {
+                                  context.pushNamed('project_saved');
+                                },
+                                child: Container(
+                                  height: 39,
+                                  width: 39,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    color: theme.colorScheme.brightness ==
+                                            Brightness.dark
+                                        ? primaryColor
+                                        : const Color.fromARGB(
+                                            255, 245, 245, 245),
+                                  ),
+                                  alignment: Alignment.center,
+                                  child: FaIcon(
+                                    FontAwesomeIcons.solidHeart,
+                                    color: colorTheme.black,
+                                    size: 21,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  childCount: state.projectList.length,
-                  (BuildContext context, int index) {
-                    return GeneralProjectItem(
-                      project: state.projectList[index],
-                      paddingRight: 8,
-                    );
-                  },
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    childCount: state.projectList.length + 1,
+                    (BuildContext context, int index) {
+                      if (index < state.projectList.length) {
+                        return GeneralProjectItem(
+                          project: state.projectList[index],
+                          paddingRight: 8,
+                        );
+                      } else {
+                        return state.projectList.isNotEmpty
+                            ? preLength != state.projectList.length
+                                ? const Center(
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 36),
+                                      child: CircularProgressIndicator(
+                                        color: primaryColor,
+                                        strokeWidth: 5,
+                                      ),
+                                    ),
+                                  )
+                                : const Center(
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 24),
+                                      child: Text('No more data to load'),
+                                    ),
+                                  )
+                            : null;
+                      }
+                    },
+                  ),
                 ),
-              )
-            ],
-          ),
-        );
-      },
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

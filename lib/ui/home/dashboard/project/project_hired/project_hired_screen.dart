@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_bloc.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_event.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_state.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/data/dto/student/request_get_proposal_project.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
@@ -37,6 +39,8 @@ class _ProjectDetailHiredScreenState extends State<ProjectDetailHiredScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.item?.toMap());
+    print(widget.projectProposal?.toMap());
     final theme = Theme.of(context);
     return BlocBuilder<GeneralProjectBloc, GeneralProjectState>(
       builder: (context, state) {
@@ -46,7 +50,8 @@ class _ProjectDetailHiredScreenState extends State<ProjectDetailHiredScreen> {
             children: [
               EmptyDataWidget(
                 mainTitle: '',
-                subTitle: 'No hird proposal found',
+                // subTitle: 'No hired proposal found',
+                subTitle: noHiredProposalKey.tr(),
                 widthImage: MediaQuery.of(context).size.width * 0.5,
               ),
             ],
@@ -59,7 +64,7 @@ class _ProjectDetailHiredScreenState extends State<ProjectDetailHiredScreen> {
                 theme: theme,
                 item: state.proposalHireList[index],
                 activeSentButton: false,
-                projectId: widget.item!.projectId.toString(),
+                projectId: (widget.item?.id ?? widget.projectProposal?.project?.projectId ?? "0").toString(),
               );
             },
             separatorBuilder: (context, index) {

@@ -347,24 +347,24 @@ class _StudentProfileCreationStep01State
                                               ),
                                             ),
                                             const Spacer(),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                  color: theme.colorScheme.grey!
-                                                      .withOpacity(0.4),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          50)),
-                                              padding: const EdgeInsets.all(3),
-                                              child: InkWell(
-                                                onTap: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Icon(
-                                                  Icons.close,
-                                                  color: theme.colorScheme.grey,
-                                                ),
-                                              ),
-                                            ),
+                                            // Container(
+                                            //   decoration: BoxDecoration(
+                                            //       color: theme.colorScheme.grey!
+                                            //           .withOpacity(0.4),
+                                            //       borderRadius:
+                                            //           BorderRadius.circular(
+                                            //               50)),
+                                            //   padding: const EdgeInsets.all(3),
+                                            //   child: InkWell(
+                                            //     onTap: () {
+                                            //       Navigator.pop(context);
+                                            //     },
+                                            //     child: Icon(
+                                            //       Icons.close,
+                                            //       color: theme.colorScheme.grey,
+                                            //     ),
+                                            //   ),
+                                            // ),
                                             const Spacer(),
                                             Container(
                                               decoration: BoxDecoration(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_event.dart';
@@ -24,20 +25,11 @@ class SignUpStep02ScreenForStudent extends StatefulWidget {
 }
 
 class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
-  bool isAcceptCondtion = false;
+  bool isAcceptCondition = false;
   final formKeyLogin = GlobalKey<FormBuilderState>();
 
   void handleSubmit() {
-    if (!isAcceptCondtion) {
-      SnackBarService.showSnackBar(
-          // content: 'Please accept the terms of service',
-          content: acceptTermsOfServiceKey.tr(),
-          status: StatusSnackBar.info);
-      return;
-    }
-
-    if ((formKeyLogin.currentState?.saveAndValidate() ?? false) &&
-        isAcceptCondtion) {
+    if ((formKeyLogin.currentState?.saveAndValidate() ?? false) && isAcceptCondition) {
       final requestRegisterAccount = RequestRegisterAccount(
         email:
             formKeyLogin.currentState?.fields['email']?.value.toString() ?? '',
@@ -49,15 +41,23 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
                 '',
         role: widget.role ?? "0",
       );
-      context.read<AuthBloc>().add(RegisterAccount(
-          requestRegister: requestRegisterAccount,
-          onSuccess: () {
-            SnackBarService.showSnackBar(
-                // content: 'Register successfully',
-                content: registerSuccessKey.tr(),
-                status: StatusSnackBar.success);
-            context.push('/login');
-          }));
+      if (!isAcceptCondition) {
+        SnackBarService.showSnackBar(
+            // content: 'Please accept the terms of service',
+            content: acceptTermsOfServiceKey.tr(),
+            status: StatusSnackBar.info);
+        return;
+      } else {
+        context.read<AuthBloc>().add(RegisterAccount(
+            requestRegister: requestRegisterAccount,
+            onSuccess: () {
+              SnackBarService.showSnackBar(
+                  // content: 'Register successfully',
+                  content: registerSuccessKey.tr(),
+                  status: StatusSnackBar.success);
+              context.push('/login');
+            }));
+      }
     }
   }
 
@@ -111,6 +111,9 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
                   name: 'fullname',
                   // hintText: 'Fullname',
                   hintText: fullNameKey.tr(),
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(),
+                  ]),
                   onTap: () {
                     Scrollable.ensureVisible(formKeyLogin.currentContext!,
                         duration: const Duration(milliseconds: 500));
@@ -135,6 +138,11 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
                   name: 'email',
                   // hintText: 'Email address',
                   hintText: emailAddressKey.tr(),
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(),
+                    FormBuilderValidators.email(),
+                  ]),
+
                   icon: Container(
                     width: 18,
                     height: 18,
@@ -157,6 +165,10 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
                   name: 'password',
                   // hintText: 'Password (8 or more characters)',
                   hintText: passwordForRegisterKey.tr(),
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(),
+                    FormBuilderValidators.minLength(8),
+                  ]),
                   icon: Container(
                     width: 18,
                     height: 18,
@@ -202,10 +214,10 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
                             controlAffinity: ListTileControlAffinity.leading,
                             checkboxShape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15)),
-                            value: isAcceptCondtion,
+                            value: isAcceptCondition,
                             onChanged: (value) {
                               setState(() {
-                                isAcceptCondtion = value!;
+                                isAcceptCondition = value!;
                               });
                             },
                           ),
@@ -241,7 +253,10 @@ class _SignUpStep02State extends State<SignUpStep02ScreenForStudent> {
                       // 'Looking for staff? ',
                       lookingForStaffKey.tr(),
                       style: theme.textTheme.titleSmall?.copyWith(
-                        color: Colors.black54,
+                        // color: Colors.black54,
+                        color: Theme.of(context).brightness == Brightness.light
+                            ? Colors.black54
+                            : Colors.white,
                       ),
                     ),
                     InkWell(

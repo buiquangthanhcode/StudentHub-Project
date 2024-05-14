@@ -166,7 +166,7 @@ class _EditProjectResumeItemState extends State<EditProjectResumeItem> {
                 hintText: descriptionPlaceHolderKey.tr(),
                 initialValue: widget.item.description,
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.05),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
@@ -216,10 +216,12 @@ class _EditProjectResumeItemState extends State<EditProjectResumeItem> {
                 child: Text(
                   saveBtnKey.tr(),
                   style: theme.textTheme.bodyMedium!.copyWith(
-                    color: theme.colorScheme.onPrimary,
+                    // color: theme.colorScheme.onPrimary,
+                    color: Colors.white,
                   ),
                 ),
-              )
+              ),
+              const SizedBox(height: 16),
             ],
           ),
         ),

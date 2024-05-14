@@ -29,7 +29,7 @@ class NotificationService {
       logger.e(
         "DioException :${e.response}",
       );
-      throw ResponseAPI<List<TechStack>>(
+      throw ResponseAPI<List<NotificationModel>>(
         statusCode: e.response?.statusCode,
         data: [],
       );

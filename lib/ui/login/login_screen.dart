@@ -89,6 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   // hintText: 'Username',
                   hintText: userNameKey.tr(),
                   initialValue: "buiquangthanh1709@gmail.com",
+                  // initialValue: "nguyenthoaidangkhoa+15@gmail.com",
                   validator: FormBuilderValidators.compose([
                     FormBuilderValidators.required(),
                     FormBuilderValidators.email(),
@@ -116,7 +117,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   // hintText: 'Password',
                   hintText: passwordKey.tr(),
                   initialValue: 'Buiquangthanh@1709',
+                  // initialValue: '@Khoa123',
                   obscureText: true,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: FormBuilderValidators.compose([
                     FormBuilderValidators.required(),
                     FormBuilderValidators.minLength(8),
@@ -174,16 +177,25 @@ class _LoginScreenState extends State<LoginScreen> {
                           showModalBottomSheet(
                             context: context,
                             isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
                             builder: (context) {
                               return Container(
-                                padding: const EdgeInsets.all(12.0),
-                                decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.only(
+                                padding: EdgeInsets.only(
+                                  top: 12,
+                                  left: 12,
+                                  right: 12,
+                                  bottom:
+                                      MediaQuery.of(context).viewInsets.bottom,
+                                ),
+                                decoration: BoxDecoration(
+                                    // color: Colors.white,
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.dark
+                                        ? Colors.black
+                                        : Colors.white,
+                                    borderRadius: const BorderRadius.only(
                                         topLeft: Radius.circular(20),
                                         topRight: Radius.circular(20))),
-                                height:
-                                    MediaQuery.of(context).size.height * 0.8,
                                 child: FormBuilder(
                                   key: _formForgotPassword,
                                   child: SingleChildScrollView(
@@ -275,6 +287,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                               ])
                                             ],
                                           ),
+                                          SizedBox(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.25),
                                           ElevatedButton(
                                             onPressed: () {
                                               if (_formForgotPassword
@@ -354,8 +371,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     onPressed: () {
                       // validate form
-                      logger.d(_formKeyLogin.currentState?.saveAndValidate());
-
                       if (_formKeyLogin.currentState?.saveAndValidate() ??
                           false) {
                         context.read<AuthBloc>().add(
@@ -453,6 +468,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 // const Spacer(
                 //   flex: 10,
                 // ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.15),
                 Align(
                   alignment: Alignment.center,
                   child: RichText(
@@ -460,7 +476,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       // text: 'Already have an account? ',
                       text: alreadyHaveAccountKey.tr(),
                       style: theme.textTheme.titleSmall?.copyWith(
-                        color: Colors.black54,
+                        // color: Colors.black54,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black54,
                       ),
                       children: <TextSpan>[
                         TextSpan(

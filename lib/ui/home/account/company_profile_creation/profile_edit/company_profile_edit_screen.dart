@@ -94,8 +94,10 @@ class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
               title: Text(
                 // 'Edit Profile',
                 editProfileTitleKey.tr(),
-                style:
-                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall
+                    ?.copyWith(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               centerTitle: false,
             ),
@@ -158,7 +160,8 @@ class _PCompanyProfileEditScreenState extends State<CompanyProfileEditScreen> {
                                                     .copyWith(
                                                         company: company)));
                                         SnackBarService.showSnackBar(
-                                            content: 'Successfully!',
+                                            // content: 'Successfully!',
+                                            content: changeSuccessMsgKey.tr(),
                                             status: StatusSnackBar.success);
                                         Future.delayed(
                                             const Duration(seconds: 1), () {

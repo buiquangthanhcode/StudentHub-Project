@@ -7,9 +7,6 @@ import 'package:studenthub/blocs/project_bloc/project_state.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/ui/home/dashboard/widgets/project_item.dart';
-import 'package:studenthub/utils/logger.dart';
-import 'package:studenthub/models/common/project_model.dart';
-import 'package:studenthub/ui/home/dashboard/widgets/project_item.dart';
 import 'package:studenthub/widgets/emtyDataWidget.dart';
 
 class ProjectArchivedTabForCompany extends StatefulWidget {
@@ -53,10 +50,11 @@ class _ProjectAllTabState extends State<ProjectArchivedTabForCompany> {
               itemCount: state.archivedProjects.length,
               itemBuilder: (context, index) {
                 return Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                   child: ProjectItem(
-                      theme: theme, item: state.archivedProjects[index]),
+                    theme: theme,
+                    item: state.archivedProjects[index],
+                  ),
                 );
               },
               separatorBuilder: (context, index) {

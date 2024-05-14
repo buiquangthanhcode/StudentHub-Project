@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 
 class UrlInputWidget extends StatefulWidget {
   const UrlInputWidget(
@@ -26,7 +28,8 @@ class _UrlInputWidgetState extends State<UrlInputWidget> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              'What\'s your company\'s website URL?',
+              // 'What\'s your company\'s website URL?',
+              whatIsWebUrlOfCompanyMsgKey.tr(),
               style: textTheme.bodySmall,
             ),
           ],
@@ -40,8 +43,7 @@ class _UrlInputWidgetState extends State<UrlInputWidget> {
             widget.checkFormField();
           },
           validator: (value) {
-            if (value == null ||
-                value.isEmpty 
+            if (value == null || value.isEmpty
                 // || !Uri.parse(value).isAbsolute
                 ) {
               return 'Your website address is invalid.';
@@ -49,11 +51,12 @@ class _UrlInputWidgetState extends State<UrlInputWidget> {
             return null;
           },
           cursorHeight: 18,
-          style: textTheme.bodyMedium,
+          style: textTheme.bodyMedium!.copyWith(color: Colors.black),
           controller: widget.websiteInputController,
           cursorColor: Colors.black,
           decoration: InputDecoration(
-            hintText: 'Enter your website url...',
+            // hintText: 'Enter your website url...',
+            hintText: enterYourWebsiteURlPlaceHolderKey.tr(),
             hintStyle: textTheme.bodyMedium!
                 .copyWith(color: Theme.of(context).colorScheme.hintColor),
             suffixIcon: widget.websiteInputController.text.isNotEmpty

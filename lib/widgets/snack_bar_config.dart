@@ -12,7 +12,8 @@ enum StatusSnackBar {
 }
 
 class SnackBarService {
-  static void showSnackBar({required String content, StatusSnackBar status = StatusSnackBar.none}) {
+  static void showSnackBar(
+      {required String content, StatusSnackBar status = StatusSnackBar.none}) {
     StudentHub.scaffoldKey.currentState?.showSnackBar(
       SnackBar(
         duration: const Duration(milliseconds: 1000),
@@ -25,8 +26,7 @@ class SnackBarService {
             Expanded(
               child: Text(
                 content,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ],

@@ -28,28 +28,43 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
   final FocusNode _searchFocus = FocusNode();
 
   final _scrollController = ScrollController();
+  final _listController = ScrollController();
   bool scrollToBottom = false;
   bool pinned = false;
 
   List<String> searchSuggestions = [];
-  Set<String>? setSuggestion;
   bool isSearching = true;
   // bool canFocus = true;
+  int page = 1;
+  bool enableCall = true;
+  int preLength = -1;
+  dynamic bloc;
+  Map<String, dynamic> filterData = {
+    'projectScopeFlag': -1,
+    'numberOfStudents': '',
+    'proposalsLessThan': '',
+  };
 
   @override
   void initState() {
     // _value = widget.value;
     _searchFocus.addListener(_onFocusChange);
     _scrollController.addListener(_scrollListener);
-    setSuggestion =
-        context.read<GeneralProjectBloc>().state.projectSearchSuggestions;
+
+    bloc = context.read<GeneralProjectBloc>();
     setSearchSuggetions('');
+    bloc.add(
+      GetAllSearchTitleEvent(() {
+        setSearchSuggetions('');
+      }),
+    );
 
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   showWelcomeDialog(context);
     // });
 
     super.initState();
+    _listController.addListener(_scrollToBottomListener);
   }
 
   @override
@@ -98,33 +113,61 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
         context: context,
         builder: (ctx) => FilterDialog(
               applyFilter: (data) {
-                context.read<GeneralProjectBloc>().add(GetSearchFilterDataEvent(
+                filterData = data;
+                page = 1;
+                bloc.add(GetSearchFilterDataEvent(
                     searchController.text.isEmpty
                         ? null
                         : searchController.text,
-                    data['projectScopeFlag'],
-                    data['numberOfStudents'].isEmpty
+                    filterData['projectScopeFlag'],
+                    filterData['numberOfStudents'].isEmpty
                         ? null
-                        : int.parse(data['numberOfStudents']),
-                    data['proposalsLessThan'].isEmpty
+                        : int.parse(filterData['numberOfStudents']),
+                    filterData['proposalsLessThan'].isEmpty
                         ? null
-                        : int.parse(data['proposalsLessThan'])));
+                        : int.parse(filterData['proposalsLessThan']),
+                    page,
+                    10));
               },
             ));
   }
 
   void setSearchSuggetions(String value) {
+    Set<String> setSuggestion = bloc.state.projectSearchSuggestions;
     searchSuggestions = [];
     if (value.isEmpty) {
       // searchSuggestions.add('View all');
       searchSuggestions.add(viewAllBtnKey.tr());
-    }
-    for (String i in setSuggestion!) {
-      if (i.toLowerCase().contains(value.toLowerCase())) {
-        searchSuggestions.add(i);
+    } else {
+      for (String i in setSuggestion) {
+        if (i.toLowerCase().contains(value.toLowerCase())) {
+          searchSuggestions.add(i);
+        }
       }
     }
     setState(() {});
+  }
+
+  void _scrollToBottomListener() {
+    if ((_listController.offset == _listController.position.maxScrollExtent) &&
+        enableCall) {
+      logger.d('scroll to bottom: ${page + 1}');
+      enableCall = false;
+      preLength = bloc.state.projectSearchList.length;
+      bloc.add(GetSearchFilterDataEvent(
+          searchController.text.isEmpty ? null : searchController.text,
+          filterData['projectScopeFlag'] == -1
+              ? null
+              : filterData['projectScopeFlag'],
+          filterData['numberOfStudents'].isEmpty
+              ? null
+              : int.parse(filterData['numberOfStudents']),
+          filterData['proposalsLessThan'].isEmpty
+              ? null
+              : int.parse(filterData['proposalsLessThan']),
+          ++page,
+          10));
+    }
   }
 
   @override
@@ -177,7 +220,7 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                         setSearchSuggetions(value);
                       },
                       cursorHeight: 18,
-                      autofocus: true,
+                      // autofocus: true,
                       controller: searchController,
                       cursorColor: Colors.black,
                       style: textTheme.bodyMedium,
@@ -322,21 +365,26 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                             onTap: () {
                               // FocusScope.of(context).unfocus();
                               // WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
-
                               isSearching = false;
+                              page = 1;
+                              filterData = {
+                                'projectScopeFlag': -1,
+                                'numberOfStudents': '',
+                                'proposalsLessThan': '',
+                              };
                               if (index == 0 && searchController.text.isEmpty) {
-                                context.read<GeneralProjectBloc>().add(
-                                    GetSearchFilterDataEvent(
-                                        null, null, null, null));
+                                bloc.add(GetSearchFilterDataEvent(
+                                    null, null, null, null, page, 10));
                               } else {
                                 searchController.text =
                                     searchSuggestions[index];
-                                context.read<GeneralProjectBloc>().add(
-                                    GetSearchFilterDataEvent(
-                                        searchSuggestions[index],
-                                        null,
-                                        null,
-                                        null));
+                                bloc.add(GetSearchFilterDataEvent(
+                                    searchController.text,
+                                    null,
+                                    null,
+                                    null,
+                                    page,
+                                    10));
                               }
                               setState(() {});
                             },
@@ -414,19 +462,55 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
             if (!isSearching)
               BlocBuilder<GeneralProjectBloc, GeneralProjectState>(
                 builder: (context, state) {
+                  enableCall = true;
                   return Expanded(
                     child: state.projectSearchList.isNotEmpty
                         ? ListView.builder(
+                            controller: _listController,
                             shrinkWrap: true,
-                            itemCount: state.projectSearchList.length,
-                            itemBuilder: (context, index) => GeneralProjectItem(
+                            itemCount: state.projectSearchList.length + 1,
+                            itemBuilder: (context, index) {
+                              if (index < state.projectSearchList.length) {
+                                return GeneralProjectItem(
                                   project: state.projectSearchList[index],
                                   paddingRight: 12,
-                                ))
+                                );
+                              } else {
+                                logger.d("PRE: $preLength");
+                                logger.d(
+                                    "SEARCH: ${state.projectSearchList.length}");
+                                return state.projectSearchList.isNotEmpty
+                                    ? (preLength !=
+                                                state
+                                                    .projectSearchList.length &&
+                                            state.projectSearchList.length >=
+                                                10)
+                                        ? const Center(
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 36),
+                                              child: CircularProgressIndicator(
+                                                color: primaryColor,
+                                                strokeWidth: 5,
+                                              ),
+                                            ),
+                                          )
+                                        : const Center(
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 24),
+                                              child:
+                                                  Text('No more data to load'),
+                                            ),
+                                          )
+                                    : null;
+                              }
+                            })
                         : Center(
                             child: EmptyDataWidget(
                               mainTitle: '',
-                              subTitle: "No projects found.",
+                              // subTitle: "No projects found.",
+                              subTitle: noProjectFoundKey.tr(),
                               widthImage:
                                   MediaQuery.of(context).size.width * 0.5,
                             ),

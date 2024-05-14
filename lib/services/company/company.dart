@@ -267,7 +267,32 @@ class CompanyService {
     }
   }
 
-  Future<ResponseAPI> hireStudentProprosal(HireStudentProprosalEvent data) async {
+  Future<ResponseAPI> hireStudentProprosal(SetEventActionToStudent data) async {
+    try {
+      final res = await dioClient.patch(
+        '$baseURL/api/proposal/${data.proposalId}',
+        data: json.encode({
+          "statusFlag": data.statusFlag,
+        }),
+      );
+      return ResponseAPI(
+        statusCode: res.statusCode,
+        data: res.data,
+      );
+    } on DioException catch (e) {
+      logger.e(
+        "DioException :${e.response}",
+      );
+      throw ResponseAPI(
+        statusCode: e.response?.statusCode,
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
+
+  Future<ResponseAPI> setActiveProposal(SetActiveProposal data) async {
     try {
       final res = await dioClient.patch(
         '$baseURL/api/proposal/${data.proposalId}',

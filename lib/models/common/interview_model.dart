@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-
 class Interview {
   int? id;
   String? createdAt;
@@ -11,6 +10,9 @@ class Interview {
   String? startTime;
   String? endTime;
   int? disableFlag;
+  int? meetingRoomId;
+  dynamic meetingRoom;
+  
   Interview({
     this.id,
     this.createdAt,
@@ -20,7 +22,10 @@ class Interview {
     this.startTime,
     this.endTime,
     this.disableFlag,
+    this.meetingRoomId,
+    this.meetingRoom,
   });
+  
 
   Interview copyWith({
     int? id,
@@ -31,6 +36,8 @@ class Interview {
     String? startTime,
     String? endTime,
     int? disableFlag,
+    int? meetingRoomId,
+    dynamic meetingRoom,
   }) {
     return Interview(
       id: id ?? this.id,
@@ -41,6 +48,8 @@ class Interview {
       startTime: startTime ?? this.startTime,
       endTime: endTime ?? this.endTime,
       disableFlag: disableFlag ?? this.disableFlag,
+      meetingRoomId: meetingRoomId ?? this.meetingRoomId,
+      meetingRoom: meetingRoom ?? this.meetingRoom,
     );
   }
 
@@ -54,6 +63,8 @@ class Interview {
       'startTime': startTime,
       'endTime': endTime,
       'disableFlag': disableFlag,
+      'meetingRoomId': meetingRoomId,
+      'meetingRoom': meetingRoom,
     };
   }
 
@@ -67,6 +78,8 @@ class Interview {
       startTime: map['startTime'] != null ? map['startTime'] as String : null,
       endTime: map['endTime'] != null ? map['endTime'] as String : null,
       disableFlag: map['disableFlag'] != null ? map['disableFlag'] as int : null,
+      meetingRoomId: map['meetingRoomId'] != null ? map['meetingRoomId'] as int : null,
+      meetingRoom: map['meetingRoom'] as dynamic,
     );
   }
 
@@ -76,7 +89,7 @@ class Interview {
 
   @override
   String toString() {
-    return 'Interview(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, title: $title, startTime: $startTime, endTime: $endTime, disableFlag: $disableFlag)';
+    return 'Interview(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, title: $title, startTime: $startTime, endTime: $endTime, disableFlag: $disableFlag, meetingRoomId: $meetingRoomId, meetingRoom: $meetingRoom)';
   }
 
   @override
@@ -91,7 +104,9 @@ class Interview {
       other.title == title &&
       other.startTime == startTime &&
       other.endTime == endTime &&
-      other.disableFlag == disableFlag;
+      other.disableFlag == disableFlag &&
+      other.meetingRoomId == meetingRoomId &&
+      other.meetingRoom == meetingRoom;
   }
 
   @override
@@ -103,6 +118,8 @@ class Interview {
       title.hashCode ^
       startTime.hashCode ^
       endTime.hashCode ^
-      disableFlag.hashCode;
+      disableFlag.hashCode ^
+      meetingRoomId.hashCode ^
+      meetingRoom.hashCode;
   }
 }

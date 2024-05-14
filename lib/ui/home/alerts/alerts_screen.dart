@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
 import 'package:studenthub/blocs/notification_bloc/notification_bloc.dart';
@@ -10,8 +12,10 @@ import 'package:studenthub/blocs/notification_bloc/notification_event.dart';
 import 'package:studenthub/blocs/notification_bloc/notification_state.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
+import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/notification/notification_model.dart';
 import 'package:studenthub/utils/helper.dart';
+import 'package:studenthub/widgets/emtyDataWidget.dart';
 
 class AlertsScreen extends StatefulWidget {
   const AlertsScreen({super.key});
@@ -144,17 +148,20 @@ class _AlertsState extends State<AlertsScreen> {
               decoration: const BoxDecoration(
                 color: Colors.white,
               ),
-              child: const Row(
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  FaIcon(
+                  const FaIcon(
                     FontAwesomeIcons.solidEnvelopeOpen,
                     size: 21,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
-                  Text('Mark all as read')
+                  Text(
+                    // 'Mark all as read',
+                    markAllAsReadKey.tr(),
+                  )
                 ],
               ),
             ));
@@ -162,73 +169,103 @@ class _AlertsState extends State<AlertsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var colorTheme = Theme.of(context).colorScheme;
-
     // Future.delayed(Duration.zero, () {
     //   showOptionsDialog();
     // });
 
-    return Scaffold(
-      body: CustomScrollView(
-        controller: _scrollController,
-        slivers: [
-          SliverAppBar(
-            automaticallyImplyLeading: false,
-            expandedHeight: 60,
-            collapsedHeight: 60,
-            elevation: 0,
-            pinned: pinned,
-            title: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Alerts',
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          fontWeight: FontWeight.w700,
-                        ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      showOptionsDialog();
-                    },
-                    child: Container(
-                      height: 39,
-                      width: 39,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: colorTheme.brightness == Brightness.dark
-                            ? primaryColor
-                            : const Color.fromARGB(255, 245, 245, 245),
-                      ),
-                      alignment: Alignment.center,
-                      child: FaIcon(
-                        FontAwesomeIcons.gear,
-                        color: colorTheme.black,
-                        size: 21,
-                      ),
+    return RefreshIndicator(
+      color: primaryColor,
+      onRefresh: () {
+        _authenState = context.read<AuthBloc>().state;
+        context.read<NotificationBloc>().add(
+              GetNotificationListEvents(
+                onSuccess: () {},
+                userId: (_authenState.userModel.id ?? 0).toString(),
+              ),
+            );
+        return Future.delayed(const Duration(seconds: 1));
+      },
+      child: Scaffold(
+        body: CustomScrollView(
+          controller: _scrollController,
+          slivers: [
+            SliverAppBar(
+              automaticallyImplyLeading: false,
+              expandedHeight: 60,
+              collapsedHeight: 60,
+              elevation: 0,
+              pinned: pinned,
+              title: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      // 'Alerts',
+                      alertsNavKey.tr(),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            fontWeight: FontWeight.w700,
+                          ),
                     ),
-                  ),
-                ],
+                    // InkWell(
+                    //   onTap: () {
+                    //     showOptionsDialog();
+                    //   },
+                    //   child: Container(
+                    //     height: 39,
+                    //     width: 39,
+                    //     decoration: BoxDecoration(
+                    //       borderRadius: BorderRadius.circular(30),
+                    //       color: colorTheme.brightness == Brightness.dark
+                    //           ? primaryColor
+                    //           : const Color.fromARGB(255, 245, 245, 245),
+                    //     ),
+                    //     alignment: Alignment.center,
+                    //     child: FaIcon(
+                    //       FontAwesomeIcons.gear,
+                    //       color: colorTheme.black,
+                    //       size: 21,
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
+                ),
               ),
             ),
-          ),
-          BlocBuilder<NotificationBloc, NotificationState>(
-            builder: (context, state) {
-              return SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  childCount: state.notificationList.length,
-                  (BuildContext context, int index) {
-                    return NotificationItem(
-                      item: state.notificationList[index],
-                    );
-                  },
-                ),
-              );
-            },
-          ),
-        ],
+            BlocBuilder<NotificationBloc, NotificationState>(
+              builder: (context, state) {
+                bool isNotEmpty = state.notificationList.isNotEmpty;
+                return isNotEmpty
+                    ? SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          childCount: state.notificationList.length,
+                          (BuildContext context, int index) {
+                            return NotificationItem(
+                              item: state.notificationList[index],
+                            );
+                          },
+                        ),
+                      )
+                    : SliverFillRemaining(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            EmptyDataWidget(
+                              mainTitle: '',
+                              subTitle:
+                                  // "You haven't received any notifications yet.",
+                                  // subTitle: noProjectFoundKey.tr(),
+                                  noNotificationsAlertKey.tr(),
+                              widthImage:
+                                  MediaQuery.of(context).size.width * 0.5,
+                            ),
+                          ],
+                        ),
+                      );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -264,7 +301,10 @@ class NotificationItem extends StatelessWidget {
           height: 36,
           child: ElevatedButton(
             onPressed: () {},
-            child: const Text('Join'),
+            child: Text(
+              // 'Join',
+              joinBtnKey.tr(),
+            ),
           ),
         );
         break;
@@ -276,12 +316,30 @@ class NotificationItem extends StatelessWidget {
               BlendMode.srcIn),
           height: 18,
         );
+        content = Text(
+          item.content ?? '',
+          style: TextStyle(
+              color: (item.notifyFlag == "0") ? colorTheme.grey! : Colors.black,
+              fontSize: 12),
+        );
         button = SizedBox(
           width: screenSize.width * 0.4,
           height: 36,
           child: ElevatedButton(
-            onPressed: () {},
-            child: const Text('View offer'),
+            onPressed: () {
+              context.pushNamed(
+                'project_general_detail',
+                queryParameters: {
+                  'id': (item.proposal?.projectId ?? 0).toString(),
+                  'isFavorite': 'null',
+                  'proposalId': item.proposal?.id.toString(),
+                },
+              );
+            },
+            child: Text(
+              // 'View offer',
+              viewOfferBtnKey.tr(),
+            ),
           ),
         );
         break;

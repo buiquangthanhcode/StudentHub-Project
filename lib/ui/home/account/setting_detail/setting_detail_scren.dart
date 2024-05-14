@@ -32,12 +32,20 @@ class SettingDetailScreen extends StatefulWidget {
 class _SettingDetailScreenState extends State<SettingDetailScreen> {
   final _formChangePassWord = GlobalKey<FormBuilderState>();
   late LanguageProfile? langSelect;
+  late ThemeProfile? themeSelect;
 
   Future<LanguageProfile> getCurrentLanguage() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('language') == 'en'
         ? LanguageProfile.en
         : LanguageProfile.vn;
+  }
+
+  Future<ThemeProfile> getCurrentTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('theme') == 'dark'
+        ? ThemeProfile.dark
+        : ThemeProfile.light;
   }
 
   @override
@@ -48,9 +56,12 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
         langSelect = value;
       });
     });
+    getCurrentTheme().then((value) {
+      setState(() {
+        themeSelect = value;
+      });
+    });
   }
-
-  ThemeProfile? themeSelect = ThemeProfile.light;
 
   void changeLanguage(LanguageProfile? value) {
     setState(() {
@@ -84,7 +95,8 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
 
     Future.delayed(const Duration(milliseconds: 100), () {
       SnackBarService.showSnackBar(
-          content: 'Change theme successfully!',
+          // content: 'Change theme successfully!',
+          content: changeThemeSuccessMsgKey.tr(),
           status: StatusSnackBar.success);
       Navigator.pop(context, value);
     });
@@ -108,7 +120,8 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
       },
       {
         'icon': FontAwesomeIcons.themeco,
-        'name': 'Change theme',
+        // 'name': 'Change theme',
+        'name': changeThemeKey.tr(),
         'key': 'theme',
       },
       {
@@ -194,9 +207,18 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                   const SizedBox(height: 24),
                                   Container(
                                     decoration: BoxDecoration(
+                                      // color: langSelect == LanguageProfile.vn
+                                      //     ? const Color(0xfff2f5f8)
+                                      //     : Colors.white,
                                       color: langSelect == LanguageProfile.vn
-                                          ? const Color(0xfff2f5f8)
-                                          : Colors.white,
+                                          ? (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? const Color(0xff242435)
+                                              : const Color(0xfff2f5f8))
+                                          : (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? Colors.black
+                                              : Colors.white),
                                       borderRadius: BorderRadius.circular(18.0),
                                     ),
                                     padding: const EdgeInsets.symmetric(
@@ -221,7 +243,17 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                             ),
                                           ),
                                           const SizedBox(width: 16),
-                                          Text(vietnameseKey.tr()),
+                                          Text(
+                                            vietnameseKey.tr(),
+                                            style: TextStyle(
+                                              // color: Colors.black,
+                                              color: Theme.of(context)
+                                                          .brightness ==
+                                                      Brightness.light
+                                                  ? Colors.black
+                                                  : Colors.white,
+                                            ),
+                                          ),
                                         ],
                                       ),
                                       activeColor: primaryColor,
@@ -232,9 +264,18 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 4, horizontal: 8),
                                     decoration: BoxDecoration(
+                                      // color: langSelect == LanguageProfile.en
+                                      //     ? const Color(0xfff2f5f8)
+                                      //     : Colors.white,
                                       color: langSelect == LanguageProfile.en
-                                          ? const Color(0xfff2f5f8)
-                                          : Colors.white,
+                                          ? (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? const Color(0xff242435)
+                                              : const Color(0xfff2f5f8))
+                                          : (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? Colors.black
+                                              : Colors.white),
                                       borderRadius: BorderRadius.circular(18.0),
                                     ),
                                     child: RadioListTile<LanguageProfile>(
@@ -256,7 +297,17 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                                 height: 30,
                                               )),
                                           const SizedBox(width: 16),
-                                          Text(englishKey.tr()),
+                                          Text(
+                                            englishKey.tr(),
+                                            style: TextStyle(
+                                              // color: Colors.black,
+                                              color: Theme.of(context)
+                                                          .brightness ==
+                                                      Brightness.light
+                                                  ? Colors.black
+                                                  : Colors.white,
+                                            ),
+                                          ),
                                         ],
                                       ),
                                       activeColor: primaryColor,
@@ -270,15 +321,26 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                         showModalBottomSheet(
                           context: context,
                           isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
                           builder: (context) {
                             return Container(
-                              padding: const EdgeInsets.all(12.0),
-                              decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.only(
+                              padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom,
+                                left: 12,
+                                right: 12,
+                                top: 12,
+                              ),
+                              decoration: BoxDecoration(
+                                  // color: Colors.white,
+                                  color: theme.brightness == Brightness.dark
+                                      ? Colors.black
+                                      : Colors.white,
+                                  // color: Colors.red,
+                                  borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(20),
                                       topRight: Radius.circular(20))),
-                              height: MediaQuery.of(context).size.height * 0.85,
+                              // height: MediaQuery.of(context).size.height * 0.65,
                               child: SingleChildScrollView(
                                 child: FormBuilder(
                                   key: _formChangePassWord,
@@ -299,6 +361,10 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                                   ?.copyWith(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 24,
+                                                color: theme.brightness ==
+                                                        Brightness.dark
+                                                    ? Colors.white
+                                                    : Colors.black,
                                               ),
                                             ),
                                             const Spacer(),
@@ -324,9 +390,14 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                         ),
                                         const SizedBox(height: 24),
                                         Text(
-                                          // 'Your new password must be different from your previous password.',
-                                          passwordSuggestionMsg.tr(),
-                                        ),
+                                            // 'Your new password must be different from your previous password.',
+                                            passwordSuggestionMsg.tr(),
+                                            style: TextStyle(
+                                              color: theme.brightness ==
+                                                      Brightness.dark
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                            )),
                                         const SizedBox(height: 24),
                                         TextFieldFormCustom(
                                             fillColor: Colors.white,
@@ -340,7 +411,7 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                             maxLines: null,
                                             keyboardType:
                                                 TextInputType.multiline,
-                                            icon: Icon(
+                                            icon: const Icon(
                                               Icons.lock,
                                               color: Colors.grey,
                                             )),
@@ -356,7 +427,7 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                             maxLines: null,
                                             keyboardType:
                                                 TextInputType.multiline,
-                                            icon: Icon(
+                                            icon: const Icon(
                                               Icons.lock,
                                               color: Colors.grey,
                                             )),
@@ -373,7 +444,7 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                             maxLines: null,
                                             keyboardType:
                                                 TextInputType.multiline,
-                                            icon: Icon(
+                                            icon: const Icon(
                                               Icons.lock,
                                               color: Colors.grey,
                                             )),
@@ -396,6 +467,11 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                             ])
                                           ],
                                         ),
+                                        SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.1),
                                         ElevatedButton(
                                           onPressed: () {
                                             if (_formChangePassWord.currentState
@@ -486,7 +562,8 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                   Row(
                                     children: [
                                       Text(
-                                        'Change Theme',
+                                        // 'Change Theme',
+                                        changeThemeKey.tr(),
                                         style: theme.textTheme.bodyMedium
                                             ?.copyWith(
                                           fontWeight: FontWeight.bold,
@@ -517,8 +594,14 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                   Container(
                                     decoration: BoxDecoration(
                                       color: themeSelect == ThemeProfile.light
-                                          ? const Color(0xfff2f5f8)
-                                          : Colors.white,
+                                          ? (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? const Color(0xff242435)
+                                              : const Color(0xfff2f5f8))
+                                          : (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? Colors.black
+                                              : Colors.white),
                                       borderRadius: BorderRadius.circular(18.0),
                                     ),
                                     padding: const EdgeInsets.symmetric(
@@ -536,14 +619,27 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                           ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(5),
-                                            child: Image.asset(
-                                              'lib/assets/images/light.png',
-                                              width: 30,
-                                              height: 30,
-                                            ),
+                                            // child: Image.asset(
+                                            //   'lib/assets/images/light.png',
+                                            //   width: 30,
+                                            //   height: 30,
+                                            // ),
+                                            child: const Icon(
+                                                FontAwesomeIcons.sun),
                                           ),
                                           const SizedBox(width: 16),
-                                          Text("Sáng"),
+                                          // Text("Sáng"),
+                                          Text(
+                                            dayKey.tr(),
+                                            style: TextStyle(
+                                              // color: Colors.black,
+                                              color: Theme.of(context)
+                                                          .brightness ==
+                                                      Brightness.light
+                                                  ? Colors.black
+                                                  : Colors.white,
+                                            ),
+                                          )
                                         ],
                                       ),
                                       activeColor: primaryColor,
@@ -555,8 +651,14 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                         vertical: 4, horizontal: 8),
                                     decoration: BoxDecoration(
                                       color: themeSelect == ThemeProfile.dark
-                                          ? const Color(0xfff2f5f8)
-                                          : Colors.white,
+                                          ? (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? const Color(0xff242435)
+                                              : const Color(0xfff2f5f8))
+                                          : (Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? Colors.black
+                                              : Colors.white),
                                       borderRadius: BorderRadius.circular(18.0),
                                     ),
                                     child: RadioListTile<ThemeProfile>(
@@ -570,15 +672,29 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                             MainAxisAlignment.start,
                                         children: [
                                           ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                              child: Image.asset(
-                                                'lib/assets/images/dark.png',
-                                                width: 30,
-                                                height: 30,
-                                              )),
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            // child: Image.asset(
+                                            //   'lib/assets/images/dark.png',
+                                            //   width: 30,
+                                            //   height: 30,
+                                            // ),
+                                            child: const FaIcon(
+                                                FontAwesomeIcons.cloudMoon),
+                                          ),
                                           const SizedBox(width: 16),
-                                          Text("Tối"),
+                                          // Text("Tối"),
+                                          Text(
+                                            nightKey.tr(),
+                                            style: TextStyle(
+                                              // color: Colors.black,
+                                              color: Theme.of(context)
+                                                          .brightness ==
+                                                      Brightness.light
+                                                  ? Colors.black
+                                                  : Colors.white,
+                                            ),
+                                          )
                                         ],
                                       ),
                                       activeColor: primaryColor,

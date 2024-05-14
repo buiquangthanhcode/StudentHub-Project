@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:studenthub/data/dto/reponse.dart';
 import 'package:studenthub/models/common/chat_model.dart';
@@ -87,4 +88,32 @@ class ChatService {
       rethrow;
     }
   }
+
+    Future<ResponseAPI<dynamic>> sendMessages(dynamic data_) async {
+    try {
+      final res = await dioClient.post(
+        '$baseURL/api/message/sendMessage',
+        data: json.encode(data_),
+      );
+
+      logger.d('CHAT DATA: ${res.data}');
+
+      return ResponseAPI<dynamic>(
+        statusCode: res.statusCode,
+        data: res.data,
+      );
+    } on DioException catch (e) {
+      logger.e(
+        "DioException :${e.response}",
+      );
+      throw ResponseAPI<List<Project>>(
+        statusCode: e.response?.statusCode,
+        data: [],
+      );
+    } catch (e) {
+      logger.e("Unexpected Error: $e");
+      rethrow;
+    }
+  }
 }
+

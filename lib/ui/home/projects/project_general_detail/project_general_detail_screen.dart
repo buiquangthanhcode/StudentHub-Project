@@ -3,26 +3,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
+import 'package:studenthub/blocs/company_bloc/company_event.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_bloc.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_event.dart';
 import 'package:studenthub/blocs/general_project_bloc/general_project_state.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_state.dart';
+import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/key_translator.dart';
+import 'package:studenthub/models/common/proposal_modal.dart';
 import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/widgets/bulletWidget.dart';
+import 'package:studenthub/widgets/snack_bar_config.dart';
 
 class ProjectGeneralDetailScreen extends StatefulWidget {
   const ProjectGeneralDetailScreen(
       {super.key,
       required this.id,
       required this.isFavorite,
-      this.isHiddenAppbar});
+      this.isHiddenAppbar,
+      this.proposalId});
 
   final String id;
   final String isFavorite;
   final bool? isHiddenAppbar;
+  final String? proposalId;
 
   @override
   State<ProjectGeneralDetailScreen> createState() =>
@@ -57,6 +64,20 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
     3: moreThan6MonthsKey.tr(),
   };
   @override
+  bool checkCurrentUserSentProposal(List<Proposal> proposals) {
+    AuthenState auth = context.read<AuthBloc>().state;
+    if (auth.isStudentRole()) {
+      int studentId = auth.userModel.student?.id?.toInt() ?? 0;
+      for (var proposal in proposals) {
+        if (proposal.studentId == studentId && proposal.statusFlag == 2) {
+          return true;
+        }
+      }
+      return false;
+    }
+    return false;
+  }
+
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     TextTheme textTheme = Theme.of(context).textTheme;
@@ -66,7 +87,9 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
       builder: (BuildContext context, GeneralProjectState state) {
         bool isSubmitProposal = checkIsSubmitProposal(
             state.projectDetail.proposals ?? [],
-            context.read<AuthBloc>().state.userModel.student!.id!.toInt());
+            context.read<AuthBloc>().state.userModel.student?.id?.toInt() ?? 0);
+        bool isSentProposal =
+            checkCurrentUserSentProposal(state.projectDetail.proposals ?? []);
         return Scaffold(
           appBar: widget.isHiddenAppbar ?? false
               ? null
@@ -154,7 +177,11 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black.withOpacity(0.6),
+                                    // color: Theme.of(context).colorScheme.black,
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? Colors.black.withOpacity(0.6)
+                                        : Colors.white,
                                   ),
                         ),
                         BulletList([
@@ -190,7 +217,7 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                                   color: theme.colorScheme.brightness ==
                                           Brightness.dark
                                       ? Colors.white
-                                      : Colors.black.withOpacity(0.8),
+                                      : Theme.of(context).colorScheme.black,
                                 ),
                               ),
                               Row(
@@ -204,7 +231,8 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                                     ),
                                   ),
                                   Text(
-                                    time[state.projectDetail.countProposals] ??
+                                    time[state
+                                            .projectDetail.projectScopeFlag] ??
                                         '3-6 months',
                                     style: Theme.of(context)
                                         .textTheme
@@ -213,7 +241,9 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                                           color: theme.colorScheme.brightness ==
                                                   Brightness.dark
                                               ? Colors.white
-                                              : Colors.black.withOpacity(0.8),
+                                              : Theme.of(context)
+                                                  .colorScheme
+                                                  .black,
                                         ),
                                   ),
                                 ],
@@ -236,7 +266,7 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                               Text(
                                 studentRequiredKey.tr(),
                                 style: TextStyle(
-                                    color: Colors.black.withOpacity(0.8)),
+                                    color: Theme.of(context).colorScheme.black),
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -255,8 +285,9 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                                         .textTheme
                                         .bodySmall!
                                         .copyWith(
-                                            color:
-                                                Colors.black.withOpacity(0.8)),
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .black),
                                   ),
                                 ],
                               )
@@ -271,12 +302,31 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                 const Spacer(),
                 authSate.currentRole == UserRole.student
                     ? Opacity(
-                        opacity: !isSubmitProposal ? 1 : 0.5,
+                        opacity:
+                            (!isSubmitProposal || isSentProposal) ? 1 : 0.5,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size(double.infinity, 56),
                           ),
                           onPressed: () {
+                            if (isSentProposal) {
+                              context
+                                  .read<CompanyBloc>()
+                                  .add(SetEventActionToStudent(
+                                    proposalId: int.parse(
+                                        (widget.proposalId ?? 0).toString()),
+                                    statusFlag: 3,
+                                    onSuccess: () {
+                                      SnackBarService.showSnackBar(
+                                          // content: "Accepted Successfully",
+                                          content:
+                                              acceptOfferSuccessMsgKey.tr(),
+                                          status: StatusSnackBar.success);
+                                      context.pop();
+                                    },
+                                  ));
+                              return;
+                            }
                             if (!isSubmitProposal) {
                               context.push(
                                   '/home/project_general_detail/submit_proposal',
@@ -285,7 +335,12 @@ class _ProjectDetailScreenState extends State<ProjectGeneralDetailScreen> {
                           },
                           child: Text(
                             // 'Apply Now',
-                            applyNowBtnKey.tr(),
+                            // !isSentProposal
+                            //     ? applyNowBtnKey.tr()
+                            //     : "Accepted Offer",
+                            !isSentProposal
+                                ? applyNowBtnKey.tr()
+                                : acceptOfferBtnKey.tr(),
                             style: textTheme.bodyMedium!.copyWith(
                                 color: theme.colorScheme.brightness ==
                                         Brightness.dark

@@ -10,12 +10,18 @@ class AppThemes {
     fontFamily: 'Inter',
     useMaterial3: true,
     textTheme: const TextTheme(
-      bodyLarge: TextStyle(color: Color(0xff030303), fontSize: 20, fontWeight: FontWeight.w500),
-      bodyMedium: TextStyle(color: Color(0xff030303), fontSize: 16, fontWeight: FontWeight.w500),
-      bodySmall: TextStyle(color: Color(0xff030303), fontSize: 14, fontWeight: FontWeight.w500),
-      titleLarge: TextStyle(color: Color(0xff030303), fontSize: 24, fontWeight: FontWeight.w500),
-      titleMedium: TextStyle(color: Color(0xff030303), fontSize: 20, fontWeight: FontWeight.w500),
-      titleSmall: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
+      bodyLarge: TextStyle(
+          color: Color(0xff030303), fontSize: 20, fontWeight: FontWeight.w500),
+      bodyMedium: TextStyle(
+          color: Color(0xff030303), fontSize: 16, fontWeight: FontWeight.w500),
+      bodySmall: TextStyle(
+          color: Color(0xff030303), fontSize: 14, fontWeight: FontWeight.w500),
+      titleLarge: TextStyle(
+          color: Color(0xff030303), fontSize: 24, fontWeight: FontWeight.w500),
+      titleMedium: TextStyle(
+          color: Color(0xff030303), fontSize: 20, fontWeight: FontWeight.w500),
+      titleSmall: TextStyle(
+          color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
     ).apply(
       fontFamily: 'Inter',
       bodyColor: Colors.black,
@@ -112,12 +118,18 @@ class AppThemes {
     fontFamily: 'Inter',
     useMaterial3: true,
     textTheme: const TextTheme(
-      bodyLarge: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
-      bodyMedium: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
-      bodySmall: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
-      titleLarge: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w500),
-      titleMedium: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
-      titleSmall: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
+      bodyLarge: TextStyle(
+          color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
+      bodyMedium: TextStyle(
+          color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
+      bodySmall: TextStyle(
+          color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+      titleLarge: TextStyle(
+          color: Colors.white, fontSize: 24, fontWeight: FontWeight.w500),
+      titleMedium: TextStyle(
+          color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
+      titleSmall: TextStyle(
+          color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
     ).apply(
       fontFamily: 'Inter',
       bodyColor: Colors.white,
@@ -202,7 +214,7 @@ class AppThemes {
       color: Colors.white,
     ),
     dialogTheme: DialogTheme(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
@@ -210,7 +222,8 @@ class AppThemes {
   );
 }
 
-final brightnesss = WidgetsBinding.instance.platformDispatcher.platformBrightness;
+final brightnesss =
+    WidgetsBinding.instance.platformDispatcher.platformBrightness;
 
 const defaultInputBorder = OutlineInputBorder(
   borderSide: BorderSide(width: 1, color: Color.fromARGB(255, 201, 201, 201)),
@@ -219,12 +232,34 @@ const defaultInputBorder = OutlineInputBorder(
 
 // Add by Quang Thanh to custom color using extension
 extension CustomColorSchemeX on ColorScheme {
-  Color? get smallBoxColor1 => brightness == Brightness.light ? Colors.blue : Colors.grey[400];
-  Color? get smallBoxColor2 => brightness == Brightness.light ? Colors.blue : Colors.grey[400];
+  Color? get smallBoxColor1 =>
+      brightness == Brightness.light ? Colors.blue : Colors.grey[400];
+  Color? get smallBoxColor2 =>
+      brightness == Brightness.light ? Colors.blue : Colors.grey[400];
 
-  Color? get black => brightness == Brightness.light ? const Color(0xff030303) : Colors.white;
-  Color? get grey => brightness == Brightness.light ? const Color(0xff7C7C7C) : const Color(0xff7C7C7C);
-  Color? get hintColor => brightness == Brightness.light ? const Color(0xffB1B1B1) : const Color(0xff585858);
+  Color? get black =>
+      brightness == Brightness.light ? const Color(0xff030303) : Colors.white;
+  Color? get white =>
+      brightness == Brightness.light ? Colors.white : const Color(0xff030303);
+  Color? get grey => brightness == Brightness.light
+      ? const Color(0xff7C7C7C)
+      : Color.fromARGB(255, 214, 210, 210);
+  Color? get hintColor => brightness == Brightness.light
+      ? const Color(0xffB1B1B1)
+      : const Color(0xff585858);
+
+  // for chat flow
+  Color? get chatColorBackground =>
+      brightness == Brightness.dark ? const Color(0xff0A1422) : Colors.white;
+
+  Color? get chatColorContent =>
+      brightness == Brightness.dark ? Colors.white : const Color(0xff181828);
+
+  Color? get chatColorContentBackground => brightness == Brightness.dark
+      ? const Color(0xff242435)
+      : const Color.fromARGB(255, 245, 245, 245);
+  Color? get chatColorCancelContentBackground =>
+      brightness == Brightness.dark ? const Color(0xff0A1422) : Colors.white;
 }
 
 //And then access that property through Theme.of(context)... for example:

@@ -1,10 +1,15 @@
+import 'dart:math';
+
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:studenthub/models/common/project_proposal_modal.dart';
 import 'package:studenthub/models/common/proposal_modal.dart';
-import 'package:studenthub/models/notification/notification_model.dart';
 import 'package:studenthub/models/student/student_create_profile/skillset_model.dart';
 import 'package:studenthub/models/student/student_create_profile/tech_stack.dart';
 import 'package:studenthub/utils/logger.dart';
+import 'package:studenthub/utils/show_confirm_dialog.dart';
 
 DateTime stringToDateTime(String? dateString) {
   try {
@@ -113,6 +118,7 @@ List<TechStack> removeDuplicates(List<TechStack> list) {
 String checkDateTime(String dateTimeString) {
   if (dateTimeString.isEmpty) return '';
   DateTime now = DateTime.now();
+  logger.d(dateTimeString);
 
   DateTime dateTime = DateTime.parse(dateTimeString);
 
@@ -121,5 +127,101 @@ String checkDateTime(String dateTimeString) {
     return DateFormat('HH:mm').format(dateTime);
   } else {
     return DateFormat('dd-MM-yyyy').format(dateTime);
+  }
+}
+
+String getCurrentTime() {
+  DateTime now = DateTime.now();
+  return DateFormat('HH:mm').format(now);
+}
+
+String getCurrentTimeAsString() {
+  DateTime now = DateTime.now();
+
+  String hour = now.hour.toString().padLeft(2, '0');
+  String minute = now.minute.toString().padLeft(2, '0');
+  String second = now.second.toString().padLeft(2, '0');
+
+  String timeString = '$hour$minute$second';
+  return timeString;
+}
+
+String convertDateTimeFormat(String isoDateTime) {
+  if (isoDateTime.isEmpty) return '';
+  DateTime dateTime = DateTime.parse(isoDateTime);
+
+  String formattedDateTime =
+      ' ${_twoDigits(dateTime.hour)}:${_twoDigits(dateTime.minute)} ${dateTime.year}-${_twoDigits(dateTime.month)}-${_twoDigits(dateTime.day)}';
+
+  return formattedDateTime;
+}
+
+String _twoDigits(int n) {
+  if (n >= 10) {
+    return "$n";
+  }
+  return "0$n";
+}
+
+String convertToIso8601(String date, String time) {
+  List<String> dateParts = date.split('/');
+  List<String> timeParts = time.split(':');
+
+  DateTime dateTime = DateTime(
+    int.parse(dateParts[2]), // Năm
+    int.parse(dateParts[1]), // Tháng
+    int.parse(dateParts[0]), // Ngày
+    int.parse(timeParts[0]), // Giờ
+    int.parse(timeParts[1]), // Phút
+  );
+
+  String iso8601String = dateTime.toUtc().toIso8601String();
+  return iso8601String;
+}
+
+int generateRandomInt32() {
+  Random random = Random();
+  int min = -2147483648; // Giá trị nhỏ nhất của số nguyên 32-bit
+  int max = 2147483647; // Giá trị lớn nhất của số nguyên 32-bit
+
+  int randomNumber = min + random.nextInt(max - min + 1);
+  return randomNumber;
+}
+
+extension GoRouterExtension on GoRouter {
+  String location() {
+    final RouteMatch lastMatch = routerDelegate.currentConfiguration.last;
+    final RouteMatchList matchList =
+        lastMatch is ImperativeRouteMatch ? lastMatch.matches : routerDelegate.currentConfiguration;
+    final String location = matchList.uri.toString();
+    return location;
+  }
+}
+
+String getLastSubstringAfterDot(String filename) {
+  List<String> parts = filename.split('.');
+  if (parts.length > 1) {
+    return parts.last;
+  }
+  return '';
+}
+
+Future<void> requestNotificationPermission(BuildContext context) async {
+  var permissionStatus = await Permission.notification.status;
+
+  switch (permissionStatus) {
+    case PermissionStatus.denied:
+      await Permission.notification.request();
+      break;
+    case PermissionStatus.permanentlyDenied:
+      // ignore: use_build_context_synchronously
+      showDialogConfirm(context, title: 'Student Platform wants to grant notification permission',
+          confirmOnPress: () async {
+        await openAppSettings();
+        // ignore: use_build_context_synchronously
+        Navigator.pop(context);
+      });
+      break;
+    default:
   }
 }

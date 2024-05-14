@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 
 import 'package:studenthub/models/common/interview_model.dart';
 import 'package:studenthub/models/common/message_model.dart';
+import 'package:studenthub/models/common/proposal_modal.dart';
 
 class NotificationModel {
   int? id;
@@ -21,62 +22,64 @@ class NotificationModel {
   Participant? sender;
   Participant? receiver;
   Interview? interview;
-  String? meetingRoom;
-  NotificationModel({
-    this.id,
-    this.createdAt,
-    this.updatedAt,
-    this.deletedAt,
-    this.receiverId,
-    this.senderId,
-    this.messageId,
-    this.title,
-    this.notifyFlag,
-    this.typeNotifyFlag,
-    this.content,
-    this.message,
-    this.sender,
-    this.receiver,
-    this.interview,
-    this.meetingRoom,
-  });
+  MeetingRoom? meetingRoom;
+  Proposal? proposal;
 
-  NotificationModel copyWith({
-    int? id,
-    String? createdAt,
-    String? updatedAt,
-    String? deletedAt,
-    int? receiverId,
-    int? senderId,
-    int? messageId,
-    String? title,
-    String? notifyFlag,
-    String? typeNotifyFlag,
-    String? content,
-    Message? message,
-    Participant? sender,
-    Participant? receiver,
-    Interview? interview,
-    String? meetingRoom,
-  }) {
+  NotificationModel(
+      {this.id,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.receiverId,
+      this.senderId,
+      this.messageId,
+      this.title,
+      this.notifyFlag,
+      this.typeNotifyFlag,
+      this.content,
+      this.message,
+      this.sender,
+      this.receiver,
+      this.interview,
+      this.meetingRoom,
+      this.proposal});
+
+  NotificationModel copyWith(
+      {int? id,
+      String? createdAt,
+      String? updatedAt,
+      String? deletedAt,
+      int? receiverId,
+      int? senderId,
+      int? messageId,
+      String? title,
+      String? notifyFlag,
+      String? typeNotifyFlag,
+      String? content,
+      Message? message,
+      Participant? sender,
+      Participant? receiver,
+      Interview? interview,
+      MeetingRoom? meetingRoom,
+      Proposal? proposal}) {
     return NotificationModel(
-      id: id ?? this.id,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-      deletedAt: deletedAt ?? this.deletedAt,
-      receiverId: receiverId ?? this.receiverId,
-      senderId: senderId ?? this.senderId,
-      messageId: messageId ?? this.messageId,
-      title: title ?? this.title,
-      notifyFlag: notifyFlag ?? this.notifyFlag,
-      typeNotifyFlag: typeNotifyFlag ?? this.typeNotifyFlag,
-      content: content ?? this.content,
-      message: message ?? this.message,
-      sender: sender ?? this.sender,
-      receiver: receiver ?? this.receiver,
-      interview: interview ?? this.interview,
-      meetingRoom: meetingRoom ?? this.meetingRoom,
-    );
+        id: id ?? this.id,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        deletedAt: deletedAt ?? this.deletedAt,
+        receiverId: receiverId ?? this.receiverId,
+        senderId: senderId ?? this.senderId,
+        messageId: messageId ?? this.messageId,
+        title: title ?? this.title,
+        notifyFlag: notifyFlag ?? this.notifyFlag,
+        typeNotifyFlag: typeNotifyFlag ?? this.typeNotifyFlag,
+        content: content ?? this.content,
+        message: message ?? this.message,
+        sender: sender ?? this.sender,
+        receiver: receiver ?? this.receiver,
+        interview: interview ?? this.interview,
+        meetingRoom: meetingRoom ?? this.meetingRoom,
+        proposal: proposal ?? this.proposal);
   }
 
   Map<String, dynamic> toMap() {
@@ -130,6 +133,9 @@ class NotificationModel {
     if (meetingRoom != null) {
       result.addAll({'meetingRoom': meetingRoom});
     }
+    if (proposal != null) {
+      result.addAll({'proposal': proposal});
+    }
 
     return result;
   }
@@ -151,7 +157,8 @@ class NotificationModel {
       sender: map['sender'] != null ? Participant.fromMap(map['sender']) : null,
       receiver: map['receiver'] != null ? Participant.fromMap(map['receiver']) : null,
       interview: map['interview'] != null ? Interview.fromMap(map['interview']) : null,
-      meetingRoom: map['meetingRoom'],
+      meetingRoom: map['meetingRoom'] != null ? MeetingRoom.fromMap(map['meetingRoom']) : null,
+      proposal: map['proposal'] != null ? Proposal.fromMap(map['proposal']) : null,
     );
   }
 
@@ -296,7 +303,7 @@ class Participant {
       deletedAt: map['deletedAt'],
       email: map['email'],
       fullname: map['fullname'],
-      roles: List<int>.from(map['roles']),
+      roles: List<int>.from(map['roles'] ?? []),
       verified: map['verified'],
       isConfirmed: map['isConfirmed'],
     );
@@ -338,5 +345,118 @@ class Participant {
         roles.hashCode ^
         verified.hashCode ^
         isConfirmed.hashCode;
+  }
+}
+
+class MeetingRoom {
+  int? id;
+  String? createdAt;
+  String? updatedAt;
+  String? deletedAt;
+  String? meetingRoomCode;
+  String? meetingRoomId;
+  String? expiredAt;
+  MeetingRoom({
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    this.meetingRoomCode,
+    this.meetingRoomId,
+    this.expiredAt,
+  });
+
+  MeetingRoom copyWith({
+    int? id,
+    String? createdAt,
+    String? updatedAt,
+    String? deletedAt,
+    String? meetingRoomCode,
+    String? meetingRoomId,
+    String? expiredAt,
+  }) {
+    return MeetingRoom(
+      id: id ?? this.id,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
+      meetingRoomCode: meetingRoomCode ?? this.meetingRoomCode,
+      meetingRoomId: meetingRoomId ?? this.meetingRoomId,
+      expiredAt: expiredAt ?? this.expiredAt,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    final result = <String, dynamic>{};
+
+    if (id != null) {
+      result.addAll({'id': id});
+    }
+    if (createdAt != null) {
+      result.addAll({'createdAt': createdAt});
+    }
+    if (updatedAt != null) {
+      result.addAll({'updatedAt': updatedAt});
+    }
+    if (deletedAt != null) {
+      result.addAll({'deletedAt': deletedAt});
+    }
+    if (meetingRoomCode != null) {
+      result.addAll({'meetingRoomCode': meetingRoomCode});
+    }
+    if (meetingRoomId != null) {
+      result.addAll({'meetingRoomId': meetingRoomId});
+    }
+    if (expiredAt != null) {
+      result.addAll({'expiredAt': expiredAt});
+    }
+
+    return result;
+  }
+
+  factory MeetingRoom.fromMap(Map<String, dynamic> map) {
+    return MeetingRoom(
+      id: map['id'],
+      createdAt: map['createdAt'],
+      updatedAt: map['updatedAt'],
+      deletedAt: map['deletedAt'],
+      meetingRoomCode: map['meetingRoomCode'],
+      meetingRoomId: map['meetingRoomId'],
+      expiredAt: map['expiredAt'],
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory MeetingRoom.fromJson(String source) => MeetingRoom.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'MeetingRoom(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, meetingRoomCode: $meetingRoomCode, meetingRoomId: $meetingRoomId, expiredAt: $expiredAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is MeetingRoom &&
+        other.id == id &&
+        other.createdAt == createdAt &&
+        other.updatedAt == updatedAt &&
+        other.deletedAt == deletedAt &&
+        other.meetingRoomCode == meetingRoomCode &&
+        other.meetingRoomId == meetingRoomId &&
+        other.expiredAt == expiredAt;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        createdAt.hashCode ^
+        updatedAt.hashCode ^
+        deletedAt.hashCode ^
+        meetingRoomCode.hashCode ^
+        meetingRoomId.hashCode ^
+        expiredAt.hashCode;
   }
 }

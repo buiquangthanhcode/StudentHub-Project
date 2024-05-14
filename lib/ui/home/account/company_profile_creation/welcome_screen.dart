@@ -61,7 +61,9 @@ class WelcomeScreen extends StatelessWidget {
                     // 'Get Started!',
                     getStartedBtnKey.tr(),
                     style: textTheme.bodyMedium!.copyWith(
-                        color: Colors.white, fontWeight: FontWeight.w600),
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 const Spacer(

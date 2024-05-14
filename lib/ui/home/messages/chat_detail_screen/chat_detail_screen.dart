@@ -1,36 +1,50 @@
 // ignore_for_file: unnecessary_null_comparison
-
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logger/logger.dart';
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_bloc.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_event.dart';
 import 'package:studenthub/blocs/chat_bloc/chat_state.dart';
+import 'package:studenthub/blocs/company_bloc/company_bloc.dart';
+import 'package:studenthub/blocs/company_bloc/company_event.dart';
+import 'package:studenthub/blocs/notification_bloc/notification_bloc.dart';
+import 'package:studenthub/blocs/notification_bloc/notification_event.dart';
 import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/core/show_modal_bottomSheet.dart';
+import 'package:studenthub/models/common/interview_model.dart';
 import 'package:studenthub/models/common/message_model.dart';
 import 'package:studenthub/models/common/user_model.dart';
+import 'package:studenthub/services/chat/chat.dart';
+import 'package:studenthub/services/interview/interview.dart';
+import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/interview_receive_widget.dart';
+import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/interview_send_widget.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/message_receive_widget.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/widgets/message_send_widget.dart';
 import 'package:studenthub/ui/home/messages/chat_detail_screen/zego/zego.dart';
 import 'package:studenthub/ui/home/messages/widgets/get_more_action_widget.dart';
+import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/utils/socket.dart';
+import 'package:studenthub/widgets/dialog.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   const ChatDetailScreen(
       {super.key,
       required this.userId,
       required this.projectId,
-      required this.userName});
+      required this.userName,
+      this.projectProposalId});
 
   final String userName;
   final String userId;
   final String projectId;
+  final String? projectProposalId;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -41,13 +55,16 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   final messageController = TextEditingController();
   final FocusNode _messageFocus = FocusNode();
   final scrollController = ScrollController();
-  final socket = SocketService();
+  final ChatService _chatService = ChatService();
+  final InterviewService _interviewService = InterviewService();
+
+  get brightness => null;
 
   @override
   void initState() {
     _messageFocus.addListener(_onFocusChange);
-    socket.initSocket(context, widget.projectId);
-
+    final token = context.read<AuthBloc>().state.userModel.token ?? "";
+    SocketService.initMessageSocket(token, widget.projectId);
     logger.d('userId: ${widget.userId}');
     logger.d('projectId:${widget.projectId}');
 
@@ -60,28 +77,17 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     super.initState();
   }
 
-  String getCurrentTime() {
-    DateTime now = DateTime.now();
-    return DateFormat('HH:mm').format(now);
-  }
-
   @override
   void dispose() {
     super.dispose();
-    socket.disconnect();
+    SocketService.messageDisconnect();
+
     _messageFocus.removeListener(_onFocusChange);
     _messageFocus.dispose();
   }
 
   void _onFocusChange() {
     setState(() {});
-  }
-
-  String _getCurrentTime() {
-    DateTime now = DateTime.now(); // Lấy thời gian hiện tại
-    String formattedTime =
-        DateFormat('HH:mm').format(now); // Định dạng thời gian thành giờ:phút
-    return formattedTime;
   }
 
   @override
@@ -92,38 +98,77 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     int meId = context.read<AuthBloc>().state.userModel.id!;
 
     return BlocConsumer<ChatBloc, ChatState>(listener: (context, state) {
-      socket.receiveMessage((data) {
+      SocketService.receiveMessage((data) {
         if (mounted) {
-          // logger.d('SOCKET RECEIVE DATA: ${data['notification']['message']}');
+          logger.d('SOCKET RECEIVE DATA: ${data['notification']['message']}');
+          Message message = Message.fromMap(data['notification']['message']);
           if (data['notification']['message']['senderId'].toString() !=
               meId.toString()) {
             state.messageList.insert(
                 0,
-                Message(
-                  id: data['notification']['message']['id'],
-                  createdAt: _getCurrentTime(),
-                  content: data['notification']['message']['content'],
-                  sender: {
-                    "id": data['notification']['message']['senderId'],
-                    "fullname": ""
-                  },
-                  receiver: {
-                    "id": data['notification']['message']['receiverId'],
-                    "fullname": ""
-                  },
-                  interview: null,
-                ));
+                message.copyWith(
+                    sender: {"id": message.senderId, "fullname": ""},
+                    receiver: {"id": message.receiverId, "fullname": ""}));
             setState(() {});
           }
         }
       });
+
+      SocketService.receiveInterview((data) {
+        Message message = Message.fromMap(data['notification']['message']);
+        if (mounted) {
+          logger.d(
+              'SOCKET RECEIVE INTERVIEW: ${data['notification']['message']}');
+
+          if (message.interview!.disableFlag == 1) {
+            state.messageList
+                .where((element) =>
+                    element.interview != null &&
+                    element.interview!.disableFlag != 1)
+                .forEach((e) {
+              if (e.id == message.id) {
+                e.interview = Interview(
+                  disableFlag: 1,
+                  title: message.interview!.title,
+                );
+              }
+            });
+          } else {
+            if (message.interview!.createdAt == message.interview!.updatedAt) {
+              state.messageList.insert(
+                  0,
+                  message.copyWith(
+                      sender: {"id": message.senderId, "fullname": ""},
+                      receiver: {"id": message.receiverId, "fullname": ""}));
+            } else {
+              state.messageList
+                  .where((element) =>
+                      element.interview != null &&
+                      element.interview!.disableFlag != 1)
+                  .forEach((e) {
+                if (e.id == message.id) {
+                  e.interview = Interview(
+                    id: message.interviewId,
+                    title: message.interview!.title,
+                    startTime: message.interview!.startTime,
+                    endTime: message.interview!.endTime,
+                  );
+                }
+              });
+            }
+          }
+          setState(() {});
+        }
+      });
     }, builder: (BuildContext context, ChatState state) {
       return Container(
-        color: Colors.white,
+        // color: Colors.white,
+        color: Theme.of(context).colorScheme.chatColorBackground,
         child: SafeArea(
           top: false,
           child: Scaffold(
-            backgroundColor: Colors.white,
+            // backgroundColor: Colors.white,
+            backgroundColor: Theme.of(context).colorScheme.chatColorBackground,
             appBar: PreferredSize(
               preferredSize: const Size(double.infinity, 64),
               child: AppBar(
@@ -154,25 +199,43 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     padding: const EdgeInsets.only(right: 20),
                     child: InkWell(
                       onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => const CallPage(
-                        //             callID: '1',
-                        //           )),
-                        // );
-                        MaterialPageRoute(
-                            builder: (context) => const VideoCallPage(
-                                  conferenceID: '12345',
-                                ));
+                        showModalBottomSheetCustom(context,
+                            widgetBuilder: MoreActionChatDetail(
+                          callBack: (value) {
+                            logger.d(value['title']);
+                            logger.d(value['start_date']);
+                            logger.d(value['time_start']);
+                            logger.d(value['end_date']);
+                            logger.d(value['time_end']);
+
+                            _interviewService.sendInterview({
+                              "title": value['title'],
+                              "content": "Test interview",
+                              "startTime": convertToIso8601(
+                                  value['start_date'], value['time_start']),
+                              "endTime": convertToIso8601(
+                                  value['end_date'], value['time_end']),
+                              "projectId": widget.projectId,
+                              "senderId":
+                                  context.read<AuthBloc>().state.userModel.id,
+                              "receiverId": widget.userId,
+                              "meeting_room_code": getCurrentTimeAsString(),
+                              "meeting_room_id": getCurrentTimeAsString(),
+                              "expired_at": convertToIso8601(
+                                  value['end_date'], value['time_end']),
+                            });
+                          },
+                        ));
                       },
                       child: Container(
                         height: 39,
                         width: 39,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: const Color.fromARGB(255, 245, 245, 245),
-                        ),
+                            borderRadius: BorderRadius.circular(30),
+                            // color: const Color.fromARGB(255, 245, 245, 245),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .chatColorBackground),
                         alignment: Alignment.center,
                         child: FaIcon(
                           FontAwesomeIcons.bars,
@@ -196,144 +259,108 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   shrinkWrap: true,
                   itemCount: state.messageList.length,
                   reverse: true,
-                  itemBuilder: (context, index) =>
-                      state.messageList[index].sender['id'] == meId
-                          ? Builder(builder: (context) {
-                              // if (state.messageList[index].interview == null) {
-                              //   state.messageList[index].interview = false;
-                              // }
-                              if (state.messageList[index].interview == null) {
-                                return MessageSendWidget(
-                                  screenSize: screenSize,
-                                  meId: meId,
-                                  messageList: state.messageList,
-                                  index: index,
-                                );
-                              } else {
-                                return Container();
-                                // return Container(
-                                //   margin: const EdgeInsets.only(top: 10, left: 20),
-                                //   padding: const EdgeInsets.all(15),
-                                //   decoration: BoxDecoration(
-                                //     color: const Color.fromARGB(255, 245, 245, 245),
-                                //     borderRadius: BorderRadius.circular(10),
-                                //   ),
-                                //   child: Column(
-                                //     crossAxisAlignment: CrossAxisAlignment.start,
-                                //     children: [
-                                //       Row(
-                                //         children: [
-                                //           Text(state.messageList[index].
-                                //               as String),
-                                //           const Spacer(),
-                                //           Text(messagesData[index]['duration']
-                                //               as String),
-                                //         ],
-                                //       ),
-                                //       const SizedBox(height: 24),
-                                //       Text(
-                                //         "Start Time: ${messagesData[index]['start_date'] as String} ${messagesData[index]['time_start'] as String}",
-                                //         style: Theme.of(context)
-                                //             .textTheme
-                                //             .bodyMedium!
-                                //             .copyWith(
-                                //               fontSize: 16,
-                                //               fontWeight: FontWeight.w400,
-                                //             ),
-                                //       ),
-                                //       const SizedBox(
-                                //         height: 10,
-                                //       ),
-                                //       Row(
-                                //         children: [
-                                //           Text(
-                                //             "End Time: ",
-                                //             style: Theme.of(context)
-                                //                 .textTheme
-                                //                 .bodyMedium!
-                                //                 .copyWith(
-                                //                   fontSize: 16,
-                                //                   fontWeight: FontWeight.w400,
-                                //                 ),
-                                //           ),
-                                //           const SizedBox(width: 9),
-                                //           Text(
-                                //             "${messagesData[index]['end_date'] as String} ${messagesData[index]['time_end'] as String}",
-                                //             style: Theme.of(context)
-                                //                 .textTheme
-                                //                 .bodyMedium!
-                                //                 .copyWith(
-                                //                   fontSize: 16,
-                                //                   fontWeight: FontWeight.w400,
-                                //                 ),
-                                //           ),
-                                //         ],
-                                //       ),
-                                //       const SizedBox(
-                                //         height: 24,
-                                //       ),
-                                //       Row(
-                                //         mainAxisAlignment: MainAxisAlignment.end,
-                                //         children: [
-                                //           const Spacer(),
-                                //           Container(
-                                //             padding: const EdgeInsets.all(5),
-                                //             decoration: const BoxDecoration(
-                                //               color: Color.fromARGB(
-                                //                   255, 245, 245, 245),
-                                //               shape: BoxShape.circle,
-                                //             ),
-                                //             margin: const EdgeInsets.only(
-                                //                 right: 10, left: 10),
-                                //             child: InkWell(
-                                //               onTap: () {
-                                //                 showModalBottomSheetCustom(context,
-                                //                     widgetBuilder:
-                                //                         const MoreActionChatDetail(
-                                //                       isEdit: true,
-                                //                     ));
-                                //               },
-                                //               child: const FaIcon(
-                                //                 FontAwesomeIcons.ellipsis,
-                                //                 size: 16,
-                                //                 color: Colors.grey,
-                                //               ),
-                                //             ),
-                                //           ),
-                                //           Expanded(
-                                //             child: ElevatedButton(
-                                //               style: ElevatedButton.styleFrom(
-                                //                 elevation: 0,
-                                //                 minimumSize:
-                                //                     const Size(double.infinity, 45),
-                                //               ),
-                                //               onPressed: () {
-                                //                 JitsiMeetService.instance.join();
-                                //               },
-                                //               child: const Text(
-                                //                 "Join",
-                                //               ),
-                                //             ),
-                                //           ),
-                                //         ],
-                                //       )
-                                //     ],
-                                //   ),
-                                // );
-                              }
-                            })
-                          : MessageReceiveWidget(
+                  itemBuilder: (context, index) => state
+                              .messageList[index].sender['id'] ==
+                          meId
+                      ? Builder(builder: (context) {
+                          if (state.messageList[index].interview == null) {
+                            return MessageSendWidget(
+                              screenSize: screenSize,
+                              meId: meId,
+                              messageList: state.messageList,
+                              index: index,
+                            );
+                          } else {
+                            return InterviewSendWidget(
                               meId: meId,
                               screenSize: screenSize,
                               colorTheme: colorTheme,
                               messageList: state.messageList,
                               index: index,
-                            ),
+                              join: (data) {
+                                _interviewService
+                                    .checkAvailability(
+                                        data.meetingRoom['meeting_room_code'],
+                                        data.meetingRoom['meeting_room_code'])
+                                    .then((value) {
+                                  if (value.data!) {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => VideoCallPage(
+                                          conferenceID: data
+                                              .meetingRoom['meeting_room_code'],
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    showDialogCustom(context,
+                                        title: 'Error',
+                                        image:
+                                            'lib/assets/images/empty_data.png',
+                                        subtitle:
+                                            'The meeting room is not available',
+                                        textButtom: 'OK', onSave: () {
+                                      Navigator.pop(context);
+                                    });
+                                  }
+                                });
+                              },
+                            );
+                          }
+                        })
+                      : Builder(builder: (context) {
+                          if (state.messageList[index].interview == null) {
+                            return MessageReceiveWidget(
+                              meId: meId,
+                              screenSize: screenSize,
+                              colorTheme: colorTheme,
+                              messageList: state.messageList,
+                              index: index,
+                            );
+                          } else {
+                            return InterviewReceiveWidget(
+                              meId: meId,
+                              screenSize: screenSize,
+                              colorTheme: colorTheme,
+                              messageList: state.messageList,
+                              index: index,
+                              join: (data) {
+                                _interviewService
+                                    .checkAvailability(
+                                        data.meetingRoom['meeting_room_code'],
+                                        data.meetingRoom['meeting_room_code'])
+                                    .then((value) {
+                                  if (value.data!) {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => VideoCallPage(
+                                          conferenceID: data
+                                              .meetingRoom['meeting_room_code'],
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    showDialogCustom(context,
+                                        title: 'Error',
+                                        image:
+                                            'lib/assets/images/empty_data.png',
+                                        subtitle:
+                                            'The meeting room is not available',
+                                        textButtom: 'OK', onSave: () {
+                                      Navigator.pop(context);
+                                    });
+                                  }
+                                });
+                              },
+                            );
+                          }
+                        }),
                 ),
               ),
             ),
             bottomSheet: Container(
-              color: Colors.white,
+              // color: Colors.white,
+              color: Theme.of(context).colorScheme.chatColorBackground,
               padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -362,7 +389,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           focusNode: _messageFocus,
                           cursorHeight: 18,
                           cursorColor: Colors.black,
-                          style: textTheme.bodyMedium,
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: Colors.black,
+                          ),
                           decoration: InputDecoration(
                             // hintText: 'Your messages...',
                             hintText: chatInputPlaceHolderKey.tr(),
@@ -373,6 +402,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                             isDense: true,
                             filled: true,
                             fillColor: const Color.fromARGB(255, 245, 245, 245),
+                            // fillColor: Theme.of(context)
+                            //     .colorScheme
+                            //     .chatColorBackground,
                             errorStyle: const TextStyle(height: 0),
                             border: OutlineInputBorder(
                               borderSide: const BorderSide(
@@ -410,14 +442,23 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           padding: const EdgeInsets.fromLTRB(8, 8, 10, 10),
                         ),
                         onPressed: () {
-                          if (messageController.text.isNotEmpty) {
+                          if (messageController.text.trim().isNotEmpty) {
+                            if (state.messageList.isEmpty) {
+                              context.read<CompanyBloc>().add(SetActiveProposal(
+                                  proposalId: int.parse(
+                                      widget.projectProposalId ?? "-1"),
+                                  statusFlag: 1,
+                                  onSuccess: () {}));
+                              // End Quang Thanh
+                            }
+
                             UserModel userModel =
                                 context.read<AuthBloc>().state.userModel;
                             state.messageList.insert(
                                 0,
                                 Message(
                                   id: 1254,
-                                  createdAt: _getCurrentTime(),
+                                  createdAt: DateTime.now().toIso8601String(),
                                   content: messageController.text.trim(),
                                   sender: {
                                     "id": userModel.id,
@@ -436,7 +477,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                 'SENDER ID: ${context.read<AuthBloc>().state.userModel.id}');
                             logger.d('RECEIVE ID: ${widget.userId}');
                             logger.d('PROJECT ID: ${widget.projectId}');
-                            socket.sendMessage({
+
+                            _chatService.sendMessages({
                               "content": messageController.text.trim(),
                               "projectId": widget.projectId,
                               "senderId":
@@ -445,6 +487,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               "messageFlag":
                                   0 // default 0 for message, 1 for interview
                             });
+                            //  Add by Quang Thanh to update proposal active when company send message
+
                             messageController.clear();
                             setState(() {});
                           }

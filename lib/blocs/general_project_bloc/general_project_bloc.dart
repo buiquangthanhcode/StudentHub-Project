@@ -8,6 +8,8 @@ import 'package:studenthub/blocs/general_project_bloc/general_project_state.dart
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/data/dto/reponse.dart';
 import 'package:studenthub/models/common/project_model.dart';
+import 'package:studenthub/models/common/project_proposal_modal.dart';
+import 'package:studenthub/models/common/proposal_modal.dart';
 import 'package:studenthub/services/all_projects/all_projects.dart';
 import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/utils/logger.dart';
@@ -21,6 +23,7 @@ class GeneralProjectBloc
             projectList: const [],
             projectDetail: Project(),
             projectFavorite: const [],
+            // ignore: prefer_collection_literals
             projectSearchSuggestions: Set(),
             projectSearchList: const [],
             proposalList: const [],
@@ -35,7 +38,7 @@ class GeneralProjectBloc
     on<RemoveFavoriteProject>(_onRemoveFavoriteProject);
     on<RemoveFavoriteProjectList>(_onRemoveFavoriteProjectList);
     on<GetSearchFilterDataEvent>(_onGetSearchFilterData);
-    // on<UpdateFavoriteProjectUI>(_onUpdateFavoriteProjectUI);
+    on<GetAllSearchTitleEvent>(_onGetAllSearchTitleData);
     on<GetAllProposalOfProjectEvent>(_onGetAllProjectProposalOfProject);
     on<ResetBlocEvents>(_onResetBloc);
   }
@@ -45,9 +48,45 @@ class GeneralProjectBloc
   FutureOr<void> _onGetAllData(
       GetAllDataEvent event, Emitter<GeneralProjectState> emit) async {
     try {
+      if (state.projectList.isEmpty) {
+        // EasyLoading.show(status: 'Loading...');
+        EasyLoading.show(status: loadingBtnKey.tr());
+      }
+      ResponseAPI result = await _allProjectsService.getAllProjects(
+          event.page == 0 ? 1 : event.page, event.perPage);
+      // logger.d(result.data.length);
+
+      List<Project> data = List<Project>.from(state.projectList);
+      data.addAll(result.data);
+      if (result.statusCode! < 300 || result.statusCode == 404) {
+        emit(state.update(
+            projectList: event.page == 0 ? result.data : data,
+            isLoading: !state.isLoading));
+      } else {
+        SnackBarService.showSnackBar(
+            content: handleFormatMessage(result.data!.errorDetails),
+            status: StatusSnackBar.error);
+      }
+    } on DioException catch (e) {
+      logger.e(
+        "DioException:${e.response}",
+      );
+    } catch (e) {
+      logger.e("Unexpect error-> $e");
+      SnackBarService.showSnackBar(
+          content: handleFormatMessage(e.toString()),
+          status: StatusSnackBar.error);
+    } finally {
+      EasyLoading.dismiss();
+    }
+  }
+
+  FutureOr<void> _onGetAllSearchTitleData(
+      GetAllSearchTitleEvent event, Emitter<GeneralProjectState> emit) async {
+    try {
       // EasyLoading.show(status: 'Loading...');
       EasyLoading.show(status: loadingBtnKey.tr());
-      ResponseAPI result = await _allProjectsService.getAllProjects();
+      ResponseAPI result = await _allProjectsService.getAllProjects(1, 2000);
 
       Set<String> projectSearchSuggestions = {};
       for (Project p in result.data) {
@@ -55,9 +94,7 @@ class GeneralProjectBloc
       }
 
       if (result.statusCode! < 300) {
-        emit(state.update(
-            projectList: result.data,
-            projectSearchSuggestions: projectSearchSuggestions));
+        emit(state.update(projectSearchSuggestions: projectSearchSuggestions));
       } else {
         SnackBarService.showSnackBar(
             content: handleFormatMessage(result.data!.errorDetails),
@@ -231,22 +268,34 @@ class GeneralProjectBloc
     emit(state.update(projectFavorite: List<Project>.from(data)));
   }
 
+  //////////////////////////////////////////////
   FutureOr<void> _onGetSearchFilterData(
       GetSearchFilterDataEvent event, Emitter<GeneralProjectState> emit) async {
     try {
-      // EasyLoading.show(status: 'Loading...');
-      EasyLoading.show(status: loadingBtnKey.tr());
+      if (event.page == 1) {
+        // EasyLoading.show(status: 'Loading...');
+        EasyLoading.show(status: loadingBtnKey.tr());
+      }
       ResponseAPI result = await _allProjectsService.getSearchFilterData(
           event.title,
           event.projectScopeFlag,
           event.numberOfStudents,
-          event.proposalsLessThan);
+          event.proposalsLessThan,
+          event.page,
+          event.perPage);
 
       logger.d("BLOC: $result");
 
+      List<Project> data = [];
+      if (event.page != 1) {
+        data = List<Project>.from(state.projectSearchList);
+      }
+      data.addAll(result.data);
+
       if (result.statusCode! < 300 || result.statusCode == 404) {
         emit(state.update(
-          projectSearchList: result.data,
+          projectSearchList: data,
+          isLoading: !state.isLoading,
         ));
       } else {
         SnackBarService.showSnackBar(
@@ -279,7 +328,13 @@ class GeneralProjectBloc
             event.requestProposal.statusFlag == 3) {
           emit(state.update(proposalHireList: response.data ?? []));
         } else {
-          emit(state.update(proposalList: response.data ?? []));
+          List<ProjectProposal> result = [];
+          response.data?.forEach((element) {
+            if (element.statusFlag != 3) {
+              result.add(element);
+            }
+          });
+          emit(state.update(proposalList: result));
         }
         event.onSuccess!();
         EasyLoading.dismiss();
