@@ -11,7 +11,6 @@ import 'package:studenthub/constants/app_theme.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/constants/colors.dart';
 import 'package:studenthub/models/common/chat_model.dart';
-import 'package:studenthub/ui/home/messages/data/get_chat_data.dart';
 import 'package:studenthub/ui/home/messages/widgets/chat_item.dart';
 import 'package:studenthub/widgets/emtyDataWidget.dart';
 

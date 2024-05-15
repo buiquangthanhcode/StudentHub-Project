@@ -22,3 +22,9 @@ class StartListenerEvents extends NotificationEvent {
 
   StartListenerEvents({required this.context, required this.onListener});
 }
+
+class MarkAsReadEvents extends NotificationEvent {
+  final String? notificationId;
+
+  MarkAsReadEvents({required this.notificationId});
+}

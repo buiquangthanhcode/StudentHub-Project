@@ -30,24 +30,22 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     on<GetNotificationListEvents>(_onGetNotification);
     on<PushNotificationMessageEvents>(_onPushNotificationMessage);
     on<StartListenerEvents>(_onStartListener);
+    on<MarkAsReadEvents>(_onMarkAsReadNotification);
   }
 
   final NotificationService _notificationService = NotificationService();
-  FutureOr<void> _onGetNotification(
-      GetNotificationListEvents event, Emitter<NotificationState> emit) async {
+  FutureOr<void> _onGetNotification(GetNotificationListEvents event, Emitter<NotificationState> emit) async {
     try {
       // EasyLoading.show(status: 'Loading...');
       EasyLoading.show(status: loadingBtnKey.tr());
-      ResponseAPI result =
-          await _notificationService.getNotificationList(event.userId ?? '');
+      ResponseAPI result = await _notificationService.getNotificationList(event.userId ?? '');
       if (result.statusCode! < 300) {
         List<NotificationModel> data = result.data;
         emit(state.update(notificationList: data.toList()));
         event.onSuccess!();
       } else {
         SnackBarService.showSnackBar(
-            content: handleFormatMessage(result.data!.errorDetails),
-            status: StatusSnackBar.error);
+            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
       }
     } on DioException catch (e) {
       logger.e(
@@ -55,33 +53,27 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       );
     } catch (e) {
       logger.e("Unexpect error-> $e");
-      SnackBarService.showSnackBar(
-          content: handleFormatMessage(e.toString()),
-          status: StatusSnackBar.error);
+      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
     } finally {
       EasyLoading.dismiss();
     }
   }
 
-  FutureOr<void> _onPushNotificationMessage(PushNotificationMessageEvents event,
-      Emitter<NotificationState> emit) async {
-    emit(state.update(
-        messageNotification: event.message, isChanged: !state.isChanged));
+  FutureOr<void> _onPushNotificationMessage(
+      PushNotificationMessageEvents event, Emitter<NotificationState> emit) async {
+    emit(state.update(messageNotification: event.message, isChanged: !state.isChanged));
   }
 
   // This is main function handle notification of app
-  FutureOr<void> _onStartListener(
-      StartListenerEvents event, Emitter<NotificationState> emit) async {
+  FutureOr<void> _onStartListener(StartListenerEvents event, Emitter<NotificationState> emit) async {
     AuthenState authState = event.context.read<AuthBloc>().state;
-    SocketService.receiveNotification((authState.userModel.id ?? 0).toString(),
-        (value) {
+    SocketService.receiveNotification((authState.userModel.id ?? 0).toString(), (value) {
       logger.d(value);
       switch (value['notification']['typeNotifyFlag']) {
         case "0":
           LocalNotification.showSimpleNotification(
             title: "StudentHub",
-            body:
-                'You have received a new offer from the ${value['notification']['sender']['fullname']}',
+            body: 'You have received a new offer from the ${value['notification']['sender']['fullname']}',
             payload: DateTime.now().toString(),
           );
           break;
@@ -89,8 +81,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
           // Interview
           LocalNotification.showSimpleNotification(
             title: "StudentHub",
-            body:
-                'You have received a new interview from the ${value['notification']['sender']['fullname']}',
+            body: 'You have received a new interview from the ${value['notification']['sender']['fullname']}',
             payload: DateTime.now().toString(),
           );
           break;
@@ -98,8 +89,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
           // New Proposal
           LocalNotification.showSimpleNotification(
             title: "StudentHub",
-            body:
-                'You have received a new proposal from the ${value['notification']['sender']['fullname']}',
+            body: 'You have received a new proposal from the ${value['notification']['sender']['fullname']}',
             payload: DateTime.now().toString(),
           );
           break;
@@ -107,8 +97,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
           if (!GoRouter.of(event.context).location().contains('chat_detail')) {
             LocalNotification.showSimpleNotification(
               title: "StudentHub",
-              body:
-                  'You have a new message from ${value['notification']['sender']['fullname']}',
+              body: 'You have a new message from ${value['notification']['sender']['fullname']}',
               payload: DateTime.now().toString(),
             );
           }
@@ -116,8 +105,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
           //Hire
           LocalNotification.showSimpleNotification(
             title: "StudentHub",
-            body:
-                'You have received a new hire from the ${value['notification']['sender']['fullname']}',
+            body: 'You have received a new hire from the ${value['notification']['sender']['fullname']}',
             payload: DateTime.now().toString(),
           );
           break;
@@ -126,5 +114,34 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       }
       event.onListener(value);
     });
+  }
+
+  FutureOr<void> _onMarkAsReadNotification(MarkAsReadEvents event, Emitter<NotificationState> emit) async {
+    try {
+      EasyLoading.show(status: loadingBtnKey.tr());
+      ResponseAPI result = await _notificationService.markAsRead((event.notificationId ?? 0).toString());
+      if (result.statusCode! < 300) {
+        //Update according notificationId
+        List<NotificationModel> data = state.notificationList;
+        for (var element in data) {
+          if (element.id == int.parse(event.notificationId ?? "-1")) {
+            element.notifyFlag = "1";
+          }
+        }
+        emit(state.update(notificationList: data.toList(), isChanged: !state.isChanged));
+      } else {
+        SnackBarService.showSnackBar(
+            content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);
+      }
+    } on DioException catch (e) {
+      logger.e(
+        "DioException:${e.response}",
+      );
+    } catch (e) {
+      logger.e("Unexpect error-> $e");
+      SnackBarService.showSnackBar(content: handleFormatMessage(e.toString()), status: StatusSnackBar.error);
+    } finally {
+      EasyLoading.dismiss();
+    }
   }
 }
