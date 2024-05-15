@@ -3,7 +3,7 @@ name: Shorebird Android
 on:
   push:
     branches:
-      - release/*
+      - realease/*
 
 env:
   SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
@@ -22,7 +22,7 @@ jobs:
 
       - name: 🐦 Setup Shorebird
         uses: shorebirdtech/setup-shorebird@v1
-
+        
       - name: 🚀 Shorebird Release
         if: ${{ github.event.created }}
         uses: shorebirdtech/shorebird-release@v0
