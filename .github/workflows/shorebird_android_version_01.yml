@@ -22,6 +22,7 @@ jobs:
 
       - name: 🐦 Setup Shorebird
         uses: shorebirdtech/setup-shorebird@v1
+        
 
       - name: 🚀 Shorebird Release
         if: ${{ github.event.created }}
