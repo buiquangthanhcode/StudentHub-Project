@@ -38,9 +38,7 @@ class _SubmitProposalState extends State<SubmitProposalScreen> {
       body: Container(
           decoration: BoxDecoration(
             // color: Colors.white,
-            color: Theme.of(context).brightness == Brightness.light
-                ? Colors.white
-                : const Color(0xff0C1421),
+            color: Theme.of(context).brightness == Brightness.light ? Colors.white : const Color(0xff0C1421),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -51,23 +49,20 @@ class _SubmitProposalState extends State<SubmitProposalScreen> {
                 Text(
                   // 'Cover letter',
                   coverLetterKey.tr(),
-                  style: theme.textTheme.bodyMedium!
-                      .copyWith(fontSize: 20, fontWeight: FontWeight.w600),
+                  style: theme.textTheme.bodyMedium!.copyWith(fontSize: 20, fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   // 'Desribe why do you fit to the project',
                   coverLetterDescriptionKey.tr(),
-                  style: theme.textTheme.bodyMedium!
-                      .copyWith(fontWeight: FontWeight.w400),
+                  style: theme.textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w400),
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
                   style: const TextStyle(color: Colors.black),
                   controller: _controllerCoverLetter,
                   autofocus: true,
-                  minLines:
-                      6, // any number you need (It works as the rows for the textarea)
+                  minLines: 6, // any number you need (It works as the rows for the textarea)
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
                 ),
@@ -82,16 +77,14 @@ class _SubmitProposalState extends State<SubmitProposalScreen> {
                           minimumSize: const Size(double.infinity, 56),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
-                            side: const BorderSide(
-                                color: primaryColor, width: 2.0),
+                            side: const BorderSide(color: primaryColor, width: 2.0),
                           ),
                         ),
                         onPressed: () {},
                         child: Text(
                           // 'Cancel',
                           cancelBtnKey.tr(),
-                          style: theme.textTheme.bodyMedium!.copyWith(
-                              color: primaryColor, fontWeight: FontWeight.w600),
+                          style: theme.textTheme.bodyMedium!.copyWith(color: primaryColor, fontWeight: FontWeight.w600),
                         ),
                       ),
                     ),
@@ -139,11 +132,14 @@ class _SubmitProposalState extends State<SubmitProposalScreen> {
                                 );
                               }));
                         },
-                        child: Text(
-                          // 'Submit Proposal',
-                          submitProposalTitleKey.tr(),
-                          style: theme.textTheme.bodyMedium!.copyWith(
-                              color: Colors.white, fontWeight: FontWeight.w600),
+                        child: Center(
+                          child: Text(
+                            // 'Submit Proposal',
+                            submitProposalTitleKey.tr(),
+                            textAlign: TextAlign.center,
+                            style:
+                                theme.textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                          ),
                         ),
                       ),
                     ),

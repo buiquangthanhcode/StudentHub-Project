@@ -8,6 +8,7 @@ import 'package:studenthub/blocs/general_project_bloc/general_project_state.dart
 import 'package:studenthub/blocs/auth_bloc/auth_bloc.dart';
 import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/ui/home/projects/project_saved/widgets/project_item_saved.dart';
+import 'package:studenthub/widgets/emtyDataWidget.dart';
 
 class ProjectSavedScreen extends StatefulWidget {
   const ProjectSavedScreen({super.key});
@@ -27,14 +28,7 @@ class _ProjectSavedState extends State<ProjectSavedScreen> {
     super.initState();
 
     context.read<GeneralProjectBloc>().add(
-          GetFavoriteProject(
-              studentId: context
-                  .read<AuthBloc>()
-                  .state
-                  .userModel
-                  .student!
-                  .id
-                  .toString()),
+          GetFavoriteProject(studentId: (context.read<AuthBloc>().state.userModel.student?.id ?? -1).toString()),
         );
   }
 
@@ -86,16 +80,35 @@ class _ProjectSavedState extends State<ProjectSavedScreen> {
                       ),
                 ),
               ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  childCount: state.projectFavorite.length,
-                  (BuildContext context, int index) {
-                    return ProjectItemSaved(
-                      project: state.projectFavorite[index],
-                    );
-                  },
-                ),
-              ),
+              Builder(builder: (context) {
+                if (state.projectFavorite.isEmpty) {
+                  return SliverFillRemaining(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        EmptyDataWidget(
+                          mainTitle: '',
+                          subTitle:
+                              // "You haven't received any notifications yet.",
+                              // subTitle: noProjectFoundKey.tr(),
+                              noProjectFoundKey.tr(),
+                          widthImage: MediaQuery.of(context).size.width * 0.5,
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                return SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    childCount: state.projectFavorite.length,
+                    (BuildContext context, int index) {
+                      return ProjectItemSaved(
+                        project: state.projectFavorite[index],
+                      );
+                    },
+                  ),
+                );
+              }),
             ],
           ),
         );

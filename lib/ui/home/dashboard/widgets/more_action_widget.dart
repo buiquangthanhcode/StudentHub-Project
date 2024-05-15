@@ -105,8 +105,8 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
                   case "close_posting":
                     showDialogUpdateStatus(
                       context,
-                      image: 'lib/assets/images/delete.png',
-                      title: "Đánh dấu trạng thái dự án!",
+                      image: 'lib/assets/images/change_icon.png',
+                      title: "Mark project status",
                       textButtom: "Thàn",
                       subtitle: thisActionCannotBeUndoneKey.tr(),
                     );
@@ -254,7 +254,7 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
                                       );
                                 },
                                 child: Text(
-                                  "Thất bại",
+                                  "Failed",
                                   style:
                                       textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
                                 ),
@@ -297,11 +297,12 @@ class _MoreActionWidgetState extends State<MoreActionWidget> {
                                               );
                                               Navigator.pop(context);
                                               context.read<ProjectBloc>().add(GetArchivedProjectsEvent());
+                                              Navigator.of(context).pop();
                                             }),
                                       );
                                 },
                                 child: Text(
-                                  "Thành công",
+                                  "Success",
                                   style:
                                       textTheme.bodyMedium!.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
                                 ),

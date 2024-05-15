@@ -207,68 +207,71 @@ class ProjectItem extends StatelessWidget {
                 }),
               ],
             ),
-            Builder(builder: (context) {
-              final data = [
-                {
-                  "label": proposalsProjectReviewKey.tr(),
-                  "total": item?.countProposals ?? projectProposal?.project?.countProposals ?? 0
-                },
-                {
-                  "label": messagesProjectReviewKey.tr(),
-                  "total": item?.countMessages ?? projectProposal?.project?.countProposals ?? 0
-                },
-                {
-                  "label": hiredProjectReviewKey.tr(),
-                  "total": item?.countHired ?? projectProposal?.project?.countProposals ?? 0
-                },
-              ];
-              return GridView.count(
-                crossAxisCount: 3,
-                crossAxisSpacing: 8,
-                physics: const NeverScrollableScrollPhysics(),
-                mainAxisSpacing: 2,
-                shrinkWrap: true,
-                childAspectRatio: 1.6,
-                children: data.map((item) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width / 3.5,
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    margin: const EdgeInsets.symmetric(horizontal: 2),
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.grey!.withOpacity(0.08),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          item['total'].toString(),
-                          style: theme.textTheme.bodyMedium!.copyWith(
-                            color:
-                                // theme.colorScheme.brightness == Brightness.dark
-                                //     ? Colors.white
-                                //     : Colors.black,
-                                theme.colorScheme.brightness == Brightness.dark ? Colors.white : Colors.black,
+            Visibility(
+              visible: authState.currentRole == UserRole.company,
+              child: Builder(builder: (context) {
+                final data = [
+                  {
+                    "label": proposalsProjectReviewKey.tr(),
+                    "total": item?.countProposals ?? projectProposal?.project?.countProposals ?? 0
+                  },
+                  {
+                    "label": messagesProjectReviewKey.tr(),
+                    "total": item?.countMessages ?? projectProposal?.project?.countProposals ?? 0
+                  },
+                  {
+                    "label": hiredProjectReviewKey.tr(),
+                    "total": item?.countHired ?? projectProposal?.project?.countProposals ?? 0
+                  },
+                ];
+                return GridView.count(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 8,
+                  physics: const NeverScrollableScrollPhysics(),
+                  mainAxisSpacing: 2,
+                  shrinkWrap: true,
+                  childAspectRatio: 1.6,
+                  children: data.map((item) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width / 3.5,
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      margin: const EdgeInsets.symmetric(horizontal: 2),
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.grey!.withOpacity(0.08),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            item['total'].toString(),
+                            style: theme.textTheme.bodyMedium!.copyWith(
+                              color:
+                                  // theme.colorScheme.brightness == Brightness.dark
+                                  //     ? Colors.white
+                                  //     : Colors.black,
+                                  theme.colorScheme.brightness == Brightness.dark ? Colors.white : Colors.black,
+                            ),
                           ),
-                        ),
-                        Text(
-                          item['label'].toString(),
-                          style: theme.textTheme.bodyMedium!.copyWith(
-                            color:
-                                // theme.colorScheme.brightness == Brightness.dark
-                                //     ? Colors.white //
-                                //     : primaryColor,
-                                primaryColor,
-                            fontSize: 15,
+                          Text(
+                            item['label'].toString(),
+                            style: theme.textTheme.bodyMedium!.copyWith(
+                              color:
+                                  // theme.colorScheme.brightness == Brightness.dark
+                                  //     ? Colors.white //
+                                  //     : primaryColor,
+                                  primaryColor,
+                              fontSize: 15,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                }).toList(),
-              );
-            })
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                );
+              }),
+            )
           ],
         ),
       ),

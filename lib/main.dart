@@ -10,7 +10,6 @@ Future<void> main() async {
   await EasyLocalization.ensureInitialized();
 
   Locale currentLocale = const Locale('vi');
-  ThemeMode currentTheme = ThemeMode.light;
   final prefs = await SharedPreferences.getInstance();
   final String? currentLanguageStorage = prefs.getString('language');
   final String? currentThemeStorgae = prefs.getString('theme');
@@ -20,14 +19,7 @@ Future<void> main() async {
   } else {
     currentLocale = const Locale('en');
   }
-  if (currentThemeStorgae != null) {
-    if (currentThemeStorgae == 'dark') {
-      currentTheme = ThemeMode.dark;
-    } else {
-      currentTheme = ThemeMode.light;
-    }
-  }
-  currentLocale = const Locale('en');
+
   await LocalNotification.init();
   runApp(
     EasyLocalization(

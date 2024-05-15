@@ -201,7 +201,7 @@ class _SettingDetailScreenState extends State<SettingDetailScreen> {
                                       // color: langSelect == LanguageProfile.vn
                                       //     ? const Color(0xfff2f5f8)
                                       //     : Colors.white,
-                                      color: langSelect == LanguageProfile.en
+                                      color: langSelect == LanguageProfile.vn
                                           ? (Theme.of(context).brightness == Brightness.dark
                                               ? const Color(0xff242435)
                                               : const Color(0xfff2f5f8))

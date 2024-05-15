@@ -71,13 +71,17 @@ class AllProjectsService {
       logger.e(
         "DioException :${e.response}",
       );
-      throw ResponseAPI<List<Project>>(
+      throw ResponseAPI<Project>(
         statusCode: e.response?.statusCode,
-        data: [],
+        data: Project(),
       );
     } catch (e) {
+      logger.d(e);
       logger.e("Unexpected Error: $e");
-      rethrow;
+      throw ResponseAPI(
+        statusCode: 400,
+        data: "Not found",
+      );
     }
   }
 
