@@ -17,18 +17,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📚 Setup Environment
-        if: ${{ !github.event.created }}
-        run: |
-          flutter clean
-          flutter pub get
-
       - name: 📚 Git Checkout
         uses: actions/checkout@v3
 
       - name: 🐦 Setup Shorebird
         uses: shorebirdtech/setup-shorebird@v1
-
+        
       - name: 🚀 Shorebird Release
         if: ${{ github.event.created }}
         uses: shorebirdtech/shorebird-release@v0
@@ -37,6 +31,14 @@ jobs:
 
       - name: 🚀 Shorebird Patch
         if: ${{ !github.event.created }}
-        uses: shorebirdtech/shorebird-patch@v0
-        with:
-          platform: android
+        run: |
+          shorebird patch android | tee output.log
+          GREP_MATCH=$(grep -Ei "Published Patch (.*)" output.log)
+          if [[ $GREP_MATCH ]]; then
+            # Strip the non-version-number characters from the line
+            PATCH_NUMBER=$(echo $GREP_MATCH | sed -E 's/^.+ Published Patch (.*)\!$/\1/')
+            echo "patch-number=$(echo $PATCH_NUMBER)" >> $GITHUB_OUTPUT
+          else
+            echo "Failed to create patch"
+            exit 1
+          fi
