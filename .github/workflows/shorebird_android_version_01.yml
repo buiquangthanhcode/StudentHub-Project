@@ -32,7 +32,7 @@ jobs:
       - name: 🚀 Shorebird Patch
         if: ${{ !github.event.created }}
         run: |
-          shorebird patch android | tee output.log
+          shorebird patch android --release-version=1.2.3+4 | tee output.log
           GREP_MATCH=$(grep -Ei "Published Patch (.*)" output.log)
           if [[ $GREP_MATCH ]]; then
             # Strip the non-version-number characters from the line
