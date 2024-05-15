@@ -128,7 +128,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
             element.notifyFlag = "1";
           }
         }
-        emit(state.update(notificationList: data.toList()));
+        emit(state.update(notificationList: data.toList(), isChanged: !state.isChanged));
       } else {
         SnackBarService.showSnackBar(
             content: handleFormatMessage(result.data!.errorDetails), status: StatusSnackBar.error);

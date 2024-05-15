@@ -16,7 +16,6 @@ import 'package:studenthub/constants/key_translator.dart';
 import 'package:studenthub/models/common/project_model.dart';
 import 'package:studenthub/models/notification/notification_model.dart';
 import 'package:studenthub/utils/helper.dart';
-import 'package:studenthub/utils/logger.dart';
 import 'package:studenthub/widgets/emtyDataWidget.dart';
 
 class AlertsScreen extends StatefulWidget {
@@ -162,10 +161,6 @@ class _AlertsState extends State<AlertsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Future.delayed(Duration.zero, () {
-    //   showOptionsDialog();
-    // });
-
     return RefreshIndicator(
       color: primaryColor,
       onRefresh: () {
@@ -200,27 +195,6 @@ class _AlertsState extends State<AlertsScreen> {
                             fontWeight: FontWeight.w700,
                           ),
                     ),
-                    // InkWell(
-                    //   onTap: () {
-                    //     showOptionsDialog();
-                    //   },
-                    //   child: Container(
-                    //     height: 39,
-                    //     width: 39,
-                    //     decoration: BoxDecoration(
-                    //       borderRadius: BorderRadius.circular(30),
-                    //       color: colorTheme.brightness == Brightness.dark
-                    //           ? primaryColor
-                    //           : const Color.fromARGB(255, 245, 245, 245),
-                    //     ),
-                    //     alignment: Alignment.center,
-                    //     child: FaIcon(
-                    //       FontAwesomeIcons.gear,
-                    //       color: colorTheme.black,
-                    //       size: 21,
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
@@ -249,8 +223,7 @@ class _AlertsState extends State<AlertsScreen> {
                                   // "You haven't received any notifications yet.",
                                   // subTitle: noProjectFoundKey.tr(),
                                   noNotificationsAlertKey.tr(),
-                              widthImage:
-                                  MediaQuery.of(context).size.width * 0.5,
+                              widthImage: MediaQuery.of(context).size.width * 0.5,
                             ),
                           ],
                         ),
@@ -264,7 +237,7 @@ class _AlertsState extends State<AlertsScreen> {
   }
 }
 
-class NotificationItem extends StatelessWidget {
+class NotificationItem extends StatefulWidget {
   const NotificationItem({
     super.key,
     required this.item,
@@ -273,6 +246,11 @@ class NotificationItem extends StatelessWidget {
   final NotificationModel item;
 
   @override
+  State<NotificationItem> createState() => _NotificationItemState();
+}
+
+class _NotificationItemState extends State<NotificationItem> {
+  @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     var colorTheme = Theme.of(context).colorScheme;
@@ -280,11 +258,12 @@ class NotificationItem extends StatelessWidget {
     Widget button = const SizedBox();
     Widget content = const SizedBox();
     SvgPicture icon;
-    switch (item.typeNotifyFlag) {
+    switch (widget.item.typeNotifyFlag) {
       case '1': // interview
         icon = SvgPicture.asset(
           'lib/assets/nav_icons/solid/ballot-check.svg',
-          colorFilter: ColorFilter.mode((item.notifyFlag == "0") ? colorTheme.grey! : Colors.black, BlendMode.srcIn),
+          colorFilter:
+              ColorFilter.mode((widget.item.notifyFlag == "0") ? colorTheme.grey! : Colors.black, BlendMode.srcIn),
           height: 18,
         );
         button = SizedBox(
@@ -302,12 +281,13 @@ class NotificationItem extends StatelessWidget {
       case '0': // offer
         icon = SvgPicture.asset(
           'lib/assets/nav_icons/solid/ballot-check.svg',
-          colorFilter: ColorFilter.mode((item.notifyFlag == "0") ? colorTheme.grey! : Colors.black, BlendMode.srcIn),
+          colorFilter:
+              ColorFilter.mode((widget.item.notifyFlag == "0") ? colorTheme.grey! : Colors.black, BlendMode.srcIn),
           height: 18,
         );
         content = Text(
-          item.content ?? '',
-          style: TextStyle(color: (item.notifyFlag == "0") ? colorTheme.grey! : Colors.black, fontSize: 12),
+          widget.item.content ?? '',
+          style: TextStyle(color: (widget.item.notifyFlag == "0") ? colorTheme.grey! : Colors.black, fontSize: 12),
         );
         button = SizedBox(
           width: screenSize.width * 0.4,
@@ -317,9 +297,9 @@ class NotificationItem extends StatelessWidget {
               context.pushNamed(
                 'project_general_detail',
                 queryParameters: {
-                  'id': (item.proposal?.projectId ?? 0).toString(),
+                  'id': (widget.item.proposal?.projectId ?? 0).toString(),
                   'isFavorite': 'null',
-                  'proposalId': item.proposal?.id.toString(),
+                  'proposalId': widget.item.proposal?.id.toString(),
                 },
               );
             },
@@ -333,19 +313,21 @@ class NotificationItem extends StatelessWidget {
       case '2': // submit
         icon = SvgPicture.asset(
           'lib/assets/nav_icons/solid/ballot-check.svg',
-          colorFilter: ColorFilter.mode((item.notifyFlag == "0") ? colorTheme.grey! : Colors.black, BlendMode.srcIn),
+          colorFilter:
+              ColorFilter.mode((widget.item.notifyFlag == "0") ? colorTheme.grey! : Colors.black, BlendMode.srcIn),
           height: 18,
         );
         break;
       case '3': // chat
         icon = SvgPicture.asset(
           'lib/assets/nav_icons/solid/messages.svg',
-          colorFilter: ColorFilter.mode((item.notifyFlag == "0") ? colorTheme.grey! : Colors.black, BlendMode.srcIn),
+          colorFilter:
+              ColorFilter.mode((widget.item.notifyFlag == "0") ? colorTheme.grey! : Colors.black, BlendMode.srcIn),
           height: 18,
         );
         content = Text(
-          item.content ?? '',
-          style: TextStyle(color: (item.notifyFlag == "0") ? colorTheme.grey! : Colors.black, fontSize: 12),
+          widget.item.content ?? '',
+          style: TextStyle(color: (widget.item.notifyFlag == "0") ? colorTheme.grey! : Colors.black, fontSize: 12),
         );
         break;
       default:
@@ -355,6 +337,7 @@ class NotificationItem extends StatelessWidget {
           height: 23,
         );
     }
+
     void forward(NotificationModel item) {
       AuthenState auth = context.read<AuthBloc>().state;
       switch (item.typeNotifyFlag) {
@@ -369,6 +352,10 @@ class NotificationItem extends StatelessWidget {
                 'id': (item.proposal?.projectId ?? 0).toString(),
                 'isFavorite': 'null',
                 'proposalId': item.proposal?.id.toString(),
+              },
+            ).then(
+              (value) {
+                setState(() {});
               },
             );
           }
@@ -386,6 +373,8 @@ class NotificationItem extends StatelessWidget {
             'userName': username,
             'userId': chattingUserId,
             'projectId': item.message?.projectId.toString(),
+          }).then((value) {
+            setState(() {});
           });
           break;
         case "1":
@@ -401,6 +390,8 @@ class NotificationItem extends StatelessWidget {
             'userName': username,
             'userId': chattingUserId,
             'projectId': item.message?.projectId.toString(),
+          }).then((value) {
+            setState(() {});
           });
           break;
         case "0":
@@ -415,6 +406,10 @@ class NotificationItem extends StatelessWidget {
                 'isFavorite': 'null',
                 'proposalId': item.proposal?.id.toString(),
               },
+            ).then(
+              (value) {
+                setState(() {});
+              },
             );
           }
           break;
@@ -425,8 +420,10 @@ class NotificationItem extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        context.read<NotificationBloc>().add(MarkAsReadEvents(notificationId: item.id.toString()));
-        // forward(item);
+        if (widget.item.notifyFlag == "0") {
+          context.read<NotificationBloc>().add(MarkAsReadEvents(notificationId: widget.item.id.toString()));
+        }
+        forward(widget.item);
       },
       behavior: HitTestBehavior.opaque,
       child: Container(
@@ -452,7 +449,7 @@ class NotificationItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    item.title ?? '',
+                    widget.item.title ?? '',
                     style: textTheme.bodySmall,
                   ),
                   content,
@@ -460,7 +457,7 @@ class NotificationItem extends StatelessWidget {
                     height: 10,
                   ),
                   Text(
-                    checkDateTime(item.createdAt ?? ''),
+                    checkDateTime(widget.item.createdAt ?? ''),
                     style: TextStyle(
                       color: colorTheme.grey,
                       fontSize: 13,
@@ -476,7 +473,7 @@ class NotificationItem extends StatelessWidget {
             Container(
               width: 20,
               alignment: Alignment.center,
-              child: (item.notifyFlag == "1")
+              child: (widget.item.notifyFlag == "1")
                   ? const SizedBox()
                   : const FaIcon(
                       FontAwesomeIcons.solidCircle,

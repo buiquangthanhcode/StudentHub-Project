@@ -72,6 +72,8 @@ dependencies:
   rxdart: ^0.27.7
   flutter_launcher_icons: "^0.13.1"
 
+dependency_overrides:
+  intl: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -108,6 +110,7 @@ flutter:
     - lib/assets/fonts/
     - lib/assets/nav_icons/solid/
     - lib/assets/nav_icons/regular/
+    - shorebird.yaml
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
