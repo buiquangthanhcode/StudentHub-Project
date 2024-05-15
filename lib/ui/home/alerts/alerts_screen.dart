@@ -18,6 +18,7 @@ import 'package:studenthub/models/notification/notification_model.dart';
 import 'package:studenthub/utils/helper.dart';
 import 'package:studenthub/widgets/emtyDataWidget.dart';
 
+// deploy first project
 class AlertsScreen extends StatefulWidget {
   const AlertsScreen({super.key});
 
