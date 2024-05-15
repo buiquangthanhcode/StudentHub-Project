@@ -182,7 +182,7 @@ class AllProjectsService {
         query.addAll({"numberOfStudents": numberOfStudents});
       }
       if (proposalsLessThan != null) {
-        // query.addAll({"proposalsLessThan": proposalsLessThan});
+        query.addAll({"proposalsLessThan": proposalsLessThan});
       }
       if (page != null) {
         query.addAll({"page": page});
