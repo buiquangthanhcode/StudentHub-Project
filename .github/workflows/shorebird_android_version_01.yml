@@ -3,7 +3,7 @@ name: Shorebird Android
 on:
   push:
     branches:
-      - realease/*
+      - release/*
 
 env:
   SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
@@ -17,12 +17,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: 📚 Setup Environment
+        if: ${{ !github.event.created }}
+        run: |
+          flutter clean
+          flutter pub get
+
       - name: 📚 Git Checkout
         uses: actions/checkout@v3
 
       - name: 🐦 Setup Shorebird
         uses: shorebirdtech/setup-shorebird@v1
-        
 
       - name: 🚀 Shorebird Release
         if: ${{ github.event.created }}
